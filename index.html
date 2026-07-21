@@ -1106,6 +1106,9 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   /* B안 p3b/p4b 데모는 A안 .ui-demo와 stage를 공유 → A안 fit-scaler가 공유 stage에 남긴 인라인 height(429px)와 :has(.ui-demo) overflow:hidden 탓에 하단 결과 카드가 잘림.
      B모드에선 A데모가 항상 숨겨져 있으므로, 인라인을 덮어(!important) p3b 콘텐츠(최대 ~474px)가 다 보이도록 높이 확보·클립 해제 */
   body[data-mode="b"] .topic-panels .stage:has(.p3b){height:490px!important;overflow:visible}
+  /* 히어로 h1: 36px에선 "급여," "니다"가 고아처럼 다음 줄로 넘어감. keep-all(단어 중간 안 끊김)+28px로 각 줄이 330px 폭 안에 들어가 깔끔하게 2줄로 접힘.
+     선택자를 .inner 포함으로 올려 뒤에 오는 @media(940) .partition-1 h1{font-size:36px}보다 우선 적용 */
+  .partition-1 .inner h1{font-size:28px;word-break:keep-all}
 }
 @media(max-width:940px){
   .partition-1 .inner{grid-template-columns:1fr}
