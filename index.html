@@ -1109,6 +1109,8 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   /* 히어로 h1: 36px에선 "급여," "니다"가 고아처럼 다음 줄로 넘어감. keep-all(단어 중간 안 끊김)+28px로 각 줄이 330px 폭 안에 들어가 깔끔하게 2줄로 접힘.
      선택자를 .inner 포함으로 올려 뒤에 오는 @media(940) .partition-1 h1{font-size:36px}보다 우선 적용 */
   .partition-1 .inner h1{font-size:28px;word-break:keep-all}
+  /* 히어로 CTA는 모바일에서만 하단 플로팅 바와 중복 → 모바일만 숨기고 데스크톱은 유지 */
+  .partition-1 .inner .acts{display:none}
 }
 @media(max-width:940px){
   .partition-1 .inner{grid-template-columns:1fr}
@@ -1170,6 +1172,10 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
       <span class="tagpill"><span class="dot"></span> 10,000개 건설사의 노무 파트너</span>
       <h1>일용직 퇴직금·4대보험·급여,<br>김반장이 자동으로 끝냅니다</h1>
       <p class="lead">매일 인원이 바뀌는 건설 현장은 일반 노무 프로그램으로 감당하기 어렵습니다. 밤새 맞추던 급여 계산은 김반장 3.0에, 놓칠까 조마조마한 4대보험·퇴직공제 신고는 김반장 프리미엄에 맡기세요. 다시 정산할 일도, 신고를 놓쳐 과태료 낼 일도 없습니다.</p>
+      <div class="acts">
+        <a class="banner-btn" href="#">15일 무료 데모 신청</a>
+        <a class="banner-btn sec" href="#">상담 신청하기</a>
+      </div>
     </div>
     <div class="stage">
       <div class="ui-demo" data-demo="hero">
@@ -1228,6 +1234,10 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
         <div class="fig"><div class="fl">신고</div><div class="fv"><span class="was">누락·수정</span><span class="now">완벽 대행</span></div></div>
       </div>
       <p class="lead">출역만 입력하면 끝입니다. 근태·급여·수당 계산은 김반장 3.0이, 놓치기 쉬운 4대보험·퇴직공제 신고는 김반장 프리미엄이 대신 마감합니다. 담당자가 밤새울 일도, 신고를 놓칠 일도 없습니다.</p>
+      <div class="acts">
+        <a class="banner-btn" href="#">15일 무료 데모 신청</a>
+        <a class="banner-btn sec" href="#">상담 신청하기</a>
+      </div>
     </div>
     <div class="stage">
       <div class="ui-demo" data-demo="herob">
