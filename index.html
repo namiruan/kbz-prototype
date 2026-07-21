@@ -1090,13 +1090,15 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
 /* 모바일: 토픽별 CTA 버튼은 하단 고정 바(데모 신청·상담받기)와 중복 → 생략하고,
    본문을 축약해(폰트·여백 축소) 애니메이션이 sticky 화면에서 잘리지 않게 함 */
 @media(max-width:640px){
+  /* 모바일: 데모가 커지면 align-items:center가 콘텐츠를 위로 밀어 상단 카피가 sticky 헤더(mode-bar) 아래로 겹침 → 상단 정렬로 바꿔 항상 헤더 바로 아래부터 시작하게 함 */
+  .feat-sticky{align-items:flex-start}
   .feat-zone .copy .acts{display:none}
   .feat-zone .copy .kicker{margin-bottom:6px}
   .feat-zone .copy h3{margin-bottom:6px}
   .feat-zone .copy .lead{font-size:15px;line-height:1.5;margin-bottom:0}
   .feat-zone .copy .lead .lead-more{display:none}   /* 모바일: 본문 뒷부분(프리미엄·부연 문장) 숨겨 핵심 1~2문장만 노출 */
   .feat-zone .copy .ibadge{margin:8px 0 4px}
-  .feat-zone #topic-copies .copy:first-child .ibadge{display:none}   /* 모바일: 퇴직금 토픽 badge(며칠→하루)는 h3·데모 애니메이션과 3중 중복 → 숨김 */
+  .feat-zone #topic-copies .copy:nth-child(-n+2) .ibadge{display:none}   /* 모바일: 퇴직금(며칠→하루)·4대보험(반나절→몇 분) badge는 데모 상단 카운트다운 헤더와 같은 메시지라 중복 → 숨김 (수당·계약 토픽은 데모와 문구가 달라 유지) */
   /* B안 p3b/p4b 데모는 A안 .ui-demo와 stage를 공유 → A안 fit-scaler가 공유 stage에 남긴 인라인 height(429px)와 :has(.ui-demo) overflow:hidden 탓에 하단 결과 카드가 잘림.
      B모드에선 A데모가 항상 숨겨져 있으므로, 인라인을 덮어(!important) p3b 콘텐츠(최대 ~474px)가 다 보이도록 높이 확보·클립 해제 */
   body[data-mode="b"] .topic-panels .stage:has(.p3b){height:490px!important;overflow:visible}
