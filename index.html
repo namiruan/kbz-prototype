@@ -98,6 +98,7 @@ body[data-mode="b"] .only-a{display:none!important}
 .partition-1 .inner{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
 .partition-1 h1{font-size:48px;letter-spacing:-.04em;line-height:1.16;white-space:nowrap}
 .partition-1 .lead{margin-top:22px;word-break:keep-all}/* keep-all: 좁은 폭에서 "3.0이,"·"없습니다."가 토큰 중간에 끊겨 마지막 줄에 고아로 남던 것 방지. 공백에서만 줄바꿈 */
+.partition-1 .lead .lead-mobileonly{display:none}/* 기본(데스크톱): 히어로 모바일 축약 문구 숨김 */
 .tagpill{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--main-navy);background:var(--pastel-blue);padding:7px 15px;border-radius:1000px;margin-bottom:22px}
 .tagpill .dot{width:7px;height:7px;border-radius:50%;background:var(--sub-cyan)}
 /* B 히어로 수치 라인 */
@@ -1111,6 +1112,9 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   .partition-1 .inner h1{font-size:28px;word-break:keep-all}
   /* 히어로 CTA는 모바일에서만 하단 플로팅 바와 중복 → 모바일만 숨기고 데스크톱은 유지 */
   .partition-1 .inner .acts{display:none}
+  /* 히어로 리드: 모바일에선 긴 데스크톱 문구 대신 축약 문구 노출 (피처존 lead-desktop/lead-mobileonly와 동일 패턴) */
+  .partition-1 .lead .lead-desktop{display:none}
+  .partition-1 .lead .lead-mobileonly{display:inline}
 }
 @media(max-width:940px){
   .partition-1 .inner{grid-template-columns:1fr}
@@ -1179,7 +1183,7 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
     <div>
       <span class="tagpill"><span class="dot"></span> 10,000개 건설사의 노무 파트너</span>
       <h1>일용직 퇴직금·4대보험·급여,<br>김반장이 자동으로 끝냅니다</h1>
-      <p class="lead">매일 인원이 바뀌는 건설 현장은 일반 노무 프로그램으로 감당하기 어렵습니다. 밤새 맞추던 급여 계산은 김반장 3.0에, 놓칠까 조마조마한 4대보험·퇴직공제 신고는 김반장 프리미엄에 맡기세요. 다시 정산할 일도, 신고를 놓쳐 과태료 낼 일도 없습니다.</p>
+      <p class="lead"><span class="lead-desktop">매일 인원이 바뀌는 건설 현장은 일반 노무 프로그램으로 감당하기 어렵습니다. 밤새 맞추던 급여 계산은 김반장 3.0에, 놓칠까 조마조마한 4대보험·퇴직공제 신고는 김반장 프리미엄에 맡기세요. 다시 정산할 일도, 신고를 놓쳐 과태료 낼 일도 없습니다.</span><span class="lead-mobileonly">밤새 맞추던 급여 계산은 김반장 3.0이 대신하고, 놓치면 과태료 나오는 신고는 프리미엄에 맡기면 마음이 놓입니다.</span></p>
       <div class="acts">
         <a class="banner-btn" href="#">15일 무료 데모 신청</a>
         <a class="banner-btn sec" href="#">상담 신청하기</a>
@@ -1241,7 +1245,7 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
         <div class="fig"><div class="fl">매달</div><div class="fv"><span class="was">2년째 야근</span><span class="now">야근 zero</span></div></div>
         <div class="fig"><div class="fl">신고</div><div class="fv"><span class="was">누락·수정</span><span class="now">완벽 대행</span></div></div>
       </div>
-      <p class="lead">출역만 입력하면 끝입니다. 근태·급여·수당 계산은 김반장 3.0이, 놓치기 쉬운 4대보험·퇴직공제 신고는 김반장 프리미엄이 대신 마감합니다. 담당자가 밤새울 일도, 신고를 놓칠 일도 없습니다.</p>
+      <p class="lead"><span class="lead-desktop">출역만 입력하면 끝입니다. 근태·급여·수당 계산은 김반장 3.0이, 놓치기 쉬운 4대보험·퇴직공제 신고는 김반장 프리미엄이 대신 마감합니다. 담당자가 밤새울 일도, 신고를 놓칠 일도 없습니다.</span><span class="lead-mobileonly">출역만 입력하면 계산은 김반장 3.0이 자동으로, 신고까지 프리미엄에 맡기면 손 뗀 채 끝납니다.</span></p>
       <div class="acts">
         <a class="banner-btn" href="#">15일 무료 데모 신청</a>
         <a class="banner-btn sec" href="#">상담 신청하기</a>
