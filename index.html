@@ -1094,6 +1094,7 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   .feat-zone .copy .kicker{margin-bottom:6px}
   .feat-zone .copy h3{margin-bottom:6px}
   .feat-zone .copy .lead{font-size:15px;line-height:1.5;margin-bottom:0}
+  .feat-zone .copy .lead .lead-more{display:none}   /* 모바일: 본문 뒷부분(프리미엄·부연 문장) 숨겨 핵심 1~2문장만 노출 */
   .feat-zone .copy .ibadge{margin:8px 0 4px}
 }
 @media(max-width:940px){
@@ -1317,8 +1318,8 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
             <h3 class="only-a">수백 명이 드나드는 현장도,<br>신고까지 한 번에</h3>
             <h3 class="only-b">며칠씩 걸리던 공제회 신고가,<br>하루 만에 끝납니다</h3>
             <div class="ibadge only-b"><span class="was">공제회 신고 준비 며칠</span><span class="arw">→</span><span class="now">하루</span></div>
-            <p class="lead only-a">매달 출역을 정리해서 신고하는 데만 며칠씩 걸리셨죠. 수십 명이 드나드는 현장이라도, 근로일수는 김반장 3.0이 빠짐없이 집계합니다. 신고까지 손 떼고 싶다면 김반장 프리미엄을 이용해 보세요. 마감일 놓쳐 과태료 낼 걱정도 사라집니다.</p>
-            <p class="lead only-b">매달 며칠씩 걸리던 근로일수 집계, 이제 김반장 3.0이 자동으로 끝냅니다. 신고까지 김반장 프리미엄에 맡기면 하루면 마무리됩니다.</p>
+            <p class="lead only-a">매달 출역을 정리해서 신고하는 데만 며칠씩 걸리셨죠. 수십 명이 드나드는 현장이라도, 근로일수는 김반장 3.0이 빠짐없이 집계합니다.<span class="lead-more"> 신고까지 손 떼고 싶다면 김반장 프리미엄을 이용해 보세요. 마감일 놓쳐 과태료 낼 걱정도 사라집니다.</span></p>
+            <p class="lead only-b">매달 며칠씩 걸리던 근로일수 집계, 이제 김반장 3.0이 자동으로 끝냅니다.<span class="lead-more"> 신고까지 김반장 프리미엄에 맡기면 하루면 마무리됩니다.</span></p>
             <div class="acts">
               <a class="banner-btn only-a" href="#">프리미엄 상담받기</a>
               <a class="banner-btn only-b" href="#">프리미엄 상담받기</a>
@@ -1331,8 +1332,8 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
             <h3 class="only-a">월출역 한 번이면<br>근로자별 납부액 계산 완료</h3>
             <h3 class="only-b">반나절 걸리던 보험료 계산이,<br>월출역 한 번으로</h3>
             <div class="ibadge only-b"><span class="was">근로자별 계산 반나절</span><span class="arw">→</span><span class="now">몇 분</span></div>
-            <p class="lead only-a">사람마다 보험료가 달라 계산할 때마다 골치셨죠. 월출역만 입력하면 김반장 3.0이 자동으로 계산합니다. 취득·상실·소득 신고까지 맡기고 싶다면 김반장 프리미엄을 이용해 보세요. 매달 신고를 챙기던 부담을 덜어 드립니다.</p>
-            <p class="lead only-b">사람마다 보험료가 달라 반나절씩 걸리던 계산. 월출역 한 번이면 근로자별로 자동 정리됩니다. 신고까지 김반장 프리미엄에 맡기면, 매달 챙기던 일이 손에서 떠납니다.</p>
+            <p class="lead only-a">사람마다 보험료가 달라 계산할 때마다 골치셨죠. 월출역만 입력하면 김반장 3.0이 자동으로 계산합니다.<span class="lead-more"> 취득·상실·소득 신고까지 맡기고 싶다면 김반장 프리미엄을 이용해 보세요. 매달 신고를 챙기던 부담을 덜어 드립니다.</span></p>
+            <p class="lead only-b">사람마다 보험료가 달라 반나절씩 걸리던 계산. 월출역 한 번이면 근로자별로 자동 정리됩니다.<span class="lead-more"> 신고까지 김반장 프리미엄에 맡기면, 매달 챙기던 일이 손에서 떠납니다.</span></p>
             <div class="acts">
               <a class="banner-btn only-a" href="#">프리미엄 상담받기</a>
               <a class="banner-btn only-b" href="#">프리미엄 상담받기</a>
@@ -1345,8 +1346,8 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
             <h3 class="only-a">출역만 입력하면,<br>수당·공제까지 자동 정산</h3>
             <h3 class="only-b">계산기 두드리던 시간이,<br>클릭 한 번으로</h3>
             <div class="ibadge only-b"><span class="was">수당·공제 여러 번 계산</span><span class="arw">→</span><span class="now">클릭 한 번</span></div>
-            <p class="lead only-a">계산기를 몇 번씩 두드려도 늘 불안하셨죠. 근무일수와 출역만 넘어오면, 연장·야간·휴일 수당과 공제까지 김반장 3.0이 자동으로 계산합니다. 임금명세서도 클릭 한 번이면 완성됩니다.</p>
-            <p class="lead only-b">출역만 입력하면 연장·야간·휴일 수당과 공제 계산이 자동으로 끝납니다. 사람마다 제각각이던 계산을 김반장 3.0이 정확하게 정리합니다. 임금명세서도 클릭 한 번이면 완성됩니다.</p>
+            <p class="lead only-a">계산기를 몇 번씩 두드려도 늘 불안하셨죠. 근무일수와 출역만 넘어오면, 연장·야간·휴일 수당과 공제까지 김반장 3.0이 자동으로 계산합니다.<span class="lead-more"> 임금명세서도 클릭 한 번이면 완성됩니다.</span></p>
+            <p class="lead only-b">출역만 입력하면 연장·야간·휴일 수당과 공제 계산이 자동으로 끝납니다.<span class="lead-more"> 사람마다 제각각이던 계산을 김반장 3.0이 정확하게 정리합니다. 임금명세서도 클릭 한 번이면 완성됩니다.</span></p>
             <div class="acts">
               <a class="banner-btn ghost" href="#">15일 무료로 직접 써보기</a>
             </div>
@@ -1357,8 +1358,8 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
             <h3 class="only-a">작성부터 서명 체결·보관까지,<br>클릭 한 번에</h3>
             <h3 class="only-b">채용할 때마다 쓰던 근로계약서,<br>이제 자동으로 완성됩니다</h3>
             <div class="ibadge only-b"><span class="was">채용마다 일일이 작성·서명</span><span class="arw">→</span><span class="now">자동 완성·전자서명</span></div>
-            <p class="lead only-a">일용직을 채용할 때마다 계약서를 일일이 작성하고 서명받아 보관하기 번거로우셨죠. 김반장은 공인노무사 자문 양식으로 계약서를 자동으로 만들어 드립니다. 간편하게 전자서명으로 체결하고, 작성한 서류는 클라우드에 영구 보관하세요.</p>
-            <p class="lead only-b">계약서를 일일이 작성하고 서명받아 보관하던 일이 사라집니다. 공인노무사 자문 양식으로 자동 완성되고, 문자로 보내 전자서명을 받습니다. 작성한 서류는 클라우드에 영구 보관됩니다.</p>
+            <p class="lead only-a">일용직을 채용할 때마다 계약서를 일일이 작성하고 서명받아 보관하기 번거로우셨죠. 김반장은 공인노무사 자문 양식으로 계약서를 자동으로 만들어 드립니다.<span class="lead-more"> 간편하게 전자서명으로 체결하고, 작성한 서류는 클라우드에 영구 보관하세요.</span></p>
+            <p class="lead only-b">계약서를 일일이 작성하고 서명받아 보관하던 일이 사라집니다. 공인노무사 자문 양식으로 자동 완성되고, 문자로 보내 전자서명을 받습니다.<span class="lead-more"> 작성한 서류는 클라우드에 영구 보관됩니다.</span></p>
             <div class="acts">
               <a class="banner-btn ghost" href="#">15일 무료로 직접 써보기</a>
             </div>
