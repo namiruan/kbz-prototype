@@ -877,7 +877,8 @@ body[data-mode="b"] .only-a{display:none!important}
 /* 모바일 세로 스택 카드(티어별) */
 .cmp-swipe-hint{display:none;justify-content:center;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:var(--sub-d-gray);margin-top:30px;letter-spacing:.02em}
 .cmp-swipe-hint svg{opacity:.7}
-.cmp-cards{display:none;flex-direction:row;gap:12px;margin-top:2px;text-align:left;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:46px 4px 16px;scrollbar-width:none}
+/* 좌우 여백 = 카드 절반(130px) → 첫/마지막 카드도 정확히 가운데 스냅되어 양끝에 빈 공간이 생기지 않음 */
+.cmp-cards{display:none;flex-direction:row;gap:12px;margin-top:2px;text-align:left;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:46px calc(50% - 130px) 16px;scrollbar-width:none}
 .cmp-cards::-webkit-scrollbar{display:none}
 .ccard{position:relative;display:flex;flex-direction:column;flex:0 0 260px;max-width:80vw;scroll-snap-align:center;border:1px solid var(--main-gray);border-radius:16px;padding:18px 18px 12px;background:#fff}
 /* 모바일 카드에서도 추천 씰 유지 (데스크톱 표와 동일한 씰을 축소해 우상단 코너에 배치) */
