@@ -3288,9 +3288,17 @@ function setTopic(i){
     feature.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();goReview();}});
     // 모바일: 카드 좌우 스와이프로 후기 전환 (왼쪽으로 밀면 다음, 오른쪽으로 밀면 이전) · 세로 스크롤과 겹치지 않게 가로 제스처만 사용 · 스와이프 후 발생하는 클릭 이동은 무시
     // touchmove로 이동량을 추적해 iOS에서 touchend/touchcancel 좌표가 부정확한 경우에도 스와이프를 놓치지 않도록 함
-    var tsY=0,tsX=0,tmX=0,tmY=0,tMoved=false;
-    feature.addEventListener('touchstart',function(e){var t=e.touches[0];tsY=t.clientY;tsX=t.clientX;tmX=t.clientX;tmY=t.clientY;tMoved=false;swiped=false;},{passive:true});
-    feature.addEventListener('touchmove',function(e){var t=e.touches[0];tmX=t.clientX;tmY=t.clientY;tMoved=true;},{passive:true});
+    var tsY=0,tsX=0,tmX=0,tmY=0,tMoved=false,axis=0; // axis: 0=미정,1=가로,-1=세로
+    feature.addEventListener('touchstart',function(e){var t=e.touches[0];tsY=t.clientY;tsX=t.clientX;tmX=t.clientX;tmY=t.clientY;tMoved=false;axis=0;swiped=false;},{passive:true});
+    // 제스처 방향을 초기에 판정: 가로가 우세하면 세로 스크롤을 막고(preventDefault) 스와이프로 처리, 세로면 그대로 스크롤 허용
+    feature.addEventListener('touchmove',function(e){
+      var t=e.touches[0];tmX=t.clientX;tmY=t.clientY;tMoved=true;
+      if(axis===0){
+        var adx=Math.abs(tmX-tsX),ady=Math.abs(tmY-tsY);
+        if(adx>8||ady>8) axis=(adx>ady)?1:-1;
+      }
+      if(axis===1&&e.cancelable) e.preventDefault(); // 가로 스와이프 중에는 세로 스크롤 잠금
+    },{passive:false});
     var endSwipe=function(e){
       var t=(e.changedTouches&&e.changedTouches[0])||null;
       var dx=(t?t.clientX:tmX)-tsX, dy=(t?t.clientY:tmY)-tsY;
