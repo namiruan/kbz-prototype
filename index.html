@@ -1106,6 +1106,9 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   .feat-zone #topic-copies .copy .ibadge{display:none}   /* 모바일: 모든 토픽 badge(며칠→하루 형태) 숨김 — 데모·제목과 중복되고 좁은 화면에서 군더더기 */
   /* 모바일: 피처존 데모(p3~p6)를 좌우 inner 패딩(30px) 밖으로 빼내 가로폭 꽉 차게 (풀블리드). fit-scaler가 stage.clientWidth(=뷰포트폭)로 데모를 확대 */
   .feat-zone .topic-panels .stage{margin-left:-30px;margin-right:-30px}
+  /* 풀블리드로 화면 끝에 닿으므로 라운드 코너 제거 */
+  .feat-zone .topic-panels .stage:has(.ui-demo) .ui-demo{border-radius:0}
+  .feat-zone .topic-panels .stage .p3b{border-radius:0}
   /* B안 p3b/p4b 데모는 A안 .ui-demo와 stage를 공유 → A안 fit-scaler가 공유 stage에 남긴 인라인 height(429px)와 :has(.ui-demo) overflow:hidden 탓에 하단 결과 카드가 잘림.
      B모드에선 A데모가 항상 숨겨져 있으므로, 인라인을 덮어(!important) p3b 콘텐츠(최대 ~474px)가 다 보이도록 높이 확보·클립 해제 */
   body[data-mode="b"] .topic-panels .stage:has(.p3b){height:490px!important;overflow:visible}
