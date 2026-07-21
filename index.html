@@ -1116,7 +1116,9 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   body[data-mode="b"] .topic-panels .stage:has(.p3b){height:490px!important;overflow:visible}
   /* 히어로 h1: 36px에선 "급여," "니다"가 고아처럼 다음 줄로 넘어감. keep-all(단어 중간 안 끊김)+28px로 각 줄이 330px 폭 안에 들어가 깔끔하게 2줄로 접힘.
      선택자를 .inner 포함으로 올려 뒤에 오는 @media(940) .partition-1 h1{font-size:36px}보다 우선 적용 */
-  .partition-1 .inner h1{font-size:32px;word-break:keep-all}
+  .partition-1 .inner h1{word-break:keep-all}
+  /* 모바일 섹션 제목 크기 통일: 히어로 h1 · 섹션 title-lg · CTA(P11) h2가 모두 같은 32px를 공유 */
+  .partition-1 .inner h1,.title-lg,.partition-11 h2{font-size:32px}
   /* A안: 긴 데스크톱 헤드라인 숨기고 32px 2줄에 들어오는 모바일 축약 헤드라인 노출 (B안은 문구 그대로 32px에서 2줄 유지) */
   .partition-1 .inner h1 .h1-desktop{display:none}
   .partition-1 .inner h1 .h1-mobileonly{display:inline}
@@ -1125,10 +1127,9 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   /* 히어로 리드: 모바일에선 긴 데스크톱 문구 대신 축약 문구 노출 (피처존 lead-desktop/lead-mobileonly와 동일 패턴) */
   .partition-1 .lead .lead-desktop{display:none}
   .partition-1 .lead .lead-mobileonly{display:inline}
-  /* P11 CTA: 섹션(20px)+inner(30px) 이중 좌우 패딩이 겹쳐 모바일 텍스트 폭이 과도하게 좁았음(390에서 290px) → 좌우 패딩을 줄여 여유 확보하고, 제목은 keep-all+30px로 의도한 2줄(<br>) 유지 */
-  .partition-11{padding-left:18px;padding-right:18px}
+  /* P11 CTA: 섹션(20px)+inner(30px) 이중 좌우 패딩이 겹쳐 모바일 텍스트 폭이 과도하게 좁았음 → 좌우 패딩을 줄여 32px 통일 제목이 좁은 폭(360px)에서도 keep-all로 의도한 2줄(<br>)을 유지하게 함 */
+  .partition-11{padding-left:10px;padding-right:10px}
   .partition-11 .inner{padding-left:0;padding-right:0}
-  .partition-11 h2{font-size:30px}
 }
 @media(max-width:940px){
   .partition-1 .inner{grid-template-columns:1fr}
