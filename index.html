@@ -742,7 +742,8 @@ body[data-mode="b"] .only-a{display:none!important}
 .partition-7{padding:96px 0;background:rgba(var(--color-sky-rgb),.42)}
 /* 스포트라이트: 대표(대형·크로스페이드) + 위치 고정 리스트(하이라이트가 한 칸씩 이동) · 모바일 세로 스택 (시트 비고) */
 .reviews{display:grid;grid-template-columns:1.85fr 1fr;gap:16px;margin:46px auto 0;max-width:900px;text-align:left;align-items:stretch;min-height:340px}
-.rv-feature{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;min-height:400px;color:#fff;border-radius:18px;box-shadow:0 10px 28px rgba(17,90,198,.12);cursor:pointer;transition:transform .25s ease,box-shadow .25s ease}
+/* touch-action:pan-y → 카드 위 가로 스와이프를 브라우저 스크롤/뒤로가기 제스처가 아닌 JS 후기 전환에 사용(모바일에서 스와이프 시 페이지가 옆으로 밀려 여백이 보이던 문제 방지) */
+.rv-feature{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;min-height:400px;color:#fff;border-radius:18px;box-shadow:0 10px 28px rgba(17,90,198,.12);cursor:pointer;touch-action:pan-y;transition:transform .25s ease,box-shadow .25s ease}
 .rv-feature:hover{transform:translateY(-3px);box-shadow:0 20px 42px rgba(17,90,198,.2)}
 .rv-feature:focus-visible{outline:2px solid var(--lake);outline-offset:3px}
 .rv-feature .rv-photo{position:absolute;inset:0;overflow:hidden;z-index:0}
@@ -1081,6 +1082,15 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   /* UI 데모 목업은 flex:1 자식이라 stage 높이가 auto면 0으로 접혀 애니메이션이 안 보임 → 명시적 높이 부여 */
   .topic-panels .stage:has(.ui-demo){height:480px}
   .stage{padding:24px}
+}
+/* 모바일: 토픽별 CTA 버튼은 하단 고정 바(데모 신청·상담받기)와 중복 → 생략하고,
+   본문을 축약해(폰트·여백 축소) 애니메이션이 sticky 화면에서 잘리지 않게 함 */
+@media(max-width:640px){
+  .feat-zone .copy .acts{display:none}
+  .feat-zone .copy .kicker{margin-bottom:6px}
+  .feat-zone .copy h3{margin-bottom:6px}
+  .feat-zone .copy .lead{font-size:15px;line-height:1.5;margin-bottom:0}
+  .feat-zone .copy .ibadge{margin:8px 0 4px}
 }
 @media(max-width:940px){
   .partition-1 .inner{grid-template-columns:1fr}
