@@ -761,7 +761,12 @@ body[data-mode="b"] .only-a{display:none!important}
 .rv-feature .rv-go{position:absolute;z-index:2;right:24px;bottom:24px;display:flex;color:#fff;opacity:.72;transition:opacity .25s ease,transform .25s ease;filter:drop-shadow(0 1px 8px rgba(6,26,46,.5))}
 .rv-feature:hover .rv-go{opacity:1;transform:translateX(3px)}
 .rv-feature.swap .rv-main,.rv-feature.swap .rv-chips{animation:rvin .45s ease}
+/* 스와이프 방향성 전환: 다음(←밀기)은 오른쪽에서, 이전(→밀기)은 왼쪽에서 카드 내용이 밀려 들어와 전환이 직관적으로 보이게 함 */
+.rv-feature.swap-next .rv-main,.rv-feature.swap-next .rv-chips{animation:rvin-next .42s cubic-bezier(.22,.61,.36,1)}
+.rv-feature.swap-prev .rv-main,.rv-feature.swap-prev .rv-chips{animation:rvin-prev .42s cubic-bezier(.22,.61,.36,1)}
 @keyframes rvin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes rvin-next{from{opacity:0;transform:translateX(38px)}to{opacity:1;transform:none}}
+@keyframes rvin-prev{from{opacity:0;transform:translateX(-38px)}to{opacity:1;transform:none}}
 /* 우측 컬럼: 리스트 + '더보기' 버튼을 한 단위로 묶어 카드 높이에 맞춰 중앙 배치 (별도 전체폭 행 없이 그리드 안에 통합) */
 .rv-col{display:flex;flex-direction:column;justify-content:space-between;background:#fff;border:1px solid rgba(14,59,99,.07);border-radius:18px;padding:26px 22px 0}
 /* 스와이프 힌트 (모바일 전용): 카드 상하 스와이프로 이전/다음 후기 이동 안내 */
@@ -792,7 +797,7 @@ body[data-mode="b"] .only-a{display:none!important}
 .rv-timer.run .rv-ring .rv-ring-fill{animation:rvring 4500ms linear forwards}
 .reviews:hover .rv-timer.run .rv-ring .rv-ring-fill{animation-play-state:paused}
 @keyframes rvring{from{stroke-dashoffset:100.5}to{stroke-dashoffset:0}}
-@media(prefers-reduced-motion:reduce){.rv-timer .rv-ring{display:none}.rv-feature.swap .rv-main,.rv-feature.swap .rv-chips{animation:none}}
+@media(prefers-reduced-motion:reduce){.rv-timer .rv-ring{display:none}.rv-feature.swap .rv-main,.rv-feature.swap .rv-chips,.rv-feature.swap-next .rv-main,.rv-feature.swap-next .rv-chips,.rv-feature.swap-prev .rv-main,.rv-feature.swap-prev .rv-chips{animation:none}}
 
 /* =========================================================
    partition-8 : 상황별 3단 비교 매트릭스 (미사용 → 3.0 → 프리미엄)
@@ -3304,7 +3309,7 @@ function setTopic(i){
       var dx=(t?t.clientX:tmX)-tsX, dy=(t?t.clientY:tmY)-tsY;
       // 마지막 touchmove가 더 큰 가로 이동을 담고 있으면 그 값을 사용
       if(tMoved && Math.abs(tmX-tsX)>Math.abs(dx)){dx=tmX-tsX;dy=tmY-tsY;}
-      if(Math.abs(dx)>30&&Math.abs(dx)>Math.abs(dy)){swiped=true;if(dx<0)next();else prev();restart();}
+      if(Math.abs(dx)>30&&Math.abs(dx)>Math.abs(dy)){swiped=true;if(dx<0)next('next');else prev('prev');restart();}
     };
     feature.addEventListener('touchend',endSwipe,{passive:true});
     feature.addEventListener('touchcancel',endSwipe,{passive:true});
@@ -3326,7 +3331,7 @@ function setTopic(i){
     var rows=[].slice.call(track.querySelectorAll('.rv-row'));
     var step=n,timer=null; // 원본 첫 카드부터
     function centerY(pos){var r=rows[pos];return Math.max(0,r.offsetTop+r.offsetHeight/2-list.clientHeight/2);}
-    function paint(pos,animate){
+    function paint(pos,animate,dir){
       var r=rows[pos];
       feature.querySelector('.rv-svc').textContent=r.getAttribute('data-svc')||'';
       feature.querySelector('.rv-dur').textContent=r.getAttribute('data-dur')||'';
@@ -3336,7 +3341,9 @@ function setTopic(i){
       feature.querySelector('.rv-co').textContent=co;
       curUrl=r.getAttribute('data-href')||'#';
       feature.setAttribute('aria-label',co+' 후기 자세히 보기');
-      feature.classList.remove('swap');void feature.offsetWidth;feature.classList.add('swap');
+      // dir이 있으면(스와이프) 방향성 슬라이드, 없으면(자동/클릭) 기본 페이드업
+      feature.classList.remove('swap','swap-next','swap-prev');void feature.offsetWidth;
+      feature.classList.add(dir==='next'?'swap-next':dir==='prev'?'swap-prev':'swap');
       if(cur)cur.textContent=pad(pos%n+1);
       setPhoto(pos%n,animate,r.getAttribute('data-img'));
       if(ring){ring.classList.remove('run');void ring.offsetWidth;ring.classList.add('run');}
@@ -3345,7 +3352,7 @@ function setTopic(i){
       track.style.transform='translateY(-'+centerY(pos)+'px)';
       if(!animate){void track.offsetWidth;track.style.transition='';}
     }
-    function next(){
+    function next(dir){
       if(step>=2*n){ // 뒤쪽 복제본(=처음) 위치까지 굴렀으면 티 안 나게 원본 처음으로 순간 리셋
         step=n;
         track.style.transition='none';
@@ -3354,9 +3361,9 @@ function setTopic(i){
         track.style.transition='';
       }
       step++;
-      paint(step,true);
+      paint(step,true,typeof dir==='string'?dir:null);
     }
-    function prev(){
+    function prev(dir){
       if(step<=n){ // 앞쪽 복제본(=끝) 위치까지 굴렀으면 티 안 나게 원본 끝으로 순간 리셋
         step=2*n;
         track.style.transition='none';
@@ -3365,7 +3372,7 @@ function setTopic(i){
         track.style.transition='';
       }
       step--;
-      paint(step,true);
+      paint(step,true,typeof dir==='string'?dir:null);
     }
     rows.forEach(function(r,idx){r.addEventListener('click',function(){step=n+(idx%n);paint(step,true);restart();});});
     function start(){if(!reduce&&!timer)timer=setInterval(next,4500);}
