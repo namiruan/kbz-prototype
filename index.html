@@ -53,7 +53,7 @@
   --grad-radi-sky-bottom:radial-gradient(49.14% 96.61% at 51.11% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}/* iOS Safari 텍스트 자동확대(boosting) 차단: 블록 폭에 따라 폰트를 임의로 키워 figline 등 간격이 벌어지던 문제 방지 */
 body{font-family:var(--font-body);color:var(--main-black);background:#FBFBFB;line-height:1.62;-webkit-font-smoothing:antialiased;cursor:default}
 h1,h2,h3,h4{font-family:var(--font-title);line-height:1.24;letter-spacing:-0.03em;font-weight:800}
 a{color:inherit;text-decoration:none}
