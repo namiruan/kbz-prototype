@@ -1119,6 +1119,14 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   .copy h3{font-size:22px}
   .mode-tag{display:none}
 }
+/* B안 히어로 수치(figline): ~545px 미만에선 3칸이 한 줄에 안 들어가 2+1로 지저분하게 접힘.
+   좁은 폭에선 세로 1열로 세우고 각 항목을 (라벨 | was→now) 가로 정렬해 표처럼 깔끔하게 */
+@media(max-width:560px){
+  .figline{flex-direction:column;gap:12px}
+  .figline .fig{display:flex;align-items:baseline;gap:12px}
+  .figline .fig .fl{flex:0 0 48px}
+  .figline .fig .fv{margin-top:0;font-size:22px}
+}
 /* 비교 매트릭스: 690px 미만에서만 표를 숨기고 스와이프 카드로 전환 (그 이상은 데스크톱 표 유지) */
 @media(max-width:690px){
   .cmp,.cmp-hint{display:none}
