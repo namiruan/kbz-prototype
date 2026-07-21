@@ -797,7 +797,8 @@ body[data-mode="b"] .only-a{display:none!important}
 .rv-timer .rv-ring .rv-ring-track{stroke:rgba(14,59,99,.18)}
 .rv-timer .rv-ring .rv-ring-fill{stroke:var(--main-blue);stroke-linecap:round;stroke-dasharray:100.5;stroke-dashoffset:100.5}
 .rv-timer.run .rv-ring .rv-ring-fill{animation:rvring 4500ms linear forwards}
-.reviews:hover .rv-timer.run .rv-ring .rv-ring-fill{animation-play-state:paused}
+/* hover 정지는 마우스가 있는 데스크톱에서만: 터치 기기는 탭/스와이프 후 :hover가 고착돼 로딩 링이 멈춰버림 */
+@media(hover:hover){.reviews:hover .rv-timer.run .rv-ring .rv-ring-fill{animation-play-state:paused}}
 @keyframes rvring{from{stroke-dashoffset:100.5}to{stroke-dashoffset:0}}
 
 /* =========================================================
