@@ -1102,7 +1102,7 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   .feat-zone .copy .lead .lead-desktop{display:none}
   .feat-zone .copy .lead .lead-mobileonly{display:inline}
   .feat-zone .copy .ibadge{margin:8px 0 4px}
-  .feat-zone #topic-copies .copy:nth-child(-n+2) .ibadge{display:none}   /* 모바일: 퇴직금(며칠→하루)·4대보험(반나절→몇 분) badge는 데모 상단 카운트다운 헤더와 같은 메시지라 중복 → 숨김 (수당·계약 토픽은 데모와 문구가 달라 유지) */
+  .feat-zone #topic-copies .copy .ibadge{display:none}   /* 모바일: 모든 토픽 badge(며칠→하루 형태) 숨김 — 데모·제목과 중복되고 좁은 화면에서 군더더기 */
   /* B안 p3b/p4b 데모는 A안 .ui-demo와 stage를 공유 → A안 fit-scaler가 공유 stage에 남긴 인라인 height(429px)와 :has(.ui-demo) overflow:hidden 탓에 하단 결과 카드가 잘림.
      B모드에선 A데모가 항상 숨겨져 있으므로, 인라인을 덮어(!important) p3b 콘텐츠(최대 ~474px)가 다 보이도록 높이 확보·클립 해제 */
   body[data-mode="b"] .topic-panels .stage:has(.p3b){height:490px!important;overflow:visible}
