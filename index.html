@@ -2292,7 +2292,7 @@ function setTopic(i){
     }
     function T(ms,fn){timers.push(setTimeout(fn,ms));}
     function clearAll(){timers.forEach(clearTimeout);timers=[];}
-    function moveTo(el){var rb=root.getBoundingClientRect(),b=el.getBoundingClientRect();cursor.style.setProperty('--cx',(b.left-rb.left+b.width/2)+'px');cursor.style.setProperty('--cy',(b.top-rb.top+b.height/2)+'px');}
+    function moveTo(el){var rb=root.getBoundingClientRect(),b=el.getBoundingClientRect();var s=rb.width/(root.offsetWidth||1);cursor.style.setProperty('--cx',((b.left-rb.left+b.width/2)/s)+'px');cursor.style.setProperty('--cy',((b.top-rb.top+b.height/2)/s)+'px');}
     function tap(fn){cursor.classList.add('tap');T(150,function(){cursor.classList.remove('tap');if(fn)fn();});}
     function fmt(n){return n.toLocaleString('ko-KR');}
     function countup(el,target){var s=performance.now(),dur=900;(function fr(now){if(!playing)return;var p=Math.min(1,(now-s)/dur);var e=1-Math.pow(1-p,3);el.textContent=fmt(Math.round(e*target))+'원';if(p<1)requestAnimationFrame(fr);})(performance.now());}
@@ -2488,7 +2488,7 @@ function setTopic(i){
     var signInk=signpad?signpad.querySelector('.ct-sign-ink path'):null;
     var cursor=root.querySelector('.uid-cursor');
     // 좌표는 ui-demo(root) 기준 px
-    function relRect(el){var cb=root.getBoundingClientRect(),b=el.getBoundingClientRect();return {x:b.left-cb.left,y:b.top-cb.top,w:b.width,h:b.height};}
+    function relRect(el){var cb=root.getBoundingClientRect(),b=el.getBoundingClientRect();var s=cb.width/(root.offsetWidth||1);return {x:(b.left-cb.left)/s,y:(b.top-cb.top)/s,w:b.width/s,h:b.height/s};}
     function curTo(x,y){cursor.style.setProperty('--cx',x+'px');cursor.style.setProperty('--cy',y+'px');}
     var timers=[],playing=false;
     function T(ms,fn){timers.push(setTimeout(fn,ms));}
@@ -2645,7 +2645,7 @@ function setTopic(i){
     var cursor=root.querySelector('.uid-cursor');
     var burstEl=root.querySelector('.pay-burst');
     // 커서 위치/탭 · 좌표는 pay-cam 기준 px
-    function relRect(el){var cb=cam.getBoundingClientRect(),b=el.getBoundingClientRect();return {x:b.left-cb.left,y:b.top-cb.top,w:b.width,h:b.height};}
+    function relRect(el){var cb=cam.getBoundingClientRect(),b=el.getBoundingClientRect();var s=cb.width/(cam.offsetWidth||1);return {x:(b.left-cb.left)/s,y:(b.top-cb.top)/s,w:b.width/s,h:b.height/s};}
     function curTo(x,y){cursor.style.setProperty('--cx',x+'px');cursor.style.setProperty('--cy',y+'px');}
     // 근로자별 출역(일)만 넘어옴 · 출근기록은 정상/연장(ot)/휴일근무(hol)로 색 구분
     // g=지급총액, c=공제총액, gs=공수 · 실수령=g-c (모두 예시 수치)
@@ -2965,7 +2965,7 @@ function setTopic(i){
   function T(ms,fn){timers.push(setTimeout(fn,ms));}
   function clearAll(){timers.forEach(clearTimeout);timers=[];}
   function fmt(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
-  function rel(el){var r=el.getBoundingClientRect(),rr=root.getBoundingClientRect();return{x:r.left-rr.left,y:r.top-rr.top,w:r.width,h:r.height};}
+  function rel(el){var r=el.getBoundingClientRect(),rr=root.getBoundingClientRect();var s=rr.width/(root.offsetWidth||1);return{x:(r.left-rr.left)/s,y:(r.top-rr.top)/s,w:r.width/s,h:r.height/s};}
   function countup(el,target,suf){var s=performance.now(),dur=780;(function fr(now){if(!playing)return;var p=Math.min(1,(now-s)/dur);var e=1-Math.pow(1-p,3);el.textContent=fmt(Math.round(e*target))+suf;if(p<1)requestAnimationFrame(fr);})(performance.now());}
   function setVal(s,cb){var v=s.querySelector('.hs-n[data-count]');if(v)cb(v,+v.getAttribute('data-count'),v.getAttribute('data-suf')||'');}
   function pop(el){el.classList.add('pop');T(410,function(){el.classList.remove('pop');});}
@@ -3104,9 +3104,9 @@ function setTopic(i){
   function T(ms,fn){timers.push(setTimeout(fn,ms));}
   function clearAll(){timers.forEach(clearTimeout);timers=[];}
   function dockTo(d){ // 문서를 지정 도크(카드 내부) 중앙에 위치
-    var b=body.getBoundingClientRect(),r=d.getBoundingClientRect();
-    doc.style.setProperty('--dx',((r.left+r.width/2)-b.left-doc.offsetWidth/2).toFixed(1)+'px');
-    doc.style.setProperty('--dy',((r.top+r.height/2)-b.top-doc.offsetHeight/2).toFixed(1)+'px');
+    var b=body.getBoundingClientRect(),r=d.getBoundingClientRect();var s=b.width/(body.offsetWidth||1);
+    doc.style.setProperty('--dx',((((r.left+r.width/2)-b.left)/s)-doc.offsetWidth/2).toFixed(1)+'px');
+    doc.style.setProperty('--dy',((((r.top+r.height/2)-b.top)/s)-doc.offsetHeight/2).toFixed(1)+'px');
   }
   function tween(dur,fn,done){var s=performance.now();(function fr(nw){if(!playing)return;var p=Math.min(1,(nw-s)/dur);fn(1-Math.pow(1-p,3));if(p<1)requestAnimationFrame(fr);else if(done)done();})(performance.now());}
   function reset(){
@@ -3168,9 +3168,9 @@ function setTopic(i){
   function T(ms,fn){timers.push(setTimeout(fn,ms));}
   function clearAll(){timers.forEach(clearTimeout);timers=[];}
   function dockTo(d){
-    var b=body.getBoundingClientRect(),r=d.getBoundingClientRect();
-    doc.style.setProperty('--dx',((r.left+r.width/2)-b.left-doc.offsetWidth/2).toFixed(1)+'px');
-    doc.style.setProperty('--dy',((r.top+r.height/2)-b.top-doc.offsetHeight/2).toFixed(1)+'px');
+    var b=body.getBoundingClientRect(),r=d.getBoundingClientRect();var s=b.width/(body.offsetWidth||1);
+    doc.style.setProperty('--dx',((((r.left+r.width/2)-b.left)/s)-doc.offsetWidth/2).toFixed(1)+'px');
+    doc.style.setProperty('--dy',((((r.top+r.height/2)-b.top)/s)-doc.offsetHeight/2).toFixed(1)+'px');
   }
   function tween(dur,fn,done){var s=performance.now();(function fr(nw){if(!playing)return;var p=Math.min(1,(nw-s)/dur);fn(1-Math.pow(1-p,3));if(p<1)requestAnimationFrame(fr);else if(done)done();})(performance.now());}
   function reset(){
