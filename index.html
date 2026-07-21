@@ -984,7 +984,7 @@ body[data-mode="b"] .only-a{display:none!important}
 .partition-11 .p11-fade{position:absolute;left:0;right:0;bottom:0;height:220px;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(10,37,64,0) 0%,rgba(10,37,64,.7) 55%,#0A2540 100%)}
 body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(70% 130% at 50% 0%,rgba(56,126,255,.4),transparent 60%)}
 .partition-11 .inner{position:relative;z-index:2}
-.partition-11 h2{font-size:40px;letter-spacing:-.035em;margin-bottom:12px;text-shadow:0 1px 16px rgba(6,26,46,.55)}
+.partition-11 h2{font-size:40px;letter-spacing:-.035em;margin-bottom:12px;text-shadow:0 1px 16px rgba(6,26,46,.55);word-break:keep-all}/* keep-all: 좁은 폭에서 "마감,"·"세요"가 단어 중간에 끊겨 한 글자만 다음 줄로 넘어가던 것 방지 */
 .partition-11 .sub{color:rgba(255,255,255,.65);font-size:18px;margin-bottom:34px;text-shadow:0 1px 12px rgba(6,26,46,.5)}
 .partition-11 .banner-btn{background:#fff;color:var(--main-navy)}
 .partition-11 .banner-btn:hover{background:rgba(255,255,255,.86)}
@@ -1125,6 +1125,10 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   /* 히어로 리드: 모바일에선 긴 데스크톱 문구 대신 축약 문구 노출 (피처존 lead-desktop/lead-mobileonly와 동일 패턴) */
   .partition-1 .lead .lead-desktop{display:none}
   .partition-1 .lead .lead-mobileonly{display:inline}
+  /* P11 CTA: 섹션(20px)+inner(30px) 이중 좌우 패딩이 겹쳐 모바일 텍스트 폭이 과도하게 좁았음(390에서 290px) → 좌우 패딩을 줄여 여유 확보하고, 제목은 keep-all+30px로 의도한 2줄(<br>) 유지 */
+  .partition-11{padding-left:18px;padding-right:18px}
+  .partition-11 .inner{padding-left:0;padding-right:0}
+  .partition-11 h2{font-size:30px}
 }
 @media(max-width:940px){
   .partition-1 .inner{grid-template-columns:1fr}
