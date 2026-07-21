@@ -94,8 +94,10 @@ body[data-mode="b"] .only-a{display:none!important}
 /* =========================================================
    partition-1 : 히어로 (라이브 banner + radial-sky)
    ========================================================= */
-.partition-1{position:relative;padding:84px 0 96px;background:radial-gradient(100% 145% at 50% -18%, rgba(var(--color-sky-rgb),.85) 0%, rgba(var(--color-sky-rgb),0) 100%),var(--main-white);background-color:var(--main-white)}
-.partition-1 .inner{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
+.partition-1{position:relative;padding:84px 0 96px;background-color:#eef6ff}
+.partition-1::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(55% 50% at 50% 12%, rgba(var(--color-sky-rgb),.9) 0%, rgba(var(--color-sky-rgb),0) 70%);background-repeat:no-repeat;background-size:170% 170%;background-position:50% 0%;animation:heroGlow 18s ease-in-out infinite}
+@keyframes heroGlow{0%{background-position:38% 0%}50%{background-position:62% 12%}100%{background-position:38% 0%}}
+.partition-1 .inner{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
 .partition-1 h1{font-size:48px;letter-spacing:-.04em;line-height:1.16;white-space:nowrap}
 .partition-1 .lead{margin-top:22px;word-break:keep-all}/* keep-all: 좁은 폭에서 "3.0이,"·"없습니다."가 토큰 중간에 끊겨 마지막 줄에 고아로 남던 것 방지. 공백에서만 줄바꿈 */
 .partition-1 .lead .lead-mobileonly{display:none}/* 기본(데스크톱): 히어로 모바일 축약 문구 숨김 */
