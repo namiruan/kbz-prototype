@@ -339,7 +339,6 @@ body[data-mode="b"] .only-a{display:none!important}
 /* 커서 */
 .ui-demo .uid-cursor{position:absolute;left:0;top:0;z-index:20;pointer-events:none;opacity:0;transform:translate(var(--cx,0),var(--cy,0));transition:transform .55s cubic-bezier(.5,0,.2,1),opacity .3s ease;filter:drop-shadow(0 2px 3px rgba(14,59,99,.35))}
 .ui-demo .uid-cursor.tap{transform:translate(var(--cx,0),var(--cy,0)) scale(.82)}
-@media(prefers-reduced-motion:reduce){.ui-demo .uid-cursor{display:none}}
 
 /* ── 토픽2(급여·수당) 전용 · 입력 장면: 근로자·출근기록(정상/연장/휴일근무 · 브랜드 톤 명도 구분)·출역 리스트가 촤라락 ── */
 .ui-demo[data-demo="2"]{--tl-normal:#7aa8ef;--tl-ot:#166dee;--tl-hol:#0e3b63}
@@ -797,7 +796,6 @@ body[data-mode="b"] .only-a{display:none!important}
 .rv-timer.run .rv-ring .rv-ring-fill{animation:rvring 4500ms linear forwards}
 .reviews:hover .rv-timer.run .rv-ring .rv-ring-fill{animation-play-state:paused}
 @keyframes rvring{from{stroke-dashoffset:100.5}to{stroke-dashoffset:0}}
-@media(prefers-reduced-motion:reduce){.rv-timer .rv-ring{display:none}.rv-feature.swap .rv-main,.rv-feature.swap .rv-chips,.rv-feature.swap-next .rv-main,.rv-feature.swap-next .rv-chips,.rv-feature.swap-prev .rv-main,.rv-feature.swap-prev .rv-chips{animation:none}}
 
 /* =========================================================
    partition-8 : 상황별 3단 비교 매트릭스 (미사용 → 3.0 → 프리미엄)
@@ -826,7 +824,6 @@ body[data-mode="b"] .only-a{display:none!important}
 .rec-txt{position:relative;z-index:4;font-family:var(--font-title);font-size:27px;font-weight:900;line-height:1;color:var(--main-white);letter-spacing:-.02em;-webkit-text-stroke:.7px rgba(var(--color-navy-rgb),.42);text-stroke:.7px rgba(var(--color-navy-rgb),.42)}
 @keyframes holoshine{0%{transform:translateX(-125%)}100%{transform:translateX(125%)}}
 @keyframes recbounce{0%{transform:rotate(-8deg) translateY(0);animation-timing-function:cubic-bezier(.33,0,.28,1)}30%{transform:rotate(-8deg) translateY(-9px);animation-timing-function:cubic-bezier(.66,0,.7,.2)}58%{transform:rotate(-8deg) translateY(0)}100%{transform:rotate(-8deg) translateY(0)}}
-@media(prefers-reduced-motion:reduce){.rec-shine,.rec-sticker{animation:none}}
 /* 표 하단 CTA 행: 각 열(3.0·프리미엄) 안에 버튼을 넣어 프레임 안에서 닫는다 */
 .cmp-cta-row .c30-inner{display:flex;align-items:flex-start;padding:18px 16px 22px}
 .cmp-cta-row .cmp-c.prem{display:flex;align-items:flex-start;padding-top:18px;padding-bottom:22px}
@@ -924,7 +921,6 @@ body[data-mode="b"] .only-a{display:none!important}
 .social-proof .sp-logo{flex:0 0 auto;height:46px;display:flex;align-items:center;justify-content:center}
 .social-proof .sp-logo img{height:100%;width:auto;max-width:160px;object-fit:contain;mix-blend-mode:multiply}
 @keyframes spRoll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){.social-proof .sp-track{animation:none}}
 @media(max-width:860px){.social-proof{padding:64px 0}.social-proof .sp-grid{flex-direction:column;gap:32px}.social-proof .sp-num{font-size:72px}.social-proof .sp-q{font-size:20px}}
 
 /* partition-9 요금 */
@@ -2144,7 +2140,7 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   var cv=document.querySelector('.p11-dots');
   if(!cv||!cv.getContext)return;
   var ctx=cv.getContext('2d');
-  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
   var GAP=30, BASE_R=0.6, dpr=Math.min(window.devicePixelRatio||1,2);
   var W=0,H=0, cols=0,rows=0, offX=0,offY=0;
   var mx=-9999,my=-9999, mAmp=0; /* 마우스 위치 + 반응 강도(감쇠) */
@@ -2260,7 +2256,7 @@ function setTopic(i){
 
 /* 작동 화면 라이브 데모 엔진 (가짜 커서·타이핑·화면 등장 · 5s 루프) */
 (function(){
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
 
   function makeCalDemo(root,cfg){
     var cursor=root.querySelector('.uid-cursor');
@@ -2629,7 +2625,7 @@ function setTopic(i){
       var rebootAt=holdDone+300;
       T(rebootAt,function(){run(120);});
     }
-    var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
     if(reduce){finalState();return {play:function(){},stop:function(){}};}
     return {play:function(){if(playing)return;playing=true;run();},stop:function(){playing=false;clearAll();reset();}};
   }
@@ -2833,7 +2829,7 @@ function setTopic(i){
       T(sentAt+560,function(){ exitAct2(); });    // 입자 흩어지며 명세서 페이드아웃
       T(sentAt+920,function(){ run(); });         // 첫 화면(리스트) 바로 재개
     }
-    var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
     if(reduce){finalState();return {play:function(){},stop:function(){}};}
     return {play:function(){if(playing)return;playing=true;run();},stop:function(){playing=false;clearAll();reset();}};
   }
@@ -2964,7 +2960,7 @@ function setTopic(i){
   var chips=[].slice.call(root.querySelectorAll('.hchip'));
   var cursor=root.querySelector('.uid-cursor');
   var ICONS=steps.map(function(s){return s.querySelector('.hs-ic').textContent;});
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
   var timers=[],playing=false;
   function T(ms,fn){timers.push(setTimeout(fn,ms));}
   function clearAll(){timers.forEach(clearTimeout);timers=[];}
@@ -3042,7 +3038,7 @@ function setTopic(i){
   var STAGES=[50,40,1]; // 점등 순서(계산→발송→신고)별 도달값. 감소폭: 신고 39 > 계산 22 > 발송 10 (프리미엄 대행이 마지막에 가장 크게 줄임)
   var nodes=[].slice.call(root.querySelectorAll('.bnode'));
   var spokes=[].slice.call(root.querySelectorAll('.bspoke'));
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
   var timers=[],playing=false;
   function T(ms,fn){timers.push(setTimeout(fn,ms));}
   function clearAll(){timers.forEach(clearTimeout);timers=[];}
@@ -3103,7 +3099,7 @@ function setTopic(i){
   var head=root.querySelector('.p3b-head');
   var now=root.querySelector('.p3b-now');
   var DAYS=20;
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
   var timers=[],playing=false;
   function T(ms,fn){timers.push(setTimeout(fn,ms));}
   function clearAll(){timers.forEach(clearTimeout);timers=[];}
@@ -3167,7 +3163,7 @@ function setTopic(i){
   var head=root.querySelector('.p3b-head');
   var now=root.querySelector('.p3b-now');
   var NUM=14; // 가입 대상 인원(예시)
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
   var timers=[],playing=false;
   function T(ms,fn){timers.push(setTimeout(fn,ms));}
   function clearAll(){timers.forEach(clearTimeout);timers=[];}
@@ -3274,7 +3270,7 @@ function setTopic(i){
 
 /* 후기 스포트라이트: 리스트는 위치 고정, 활성 하이라이트가 한 칸씩 이동 · 대표 카드만 크로스페이드 · 행 클릭 수동 · hover 정지 · reduced-motion 시 자동정지 */
 (function(){
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
   document.querySelectorAll('.reviews').forEach(function(rev){
     var feature=rev.querySelector('.rv-feature');
     var ring=rev.querySelector('.rv-timer');
@@ -3409,7 +3405,7 @@ function jumpTopic(i){
 
 /* 스크롤 진입에 따라 단말기 누끼 이미지가 바닥에 심긴 채 위로 확대 */
 (function(){
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
   var devs=[].slice.call(document.querySelectorAll('.combo-media .dev'));
   if(!devs.length)return;
   var MIN=0.78;
@@ -3477,7 +3473,7 @@ function jumpTopic(i){
   var target=parseInt(el.getAttribute('data-count-target')||'0',10);
   var suffix=el.getAttribute('data-count-suffix')||'';
   var str=target.toLocaleString('en-US');
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
 
   function makeStrip(sets){
     var strip=document.createElement('span');
