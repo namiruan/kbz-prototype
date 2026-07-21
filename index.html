@@ -3287,12 +3287,19 @@ function setTopic(i){
     feature.addEventListener('click',goReview);
     feature.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();goReview();}});
     // 모바일: 카드 좌우 스와이프로 후기 전환 (왼쪽으로 밀면 다음, 오른쪽으로 밀면 이전) · 세로 스크롤과 겹치지 않게 가로 제스처만 사용 · 스와이프 후 발생하는 클릭 이동은 무시
-    var tsY=0,tsX=0;
-    feature.addEventListener('touchstart',function(e){var t=e.touches[0];tsY=t.clientY;tsX=t.clientX;swiped=false;},{passive:true});
-    feature.addEventListener('touchend',function(e){
-      var t=e.changedTouches[0],dy=t.clientY-tsY,dx=t.clientX-tsX;
-      if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){swiped=true;if(dx<0)next();else prev();restart();}
-    },{passive:true});
+    // touchmove로 이동량을 추적해 iOS에서 touchend/touchcancel 좌표가 부정확한 경우에도 스와이프를 놓치지 않도록 함
+    var tsY=0,tsX=0,tmX=0,tmY=0,tMoved=false;
+    feature.addEventListener('touchstart',function(e){var t=e.touches[0];tsY=t.clientY;tsX=t.clientX;tmX=t.clientX;tmY=t.clientY;tMoved=false;swiped=false;},{passive:true});
+    feature.addEventListener('touchmove',function(e){var t=e.touches[0];tmX=t.clientX;tmY=t.clientY;tMoved=true;},{passive:true});
+    var endSwipe=function(e){
+      var t=(e.changedTouches&&e.changedTouches[0])||null;
+      var dx=(t?t.clientX:tmX)-tsX, dy=(t?t.clientY:tmY)-tsY;
+      // 마지막 touchmove가 더 큰 가로 이동을 담고 있으면 그 값을 사용
+      if(tMoved && Math.abs(tmX-tsX)>Math.abs(dx)){dx=tmX-tsX;dy=tmY-tsY;}
+      if(Math.abs(dx)>30&&Math.abs(dx)>Math.abs(dy)){swiped=true;if(dx<0)next();else prev();restart();}
+    };
+    feature.addEventListener('touchend',endSwipe,{passive:true});
+    feature.addEventListener('touchcancel',endSwipe,{passive:true});
     // 배경 이미지 두 겹 크로스페이드: 새 이미지를 위 레이어에서 페이드인, 이전 이미지는 아래에 깔린 채 유지 → 배경색 노출 없음 (실제 이미지 붙기 전 임시 picsum)
     var layers=[].slice.call(rev.querySelectorAll('.rv-img')),ptop=0,seedKey=rev.classList.contains('only-b')?'b':'a';
     function setPhoto(idx,animate,url){
