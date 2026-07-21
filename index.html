@@ -99,6 +99,7 @@ body[data-mode="b"] .only-a{display:none!important}
 .partition-1 h1{font-size:48px;letter-spacing:-.04em;line-height:1.16;white-space:nowrap}
 .partition-1 .lead{margin-top:22px;word-break:keep-all}/* keep-all: 좁은 폭에서 "3.0이,"·"없습니다."가 토큰 중간에 끊겨 마지막 줄에 고아로 남던 것 방지. 공백에서만 줄바꿈 */
 .partition-1 .lead .lead-mobileonly{display:none}/* 기본(데스크톱): 히어로 모바일 축약 문구 숨김 */
+.partition-1 h1 .h1-mobileonly{display:none}/* 기본(데스크톱): A안 히어로 모바일 축약 헤드라인 숨김 */
 .tagpill{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--main-navy);background:var(--pastel-blue);padding:7px 15px;border-radius:1000px;margin-bottom:22px}
 .tagpill .dot{width:7px;height:7px;border-radius:50%;background:var(--sub-cyan)}
 /* B 히어로 수치 라인 */
@@ -1114,7 +1115,10 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   body[data-mode="b"] .topic-panels .stage:has(.p3b){height:490px!important;overflow:visible}
   /* 히어로 h1: 36px에선 "급여," "니다"가 고아처럼 다음 줄로 넘어감. keep-all(단어 중간 안 끊김)+28px로 각 줄이 330px 폭 안에 들어가 깔끔하게 2줄로 접힘.
      선택자를 .inner 포함으로 올려 뒤에 오는 @media(940) .partition-1 h1{font-size:36px}보다 우선 적용 */
-  .partition-1 .inner h1{font-size:28px;word-break:keep-all}
+  .partition-1 .inner h1{font-size:32px;word-break:keep-all}
+  /* A안: 긴 데스크톱 헤드라인 숨기고 32px 2줄에 들어오는 모바일 축약 헤드라인 노출 (B안은 문구 그대로 32px에서 2줄 유지) */
+  .partition-1 .inner h1 .h1-desktop{display:none}
+  .partition-1 .inner h1 .h1-mobileonly{display:inline}
   /* 히어로 CTA는 모바일에서만 하단 플로팅 바와 중복 → 모바일만 숨기고 데스크톱은 유지 */
   .partition-1 .inner .acts{display:none}
   /* 히어로 리드: 모바일에선 긴 데스크톱 문구 대신 축약 문구 노출 (피처존 lead-desktop/lead-mobileonly와 동일 패턴) */
@@ -1189,7 +1193,7 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   <div class="inner only-a">
     <div>
       <span class="tagpill"><span class="dot"></span> 10,000개 건설사의 노무 파트너</span>
-      <h1>일용직 퇴직금·4대보험·급여,<br>김반장이 자동으로 끝냅니다</h1>
+      <h1><span class="h1-desktop">일용직 퇴직금·4대보험·급여,<br>김반장이 자동으로 끝냅니다</span><span class="h1-mobileonly">복잡한 일용직 노무,<br>김반장이 다 끝냅니다</span></h1>
       <p class="lead"><span class="lead-desktop">매일 인원이 바뀌는 건설 현장은 일반 노무 프로그램으로 감당하기 어렵습니다. 밤새 맞추던 급여 계산은 김반장 3.0에, 놓칠까 조마조마한 4대보험·퇴직공제 신고는 김반장 프리미엄에 맡기세요. 다시 정산할 일도, 신고를 놓쳐 과태료 낼 일도 없습니다.</span><span class="lead-mobileonly">밤새 맞추던 급여 계산은 김반장 3.0에, 놓칠까 조마조마한 신고는 김반장 프리미엄에 맡기세요. 과태료 걱정이 사라집니다.</span></p>
       <div class="acts">
         <a class="banner-btn" href="#">15일 무료 데모 신청</a>
