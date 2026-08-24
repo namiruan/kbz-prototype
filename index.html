@@ -168,7 +168,7 @@ body[data-mode="b"] .only-a{display:none!important}
   --ds-shadow-xl:0 8px 32px rgba(0,0,0,.12),0 4px 8px rgba(0,0,0,.06)}
 /* 토픽별 배경: p3(퇴직금)과 동일한 저채도, 색조만 변주 · 시안→페리윙클→퓨어블루(모두 블루 계열) */
 .ui-demo[data-demo="1"]{background:linear-gradient(160deg,#edf8fa 0%,#e2f2f5 100%)}
-.ui-demo[data-demo="2"]{background:linear-gradient(160deg,#f0effe 0%,#e8e6fc 100%)}
+.ui-demo[data-demo="2"]{background:linear-gradient(160deg,#f8f8fe 0%,#f1f0fb 100%)}
 .ui-demo[data-demo="3"]{background:linear-gradient(160deg,#f2f5f9 0%,#e7ebf1 100%)}
 /* 히어로(A) 상태흐름: 3.0 셀프 계산 → 전담팀 신고 대행 핸드오프 → 안심 */
 .ui-demo[data-demo="hero"]{background:#fff}
@@ -376,7 +376,7 @@ body[data-mode="b"] .only-a{display:none!important}
 .ui-demo[data-demo="2"] .ps-prog .fill{position:absolute;left:0;top:0;bottom:0;min-width:34px;display:flex;align-items:center;justify-content:flex-end;background:var(--ds-fill-brand-vivid);border-radius:999px}
 .ui-demo[data-demo="2"] .ps-prog .fill b{font-size:9px;font-weight:800;color:#fff;padding-right:6px;letter-spacing:-.02em}
 /* 근로자 목록 */
-.ui-demo[data-demo="2"] .ps-head,.ui-demo[data-demo="2"] .ps-row{display:grid;grid-template-columns:22px 1fr 1fr 84px;align-items:center;column-gap:9px;padding:0 12px}
+.ui-demo[data-demo="2"] .ps-head,.ui-demo[data-demo="2"] .ps-row{display:grid;grid-template-columns:22px 1fr 104px 60px 74px;align-items:center;column-gap:8px;padding:0 12px}
 .ui-demo[data-demo="2"] .ps-head{height:30px;background:var(--ds-surface-subtle);border-bottom:1px solid var(--ds-border-subtle)}
 .ui-demo[data-demo="2"] .ps-head span{font-size:10.5px;font-weight:700;color:var(--ds-text-subtle)}
 .ui-demo[data-demo="2"] .ps-head .st,.ui-demo[data-demo="2"] .ps-row .st{justify-self:start}
@@ -385,7 +385,14 @@ body[data-mode="b"] .only-a{display:none!important}
 .ui-demo[data-demo="2"] .ps-rows .ps-row{opacity:0;transform:translateY(-6px);transition:opacity .3s ease,transform .34s cubic-bezier(.33,1,.68,1)}
 .ui-demo[data-demo="2"] .ps-rows.in .ps-row{opacity:1;transform:none}
 .ui-demo[data-demo="2"] .ps-row .nm{font-size:12.5px;font-weight:700;color:var(--ds-text-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ui-demo[data-demo="2"] .ps-row .site{font-size:11.5px;font-weight:600;color:var(--ds-text-subtle);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ui-demo[data-demo="2"] .ps-row .rrn{font-size:11px;font-weight:600;color:var(--ds-text-subtle);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ui-demo[data-demo="2"] .ps-head .recv,.ui-demo[data-demo="2"] .ps-row .recv{justify-self:start}
+.ui-demo[data-demo="2"] .ps-row .recv{font-size:10.5px;font-weight:700;color:var(--ds-text-disabled);transition:color .2s ease}
+.ui-demo[data-demo="2"] .ps-row .recv.unread{color:var(--ds-text-subtle)}
+.ui-demo[data-demo="2"] .ps-row .recv.read{color:var(--ds-text-success)}
+/* 다운로드 버튼(그린) — 실제 툴바의 임금명세서 다운로드 재현 */
+.ui-demo[data-demo="2"] .ps-btn.dl{margin-left:auto;background:#1f9d55;border-color:#1f9d55;box-shadow:0 8px 18px -8px rgba(31,157,85,.5)}
+.ui-demo[data-demo="2"] .ps-btn.send{margin-left:6px}
 /* 체크박스 */
 .ui-demo[data-demo="2"] .ps-ck{display:block;width:16px;height:16px;box-sizing:border-box;border-radius:var(--ds-radius-xs);border:1.5px solid var(--ds-border-default);background:var(--ds-surface-base);position:relative;transition:background .18s ease,border-color .18s ease}
 .ui-demo[data-demo="2"] .ps-ck.on{background:var(--ds-fill-brand-vivid);border-color:var(--ds-fill-brand-vivid)}
@@ -1655,13 +1662,13 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
                     <div class="ps-srow"><span class="ps-ck"></span><span class="code">866040</span><span class="nm">준공테스트㈜</span><span class="ps-prog"><span class="fill" style="width:41%"><b>41%</b></span></span><span class="cn">2명</span></div>
                   </div>
                   <!-- 근로자 목록: 선택한 현장의 임금명세서 대상자 -->
-                  <div class="ps-sec">근로자 목록<span class="hint">전송 대상 <b class="ps-cnt">0</b>/3명</span><button class="ps-btn send" type="button" aria-hidden="true" disabled><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span>임금명세서 전송</button></div>
+                  <div class="ps-sec">근로자 목록<span class="hint">전송 대상 <b class="ps-cnt">0</b>/3명</span><button class="ps-btn dl" type="button" aria-hidden="true"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg></span>다운로드</button><button class="ps-btn send" type="button" aria-hidden="true" disabled><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span>임금명세서 전송</button></div>
                   <div class="ps-card">
-                    <div class="ps-head"><span class="ps-ck head"></span><span>근로자명</span><span>공사명</span><span class="st">전송상태</span></div>
+                    <div class="ps-head"><span class="ps-ck head"></span><span>근로자명</span><span>주민등록번호</span><span class="recv">수신확인</span><span class="st">전송상태</span></div>
                     <div class="ps-rows">
-                        <div class="ps-row"><span class="ps-ck"></span><span class="nm">김○수</span><span class="site">비즈씨건설㈜</span><span class="st"><span class="ps-badge wait"><i class="dt"></i>미전송</span></span></div>
-                        <div class="ps-row"><span class="ps-ck"></span><span class="nm">이○민</span><span class="site">비즈씨건설㈜</span><span class="st"><span class="ps-badge wait"><i class="dt"></i>미전송</span></span></div>
-                        <div class="ps-row"><span class="ps-ck"></span><span class="nm">왕○강</span><span class="site">비즈씨건설㈜</span><span class="st"><span class="ps-badge wait"><i class="dt"></i>미전송</span></span></div>
+                        <div class="ps-row"><span class="ps-ck"></span><span class="nm">김○수</span><span class="rrn">920803-5******</span><span class="recv">-</span><span class="st"><span class="ps-badge wait"><i class="dt"></i>미전송</span></span></div>
+                        <div class="ps-row"><span class="ps-ck"></span><span class="nm">이○민</span><span class="rrn">650710-1******</span><span class="recv">-</span><span class="st"><span class="ps-badge wait"><i class="dt"></i>미전송</span></span></div>
+                        <div class="ps-row"><span class="ps-ck"></span><span class="nm">왕○강</span><span class="rrn">610710-1******</span><span class="recv">-</span><span class="st"><span class="ps-badge wait"><i class="dt"></i>미전송</span></span></div>
                     </div>
                   </div>
                   <!-- 전송 완료 토스트 -->
@@ -2630,6 +2637,7 @@ function setTopic(i){
     function showCursor(){var W=root.clientWidth,H=root.clientHeight;cursor.style.transition='none';curTo(W*0.5,H*0.5);cursor.style.opacity='1';void cursor.offsetWidth;cursor.style.transition='';}
     function setWait(r){var b=r.querySelector('.ps-badge');b.className='ps-badge wait';b.innerHTML='<i class="dt"></i>미전송';}
     function celebrate(r){var b=r.querySelector('.ps-badge');b.className='ps-badge sent';b.innerHTML=CK+'<span class="ring"></span>전송완료';void b.offsetWidth;b.classList.add('celebrate');r.classList.add('sent');}
+    function setRecv(r,cls,txt){var e=r.querySelector('.recv');e.className='recv'+(cls?' '+cls:'');e.textContent=txt;}
     var timers=[],playing=false;
     function T(ms,fn){timers.push(setTimeout(fn,ms));}
     function clearAll(){timers.forEach(clearTimeout);timers=[];}
@@ -2640,7 +2648,7 @@ function setTopic(i){
       rowsWrap.classList.remove('in');
       headCk.classList.remove('on');
       sendBtn.classList.remove('press','armed');sendBtn.disabled=true;
-      rows.forEach(function(r){r.classList.remove('sent');r.querySelector('.ps-ck').classList.remove('on');setWait(r);});
+      rows.forEach(function(r){r.classList.remove('sent');r.querySelector('.ps-ck').classList.remove('on');setWait(r);setRecv(r,'','-');});
       footCnt.textContent='0';
       toast.classList.remove('show');
       cursor.classList.remove('tap');cursor.style.opacity='0';
@@ -2648,7 +2656,7 @@ function setTopic(i){
     function finalState(){
       monthPick.classList.add('sel');siteRow.classList.add('on');siteRow.querySelector('.ps-ck').classList.add('on');
       rowsWrap.classList.add('in');headCk.classList.add('on');
-      rows.forEach(function(r){r.querySelector('.ps-ck').classList.add('on');var b=r.querySelector('.ps-badge');b.className='ps-badge sent';b.innerHTML=CK+'전송완료';});
+      rows.forEach(function(r){r.querySelector('.ps-ck').classList.add('on');var b=r.querySelector('.ps-badge');b.className='ps-badge sent';b.innerHTML=CK+'전송완료';setRecv(r,'read','읽음');});
       footCnt.textContent=String(rows.length);sendBtn.disabled=false;
     }
     function run(){
@@ -2676,13 +2684,16 @@ function setTopic(i){
       var sendClick=selDone+840;
       T(sendClick,function(){cursor.classList.add('tap');sendBtn.classList.add('press');});
       T(sendClick+160,function(){cursor.classList.remove('tap');sendBtn.classList.remove('press','armed');cursor.style.opacity='0';});
-      // 6) 각 행 전송완료(강조) + 토스트
+      // 6) 각 행 전송완료(강조) → 수신확인 '읽지않음' + 토스트
       T(sendClick+300,function(){toast.classList.add('show');});
-      rows.forEach(function(r,i){T(sendClick+360+i*140,function(){celebrate(r);});});
-      var done=sendClick+360+rows.length*140;
-      T(done+1250,function(){toast.classList.remove('show');});
-      // 7) 잠시 유지 후 반복
-      T(done+1950,function(){run();});
+      rows.forEach(function(r,i){T(sendClick+360+i*140,function(){celebrate(r);setRecv(r,'unread','읽지않음');});});
+      var sentDone=sendClick+360+rows.length*140;
+      // 7) 근로자 열람 → 수신확인 '읽음'
+      rows.forEach(function(r,i){T(sentDone+520+i*160,function(){setRecv(r,'read','읽음');});});
+      var readDone=sentDone+520+rows.length*160;
+      T(readDone+500,function(){toast.classList.remove('show');});
+      // 8) 잠시 유지 후 반복
+      T(readDone+1500,function(){run();});
     }
     var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
     if(reduce){finalState();return {play:function(){},stop:function(){}};}
