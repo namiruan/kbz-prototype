@@ -440,68 +440,67 @@ body[data-mode="b"] .only-a{display:none!important}
 .ui-demo[data-demo="2"] .pay-burst i:nth-child(12){--a:330deg;background:#7aa8ef}
 @keyframes pdRay{0%{opacity:1;transform:rotate(var(--a)) translateY(0) scale(1)}100%{opacity:0;transform:rotate(var(--a)) translateY(-64px) scale(.3)}}
 
-/* ── 토픽3 전용: 근로계약서 자동 작성 → 카카오톡 일괄 전자서명 요청 → 체결·클라우드 보관 ── */
-.ui-demo[data-demo="3"] .ct-cam{position:absolute;inset:0;overflow:hidden}
-.ui-demo[data-demo="3"] .ct-doc{position:absolute;left:50%;top:50%;width:322px;max-width:88%;background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-xl);box-shadow:var(--ds-shadow-xl);opacity:0;pointer-events:none}
-/* 1막 · 완성된 계약서가 아래에 비스듬히 겹쳐 남는 잔상(복제본) */
-.ui-demo[data-demo="3"] .ct-ghosts{position:absolute;inset:0;z-index:5;pointer-events:none;transition:opacity .4s ease,filter .45s ease}
-.ui-demo[data-demo="3"] .ct-ghostdoc{position:absolute;left:50%;top:50%;display:flex;flex-direction:column;width:322px;max-width:88%;max-height:82%;overflow:hidden;padding:16px 17px 15px;background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-xl);box-shadow:var(--ds-shadow-xl);transform-origin:50% 50%;animation:ctGhostIn .32s cubic-bezier(.33,1,.68,1) both}
-@keyframes ctGhostIn{from{opacity:0}to{opacity:1}}
-/* 1막 · 새 근로계약서가 위에서 내려와 이전 계약서를 덮음 (rot/dx/dy는 JS 변수) */
-.ui-demo[data-demo="3"] .ct-doc{position:absolute;z-index:6;display:flex;flex-direction:column;max-height:82%;padding:16px 17px 15px;transform:translate(calc(-50% + var(--ct-dx,0px)),calc(-50% - 44px)) rotate(var(--ct-rot,0deg)) scale(.95);transition:opacity .38s ease,transform .5s cubic-bezier(.33,1,.68,1),filter .45s ease}
-.ui-demo[data-demo="3"] .ct-cam.blur .ct-doc,
-.ui-demo[data-demo="3"] .ct-cam.blur .ct-ghosts{filter:blur(3.5px) saturate(.92)}
-.ui-demo[data-demo="3"] .ct-cam.s1 .ct-doc{opacity:1;transform:translate(calc(-50% + var(--ct-dx,0px)),calc(-50% + var(--ct-dy,0px))) rotate(var(--ct-rot,0deg)) scale(1)}
-/* 루프 복귀: 완료 후 이전 계약서를 페이드로 정리 → 첫 계약서가 팝하며 다시 등장 */
-.ui-demo[data-demo="3"] .ct-cam.wrapup .ct-doc,
-.ui-demo[data-demo="3"] .ct-cam.wrapup .ct-ghosts{opacity:0;transition:opacity .4s ease}
-@keyframes ctPopIn{0%{opacity:0;transform:translate(calc(-50% + var(--ct-dx,0px)),calc(-50% + var(--ct-dy,0px))) rotate(var(--ct-rot,0deg)) scale(.82)}55%{opacity:1}100%{opacity:1;transform:translate(calc(-50% + var(--ct-dx,0px)),calc(-50% + var(--ct-dy,0px))) rotate(var(--ct-rot,0deg)) scale(1)}}
-.ui-demo[data-demo="3"] .ct-doc-top{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--ds-border-subtle)}
-.ui-demo[data-demo="3"] .ct-doc-title{font-size:16px;font-weight:800;color:var(--ds-text-display);letter-spacing:-.02em}
-.ui-demo[data-demo="3"] .ct-doc-badge{flex:none;font-size:10.5px;font-weight:800;color:var(--ds-text-brand);background:var(--ds-surface-brand-subtle);border:1px solid var(--ds-border-brand-subtle);border-radius:var(--ds-radius-pill);padding:4px 10px}
-.ui-demo[data-demo="3"] .ct-fields{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:10px;margin:0 -6px;padding:2px 6px;overflow-y:auto;scroll-behavior:smooth;-ms-overflow-style:none;scrollbar-width:none;-webkit-mask-image:linear-gradient(180deg,#000 calc(100% - 22px),transparent 100%);mask-image:linear-gradient(180deg,#000 calc(100% - 22px),transparent 100%)}
-.ui-demo[data-demo="3"] .ct-fields::-webkit-scrollbar{width:0;height:0;display:none}
-.ui-demo[data-demo="3"] .ct-sec{font-size:11px;font-weight:800;color:var(--ds-text-subtle);letter-spacing:.02em;margin:2px 0 1px}
-.ui-demo[data-demo="3"] .ct-fields .ct-sec:not(:first-child){margin-top:9px}
-.ui-demo[data-demo="3"] .ct-f{position:relative;display:flex;flex-direction:column;gap:4px}
-.ui-demo[data-demo="3"] .ct-f .k{font-size:12px;font-weight:600;color:var(--ds-text-label);letter-spacing:-.01em}
-.ui-demo[data-demo="3"] .ct-in{position:relative;display:flex;align-items:center;gap:8px;height:32px;padding:2px 10px;background:var(--ds-surface-base);border:1px solid var(--ds-border-default);border-radius:var(--ds-radius-xs);transition:border-color .22s ease,box-shadow .22s ease}
-.ui-demo[data-demo="3"] .ct-f .v{flex:1;min-height:16px;font-size:13px;font-weight:600;color:var(--ds-text-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ui-demo[data-demo="3"] .ct-f .ok{flex:none;width:16px;height:16px;color:var(--ds-text-success);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.3);transition:opacity .2s ease,transform .32s cubic-bezier(.34,1.56,.64,1)}
-.ui-demo[data-demo="3"] .ct-f .ok svg{width:16px;height:16px;display:block}
-/* 포커스(타이핑 중): 브랜드 보더 + 포커스 링 */
-.ui-demo[data-demo="3"] .ct-f.typing .ct-in{border-color:var(--ds-text-brand-vivid);box-shadow:0 0 0 4px rgba(22,109,238,.16)}
-.ui-demo[data-demo="3"] .ct-f.typing .v::after{content:"";display:inline-block;width:1.5px;height:14px;margin-left:1px;vertical-align:-2px;background:var(--ds-text-brand-vivid);animation:ctCaret .75s steps(1,end) infinite}
-@keyframes ctCaret{0%,50%{opacity:1}50.01%,100%{opacity:0}}
-/* 입력 성공(완료): 그린 보더 + 그린 텍스트 + 체크 */
-.ui-demo[data-demo="3"] .ct-f.fill:not(.typing) .ct-in{border-color:var(--ds-border-success)}
-.ui-demo[data-demo="3"] .ct-f.fill:not(.typing) .v{color:var(--ds-text-success)}
-.ui-demo[data-demo="3"] .ct-f.fill:not(.typing) .ok{opacity:1;transform:scale(1)}
-/* 전자서명 요청 모달 (계약서와 별도로 위에 표기) */
-.ui-demo[data-demo="3"] .ct-signmodal{position:absolute;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(19,20,22,.3);opacity:0;pointer-events:none;transition:opacity .3s ease}
-.ui-demo[data-demo="3"] .ct-signmodal.show{opacity:1}
-.ui-demo[data-demo="3"] .ct-signcard{width:300px;max-width:92%;padding:18px 18px 16px;background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-xl);box-shadow:var(--ds-shadow-xl);transform:translateY(14px) scale(.95);transition:transform .34s cubic-bezier(.33,1,.68,1)}
-.ui-demo[data-demo="3"] .ct-signmodal.show .ct-signcard{transform:none}
-.ui-demo[data-demo="3"] .ct-signhead{display:flex;align-items:center;gap:10px;margin-bottom:13px}
-.ui-demo[data-demo="3"] .ct-sign-ico{flex:none;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;color:var(--ds-text-brand-vivid);background:var(--ds-surface-brand-subtle);border-radius:var(--ds-radius-md)}
-.ui-demo[data-demo="3"] .ct-sign-t{font-size:14.5px;font-weight:800;color:var(--ds-text-display);letter-spacing:-.01em}
-.ui-demo[data-demo="3"] .ct-sign-sub{margin-top:2px;font-size:11.5px;font-weight:600;color:var(--ds-text-subtle)}
-.ui-demo[data-demo="3"] .ct-signpad{position:relative;height:96px;display:flex;align-items:center;justify-content:center;background:var(--ds-surface-subtle);border:1px dashed var(--ds-border-default);border-radius:var(--ds-radius-md);overflow:hidden;transition:border-color .3s ease,background .3s ease}
-.ui-demo[data-demo="3"] .ct-sign-ph{font-size:12px;font-weight:600;color:var(--ds-text-subtle);transition:opacity .25s ease}
-.ui-demo[data-demo="3"] .ct-sign-ink{position:absolute;left:50%;top:50%;width:190px;height:60px;transform:translate(-50%,-50%) rotate(-4deg);opacity:0;transition:opacity .2s ease}
-.ui-demo[data-demo="3"] .ct-signpad.signed{border-style:solid;border-color:var(--ds-border-success);background:var(--ds-surface-success-subtle)}
-.ui-demo[data-demo="3"] .ct-signpad.signed .ct-sign-ph{opacity:0}
-.ui-demo[data-demo="3"] .ct-signpad.signed .ct-sign-ink{opacity:1}
-.ui-demo[data-demo="3"] .ct-signstatus{margin-top:11px;display:flex;align-items:center;justify-content:center;gap:5px;height:22px;font-size:12px;font-weight:800;color:var(--ds-text-subtle);transition:color .25s ease}
-.ui-demo[data-demo="3"] .ct-signstatus::before{content:"근로자 서명을 진행 중…"}
-.ui-demo[data-demo="3"] .ct-signmodal.signed .ct-signstatus{color:var(--ds-text-success)}
-.ui-demo[data-demo="3"] .ct-signmodal.signed .ct-signstatus::before{content:"전자서명 완료 ✓"}
-/* 계약서 위에 떠 있는 서명 요청 버튼 (모달과 분리) */
-.ui-demo[data-demo="3"] .ct-signbtn{position:absolute;left:50%;top:50%;transform:translate(-50%,calc(-50% + 16px));display:inline-flex;align-items:center;gap:9px;padding:16px 30px;font-family:inherit;font-size:17px;font-weight:800;letter-spacing:-.01em;color:#fff;background:var(--ds-text-brand-vivid);border:none;border-radius:var(--ds-radius-pill);box-shadow:0 14px 34px -6px rgba(22,109,238,.62);cursor:pointer;opacity:0;pointer-events:none;z-index:8;transition:opacity .3s ease,transform .3s cubic-bezier(.33,1,.68,1)}
-.ui-demo[data-demo="3"] .ct-signbtn.show{opacity:1;transform:translate(-50%,-50%)}
-.ui-demo[data-demo="3"] .ct-signbtn.press{transform:translate(-50%,-50%) scale(.94)}
-.ui-demo[data-demo="3"] .ct-signbtn .ct-pen{display:inline-flex}
-.ui-demo[data-demo="3"] .ct-signbtn .ct-pen svg{width:19px;height:19px}
+/* ── 토픽3 전용: 근로자 목록 → '추가'로 계약정보 입력 → 상단 '서명요청' → 상태 임시저장·서명요청·서명완료 흐름 (실제 UI 은유) ── */
+.ui-demo[data-demo="3"] .cw-cam{position:absolute;inset:0;display:flex;flex-direction:column;padding:15px 16px 14px;gap:11px}
+/* 상단 툴바 (제목 + 근로자 추가 / 서명요청 버튼) */
+.ui-demo[data-demo="3"] .cw-toolbar{flex:none;display:flex;align-items:center;gap:10px}
+.ui-demo[data-demo="3"] .cw-tt{font-size:14px;font-weight:800;color:var(--ds-text-display);letter-spacing:-.02em}
+.ui-demo[data-demo="3"] .cw-tt small{margin-left:7px;font-size:11px;font-weight:600;color:var(--ds-text-subtle);letter-spacing:0}
+.ui-demo[data-demo="3"] .cw-tbtns{margin-left:auto;display:flex;align-items:center;gap:7px}
+.ui-demo[data-demo="3"] .cw-btn{position:relative;font-family:inherit;font-size:12px;font-weight:800;letter-spacing:-.01em;border-radius:var(--ds-radius-md);padding:8px 13px;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;transition:transform .12s ease,box-shadow .22s ease,background .2s ease,color .2s ease}
+.ui-demo[data-demo="3"] .cw-btn.add{color:var(--ds-text-label);background:var(--ds-surface-base);border:1px solid var(--ds-border-default)}
+.ui-demo[data-demo="3"] .cw-btn.sign{color:#fff;background:var(--ds-fill-brand-vivid);border:1px solid var(--ds-fill-brand-vivid);box-shadow:0 8px 18px -8px rgba(22,109,238,.6)}
+.ui-demo[data-demo="3"] .cw-btn.sign .ti{display:inline-flex}
+.ui-demo[data-demo="3"] .cw-btn.sign .ti svg{width:15px;height:15px}
+.ui-demo[data-demo="3"] .cw-btn.press{transform:scale(.94)}
+.ui-demo[data-demo="3"] .cw-btn.sign.armed{animation:cwPulse 1.15s ease-in-out infinite}
+@keyframes cwPulse{0%,100%{box-shadow:0 8px 18px -8px rgba(22,109,238,.6),0 0 0 0 rgba(22,109,238,.45)}50%{box-shadow:0 8px 18px -8px rgba(22,109,238,.6),0 0 0 8px rgba(22,109,238,0)}}
+/* 근로자 목록 테이블 */
+.ui-demo[data-demo="3"] .cw-table{flex:none;background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-lg);box-shadow:var(--ds-shadow-md);overflow:hidden}
+.ui-demo[data-demo="3"] .cw-head,.ui-demo[data-demo="3"] .cw-row{display:grid;grid-template-columns:1.1fr 1.5fr 88px;align-items:center;column-gap:8px;padding:0 14px}
+.ui-demo[data-demo="3"] .cw-head{height:32px;background:var(--ds-surface-subtle);border-bottom:1px solid var(--ds-border-subtle)}
+.ui-demo[data-demo="3"] .cw-head span{font-size:11px;font-weight:700;color:var(--ds-text-subtle)}
+.ui-demo[data-demo="3"] .cw-head .st,.ui-demo[data-demo="3"] .cw-row .st{justify-self:end}
+.ui-demo[data-demo="3"] .cw-row{height:42px;border-top:1px solid var(--ds-border-subtle)}
+.ui-demo[data-demo="3"] .cw-row:first-child{border-top:none}
+.ui-demo[data-demo="3"] .cw-row .nm{font-size:13px;font-weight:700;color:var(--ds-text-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ui-demo[data-demo="3"] .cw-row .site{font-size:12px;font-weight:600;color:var(--ds-text-subtle);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ui-demo[data-demo="3"] .cw-row .st{perspective:460px}
+/* '추가'로 나타나는 새 행: 접힘→펼침 */
+.ui-demo[data-demo="3"] .cw-row.newrow{height:0;border-top-width:0;opacity:0;overflow:hidden;transition:height .42s cubic-bezier(.33,1,.68,1),opacity .32s ease,border-top-width .42s}
+.ui-demo[data-demo="3"] .cw-row.newrow.in{height:42px;border-top-width:1px;opacity:1}
+.ui-demo[data-demo="3"] .cw-row.hot{background:var(--ds-surface-brand-subtle)}
+/* 상태 배지 */
+.ui-demo[data-demo="3"] .cw-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;letter-spacing:-.01em;padding:4px 9px;border-radius:var(--ds-radius-pill);white-space:nowrap;line-height:1;transform-origin:50% 50%}
+.ui-demo[data-demo="3"] .cw-badge .dt{width:5px;height:5px;border-radius:50%;background:currentColor;flex:0 0 auto}
+.ui-demo[data-demo="3"] .cw-badge .ck{width:12px;height:12px;flex:0 0 auto;display:block}
+.ui-demo[data-demo="3"] .cw-badge.draft{color:var(--ds-text-subtle);background:var(--ds-surface-subtle);border:1px solid var(--ds-border-subtle)}
+.ui-demo[data-demo="3"] .cw-badge.req{color:var(--ds-text-brand);background:var(--ds-surface-brand-subtle);border:1px solid var(--ds-border-brand-subtle)}
+.ui-demo[data-demo="3"] .cw-badge.done{color:var(--ds-text-success);background:var(--ds-surface-success-subtle);border:1px solid var(--ds-border-success-subtle)}
+.ui-demo[data-demo="3"] .cw-badge.flip{animation:cwFlip .46s cubic-bezier(.34,1.5,.5,1) both}
+@keyframes cwFlip{0%{transform:rotateX(-88deg) scale(.92);opacity:.15}55%{transform:rotateX(9deg) scale(1.05)}100%{transform:rotateX(0) scale(1);opacity:1}}
+/* 하단 계약정보 상세 패널 */
+.ui-demo[data-demo="3"] .cw-detail{flex:1 1 auto;min-height:0;background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-lg);box-shadow:var(--ds-shadow-md);padding:12px 15px 13px;display:flex;flex-direction:column;overflow:hidden;opacity:0;transform:translateY(10px);transition:opacity .4s ease,transform .45s cubic-bezier(.33,1,.68,1)}
+.ui-demo[data-demo="3"] .cw-detail.in{opacity:1;transform:none}
+.ui-demo[data-demo="3"] .cw-dhead{flex:none;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--ds-text-display);letter-spacing:-.01em;padding-bottom:10px;margin-bottom:11px;border-bottom:1px solid var(--ds-border-subtle)}
+.ui-demo[data-demo="3"] .cw-dhead .who{font-size:11px;font-weight:800;color:var(--ds-text-brand);background:var(--ds-surface-brand-subtle);border-radius:var(--ds-radius-pill);padding:3px 9px}
+.ui-demo[data-demo="3"] .cw-dhead .badge2{margin-left:auto;font-size:10.5px;font-weight:800;color:var(--ds-text-brand);background:var(--ds-surface-brand-subtle);border:1px solid var(--ds-border-brand-subtle);border-radius:var(--ds-radius-pill);padding:3px 9px}
+.ui-demo[data-demo="3"] .cw-dgrid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:9px 14px;align-content:center}
+.ui-demo[data-demo="3"] .cw-df{display:flex;flex-direction:column;gap:5px}
+.ui-demo[data-demo="3"] .cw-df .k{font-size:11px;font-weight:600;color:var(--ds-text-subtle)}
+.ui-demo[data-demo="3"] .cw-df .box{position:relative;display:flex;align-items:center;gap:7px;height:31px;padding:0 11px;background:var(--ds-surface-base);border:1px solid var(--ds-border-default);border-radius:var(--ds-radius-sm);transition:border-color .22s ease,box-shadow .22s ease,background .22s ease}
+.ui-demo[data-demo="3"] .cw-df.typing .box{border-color:var(--ds-text-brand-vivid);box-shadow:0 0 0 4px rgba(22,109,238,.15)}
+.ui-demo[data-demo="3"] .cw-df .v{flex:1;min-height:15px;font-size:13px;font-weight:700;color:var(--ds-text-body);white-space:nowrap;overflow:hidden;opacity:0;transform:translateY(3px);transition:opacity .2s ease,transform .28s cubic-bezier(.34,1.56,.64,1)}
+.ui-demo[data-demo="3"] .cw-df.fill .v{opacity:1;transform:none}
+.ui-demo[data-demo="3"] .cw-df.fill:not(.typing) .box{border-color:var(--ds-border-success);background:var(--ds-surface-success-subtle)}
+.ui-demo[data-demo="3"] .cw-df .ok{flex:none;width:15px;height:15px;color:var(--ds-text-success);opacity:0;transform:scale(.3);transition:opacity .2s ease,transform .3s cubic-bezier(.34,1.56,.64,1)}
+.ui-demo[data-demo="3"] .cw-df.fill:not(.typing) .ok{opacity:1;transform:none}
+.ui-demo[data-demo="3"] .cw-df .ok svg{width:15px;height:15px;display:block}
+/* '서명요청' 발송 토스트 (근로자에게 카카오톡 전자서명 요청 발송) */
+.ui-demo[data-demo="3"] .cw-toast{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(10px);display:inline-flex;align-items:center;gap:9px;padding:12px 18px;background:#0A2540;color:#fff;font-size:12.5px;font-weight:800;letter-spacing:-.01em;border-radius:var(--ds-radius-pill);box-shadow:0 18px 38px -12px rgba(10,37,64,.62);opacity:0;pointer-events:none;z-index:12;transition:opacity .3s ease,transform .42s cubic-bezier(.33,1,.68,1)}
+.ui-demo[data-demo="3"] .cw-toast.show{opacity:1;transform:translate(-50%,-50%)}
+.ui-demo[data-demo="3"] .cw-toast .ti{display:inline-flex}
+.ui-demo[data-demo="3"] .cw-toast .ti svg{width:17px;height:17px;display:block}
 
 /* ── 토픽1 전용: 근로자 명단 → 가입 대상 자동 판정 → 신고서 자동 생성 → 전담팀 제출 완료 ── */
 .ui-demo[data-demo="1"] .ins-cam{position:absolute;inset:0}
@@ -1692,50 +1691,37 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
             <div class="ui-demo only-a" data-demo="3">
               <div class="uid-win">
                 <div class="uid-body">
-                 <div class="ct-cam">
-                  <!-- 1막 배경: 앞서 작성 완료된 근로계약서들이 밑에 비스듬히 겹쳐 쌓임 (JS 복제) -->
-                  <div class="ct-ghosts" aria-hidden="true"></div>
-                  <!-- 1막: 공인노무사 자문 양식으로 근로계약서 자동 작성 → 새 계약서가 위로 덮이며 반복 -->
-                  <div class="ct-doc" aria-hidden="true">
-                    <div class="ct-doc-top">
-                      <div class="ct-doc-title">표준 근로계약서</div>
-                      <div class="ct-doc-badge">공인노무사 자문 양식</div>
-                    </div>
-                    <div class="ct-fields">
-                      <div class="ct-sec">기본정보</div>
-                      <div class="ct-f ct-name" data-v="이○민"><span class="k">성명</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="640118-*******"><span class="k">주민등록번호</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="010-****-1234"><span class="k">연락처</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="경기 ○○시 ○○구"><span class="k">주소</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-sec">계약기간·업무</div>
-                      <div class="ct-f" data-v="2026.05.01 ~ 05.31"><span class="k">계약기간</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="○○ 신축현장"><span class="k">근무장소</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="형틀목공"><span class="k">담당업무</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-sec">근로조건</div>
-                      <div class="ct-f" data-v="주 5일 · 08:00~17:00"><span class="k">근무일·시간</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="12:00~13:00"><span class="k">휴게시간</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="일급제"><span class="k">임금형태</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="160,000원"><span class="k">일급</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="매월 25일"><span class="k">임금지급일</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="근로자 명의 계좌"><span class="k">지급방법</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
+                 <div class="cw-cam">
+                  <!-- 상단 툴바: 근로자 추가 / 서명요청 (실제 UI의 상단 액션 버튼) -->
+                  <div class="cw-toolbar">
+                    <div class="cw-tt">근로계약<small>표준 근로계약서</small></div>
+                    <div class="cw-tbtns">
+                      <button class="cw-btn add" type="button" aria-hidden="true">+ 근로자 추가</button>
+                      <button class="cw-btn sign" type="button" aria-hidden="true"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 5.5l3 3L9 18l-4 1 1-4z"/><path d="M13.5 7.5l3 3"/></svg></span>서명요청</button>
                     </div>
                   </div>
-                  <!-- 계약서 작성 완료 후 계약서 위에 뜨는 서명 요청 버튼 -->
-                  <button class="ct-signbtn" type="button" aria-hidden="true"><span class="ct-pen" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 5.5l3 3L9 18l-4 1 1-4z"/><path d="M13.5 7.5l3 3"/></svg></span>서명 요청</button>
-                  <!-- 서명 요청을 누르면 활성화되는 전자서명 모달 → 서명 완료 시 명단 표시 -->
-                  <div class="ct-signmodal" aria-hidden="true">
-                    <div class="ct-signcard">
-                      <div class="ct-signhead">
-                        <span class="ct-sign-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 5.5l3 3L9 18l-4 1 1-4z"/><path d="M13.5 7.5l3 3"/></svg></span>
-                        <div class="ct-signhtx"><div class="ct-sign-t">전자서명</div><div class="ct-sign-sub">표준 근로계약서 · 정○호</div></div>
-                      </div>
-                      <div class="ct-signpad">
-                        <span class="ct-sign-ph">근로자 서명란</span>
-                        <svg class="ct-sign-ink" viewBox="0 0 190 60" fill="none" aria-hidden="true"><path d="M10 40C19 15 26 15 30 35C33 50 38 18 46 28C53 37 50 14 59 24M72 22C62 40 74 49 83 38C92 27 87 17 98 26C108 34 121 45 134 22M145 40C154 20 165 22 170 37M180 14L186 40" stroke="var(--ds-text-brand-vivid)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      </div>
-                      <div class="ct-signstatus" aria-hidden="true"></div>
+                  <!-- 근로자 목록: 계약 상태(서명완료/서명요청/임시저장)를 컬럼으로 관리 -->
+                  <div class="cw-table">
+                    <div class="cw-head"><span>근로자명</span><span>공사명</span><span class="st">계약 상태</span></div>
+                    <div class="cw-rows">
+                      <div class="cw-row"><span class="nm">박○철</span><span class="site">○○ 신축현장</span><span class="st"><span class="cw-badge done"><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>서명완료</span></span></div>
+                      <div class="cw-row"><span class="nm">정○호</span><span class="site">△△ 리모델링현장</span><span class="st"><span class="cw-badge done"><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>서명완료</span></span></div>
+                      <!-- 액션 행: 추가되면 펼쳐지고 상태가 임시저장→서명요청→서명완료로 흐름 -->
+                      <div class="cw-row newrow"><span class="nm">이○민</span><span class="site">○○ 신축현장</span><span class="st"><span class="cw-badge draft"><i class="dt"></i>임시저장</span></span></div>
                     </div>
                   </div>
+                  <!-- 하단 계약정보 상세: 추가한 근로자의 계약정보를 자동 입력 (공인노무사 자문 양식, 예시 수치) -->
+                  <div class="cw-detail">
+                    <div class="cw-dhead">근로계약서 상세정보 <span class="who">이○민</span><span class="badge2">공인노무사 자문 양식</span></div>
+                    <div class="cw-dgrid">
+                      <div class="cw-df" data-v="2026.05.01 ~ 05.31"><span class="k">계약기간</span><div class="box"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
+                      <div class="cw-df" data-v="주 5일 · 08:00~17:00"><span class="k">근무일·시간</span><div class="box"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
+                      <div class="cw-df" data-v="일급 160,000원"><span class="k">임금</span><div class="box"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
+                      <div class="cw-df" data-v="매월 25일"><span class="k">임금지급일</span><div class="box"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
+                    </div>
+                  </div>
+                  <!-- 서명요청 발송 토스트 -->
+                  <div class="cw-toast" aria-hidden="true"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span>근로자에게 서명요청 발송</div>
                  </div>
                 </div>
               </div>
@@ -1746,50 +1732,37 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
             <div class="ui-demo only-b" data-demo="3">
               <div class="uid-win">
                 <div class="uid-body">
-                 <div class="ct-cam">
-                  <!-- 1막 배경: 앞서 작성 완료된 근로계약서들이 밑에 비스듬히 겹쳐 쌓임 (JS 복제) -->
-                  <div class="ct-ghosts" aria-hidden="true"></div>
-                  <!-- 1막: 공인노무사 자문 양식으로 근로계약서 자동 작성 → 새 계약서가 위로 덮이며 반복 -->
-                  <div class="ct-doc" aria-hidden="true">
-                    <div class="ct-doc-top">
-                      <div class="ct-doc-title">표준 근로계약서</div>
-                      <div class="ct-doc-badge">공인노무사 자문 양식</div>
-                    </div>
-                    <div class="ct-fields">
-                      <div class="ct-sec">기본정보</div>
-                      <div class="ct-f ct-name" data-v="이○민"><span class="k">성명</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="640118-*******"><span class="k">주민등록번호</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="010-****-1234"><span class="k">연락처</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="경기 ○○시 ○○구"><span class="k">주소</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-sec">계약기간·업무</div>
-                      <div class="ct-f" data-v="2026.05.01 ~ 05.31"><span class="k">계약기간</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="○○ 신축현장"><span class="k">근무장소</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="형틀목공"><span class="k">담당업무</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-sec">근로조건</div>
-                      <div class="ct-f" data-v="주 5일 · 08:00~17:00"><span class="k">근무일·시간</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="12:00~13:00"><span class="k">휴게시간</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="일급제"><span class="k">임금형태</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="160,000원"><span class="k">일급</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="매월 25일"><span class="k">임금지급일</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
-                      <div class="ct-f" data-v="근로자 명의 계좌"><span class="k">지급방법</span><div class="ct-in"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
+                 <div class="cw-cam">
+                  <!-- 상단 툴바: 근로자 추가 / 서명요청 (실제 UI의 상단 액션 버튼) -->
+                  <div class="cw-toolbar">
+                    <div class="cw-tt">근로계약<small>표준 근로계약서</small></div>
+                    <div class="cw-tbtns">
+                      <button class="cw-btn add" type="button" aria-hidden="true">+ 근로자 추가</button>
+                      <button class="cw-btn sign" type="button" aria-hidden="true"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 5.5l3 3L9 18l-4 1 1-4z"/><path d="M13.5 7.5l3 3"/></svg></span>서명요청</button>
                     </div>
                   </div>
-                  <!-- 계약서 작성 완료 후 계약서 위에 뜨는 서명 요청 버튼 -->
-                  <button class="ct-signbtn" type="button" aria-hidden="true"><span class="ct-pen" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 5.5l3 3L9 18l-4 1 1-4z"/><path d="M13.5 7.5l3 3"/></svg></span>서명 요청</button>
-                  <!-- 서명 요청을 누르면 활성화되는 전자서명 모달 → 서명 완료 시 명단 표시 -->
-                  <div class="ct-signmodal" aria-hidden="true">
-                    <div class="ct-signcard">
-                      <div class="ct-signhead">
-                        <span class="ct-sign-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 5.5l3 3L9 18l-4 1 1-4z"/><path d="M13.5 7.5l3 3"/></svg></span>
-                        <div class="ct-signhtx"><div class="ct-sign-t">전자서명</div><div class="ct-sign-sub">표준 근로계약서 · 정○호</div></div>
-                      </div>
-                      <div class="ct-signpad">
-                        <span class="ct-sign-ph">근로자 서명란</span>
-                        <svg class="ct-sign-ink" viewBox="0 0 190 60" fill="none" aria-hidden="true"><path d="M10 40C19 15 26 15 30 35C33 50 38 18 46 28C53 37 50 14 59 24M72 22C62 40 74 49 83 38C92 27 87 17 98 26C108 34 121 45 134 22M145 40C154 20 165 22 170 37M180 14L186 40" stroke="var(--ds-text-brand-vivid)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      </div>
-                      <div class="ct-signstatus" aria-hidden="true"></div>
+                  <!-- 근로자 목록: 계약 상태(서명완료/서명요청/임시저장)를 컬럼으로 관리 -->
+                  <div class="cw-table">
+                    <div class="cw-head"><span>근로자명</span><span>공사명</span><span class="st">계약 상태</span></div>
+                    <div class="cw-rows">
+                      <div class="cw-row"><span class="nm">박○철</span><span class="site">○○ 신축현장</span><span class="st"><span class="cw-badge done"><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>서명완료</span></span></div>
+                      <div class="cw-row"><span class="nm">정○호</span><span class="site">△△ 리모델링현장</span><span class="st"><span class="cw-badge done"><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>서명완료</span></span></div>
+                      <!-- 액션 행: 추가되면 펼쳐지고 상태가 임시저장→서명요청→서명완료로 흐름 -->
+                      <div class="cw-row newrow"><span class="nm">이○민</span><span class="site">○○ 신축현장</span><span class="st"><span class="cw-badge draft"><i class="dt"></i>임시저장</span></span></div>
                     </div>
                   </div>
+                  <!-- 하단 계약정보 상세: 추가한 근로자의 계약정보를 자동 입력 (공인노무사 자문 양식, 예시 수치) -->
+                  <div class="cw-detail">
+                    <div class="cw-dhead">근로계약서 상세정보 <span class="who">이○민</span><span class="badge2">공인노무사 자문 양식</span></div>
+                    <div class="cw-dgrid">
+                      <div class="cw-df" data-v="2026.05.01 ~ 05.31"><span class="k">계약기간</span><div class="box"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
+                      <div class="cw-df" data-v="주 5일 · 08:00~17:00"><span class="k">근무일·시간</span><div class="box"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
+                      <div class="cw-df" data-v="일급 160,000원"><span class="k">임금</span><div class="box"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
+                      <div class="cw-df" data-v="매월 25일"><span class="k">임금지급일</span><div class="box"><span class="v"></span><i class="ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>
+                    </div>
+                  </div>
+                  <!-- 서명요청 발송 토스트 -->
+                  <div class="cw-toast" aria-hidden="true"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span>근로자에게 서명요청 발송</div>
                  </div>
                 </div>
               </div>
@@ -2520,156 +2493,83 @@ function setTopic(i){
     }
   };
   function makeDemo0(root){return makeCalDemo(root,CFG0);}
-  /* 토픽3 전용 엔진 · 근로계약서 자동 작성(공인노무사 자문 양식) → 등록 근로자에게 카카오톡 일괄 전자서명 요청 → 체결·클라우드 보관 (모두 예시) */
+  /* 토픽3 전용 엔진 · 근로자 '추가' → 계약정보 자동 입력(공인노무사 자문 양식) → 상단 '서명요청' → 상태 임시저장→서명요청→서명완료 (실제 UI 은유, 모두 예시) */
   function makeDemo3(root){
-    var cam=root.querySelector('.ct-cam');
-    var doc=root.querySelector('.ct-doc');
-    var ghosts=root.querySelector('.ct-ghosts');
-    var fieldsEl=root.querySelector('.ct-fields');
-    var fields=[].slice.call(doc.querySelectorAll('.ct-f'));
-    var nameField=doc.querySelector('.ct-name');
-    var signmodal=root.querySelector('.ct-signmodal');
-    var signbtn=root.querySelector('.ct-signbtn');
-    var signpad=root.querySelector('.ct-signpad');
-    var signInk=signpad?signpad.querySelector('.ct-sign-ink path'):null;
+    var cam=root.querySelector('.cw-cam');
+    var addBtn=root.querySelector('.cw-btn.add');
+    var signBtn=root.querySelector('.cw-btn.sign');
+    var newRow=root.querySelector('.cw-row.newrow');
+    var badge=newRow?newRow.querySelector('.cw-badge'):null;
+    var detail=root.querySelector('.cw-detail');
+    var dfs=[].slice.call(root.querySelectorAll('.cw-df'));
+    var toast=root.querySelector('.cw-toast');
     var cursor=root.querySelector('.uid-cursor');
+    var CK='<svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>';
     // 좌표는 ui-demo(root) 기준 px
     function relRect(el){var cb=root.getBoundingClientRect(),b=el.getBoundingClientRect();var s=cb.width/(root.offsetWidth||1);return {x:(b.left-cb.left)/s,y:(b.top-cb.top)/s,w:b.width/s,h:b.height/s};}
     function curTo(x,y){cursor.style.setProperty('--cx',x+'px');cursor.style.setProperty('--cy',y+'px');}
+    function moveTo(el,ox,oy){var b=relRect(el);curTo(b.x+b.w/2+(ox||0),b.y+b.h/2+(oy||0));}
+    // 상태 배지 교체(+플립 재생)
+    function setBadge(kind,label,flip){
+      badge.className='cw-badge '+kind;
+      badge.innerHTML=(kind==='done'?CK:'<i class="dt"></i>')+label;
+      if(flip){void badge.offsetWidth;badge.classList.add('flip');}
+    }
     var timers=[],playing=false;
     function T(ms,fn){timers.push(setTimeout(fn,ms));}
     function clearAll(){timers.forEach(clearTimeout);timers=[];}
     function reset(){
       clearAll();
-      cam.className='ct-cam';
-      ghosts.innerHTML='';ghosts.style.opacity='';
-      doc.classList.remove('blur');
-      setDocPose(0,0,0);
-      fields.forEach(function(f){f.classList.remove('fill','now','typing');f.querySelector('.v').textContent='';});
-      cam.style.animation='';doc.style.animation='';
+      newRow.classList.remove('in','hot');
+      detail.classList.remove('in');
+      addBtn.classList.remove('press');
+      signBtn.classList.remove('press','armed');
+      toast.classList.remove('show');
+      dfs.forEach(function(f){f.classList.remove('fill','typing');f.querySelector('.v').textContent='';});
+      setBadge('draft','임시저장',false);
       cursor.classList.remove('tap');cursor.style.opacity='0';
-      resetSign();
     }
-    // 전자서명 모달 초기화 / 서명 획 그리기
-    function resetSign(){
-      if(signmodal){signmodal.classList.remove('show','signed');}
-      if(signbtn){signbtn.classList.remove('show','press');}
-      if(signpad){signpad.classList.remove('signed');}
-      if(signInk){var L=signInk.getTotalLength();signInk.style.transition='none';signInk.style.strokeDasharray=L;signInk.style.strokeDashoffset=L;}
-    }
-    function drawSign(){
-      if(!signpad)return;
-      signpad.classList.add('signed');
-      if(signmodal){signmodal.classList.add('signed');}
-      if(signInk){var L=signInk.getTotalLength();signInk.style.transition='none';signInk.style.strokeDasharray=L;signInk.style.strokeDashoffset=L;void signInk.getBoundingClientRect();signInk.style.transition='stroke-dashoffset .95s ease';signInk.style.strokeDashoffset='0';}
-    }
-    // 계약서 놓이는 각도/위치(살짝 비뚤어지게)
-    function setDocPose(rot,dx,dy){doc.style.setProperty('--ct-rot',rot+'deg');doc.style.setProperty('--ct-dx',dx+'px');doc.style.setProperty('--ct-dy',dy+'px');}
-    // 새 계약서가 위에서 내려와 덮는 등장 애니메이션 재생
-    function docEnter(){cam.classList.remove('s1');void doc.offsetWidth;cam.classList.add('s1');}
-    // 방금 완성한 계약서를 그 자리(각도)에 잔상으로 남김
-    function spawnGhost(rot,dx,dy){
-      var g=doc.cloneNode(true);
-      g.className='ct-ghostdoc';
-      g.querySelectorAll('.ct-f').forEach(function(f){f.classList.remove('typing');f.classList.add('fill');});
-      g.style.transform='translate(calc(-50% + '+dx+'px),calc(-50% + '+dy+'px)) rotate('+rot+'deg)';
-      ghosts.appendChild(g);
-    }
-    function scrollToField(f){
-      var fr=fieldsEl.getBoundingClientRect(), er=f.getBoundingClientRect();
-      var target=fieldsEl.scrollTop + (er.top-fr.top) - (fieldsEl.clientHeight-er.height)/2;
-      target=Math.max(0,target);
-      if(fieldsEl.scrollTo){fieldsEl.scrollTo({top:target,behavior:'smooth'});}else{fieldsEl.scrollTop=target;}
-    }
-    // 필드에 커서를 두고(포커스) 값을 한 글자씩 타이핑
-    function beginField(f){
-      f.classList.add('fill','typing');
-      f.querySelector('.v').textContent='';
-      scrollToField(f);
-    }
-    function typeChar(f,n){ f.querySelector('.v').textContent=f.getAttribute('data-v').slice(0,n); }
-    function finishField(f){ f.classList.remove('typing'); f.querySelector('.v').textContent=f.getAttribute('data-v'); }
     function finalState(){
-      fields.forEach(function(f){f.classList.add('fill');f.querySelector('.v').textContent=f.getAttribute('data-v');});
-      if(signpad){signpad.classList.add('signed');if(signInk){signInk.style.transition='none';signInk.style.strokeDasharray='none';signInk.style.strokeDashoffset='0';}}
-      if(signmodal){signmodal.classList.add('show','signed');}
-      cam.classList.add('s1');
+      newRow.classList.add('in');detail.classList.add('in');
+      dfs.forEach(function(f){f.classList.add('fill');f.querySelector('.v').textContent=f.getAttribute('data-v');});
+      setBadge('done','서명완료',false);
     }
-    function run(startDelay){
+    function run(){
       reset();
       if(reduce){finalState();return;}
-      // 1막: 긴 근로계약서를 스크롤하며 작성 → 아직 작성 중인데 새 근로자 계약서가 살짝 비뚤게 위로 덮음 → 다시 스크롤 작성 (×3)
-      var PASSES=[
-        {rot:-3.4,dx:-11,dy:9,name:'이○민',full:3},   // 아직 얼마 안 채운 40%쯤(3칸+작성중)에 덮임
-        {rot:2.8,dx:10,dy:2,name:'박○철',full:5},
-        {rot:-1.4,dx:-2,dy:-5,name:'정○호',full:13}   // 마지막: 계약서 전체 작성 → 서명 요청 → 체결
-      ];
-      var focusPause=60, charMs=22, afterPause=42, enterMs=460;
-      var t=(startDelay==null?300:startDelay), blurAt=null;
-      PASSES.forEach(function(p,pi){
-        var last=pi===PASSES.length-1;
-        var poseAt=t;
-        T(poseAt,function(){
-          setDocPose(p.rot,p.dx,p.dy);
-          nameField.setAttribute('data-v',p.name);
-          fields.forEach(function(f){f.classList.remove('fill','typing');f.querySelector('.v').textContent='';});
-          if(fieldsEl.scrollTo){fieldsEl.scrollTo({top:0,behavior:'auto'});}else{fieldsEl.scrollTop=0;}
-          docEnter(); // 새 계약서가 위에서 내려와 덮음
-          if(pi===0){doc.style.animation='none';void doc.offsetWidth;doc.style.animation='ctPopIn .6s cubic-bezier(.34,1.56,.64,1)';} // 첫 계약서는 팝하며 등장
-        });
-        // 마지막 계약서는 훨씬 빠르게 작성 완료
-        var cm=last?7:charMs, fp=last?14:focusPause, ap=last?8:afterPause;
-        var ct=poseAt+enterMs;
-        // 앞쪽 필드는 끝까지(스크롤하며) 작성
-        for(var k=0;k<p.full;k++){
-          if(last&&k===9){blurAt=ct;} // 마지막 계약서: 아직 기입 도중(9번째 필드 시점)에 블러+버튼
-          (function(f){
-          var val=f.getAttribute('data-v'), startAt=ct;
-          T(startAt,function(){beginField(f);});
-          for(var ci=0;ci<val.length;ci++){ (function(n){ T(startAt+fp+n*cm,function(){typeChar(f,n);}); })(ci+1); }
-          var doneAt=startAt+fp+val.length*cm;
-          T(doneAt,function(){finishField(f);});
-          ct=doneAt+ap;
-        })(fields[k]); }
-        if(!last){
-          // 다음 필드를 작성하기 시작하다가(도중에) 덮임
-          var pf=fields[p.full], pval=pf.getAttribute('data-v'), pn=Math.max(2,Math.ceil(pval.length*0.55));
-          (function(f,nchars,startAt){
-            T(startAt,function(){beginField(f);});
-            for(var ci=0;ci<nchars;ci++){ (function(n){ T(startAt+focusPause+n*charMs,function(){typeChar(f,n);}); })(ci+1); }
-          })(pf,pn,ct);
-          var coverAt=ct+focusPause+pn*charMs+120;
-          (function(pp){ T(coverAt,function(){spawnGhost(pp.rot,pp.dx,pp.dy);}); })(p); // 작성 도중 상태를 잔상으로 남김
-          t=coverAt; // 다음 계약서가 이 시점에 덮으며 등장
-        } else {
-          t=ct+240;
-        }
+      // 1) 커서 등장 → '근로자 추가' 클릭 → 목록에 새 행 펼쳐짐(임시저장)
+      var t=520;
+      T(t,function(){var W=root.clientWidth,H=root.clientHeight;cursor.style.transition='none';curTo(W*0.5,H*0.6);cursor.style.opacity='1';void cursor.offsetWidth;cursor.style.transition='';moveTo(addBtn,-4,-3);});
+      var addAt=t+780;
+      T(addAt,function(){cursor.classList.add('tap');addBtn.classList.add('press');});
+      T(addAt+160,function(){cursor.classList.remove('tap');addBtn.classList.remove('press');newRow.classList.add('in','hot');});
+      // 2) 하단 상세 패널 등장 → 계약정보 촤라락 자동 입력
+      var detAt=addAt+360;
+      T(detAt,function(){detail.classList.add('in');});
+      var step=200, fillDone=detAt+300;
+      dfs.forEach(function(f,i){
+        var at=detAt+300+i*step;
+        T(at,function(){f.classList.add('typing');});
+        T(at+150,function(){f.classList.add('fill');f.querySelector('.v').textContent=f.getAttribute('data-v');});
+        T(at+150+step,function(){f.classList.remove('typing');});
+        fillDone=at+150+step;
       });
-      // 마지막 계약서 기입 도중 → 계약서 블러 + 그 위로 서명 요청 버튼 등장 → 클릭 시 서명 모달 활성화 → 전자서명 완료 → 명단 표시
-      var writeDone=t+120;
-      var btnAt=(blurAt!=null?blurAt:writeDone);
-      T(btnAt,function(){cam.classList.add('blur');signbtn.classList.add('show');});
-      // 커서 등장 → 서명 요청 버튼으로 이동
-      T(btnAt+160,function(){
-        var W=root.clientWidth,H=root.clientHeight,b=relRect(signbtn);
-        cursor.style.transition='none';curTo(W-46,H-26);cursor.style.opacity='1';void cursor.offsetWidth;cursor.style.transition='';
-        curTo(b.x+b.w/2-9,b.y+b.h/2-6);
-      });
-      // 서명 요청 클릭 → 버튼 사라지고 서명 모달 활성화
-      var reqClickAt=btnAt+1060;
-      T(reqClickAt,function(){cursor.classList.add('tap');signbtn.classList.add('press');});
-      T(reqClickAt+170,function(){cursor.classList.remove('tap');signbtn.classList.remove('press','show');cursor.style.opacity='0';});
-      var modalAt=reqClickAt+340;
-      T(modalAt,function(){signmodal.classList.add('show');});
-      // 모달에서 근로자 전자서명 진행 → 완료
-      var drawAt=modalAt+620;
-      T(drawAt,function(){drawSign();});
-      // 서명 완료('전자서명 완료 ✓')를 잠시 보여준 뒤 마무리
-      var holdDone=drawAt+1400;
-      T(holdDone,function(){signmodal.classList.remove('show');cam.classList.add('wrapup');}); // 완료 모달 페이드아웃 + 쌓인 계약서 정리
-      // 처음(첫 계약서)으로 복귀 · 이전 계약서가 페이드로 사라지는 사이 첫 계약서가 팝하며 재등장
-      var rebootAt=holdDone+300;
-      T(rebootAt,function(){run(120);});
+      // 3) 커서 → 상단 '서명요청' 버튼(활성 pulse) → 클릭
+      var armAt=fillDone+140;
+      T(armAt,function(){signBtn.classList.add('armed');moveTo(signBtn,-3,-3);});
+      var signAt=armAt+880;
+      T(signAt,function(){cursor.classList.add('tap');signBtn.classList.add('press');});
+      T(signAt+160,function(){cursor.classList.remove('tap');signBtn.classList.remove('press','armed');cursor.style.opacity='0';});
+      // 4) 상태 임시저장 → 서명요청 (배지 플립) + 발송 토스트
+      var reqAt=signAt+320;
+      T(reqAt,function(){setBadge('req','서명요청',true);toast.classList.add('show');});
+      T(reqAt+1300,function(){toast.classList.remove('show');});
+      // 5) 근로자 전자서명 → 서명요청 → 서명완료 (배지 플립 + 체크)
+      var doneAt=reqAt+1720;
+      T(doneAt,function(){setBadge('done','서명완료',true);newRow.classList.remove('hot');});
+      // 6) 잠시 유지 후 처음부터 반복
+      var loopAt=doneAt+1900;
+      T(loopAt,function(){run();});
     }
     var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
     if(reduce){finalState();return {play:function(){},stop:function(){}};}
