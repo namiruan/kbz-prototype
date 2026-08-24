@@ -347,12 +347,17 @@ body[data-mode="b"] .only-a{display:none!important}
 /* ── 토픽2(급여·수당) 전용: 월 선택 → 공사(현장) 선택 → 근로자 목록 → 임금명세서 전송 (실제 2-패널 UI 은유) ── */
 .ui-demo[data-demo="2"] .ps-cam{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:14px 15px 12px;gap:8px}
 /* 월 선택 스트립 */
-.ui-demo[data-demo="2"] .ps-months{flex:none;display:flex;align-items:center;gap:9px}
-.ui-demo[data-demo="2"] .ps-yr{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:800;color:var(--ds-text-display);white-space:nowrap}
-.ui-demo[data-demo="2"] .ps-yr i{color:var(--ds-text-disabled);font-style:normal;font-weight:800}
-.ui-demo[data-demo="2"] .ps-mrow{flex:1;display:flex;gap:3px;min-width:0}
-.ui-demo[data-demo="2"] .ps-m{flex:1;text-align:center;font-size:10.5px;font-weight:700;color:var(--ds-text-subtle);padding:6px 0;border-radius:var(--ds-radius-sm);background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);white-space:nowrap;transition:color .2s ease,background .2s ease,box-shadow .2s ease,border-color .2s ease,transform .32s cubic-bezier(.34,1.5,.5,1)}
-.ui-demo[data-demo="2"] .ps-m.sel{color:#fff;background:var(--ds-fill-brand-vivid);border-color:var(--ds-fill-brand-vivid);box-shadow:0 7px 15px -7px rgba(22,109,238,.65);transform:scale(1.07)}
+.ui-demo[data-demo="2"] .ps-months{flex:none;display:flex;flex-direction:column;gap:7px}
+/* 연도 네비 (‹ 2025 · 2026 · 2027 ›) */
+.ui-demo[data-demo="2"] .ps-yrs{display:flex;align-items:center;justify-content:space-between;padding:0 3px}
+.ui-demo[data-demo="2"] .ps-yrs .side{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--ds-text-subtle)}
+.ui-demo[data-demo="2"] .ps-yrs .side i{font-style:normal;color:var(--ds-text-disabled);font-size:15px;line-height:1}
+.ui-demo[data-demo="2"] .ps-yrs .cur{font-size:15px;font-weight:800;color:var(--ds-text-display);letter-spacing:-.01em}
+/* 12개월 탭바 */
+.ui-demo[data-demo="2"] .ps-mrow{display:flex;background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-md);overflow:hidden}
+.ui-demo[data-demo="2"] .ps-m{flex:1;text-align:center;font-size:10.5px;font-weight:700;color:var(--ds-text-subtle);padding:7px 0;white-space:nowrap;transition:color .2s ease,background .2s ease}
+.ui-demo[data-demo="2"] .ps-m+.ps-m{border-left:1px solid var(--ds-border-subtle)}
+.ui-demo[data-demo="2"] .ps-m.sel{color:var(--ds-text-brand);background:#d7e6fb;font-weight:800}
 /* 섹션 라벨 (+우측 액션 버튼) */
 .ui-demo[data-demo="2"] .ps-sec{flex:none;display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;color:var(--ds-text-display);letter-spacing:-.01em}
 .ui-demo[data-demo="2"] .ps-sec .hint{font-size:10px;font-weight:600;color:var(--ds-text-subtle)}
@@ -1651,8 +1656,8 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
                  <div class="ps-cam">
                   <!-- 월 선택 스트립 -->
                   <div class="ps-months">
-                    <span class="ps-yr"><i>‹</i>2026<i>›</i></span>
-                    <div class="ps-mrow"><span class="ps-m">4월</span><span class="ps-m">5월</span><span class="ps-m">6월</span><span class="ps-m sel pick">7월</span><span class="ps-m">8월</span><span class="ps-m">9월</span></div>
+                    <div class="ps-yrs"><span class="side"><i>‹</i>2025</span><span class="cur">2026</span><span class="side">2027<i>›</i></span></div>
+                    <div class="ps-mrow"><span class="ps-m">1월</span><span class="ps-m">2월</span><span class="ps-m">3월</span><span class="ps-m">4월</span><span class="ps-m">5월</span><span class="ps-m">6월</span><span class="ps-m pick">7월</span><span class="ps-m">8월</span><span class="ps-m">9월</span><span class="ps-m">10월</span><span class="ps-m">11월</span><span class="ps-m">12월</span></div>
                   </div>
                   <!-- 공사(현장) 선택: 임금명세서 생성 기준 -->
                   <div class="ps-sec">공사 선택<span class="hint">명세서 생성 기준 · 현장</span></div>
