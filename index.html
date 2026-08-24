@@ -509,22 +509,27 @@ body[data-mode="b"] .only-a{display:none!important}
 .ui-demo[data-demo="3"] .cw-toast .ti{display:inline-flex}
 .ui-demo[data-demo="3"] .cw-toast .ti svg{width:17px;height:17px;display:block}
 /* 전자서명 카드 (서명요청 발송 → 근로자가 사인하는 애니메이션) */
-.ui-demo[data-demo="3"] .cw-sign{position:absolute;inset:0;z-index:14;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(19,20,22,.28);opacity:0;pointer-events:none;transition:opacity .3s ease}
+.ui-demo[data-demo="3"] .cw-sign{position:absolute;inset:0;z-index:14;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(19,20,22,.34);opacity:0;pointer-events:none;transition:opacity .3s ease}
 .ui-demo[data-demo="3"] .cw-sign.show{opacity:1}
-.ui-demo[data-demo="3"] .cw-sign-card{width:272px;max-width:92%;padding:15px 16px 14px;background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-xl);box-shadow:var(--ds-shadow-xl);transform:translateY(12px) scale(.96);transition:transform .34s cubic-bezier(.33,1,.68,1)}
-.ui-demo[data-demo="3"] .cw-sign.show .cw-sign-card{transform:none}
-.ui-demo[data-demo="3"] .cw-sign-head{display:flex;align-items:center;gap:9px;margin-bottom:11px}
-.ui-demo[data-demo="3"] .cw-sign-ico{flex:none;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;color:var(--ds-text-brand-vivid);background:var(--ds-surface-brand-subtle);border-radius:var(--ds-radius-md)}
-.ui-demo[data-demo="3"] .cw-sign-ico svg{width:16px;height:16px}
-.ui-demo[data-demo="3"] .cw-sign-t{font-size:13.5px;font-weight:800;color:var(--ds-text-display);letter-spacing:-.01em}
-.ui-demo[data-demo="3"] .cw-sign-sub{margin-top:1px;font-size:11px;font-weight:600;color:var(--ds-text-subtle)}
-.ui-demo[data-demo="3"] .cw-sign-pad{position:relative;height:82px;display:flex;align-items:center;justify-content:center;background:var(--ds-surface-subtle);border:1px dashed var(--ds-border-default);border-radius:var(--ds-radius-md);overflow:hidden;transition:border-color .3s ease,background .3s ease}
-.ui-demo[data-demo="3"] .cw-sign-ph{font-size:11.5px;font-weight:600;color:var(--ds-text-subtle);transition:opacity .25s ease}
-.ui-demo[data-demo="3"] .cw-sign-ink{position:absolute;left:50%;top:50%;width:180px;height:56px;transform:translate(-50%,-50%) rotate(-4deg);opacity:0;transition:opacity .2s ease}
+/* 스마트폰 목업 (근로자 핸드폰으로 발송된 전자서명) */
+.ui-demo[data-demo="3"] .cw-phone{position:relative;width:176px;height:344px;background:linear-gradient(#1b2c40,#0A2540);border-radius:28px;padding:7px;box-shadow:0 28px 56px -14px rgba(10,37,64,.62);border:1px solid rgba(255,255,255,.14);transform:translateY(28px) scale(.93);opacity:0;transition:transform .42s cubic-bezier(.33,1,.68,1),opacity .3s ease}
+.ui-demo[data-demo="3"] .cw-sign.show .cw-phone{transform:none;opacity:1}
+.ui-demo[data-demo="3"] .cw-phone::after{content:"";position:absolute;top:12px;left:50%;transform:translateX(-50%);width:44px;height:5px;border-radius:3px;background:rgba(255,255,255,.22);z-index:2}
+.ui-demo[data-demo="3"] .cw-phone-scr{position:relative;width:100%;height:100%;background:var(--ds-surface-base);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;padding:24px 14px 14px}
+.ui-demo[data-demo="3"] .cw-ph-top{display:flex;align-items:center;gap:8px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--ds-border-subtle)}
+.ui-demo[data-demo="3"] .cw-ph-ico{flex:none;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;color:#fff;background:var(--ds-fill-brand-vivid);border-radius:8px}
+.ui-demo[data-demo="3"] .cw-ph-ico svg{width:14px;height:14px}
+.ui-demo[data-demo="3"] .cw-ph-tt{font-size:11.5px;font-weight:800;color:var(--ds-text-display);letter-spacing:-.01em}
+.ui-demo[data-demo="3"] .cw-ph-tsub{font-size:9px;font-weight:600;color:var(--ds-text-subtle);margin-top:1px}
+.ui-demo[data-demo="3"] .cw-ph-doc{font-size:12.5px;font-weight:800;color:var(--ds-text-display)}
+.ui-demo[data-demo="3"] .cw-ph-sub{font-size:9.5px;font-weight:600;color:var(--ds-text-subtle);margin:2px 0 9px}
+.ui-demo[data-demo="3"] .cw-sign-pad{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:var(--ds-surface-subtle);border:1px dashed var(--ds-border-default);border-radius:10px;overflow:hidden;transition:border-color .3s ease,background .3s ease}
+.ui-demo[data-demo="3"] .cw-sign-ph{font-size:10.5px;font-weight:600;color:var(--ds-text-subtle);transition:opacity .25s ease}
+.ui-demo[data-demo="3"] .cw-sign-ink{position:absolute;left:50%;top:50%;width:132px;height:42px;transform:translate(-50%,-50%) rotate(-4deg);opacity:0;transition:opacity .2s ease}
 .ui-demo[data-demo="3"] .cw-sign-pad.signed{border-style:solid;border-color:var(--ds-border-success);background:var(--ds-surface-success-subtle)}
 .ui-demo[data-demo="3"] .cw-sign-pad.signed .cw-sign-ph{opacity:0}
 .ui-demo[data-demo="3"] .cw-sign-pad.signed .cw-sign-ink{opacity:1}
-.ui-demo[data-demo="3"] .cw-sign-status{margin-top:10px;display:flex;align-items:center;justify-content:center;gap:6px;height:20px;font-size:11.5px;font-weight:800;color:var(--ds-text-subtle);transition:color .25s ease}
+.ui-demo[data-demo="3"] .cw-sign-status{flex:none;margin-top:9px;display:flex;align-items:center;justify-content:center;gap:6px;height:18px;font-size:10.5px;font-weight:800;color:var(--ds-text-subtle);transition:color .25s ease}
 .ui-demo[data-demo="3"] .cw-sign.done .cw-sign-status{color:var(--ds-text-success)}
 @media(max-width:640px){.ui-demo[data-demo="3"] .cw-head,.ui-demo[data-demo="3"] .cw-row{grid-template-columns:50px 56px 52px 1fr 72px;column-gap:5px;padding:0 10px}.ui-demo[data-demo="3"] .cw-row .nm{font-size:12px}.ui-demo[data-demo="3"] .cw-row .auth,.ui-demo[data-demo="3"] .cw-row .lang{font-size:10.5px}}
 
@@ -1760,13 +1765,17 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
                   <div class="cw-toast" aria-hidden="true"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span>근로자에게 서명요청 발송</div>
                   <!-- 전자서명 카드: 근로자가 서명란에 사인 -->
                   <div class="cw-sign" aria-hidden="true">
-                    <div class="cw-sign-card">
-                      <div class="cw-sign-head"><span class="cw-sign-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 5.5l3 3L9 18l-4 1 1-4z"/><path d="M13.5 7.5l3 3"/></svg></span><div><div class="cw-sign-t">전자서명</div><div class="cw-sign-sub">표준 근로계약서 · 이○민</div></div></div>
-                      <div class="cw-sign-pad">
-                        <span class="cw-sign-ph">근로자 서명란</span>
-                        <svg class="cw-sign-ink" viewBox="0 0 190 60" fill="none" aria-hidden="true"><path d="M10 40C19 15 26 15 30 35C33 50 38 18 46 28C53 37 50 14 59 24M72 22C62 40 74 49 83 38C92 27 87 17 98 26C108 34 121 45 134 22M145 40C154 20 165 22 170 37M180 14L186 40" stroke="var(--ds-text-brand-vivid)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div class="cw-phone">
+                      <div class="cw-phone-scr">
+                        <div class="cw-ph-top"><span class="cw-ph-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 5.5l3 3L9 18l-4 1 1-4z"/><path d="M13.5 7.5l3 3"/></svg></span><div class="cw-ph-tx"><div class="cw-ph-tt">전자서명 요청</div><div class="cw-ph-tsub">김반장 · 근로계약서</div></div></div>
+                        <div class="cw-ph-doc">표준 근로계약서</div>
+                        <div class="cw-ph-sub">이○민 · 공인노무사 자문 양식</div>
+                        <div class="cw-sign-pad">
+                          <span class="cw-sign-ph">여기에 서명해 주세요</span>
+                          <svg class="cw-sign-ink" viewBox="0 0 190 60" fill="none" aria-hidden="true"><path d="M10 40C19 15 26 15 30 35C33 50 38 18 46 28C53 37 50 14 59 24M72 22C62 40 74 49 83 38C92 27 87 17 98 26C108 34 121 45 134 22M145 40C154 20 165 22 170 37M180 14L186 40" stroke="var(--ds-text-brand-vivid)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="cw-sign-status"><span class="tx">근로자 서명 진행 중…</span></div>
                       </div>
-                      <div class="cw-sign-status"><span class="tx">근로자 서명 진행 중…</span></div>
                     </div>
                   </div>
                  </div>
@@ -1827,13 +1836,17 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
                   <div class="cw-toast" aria-hidden="true"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span>근로자에게 서명요청 발송</div>
                   <!-- 전자서명 카드: 근로자가 서명란에 사인 -->
                   <div class="cw-sign" aria-hidden="true">
-                    <div class="cw-sign-card">
-                      <div class="cw-sign-head"><span class="cw-sign-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 5.5l3 3L9 18l-4 1 1-4z"/><path d="M13.5 7.5l3 3"/></svg></span><div><div class="cw-sign-t">전자서명</div><div class="cw-sign-sub">표준 근로계약서 · 이○민</div></div></div>
-                      <div class="cw-sign-pad">
-                        <span class="cw-sign-ph">근로자 서명란</span>
-                        <svg class="cw-sign-ink" viewBox="0 0 190 60" fill="none" aria-hidden="true"><path d="M10 40C19 15 26 15 30 35C33 50 38 18 46 28C53 37 50 14 59 24M72 22C62 40 74 49 83 38C92 27 87 17 98 26C108 34 121 45 134 22M145 40C154 20 165 22 170 37M180 14L186 40" stroke="var(--ds-text-brand-vivid)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div class="cw-phone">
+                      <div class="cw-phone-scr">
+                        <div class="cw-ph-top"><span class="cw-ph-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 5.5l3 3L9 18l-4 1 1-4z"/><path d="M13.5 7.5l3 3"/></svg></span><div class="cw-ph-tx"><div class="cw-ph-tt">전자서명 요청</div><div class="cw-ph-tsub">김반장 · 근로계약서</div></div></div>
+                        <div class="cw-ph-doc">표준 근로계약서</div>
+                        <div class="cw-ph-sub">이○민 · 공인노무사 자문 양식</div>
+                        <div class="cw-sign-pad">
+                          <span class="cw-sign-ph">여기에 서명해 주세요</span>
+                          <svg class="cw-sign-ink" viewBox="0 0 190 60" fill="none" aria-hidden="true"><path d="M10 40C19 15 26 15 30 35C33 50 38 18 46 28C53 37 50 14 59 24M72 22C62 40 74 49 83 38C92 27 87 17 98 26C108 34 121 45 134 22M145 40C154 20 165 22 170 37M180 14L186 40" stroke="var(--ds-text-brand-vivid)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="cw-sign-status"><span class="tx">근로자 서명 진행 중…</span></div>
                       </div>
-                      <div class="cw-sign-status"><span class="tx">근로자 서명 진행 중…</span></div>
                     </div>
                   </div>
                  </div>
