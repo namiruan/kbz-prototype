@@ -360,12 +360,21 @@ body[data-mode="b"] .only-a{display:none!important}
 /* 공용 카드 */
 .ui-demo[data-demo="2"] .ps-card{flex:none;background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-lg);box-shadow:var(--ds-shadow-md);overflow:hidden}
 /* 공사(현장) 목록 */
-.ui-demo[data-demo="2"] .ps-srow{display:grid;grid-template-columns:22px 1fr auto;align-items:center;column-gap:9px;height:33px;padding:0 12px;transition:background .2s ease}
+.ui-demo[data-demo="2"] .ps-shead,.ui-demo[data-demo="2"] .ps-srow{display:grid;grid-template-columns:22px 54px 1fr 82px 42px;align-items:center;column-gap:8px;padding:0 12px}
+.ui-demo[data-demo="2"] .ps-shead{height:28px;background:var(--ds-surface-subtle);border-bottom:1px solid var(--ds-border-subtle)}
+.ui-demo[data-demo="2"] .ps-shead span{font-size:10px;font-weight:700;color:var(--ds-text-subtle)}
+.ui-demo[data-demo="2"] .ps-shead .cn,.ui-demo[data-demo="2"] .ps-srow .cn{justify-self:end}
+.ui-demo[data-demo="2"] .ps-srow{height:34px;transition:background .2s ease}
 .ui-demo[data-demo="2"] .ps-srow+.ps-srow{border-top:1px solid var(--ds-border-subtle)}
 .ui-demo[data-demo="2"] .ps-srow.on{background:var(--ds-surface-brand-subtle)}
+.ui-demo[data-demo="2"] .ps-srow .code{font-size:10.5px;font-weight:700;color:var(--ds-text-subtle);font-variant-numeric:tabular-nums}
+.ui-demo[data-demo="2"] .ps-srow.on .code{color:var(--ds-text-brand)}
 .ui-demo[data-demo="2"] .ps-srow .nm{font-size:12.5px;font-weight:700;color:var(--ds-text-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ui-demo[data-demo="2"] .ps-srow .meta{font-size:10.5px;font-weight:600;color:var(--ds-text-subtle);white-space:nowrap}
-.ui-demo[data-demo="2"] .ps-srow.on .meta{color:var(--ds-text-brand)}
+.ui-demo[data-demo="2"] .ps-srow .cn{font-size:11.5px;font-weight:800;color:var(--ds-text-brand);font-variant-numeric:tabular-nums}
+/* 공사기간 진행바 (실제 UI의 파란 pill 진행바) */
+.ui-demo[data-demo="2"] .ps-prog{position:relative;height:15px;border-radius:999px;background:var(--ds-surface-neutral);overflow:hidden}
+.ui-demo[data-demo="2"] .ps-prog .fill{position:absolute;left:0;top:0;bottom:0;min-width:34px;display:flex;align-items:center;justify-content:flex-end;background:var(--ds-fill-brand-vivid);border-radius:999px}
+.ui-demo[data-demo="2"] .ps-prog .fill b{font-size:9px;font-weight:800;color:#fff;padding-right:6px;letter-spacing:-.02em}
 /* 근로자 목록 */
 .ui-demo[data-demo="2"] .ps-head,.ui-demo[data-demo="2"] .ps-row{display:grid;grid-template-columns:22px 1fr 1fr 84px;align-items:center;column-gap:9px;padding:0 12px}
 .ui-demo[data-demo="2"] .ps-head{height:30px;background:var(--ds-surface-subtle);border-bottom:1px solid var(--ds-border-subtle)}
@@ -1641,8 +1650,9 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
                   <!-- 공사(현장) 선택: 임금명세서 생성 기준 -->
                   <div class="ps-sec">공사 선택<span class="hint">명세서 생성 기준 · 현장</span></div>
                   <div class="ps-card">
-                      <div class="ps-srow pick"><span class="ps-ck"></span><span class="nm">비즈씨건설㈜</span><span class="meta">원도급 · 정산 3명</span></div>
-                      <div class="ps-srow"><span class="ps-ck"></span><span class="nm">준공테스트㈜</span><span class="meta">원도급 · 정산 2명</span></div>
+                    <div class="ps-shead"><span></span><span>공사코드</span><span>공사명</span><span>공사기간</span><span class="cn">정산</span></div>
+                    <div class="ps-srow pick"><span class="ps-ck"></span><span class="code">388057</span><span class="nm">비즈씨건설㈜</span><span class="ps-prog"><span class="fill" style="width:60%"><b>60%</b></span></span><span class="cn">3명</span></div>
+                    <div class="ps-srow"><span class="ps-ck"></span><span class="code">866040</span><span class="nm">준공테스트㈜</span><span class="ps-prog"><span class="fill" style="width:41%"><b>41%</b></span></span><span class="cn">2명</span></div>
                   </div>
                   <!-- 근로자 목록: 선택한 현장의 임금명세서 대상자 -->
                   <div class="ps-sec">근로자 목록<span class="hint">전송 대상 <b class="ps-cnt">0</b>/3명</span><button class="ps-btn send" type="button" aria-hidden="true" disabled><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span>임금명세서 전송</button></div>
