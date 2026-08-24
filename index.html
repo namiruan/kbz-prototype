@@ -168,7 +168,7 @@ body[data-mode="b"] .only-a{display:none!important}
   --ds-shadow-xl:0 8px 32px rgba(0,0,0,.12),0 4px 8px rgba(0,0,0,.06)}
 /* 토픽별 배경: p3(퇴직금)과 동일한 저채도, 색조만 변주 · 시안→페리윙클→퓨어블루(모두 블루 계열) */
 .ui-demo[data-demo="1"]{background:linear-gradient(160deg,#edf8fa 0%,#e2f2f5 100%)}
-.ui-demo[data-demo="2"]{background:linear-gradient(160deg,#f0effe 0%,#e8e6fc 100%)}
+.ui-demo[data-demo="2"]{background:#fff}
 .ui-demo[data-demo="3"]{background:linear-gradient(160deg,#f2f5f9 0%,#e7ebf1 100%)}
 /* 히어로(A) 상태흐름: 3.0 셀프 계산 → 전담팀 신고 대행 핸드오프 → 안심 */
 .ui-demo[data-demo="hero"]{background:#fff}
@@ -344,100 +344,67 @@ body[data-mode="b"] .only-a{display:none!important}
 .ui-demo .uid-cursor{position:absolute;left:0;top:0;z-index:20;pointer-events:none;opacity:0;transform:translate(var(--cx,0),var(--cy,0));transition:transform .55s cubic-bezier(.5,0,.2,1),opacity .3s ease;filter:drop-shadow(0 2px 3px rgba(14,59,99,.35))}
 .ui-demo .uid-cursor.tap{transform:translate(var(--cx,0),var(--cy,0)) scale(.82)}
 
-/* ── 토픽2(급여·수당) 전용 · 입력 장면: 근로자·출근기록(정상/연장/휴일근무 · 브랜드 톤 명도 구분)·출역 리스트가 촤라락 ── */
-.ui-demo[data-demo="2"]{--tl-normal:#7aa8ef;--tl-ot:#166dee;--tl-hol:#0e3b63}
-.ui-demo[data-demo="2"] .pay-cam{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform-origin:50% 50%}
-.ui-demo[data-demo="2"] .pay-sheet{position:relative;width:97%;max-width:452px;background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-xl);box-shadow:var(--ds-shadow-xl);padding:15px 16px 16px;overflow:hidden;transition:opacity .5s ease}
-.ui-demo[data-demo="2"] .pay-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
-.ui-demo[data-demo="2"] .pay-stitle{font-size:15px;font-weight:800;color:var(--ds-text-display);letter-spacing:-.01em}
-/* 출근기록 범례 */
-.ui-demo[data-demo="2"] .pay-legend{display:flex;gap:13px;align-items:center;margin-bottom:11px}
-.ui-demo[data-demo="2"] .pay-legend .lg{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;color:var(--ds-text-subtle)}
-.ui-demo[data-demo="2"] .pay-legend .sw{width:9px;height:9px;border-radius:2px;display:inline-block}
-.ui-demo[data-demo="2"] .pay-legend .sw.n{background:var(--tl-normal)}
-.ui-demo[data-demo="2"] .pay-legend .sw.ot{background:var(--tl-ot)}
-.ui-demo[data-demo="2"] .pay-legend .sw.hol{background:var(--tl-hol)}
-.ui-demo[data-demo="2"] .pay-legend .sw.off{background:var(--ds-surface-subtle);border:1px solid var(--ds-border-subtle)}
-/* 표: 근로자 | 출근 기록 | 출역 */
-.ui-demo[data-demo="2"] .pay-hrow,.ui-demo[data-demo="2"] .pay-row{display:grid;grid-template-columns:46px 1fr 54px;align-items:center;column-gap:8px}
-.ui-demo[data-demo="2"] .pay-hrow{padding:0 8px 7px;border-bottom:1px solid var(--ds-border-subtle)}
-.ui-demo[data-demo="2"] .pay-hrow span{font-size:11px;font-weight:700;color:var(--ds-text-subtle)}
-.ui-demo[data-demo="2"] .pay-hrow .c-dy{text-align:right}
-.ui-demo[data-demo="2"] .pay-row{padding:7px 8px}
-.ui-demo[data-demo="2"] .pay-row+.pay-row{border-top:1px dashed var(--ds-border-subtle)}
-/* 이름 등 기본 정보는 처음부터 표시 · 타임라인 막대와 출역 숫자만 순차적으로 채워짐 */
-.ui-demo[data-demo="2"] .pay-row .c-nm{font-size:12px;font-weight:700;color:var(--ds-text-display)}
-/* 출근 기록 타임라인: 정상/연장/휴일근무 색 구분 · 휴무=흐린 슬롯 · 좌→우 촤라락 */
-.ui-demo[data-demo="2"] .pay-row .c-tl{display:flex;gap:2px;align-items:flex-end;height:18px}
-.ui-demo[data-demo="2"] .pay-row .c-tl .tk{flex:1;height:100%;border-radius:2px;background:var(--ds-surface-subtle);border:1px solid transparent;transform-origin:bottom}
-.ui-demo[data-demo="2"] .pay-row.tldone .c-tl .tk.n{background:var(--tl-normal);border-color:var(--tl-normal)}
-.ui-demo[data-demo="2"] .pay-row.tldone .c-tl .tk.ot{background:var(--tl-ot);border-color:var(--tl-ot)}
-.ui-demo[data-demo="2"] .pay-row.tldone .c-tl .tk.hol{background:var(--tl-hol);border-color:var(--tl-hol)}
-.ui-demo[data-demo="2"] .pay-row.tlon .c-tl .tk.w{animation:tkPop .3s cubic-bezier(.34,1.4,.5,1) both;animation-delay:calc(var(--i)*16ms)}
-@keyframes tkPop{0%{transform:scaleY(.24);opacity:.35}100%{transform:scaleY(1);opacity:1}}
-.ui-demo[data-demo="2"] .pay-row .c-dy{text-align:right;font-size:13px;font-weight:800;color:var(--ds-text-brand);justify-self:end;font-variant-numeric:tabular-nums}
-.ui-demo[data-demo="2"] .pay-row .c-dy .u{font-size:10px;font-weight:600;color:var(--ds-text-subtle);margin-left:1px}
-.ui-demo[data-demo="2"] .pay-row .c-dy.pend{color:var(--ds-text-disabled)}
-/* 모바일: 카드 폭을 줄여 타임라인이 꽉 차 보이지 않게 (데스크톱 유지) */
-@media(max-width:640px){.ui-demo[data-demo="2"] .pay-sheet{width:86%}}
-/* 자동 정산 결과: 임금명세서 마퀴 오버레이 (카드 프레임 안에서 우→좌로 달려와 관성 후 흐름) */
-.ui-demo[data-demo="2"] .pay-sheet.act2{animation:payBounce .62s cubic-bezier(.34,1.5,.5,1) both;opacity:.45}
-@keyframes payBounce{0%{transform:scale(1)}42%{transform:scale(1.055)}100%{transform:scale(1)}}
-.ui-demo[data-demo="2"] .pay-sheet.act2 .pay-top,
-.ui-demo[data-demo="2"] .pay-sheet.act2 .pay-legend,
-.ui-demo[data-demo="2"] .pay-sheet.act2 .pay-grid{opacity:.16;filter:blur(2.5px);transition:opacity .45s ease,filter .45s ease}
-.ui-demo[data-demo="2"] .pay-top,.ui-demo[data-demo="2"] .pay-legend,.ui-demo[data-demo="2"] .pay-grid{transition:opacity .45s ease,filter .45s ease}
-.ui-demo[data-demo="2"] .pay-marquee{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;overflow:hidden;opacity:0;pointer-events:none;z-index:5}
-.ui-demo[data-demo="2"] .pay-sheet.act2 ~ .pay-marquee{opacity:1;transition:opacity .35s ease}
-.ui-demo[data-demo="2"] .pm-track{position:absolute;left:0;display:flex;gap:10px;padding:0 14px;will-change:transform}
-.ui-demo[data-demo="2"] .pm-track.flow{animation:pmFlow 15s linear infinite}
-@keyframes pmFlow{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-/* 관성: 달려오는 동안 이미 우측으로 기울어져 있다가, 멈추며 앞으로 숙였다(−) 뒤로 돌아오는 순간(→0) 바로 흐름으로 이어짐 */
-.ui-demo[data-demo="2"] .pm-track.race .pm-card{transform:rotate(9deg)}
-.ui-demo[data-demo="2"] .pm-track.lean .pm-card{animation:pmLean .5s cubic-bezier(.32,.6,.3,1) both}
-@keyframes pmLean{0%{transform:rotate(9deg)}46%{transform:rotate(-5deg)}100%{transform:rotate(0)}}
-.ui-demo[data-demo="2"] .pm-card{position:relative;flex:0 0 auto;width:136px;background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-lg);box-shadow:0 6px 18px -12px rgba(14,59,99,.35);padding:11px 12px 12px;transform-origin:50% 100%;transition:box-shadow .25s ease,border-color .25s ease}
-.ui-demo[data-demo="2"] .pm-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
-.ui-demo[data-demo="2"] .pm-doc{font-size:9.5px;font-weight:800;color:#fff;background:var(--ds-fill-brand);border-radius:var(--ds-radius-pill);padding:2px 7px;letter-spacing:-.01em}
-.ui-demo[data-demo="2"] .pm-name{font-size:14px;font-weight:800;color:var(--ds-text-display);letter-spacing:-.01em}
-.ui-demo[data-demo="2"] .pm-meta{font-size:10px;font-weight:600;color:var(--ds-text-subtle);margin-top:2px;padding-bottom:8px;border-bottom:1px dashed var(--ds-border-subtle)}
-.ui-demo[data-demo="2"] .pm-line{display:flex;justify-content:space-between;align-items:baseline;margin-top:6px;font-size:10.5px;color:var(--ds-text-subtle);font-weight:600}
-.ui-demo[data-demo="2"] .pm-line b{font-size:11px;font-weight:700;color:var(--ds-text-display);font-variant-numeric:tabular-nums}
-.ui-demo[data-demo="2"] .pm-line.ded b{color:#c0392b}
-.ui-demo[data-demo="2"] .pm-net{display:flex;flex-direction:column;gap:1px;margin-top:9px;padding:7px 9px;border-radius:var(--ds-radius-sm);background:var(--ds-surface-brand-subtle)}
-.ui-demo[data-demo="2"] .pm-net span{font-size:9.5px;font-weight:800;color:var(--ds-text-display);white-space:nowrap}
-.ui-demo[data-demo="2"] .pm-net b{font-size:14px;font-weight:800;color:var(--ds-text-brand);font-variant-numeric:tabular-nums;white-space:nowrap}
-/* 커서 드래그 선택 → 전송 장면 */
-.ui-demo[data-demo="2"] .pm-card.sel{border-color:var(--ds-fill-brand);box-shadow:0 0 0 2px var(--ds-fill-brand),0 6px 18px -12px rgba(14,59,99,.35)}
-.ui-demo[data-demo="2"] .pm-chk{position:absolute;top:7px;right:7px;width:17px;height:17px;border-radius:50%;background:var(--ds-fill-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;line-height:1;opacity:0;transform:scale(.3);transition:opacity .2s ease,transform .3s cubic-bezier(.34,1.56,.64,1)}
-.ui-demo[data-demo="2"] .pm-card.sel .pm-chk{opacity:1;transform:scale(1)}
-.ui-demo[data-demo="2"] .pay-select{position:absolute;left:0;top:0;width:0;height:0;z-index:6;border:1.5px dashed var(--ds-fill-brand);background:rgba(17,90,198,.12);border-radius:4px;pointer-events:none;opacity:0}
-.ui-demo[data-demo="2"] .pay-select.on{opacity:1}
-.ui-demo[data-demo="2"] .pay-send{position:absolute;left:0;right:0;top:0;z-index:7;display:flex;justify-content:center;pointer-events:none;opacity:0;transform:translateY(10px);transition:opacity .35s ease,transform .35s ease}
-.ui-demo[data-demo="2"] .pay-send.show{opacity:1;transform:none}
-.ui-demo[data-demo="2"] .pay-sendbtn{font-family:inherit;font-size:13px;font-weight:800;color:#fff;background:var(--ds-fill-brand);border:none;border-radius:var(--ds-radius-pill);padding:10px 16px;display:inline-flex;align-items:center;gap:8px;box-shadow:0 10px 22px -8px rgba(17,90,198,.65);letter-spacing:-.01em;cursor:pointer;transition:background .25s ease,color .25s ease,box-shadow .25s ease,transform .12s ease}
-.ui-demo[data-demo="2"] .pay-sendbtn[disabled]{background:var(--ds-surface-subtle);color:var(--ds-text-disabled);box-shadow:none}
-.ui-demo[data-demo="2"] .pay-sendbtn.press{transform:scale(.94)}
-.ui-demo[data-demo="2"] .pay-sendct{font-size:11px;font-weight:800;background:rgba(255,255,255,.24);border-radius:var(--ds-radius-pill);padding:1px 8px}
-.ui-demo[data-demo="2"] .pay-sendbtn[disabled] .pay-sendct{background:rgba(0,0,0,.05)}
-.ui-demo[data-demo="2"] .pay-sendbtn.sent{background:#1f9d55;box-shadow:0 10px 22px -8px rgba(31,157,85,.6)}
-.ui-demo[data-demo="2"] .pay-sendbtn.sent .pay-sendct{display:none}
-/* 전송 클릭 '팡!' 입자 버스트 (버튼 위치에서 방사) · 좌표는 JS로 지정 */
-.ui-demo[data-demo="2"] .pay-burst{position:absolute;top:0;left:0;width:0;height:0;z-index:22;pointer-events:none}
-.ui-demo[data-demo="2"] .pay-burst i{position:absolute;left:-5px;top:-5px;width:10px;height:10px;border-radius:2px;opacity:0}
-.ui-demo[data-demo="2"] .pay-burst.pop i{animation:pdRay .66s cubic-bezier(.16,.7,.3,1) both}
-.ui-demo[data-demo="2"] .pay-burst i:nth-child(1){--a:0deg;background:#1f9d55}
-.ui-demo[data-demo="2"] .pay-burst i:nth-child(2){--a:30deg;background:#115ac6}
-.ui-demo[data-demo="2"] .pay-burst i:nth-child(3){--a:60deg;background:#7aa8ef}
-.ui-demo[data-demo="2"] .pay-burst i:nth-child(4){--a:90deg;background:#1f9d55}
-.ui-demo[data-demo="2"] .pay-burst i:nth-child(5){--a:120deg;background:#166dee}
-.ui-demo[data-demo="2"] .pay-burst i:nth-child(6){--a:150deg;background:#7aa8ef}
-.ui-demo[data-demo="2"] .pay-burst i:nth-child(7){--a:180deg;background:#1f9d55}
-.ui-demo[data-demo="2"] .pay-burst i:nth-child(8){--a:210deg;background:#115ac6}
-.ui-demo[data-demo="2"] .pay-burst i:nth-child(9){--a:240deg;background:#7aa8ef}
-.ui-demo[data-demo="2"] .pay-burst i:nth-child(10){--a:270deg;background:#1f9d55}
-.ui-demo[data-demo="2"] .pay-burst i:nth-child(11){--a:300deg;background:#166dee}
-.ui-demo[data-demo="2"] .pay-burst i:nth-child(12){--a:330deg;background:#7aa8ef}
+/* ── 토픽2(급여·수당) 전용: 월·현장 선택 → 정산완료 대상자 목록 → 임금명세서 생성 → 전송완료 (실제 UI 은유) ── */
+.ui-demo[data-demo="2"] .ps-cam{position:absolute;inset:0;display:flex;flex-direction:column;padding:15px 16px 13px;gap:10px}
+/* 상단 툴바 */
+.ui-demo[data-demo="2"] .ps-toolbar{flex:none;display:flex;align-items:center;gap:10px}
+.ui-demo[data-demo="2"] .ps-tt{font-size:14px;font-weight:800;color:var(--ds-text-display);letter-spacing:-.02em;display:flex;align-items:baseline;gap:7px}
+.ui-demo[data-demo="2"] .ps-tt small{font-size:11px;font-weight:700;color:var(--ds-text-brand);background:var(--ds-surface-brand-subtle);border-radius:var(--ds-radius-pill);padding:3px 9px;letter-spacing:0}
+.ui-demo[data-demo="2"] .ps-tbtns{margin-left:auto;display:flex;align-items:center;gap:6px}
+.ui-demo[data-demo="2"] .ps-sel{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--ds-text-label);background:var(--ds-surface-base);border:1px solid var(--ds-border-default);border-radius:var(--ds-radius-md);padding:7px 11px;white-space:nowrap;transition:border-color .2s ease,box-shadow .2s ease,color .2s ease}
+.ui-demo[data-demo="2"] .ps-sel::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--ds-text-disabled);transition:background .2s ease}
+.ui-demo[data-demo="2"] .ps-sel.on{border-color:var(--ds-text-brand-vivid);color:var(--ds-text-brand);box-shadow:0 0 0 3px rgba(22,109,238,.14)}
+.ui-demo[data-demo="2"] .ps-sel.on::before{background:var(--ds-fill-brand-vivid)}
+.ui-demo[data-demo="2"] .ps-btn{position:relative;font-family:inherit;font-size:12px;font-weight:800;letter-spacing:-.01em;border-radius:var(--ds-radius-md);padding:8px 13px;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;color:#fff;background:var(--ds-fill-brand-vivid);border:1px solid var(--ds-fill-brand-vivid);box-shadow:0 8px 18px -8px rgba(22,109,238,.6);transition:transform .12s ease,box-shadow .22s ease,opacity .2s ease,background .2s ease}
+.ui-demo[data-demo="2"] .ps-btn .ti{display:inline-flex}
+.ui-demo[data-demo="2"] .ps-btn .ti svg{width:14px;height:14px}
+.ui-demo[data-demo="2"] .ps-btn[disabled]{opacity:1;box-shadow:none;background:var(--ds-surface-neutral);border-color:var(--ds-border-default);color:var(--ds-text-disabled)}
+.ui-demo[data-demo="2"] .ps-btn.press{transform:scale(.94)}
+.ui-demo[data-demo="2"] .ps-btn.armed{animation:psPulse 1.15s ease-in-out infinite}
+@keyframes psPulse{0%,100%{box-shadow:0 8px 18px -8px rgba(22,109,238,.6),0 0 0 0 rgba(22,109,238,.45)}50%{box-shadow:0 8px 18px -8px rgba(22,109,238,.6),0 0 0 8px rgba(22,109,238,0)}}
+/* 안내 노트 */
+.ui-demo[data-demo="2"] .ps-note{flex:none;font-size:10.5px;font-weight:600;color:var(--ds-text-subtle);letter-spacing:-.01em}
+.ui-demo[data-demo="2"] .ps-note b{color:var(--ds-text-success);font-weight:800}
+/* 대상자 테이블 */
+.ui-demo[data-demo="2"] .ps-table{flex:none;background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-lg);box-shadow:var(--ds-shadow-md);overflow:hidden}
+.ui-demo[data-demo="2"] .ps-head,.ui-demo[data-demo="2"] .ps-row{display:grid;grid-template-columns:26px 1fr 60px 100px 78px;align-items:center;column-gap:8px;padding:0 12px}
+.ui-demo[data-demo="2"] .ps-head{height:33px;background:var(--ds-surface-subtle);border-bottom:1px solid var(--ds-border-subtle)}
+.ui-demo[data-demo="2"] .ps-head span{font-size:11px;font-weight:700;color:var(--ds-text-subtle)}
+.ui-demo[data-demo="2"] .ps-head .amt,.ui-demo[data-demo="2"] .ps-row .amt{justify-self:end;text-align:right}
+.ui-demo[data-demo="2"] .ps-head .st,.ui-demo[data-demo="2"] .ps-row .st{justify-self:start}
+.ui-demo[data-demo="2"] .ps-row{height:44px;border-top:1px solid var(--ds-border-subtle)}
+.ui-demo[data-demo="2"] .ps-row:first-child{border-top:none}
+.ui-demo[data-demo="2"] .ps-rows .ps-row{opacity:0;transform:translateY(-6px);transition:opacity .3s ease,transform .34s cubic-bezier(.33,1,.68,1)}
+.ui-demo[data-demo="2"] .ps-rows.in .ps-row{opacity:1;transform:none}
+.ui-demo[data-demo="2"] .ps-row .nm{font-size:13px;font-weight:700;color:var(--ds-text-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ui-demo[data-demo="2"] .ps-row .dys{font-size:12px;font-weight:700;color:var(--ds-text-body);font-variant-numeric:tabular-nums}
+.ui-demo[data-demo="2"] .ps-row .amt{font-size:12.5px;font-weight:800;color:var(--ds-text-brand);font-variant-numeric:tabular-nums}
+/* 체크박스 */
+.ui-demo[data-demo="2"] .ps-ck{width:16px;height:16px;border-radius:var(--ds-radius-xs);border:1.5px solid var(--ds-border-default);background:var(--ds-surface-base);position:relative;transition:background .18s ease,border-color .18s ease}
+.ui-demo[data-demo="2"] .ps-ck.on{background:var(--ds-fill-brand-vivid);border-color:var(--ds-fill-brand-vivid)}
+.ui-demo[data-demo="2"] .ps-ck.on::after{content:"";position:absolute;inset:0;background:#fff;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9.55 17.6 4.4 12.45l1.4-1.4 3.75 3.75 8.25-8.25 1.4 1.4z'/%3E%3C/svg%3E") center/11px no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9.55 17.6 4.4 12.45l1.4-1.4 3.75 3.75 8.25-8.25 1.4 1.4z'/%3E%3C/svg%3E") center/11px no-repeat}
+/* 상태 배지 (대기 → 생성완료 → 전송완료) */
+.ui-demo[data-demo="2"] .ps-badge{position:relative;display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:-.01em;padding:3px 8px;border-radius:var(--ds-radius-pill);white-space:nowrap;line-height:1;transform-origin:50% 50%}
+.ui-demo[data-demo="2"] .ps-badge .dt{width:5px;height:5px;border-radius:50%;background:currentColor;flex:0 0 auto}
+.ui-demo[data-demo="2"] .ps-badge .ck{width:11px;height:11px;flex:0 0 auto;display:block}
+.ui-demo[data-demo="2"] .ps-badge.wait{color:var(--ds-text-subtle);background:var(--ds-surface-subtle);border:1px solid var(--ds-border-subtle)}
+.ui-demo[data-demo="2"] .ps-badge.made{color:var(--ds-text-brand);background:var(--ds-surface-brand-subtle);border:1px solid var(--ds-border-brand-subtle)}
+.ui-demo[data-demo="2"] .ps-badge.sent{color:var(--ds-text-success);background:var(--ds-surface-success-subtle);border:1px solid var(--ds-border-success-subtle)}
+.ui-demo[data-demo="2"] .ps-badge.flip{animation:cwFlip .46s cubic-bezier(.34,1.5,.5,1) both}
+.ui-demo[data-demo="2"] .ps-badge.sent.celebrate{animation:cwDonePop .62s cubic-bezier(.34,1.65,.5,1) both}
+.ui-demo[data-demo="2"] .ps-badge .ring{position:absolute;left:50%;top:50%;width:12px;height:12px;border-radius:999px;transform:translate(-50%,-50%);border:2px solid var(--ds-text-success);opacity:0;pointer-events:none}
+.ui-demo[data-demo="2"] .ps-badge.sent.celebrate .ring{animation:cwRing .72s .04s cubic-bezier(.2,.7,.3,1) forwards}
+.ui-demo[data-demo="2"] .ps-badge.sent.celebrate .ck path{stroke-dasharray:26;stroke-dashoffset:26;animation:cwCheck .4s .14s cubic-bezier(.65,0,.35,1) forwards}
+.ui-demo[data-demo="2"] .ps-row.sent{animation:cwRowFlash 1.2s ease-out}
+/* 합계 푸터 */
+.ui-demo[data-demo="2"] .ps-foot{margin-top:auto;flex:none;display:flex;align-items:center;justify-content:space-between;padding:10px 4px 0;border-top:1px dashed var(--ds-border-subtle);font-size:11.5px;font-weight:700;color:var(--ds-text-subtle)}
+.ui-demo[data-demo="2"] .ps-foot b{color:var(--ds-text-display);font-variant-numeric:tabular-nums}
+.ui-demo[data-demo="2"] .ps-foot .sum{color:var(--ds-text-brand);font-weight:800}
+/* 전송 완료 토스트 */
+.ui-demo[data-demo="2"] .ps-toast{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(10px);display:inline-flex;align-items:center;gap:9px;padding:12px 18px;background:#0A2540;color:#fff;font-size:12.5px;font-weight:800;letter-spacing:-.01em;border-radius:var(--ds-radius-pill);box-shadow:0 18px 38px -12px rgba(10,37,64,.62);opacity:0;pointer-events:none;z-index:12;transition:opacity .3s ease,transform .42s cubic-bezier(.33,1,.68,1)}
+.ui-demo[data-demo="2"] .ps-toast.show{opacity:1;transform:translate(-50%,-50%)}
+.ui-demo[data-demo="2"] .ps-toast .ti{display:inline-flex}
+.ui-demo[data-demo="2"] .ps-toast .ti svg{width:17px;height:17px;display:block}
 @keyframes pdRay{0%{opacity:1;transform:rotate(var(--a)) translateY(0) scale(1)}100%{opacity:0;transform:rotate(var(--a)) translateY(-64px) scale(.3)}}
 
 /* ── 토픽3 전용: 근로자 목록 → '추가'로 계약정보 입력 → 상단 '서명요청' → 상태 임시저장·서명요청·서명완료 흐름 (실제 UI 은유) ── */
@@ -1664,41 +1631,34 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
             <div class="ui-demo" data-demo="2">
               <div class="uid-win">
                 <div class="uid-body">
-                 <div class="pay-cam">
-                  <!-- 입력 장면: 근로자·출근기록(정상/연장/휴일근무 색 구분)·출역만 리스트로 촤라락 (자동 계산은 별도) -->
-                  <div class="pay-sheet">
-                    <div class="pay-top">
-                      <div><div class="pay-stitle">○○종합건설㈜ · △△현장</div></div>
-                    </div>
-                    <div class="pay-legend" aria-hidden="true">
-                      <span class="lg"><i class="sw n"></i>정상</span>
-                      <span class="lg"><i class="sw ot"></i>연장</span>
-                      <span class="lg"><i class="sw hol"></i>휴일근무</span>
-                      <span class="lg"><i class="sw off"></i>휴무</span>
-                    </div>
-                    <div class="pay-grid">
-                      <div class="pay-hrow">
-                        <span class="c-nm">근로자</span>
-                        <span class="c-tl">출근 기록</span>
-                        <span class="c-dy">출역</span>
-                      </div>
-                      <div class="pay-rows"></div>
+                 <div class="ps-cam">
+                  <!-- 상단 툴바: 월/현장 선택 + 임금명세서 생성 (실제 UI의 생성 액션) -->
+                  <div class="ps-toolbar">
+                    <div class="ps-tt">임금명세서<small>생성가능 목록</small></div>
+                    <div class="ps-tbtns">
+                      <span class="ps-sel month" aria-hidden="true">2026년 7월</span>
+                      <span class="ps-sel site" aria-hidden="true">○○ 신축현장</span>
+                      <button class="ps-btn gen" type="button" aria-hidden="true" disabled><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span>임금명세서 생성</button>
                     </div>
                   </div>
-                  <!-- 자동 정산 결과: 근로자별 임금명세서가 카드 '앞'에서 우→좌로 달려 들어와 관성으로 쏠려 정지 (모두 예시) -->
-                  <div class="pay-marquee" aria-hidden="true"><div class="pm-track"></div></div>
-                  <!-- 가짜 커서가 드래그로 임금명세서 전체 선택 → '전송' 버튼 활성화 → 클릭 -->
-                  <div class="pay-select" aria-hidden="true"></div>
-                  <div class="pay-send" aria-hidden="true">
-                    <button class="pay-sendbtn" type="button" disabled><span class="pay-sendlabel">임금명세서 전송</span><span class="pay-sendct">0건</span></button>
+                  <div class="ps-note">월출역에서 <b>정산완료</b>된 근로자만 표시 · 생성 즉시 근로자에게 전송</div>
+                  <!-- 정산완료 대상자 목록 -->
+                  <div class="ps-table">
+                    <div class="ps-head"><span class="ck"><span class="ps-ck head"></span></span><span>근로자명</span><span>근로일수</span><span class="amt">지급예정액</span><span class="st">상태</span></div>
+                    <div class="ps-rows">
+                        <div class="ps-row" data-amt="1904700"><span class="ck"><span class="ps-ck"></span></span><span class="nm">박○철</span><span class="dys">16일</span><span class="amt">1,904,700원</span><span class="st"><span class="ps-badge wait"><i class="dt"></i>대기</span></span></div>
+                        <div class="ps-row" data-amt="1752400"><span class="ck"><span class="ps-ck"></span></span><span class="nm">왕○강</span><span class="dys">15일</span><span class="amt">1,752,400원</span><span class="st"><span class="ps-badge wait"><i class="dt"></i>대기</span></span></div>
+                        <div class="ps-row" data-amt="1652300"><span class="ck"><span class="ps-ck"></span></span><span class="nm">이○민</span><span class="dys">14일</span><span class="amt">1,652,300원</span><span class="st"><span class="ps-badge wait"><i class="dt"></i>대기</span></span></div>
+                    </div>
                   </div>
-                  <div class="uid-cursor" aria-hidden="true">
-                    <svg width="60" height="60" viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.5L9.5 19z" fill="#0E3B63" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
-                  </div>
-                  <!-- 전송 클릭 시 버튼에서 '팡!' 입자만 터짐 → 곧바로 첫 화면으로 -->
-                  <div class="pay-burst" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="ps-foot"><span>선택 <b class="cnt">0</b>명 / 3명</span><span>지급 합계 <b class="sum">0원</b></span></div>
+                  <!-- 전송 완료 토스트 -->
+                  <div class="ps-toast" aria-hidden="true"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span><span class="tx">근로자에게 명세서 전송 완료</span></div>
                  </div>
                 </div>
+              </div>
+              <div class="uid-cursor" aria-hidden="true">
+                <svg width="60" height="60" viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.5L9.5 19z" fill="#0E3B63" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
               </div>
             </div>
           </div>
@@ -2639,204 +2599,79 @@ function setTopic(i){
     return {play:function(){if(playing)return;playing=true;run();},stop:function(){playing=false;clearAll();reset();}};
   }
 
-  /* 토픽2 전용 엔진 · 임금명세서 문서: 출역(근무일수)만 입력 → 지급(수당)·공제(4대보험·세금) 자동 정산 → 실지급액 발급 (모두 예시 수치) */
-  /* 토픽2 전용 엔진 · 입력 장면 · 근로자·출근기록(정상/연장/휴일근무 색 구분)·출역 리스트가 위→아래로 촤라락 등장 (근로자별 임금명세서 계산은 별도) */
+  /* 토픽2 전용 엔진 · 월·현장 선택 → 정산완료 대상자 목록 → 전체선택 → 임금명세서 생성 → 근로자에게 전송완료 (실제 UI 은유, 모두 예시 수치) */
   function makeDemo2(root){
-    var cam=root.querySelector('.pay-cam');
-    var sheet=root.querySelector('.pay-sheet');
-    var rowsEl=root.querySelector('.pay-rows');
-    var track=root.querySelector('.pm-track');
-    var selBox=root.querySelector('.pay-select');
-    var sendWrap=root.querySelector('.pay-send');
-    var sendBtn=root.querySelector('.pay-sendbtn');
-    var sendLabel=root.querySelector('.pay-sendlabel');
-    var sendCt=root.querySelector('.pay-sendct');
+    var monthSel=root.querySelector('.ps-sel.month');
+    var siteSel=root.querySelector('.ps-sel.site');
+    var genBtn=root.querySelector('.ps-btn.gen');
+    var rowsWrap=root.querySelector('.ps-rows');
+    var rows=[].slice.call(root.querySelectorAll('.ps-row'));
+    var headCk=root.querySelector('.ps-ck.head');
+    var footCnt=root.querySelector('.ps-foot .cnt');
+    var footSum=root.querySelector('.ps-foot .sum');
+    var toast=root.querySelector('.ps-toast');
     var cursor=root.querySelector('.uid-cursor');
-    var burstEl=root.querySelector('.pay-burst');
-    // 커서 위치/탭 · 좌표는 pay-cam 기준 px
-    function relRect(el){var cb=cam.getBoundingClientRect(),b=el.getBoundingClientRect();var s=cb.width/(cam.offsetWidth||1);return {x:(b.left-cb.left)/s,y:(b.top-cb.top)/s,w:b.width/s,h:b.height/s};}
+    var CK='<svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>';
+    function fmt(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+    function total(){return rows.reduce(function(a,r){return a+(+r.getAttribute('data-amt'));},0);}
+    function relRect(el){var cb=root.getBoundingClientRect(),b=el.getBoundingClientRect();var s=cb.width/(root.offsetWidth||1);return {x:(b.left-cb.left)/s,y:(b.top-cb.top)/s,w:b.width/s,h:b.height/s};}
     function curTo(x,y){cursor.style.setProperty('--cx',x+'px');cursor.style.setProperty('--cy',y+'px');}
-    // 근로자별 출역(일)만 넘어옴 · 출근기록은 정상/연장(ot)/휴일근무(hol)로 색 구분
-    // g=지급총액, c=공제총액, gs=공수 · 실수령=g-c (모두 예시 수치)
-    var DATA=[
-      {n:'이○민',d:14,gs:16.5,g:1652300,c:58140},
-      {n:'박○철',d:16,gs:19.0,g:1904700,c:68320},
-      {n:'정○호',d:13,gs:15.0,g:1503900,c:52470},
-      {n:'최○연',d:11,gs:12.5,g:1258600,c:41900},
-      {n:'윤○아',d:18,gs:21.5,g:2146800,c:78650},
-      {n:'강○빈',d:15,gs:17.5,g:1752400,c:61230},
-      {n:'김○수',d:15,gs:17.0,g:1708200,c:59480}
-    ];
-    function fmt(v){return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');}
-    // 임금명세서 카드 1장 (핵심 요소만: 성명·근로/공수·지급·공제·실수령액)
-    function payCard(w){
-      return '<div class="pm-card">'
-        +'<span class="pm-chk">\u2713</span>'
-        +'<div class="pm-head"><span class="pm-doc">임금명세서</span></div>'
-        +'<div class="pm-name">'+w.n+'</div>'
-        +'<div class="pm-meta">근로 '+w.d+'일 · 공수 '+w.gs+'</div>'
-        +'<div class="pm-line"><span>지급</span><b>'+fmt(w.g)+'</b></div>'
-        +'<div class="pm-line ded"><span>공제</span><b>-'+fmt(w.c)+'</b></div>'
-        +'<div class="pm-net"><span>실수령액</span><b>'+fmt(w.g-w.c)+'</b></div>'
-        +'</div>';
-    }
-    (function buildCards(){
-      var one=DATA.map(payCard).join('');
-      track.innerHTML=one+one; // 2벌 복제 → 선택 후에도 -50% 이동으로 이음매 없이 계속 흐름
-    })();
-    var SLOTS=20; // 한 달 근무슬롯(예시) · 근로일=w.d개, 나머지는 휴무
-    // 출근 패턴: 전체 근로일에서 (SLOTS-d)개 휴무를 고르게 빼고, 근로일 일부를 연장/휴일근무로 지정
-    function pat(d){
-      var a=new Array(SLOTS).fill('n'),off=SLOTS-d;
-      for(var k=0;k<off;k++){a[Math.floor((k+0.5)*SLOTS/off)]='off';}
-      var wi=0;
-      for(var i=0;i<SLOTS;i++){ if(a[i]==='off')continue; wi++; if((i%7)===6)a[i]='hol'; else if(wi%4===0)a[i]='ot'; }
-      return a;
-    }
-    var rows=[];
-    (function build(){
-      var html='';
-      DATA.forEach(function(w){
-        var p=pat(w.d),tk='';
-        for(var i=0;i<SLOTS;i++){var t=p[i];tk+='<i class="tk'+(t==='off'?'':(' w '+t))+'" style="--i:'+i+'"></i>';}
-        html+='<div class="pay-row" data-days="'+w.d+'">'
-             +'<span class="c-nm">'+w.n+'</span>'
-             +'<span class="c-tl">'+tk+'</span>'
-             +'<span class="c-dy pend">—</span>'
-             +'</div>';
-      });
-      rowsEl.innerHTML=html;
-      rows=[].slice.call(rowsEl.querySelectorAll('.pay-row'));
-    })();
-    var timers=[], playing=false;
+    function moveTo(el,ox,oy){var b=relRect(el);curTo(b.x+b.w/2+(ox||0),b.y+b.h/2+(oy||0));}
+    function setBadge(r,kind,label,flip){var b=r.querySelector('.ps-badge');b.className='ps-badge '+kind;b.innerHTML=(kind==='sent'?CK:'<i class="dt"></i>')+label;if(flip){void b.offsetWidth;b.classList.add('flip');}}
+    function celebrate(r){var b=r.querySelector('.ps-badge');b.className='ps-badge sent';b.innerHTML=CK+'<span class="ring"></span>전송완료';void b.offsetWidth;b.classList.add('celebrate');r.classList.add('sent');}
+    var timers=[],raf=null,playing=false;
     function T(ms,fn){timers.push(setTimeout(fn,ms));}
-    function clearAll(){timers.forEach(clearTimeout);timers=[];}
-    // 출역일수 카운트업 (정수 + '일')
-    function countDays(el,d){var s=performance.now(),dur=Math.min(540,220+d*20);(function fr(now){if(!playing)return;var p=Math.min(1,(now-s)/dur);var e=1-Math.pow(1-p,3);el.innerHTML=Math.round(e*d)+'<span class="u">일</span>';if(p<1)requestAnimationFrame(fr);})(performance.now());}
-    // 한 행 입력: 이름은 이미 표시된 상태에서 출근기록 타임라인이 좌→우 촤라락 + 출역일수 집계
-    function loadRow(r){
-      r.classList.add('tldone','tlon');
-      var dy=r.querySelector('.c-dy');dy.classList.remove('pend');
-      countDays(dy,+r.getAttribute('data-days'));
-    }
+    function clearAll(){timers.forEach(clearTimeout);timers=[];if(raf){cancelAnimationFrame(raf);raf=null;}}
+    function countUp(el,target,suf){var steps=16,dur=560;el.textContent='0'+suf;for(var k=1;k<=steps;k++){(function(n){T(Math.round(n/steps*dur),function(){var p=n/steps,e=1-Math.pow(1-p,3);el.textContent=fmt(Math.round(e*target))+suf;});})(k);}}
     function reset(){
       clearAll();
-      cam.className='pay-cam';
-      sheet.classList.remove('act2');
-      track.classList.remove('flow','lean','race');
-      track.style.transition='none';
-      track.style.transform='';
-      // 커서·선택·전송 상태 초기화
-      [].slice.call(track.querySelectorAll('.pm-card')).forEach(function(c){c.classList.remove('sel');});
-      selBox.classList.remove('on');selBox.style.width='0px';selBox.style.height='0px';
-      sendWrap.classList.remove('show');
-      sendBtn.classList.remove('press','sent');sendBtn.setAttribute('disabled','');
-      sendLabel.textContent='임금명세서 전송';sendCt.textContent='0건';
+      monthSel.classList.remove('on');siteSel.classList.remove('on');
+      rowsWrap.classList.remove('in');
+      genBtn.classList.remove('press','armed');genBtn.disabled=true;
+      headCk.classList.remove('on');
+      rows.forEach(function(r){r.classList.remove('sent');r.querySelector('.ps-ck').classList.remove('on');setBadge(r,'wait','대기',false);});
+      footCnt.textContent='0';footSum.textContent='0원';
+      toast.classList.remove('show');
       cursor.classList.remove('tap');cursor.style.opacity='0';
-      burstEl.classList.remove('pop'); // 입자 버스트 초기화
-      rows.forEach(function(r){
-        r.classList.remove('tldone','tlon'); // 이름은 유지, 타임라인 색/숫자만 초기화
-        var dy=r.querySelector('.c-dy');dy.classList.add('pend');dy.textContent='—';
-      });
     }
     function finalState(){
-      rows.forEach(function(r){
-        r.classList.add('tldone');
-        var dy=r.querySelector('.c-dy');dy.classList.remove('pend');dy.innerHTML=r.getAttribute('data-days')+'<span class="u">일</span>';
-      });
-    }
-    // 2막: 타임라인 카드 바운스 → 임금명세서가 우→좌로 달려 들어와 관성으로 쏠린 뒤 마퀴 흐름
-    function enterAct2(){
-      sheet.classList.add('act2'); // 카드 바운스 + 타임라인 흐려짐 + 마퀴 노출
-      var w=cam.clientWidth||360;
-      track.classList.remove('flow','lean','race');
-      track.style.transition='none';
-      track.style.transform='translateX('+w+'px)'; // 오른쪽 밖에서 대기
-      track.classList.add('race'); // 달려오는 내내 이미 우측으로 기울어져 있음(관성)
-      void track.offsetWidth; // 리플로우
-      // 빠르게 진입하다 급감속하며 정지 (감속 곡선)
-      track.style.transition='transform .62s cubic-bezier(.12,.66,.2,1)';
-      track.style.transform='translateX(0px)';
-      // 멈추며 앞으로 숙였다(−) 뒤로 돌아오는 순간 정지 → 커서 선택 장면
-      T(560,function(){ track.classList.remove('race'); track.classList.add('lean'); });
-      T(560+500,function(){ // 숙였다 돌아온 즉시 흐름 시작 → 흐르는 채로 커서가 드래그 선택
-        track.classList.remove('lean');
-        track.style.transition='none';
-        track.style.transform='';
-        track.classList.add('flow'); // 선택되어도 멈추지 않고 계속 흐름
-        selectScene();
-      });
-    }
-    // 커서가 임금명세서 전체를 드래그로 선택 → '전송' 버튼 활성화 → 클릭
-    function selectScene(){
-      var cards=[].slice.call(track.querySelectorAll('.pm-card'));
-      var camW=cam.clientWidth, camH=cam.clientHeight;
-      var f=relRect(cards[0]);                    // 세로 위치만 사용(카드는 계속 흐름)
-      var x0=8, y0=f.y-12;                         // 드래그 시작(좌상단)
-      var x1=camW-14, y1=f.y+f.h+12;               // 드래그 끝(우하단, 스트립 전폭)
-      sendWrap.style.top=(f.y+f.h+14)+'px';        // 전송 버튼을 명세서 리스트 바로 밑에 배치
-      sendWrap.classList.add('show');            // 전송 버튼 노출(비활성)
-      cursor.style.transition='none';            // 첫 등장은 순간이동
-      curTo(camW-42, camH-26);
-      cursor.style.opacity='1';
-      void cursor.offsetWidth;
-      cursor.style.transition='';
-      T(70,function(){ curTo(x0,y0); });         // 시작점으로 이동
-      T(700,function(){                          // 누름 → 선택 박스 생성
-        cursor.classList.add('tap');
-        selBox.style.transition='none';
-        selBox.style.left=x0+'px';selBox.style.top=y0+'px';selBox.style.width='0px';selBox.style.height='0px';
-        void selBox.offsetWidth;
-        selBox.classList.add('on');
-        selBox.style.transition='width .62s cubic-bezier(.3,.7,.2,1),height .62s cubic-bezier(.3,.7,.2,1)';
-        curTo(x1,y1);                            // 끝점으로 드래그
-        selBox.style.width=(x1-x0)+'px';selBox.style.height=(y1-y0)+'px';
-      });
-      cards.forEach(function(c,i){ T(780+i*80,function(){ c.classList.add('sel'); }); }); // 지나가며 순차 선택
-      var dragEnd=780+cards.length*80+160;
-      T(dragEnd,function(){                       // 놓음 → 박스 숨김 + 버튼 활성화(건수)
-        cursor.classList.remove('tap');
-        selBox.classList.remove('on');
-        sendCt.textContent=DATA.length+'건';
-        sendBtn.removeAttribute('disabled');
-      });
-      T(dragEnd+300,function(){ var b=relRect(sendBtn); curTo(b.x+b.w/2-9, b.y+b.h/2-6); }); // 버튼으로 이동
-      T(dragEnd+1080,function(){                  // 클릭 → 전송 완료
-        cursor.classList.add('tap'); sendBtn.classList.add('press');
-        T(160,function(){
-          cursor.classList.remove('tap'); sendBtn.classList.remove('press');
-          sendBtn.classList.add('sent'); sendLabel.textContent='전송 완료 \u2713';
-          var bb=relRect(sendBtn); burstEl.style.left=(bb.x+bb.w/2)+'px'; burstEl.style.top=(bb.y+bb.h/2)+'px'; // 버튼 중심에서 팡!
-          burstEl.classList.remove('pop'); void burstEl.offsetWidth; burstEl.classList.add('pop');
-          cursor.style.opacity='0';
-        });
-      });
-    }
-    function exitAct2(){
-      sheet.classList.remove('act2'); // 마퀴 페이드아웃 + 타임라인 복귀
-      track.classList.remove('flow','lean','race');
-      sendWrap.classList.remove('show'); // 전송 버튼·커서 정리
-      cursor.style.opacity='0';
-      rows.forEach(function(r){ // 복귀 시 이미 비워둠 → 첫 화면이 색 다 찬 채로 뜨는 것 방지
-        r.classList.remove('tldone','tlon');
-        var dy=r.querySelector('.c-dy');dy.classList.add('pend');dy.textContent='—';
-      });
+      monthSel.classList.add('on');siteSel.classList.add('on');rowsWrap.classList.add('in');
+      headCk.classList.add('on');
+      rows.forEach(function(r){r.querySelector('.ps-ck').classList.add('on');setBadge(r,'sent','전송완료',false);});
+      footCnt.textContent=String(rows.length);footSum.textContent=fmt(total())+'원';genBtn.disabled=false;
     }
     function run(){
       reset();
       if(reduce){finalState();return;}
-      // 1막: 근로자·출근기록·출역 리스트가 위→아래로 촤라락 등장
-      var baseA=380, stepA=200;
-      rows.forEach(function(r,i){
-        T(baseA+i*stepA,function(){ loadRow(r); });
-      });
-      // 2막: 리스트가 아직 채워지는 '도중'에 임금명세서가 카드 앞으로 달려 들어옴 (자동 정산 동시성 표현)
-      var act2At=baseA+Math.ceil(rows.length*0.5)*stepA;
-      T(act2At,function(){ enterAct2(); });
-      // 진입+관성 → 커서 드래그 선택 → 전송 클릭+팡!(~4360) → 곧바로 첫 화면으로 이어짐
-      var sentAt=act2At+4360;                     // 전송 완료+입자 버스트 시점
-      T(sentAt+560,function(){ exitAct2(); });    // 입자 흩어지며 명세서 페이드아웃
-      T(sentAt+920,function(){ run(); });         // 첫 화면(리스트) 바로 재개
+      var t=480;
+      // 1) 월·현장 선택
+      T(t,function(){monthSel.classList.add('on');});
+      T(t+360,function(){siteSel.classList.add('on');});
+      // 2) 정산완료 대상자 목록 등장
+      T(t+740,function(){rowsWrap.classList.add('in');});
+      // 3) 커서 등장 → 전체선택 체크
+      var chkAt=t+1500;
+      T(chkAt-320,function(){var W=root.clientWidth,H=root.clientHeight;cursor.style.transition='none';curTo(W*0.5,H*0.5);cursor.style.opacity='1';void cursor.offsetWidth;cursor.style.transition='';moveTo(headCk,0,-2);});
+      T(chkAt,function(){cursor.classList.add('tap');});
+      T(chkAt+150,function(){cursor.classList.remove('tap');headCk.classList.add('on');});
+      rows.forEach(function(r,i){T(chkAt+230+i*95,function(){r.querySelector('.ps-ck').classList.add('on');footCnt.textContent=String(i+1);});});
+      T(chkAt+260,function(){countUp(footSum,total(),'원');});
+      var selDone=chkAt+230+rows.length*95+120;
+      // 4) 생성 버튼 활성 → 클릭
+      T(selDone,function(){genBtn.disabled=false;genBtn.classList.add('armed');moveTo(genBtn,-3,-3);});
+      var genClick=selDone+860;
+      T(genClick,function(){cursor.classList.add('tap');genBtn.classList.add('press');});
+      T(genClick+160,function(){cursor.classList.remove('tap');genBtn.classList.remove('press','armed');cursor.style.opacity='0';});
+      // 5) 각 행: 명세서 생성완료
+      rows.forEach(function(r,i){T(genClick+330+i*140,function(){setBadge(r,'made','생성완료',true);});});
+      var madeDone=genClick+330+rows.length*140;
+      // 6) 각 행: 전송완료(강조) + 전송 토스트
+      T(madeDone+260,function(){toast.classList.add('show');});
+      rows.forEach(function(r,i){T(madeDone+320+i*140,function(){celebrate(r);});});
+      var sentDone=madeDone+320+rows.length*140;
+      T(sentDone+1250,function(){toast.classList.remove('show');});
+      // 7) 잠시 유지 후 반복
+      T(sentDone+1950,function(){run();});
     }
     var reduce=false;/* 데모가 곧 콘텐츠라 동작 줄이기 설정과 무관하게 항상 재생 */
     if(reduce){finalState();return {play:function(){},stop:function(){}};}
