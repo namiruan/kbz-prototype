@@ -2662,18 +2662,17 @@ function setTopic(i){
       var signAt=armAt+880;
       T(signAt,function(){cursor.classList.add('tap');signBtn.classList.add('press');});
       T(signAt+160,function(){cursor.classList.remove('tap');signBtn.classList.remove('press','armed');cursor.style.opacity='0';});
-      // 4) 상태 임시저장 → 서명요청 (배지 플립) + 발송 토스트
+      // 4) 서명요청 클릭 → 상태 서명요청 + 전자서명 카드가 바로 등장(발송~사인~완료가 한 흐름)
       var reqAt=signAt+320;
-      T(reqAt,function(){setBadge('req','서명요청',true);toast.classList.add('show');});
-      T(reqAt+1050,function(){toast.classList.remove('show');});
-      // 5) 전자서명 카드 등장 → 근로자가 서명란에 사인(잉크 그려짐) → 완료
-      var cardAt=reqAt+1180;
-      T(cardAt,function(){signCard.classList.add('show');});
-      var drawAt=cardAt+430;
+      T(reqAt,function(){setBadge('req','서명요청',true);signCard.classList.add('show');if(signStatus)signStatus.textContent='근로자에게 서명요청 발송 중…';});
+      // 발송 → 근로자 서명 진행(잉크 그려짐)
+      var toSignAt=reqAt+720;
+      T(toSignAt,function(){if(signStatus)signStatus.textContent='근로자 서명 진행 중…';});
+      var drawAt=toSignAt+120;
       T(drawAt,function(){drawSign();});
       var signOkAt=drawAt+1080;
       T(signOkAt,function(){signPad.classList.add('signed');signCard.classList.add('done');if(signStatus)signStatus.textContent='전자서명 완료';});
-      var cardHideAt=signOkAt+780;
+      var cardHideAt=signOkAt+760;
       T(cardHideAt,function(){signCard.classList.remove('show');});
       // 6) 서명요청 → 서명완료 (배지 강조 + 행 플래시)
       var doneAt=cardHideAt+240;
