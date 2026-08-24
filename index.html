@@ -473,7 +473,7 @@ body[data-mode="b"] .only-a{display:none!important}
 .ui-demo[data-demo="3"] .cw-row.newrow.in{height:42px;border-top-width:1px;opacity:1}
 .ui-demo[data-demo="3"] .cw-row.hot{background:var(--ds-surface-brand-subtle)}
 /* 상태 배지 */
-.ui-demo[data-demo="3"] .cw-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;letter-spacing:-.01em;padding:4px 9px;border-radius:var(--ds-radius-pill);white-space:nowrap;line-height:1;transform-origin:50% 50%}
+.ui-demo[data-demo="3"] .cw-badge{position:relative;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;letter-spacing:-.01em;padding:4px 9px;border-radius:var(--ds-radius-pill);white-space:nowrap;line-height:1;transform-origin:50% 50%}
 .ui-demo[data-demo="3"] .cw-badge .dt{width:5px;height:5px;border-radius:50%;background:currentColor;flex:0 0 auto}
 .ui-demo[data-demo="3"] .cw-badge .ck{width:12px;height:12px;flex:0 0 auto;display:block}
 .ui-demo[data-demo="3"] .cw-badge.draft{color:var(--ds-text-subtle);background:var(--ds-surface-subtle);border:1px solid var(--ds-border-subtle)}
@@ -481,6 +481,17 @@ body[data-mode="b"] .only-a{display:none!important}
 .ui-demo[data-demo="3"] .cw-badge.done{color:var(--ds-text-success);background:var(--ds-surface-success-subtle);border:1px solid var(--ds-border-success-subtle)}
 .ui-demo[data-demo="3"] .cw-badge.flip{animation:cwFlip .46s cubic-bezier(.34,1.5,.5,1) both}
 @keyframes cwFlip{0%{transform:rotateX(-88deg) scale(.92);opacity:.15}55%{transform:rotateX(9deg) scale(1.05)}100%{transform:rotateX(0) scale(1);opacity:1}}
+/* 서명완료 강조: 팝 바운스 + 확산 링 + 체크 드로우 */
+.ui-demo[data-demo="3"] .cw-badge.done.celebrate{animation:cwDonePop .62s cubic-bezier(.34,1.65,.5,1) both}
+@keyframes cwDonePop{0%{transform:scale(.4) rotate(-10deg);opacity:.15}45%{transform:scale(1.22) rotate(3deg);opacity:1}68%{transform:scale(.95) rotate(-1deg)}100%{transform:scale(1) rotate(0)}}
+.ui-demo[data-demo="3"] .cw-badge .ring{position:absolute;left:50%;top:50%;width:14px;height:14px;border-radius:999px;transform:translate(-50%,-50%);border:2px solid var(--ds-text-success);opacity:0;pointer-events:none}
+.ui-demo[data-demo="3"] .cw-badge.done.celebrate .ring{animation:cwRing .72s .04s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes cwRing{0%{opacity:.6;width:14px;height:14px;border-width:2px}100%{opacity:0;width:104px;height:48px;border-width:1px}}
+.ui-demo[data-demo="3"] .cw-badge.done.celebrate .ck path{stroke-dasharray:26;stroke-dashoffset:26;animation:cwCheck .4s .14s cubic-bezier(.65,0,.35,1) forwards}
+@keyframes cwCheck{to{stroke-dashoffset:0}}
+/* 서명완료 시 해당 행 그린 플래시 */
+.ui-demo[data-demo="3"] .cw-row.newrow.signed{animation:cwRowFlash 1.2s ease-out}
+@keyframes cwRowFlash{0%{background:rgba(15,114,48,.16)}22%{background:rgba(15,114,48,.16)}100%{background:transparent}}
 /* 하단 계약정보 상세 패널 (실제 UI의 기본정보·계약정보 상세 폼 · 항목 다수 · 스크롤) */
 .ui-demo[data-demo="3"] .cw-detail{flex:1 1 auto;min-height:0;background:var(--ds-surface-base);border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-lg);box-shadow:var(--ds-shadow-md);padding:11px 14px 6px;display:flex;flex-direction:column;overflow:hidden;opacity:0;transform:translateY(10px);transition:opacity .4s ease,transform .45s cubic-bezier(.33,1,.68,1)}
 .ui-demo[data-demo="3"] .cw-detail.in{opacity:1;transform:none}
@@ -1713,7 +1724,7 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
                     <div class="cw-head"><span>근로자명</span><span>본인확인</span><span>계약 언어</span><span>공사명</span><span class="st">계약 상태</span></div>
                     <div class="cw-rows">
                       <div class="cw-row"><span class="nm">박○철</span><span class="auth">문자인증</span><span class="lang">한국어</span><span class="site">○○ 신축현장</span><span class="st"><span class="cw-badge done"><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>서명완료</span></span></div>
-                      <div class="cw-row"><span class="nm">정○호</span><span class="auth">본인인증</span><span class="lang">중국어</span><span class="site">△△ 리모델링현장</span><span class="st"><span class="cw-badge done"><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>서명완료</span></span></div>
+                      <div class="cw-row"><span class="nm">왕○강</span><span class="auth">본인인증</span><span class="lang">중국어</span><span class="site">△△ 리모델링현장</span><span class="st"><span class="cw-badge done"><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>서명완료</span></span></div>
                       <!-- 액션 행: 추가되면 펼쳐지고 상태가 임시저장→서명요청→서명완료로 흐름 -->
                       <div class="cw-row newrow"><span class="nm">이○민</span><span class="auth">문자인증</span><span class="lang">한국어</span><span class="site">○○ 신축현장</span><span class="st"><span class="cw-badge draft"><i class="dt"></i>임시저장</span></span></div>
                     </div>
@@ -1769,7 +1780,7 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
                     <div class="cw-head"><span>근로자명</span><span>본인확인</span><span>계약 언어</span><span>공사명</span><span class="st">계약 상태</span></div>
                     <div class="cw-rows">
                       <div class="cw-row"><span class="nm">박○철</span><span class="auth">문자인증</span><span class="lang">한국어</span><span class="site">○○ 신축현장</span><span class="st"><span class="cw-badge done"><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>서명완료</span></span></div>
-                      <div class="cw-row"><span class="nm">정○호</span><span class="auth">본인인증</span><span class="lang">중국어</span><span class="site">△△ 리모델링현장</span><span class="st"><span class="cw-badge done"><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>서명완료</span></span></div>
+                      <div class="cw-row"><span class="nm">왕○강</span><span class="auth">본인인증</span><span class="lang">중국어</span><span class="site">△△ 리모델링현장</span><span class="st"><span class="cw-badge done"><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>서명완료</span></span></div>
                       <!-- 액션 행: 추가되면 펼쳐지고 상태가 임시저장→서명요청→서명완료로 흐름 -->
                       <div class="cw-row newrow"><span class="nm">이○민</span><span class="auth">문자인증</span><span class="lang">한국어</span><span class="site">○○ 신축현장</span><span class="st"><span class="cw-badge draft"><i class="dt"></i>임시저장</span></span></div>
                     </div>
@@ -2559,7 +2570,7 @@ function setTopic(i){
     function clearAll(){timers.forEach(clearTimeout);timers=[];}
     function reset(){
       clearAll();
-      newRow.classList.remove('in','hot');
+      newRow.classList.remove('in','hot','signed');
       detail.classList.remove('in');
       addBtn.classList.remove('press');
       signBtn.classList.remove('press','armed');
@@ -2613,7 +2624,12 @@ function setTopic(i){
       T(reqAt+1300,function(){toast.classList.remove('show');});
       // 5) 근로자 전자서명 → 서명요청 → 서명완료 (배지 플립 + 체크)
       var doneAt=reqAt+1720;
-      T(doneAt,function(){setBadge('done','서명완료',true);newRow.classList.remove('hot');});
+      T(doneAt,function(){
+        badge.className='cw-badge done';
+        badge.innerHTML=CK+'<span class="ring"></span>서명완료';
+        void badge.offsetWidth;badge.classList.add('celebrate');
+        newRow.classList.remove('hot');newRow.classList.add('signed');
+      });
       // 6) 잠시 유지 후 처음부터 반복
       var loopAt=doneAt+1900;
       T(loopAt,function(){run();});
