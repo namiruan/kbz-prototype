@@ -3177,10 +3177,22 @@ function setTopic(i){
       el.removeAttribute('style'); stage.style.height=''; return;
     }
     var s=cw/DW;
+    // 모바일: 데모가 sticky로 고정될 때 하단 고정 CTA(플로팅 바)에 하단이 가려지므로,
+    // 폭 스케일 외에 '가용 세로 높이'로도 상한을 둔다 (가려지면 letterbox 대신 축소·가운데 정렬)
+    var sticky=el.closest('.feat-sticky');
+    if(sticky){
+      var fbar=document.querySelector('.floating .fbar');
+      var floatH=fbar?(fbar.getBoundingClientRect().height+26):78;
+      var headerH=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height'))||56;
+      var above=stage.getBoundingClientRect().top - sticky.getBoundingClientRect().top; // 데모 위 콘텐츠(copy) 높이
+      if(above<0) above=0;
+      var availH=window.innerHeight - headerH - above - floatH;
+      if(availH>150) s=Math.min(s, availH/DH);
+    }
     stage.style.height=(DH*s)+'px';
-    el.style.position='absolute'; el.style.top='0'; el.style.left='0';
+    el.style.position='absolute'; el.style.top='0'; el.style.left='50%';
     el.style.width=DW+'px'; el.style.height=DH+'px'; el.style.flex='none';
-    el.style.transformOrigin='top left'; el.style.transform='scale('+s+')';
+    el.style.transformOrigin='top center'; el.style.transform='translateX(-50%) scale('+s+')';
   }
   var demos=[].slice.call(document.querySelectorAll('.ui-demo:not([data-demo="hero"]):not([data-demo="herob"])'));
   if(!demos.length)return;
