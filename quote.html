@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>퇴직공제 전자카드 단말기 견적신청 · 김반장</title>
+<meta name="description" content="퇴직공제 전자카드 단말기(벽부형·이동형·휴대형) 임대 견적을 기간·수량 입력만으로 즉시 계산하고, 견적서를 이메일로 받아보세요.">
+<!-- 라이브(kbz.co.kr) 폰트: 본문/CTA=Wanted Sans, 타이틀=SUITE -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUITE/fonts/variable/woff2/SUITEVariable.css">
+<style>
+/* =========================================================
+   kbz.co.kr 라이브 CSS 토큰 그대로 이식 (common.css :root)
+   ========================================================= */
+:root{
+  --header-height:70px;
+  --color-white-rgb:255,255,255;
+  --color-gray-rgb:230,232,234;   /* #E6E8EA */
+  --color-black-rgb:19,20,22;     /* #131416 */
+  --color-blue-rgb:17,90,198;     /* #115AC6 */
+  --color-navy-rgb:14,59,99;      /* #0E3B63 */
+  --color-w-gray-rgb:244,245,246; /* #F4F5F6 */
+  --color-d-gray-rgb:109,120,130; /* #6D7882 */
+  --color-d-blue-rgb:17,71,151;   /* #114797 */
+  --color-cyan-rgb:27,159,226;    /* #1B9FE2 */
+  --color-p-blue-rgb:220,232,249; /* #DCE8F9 */
+  --color-p-cyan-rgb:183,225,245; /* #B7E1F5 */
+  --color-sky-rgb:220,238,255;    /* #DCEEFF */
+  --color-lake-rgb:138,218,255;   /* #8ADAFF */
+
+  --main-white:rgba(var(--color-white-rgb),1);
+  --main-gray:rgba(var(--color-gray-rgb),1);
+  --main-black:rgba(var(--color-black-rgb),1);
+  --main-blue:rgba(var(--color-blue-rgb),1);
+  --main-navy:rgba(var(--color-navy-rgb),1);
+  --sub-w-gray:rgba(var(--color-w-gray-rgb),1);
+  --sub-d-gray:rgba(var(--color-d-gray-rgb),1);
+  --sub-d-blue:rgba(var(--color-d-blue-rgb),1);
+  --sub-cyan:rgba(var(--color-cyan-rgb),1);
+  --pastel-blue:rgba(var(--color-p-blue-rgb),1);
+  --pastel-cyan:rgba(var(--color-p-cyan-rgb),1);
+  --sky:rgba(var(--color-sky-rgb),1);
+  --lake:rgba(var(--color-lake-rgb),1);
+  --transparent-black-60:rgba(var(--color-black-rgb),0.6);
+  --transparent-black-10:rgba(var(--color-black-rgb),0.1);
+  --btn-blue:#387eff;
+
+  /* 라이브 폰트 스택: 본문/CTA=Wanted Sans, 타이틀=SUITE, 폴백=Apple SD Gothic Neo */
+  --font-body:"Wanted Sans Variable","Wanted Sans","Apple SD Gothic Neo",sans-serif;
+  --font-title:"SUITE Variable","SUITE","Apple SD Gothic Neo",sans-serif;
+
+  /* 라이브 radial-sky 그라디언트 */
+  --grad-radi-sky-top:radial-gradient(66.24% 130.23% at 51.11% -20.35%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%);
+  --grad-radi-sky-bottom:radial-gradient(49.14% 96.61% at 51.11% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}/* iOS Safari 텍스트 자동확대(boosting) 차단: 블록 폭에 따라 폰트를 임의로 키워 figline 등 간격이 벌어지던 문제 방지 */
+body{font-family:var(--font-body);color:var(--main-black);background:#FBFBFB;line-height:1.62;-webkit-font-smoothing:antialiased;cursor:default}
+h1,h2,h3,h4{font-family:var(--font-title);line-height:1.24;letter-spacing:-0.03em;font-weight:800}
+a{color:inherit;text-decoration:none}
+.tnum{font-variant-numeric:tabular-nums}
+.inner{max-width:1120px;margin:0 auto;padding:0 30px;width:100%}
+
+
+/* ===== 라이브 버튼 · 공통 타이포 (index.html과 동일 토큰) ===== */
+/* ===== 라이브 버튼 (banner-btn: 네이비·pill, 프로토타입 스케일에 맞춘 20px/600 → ≤532px 18px. 라이브 CTA-button 24→20의 축소 패턴만 차용) ===== */
+.banner-btn{display:inline-flex;padding:10px 20px;justify-content:center;align-items:center;gap:8px;border-radius:1000px;background:var(--main-navy);color:#fff;font-size:20px;font-weight:600;cursor:pointer;transition:.2s}
+.banner-btn:hover{background:#0a2e4e}
+.banner-btn.sec{background:var(--sky);color:var(--main-navy)}
+.banner-btn.sec:hover{background:var(--pastel-blue)}
+.banner-btn.ghost{background:transparent;color:var(--main-navy);box-shadow:inset 0 0 0 1.5px rgba(var(--color-navy-rgb),.55)}
+.banner-btn.ghost:hover{background:rgba(var(--color-navy-rgb),.08);color:var(--main-navy);box-shadow:inset 0 0 0 1.5px var(--main-navy)}
+.acts{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:30px}
+
+/* ===== 공통 타이포 ===== */
+.eyebrow{font-size:14px;font-weight:700;color:var(--main-blue);margin-bottom:8px}
+.title-lg{font-family:var(--font-title);font-size:38px;color:var(--main-black);letter-spacing:-.035em}
+.title-md{font-family:var(--font-title);font-size:30px;color:var(--main-black);letter-spacing:-.03em}
+.lead{font-size:18px;color:var(--sub-d-gray);line-height:1.72;max-width:560px;font-weight:500}
+.center{text-align:center}
+.center .lead{margin:0 auto}
+.title-container{display:flex;flex-direction:column;align-items:center;gap:10px}
+.sec-no{position:absolute;top:26px;left:30px;font-size:11px;font-weight:800;color:var(--sub-d-gray);opacity:.5;letter-spacing:.1em}
+
+
+/* site footer (kbz.co.kr 정보) */
+.site-footer{background:#0A2540;color:rgba(255,255,255,.6);font-size:13px;line-height:1.75}
+.site-footer .inner{max-width:900px;padding-top:52px;padding-bottom:120px}
+.site-footer .ft-links{display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:16px}
+.site-footer .ft-links a{color:rgba(255,255,255,.7);font-weight:600;font-size:13px;text-decoration:none}
+.site-footer .ft-links a:hover{color:#fff}
+.site-footer .ft-links a.strong{color:rgba(255,255,255,.82)}
+/* 패밀리사이트 드롭다운 */
+.site-footer .ft-family{position:relative;display:inline-flex}
+.site-footer .ft-family-btn{appearance:none;cursor:pointer;font:inherit;font-size:13px;font-weight:600;color:rgba(255,255,255,.7);background:transparent;border:0;padding:0;display:inline-flex;align-items:center;gap:4px}
+.site-footer .ft-family-btn:hover{color:#fff}
+.site-footer .ft-family-btn .caret{font-size:10px;line-height:1;transition:transform .15s}
+.site-footer .ft-family.open .ft-family-btn{color:#fff}
+.site-footer .ft-family.open .ft-family-btn .caret{transform:rotate(180deg)}
+.site-footer .ft-family-menu{position:absolute;left:0;bottom:calc(100% + 8px);z-index:5;min-width:196px;margin:0;padding:6px;list-style:none;background:#123350;border:1px solid rgba(255,255,255,.16);border-radius:10px;box-shadow:0 12px 28px rgba(0,0,0,.35);opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .15s,transform .15s,visibility .15s}
+.site-footer .ft-family.open .ft-family-menu{opacity:1;visibility:visible;transform:translateY(0)}
+.site-footer .ft-family-menu a{display:block;padding:7px 12px;border-radius:6px;font-size:13px;font-weight:500;color:rgba(255,255,255,.8);text-decoration:none;white-space:nowrap}
+.site-footer .ft-family-menu a:hover{background:rgba(255,255,255,.08);color:#fff}
+/* 모바일: 패밀리사이트 드롭다운이 오른쪽 화면 밖으로 뻗어 페이지 전체가 가로 스크롤되던 문제 → 왼쪽으로 펼치도록 우측 기준 정렬 */
+@media(max-width:640px){.site-footer .ft-family-menu{left:auto;right:0}}
+.site-footer .ft-label{color:rgba(255,255,255,.42);margin-right:6px}
+/* 상단: 문의 · 운영시간 · 지점 (라벨+내용 행, 구분선으로 섹션 분리) */
+.site-footer .ft-top{display:grid;grid-template-columns:200px 1fr;gap:40px;margin-bottom:28px}
+.site-footer .ft-logo{display:flex;flex-direction:column;gap:9px}
+.site-footer .ft-logo-mark{display:block}
+.site-footer .ft-logo-mark svg{height:30px;width:auto;display:block;fill:rgba(255,255,255,.82)}
+.site-footer .ft-logo-sub{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.01em;line-height:1.5}
+@media(max-width:768px){.site-footer .ft-top{grid-template-columns:1fr;gap:24px}}
+.site-footer .ft-row{display:grid;grid-template-columns:104px 1fr;gap:20px 24px;padding:22px 0;border-top:1px solid transparent;border-image:linear-gradient(90deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.06) 45%,rgba(255,255,255,0) 100%) 1}
+.site-footer .ft-row:first-child{border-top:0;padding-top:0}
+.site-footer .ft-row-label{font-size:14px;font-weight:700;color:rgba(255,255,255,.7)}
+.site-footer .ft-row-sub{display:block;margin-top:5px;font-size:12px;font-weight:400;color:rgba(255,255,255,.55)}
+/* 1순위: 문의 */
+.site-footer .ft-contact{display:flex;flex-wrap:wrap;gap:18px 40px}
+.site-footer .ft-contact .ct{display:flex;flex-direction:column;gap:3px}
+.site-footer .ft-contact .ct-label{font-size:12px;color:rgba(255,255,255,.55)}
+.site-footer .ft-contact .ct-num{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.01em;line-height:1.2}
+/* 운영시간 (오전·오후 라벨 위 / 시간 아래, 나란히) */
+.site-footer .ct-hours{display:flex;flex-wrap:wrap;gap:16px 40px}
+.site-footer .ct-hours .hr-col{display:flex;flex-direction:column;gap:3px}
+.site-footer .ct-hours .hr-k{font-size:12px;color:rgba(255,255,255,.55)}
+.site-footer .ct-hours .hr-v{font-size:16px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+/* 3순위: 지점 주소 (은은한 텍스트 탭 + 복사) */
+.site-footer .ft-addr-tabs{display:flex;flex-wrap:wrap;gap:2px;margin-top:-2px;margin-bottom:9px}
+.site-footer .ft-addr-tabs button{appearance:none;cursor:pointer;font:inherit;font-size:12px;font-weight:600;color:rgba(255,255,255,.55);background:transparent;border:0;padding:3px 9px;border-radius:6px;transition:.15s}
+.site-footer .ft-addr-tabs button:hover{color:rgba(255,255,255,.9)}
+.site-footer .ft-addr-tabs button.on{color:#fff;background:rgba(255,255,255,.1)}
+.site-footer .ft-addr-body{display:flex;align-items:center;gap:8px}
+.site-footer .ft-addr-text{color:rgba(255,255,255,.82);min-height:1.75em}
+.site-footer .ft-addr-copy{flex:none;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;padding:0;appearance:none;cursor:pointer;color:rgba(255,255,255,.5);background:transparent;border:0;border-radius:7px;transition:.15s}
+.site-footer .ft-addr-copy svg{width:15px;height:15px;display:block}
+.site-footer .ft-addr-copy .ic-check{display:none}
+.site-footer .ft-addr-copy:hover{color:#fff;background:rgba(255,255,255,.1)}
+.site-footer .ft-addr-copy.copied{color:var(--sub-cyan);background:transparent}
+.site-footer .ft-addr-copy.copied .ic-copy{display:none}
+.site-footer .ft-addr-copy.copied .ic-check{display:block}
+/* 하단 바: 링크 · 회사정보 · 저작권 */
+.site-footer .ft-bottom{display:flex;flex-direction:column;gap:14px;padding-top:22px;border-top:1px solid transparent;border-image:linear-gradient(90deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.06) 45%,rgba(255,255,255,0) 100%) 1}
+.site-footer .ft-bottom .ft-links{margin-bottom:0}
+.site-footer .ft-legal{font-size:12px;color:rgba(255,255,255,.4);line-height:1.7}
+.site-footer .ft-legal .ft-name{font-weight:700;color:rgba(255,255,255,.55);margin-right:10px}
+.site-footer .ft-legal .sep{margin:0 8px;color:rgba(255,255,255,.24)}
+.site-footer .ft-copy{margin-top:6px;font-size:12px;color:rgba(255,255,255,.4)}
+
+
+/* =========================================================
+   견적신청 페이지 전용
+   ========================================================= */
+body.quote-page{background:#F7F8FA}
+
+/* ===== 상단 헤더 ===== */
+.q-header{position:sticky;top:0;z-index:120;height:var(--header-height);background:rgba(255,255,255,.88);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--main-gray)}
+.q-header .inner{height:100%;display:flex;align-items:center;gap:16px}
+.q-logo{display:inline-flex;align-items:center;gap:10px;flex:none}
+.q-logo svg{width:76px;height:23px;display:block;fill:var(--main-navy)}
+.q-logo .q-logo-div{width:1px;height:14px;background:var(--main-gray)}
+.q-logo .q-logo-sub{font-size:13px;font-weight:700;color:var(--sub-d-gray);letter-spacing:-.02em}
+.q-header .q-tel{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--main-navy)}
+.q-header .q-tel .lb{font-size:12px;font-weight:600;color:var(--sub-d-gray)}
+.q-header .q-tel .num{font-family:var(--font-title);font-size:17px;letter-spacing:-.02em}
+@media(max-width:532px){.q-logo .q-logo-div,.q-logo .q-logo-sub,.q-header .q-tel .lb{display:none}}
+
+/* ===== 히어로 ===== */
+.q-hero{position:relative;overflow:hidden;background:var(--main-white);background-image:var(--grad-radi-sky-top);padding:56px 0 44px;border-bottom:1px solid var(--main-gray)}
+.q-hero .inner{display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:center}
+.q-hero h1{font-size:38px;letter-spacing:-.035em;margin-bottom:12px;word-break:keep-all}
+.q-hero .lead{max-width:600px}
+.q-crumb{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--sub-d-gray);margin-bottom:18px}
+.q-crumb a:hover{color:var(--main-blue)}
+.q-crumb .sep{opacity:.5}
+.q-perks{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.q-perk{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:1000px;background:var(--main-white);border:1px solid rgba(var(--color-navy-rgb),.14);font-size:13.5px;font-weight:600;color:var(--main-navy)}
+.q-perk svg{width:15px;height:15px;flex:none;color:var(--main-blue)}
+.q-hero-media{position:relative}
+.q-hero-media img{width:100%;display:block;filter:drop-shadow(0 24px 40px rgba(14,59,99,.22))}
+@media(max-width:940px){.q-hero .inner{grid-template-columns:1fr}.q-hero-media{display:none}.q-hero h1{font-size:32px}}
+
+/* ===== 본문 2단 (폼 + 견적 요약) ===== */
+.q-main{padding:44px 0 96px}
+.q-main .inner{display:grid;grid-template-columns:minmax(0,1fr) 352px;gap:28px;align-items:start}
+@media(max-width:1024px){.q-main .inner{grid-template-columns:minmax(0,1fr)}}
+
+/* ===== 카드 · 스텝 ===== */
+#quoteForm,.q-sum{min-width:0}
+.q-card{min-width:0;background:var(--main-white);border:1px solid var(--main-gray);border-radius:20px;padding:28px 26px;box-shadow:0 1px 2px rgba(19,20,22,.03)}
+.q-card + .q-card{margin-top:20px}
+.q-step{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.q-step .n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--main-navy);color:#fff;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-title)}
+.q-step h2{font-size:20px;letter-spacing:-.03em}
+.q-step-desc{font-size:14px;color:var(--sub-d-gray);margin:0 0 20px 34px;line-height:1.6}
+@media(max-width:532px){.q-card{padding:22px 18px;border-radius:16px}.q-step-desc{margin-left:0}}
+
+/* ===== 입력 필드 (라벨 인라인형 · 레퍼런스 폼 스타일) ===== */
+.f-grid{display:flex;flex-wrap:wrap;gap:10px}
+.f-grid.col{flex-direction:column;flex-wrap:nowrap}
+.field{display:flex;align-items:center;gap:10px;min-height:46px;padding:0 14px;background:var(--main-white);border:1px solid var(--main-gray);border-radius:10px;transition:border-color .15s,box-shadow .15s}
+.field:hover{border-color:rgba(var(--color-d-gray-rgb),.5)}
+.field:focus-within{border-color:var(--main-blue);box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.12)}
+.field.is-on{border-color:rgba(var(--color-blue-rgb),.5);background:rgba(var(--color-blue-rgb),.03)}
+.field.is-err{border-color:#E5484D;box-shadow:0 0 0 3px rgba(229,72,77,.1)}
+.field.grow{flex:1 1 220px;min-width:0}
+.field.full{width:100%}
+.f-label{flex:none;display:inline-flex;align-items:center;gap:2px;font-size:14px;font-weight:600;color:var(--sub-d-gray);white-space:nowrap;letter-spacing:-.02em;transition:color .15s}
+.field:focus-within .f-label,.field.is-on .f-label{color:var(--main-blue)}
+.f-req{color:#E5484D;font-weight:700;line-height:1}
+.field input,.field select,.field textarea{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--main-black);letter-spacing:-.02em;padding:11px 0}
+.field input::placeholder,.field textarea::placeholder{color:rgba(var(--color-d-gray-rgb),.55);font-weight:500}
+.field input[type=number]{text-align:right;-moz-appearance:textfield}
+.field input[type=number]::-webkit-outer-spin-button,.field input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.field.ta{align-items:flex-start;padding-top:12px;padding-bottom:12px}
+.field.ta .f-label{padding-top:2px}
+.field textarea{resize:vertical;min-height:84px;line-height:1.65;padding:0}
+.f-unit{flex:none;font-size:14px;font-weight:600;color:var(--sub-d-gray)}
+.f-hint{flex:none;font-size:12.5px;font-weight:500;color:rgba(var(--color-d-gray-rgb),.62);white-space:nowrap}
+
+/* 라디오 (견적 / 미견적) */
+.f-radios{display:inline-flex;align-items:center;gap:14px;margin-left:auto}
+.f-radio{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--sub-d-gray);cursor:pointer;user-select:none;white-space:nowrap}
+.f-radio input{position:absolute;opacity:0;width:0;height:0}
+.f-radio .dot{flex:none;width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(var(--color-d-gray-rgb),.55);background:#fff;transition:.15s;position:relative}
+.f-radio input:checked + .dot{border-color:var(--main-blue);border-width:5px}
+.f-radio input:focus-visible + .dot{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.2)}
+.f-radio:hover .dot{border-color:var(--main-blue)}
+.f-radio input:checked ~ .tx{color:var(--main-blue)}
+/* '미견적'은 선택돼도 강조하지 않는다 — 파란색은 '견적'에만 */
+.f-radio input[value="N"]:checked + .dot{border-color:rgba(var(--color-d-gray-rgb),.85)}
+.f-radio input[value="N"]:checked ~ .tx{color:var(--main-black)}
+.f-radio .tx{transition:color .15s}
+
+/* ===== 단말기 선택 행 ===== */
+.dev-row{border:1px solid var(--main-gray);border-radius:14px;padding:16px 18px;background:var(--main-white);transition:.18s}
+.dev-row + .dev-row{margin-top:10px}
+.dev-row.is-on{border-color:rgba(var(--color-blue-rgb),.45);background:rgba(var(--color-blue-rgb),.028);box-shadow:0 6px 20px -14px rgba(17,90,198,.5)}
+.dev-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dev-head>div:not(.f-radios){flex:1 1 200px;min-width:0}
+.dev-ico{flex:none;width:38px;height:38px;border-radius:10px;background:var(--sky);color:var(--main-navy);display:inline-flex;align-items:center;justify-content:center}
+.dev-ico svg{width:20px;height:20px}
+.dev-row.is-on .dev-ico{background:var(--main-blue);color:#fff}
+.dev-name{font-family:var(--font-title);font-size:16.5px;font-weight:800;letter-spacing:-.03em;line-height:1.3}
+.dev-name .model{font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--sub-d-gray);margin-left:5px;letter-spacing:0}
+.dev-desc{font-size:13px;color:var(--sub-d-gray);line-height:1.55;margin-top:1px}
+.dev-body{display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--main-gray);align-items:center;gap:10px;flex-wrap:wrap}
+.dev-row.is-on .dev-body{display:flex}
+.dev-rate{margin-left:auto;text-align:right;font-size:13px;color:var(--sub-d-gray);line-height:1.4}
+.dev-rate b{display:block;font-family:var(--font-title);font-size:18px;font-weight:800;color:var(--main-navy);letter-spacing:-.03em}
+@media(max-width:532px){.dev-head .f-radios{margin-left:0;width:100%;padding-top:4px}.dev-rate{margin-left:0;text-align:left;width:100%}}
+
+/* ===== 견적 요약 (sticky) ===== */
+.q-sum{position:sticky;top:calc(var(--header-height) + 20px)}
+.q-sum-card{background:var(--main-navy);color:#fff;border-radius:20px;padding:24px 22px;box-shadow:0 24px 48px -28px rgba(14,59,99,.6)}
+.q-sum-ttl{display:flex;align-items:center;gap:8px;font-family:var(--font-title);font-size:16px;font-weight:800;letter-spacing:-.03em;margin-bottom:2px}
+.q-sum-ttl .live{display:inline-flex;align-items:center;gap:5px;margin-left:auto;font-family:var(--font-body);font-size:11px;font-weight:700;color:var(--lake)}
+.q-sum-ttl .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--lake);animation:qpulse 1.8s ease-in-out infinite}
+@keyframes qpulse{0%,100%{opacity:1}50%{opacity:.25}}
+.q-sum-cond{font-size:12.5px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.q-sum-lines{border-top:1px solid rgba(255,255,255,.14);padding-top:14px}
+.q-sum-line{display:flex;align-items:baseline;gap:8px;font-size:13.5px;padding:6px 0;color:rgba(255,255,255,.82)}
+.q-sum-line .nm{font-weight:600}
+.q-sum-line .qty{font-size:12px;color:rgba(255,255,255,.5)}
+.q-sum-line .amt{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;color:#fff;white-space:nowrap}
+.q-sum-empty{font-size:13.5px;color:rgba(255,255,255,.55);padding:8px 0 4px;line-height:1.6}
+.q-sum-mid{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.14)}
+.q-sum-mid .q-sum-line{color:rgba(255,255,255,.7);font-size:13px}
+.q-sum-total{margin-top:14px;padding-top:16px;border-top:1px solid rgba(255,255,255,.22);display:flex;align-items:flex-end;gap:10px}
+.q-sum-total .lb{font-size:13.5px;font-weight:600;color:rgba(255,255,255,.75);line-height:1.4}
+.q-sum-total .lb small{display:block;font-size:11.5px;font-weight:500;color:rgba(255,255,255,.45)}
+.q-sum-total .vv{margin-left:auto;font-family:var(--font-title);font-size:27px;font-weight:800;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1.1;white-space:nowrap}
+.q-save{display:none;margin-top:12px;padding:9px 12px;border-radius:10px;background:rgba(var(--color-lake-rgb),.14);border:1px solid rgba(var(--color-lake-rgb),.28);font-size:12.5px;font-weight:600;color:var(--lake);line-height:1.5}
+.q-save.on{display:block}
+.q-save b{color:#fff;font-weight:800}
+.q-sum-note{margin-top:12px;font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.6}
+.q-sum-submit{margin-top:16px}
+.q-sum-submit .banner-btn{width:100%;font-size:17px;font-weight:700;padding:14px 20px;background:var(--btn-blue)}
+.q-sum-submit .banner-btn:hover{background:#2a6ae8}
+.q-sum-submit .banner-btn[disabled]{background:rgba(255,255,255,.16);color:rgba(255,255,255,.45);cursor:not-allowed}
+.q-sum-sub{margin-top:10px;text-align:center;font-size:12px;color:rgba(255,255,255,.55);line-height:1.55}
+@media(max-width:1024px){.q-sum{position:static}.q-sum-card{margin-top:20px}}
+
+/* ===== 동의 ===== */
+.q-agree{margin-top:18px;padding:14px 16px;border-radius:12px;background:var(--sub-w-gray);border:1px solid var(--main-gray)}
+.q-check{display:flex;align-items:flex-start;gap:9px;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--main-black);line-height:1.5}
+.q-check input{position:absolute;opacity:0;width:0;height:0}
+.q-check .box{flex:none;margin-top:1px;width:18px;height:18px;border-radius:5px;border:1.5px solid rgba(var(--color-d-gray-rgb),.5);background:#fff;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
+.q-check .box svg{width:12px;height:12px;color:#fff;opacity:0;transition:.15s}
+.q-check input:checked + .box{background:var(--main-blue);border-color:var(--main-blue)}
+.q-check input:checked + .box svg{opacity:1}
+.q-check input:focus-visible + .box{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.2)}
+.q-agree .det{margin-top:8px;margin-left:27px;font-size:12.5px;color:var(--sub-d-gray);line-height:1.65}
+.q-agree .det b{color:var(--main-black);font-weight:700}
+
+/* 모바일 하단 제출 바 */
+.q-mobile-bar{display:none}
+@media(max-width:1024px){
+  .q-mobile-bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:130;align-items:center;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid var(--main-gray)}
+  .q-mobile-bar .mb-amt{line-height:1.25}
+  .q-mobile-bar .mb-amt .lb{display:block;font-size:11px;font-weight:600;color:var(--sub-d-gray)}
+  .q-mobile-bar .mb-amt .vv{font-family:var(--font-title);font-size:19px;font-weight:800;color:var(--main-navy);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  .q-mobile-bar .banner-btn{margin-left:auto;background:var(--btn-blue);font-size:16px;font-weight:700;padding:11px 22px}
+  .q-main{padding-bottom:44px}
+  .site-footer .inner{padding-bottom:110px}
+}
+
+/* ===== 요금표 ===== */
+.q-rate{padding:64px 0 72px;background:var(--main-white);border-top:1px solid var(--main-gray)}
+.q-rate .title-container{margin-bottom:26px}
+.q-rate .eyebrow{margin-bottom:4px}
+.q-rate-wrap{overflow-x:auto;border:1px solid var(--main-gray);border-radius:16px;background:var(--main-white)}
+table.q-rate-tb{width:100%;min-width:400px;border-collapse:collapse;font-size:14.5px;font-variant-numeric:tabular-nums}
+table.q-rate-tb th,table.q-rate-tb td{padding:12px 16px;text-align:right;border-top:1px solid var(--main-gray);white-space:nowrap}
+table.q-rate-tb thead th{background:var(--main-navy);color:#fff;font-weight:700;font-size:14px;border-top:0}
+table.q-rate-tb thead th:first-child{background:var(--sub-w-gray);color:var(--main-black)}
+table.q-rate-tb th:first-child,table.q-rate-tb td:first-child{text-align:center;font-weight:700;color:var(--main-black);background:var(--sub-w-gray)}
+table.q-rate-tb tbody tr:hover td{background:rgba(var(--color-sky-rgb),.42)}
+table.q-rate-tb tbody tr.on td{background:rgba(var(--color-blue-rgb),.09);font-weight:700}
+table.q-rate-tb tbody tr.on td:first-child{background:rgba(var(--color-blue-rgb),.16);color:var(--sub-d-blue)}
+.q-rate-note{margin-top:12px;font-size:13px;color:var(--sub-d-gray);line-height:1.7}
+@media(max-width:532px){table.q-rate-tb{min-width:0}table.q-rate-tb th,table.q-rate-tb td{padding:10px 8px;font-size:13px}}
+
+/* ===== 완료 화면 ===== */
+.q-done{display:none;text-align:center;padding:16px 4px 8px}
+.q-done.on{display:block;grid-column:1 / -1;width:100%;max-width:620px;margin:0 auto}
+.q-done-recap{margin:22px auto 0;max-width:420px;text-align:left;border:1px solid var(--main-gray);border-radius:14px;background:var(--sub-w-gray);padding:14px 16px}
+.q-done-recap .rl{display:flex;align-items:baseline;gap:10px;font-size:13.5px;color:var(--sub-d-gray);padding:4px 0}
+.q-done-recap .rl .v{margin-left:auto;font-weight:700;color:var(--main-black);font-variant-numeric:tabular-nums;text-align:right}
+.q-done-recap .rl.tot{margin-top:6px;padding-top:10px;border-top:1px solid var(--main-gray)}
+.q-done-recap .rl.tot .v{font-family:var(--font-title);font-size:19px;font-weight:800;color:var(--main-navy);letter-spacing:-.03em}
+.q-done .ic{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;background:var(--sky);color:var(--main-blue);display:flex;align-items:center;justify-content:center}
+.q-done .ic svg{width:32px;height:32px}
+.q-done h2{font-size:24px;margin-bottom:10px;letter-spacing:-.035em}
+.q-done p{font-size:15px;color:var(--sub-d-gray);line-height:1.7;max-width:460px;margin:0 auto}
+.q-done .rcpt{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:9px 16px;border-radius:1000px;background:var(--sub-w-gray);border:1px solid var(--main-gray);font-size:13.5px;font-weight:600;color:var(--main-black)}
+.q-done .rcpt .k{color:var(--sub-d-gray);font-weight:600}
+.q-done .rcpt .v{font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.q-done .acts{display:flex;justify-content:center;gap:10px;margin-top:24px;flex-wrap:wrap}
+
+/* 에러 메시지 */
+.q-err{display:none;margin-top:14px;padding:11px 14px;border-radius:10px;background:rgba(229,72,77,.07);border:1px solid rgba(229,72,77,.28);font-size:13.5px;font-weight:600;color:#C62A2F;line-height:1.55}
+.q-err.on{display:block}
+</style>
+</head>
+<body class="quote-page">
+
+<!-- ===== 헤더 ===== -->
+<header class="q-header">
+  <div class="inner">
+    <a class="q-logo" href="index.html" aria-label="김반장 홈으로">
+      <svg viewBox="0 0 92 28" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M15.1846 2.51313e-07L15.1846 2.24332C15.1846 6.36993 13.207 9.30564 9.25181 11.0781C6.87317 12.1306 3.78923 12.7399 4.22972e-08 12.8783L2.94261e-08 8.95944C3.04245 8.87636 5.51789 8.40554 7.41251 7.53313C9.52839 6.57764 10.5794 5.30366 10.5794 3.71118L0.401051 3.71118L0.401051 0.013848L15.1707 0.0138479L15.1846 2.51313e-07ZM1.46591 14.6924L24.5885 14.6924L24.5885 23.4303C24.5885 24.6766 24.3949 25.4797 23.9938 25.8536C23.579 26.2275 22.6939 26.4075 21.3525 26.4075L3.59562 26.4075C2.8765 26.4075 2.33715 26.2413 2.01908 25.909C1.64569 25.5628 1.46591 24.9397 1.46591 24.0811L1.46591 14.6924ZM20.2461 18.4866L5.78065 18.4866L5.78065 22.5856L20.2461 22.5856L20.2461 18.4866ZM20.2184 2.3478e-07L24.5885 2.20427e-07L24.5885 13.1137L20.2184 13.1137L20.2184 2.3478e-07Z"/><path d="M47.4072 11.7151C47.4072 12.5875 47.2274 13.2107 46.8541 13.5846C46.5222 13.9169 45.9966 14.0831 45.2637 14.0831L33.8683 14.0831C33.163 14.0831 32.6514 13.9169 32.3195 13.5846C31.9737 13.2107 31.7939 12.5875 31.7939 11.7151L31.7939 3.01185e-07L36.164 2.86832e-07L36.164 3.10188L43.051 3.10188L43.051 2.64212e-07L47.3934 2.4995e-07L47.3934 11.7151L47.4072 11.7151ZM33.2598 16.7834L37.6299 16.7834L37.6299 22.5302L56.6037 22.5302L56.6037 26.4075L35.4034 26.4075C34.6843 26.4075 34.1449 26.2552 33.8268 25.9367C33.4535 25.5628 33.2737 24.9397 33.2737 24.0673L33.2737 16.7557L33.2598 16.7834ZM36.1778 10.2196L43.0648 10.2196L43.0648 6.8269L36.1778 6.8269L36.1778 10.2196ZM56.3825 9.38872L56.3825 18.182L52.0124 18.182L52.0124 2.3478e-07L56.3825 2.20427e-07L56.3825 5.46983L59.9228 5.46983L59.9228 9.38872L56.3825 9.38872Z"/><path d="M79.2836 2.49224e-07L79.2836 3.79426L73.6966 3.79426C73.9455 4.97132 74.4572 5.9545 75.2455 6.71612C76.2135 7.67161 77.6103 8.29476 79.4081 8.61325L79.4081 12.6568C77.7762 12.5737 76.2273 12.1167 74.7891 11.2859C73.3232 10.455 72.203 9.40257 71.4424 8.11474C70.6541 9.40257 69.4648 10.4688 67.8744 11.3136C66.3809 12.1167 64.915 12.5737 63.4629 12.6568L63.4629 8.61325C65.2607 8.32245 66.6298 7.69931 67.5564 6.74382C68.317 5.9545 68.801 4.97132 68.9808 3.79426L63.5735 3.79426L63.5735 3.00821e-07L79.2836 2.49224e-07ZM84.2622 13.64C86.143 15.2324 87.0834 17.2404 87.0834 19.6637C87.0834 22.087 86.143 24.1088 84.2622 25.729C82.5197 27.2384 80.4868 28 78.1496 28C75.8125 28 73.7519 27.2384 72.0371 25.729C70.1978 24.1088 69.2712 22.087 69.2712 19.6637C69.2712 17.2404 70.1978 15.2324 72.0371 13.64C73.7519 12.1306 75.7986 11.3689 78.1496 11.3689C80.5006 11.3689 82.5058 12.1306 84.2622 13.64ZM75.1348 16.6311C74.2221 17.4619 73.7657 18.4728 73.7657 19.6775C73.7657 20.8823 74.2221 21.8932 75.1348 22.724C76.0061 23.5272 77.0156 23.9426 78.1773 23.9426C79.3389 23.9426 80.3761 23.5411 81.2474 22.724C82.1601 21.8932 82.6165 20.8823 82.6165 19.6775C82.6165 18.4728 82.1601 17.4619 81.2474 16.6311C80.3761 15.8417 79.3528 15.454 78.1773 15.454C77.0018 15.454 76.0061 15.8417 75.1348 16.6311ZM88.162 8.32245L88.162 12.6429L83.7781 12.6429L83.7781 2.34462e-07L88.162 2.20064e-07L88.162 4.4451L91.7023 4.4451L91.7023 8.3363L88.162 8.3363L88.162 8.32245Z"/></svg>
+      <span class="q-logo-div" aria-hidden="true"></span>
+      <span class="q-logo-sub">단말기 견적신청</span>
+    </a>
+    <a class="q-tel" href="tel:1588-3818">
+      <span class="lb">단말기 문의</span>
+      <span class="num">1588-3818</span>
+    </a>
+  </div>
+</header>
+
+<!-- ===== 히어로 ===== -->
+<section class="q-hero">
+  <div class="inner">
+    <div>
+      <nav class="q-crumb" aria-label="현재 위치">
+        <a href="index.html">홈</a><span class="sep">›</span><span>퇴직공제 전자카드 단말기</span><span class="sep">›</span><span>견적신청</span>
+      </nav>
+      <div class="eyebrow">경제적인 임대료, 최상의 단말기 선택!</div>
+      <h1>퇴직공제 전자카드 단말기<br>임대 견적을 바로 받아보세요</h1>
+      <p class="lead">현장에 필요한 단말기 유형과 기간·수량만 입력하시면, 계산된 견적서를 입력하신 이메일로 즉시 보내드립니다.</p>
+      <div class="q-perks">
+        <span class="q-perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg>벽부형·이동형·휴대형 3종</span>
+        <span class="q-perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg>장기 이용 시 더 저렴한 요금</span>
+        <span class="q-perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg>견적서 메일 자동 발송</span>
+      </div>
+    </div>
+    <div class="q-hero-media">
+      <img src="images/device/A-02.png" alt="퇴직공제 전자카드 단말기를 사용하는 건설 근로자">
+    </div>
+  </div>
+</section>
+
+<!-- ===== 본문 : 폼 + 실시간 견적 ===== -->
+<main class="q-main">
+  <div class="inner">
+
+    <form id="quoteForm" novalidate>
+
+      <!-- STEP 1 : 입력 항목 -->
+      <div class="q-card">
+        <div class="q-step"><span class="n">1</span><h2>입력 항목</h2></div>
+        <p class="q-step-desc">견적이 필요한 단말기를 <b>견적</b>으로 선택하고 수량을 입력하세요. 선택한 단말기만 견적서에 담깁니다.</p>
+
+        <div id="devList">
+          <!-- 벽부형 -->
+          <div class="dev-row" data-dev="W400">
+            <div class="dev-head">
+              <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7M8.5 10h7"/><circle cx="12" cy="15.5" r="2.4"/></svg></span>
+              <div>
+                <div class="dev-name">벽부형<span class="model">W400</span></div>
+                <p class="dev-desc">출입구·게이트에 고정 설치. 상시 출입 통제가 필요한 현장에 적합합니다.</p>
+              </div>
+              <div class="f-radios" role="radiogroup" aria-label="벽부형(W400) 견적 여부">
+                <label class="f-radio"><input type="radio" name="use_W400" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
+                <label class="f-radio"><input type="radio" name="use_W400" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
+              </div>
+            </div>
+            <div class="dev-body">
+              <label class="field">
+                <span class="f-label">수량<span class="f-req" aria-hidden="true">*</span></span>
+                <input type="number" name="qty_W400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="벽부형 수량">
+                <span class="f-unit">대</span>
+              </label>
+              <div class="dev-rate">월 대당 임대료<b data-rate="W400">—</b></div>
+            </div>
+          </div>
+
+          <!-- 이동형 -->
+          <div class="dev-row" data-dev="M400">
+            <div class="dev-head">
+              <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="12.5" rx="2.5"/><path d="M9 7V5.2A1.7 1.7 0 0 1 10.7 3.5h2.6A1.7 1.7 0 0 1 15 5.2V7"/><path d="M2.5 12.6h19"/></svg></span>
+              <div>
+                <div class="dev-name">이동형<span class="model">M400</span></div>
+                <p class="dev-desc">케이스형으로 현장 간 이동 설치. 공정에 따라 위치가 바뀌는 현장에 적합합니다.</p>
+              </div>
+              <div class="f-radios" role="radiogroup" aria-label="이동형(M400) 견적 여부">
+                <label class="f-radio"><input type="radio" name="use_M400" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
+                <label class="f-radio"><input type="radio" name="use_M400" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
+              </div>
+            </div>
+            <div class="dev-body">
+              <label class="field">
+                <span class="f-label">수량<span class="f-req" aria-hidden="true">*</span></span>
+                <input type="number" name="qty_M400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="이동형 수량">
+                <span class="f-unit">대</span>
+              </label>
+              <div class="dev-rate">월 대당 임대료<b data-rate="M400">—</b></div>
+            </div>
+          </div>
+
+          <!-- 휴대형 -->
+          <div class="dev-row" data-dev="T900">
+            <div class="dev-head">
+              <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M9.5 6h5"/><path d="M10.5 18.5h3"/></svg></span>
+              <div>
+                <div class="dev-name">휴대형<span class="model">T900</span></div>
+                <p class="dev-desc">들고 다니며 태그. 소규모·분산 현장이나 순회 점검에 적합합니다.</p>
+              </div>
+              <div class="f-radios" role="radiogroup" aria-label="휴대형(T900) 견적 여부">
+                <label class="f-radio"><input type="radio" name="use_T900" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
+                <label class="f-radio"><input type="radio" name="use_T900" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
+              </div>
+            </div>
+            <div class="dev-body">
+              <label class="field">
+                <span class="f-label">수량<span class="f-req" aria-hidden="true">*</span></span>
+                <input type="number" name="qty_T900" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="휴대형 수량">
+                <span class="f-unit">대</span>
+              </label>
+              <div class="dev-rate">월 대당 임대료<b data-rate="T900">—</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="f-grid" style="margin-top:16px">
+          <label class="field grow" id="fieldMonths">
+            <span class="f-label">기간(월)<span class="f-req" aria-hidden="true">*</span></span>
+            <input type="number" name="months" id="months" min="1" max="60" step="1" value="12" inputmode="numeric" placeholder="0">
+            <span class="f-unit">개월</span>
+            <span class="f-hint">[정수형]</span>
+          </label>
+          <label class="field grow">
+            <span class="f-label">희망 설치일</span>
+            <input type="date" name="start_date">
+          </label>
+        </div>
+        <p class="q-rate-note" style="margin-top:10px">기간이 길수록 월 임대료가 낮아집니다. 13개월 이상은 12개월 요율로 계산되며, 정확한 금액은 담당자가 확인 후 안내드립니다.</p>
+      </div>
+
+      <!-- STEP 2 : 신청자 정보 -->
+      <div class="q-card">
+        <div class="q-step"><span class="n">2</span><h2>신청자 정보</h2></div>
+        <p class="q-step-desc">견적서는 아래 입력하신 이메일로 자동 발송됩니다.</p>
+
+        <div class="f-grid">
+          <label class="field grow">
+            <span class="f-label">회사명<span class="f-req" aria-hidden="true">*</span></span>
+            <input type="text" name="company" required placeholder="㈜한국건설">
+          </label>
+          <label class="field grow">
+            <span class="f-label">담당자명<span class="f-req" aria-hidden="true">*</span></span>
+            <input type="text" name="manager" required placeholder="홍길동">
+          </label>
+          <label class="field grow">
+            <span class="f-label">연락처<span class="f-req" aria-hidden="true">*</span></span>
+            <input type="tel" name="phone" required inputmode="tel" placeholder="010-0000-0000">
+          </label>
+          <label class="field grow">
+            <span class="f-label">이메일<span class="f-req" aria-hidden="true">*</span></span>
+            <input type="email" name="email" required inputmode="email" placeholder="name@company.com">
+            <span class="f-hint">견적서 수신</span>
+          </label>
+          <label class="field grow">
+            <span class="f-label">현장명</span>
+            <input type="text" name="site" placeholder="○○아파트 신축공사">
+          </label>
+          <label class="field grow">
+            <span class="f-label">현장 지역</span>
+            <input type="text" name="region" placeholder="광주광역시 북구">
+          </label>
+          <label class="field full ta">
+            <span class="f-label">요청사항</span>
+            <textarea name="memo" rows="3" placeholder="설치 일정, 기존 단말기 교체 여부 등 알려주실 내용을 적어주세요."></textarea>
+          </label>
+        </div>
+
+        <div class="q-agree">
+          <label class="q-check">
+            <input type="checkbox" name="agree" id="agree">
+            <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
+            <span>개인정보 수집·이용에 동의합니다. <span class="f-req">*</span></span>
+          </label>
+          <p class="det"><b>수집항목</b> 회사명·담당자명·연락처·이메일·현장정보 · <b>이용목적</b> 견적서 발송 및 단말기 임대 상담 · <b>보유기간</b> 상담 종료 후 1년 (동의 거부 시 견적 발송이 어렵습니다)</p>
+        </div>
+
+        <div class="q-err" id="formErr" role="alert"></div>
+      </div>
+    </form>
+
+    <!-- 완료 화면 -->
+    <div class="q-card q-done" id="doneCard" role="status">
+      <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5l9 6 9-6"/><rect x="3" y="4.5" width="18" height="15" rx="2.5"/></svg></div>
+      <h2>견적서를 보내드렸습니다</h2>
+      <p><b id="doneEmail">—</b> 으로 견적서를 발송했습니다.<br>메일이 보이지 않으면 스팸함을 확인해 주세요. 담당자가 영업일 기준 1일 내 연락드립니다.</p>
+      <div class="rcpt"><span class="k">접수번호</span><span class="v" id="doneNo">—</span></div>
+      <div class="q-done-recap" id="doneRecap"></div>
+      <div class="acts">
+        <a class="banner-btn sec" href="index.html">메인으로</a>
+        <button type="button" class="banner-btn ghost" id="btnAgain">다시 신청하기</button>
+      </div>
+    </div>
+
+    <!-- 우측 : 실시간 견적 -->
+    <aside class="q-sum" id="sumPane">
+      <div class="q-sum-card">
+        <div class="q-sum-ttl">자동 계산<span class="live">실시간</span></div>
+        <p class="q-sum-cond" id="sumCond">기간 12개월 · VAT 별도</p>
+
+        <div class="q-sum-lines">
+          <div id="sumLines"></div>
+          <p class="q-sum-empty" id="sumEmpty">견적이 필요한 단말기를 선택하시면<br>금액이 여기에 계산됩니다.</p>
+        </div>
+
+        <div class="q-sum-mid" id="sumMid" hidden>
+          <div class="q-sum-line"><span class="nm">월 합계</span><span class="amt" id="sumMonthly">0원</span></div>
+          <div class="q-sum-line"><span class="nm">공급가액 <span class="qty">(월 합계 × <span id="sumMonthsX">12</span>개월)</span></span><span class="amt" id="sumSupply">0원</span></div>
+          <div class="q-sum-line"><span class="nm">부가세 (10%)</span><span class="amt" id="sumVat">0원</span></div>
+        </div>
+
+        <div class="q-sum-total">
+          <span class="lb">총 예상 견적<small>VAT 포함</small></span>
+          <span class="vv" id="sumTotal">0원</span>
+        </div>
+
+        <div class="q-save" id="sumSave"></div>
+
+        <p class="q-sum-note">본 금액은 공개 요율표 기준 자동 계산 결과입니다. 설치비·통신비 및 수량·계약조건에 따른 추가 할인은 담당자 확인 후 최종 견적서에 반영됩니다.</p>
+
+        <div class="q-sum-submit">
+          <button type="submit" form="quoteForm" class="banner-btn" id="btnSubmit">견적신청하기</button>
+        </div>
+        <p class="q-sum-sub">버튼을 누르면 입력하신 이메일로<br>견적서가 자동 발송됩니다.</p>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<!-- ===== 요금표 ===== -->
+<section class="q-rate">
+  <div class="inner">
+    <div class="title-container" style="align-items:flex-start">
+      <div class="eyebrow">단말기 유형 및 월 임대료</div>
+      <h2 class="title-md">기간이 길수록 월 임대료가 내려갑니다</h2>
+      <p class="q-rate-note" style="margin-top:2px">단말기 1대당 월 임대료 · 단위: 원 · VAT 별도</p>
+    </div>
+    <div class="q-rate-wrap">
+      <table class="q-rate-tb" id="rateTable">
+        <caption class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">단말기 유형별 계약기간에 따른 월 임대료 (VAT 별도)</caption>
+        <thead>
+          <tr><th scope="col">구분</th><th scope="col">벽부형</th><th scope="col">이동형</th><th scope="col">휴대형</th></tr>
+        </thead>
+        <tbody id="rateBody"></tbody>
+      </table>
+    </div>
+    <p class="q-rate-note">* 13개월 이상 계약은 12개월 요율을 적용하며, 수량·기간에 따라 추가 할인이 가능합니다. 설치비·통신비는 별도이며 최종 견적서에서 안내드립니다.</p>
+  </div>
+</section>
+
+<!-- 모바일 하단 제출 바 -->
+<div class="q-mobile-bar" id="mobileBar">
+  <div class="mb-amt"><span class="lb">총 예상 견적 (VAT 포함)</span><span class="vv" id="mbTotal">0원</span></div>
+  <button type="submit" form="quoteForm" class="banner-btn">견적신청하기</button>
+</div>
+
+<!-- ===== footer : kbz.co.kr 회사정보 (index.html과 동일) ===== -->
+<footer class="site-footer">
+  <div class="inner">
+    <div class="ft-top">
+      <div class="ft-logo">
+        <span class="ft-logo-mark" aria-label="김반장"><svg viewBox="0 0 92 28" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M15.1846 2.51313e-07L15.1846 2.24332C15.1846 6.36993 13.207 9.30564 9.25181 11.0781C6.87317 12.1306 3.78923 12.7399 4.22972e-08 12.8783L2.94261e-08 8.95944C3.04245 8.87636 5.51789 8.40554 7.41251 7.53313C9.52839 6.57764 10.5794 5.30366 10.5794 3.71118L0.401051 3.71118L0.401051 0.013848L15.1707 0.0138479L15.1846 2.51313e-07ZM1.46591 14.6924L24.5885 14.6924L24.5885 23.4303C24.5885 24.6766 24.3949 25.4797 23.9938 25.8536C23.579 26.2275 22.6939 26.4075 21.3525 26.4075L3.59562 26.4075C2.8765 26.4075 2.33715 26.2413 2.01908 25.909C1.64569 25.5628 1.46591 24.9397 1.46591 24.0811L1.46591 14.6924ZM20.2461 18.4866L5.78065 18.4866L5.78065 22.5856L20.2461 22.5856L20.2461 18.4866ZM20.2184 2.3478e-07L24.5885 2.20427e-07L24.5885 13.1137L20.2184 13.1137L20.2184 2.3478e-07Z"/><path d="M47.4072 11.7151C47.4072 12.5875 47.2274 13.2107 46.8541 13.5846C46.5222 13.9169 45.9966 14.0831 45.2637 14.0831L33.8683 14.0831C33.163 14.0831 32.6514 13.9169 32.3195 13.5846C31.9737 13.2107 31.7939 12.5875 31.7939 11.7151L31.7939 3.01185e-07L36.164 2.86832e-07L36.164 3.10188L43.051 3.10188L43.051 2.64212e-07L47.3934 2.4995e-07L47.3934 11.7151L47.4072 11.7151ZM33.2598 16.7834L37.6299 16.7834L37.6299 22.5302L56.6037 22.5302L56.6037 26.4075L35.4034 26.4075C34.6843 26.4075 34.1449 26.2552 33.8268 25.9367C33.4535 25.5628 33.2737 24.9397 33.2737 24.0673L33.2737 16.7557L33.2598 16.7834ZM36.1778 10.2196L43.0648 10.2196L43.0648 6.8269L36.1778 6.8269L36.1778 10.2196ZM56.3825 9.38872L56.3825 18.182L52.0124 18.182L52.0124 2.3478e-07L56.3825 2.20427e-07L56.3825 5.46983L59.9228 5.46983L59.9228 9.38872L56.3825 9.38872Z"/><path d="M79.2836 2.49224e-07L79.2836 3.79426L73.6966 3.79426C73.9455 4.97132 74.4572 5.9545 75.2455 6.71612C76.2135 7.67161 77.6103 8.29476 79.4081 8.61325L79.4081 12.6568C77.7762 12.5737 76.2273 12.1167 74.7891 11.2859C73.3232 10.455 72.203 9.40257 71.4424 8.11474C70.6541 9.40257 69.4648 10.4688 67.8744 11.3136C66.3809 12.1167 64.915 12.5737 63.4629 12.6568L63.4629 8.61325C65.2607 8.32245 66.6298 7.69931 67.5564 6.74382C68.317 5.9545 68.801 4.97132 68.9808 3.79426L63.5735 3.79426L63.5735 3.00821e-07L79.2836 2.49224e-07ZM84.2622 13.64C86.143 15.2324 87.0834 17.2404 87.0834 19.6637C87.0834 22.087 86.143 24.1088 84.2622 25.729C82.5197 27.2384 80.4868 28 78.1496 28C75.8125 28 73.7519 27.2384 72.0371 25.729C70.1978 24.1088 69.2712 22.087 69.2712 19.6637C69.2712 17.2404 70.1978 15.2324 72.0371 13.64C73.7519 12.1306 75.7986 11.3689 78.1496 11.3689C80.5006 11.3689 82.5058 12.1306 84.2622 13.64ZM75.1348 16.6311C74.2221 17.4619 73.7657 18.4728 73.7657 19.6775C73.7657 20.8823 74.2221 21.8932 75.1348 22.724C76.0061 23.5272 77.0156 23.9426 78.1773 23.9426C79.3389 23.9426 80.3761 23.5411 81.2474 22.724C82.1601 21.8932 82.6165 20.8823 82.6165 19.6775C82.6165 18.4728 82.1601 17.4619 81.2474 16.6311C80.3761 15.8417 79.3528 15.454 78.1773 15.454C77.0018 15.454 76.0061 15.8417 75.1348 16.6311ZM88.162 8.32245L88.162 12.6429L83.7781 12.6429L83.7781 2.34462e-07L88.162 2.20064e-07L88.162 4.4451L91.7023 4.4451L91.7023 8.3363L88.162 8.3363L88.162 8.32245Z"/></svg></span>
+        <span class="ft-logo-sub">건설 노무관리 자동화 서비스</span>
+      </div>
+      <div class="ft-info">
+      <div class="ft-row">
+        <span class="ft-row-label">문의</span>
+        <div class="ft-row-body">
+          <div class="ft-contact">
+            <div class="ct">
+              <span class="ct-label">프리미엄 문의</span>
+              <span class="ct-num">1588-3818</span>
+            </div>
+            <div class="ct">
+              <span class="ct-label">고객센터</span>
+              <span class="ct-num">1688-8688</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ft-row">
+        <span class="ft-row-label">운영시간<span class="ft-row-sub">주말·공휴일 휴무</span></span>
+        <div class="ft-row-body">
+          <div class="ct-hours">
+            <span class="hr-col"><span class="hr-k">오전</span><span class="hr-v">09:00 ~ 12:30</span></span>
+            <span class="hr-col"><span class="hr-k">오후</span><span class="hr-v">13:30 ~ 18:00</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="ft-row">
+        <span class="ft-row-label">지점</span>
+        <div class="ft-row-body">
+          <div class="ft-addr-tabs">
+            <button class="on" data-addr="(61246) 전남광주통합특별시 북구 금남로 41 (임동) 에스빌딩 9층">본사</button>
+            <button data-addr="(07222) 서울 영등포구 양평로12가길 14 (양평동4가, 르네상스 한강 오피스텔) 903호">서울</button>
+            <button data-addr="(48508) 부산 남구 수영로 312 (대연동) 21센츄리시티오피스텔 627호">부산</button>
+            <button data-addr="(34186) 대전 유성구 대학로 28 (봉명동) 홍인오피스텔 2002호">대전</button>
+            <button data-addr="(41958) 대구 중구 봉산문화길 49 (봉산동) 봉성빌딩 2층">대구</button>
+          </div>
+          <div class="ft-addr-body">
+            <p class="ft-addr-text">(61246) 전남광주통합특별시 북구 금남로 41 (임동) 에스빌딩 9층</p>
+            <button type="button" class="ft-addr-copy" aria-label="주소 복사" title="주소 복사">
+              <svg class="ic-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <nav class="ft-links">
+        <a href="#" class="strong">회사소개</a>
+        <a href="#">이용약관</a>
+        <a href="#" class="strong">개인정보처리방침</a>
+        <div class="ft-family">
+          <button type="button" class="ft-family-btn" aria-expanded="false">패밀리사이트<span class="caret" aria-hidden="true">▾</span></button>
+          <ul class="ft-family-menu">
+            <li><a href="http://www.bizpoll.net" target="_blank" rel="noopener">㈜한국경영원</a></li>
+            <li><a href="http://www.taewonsoft.co.kr" target="_blank" rel="noopener">㈜태원소프트</a></li>
+            <li><a href="https://www.econ.co.kr" target="_blank" rel="noopener">건설업무포털 · 이콘</a></li>
+            <li><a href="https://www.bizsee.net" target="_blank" rel="noopener">사회보험관리 · 비즈씨</a></li>
+            <li><a href="https://www.ossem.co.kr" target="_blank" rel="noopener">원격평생교육원 · 오쌤</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="ft-legal">
+        <span class="ft-name">㈜한국기업진흥원</span><span><span class="ft-label">대표자</span>김태균</span><span class="sep">|</span><span><span class="ft-label">사업자등록번호</span>409-81-65683</span><span class="sep">|</span><span><span class="ft-label">통신판매업신고</span>2017-광주-북구-690호</span>
+        <div class="ft-copy">©Copyright 2026. All Rights Reserved.</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* 푸터 지점 주소 토글 + 복사 */
+(function(){
+  var tabs=document.querySelector('.ft-addr-tabs');
+  var out=document.querySelector('.ft-addr-text');
+  var copy=document.querySelector('.ft-addr-copy');
+  if(!tabs||!out)return;
+  tabs.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-addr]');
+    if(!b)return;
+    tabs.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);});
+    out.textContent=b.getAttribute('data-addr');
+  });
+  if(copy){
+    var timer;
+    copy.addEventListener('click',function(){
+      var text=out.textContent;
+      function done(){copy.classList.add('copied');copy.setAttribute('title','복사됨');clearTimeout(timer);timer=setTimeout(function(){copy.classList.remove('copied');copy.setAttribute('title','주소 복사');},1600);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(function(){fallback(text);done();});}
+      else{fallback(text);done();}
+    });
+    function fallback(text){var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
+  }
+})();
+
+/* 푸터 패밀리사이트 드롭다운 */
+(function(){
+  var fam=document.querySelector('.ft-family');
+  if(!fam)return;
+  var btn=fam.querySelector('.ft-family-btn');
+  function close(){fam.classList.remove('open');btn.setAttribute('aria-expanded','false');}
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    var open=fam.classList.toggle('open');
+    btn.setAttribute('aria-expanded',open?'true':'false');
+  });
+  document.addEventListener('click',function(e){if(!fam.contains(e.target))close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();
+
+/* =========================================================
+   퇴직공제 전자카드 단말기 견적신청
+   ========================================================= */
+
+/* 견적서 발송 API. 값이 비어 있으면(프로토타입) 실제 전송 없이 완료 화면만 노출한다.
+   실서비스 연결 시: 아래 주소로 POST(JSON) → 서버가 견적서 PDF를 생성해 신청자 이메일로 발송 */
+var QUOTE_API = '';
+
+/* 계약기간(개월)별 · 단말기 유형별 월 대당 임대료 (VAT 별도) */
+var RATE = {
+  W400: [null, 205000, 155000, 121000, 105000, 95000, 90000, 83000, 81000, 79000, 77000, 75000, 74000],
+  M400: [null, 170000, 125000,  98000,  95000, 85000, 80000, 78000, 76000, 74000, 72000, 70000, 69000],
+  T900: [null, 180000, 135000, 106000, 104000, 102000, 100000, 98000, 96000, 94000, 92000, 90000, 83000]
+};
+var MAX_TIER = 12;                                  /* 요율표 최대 구간 · 초과분은 12개월 요율 적용 */
+var DEVS = [
+  {id:'W400', name:'벽부형', model:'W400'},
+  {id:'M400', name:'이동형', model:'M400'},
+  {id:'T900', name:'휴대형', model:'T900'}
+];
+
+function won(n){ return Number(n||0).toLocaleString('ko-KR') + '원'; }
+function tier(m){ return Math.min(Math.max(parseInt(m,10)||0, 1), MAX_TIER); }
+
+var form      = document.getElementById('quoteForm');
+var monthsEl  = document.getElementById('months');
+var sumLines  = document.getElementById('sumLines');
+var sumEmpty  = document.getElementById('sumEmpty');
+var sumMid    = document.getElementById('sumMid');
+var btnSubmit = document.getElementById('btnSubmit');
+var errBox    = document.getElementById('formErr');
+
+/* ── 요금표 렌더 ───────────────────────────────────────── */
+(function(){
+  var tb = document.getElementById('rateBody');
+  var html = '';
+  for (var m = 1; m <= MAX_TIER; m++){
+    html += '<tr data-m="' + m + '"><td>' + m + '개월</td>'
+          + '<td>' + RATE.W400[m].toLocaleString('ko-KR') + '</td>'
+          + '<td>' + RATE.M400[m].toLocaleString('ko-KR') + '</td>'
+          + '<td>' + RATE.T900[m].toLocaleString('ko-KR') + '</td></tr>';
+  }
+  tb.innerHTML = html;
+})();
+
+/* ── 현재 입력값 수집 ──────────────────────────────────── */
+function readQuote(){
+  var months = parseInt(monthsEl.value, 10) || 0;
+  var t = tier(months);
+  var items = [], monthly = 0;
+
+  DEVS.forEach(function(d){
+    var on  = form.querySelector('input[name="use_' + d.id + '"]:checked');
+    var qty = parseInt((form.querySelector('input[name="qty_' + d.id + '"]') || {}).value, 10) || 0;
+    if (!on || on.value !== 'Y' || qty < 1) return;
+    var unit = RATE[d.id][t];
+    items.push({ id:d.id, name:d.name, model:d.model, qty:qty, unit:unit, monthly:unit * qty });
+    monthly += unit * qty;
+  });
+
+  var supply = monthly * months;
+  return {
+    months: months, tier: t, items: items,
+    monthly: monthly, supply: supply,
+    vat: Math.round(supply * 0.1), total: supply + Math.round(supply * 0.1)
+  };
+}
+
+/* ── 견적 요약 갱신 ────────────────────────────────────── */
+function render(){
+  var q = readQuote();
+
+  /* 단말기 행 상태 + 대당 요율 */
+  DEVS.forEach(function(d){
+    var row = document.querySelector('.dev-row[data-dev="' + d.id + '"]');
+    var on  = form.querySelector('input[name="use_' + d.id + '"]:checked');
+    row.classList.toggle('is-on', !!on && on.value === 'Y');
+    row.querySelector('[data-rate="' + d.id + '"]').textContent = q.months >= 1 ? won(RATE[d.id][q.tier]) : '—';
+  });
+
+  document.getElementById('sumCond').textContent =
+    (q.months >= 1 ? '기간 ' + q.months + '개월' : '기간 미입력') + ' · VAT 별도 요율 기준';
+
+  sumLines.innerHTML = q.items.map(function(it){
+    return '<div class="q-sum-line"><span class="nm">' + it.name + '</span>'
+         + '<span class="qty">' + won(it.unit) + ' × ' + it.qty + '대</span>'
+         + '<span class="amt">' + won(it.monthly) + '</span></div>';
+  }).join('');
+
+  var has = q.items.length > 0 && q.months >= 1;
+  sumEmpty.hidden = has;
+  sumMid.hidden   = !has;
+
+  document.getElementById('sumMonthsX').textContent = q.months;
+  document.getElementById('sumMonthly').textContent = won(q.monthly);
+  document.getElementById('sumSupply').textContent  = won(q.supply);
+  document.getElementById('sumVat').textContent     = won(q.vat);
+  document.getElementById('sumTotal').textContent   = won(q.total);
+  document.getElementById('mbTotal').textContent    = won(q.total);
+
+  /* 1개월 요율 대비 절감액 */
+  var save = document.getElementById('sumSave');
+  if (has && q.months > 1){
+    var base = q.items.reduce(function(s, it){ return s + RATE[it.id][1] * it.qty; }, 0) * q.months;
+    var diff = base - q.supply;
+    var pct  = Math.round(diff / base * 100);
+    save.innerHTML = '1개월 단기 요율로 같은 기간을 쓰실 때보다 <b>' + won(diff) + ' (' + pct + '%)</b> 아낄 수 있습니다.';
+    save.classList.add('on');
+  } else {
+    save.classList.remove('on');
+  }
+
+  /* 요금표에서 현재 기간 강조 */
+  document.querySelectorAll('#rateBody tr').forEach(function(tr){
+    tr.classList.toggle('on', has && parseInt(tr.dataset.m, 10) === q.tier);
+  });
+
+  btnSubmit.disabled = !has;
+}
+
+/* ── 유효성 검사 ───────────────────────────────────────── */
+function validate(q){
+  var bad = [];
+  form.querySelectorAll('.field.is-err').forEach(function(f){ f.classList.remove('is-err'); });
+
+  function need(sel, label){
+    var el = form.querySelector(sel);
+    if (!el || !el.value.trim()){
+      bad.push(label);
+      if (el) el.closest('.field').classList.add('is-err');
+      return null;
+    }
+    return el;
+  }
+
+  if (!q.items.length) bad.push('견적 단말기 1종 이상');
+  if (q.months < 1){ bad.push('기간(월)'); document.getElementById('fieldMonths').classList.add('is-err'); }
+
+  need('[name=company]', '회사명');
+  need('[name=manager]', '담당자명');
+  need('[name=phone]',   '연락처');
+  var email = need('[name=email]', '이메일');
+  if (email && email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){
+    bad.push('올바른 이메일 형식');
+    email.closest('.field').classList.add('is-err');
+  }
+  if (!document.getElementById('agree').checked) bad.push('개인정보 수집·이용 동의');
+
+  return bad;
+}
+
+/* ── 제출 ──────────────────────────────────────────────── */
+function receiptNo(){
+  var d = new Date(), p = function(n){ return String(n).padStart(2, '0'); };
+  return 'Q' + d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + '-'
+       + String(Math.floor(Math.random() * 9000) + 1000);
+}
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  var q = readQuote();
+  var bad = validate(q);
+
+  if (bad.length){
+    errBox.textContent = '다음 항목을 확인해 주세요 · ' + bad.join(', ');
+    errBox.classList.add('on');
+    var first = form.querySelector('.field.is-err input, .field.is-err textarea');
+    (first || errBox).scrollIntoView({ behavior:'smooth', block:'center' });
+    if (first) first.focus({ preventScroll:true });
+    return;
+  }
+  errBox.classList.remove('on');
+
+  var fd = new FormData(form);
+  var payload = {
+    receipt_no: receiptNo(),
+    requested_at: new Date().toISOString(),
+    applicant: {
+      company: fd.get('company'), manager: fd.get('manager'),
+      phone: fd.get('phone'),     email:   fd.get('email'),
+      site:  fd.get('site'),      region:  fd.get('region'),
+      start_date: fd.get('start_date'), memo: fd.get('memo')
+    },
+    quote: {
+      months: q.months, rate_tier: q.tier,
+      items: q.items.map(function(it){
+        return { model:it.model, name:it.name, qty:it.qty, unit_monthly:it.unit, monthly:it.monthly };
+      }),
+      monthly: q.monthly, supply: q.supply, vat: q.vat, total: q.total
+    }
+  };
+
+  btnSubmit.disabled = true;
+  btnSubmit.textContent = '전송 중…';
+
+  function done(){
+    document.getElementById('doneEmail').textContent = payload.applicant.email;
+    document.getElementById('doneNo').textContent    = payload.receipt_no;
+    document.getElementById('doneRecap').innerHTML =
+      '<div class="rl"><span>계약기간</span><span class="v">' + q.months + '개월</span></div>'
+      + q.items.map(function(it){
+          return '<div class="rl"><span>' + it.name + ' (' + it.model + ')</span><span class="v">' + it.qty + '대 · ' + won(it.monthly) + '/월</span></div>';
+        }).join('')
+      + '<div class="rl tot"><span>총 예상 견적 <small>VAT 포함</small></span><span class="v">' + won(q.total) + '</span></div>';
+    form.hidden = true;
+    document.getElementById('mobileBar').style.display = 'none';
+    document.getElementById('sumPane').style.display = 'none';
+    document.getElementById('doneCard').classList.add('on');
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+  function fail(){
+    btnSubmit.disabled = false;
+    btnSubmit.textContent = '견적신청하기';
+    errBox.textContent = '전송에 실패했습니다. 잠시 후 다시 시도하시거나 1588-3818로 연락해 주세요.';
+    errBox.classList.add('on');
+  }
+
+  if (!QUOTE_API){                       /* 프로토타입: 전송 없이 완료 화면 */
+    console.log('[견적신청 payload]', payload);
+    setTimeout(done, 600);
+    return;
+  }
+  fetch(QUOTE_API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(function(r){ r.ok ? done() : fail(); }).catch(fail);
+});
+
+/* 다시 신청하기 */
+document.getElementById('btnAgain').addEventListener('click', function(){
+  form.reset();
+  form.hidden = false;
+  document.getElementById('doneCard').classList.remove('on');
+  document.getElementById('sumPane').style.display = '';
+  document.getElementById('mobileBar').style.display = '';
+  btnSubmit.textContent = '견적신청하기';
+  render();
+  window.scrollTo({ top:0, behavior:'smooth' });
+});
+
+/* 입력 변화 → 즉시 재계산 */
+form.addEventListener('input',  render);
+form.addEventListener('change', render);
+
+/* 수량·기간 범위 보정 */
+form.addEventListener('change', function(e){
+  var el = e.target;
+  if (el.type !== 'number') return;
+  var v = parseInt(el.value, 10);
+  var min = parseInt(el.min, 10), max = parseInt(el.max, 10);
+  if (isNaN(v)) return;
+  if (v < min) el.value = min;
+  if (v > max) el.value = max;
+  render();
+});
+
+/* 견적 선택 시 해당 행의 수량으로 포커스 이동 */
+DEVS.forEach(function(d){
+  form.querySelectorAll('input[name="use_' + d.id + '"]').forEach(function(r){
+    r.addEventListener('change', function(){
+      if (r.value !== 'Y') return;
+      var qty = form.querySelector('input[name="qty_' + d.id + '"]');
+      if (qty) qty.focus({ preventScroll:true });
+    });
+  });
+});
+
+render();
+</script>
+</body>
+</html>
