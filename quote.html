@@ -103,7 +103,9 @@ body.quote-page{
 .q-hero .inner{display:block}                     /* 브로슈어 인물 컷을 빼고 타이포로 연다 */
 .q-hero h1{line-height:1.14;word-break:keep-all}
 /* 좁은 폭에선 데스크톱용 줄바꿈이 '단말기'만 남는 고아 줄을 만든다 → 자연스럽게 흐르게 */
-@media(max-width:640px){.q-hero{padding:30px 0 24px}.q-hero h1{font-size:31px}.q-hero h1 br{display:none}}
+/* 좁은 폭에서도 '…단말기' 다음에서 줄을 바꾼다. 크기를 고정하면 첫 줄이
+   한 번 더 접혀 '단말기'만 남는 줄이 생기므로, 폭에 따라 줄어들게 한다. */
+@media(max-width:640px){.q-hero{padding:30px 0 24px}.q-hero h1{font-size:clamp(20px,7vw,31px)}}
 
 /* ===== 본문 2단 ===== */
 .q-main{padding:56px 0 128px}
