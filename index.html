@@ -1207,7 +1207,9 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
 /* ===== 견적신청 모달 =====
    견적 페이지를 iframe으로 띄운다. 인라인으로 심으면 반응형 기준이
    모달 폭이 아니라 브라우저 창이 되어 좁은 모달에 데스크톱 레이아웃이 뜬다. */
-.qm{position:relative;margin:auto;padding:0;border:0;max-width:none;max-height:none;
+/* position은 건드리지 않는다. 브라우저 기본값(fixed)을 relative로 덮으면
+   모달이 문서 맨 위에 놓인 것으로 계산돼, 열 때 페이지가 최상단으로 스크롤된다. */
+.qm{margin:auto;padding:0;border:0;max-width:none;max-height:none;
   width:min(1040px,calc(100vw - 40px));height:min(88vh,900px);
   border-radius:14px;background:var(--main-white);overflow:hidden;
   box-shadow:0 30px 80px -30px rgba(19,20,22,.5)}
