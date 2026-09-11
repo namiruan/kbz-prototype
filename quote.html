@@ -210,11 +210,7 @@ body.quote-page{
    --q-sticky-top을 헤더 높이 + 여백으로 덮어쓰면 된다. */
 .q-sum{position:sticky;top:var(--q-sticky-top,20px)}
 .q-sum-card{background:var(--fill);border:1px solid var(--line);border-radius:8px;padding:22px 20px;color:var(--ink);box-shadow:none}
-/* 겉에는 무엇을 몇 대 골랐는지만. 단가·소계는 계산 내역 안으로 들어간다
-   (소계의 합이 곧 월 합계라 겉에 두면 중복이고, 할인된 단가가 '할인 전' 바로
-    위에 놓여 헷갈렸다) */
-.q-sum-picked{font-size:13px;font-weight:600;color:var(--ink);line-height:1.6;word-break:keep-all}
-.q-sum-picked[hidden]{display:none}
+/* 단가·소계는 계산 내역 안에 둔다. 무엇을 몇 대 골랐는지는 단말기 카드가 보여준다 */
 #sumItems{padding-bottom:7px;margin-bottom:7px;border-bottom:1px dashed var(--line)}
 #sumItems .nm{font-weight:600;color:var(--ink)}
 .q-sum-line{display:flex;align-items:baseline;gap:8px;font-size:13.5px;padding:5px 0;color:var(--ink-2)}
@@ -238,12 +234,12 @@ body.quote-page{
 .q-sum-mid-body .q-sum-line{font-size:13px}
 .q-sum-mid-body .q-sum-line .nm{font-weight:500;color:var(--ink-2)}
 .q-sum-mid-body .q-sum-line .amt{font-weight:600;color:var(--ink-2)}
-.q-sum-total{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);display:flex;align-items:flex-end;gap:10px}
+.q-sum-total{display:flex;align-items:flex-end;gap:10px}
 .q-sum-total .lb{font-size:13px;font-weight:600;color:var(--ink-2);line-height:1.4}
 .q-sum-total .lb small{display:block;font-size:11.5px;font-weight:500;color:var(--ink-3)}
 .q-sum-total .vv{margin-left:auto;font-family:var(--font-title);font-size:31px;font-weight:800;letter-spacing:-.05em;line-height:1.05;color:var(--ink);white-space:nowrap}
 /* 할인 블록 — 기간이 1개월을 넘어 실제 할인이 붙을 때만 나온다 */
-.q-sum-disc{display:none;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.q-sum-disc{display:none;margin-top:0;padding-top:0;border-top:0}
 .q-sum-disc.on{display:block}
 .q-sum-disc .was{padding:4px 0 0;font-size:12.5px}
 .q-sum-disc .was .nm{font-weight:500;color:var(--ink-3)}
@@ -253,9 +249,9 @@ body.quote-page{
 .q-sum-rate .pct{margin-left:auto;font-family:var(--font-title);font-size:27px;font-weight:800;letter-spacing:-.045em;line-height:1;color:var(--accent)}
 /* 할인이 보일 때는 할인 전 → 할인율 → 총액이 한 덩어리로 읽히도록 사이 구분선을 뺀다.
    할인이 없을 때는 총액이 부가세 줄에 바로 붙지 않도록 원래 구분선을 그대로 쓴다. */
-.q-sum-disc.on + .q-sum-fold > .q-sum-total{margin-top:12px;padding-top:0;border-top:0}
-.q-sum-picked[hidden] ~ .q-sum-fold > .q-sum-total{margin-top:0;padding-top:0;border-top:0}
-.q-sum-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3);line-height:1.65;word-break:keep-all}
+/* 할인 블록이 보일 때만 총액을 그만큼 띄운다 */
+.q-sum-disc.on + .q-sum-fold > .q-sum-total{margin-top:12px}
+.q-sum-note{margin-top:11px;font-size:11.5px;color:var(--ink-3);line-height:1.65;word-break:keep-all}
 .q-sum-submit{margin-top:16px}
 @media(max-width:1024px){.q-sum{position:static}.q-sum-card{margin-top:0}}
 
@@ -271,7 +267,7 @@ body.quote-page{
 #btnSubmit[disabled]{background:#E4E7EA;color:var(--ink-3);cursor:not-allowed}
 
 /* ===== 동의 ===== */
-.q-agree{margin-top:16px;padding:14px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:none}
+.q-agree{margin-top:18px;padding:16px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:none}
 .q-check{display:flex;align-items:flex-start;gap:9px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.5;word-break:keep-all}
 .q-check input{position:absolute;opacity:0;width:0;height:0}
 .q-check .box{flex:none;margin-top:0;width:16px;height:16px;border-radius:3px;border:1.5px solid #C6CBD1;background:#fff;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
@@ -483,8 +479,6 @@ body.quote-page{
     <!-- 우측 : 견적 요약 (입력 즉시 재계산) -->
     <aside class="q-sum" id="sumPane">
       <div class="q-sum-card">
-        <p class="q-sum-picked" id="sumPicked" hidden></p>
-
         <div class="q-sum-disc" id="sumDisc">
           <div class="q-sum-rate"><span class="nm" id="sumOffLabel">장기계약 할인</span><span class="pct tnum" id="sumOff">0%</span></div>
           <div class="q-sum-line was"><span class="nm">할인 전</span><span class="amt" id="sumWas">0원</span></div>
@@ -502,22 +496,22 @@ body.quote-page{
           </div>
         </details>
 
-        <p class="q-sum-note">설치비·통신비 별도 · 최종 금액은 견적서에서 확정됩니다.</p>
-
-          <div class="q-agree">
-            <div class="q-agree-row">
-              <label class="q-check">
-                <input type="checkbox" name="agree" id="agree" form="quoteForm">
-                <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
-                <span>개인정보 수집·이용에 동의합니다.<span class="f-req">*</span></span>
-              </label>
-              <button type="button" class="q-agree-link" id="privacyOpen" aria-haspopup="dialog">내용 보기</button>
-            </div>
+        <div class="q-agree">
+          <div class="q-agree-row">
+            <label class="q-check">
+              <input type="checkbox" name="agree" id="agree" form="quoteForm">
+              <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
+              <span>개인정보 수집·이용에 동의합니다.<span class="f-req">*</span></span>
+            </label>
+            <button type="button" class="q-agree-link" id="privacyOpen" aria-haspopup="dialog">내용 보기</button>
           </div>
+        </div>
 
         <div class="q-sum-submit">
           <button type="submit" form="quoteForm" class="banner-btn" id="btnSubmit">견적신청하기</button>
         </div>
+
+        <p class="q-sum-note">설치비·통신비 별도 · 최종 금액은 견적서에서 확정됩니다.</p>
       </div>
     </aside>
 
@@ -611,7 +605,6 @@ function tier(m){ return Math.min(Math.max(parseInt(m,10)||0, 1), MAX_TIER); }
 
 var form      = document.getElementById('quoteForm');
 var monthsEl  = document.getElementById('months');
-var sumPicked = document.getElementById('sumPicked');
 var sumItems  = document.getElementById('sumItems');
 var sumMid    = document.getElementById('sumMid');
 var btnSubmit = document.getElementById('btnSubmit');
@@ -667,8 +660,6 @@ function render(){
             .classList.toggle('is-on', !!on && on.checked);
   });
 
-  /* 겉: 무엇을 몇 대 골랐는지 */
-  sumPicked.textContent = q.items.map(function(it){ return it.name + ' ' + it.qty + '대'; }).join(' · ');
   /* 계산 내역: 단가 × 수량 = 소계 */
   sumItems.innerHTML = q.items.map(function(it){
     return '<div class="q-sum-line"><span class="nm">' + it.name + '</span>'
@@ -677,7 +668,6 @@ function render(){
   }).join('');
 
   var has = q.items.length > 0 && q.months >= 1;
-  sumPicked.hidden = !q.items.length;
   /* 고를 게 없으면 펼칠 내용도 없다 → 토글을 끄고 접어둔다 */
   sumMid.classList.toggle('no-detail', !has);
   if (!has) sumMid.open = false;
