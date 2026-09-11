@@ -194,7 +194,17 @@ body.quote-page{
 .stepper button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .stepper input{width:40px;height:100%;padding:0;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);background:none;outline:0;font:inherit;font-size:14px;font-weight:700;color:var(--field-ink);text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
 .stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-@media(max-width:860px){.dev-grid{grid-template-columns:1fr}.dev-pick{padding:0 16px 14px}.dev-desc{margin-top:2px}}
+/* 1열로 접히는 구간에서는 세로 카드가 화면을 너무 먹는다(3장에 800px 가까이).
+   사진을 왼쪽 썸네일로 돌려 가로형으로 눕힌다. 마크업은 그대로 두고 grid 영역으로만
+   재배치 — .dev-pick 안의 체크박스는 absolute라 배치에 끼어들지 않는다. */
+@media(max-width:860px){
+  .dev-grid{grid-template-columns:1fr;gap:8px}
+  .dev-pick{display:grid;grid-template-columns:104px minmax(0,1fr);grid-template-areas:"media name" "media desc";column-gap:14px;align-content:center;padding:12px 14px}
+  .dev-media{grid-area:media;align-self:center;width:104px;height:78px;margin:0;border-radius:6px}
+  .dev-name{grid-area:name;align-self:end}
+  .dev-desc{grid-area:desc;align-self:start;margin-top:3px}
+  .dev-qty{padding:0 14px 12px 132px}   /* 이름·설명과 같은 열에서 시작 */
+}
 
 /* ===== 견적 요약 (영수증) ===== */
 /* 홈페이지 공통 헤더(고정형) 아래에 붙도록 --header-height 만큼 내려둔다.
