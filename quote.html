@@ -117,8 +117,7 @@ body.quote-page{
 #quoteForm,.q-sum{min-width:0}
 .q-card{min-width:0;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
 .q-card + .q-card{margin-top:54px;padding-top:54px;border-top:1px solid var(--line)}
-.q-step{display:flex;align-items:baseline;gap:11px;margin-bottom:22px}
-.q-step .n{flex:none;width:auto;height:auto;border-radius:0;background:none;color:var(--ink-4);font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:.09em;font-variant-numeric:tabular-nums}
+.q-step{margin-bottom:22px}
 .q-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
 
 /* =========================================================
@@ -364,7 +363,7 @@ body.quote-page{
 
       <!-- STEP 1 : 신청자 정보 -->
       <div class="q-card">
-        <div class="q-step"><span class="n">01</span><h2>신청자 정보</h2></div>
+        <div class="q-step"><h2>신청자 정보</h2></div>
         <div class="f-grid">
           <div class="f-item grow">
             <label class="f-label" for="q-company">회사명<span class="f-req">(필수)</span></label>
@@ -387,7 +386,7 @@ body.quote-page{
 
       <!-- STEP 2 : 견적 조건 — 임대 기간이 정해져야 단말기별 월 임대료가 결정된다 -->
       <div class="q-card">
-        <div class="q-step"><span class="n">02</span><h2>견적 조건</h2></div>
+        <div class="q-step"><h2>견적 조건</h2></div>
         <div class="f-grid cols3">
           <div class="f-item grow">
             <span class="f-labelrow">
@@ -421,7 +420,7 @@ body.quote-page{
 
       <!-- STEP 3 : 단말기 선택 -->
       <div class="q-card">
-        <div class="q-step"><span class="n">03</span><h2>단말기 선택</h2></div>
+        <div class="q-step"><h2>단말기 선택</h2></div>
         <div id="devList" class="dev-grid">
           <!-- 벽부형 -->
           <div class="dev-card" data-dev="W400">
