@@ -186,12 +186,10 @@ body.quote-page{
 .dev-row.is-on .dev-ico{background:none;color:var(--accent)}
 .dev-name{font-family:var(--font-body);font-size:15.5px;font-weight:800;letter-spacing:-.035em;line-height:1.35;color:var(--ink)}
 .dev-desc{font-size:13px;color:var(--ink-3);line-height:1.55;margin-top:2px;word-break:keep-all}
-.dev-body{display:none;margin-top:14px;padding:14px 16px;border-top:0;border-radius:10px;background:var(--fill);align-items:center;gap:12px;flex-wrap:wrap}
+.dev-body{display:none;margin-top:12px;margin-left:35px;padding:0;border:0;background:none;align-items:center;gap:10px;flex-wrap:wrap}
 .dev-row.is-on .dev-body{display:flex}
-.dev-body .field{background:var(--main-white)}
-.dev-rate{margin-left:auto;text-align:right;font-size:12.5px;color:var(--ink-3);line-height:1.4}
-.dev-rate b{display:block;margin-top:1px;font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-@media(max-width:532px){.dev-head .f-radios{margin-left:0;width:100%;padding-top:6px}.dev-rate{margin-left:0;text-align:left;width:100%}}
+.dev-body .field{min-width:150px}
+@media(max-width:532px){.dev-head .f-radios{margin-left:0;width:100%;padding-top:6px}.dev-body{margin-left:0}}
 
 /* ===== 견적 요약 (영수증) ===== */
 /* 홈페이지 공통 헤더(고정형) 아래에 붙도록 --header-height 만큼 내려둔다.
@@ -297,100 +295,9 @@ body.quote-page{
 
     <form id="quoteForm" novalidate>
 
-      <!-- STEP 1 : 입력 항목 -->
+      <!-- STEP 1 : 신청자 정보 -->
       <div class="q-card">
-        <div class="q-step"><span class="n">01</span><h2>입력 항목</h2></div>
-        <p class="q-step-desc">견적이 필요한 단말기를 <b>견적</b>으로 선택하고 수량을 입력하세요. 선택한 단말기만 견적서에 담깁니다.</p>
-
-        <div id="devList">
-          <!-- 벽부형 -->
-          <div class="dev-row" data-dev="W400">
-            <div class="dev-head">
-              <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7M8.5 10h7"/><circle cx="12" cy="15.5" r="2.4"/></svg></span>
-              <div>
-                <div class="dev-name">벽부형</div>
-                <p class="dev-desc">출입구·게이트에 고정 설치. 상시 출입 통제가 필요한 현장에 적합합니다.</p>
-              </div>
-              <div class="f-radios" role="radiogroup" aria-label="벽부형 견적 여부">
-                <label class="f-radio"><input type="radio" name="use_W400" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
-                <label class="f-radio"><input type="radio" name="use_W400" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
-              </div>
-            </div>
-            <div class="dev-body">
-              <label class="field">
-                <span class="f-label">수량<span class="f-req" aria-hidden="true">*</span></span>
-                <input type="number" name="qty_W400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="벽부형 수량">
-                <span class="f-unit">대</span>
-              </label>
-              <div class="dev-rate">월 대당 임대료<b data-rate="W400">—</b></div>
-            </div>
-          </div>
-
-          <!-- 이동형 -->
-          <div class="dev-row" data-dev="M400">
-            <div class="dev-head">
-              <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="12.5" rx="2.5"/><path d="M9 7V5.2A1.7 1.7 0 0 1 10.7 3.5h2.6A1.7 1.7 0 0 1 15 5.2V7"/><path d="M2.5 12.6h19"/></svg></span>
-              <div>
-                <div class="dev-name">이동형</div>
-                <p class="dev-desc">케이스형으로 현장 간 이동 설치. 공정에 따라 위치가 바뀌는 현장에 적합합니다.</p>
-              </div>
-              <div class="f-radios" role="radiogroup" aria-label="이동형 견적 여부">
-                <label class="f-radio"><input type="radio" name="use_M400" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
-                <label class="f-radio"><input type="radio" name="use_M400" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
-              </div>
-            </div>
-            <div class="dev-body">
-              <label class="field">
-                <span class="f-label">수량<span class="f-req" aria-hidden="true">*</span></span>
-                <input type="number" name="qty_M400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="이동형 수량">
-                <span class="f-unit">대</span>
-              </label>
-              <div class="dev-rate">월 대당 임대료<b data-rate="M400">—</b></div>
-            </div>
-          </div>
-
-          <!-- 휴대형 -->
-          <div class="dev-row" data-dev="T900">
-            <div class="dev-head">
-              <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M9.5 6h5"/><path d="M10.5 18.5h3"/></svg></span>
-              <div>
-                <div class="dev-name">휴대형</div>
-                <p class="dev-desc">들고 다니며 태그. 소규모·분산 현장이나 순회 점검에 적합합니다.</p>
-              </div>
-              <div class="f-radios" role="radiogroup" aria-label="휴대형 견적 여부">
-                <label class="f-radio"><input type="radio" name="use_T900" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
-                <label class="f-radio"><input type="radio" name="use_T900" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
-              </div>
-            </div>
-            <div class="dev-body">
-              <label class="field">
-                <span class="f-label">수량<span class="f-req" aria-hidden="true">*</span></span>
-                <input type="number" name="qty_T900" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="휴대형 수량">
-                <span class="f-unit">대</span>
-              </label>
-              <div class="dev-rate">월 대당 임대료<b data-rate="T900">—</b></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="f-grid" style="margin-top:16px">
-          <label class="field grow" id="fieldMonths">
-            <span class="f-label">기간(월)<span class="f-req" aria-hidden="true">*</span></span>
-            <input type="number" name="months" id="months" min="1" max="60" step="1" value="12" inputmode="numeric" placeholder="0">
-            <span class="f-unit">개월</span>
-            <span class="f-hint">[정수형]</span>
-          </label>
-          <label class="field grow">
-            <span class="f-label">희망 설치일</span>
-            <input type="date" name="start_date">
-          </label>
-        </div>
-        <p class="q-note" style="margin-top:10px">기간이 길수록 월 임대료가 낮아집니다. 13개월 이상은 12개월 요율로 계산되며, 정확한 금액은 담당자가 확인 후 안내드립니다.</p>
-      </div>
-
-      <!-- STEP 2 : 신청자 정보 -->
-      <div class="q-card">
-        <div class="q-step"><span class="n">02</span><h2>신청자 정보</h2></div>
+        <div class="q-step"><span class="n">01</span><h2>신청자 정보</h2></div>
         <p class="q-step-desc">견적서는 아래 입력하신 이메일로 자동 발송됩니다.</p>
 
         <div class="f-grid">
@@ -423,6 +330,100 @@ body.quote-page{
             <span class="f-label">요청사항</span>
             <textarea name="memo" rows="3" placeholder="설치 일정, 기존 단말기 교체 여부 등 알려주실 내용을 적어주세요."></textarea>
           </label>
+        </div>
+      </div>
+
+      <!-- STEP 2 : 견적 조건 — 임대 기간이 정해져야 단말기별 월 임대료가 결정된다 -->
+      <div class="q-card">
+        <div class="q-step"><span class="n">02</span><h2>견적 조건</h2></div>
+        <p class="q-step-desc">임대 기간에 따라 월 임대료가 달라집니다. 기간을 먼저 정해주세요.</p>
+
+        <div class="f-grid">
+          <label class="field grow" id="fieldMonths">
+            <span class="f-label">기간(월)<span class="f-req" aria-hidden="true">*</span></span>
+            <input type="number" name="months" id="months" min="1" max="60" step="1" value="12" inputmode="numeric" placeholder="0">
+            <span class="f-unit">개월</span>
+            <span class="f-hint">[정수형]</span>
+          </label>
+          <label class="field grow">
+            <span class="f-label">희망 설치일</span>
+            <input type="date" name="start_date">
+          </label>
+        </div>
+        <p class="q-note" style="margin-top:10px">기간이 길수록 월 임대료가 낮아집니다. 13개월 이상은 12개월 요율로 계산되며, 정확한 금액은 담당자가 확인 후 안내드립니다.</p>
+      </div>
+
+      <!-- STEP 3 : 단말기 선택 -->
+      <div class="q-card">
+        <div class="q-step"><span class="n">03</span><h2>단말기 선택</h2></div>
+        <p class="q-step-desc">견적이 필요한 단말기를 <b>견적</b>으로 선택하고 수량을 입력하세요. 선택한 단말기만 견적서에 담깁니다.</p>
+
+        <div id="devList">
+          <!-- 벽부형 -->
+          <div class="dev-row" data-dev="W400">
+            <div class="dev-head">
+              <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7M8.5 10h7"/><circle cx="12" cy="15.5" r="2.4"/></svg></span>
+              <div>
+                <div class="dev-name">벽부형</div>
+                <p class="dev-desc">출입구·게이트에 고정 설치. 상시 출입 통제가 필요한 현장에 적합합니다.</p>
+              </div>
+              <div class="f-radios" role="radiogroup" aria-label="벽부형 견적 여부">
+                <label class="f-radio"><input type="radio" name="use_W400" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
+                <label class="f-radio"><input type="radio" name="use_W400" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
+              </div>
+            </div>
+            <div class="dev-body">
+              <label class="field">
+                <span class="f-label">수량<span class="f-req" aria-hidden="true">*</span></span>
+                <input type="number" name="qty_W400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="벽부형 수량">
+                <span class="f-unit">대</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 이동형 -->
+          <div class="dev-row" data-dev="M400">
+            <div class="dev-head">
+              <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="12.5" rx="2.5"/><path d="M9 7V5.2A1.7 1.7 0 0 1 10.7 3.5h2.6A1.7 1.7 0 0 1 15 5.2V7"/><path d="M2.5 12.6h19"/></svg></span>
+              <div>
+                <div class="dev-name">이동형</div>
+                <p class="dev-desc">케이스형으로 현장 간 이동 설치. 공정에 따라 위치가 바뀌는 현장에 적합합니다.</p>
+              </div>
+              <div class="f-radios" role="radiogroup" aria-label="이동형 견적 여부">
+                <label class="f-radio"><input type="radio" name="use_M400" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
+                <label class="f-radio"><input type="radio" name="use_M400" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
+              </div>
+            </div>
+            <div class="dev-body">
+              <label class="field">
+                <span class="f-label">수량<span class="f-req" aria-hidden="true">*</span></span>
+                <input type="number" name="qty_M400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="이동형 수량">
+                <span class="f-unit">대</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 휴대형 -->
+          <div class="dev-row" data-dev="T900">
+            <div class="dev-head">
+              <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M9.5 6h5"/><path d="M10.5 18.5h3"/></svg></span>
+              <div>
+                <div class="dev-name">휴대형</div>
+                <p class="dev-desc">들고 다니며 태그. 소규모·분산 현장이나 순회 점검에 적합합니다.</p>
+              </div>
+              <div class="f-radios" role="radiogroup" aria-label="휴대형 견적 여부">
+                <label class="f-radio"><input type="radio" name="use_T900" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
+                <label class="f-radio"><input type="radio" name="use_T900" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
+              </div>
+            </div>
+            <div class="dev-body">
+              <label class="field">
+                <span class="f-label">수량<span class="f-req" aria-hidden="true">*</span></span>
+                <input type="number" name="qty_T900" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="휴대형 수량">
+                <span class="f-unit">대</span>
+              </label>
+            </div>
+          </div>
         </div>
 
         <div class="q-agree">
@@ -549,12 +550,11 @@ function readQuote(){
 function render(){
   var q = readQuote();
 
-  /* 단말기 행 상태 + 대당 요율 */
+  /* 단말기 행 선택 상태 */
   DEVS.forEach(function(d){
-    var row = document.querySelector('.dev-row[data-dev="' + d.id + '"]');
-    var on  = form.querySelector('input[name="use_' + d.id + '"]:checked');
-    row.classList.toggle('is-on', !!on && on.value === 'Y');
-    row.querySelector('[data-rate="' + d.id + '"]').textContent = q.months >= 1 ? won(RATE[d.id][q.tier]) : '—';
+    var on = form.querySelector('input[name="use_' + d.id + '"]:checked');
+    document.querySelector('.dev-row[data-dev="' + d.id + '"]')
+            .classList.toggle('is-on', !!on && on.value === 'Y');
   });
 
   document.getElementById('sumCond').textContent =
