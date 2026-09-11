@@ -185,7 +185,6 @@ body.quote-page{
 .dev-ico svg{width:21px;height:21px}
 .dev-row.is-on .dev-ico{background:none;color:var(--accent)}
 .dev-name{font-family:var(--font-body);font-size:15.5px;font-weight:800;letter-spacing:-.035em;line-height:1.35;color:var(--ink)}
-.dev-name .model{font-size:12px;font-weight:600;color:var(--ink-3);margin-left:6px;letter-spacing:0}
 .dev-desc{font-size:13px;color:var(--ink-3);line-height:1.55;margin-top:2px;word-break:keep-all}
 .dev-body{display:none;margin-top:14px;padding:14px 16px;border-top:0;border-radius:10px;background:var(--fill);align-items:center;gap:12px;flex-wrap:wrap}
 .dev-row.is-on .dev-body{display:flex}
@@ -309,10 +308,10 @@ body.quote-page{
             <div class="dev-head">
               <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7M8.5 10h7"/><circle cx="12" cy="15.5" r="2.4"/></svg></span>
               <div>
-                <div class="dev-name">벽부형<span class="model">W400</span></div>
+                <div class="dev-name">벽부형</div>
                 <p class="dev-desc">출입구·게이트에 고정 설치. 상시 출입 통제가 필요한 현장에 적합합니다.</p>
               </div>
-              <div class="f-radios" role="radiogroup" aria-label="벽부형(W400) 견적 여부">
+              <div class="f-radios" role="radiogroup" aria-label="벽부형 견적 여부">
                 <label class="f-radio"><input type="radio" name="use_W400" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
                 <label class="f-radio"><input type="radio" name="use_W400" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
               </div>
@@ -332,10 +331,10 @@ body.quote-page{
             <div class="dev-head">
               <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="12.5" rx="2.5"/><path d="M9 7V5.2A1.7 1.7 0 0 1 10.7 3.5h2.6A1.7 1.7 0 0 1 15 5.2V7"/><path d="M2.5 12.6h19"/></svg></span>
               <div>
-                <div class="dev-name">이동형<span class="model">M400</span></div>
+                <div class="dev-name">이동형</div>
                 <p class="dev-desc">케이스형으로 현장 간 이동 설치. 공정에 따라 위치가 바뀌는 현장에 적합합니다.</p>
               </div>
-              <div class="f-radios" role="radiogroup" aria-label="이동형(M400) 견적 여부">
+              <div class="f-radios" role="radiogroup" aria-label="이동형 견적 여부">
                 <label class="f-radio"><input type="radio" name="use_M400" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
                 <label class="f-radio"><input type="radio" name="use_M400" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
               </div>
@@ -355,10 +354,10 @@ body.quote-page{
             <div class="dev-head">
               <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M9.5 6h5"/><path d="M10.5 18.5h3"/></svg></span>
               <div>
-                <div class="dev-name">휴대형<span class="model">T900</span></div>
+                <div class="dev-name">휴대형</div>
                 <p class="dev-desc">들고 다니며 태그. 소규모·분산 현장이나 순회 점검에 적합합니다.</p>
               </div>
-              <div class="f-radios" role="radiogroup" aria-label="휴대형(T900) 견적 여부">
+              <div class="f-radios" role="radiogroup" aria-label="휴대형 견적 여부">
                 <label class="f-radio"><input type="radio" name="use_T900" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
                 <label class="f-radio"><input type="radio" name="use_T900" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
               </div>
@@ -504,6 +503,8 @@ var RATE = {
   T900: [null, 180000, 135000, 106000, 104000, 102000, 100000, 98000, 96000, 94000, 92000, 90000, 83000]
 };
 var MAX_TIER = 12;                      /* 요율 구간 상한 · 13개월 이상은 12개월 요율 적용 */
+/* W400·M400·T900은 화면에 노출하지 않는 내부 식별자다(폼 필드명·요율표 키·전송 payload).
+   고객에게는 벽부형·이동형·휴대형이라는 유형 이름만 보인다. */
 var DEVS = [
   {id:'W400', name:'벽부형', model:'W400'},
   {id:'M400', name:'이동형', model:'M400'},
@@ -671,7 +672,7 @@ form.addEventListener('submit', function(e){
     document.getElementById('doneRecap').innerHTML =
       '<div class="rl"><span>계약기간</span><span class="v">' + q.months + '개월</span></div>'
       + q.items.map(function(it){
-          return '<div class="rl"><span>' + it.name + ' (' + it.model + ')</span><span class="v">' + it.qty + '대 · ' + won(it.monthly) + '/월</span></div>';
+          return '<div class="rl"><span>' + it.name + '</span><span class="v">' + it.qty + '대 · ' + won(it.monthly) + '/월</span></div>';
         }).join('')
       + '<div class="rl tot"><span>총 예상 견적 <small>VAT 포함</small></span><span class="v">' + won(q.total) + '</span></div>';
     form.hidden = true;
