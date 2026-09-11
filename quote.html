@@ -367,8 +367,11 @@ body.quote-page{
             </div>
           </div>
           <div class="f-item grow">
-            <label class="f-label" for="q-start">희망 설치일</label>
-            <div class="field"><input id="q-start" type="date" name="start_date"></div>
+            <label class="f-label" for="q-start">희망 설치 시기</label>
+            <div class="field">
+              <select id="q-start" name="install_when"></select>
+              <span class="f-caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </div>
           </div>
         </div>
       </div>
@@ -566,6 +569,17 @@ var REGIONS = [
   ['jeju',            '제주특별자치도']
 ];
 
+/* 희망 설치 시기 — 날짜 대신 구간으로 받는다. 아직 아무것도 정하지 않은 고객도
+   '아직 미정'을 고르면 되고, 영업은 급한 건을 바로 가려낼 수 있다.
+   ※ '1주일 이내'는 실제로 그 일정이 가능할 때만 남길 것. 지키지 못할 선택지는
+     기대만 만든다. 구간을 바꾸려면 이 배열만 고치면 된다. */
+var INSTALL_WHEN = [
+  ['w1',   '1주일 이내'],
+  ['m1',   '1개월 이내'],
+  ['m3',   '3개월 이내'],
+  ['none', '아직 미정']
+];
+
 function won(n){ return Number(n||0).toLocaleString('ko-KR') + '원'; }
 function tier(m){ return Math.min(Math.max(parseInt(m,10)||0, 1), MAX_TIER); }
 
@@ -577,16 +591,19 @@ var btnSubmit = document.getElementById('btnSubmit');
 var errBox    = document.getElementById('formErr');
 var sending   = false;
 
-/* ── 현장 지역 채우기 ──────────────────────────────────── */
+/* ── 선택 항목 채우기 (지역 · 설치 시기) ──────────────────── */
 (function(){
-  var sel = document.getElementById('q-region');
-  if (!sel) return;
-  var html = '<option value="">선택해 주세요</option>';
-  REGIONS.forEach(function(r){ html += '<option value="' + r[0] + '">' + r[1] + '</option>'; });
-  sel.innerHTML = html;
-  function tone(){ sel.classList.toggle('is-empty', !sel.value); }
-  sel.addEventListener('change', tone);
-  tone();
+  [['q-region', REGIONS], ['q-start', INSTALL_WHEN]].forEach(function(pair){
+    var sel = document.getElementById(pair[0]);
+    if (!sel) return;
+    sel.innerHTML = pair[1].reduce(function(html, o){
+      return html + '<option value="' + o[0] + '">' + o[1] + '</option>';
+    }, '<option value="">선택해 주세요</option>');
+    /* 고르지 않은 상태는 placeholder 톤으로 */
+    function tone(){ sel.classList.toggle('is-empty', !sel.value); }
+    sel.addEventListener('change', tone);
+    tone();
+  });
 })();
 
 /* ── 현재 입력값 수집 ──────────────────────────────────── */
@@ -731,7 +748,8 @@ form.addEventListener('submit', function(e){
       phone: fd.get('phone'),     email:   fd.get('email'),
       region:  fd.get('region'),
       region_name: (document.getElementById('q-region').selectedOptions[0] || {}).text || '',
-      start_date: fd.get('start_date')
+      install_when: fd.get('install_when'),
+      install_when_name: (document.getElementById('q-start').selectedOptions[0] || {}).text || ''
     },
     quote: {
       months: q.months, rate_tier: q.tier,
