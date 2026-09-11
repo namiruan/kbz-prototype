@@ -166,7 +166,7 @@ body.quote-page{
 .dev-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:var(--main-white);transition:border-color .15s,background .15s}
 .dev-card:hover{border-color:#C6CBD1}
 .dev-card.is-on{border-color:var(--accent);background:var(--accent-tint)}
-.dev-pick{position:relative;display:block;flex:1;padding:16px 16px 15px;cursor:pointer}
+.dev-pick{position:relative;display:block;flex:1;padding:0 16px 15px;cursor:pointer}
 .dev-pick input{position:absolute;opacity:0;width:0;height:0}
 /* 체크 표시 없이 카드 자체로 선택을 알린다. 색만으로 구분되지 않도록 테두리를
    두 겹으로 겹쳐 굵기까지 달라지게 했다(레이아웃은 밀리지 않는다).
@@ -175,16 +175,26 @@ body.quote-page{
 /* 체크 표시가 없어졌으니 키보드 포커스는 카드에 표시한다 */
 .dev-card:has(.dev-pick input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
 /* 사진 자리 — 배경을 비워 선택 시 카드 틴트가 그대로 비치게 한다 */
-.dev-media{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/3;margin-bottom:10px;overflow:hidden}
-.dev-media img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+/* 사진 자리 — 카드 폭을 꽉 채우는 띠로 두고, 사진은 그 바닥에 붙인다.
+   제품컷은 흔히 아래가 잘린 채로 오는데, 바닥에 붙여야 '잘린' 게 아니라
+   '놓여 있는' 것으로 읽힌다. 높이를 고정해 세 카드의 사진 크기도 맞춘다. */
+.dev-media{display:block;width:calc(100% + 32px);height:124px;margin:0 -16px 12px;background:var(--fill);border-radius:7px 7px 0 0;overflow:hidden}
+.dev-media img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block}
 .dev-name{display:block;font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
 .dev-desc{display:block;margin-top:3px;font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
-.dev-qty{display:none;padding:0 14px 14px}
-.dev-card.is-on .dev-qty{display:block}
-.dev-qty .field{height:46px;cursor:text}
-.dev-qty .f-label{flex:none;font-size:13px;font-weight:600;color:var(--ink-3)}
-.dev-qty .field:focus-within .f-label{color:var(--field-ink)}
-@media(max-width:860px){.dev-grid{grid-template-columns:1fr}.dev-pick{padding:15px 16px 14px}.dev-desc{margin-top:2px}}
+.dev-qty{display:none;align-items:center;gap:8px;padding:0 14px 14px}
+.dev-card.is-on .dev-qty{display:flex}
+.dev-qty .qty-lb{font-size:13px;font-weight:600;color:var(--ink-3)}
+/* 수량 스테퍼 — 대부분 몇 대 수준이라 전체 폭 입력칸 대신 눌러서 맞추는 컨트롤 */
+.stepper{margin-left:auto;display:inline-flex;align-items:center;height:34px;background:var(--main-white);border:1px solid var(--line);border-radius:4px;overflow:hidden;transition:border-color .15s}
+.stepper:focus-within{border-color:var(--field-ink)}
+.stepper button{width:30px;height:100%;display:flex;align-items:center;justify-content:center;padding:0;border:0;background:none;color:var(--ink-2);font-size:15px;line-height:1;cursor:pointer;transition:background .15s,color .15s}
+.stepper button:hover:not(:disabled){background:var(--fill);color:var(--ink)}
+.stepper button:disabled{color:#CDD2D8;cursor:default}
+.stepper button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.stepper input{width:40px;height:100%;padding:0;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);background:none;outline:0;font:inherit;font-size:14px;font-weight:700;color:var(--field-ink);text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+@media(max-width:860px){.dev-grid{grid-template-columns:1fr}.dev-pick{padding:0 16px 14px}.dev-desc{margin-top:2px}}
 
 /* ===== 견적 요약 (영수증) ===== */
 /* 홈페이지 공통 헤더(고정형) 아래에 붙도록 --header-height 만큼 내려둔다.
@@ -391,11 +401,12 @@ body.quote-page{
               <span class="dev-desc">출입구에 고정 설치. 상시 출입 통제가 필요한 현장.</span>
             </label>
             <div class="dev-qty">
-              <label class="field" for="q-qty-W400">
-                <span class="f-label">수량</span>
+              <label class="qty-lb" for="q-qty-W400">수량</label>
+              <div class="stepper">
+                <button type="button" data-step="-1" aria-label="벽부형 수량 줄이기">−</button>
                 <input id="q-qty-W400" type="number" name="qty_W400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="벽부형 수량">
-                <span class="f-unit">대</span>
-              </label>
+                <button type="button" data-step="1" aria-label="벽부형 수량 늘리기">+</button>
+              </div>
             </div>
           </div>
 
@@ -408,11 +419,12 @@ body.quote-page{
               <span class="dev-desc">케이스형으로 현장 간 이동 설치. 위치가 바뀌는 현장.</span>
             </label>
             <div class="dev-qty">
-              <label class="field" for="q-qty-M400">
-                <span class="f-label">수량</span>
+              <label class="qty-lb" for="q-qty-M400">수량</label>
+              <div class="stepper">
+                <button type="button" data-step="-1" aria-label="이동형 수량 줄이기">−</button>
                 <input id="q-qty-M400" type="number" name="qty_M400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="이동형 수량">
-                <span class="f-unit">대</span>
-              </label>
+                <button type="button" data-step="1" aria-label="이동형 수량 늘리기">+</button>
+              </div>
             </div>
           </div>
 
@@ -425,11 +437,12 @@ body.quote-page{
               <span class="dev-desc">들고 다니며 태그. 소규모·분산 현장이나 순회 점검.</span>
             </label>
             <div class="dev-qty">
-              <label class="field" for="q-qty-T900">
-                <span class="f-label">수량</span>
+              <label class="qty-lb" for="q-qty-T900">수량</label>
+              <div class="stepper">
+                <button type="button" data-step="-1" aria-label="휴대형 수량 줄이기">−</button>
                 <input id="q-qty-T900" type="number" name="qty_T900" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="휴대형 수량">
-                <span class="f-unit">대</span>
-              </label>
+                <button type="button" data-step="1" aria-label="휴대형 수량 늘리기">+</button>
+              </div>
             </div>
           </div>
         </div>
@@ -852,6 +865,27 @@ form.addEventListener('change', function(e){
   if (v < min) el.value = min;
   if (v > max) el.value = max;
   render();
+});
+
+/* 수량 스테퍼 */
+document.querySelectorAll('.stepper').forEach(function(st){
+  var input = st.querySelector('input');
+  var dn = st.querySelector('[data-step="-1"]'), up = st.querySelector('[data-step="1"]');
+  function sync(){
+    var v = parseInt(input.value, 10) || 1;
+    dn.disabled = v <= 1;
+    up.disabled = v >= 999;
+  }
+  st.addEventListener('click', function(e){
+    var btn = e.target.closest('button[data-step]');
+    if (!btn) return;
+    var v = (parseInt(input.value, 10) || 1) + Number(btn.getAttribute('data-step'));
+    input.value = Math.min(999, Math.max(1, v));
+    input.dispatchEvent(new Event('input', { bubbles: true }));   /* 폼 input → 재계산 */
+    sync();
+  });
+  input.addEventListener('input', sync);
+  sync();
 });
 
 /* 카드를 고르면 그 카드의 수량으로 포커스 이동 */
