@@ -1204,6 +1204,29 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
   .rv-col{padding:18px 22px}
   .rv-more{border-top:none;margin-top:0}
 }
+/* ===== 견적신청 모달 =====
+   견적 페이지를 iframe으로 띄운다. 인라인으로 심으면 반응형 기준이
+   모달 폭이 아니라 브라우저 창이 되어 좁은 모달에 데스크톱 레이아웃이 뜬다. */
+.qm{position:relative;margin:auto;padding:0;border:0;max-width:none;max-height:none;
+  width:min(1040px,calc(100vw - 40px));height:min(88vh,900px);
+  border-radius:14px;background:var(--main-white);overflow:hidden;
+  box-shadow:0 30px 80px -30px rgba(19,20,22,.5)}
+@supports(height:100dvh){.qm{height:min(88dvh,900px)}}
+.qm[open]{display:flex;flex-direction:column}
+.qm::backdrop{background:rgba(19,20,22,.5)}
+.qm iframe{flex:1;display:block;width:100%;min-height:0;border:0}
+.qm-x{position:absolute;top:14px;right:14px;z-index:2;display:flex;align-items:center;justify-content:center;
+  width:38px;height:38px;padding:0;border:1px solid var(--main-gray);border-radius:50%;
+  background:var(--main-white);color:var(--sub-d-gray);cursor:pointer;
+  box-shadow:0 2px 10px rgba(19,20,22,.09);transition:color .15s,border-color .15s,background .15s}
+.qm-x svg{width:17px;height:17px;display:block}
+.qm-x:hover{color:var(--main-black);border-color:var(--sub-d-gray);background:var(--sub-w-gray)}
+.qm-x:focus-visible{outline:2px solid var(--main-blue);outline-offset:2px}
+@media(max-width:640px){
+  .qm{width:100vw;height:100vh;border-radius:0}
+  @supports(height:100dvh){.qm{height:100dvh}}
+  .qm-x{top:10px;right:10px;width:34px;height:34px}
+}
 </style>
 </head>
 <body data-mode="a" data-topic="0">
@@ -2242,6 +2265,14 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
     </div>
   </div>
 </footer>
+
+<!-- ===== 견적신청 모달 ===== -->
+<dialog class="qm" id="quoteModal" aria-label="퇴직공제 전자카드 단말기 견적신청">
+  <button type="button" class="qm-x" id="quoteModalClose" aria-label="닫기">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <iframe id="quoteFrame" title="퇴직공제 전자카드 단말기 견적신청" src="about:blank"></iframe>
+</dialog>
 
 <script>
 /* P11 인터랙티브 도트 웨이브: 사인파로 물결치는 도트 격자 + 마우스 반응 */
@@ -3494,6 +3525,51 @@ function jumpTopic(i){
     io.observe(el);
   }else{run();}
 })();
+/* ===== 견적신청 모달 =====
+   링크의 href는 그대로 둔다. 스크립트가 죽어도 페이지로 이동은 된다. */
+(function(){
+  var dlg = document.getElementById('quoteModal');
+  if (!dlg || typeof dlg.showModal !== 'function') return;
+  var frame = document.getElementById('quoteFrame');
+  var xBtn  = document.getElementById('quoteModalClose');
+  var opener = null, loaded = false;
+
+  function open(e){
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;  /* 새 탭으로 열려는 것은 막지 않는다 */
+    e.preventDefault();
+    opener = e.currentTarget;
+    if (!loaded){ frame.src = 'quote.html'; loaded = true; }
+    dlg.showModal();
+    document.body.style.overflow = 'hidden';
+  }
+  function close(){ dlg.close(); }
+
+  Array.prototype.forEach.call(document.querySelectorAll('a[href="quote.html"]'), function(a){
+    a.addEventListener('click', open);
+  });
+  xBtn.addEventListener('click', close);
+
+  dlg.addEventListener('close', function(){
+    document.body.style.overflow = '';
+    if (opener){ opener.focus(); opener = null; }
+  });
+
+  /* 배경 클릭으로 닫기 — dialog는 배경까지 자기 영역이라 좌표로 판단한다 */
+  dlg.addEventListener('click', function(e){
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) close();
+  });
+
+  /* iframe 안에서 누른 Esc는 부모 문서에 닿지 않는다. 같은 출처이므로 직접 걸어준다. */
+  frame.addEventListener('load', function(){
+    try {
+      frame.contentDocument.addEventListener('keydown', function(e){
+        if (e.key === 'Escape'){ e.preventDefault(); close(); }
+      });
+    } catch (err) {}
+  });
+})();
 </script>
+
 </body>
 </html>
