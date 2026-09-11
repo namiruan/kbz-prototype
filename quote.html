@@ -135,11 +135,12 @@ body.quote-page{
 .q-card{min-width:0;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
 .q-card + .q-card{margin-top:54px;padding-top:54px;border-top:1px solid var(--line)}
 .q-step{display:flex;align-items:baseline;gap:11px;margin-bottom:7px}
+/* 서브카피가 없는 섹션은 제목이 바로 본문에 붙으므로 여백을 대신 준다 */
+.q-step:last-child{margin-bottom:22px}
 .q-step .n{flex:none;width:auto;height:auto;border-radius:0;background:none;color:var(--ink-4);font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:.09em;font-variant-numeric:tabular-nums}
 .q-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
 .q-step-desc{font-size:14px;color:var(--ink-2);margin:0 0 22px;line-height:1.65;word-break:keep-all}
 .q-step-desc b{color:var(--ink);font-weight:700}
-.q-note{margin-top:14px;font-size:12.5px;color:var(--ink-3);line-height:1.7;word-break:keep-all}
 
 /* =========================================================
    입력 필드 — kbz.co.kr 라이브 폼 규격
@@ -176,12 +177,12 @@ body.quote-page{
 .dev-card.is-on{border-color:var(--accent);background:var(--accent-tint)}
 .dev-pick{position:relative;display:block;flex:1;padding:16px 16px 15px;cursor:pointer}
 .dev-pick input{position:absolute;opacity:0;width:0;height:0}
-.dev-check{position:absolute;top:14px;right:14px;z-index:1;width:19px;height:19px;border-radius:4px;border:1.5px solid #C6CBD1;background:var(--main-white);box-shadow:0 1px 3px rgba(12,13,15,.1);display:flex;align-items:center;justify-content:center;transition:.15s}
-.dev-check svg{width:11px;height:11px;color:#fff;opacity:0;transition:.15s}
-.dev-card.is-on .dev-check{background:var(--accent);border-color:var(--accent)}
-.dev-card.is-on .dev-check svg{opacity:1}
-.dev-card:hover .dev-check{border-color:var(--ink-2)}
-.dev-pick input:focus-visible + .dev-check{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.2)}
+/* 체크 표시 없이 카드 자체로 선택을 알린다. 색만으로 구분되지 않도록 테두리를
+   두 겹으로 겹쳐 굵기까지 달라지게 했다(레이아웃은 밀리지 않는다).
+   선택 시 수량 입력이 나타나는 것도 색과 무관한 단서다. */
+.dev-card.is-on{box-shadow:0 0 0 1px var(--accent)}
+/* 체크 표시가 없어졌으니 키보드 포커스는 카드에 표시한다 */
+.dev-card:has(.dev-pick input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
 /* 사진 자리 — 배경을 비워 선택 시 카드 틴트가 그대로 비치게 한다 */
 .dev-media{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/3;margin-bottom:10px;overflow:hidden}
 .dev-media img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
@@ -219,7 +220,6 @@ body.quote-page{
 .q-save b{font-weight:700}
 .q-sum-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3);line-height:1.65;word-break:keep-all}
 .q-sum-submit{margin-top:16px}
-.q-sum-sub{margin-top:10px;text-align:center;font-size:11.5px;color:var(--ink-3);line-height:1.55}
 @media(max-width:1024px){.q-sum{position:static}.q-sum-card{margin-top:0}}
 
 /* ===== 버튼 (알약 → 사각 · 그림자 없음) ===== */
@@ -242,10 +242,33 @@ body.quote-page{
 .q-check input:checked + .box{background:var(--accent);border-color:var(--accent)}
 .q-check input:checked + .box svg{opacity:1}
 .q-check input:focus-visible + .box{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
-.q-agree .det{margin-top:7px;margin-left:25px;font-size:11px;color:var(--ink-3);line-height:1.65;word-break:keep-all}
+.q-agree-row{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.q-agree-link{flex:none;margin-left:auto;padding:0;border:0;background:none;font:inherit;font-size:12px;font-weight:600;color:var(--ink-3);text-decoration:underline;text-underline-offset:2px;cursor:pointer;white-space:nowrap}
+.q-agree-link:hover{color:var(--ink)}
+.q-agree-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
 /* 동의만 빠진 채 제출했을 때 눈에 들어오도록 */
 .q-agree.is-err .box{border-color:var(--danger);box-shadow:0 0 0 3px rgba(217,63,69,.12)}
 .q-agree.is-err .q-check{color:#B8353A}
+
+/* ===== 안내 모달 =====
+   native <dialog>: 포커스 가둠·Esc 닫기가 기본이고 최상위 레이어에 그려져
+   홈페이지에 삽입됐을 때 조상 요소의 overflow/transform에 잘리지 않는다 */
+.q-modal{margin:auto;width:min(520px,calc(100vw - 32px));max-height:min(80vh,620px);padding:0;border:0;border-radius:8px;background:var(--main-white);color:var(--ink);box-shadow:0 24px 64px -24px rgba(12,13,15,.45);overflow:hidden}
+.q-modal[open]{display:flex;flex-direction:column}
+.q-modal::backdrop{background:rgba(12,13,15,.45)}
+.q-modal-head{flex:none;display:flex;align-items:center;gap:12px;padding:20px 22px 15px;border-bottom:1px solid var(--line)}
+.q-modal-head h2{font-family:var(--font-body);font-size:17px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
+.q-modal-x{margin-left:auto;flex:none;width:30px;height:30px;display:flex;align-items:center;justify-content:center;padding:0;border:0;border-radius:4px;background:none;color:var(--ink-3);cursor:pointer;transition:.15s}
+.q-modal-x svg{width:17px;height:17px}
+.q-modal-x:hover{background:var(--fill);color:var(--ink)}
+.q-modal-body{flex:1;min-height:0;overflow-y:auto;padding:20px 22px 22px}
+.q-modal-body dl{display:flex;flex-direction:column;gap:15px}
+.q-modal-body dt{font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink-3);margin-bottom:4px}
+.q-modal-body dd{font-size:14px;color:var(--ink);line-height:1.65;word-break:keep-all}
+.q-modal-note{margin-top:18px;padding-top:15px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);line-height:1.7;word-break:keep-all}
+.q-modal-foot{flex:none;display:flex;justify-content:flex-end;gap:8px;padding:14px 22px;border-top:1px solid var(--line);background:var(--fill)}
+.q-modal-foot .banner-btn{padding:11px 18px;font-size:14px}
+@media(max-width:532px){.q-modal-foot{flex-direction:column-reverse}.q-modal-foot .banner-btn{width:100%}}
 .q-agree .det b{color:var(--ink-2);font-weight:700}
 
 /* ===== 완료 화면 ===== */
@@ -339,7 +362,7 @@ body.quote-page{
       <!-- STEP 2 : 견적 조건 — 임대 기간이 정해져야 단말기별 월 임대료가 결정된다 -->
       <div class="q-card">
         <div class="q-step"><span class="n">02</span><h2>견적 조건</h2></div>
-        <p class="q-step-desc">임대 기간에 따라 월 임대료가 달라집니다. 기간을 먼저 정해주세요.</p>
+        <p class="q-step-desc">기간이 길수록 월 임대료가 낮아집니다. 13개월 이상은 12개월 요율로 계산됩니다.</p>
 
         <div class="f-grid">
           <div class="f-item grow">
@@ -354,20 +377,16 @@ body.quote-page{
             <div class="field"><input id="q-start" type="date" name="start_date"></div>
           </div>
         </div>
-        <p class="q-note" style="margin-top:10px">기간이 길수록 월 임대료가 낮아집니다. 13개월 이상은 12개월 요율로 계산되며, 정확한 금액은 담당자가 확인 후 안내드립니다.</p>
       </div>
 
       <!-- STEP 3 : 단말기 선택 -->
       <div class="q-card">
         <div class="q-step"><span class="n">03</span><h2>단말기 선택</h2></div>
-        <p class="q-step-desc">견적이 필요한 단말기를 선택하고 수량을 입력하세요. 여러 종류를 함께 고를 수 있고, 선택한 단말기만 견적서에 담깁니다.</p>
-
         <div id="devList" class="dev-grid">
           <!-- 벽부형 -->
           <div class="dev-card" data-dev="W400">
             <label class="dev-pick">
               <input type="checkbox" name="use_W400" value="Y" aria-label="벽부형 견적 받기">
-              <span class="dev-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
               <span class="dev-media"><img src="images/card-reader/wall.png" alt="벽부형 퇴직공제 전자카드 단말기" loading="lazy"></span>
               <span class="dev-name">벽부형</span>
               <span class="dev-desc">출입구에 고정 설치. 상시 출입 통제가 필요한 현장.</span>
@@ -385,7 +404,6 @@ body.quote-page{
           <div class="dev-card" data-dev="M400">
             <label class="dev-pick">
               <input type="checkbox" name="use_M400" value="Y" aria-label="이동형 견적 받기">
-              <span class="dev-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
               <span class="dev-media"><img src="images/card-reader/mobile.png" alt="이동형 퇴직공제 전자카드 단말기" loading="lazy"></span>
               <span class="dev-name">이동형</span>
               <span class="dev-desc">케이스형으로 현장 간 이동 설치. 위치가 바뀌는 현장.</span>
@@ -403,7 +421,6 @@ body.quote-page{
           <div class="dev-card" data-dev="T900">
             <label class="dev-pick">
               <input type="checkbox" name="use_T900" value="Y" aria-label="휴대형 견적 받기">
-              <span class="dev-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
               <span class="dev-media"><img src="images/card-reader/portable.png" alt="휴대형 퇴직공제 전자카드 단말기" loading="lazy"></span>
               <span class="dev-name">휴대형</span>
               <span class="dev-desc">들고 다니며 태그. 소규모·분산 현장이나 순회 점검.</span>
@@ -463,23 +480,46 @@ body.quote-page{
         <p class="q-sum-note">본 금액은 기본 요율 기준 자동 계산 결과입니다. 설치비·통신비 및 수량·계약조건에 따른 추가 할인은 담당자 확인 후 최종 견적서에 반영됩니다.</p>
 
           <div class="q-agree">
-            <label class="q-check">
-              <input type="checkbox" name="agree" id="agree" form="quoteForm">
-              <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
-              <span>개인정보 수집·이용에 동의합니다. <span class="f-req">*</span></span>
-            </label>
-            <p class="det"><b>수집항목</b> 회사명·담당자명·연락처·이메일·현장정보 · <b>이용목적</b> 견적서 발송 및 단말기 임대 상담 · <b>보유기간</b> 상담 종료 후 1년 (동의 거부 시 견적 발송이 어렵습니다)</p>
+            <div class="q-agree-row">
+              <label class="q-check">
+                <input type="checkbox" name="agree" id="agree" form="quoteForm">
+                <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
+                <span>개인정보 수집·이용에 동의합니다.<span class="f-req">*</span></span>
+              </label>
+              <button type="button" class="q-agree-link" id="privacyOpen" aria-haspopup="dialog">내용 보기</button>
+            </div>
           </div>
 
         <div class="q-sum-submit">
           <button type="submit" form="quoteForm" class="banner-btn" id="btnSubmit">견적신청하기</button>
         </div>
-        <p class="q-sum-sub">버튼을 누르면 입력하신 이메일로<br>견적서가 자동 발송됩니다.</p>
       </div>
     </aside>
 
   </div>
 </main>
+
+<!-- 개인정보 수집·이용 안내 모달 -->
+<dialog class="q-modal" id="privacyModal" aria-labelledby="privacyTitle">
+  <div class="q-modal-head">
+    <h2 id="privacyTitle">개인정보 수집·이용 동의</h2>
+    <button type="button" class="q-modal-x" data-close aria-label="닫기">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="q-modal-body">
+    <dl>
+      <div><dt>수집항목</dt><dd>회사명, 담당자명, 연락처, 이메일, 현장정보(현장명·현장 지역), 요청사항</dd></div>
+      <div><dt>이용목적</dt><dd>퇴직공제 전자카드 단말기 임대 견적서 발송 및 도입 상담</dd></div>
+      <div><dt>보유·이용기간</dt><dd>상담 종료 후 1년. 기간이 지나면 지체 없이 파기합니다.</dd></div>
+    </dl>
+    <p class="q-modal-note">동의를 거부하실 수 있습니다. 다만 견적서는 입력하신 이메일로 발송되므로, 거부하시면 견적서 발송과 상담 안내가 어렵습니다.</p>
+  </div>
+  <div class="q-modal-foot">
+    <button type="button" class="banner-btn sec" data-close>닫기</button>
+    <button type="button" class="banner-btn" id="agreeFromModal">동의하고 닫기</button>
+  </div>
+</dialog>
 
 <script>
 /* =========================================================
@@ -707,6 +747,34 @@ document.getElementById('btnAgain').addEventListener('click', function(){
   btnSubmit.textContent = '견적신청하기';
   render();
   window.scrollTo({ top:0, behavior:'smooth' });
+});
+
+/* 개인정보 수집·이용 안내 모달 */
+(function(){
+  var dlg = document.getElementById('privacyModal');
+  var opener = document.getElementById('privacyOpen');
+  if (!dlg || !opener) return;
+
+  opener.addEventListener('click', function(){
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+  });
+  dlg.addEventListener('click', function(e){
+    if (e.target.closest('[data-close]')) { dlg.close(); return; }
+    /* 백드롭 클릭 판정: 클릭 좌표가 패널 바깥이면 닫는다 */
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dlg.close();
+  });
+  document.getElementById('agreeFromModal').addEventListener('click', function(){
+    var box = document.getElementById('agree');
+    box.checked = true;
+    box.dispatchEvent(new Event('change', { bubbles:true }));
+    dlg.close();
+  });
+})();
+
+/* 동의하면 누락 강조를 바로 푼다 (동의 체크박스는 폼 바깥이라 form 이벤트로 안 잡힌다) */
+document.getElementById('agree').addEventListener('change', function(){
+  if (this.checked) document.querySelector('.q-agree').classList.remove('is-err');
 });
 
 /* 입력 변화 → 즉시 재계산 */
