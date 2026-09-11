@@ -211,9 +211,7 @@ body.quote-page{
    실제 사이트 헤더 높이가 다르면 :root의 --header-height 값만 바꾸면 된다. */
 .q-sum{position:sticky;top:calc(var(--header-height) + 24px)}
 .q-sum-card{background:var(--fill);border:1px solid var(--line);border-radius:8px;padding:22px 20px;color:var(--ink);box-shadow:none}
-.q-sum-ttl{display:flex;align-items:center;font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink-3);margin-bottom:16px}
-.q-sum-ttl .live{display:none}
-.q-sum-lines{border-top:1px solid var(--line);padding-top:14px}
+.q-sum-lines{border-top:0;padding-top:0}
 .q-sum-lines[hidden]{display:none}
 .q-sum-line{display:flex;align-items:baseline;gap:8px;font-size:13.5px;padding:5px 0;color:var(--ink-2)}
 .q-sum-line .nm{font-weight:600;color:var(--ink)}
@@ -247,6 +245,7 @@ body.quote-page{
 /* 할인이 보일 때는 할인 전 → 할인율 → 총액이 한 덩어리로 읽히도록 사이 구분선을 뺀다.
    할인이 없을 때는 총액이 부가세 줄에 바로 붙지 않도록 원래 구분선을 그대로 쓴다. */
 .q-sum-disc.on + .q-sum-total{margin-top:12px;padding-top:0;border-top:0}
+.q-sum-lines[hidden] ~ .q-sum-total{margin-top:0;padding-top:0;border-top:0}
 .q-sum-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3);line-height:1.65;word-break:keep-all}
 .q-sum-submit{margin-top:16px}
 @media(max-width:1024px){.q-sum{position:static}.q-sum-card{margin-top:0}}
@@ -478,7 +477,6 @@ body.quote-page{
     <!-- 우측 : 견적 요약 (입력 즉시 재계산) -->
     <aside class="q-sum" id="sumPane">
       <div class="q-sum-card">
-        <div class="q-sum-ttl">견적 요약</div>
         <div class="q-sum-lines" id="sumLinesBox">
           <div id="sumLines"></div>
         </div>
