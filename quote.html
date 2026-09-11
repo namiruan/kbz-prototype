@@ -161,35 +161,30 @@ body.quote-page{
 .f-unit{flex:none;font-size:13.5px;font-weight:600;color:var(--ink-2)}
 .f-hint{flex:none;font-size:12px;font-weight:500;color:var(--ink-3);white-space:nowrap}
 
-/* 라디오 */
-.f-radios{display:inline-flex;align-items:center;gap:16px;margin-left:auto}
-.f-radio{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--ink-3);cursor:pointer;user-select:none;white-space:nowrap}
-.f-radio input{position:absolute;opacity:0;width:0;height:0}
-.f-radio .dot{flex:none;width:15px;height:15px;border-radius:50%;border:1.5px solid #C6CBD1;background:#fff;transition:.15s}
-.f-radio:hover .dot{border-color:var(--ink-2)}
-.f-radio input:checked + .dot{border-color:var(--accent);border-width:5px}
-.f-radio input:focus-visible + .dot{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
-.f-radio input:checked ~ .tx{color:var(--accent)}
-.f-radio input[value="N"]:checked + .dot{border-color:#C6CBD1}
-.f-radio input[value="N"]:checked ~ .tx{color:var(--ink-2)}
-.f-radio .tx{transition:color .15s}
 
-/* ===== 단말기 선택 행 ===== */
-#devList{border-top:1px solid var(--line-soft)}
-.dev-row{border:0;border-bottom:1px solid var(--line-soft);border-radius:0;background:none;padding:18px 0;box-shadow:none;transition:none}
-.dev-row + .dev-row{margin-top:0}
-.dev-row.is-on{background:none;box-shadow:none}
-.dev-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.dev-head>div:not(.f-radios){flex:1 1 200px;min-width:0}
-.dev-ico{flex:none;width:auto;height:auto;border-radius:0;background:none;color:var(--ink-4);display:inline-flex;transition:color .15s}
-.dev-ico svg{width:21px;height:21px}
-.dev-row.is-on .dev-ico{background:none;color:var(--accent)}
-.dev-name{font-family:var(--font-body);font-size:15.5px;font-weight:800;letter-spacing:-.035em;line-height:1.35;color:var(--ink)}
-.dev-desc{font-size:13px;color:var(--ink-3);line-height:1.55;margin-top:2px;word-break:keep-all}
-.dev-body{display:none;margin-top:12px;margin-left:35px;padding:0;border:0;background:none;align-items:center;gap:10px;flex-wrap:wrap}
-.dev-row.is-on .dev-body{display:flex}
-.dev-body .field{min-width:150px}
-@media(max-width:532px){.dev-head .f-radios{margin-left:0;width:100%;padding-top:6px}.dev-body{margin-left:0}}
+/* ===== 단말기 선택 카드 ===== */
+.dev-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.dev-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;background:var(--main-white);transition:border-color .15s,background .15s}
+.dev-card:hover{border-color:#C6CBD1}
+.dev-card.is-on{border-color:var(--accent);background:var(--accent-tint)}
+.dev-pick{position:relative;display:block;flex:1;padding:16px 16px 15px;cursor:pointer}
+.dev-pick input{position:absolute;opacity:0;width:0;height:0}
+.dev-check{position:absolute;top:14px;right:14px;width:19px;height:19px;border-radius:50%;border:1.5px solid #C6CBD1;background:var(--main-white);display:flex;align-items:center;justify-content:center;transition:.15s}
+.dev-check svg{width:11px;height:11px;color:#fff;opacity:0;transition:.15s}
+.dev-card.is-on .dev-check{background:var(--accent);border-color:var(--accent)}
+.dev-card.is-on .dev-check svg{opacity:1}
+.dev-card:hover .dev-check{border-color:var(--ink-2)}
+.dev-pick input:focus-visible + .dev-check{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.2)}
+.dev-ico{display:block;color:var(--ink-4);margin-bottom:9px;transition:color .15s}
+.dev-ico svg{width:22px;height:22px;display:block}
+.dev-card.is-on .dev-ico{color:var(--accent)}
+.dev-name{display:block;font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
+.dev-desc{display:block;margin-top:3px;font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
+.dev-qty{display:none;padding:0 14px 14px}
+.dev-card.is-on .dev-qty{display:block}
+.dev-qty .field{width:100%;min-height:42px;padding:0 12px;gap:6px}
+.dev-qty .field input{font-size:14.5px;padding:9px 0}
+@media(max-width:860px){.dev-grid{grid-template-columns:1fr}.dev-pick{padding:15px 16px 14px}.dev-desc{margin-top:2px}}
 
 /* ===== 견적 요약 (영수증) ===== */
 /* 홈페이지 공통 헤더(고정형) 아래에 붙도록 --header-height 만큼 내려둔다.
@@ -355,25 +350,21 @@ body.quote-page{
       <!-- STEP 3 : 단말기 선택 -->
       <div class="q-card">
         <div class="q-step"><span class="n">03</span><h2>단말기 선택</h2></div>
-        <p class="q-step-desc">견적이 필요한 단말기를 <b>견적</b>으로 선택하고 수량을 입력하세요. 선택한 단말기만 견적서에 담깁니다.</p>
+        <p class="q-step-desc">견적이 필요한 단말기를 선택하고 수량을 입력하세요. 여러 종류를 함께 고를 수 있고, 선택한 단말기만 견적서에 담깁니다.</p>
 
-        <div id="devList">
+        <div id="devList" class="dev-grid">
           <!-- 벽부형 -->
-          <div class="dev-row" data-dev="W400">
-            <div class="dev-head">
+          <div class="dev-card" data-dev="W400">
+            <label class="dev-pick">
+              <input type="checkbox" name="use_W400" value="Y" aria-label="벽부형 견적 받기">
+              <span class="dev-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
               <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7M8.5 10h7"/><circle cx="12" cy="15.5" r="2.4"/></svg></span>
-              <div>
-                <div class="dev-name">벽부형</div>
-                <p class="dev-desc">출입구·게이트에 고정 설치. 상시 출입 통제가 필요한 현장에 적합합니다.</p>
-              </div>
-              <div class="f-radios" role="radiogroup" aria-label="벽부형 견적 여부">
-                <label class="f-radio"><input type="radio" name="use_W400" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
-                <label class="f-radio"><input type="radio" name="use_W400" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
-              </div>
-            </div>
-            <div class="dev-body">
+              <span class="dev-name">벽부형</span>
+              <span class="dev-desc">출입구에 고정 설치. 상시 출입 통제가 필요한 현장.</span>
+            </label>
+            <div class="dev-qty">
               <label class="field">
-                <span class="f-label">수량<span class="f-req" aria-hidden="true">*</span></span>
+                <span class="f-label">수량</span>
                 <input type="number" name="qty_W400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="벽부형 수량">
                 <span class="f-unit">대</span>
               </label>
@@ -381,21 +372,17 @@ body.quote-page{
           </div>
 
           <!-- 이동형 -->
-          <div class="dev-row" data-dev="M400">
-            <div class="dev-head">
+          <div class="dev-card" data-dev="M400">
+            <label class="dev-pick">
+              <input type="checkbox" name="use_M400" value="Y" aria-label="이동형 견적 받기">
+              <span class="dev-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
               <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="12.5" rx="2.5"/><path d="M9 7V5.2A1.7 1.7 0 0 1 10.7 3.5h2.6A1.7 1.7 0 0 1 15 5.2V7"/><path d="M2.5 12.6h19"/></svg></span>
-              <div>
-                <div class="dev-name">이동형</div>
-                <p class="dev-desc">케이스형으로 현장 간 이동 설치. 공정에 따라 위치가 바뀌는 현장에 적합합니다.</p>
-              </div>
-              <div class="f-radios" role="radiogroup" aria-label="이동형 견적 여부">
-                <label class="f-radio"><input type="radio" name="use_M400" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
-                <label class="f-radio"><input type="radio" name="use_M400" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
-              </div>
-            </div>
-            <div class="dev-body">
+              <span class="dev-name">이동형</span>
+              <span class="dev-desc">케이스형으로 현장 간 이동 설치. 위치가 바뀌는 현장.</span>
+            </label>
+            <div class="dev-qty">
               <label class="field">
-                <span class="f-label">수량<span class="f-req" aria-hidden="true">*</span></span>
+                <span class="f-label">수량</span>
                 <input type="number" name="qty_M400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="이동형 수량">
                 <span class="f-unit">대</span>
               </label>
@@ -403,21 +390,17 @@ body.quote-page{
           </div>
 
           <!-- 휴대형 -->
-          <div class="dev-row" data-dev="T900">
-            <div class="dev-head">
+          <div class="dev-card" data-dev="T900">
+            <label class="dev-pick">
+              <input type="checkbox" name="use_T900" value="Y" aria-label="휴대형 견적 받기">
+              <span class="dev-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
               <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M9.5 6h5"/><path d="M10.5 18.5h3"/></svg></span>
-              <div>
-                <div class="dev-name">휴대형</div>
-                <p class="dev-desc">들고 다니며 태그. 소규모·분산 현장이나 순회 점검에 적합합니다.</p>
-              </div>
-              <div class="f-radios" role="radiogroup" aria-label="휴대형 견적 여부">
-                <label class="f-radio"><input type="radio" name="use_T900" value="Y"><span class="dot"></span><span class="tx">견적</span></label>
-                <label class="f-radio"><input type="radio" name="use_T900" value="N" checked><span class="dot"></span><span class="tx">미견적</span></label>
-              </div>
-            </div>
-            <div class="dev-body">
+              <span class="dev-name">휴대형</span>
+              <span class="dev-desc">들고 다니며 태그. 소규모·분산 현장이나 순회 점검.</span>
+            </label>
+            <div class="dev-qty">
               <label class="field">
-                <span class="f-label">수량<span class="f-req" aria-hidden="true">*</span></span>
+                <span class="f-label">수량</span>
                 <input type="number" name="qty_T900" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="휴대형 수량">
                 <span class="f-unit">대</span>
               </label>
@@ -529,9 +512,9 @@ function readQuote(){
   var items = [], monthly = 0;
 
   DEVS.forEach(function(d){
-    var on  = form.querySelector('input[name="use_' + d.id + '"]:checked');
+    var on  = form.querySelector('input[name="use_' + d.id + '"]');
     var qty = parseInt((form.querySelector('input[name="qty_' + d.id + '"]') || {}).value, 10) || 0;
-    if (!on || on.value !== 'Y' || qty < 1) return;
+    if (!on || !on.checked || qty < 1) return;
     var unit = RATE[d.id][t];
     items.push({ id:d.id, name:d.name, model:d.model, qty:qty, unit:unit, monthly:unit * qty });
     monthly += unit * qty;
@@ -549,11 +532,11 @@ function readQuote(){
 function render(){
   var q = readQuote();
 
-  /* 단말기 행 선택 상태 */
+  /* 카드 선택 상태 */
   DEVS.forEach(function(d){
-    var on = form.querySelector('input[name="use_' + d.id + '"]:checked');
-    document.querySelector('.dev-row[data-dev="' + d.id + '"]')
-            .classList.toggle('is-on', !!on && on.value === 'Y');
+    var on = form.querySelector('input[name="use_' + d.id + '"]');
+    document.querySelector('.dev-card[data-dev="' + d.id + '"]')
+            .classList.toggle('is-on', !!on && on.checked);
   });
 
   document.getElementById('sumCond').textContent =
@@ -725,14 +708,14 @@ form.addEventListener('change', function(e){
   render();
 });
 
-/* 견적 선택 시 해당 행의 수량으로 포커스 이동 */
+/* 카드를 고르면 그 카드의 수량으로 포커스 이동 */
 DEVS.forEach(function(d){
-  form.querySelectorAll('input[name="use_' + d.id + '"]').forEach(function(r){
-    r.addEventListener('change', function(){
-      if (r.value !== 'Y') return;
-      var qty = form.querySelector('input[name="qty_' + d.id + '"]');
-      if (qty) qty.focus({ preventScroll:true });
-    });
+  var box = form.querySelector('input[name="use_' + d.id + '"]');
+  if (!box) return;
+  box.addEventListener('change', function(){
+    if (!box.checked) return;
+    var qty = form.querySelector('input[name="qty_' + d.id + '"]');
+    if (qty) qty.focus({ preventScroll:true });
   });
 });
 
