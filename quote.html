@@ -199,9 +199,8 @@ body.quote-page{
    실제 사이트 헤더 높이가 다르면 :root의 --header-height 값만 바꾸면 된다. */
 .q-sum{position:sticky;top:calc(var(--header-height) + 24px)}
 .q-sum-card{background:var(--fill);border:1px solid var(--line);border-radius:8px;padding:22px 20px;color:var(--ink);box-shadow:none}
-.q-sum-ttl{display:flex;align-items:center;font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink-3);margin-bottom:3px}
+.q-sum-ttl{display:flex;align-items:center;font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink-3);margin-bottom:16px}
 .q-sum-ttl .live{display:none}
-.q-sum-cond{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:18px;letter-spacing:-.02em}
 .q-sum-lines{border-top:1px solid var(--line);padding-top:14px}
 .q-sum-lines[hidden]{display:none}
 .q-sum-line{display:flex;align-items:baseline;gap:8px;font-size:13.5px;padding:5px 0;color:var(--ink-2)}
@@ -454,8 +453,6 @@ body.quote-page{
     <aside class="q-sum" id="sumPane">
       <div class="q-sum-card">
         <div class="q-sum-ttl">견적 요약</div>
-        <p class="q-sum-cond" id="sumCond">기간 12개월 · VAT 별도</p>
-
         <div class="q-sum-lines" id="sumLinesBox">
           <div id="sumLines"></div>
         </div>
@@ -639,9 +636,6 @@ function render(){
     document.querySelector('.dev-card[data-dev="' + d.id + '"]')
             .classList.toggle('is-on', !!on && on.checked);
   });
-
-  document.getElementById('sumCond').textContent =
-    (q.months >= 1 ? '기간 ' + q.months + '개월' : '기간 미입력') + ' · VAT 별도 요율 기준';
 
   sumLines.innerHTML = q.items.map(function(it){
     return '<div class="q-sum-line"><span class="nm">' + it.name + '</span>'
