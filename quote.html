@@ -169,15 +169,15 @@ body.quote-page{
 .dev-card.is-on{border-color:var(--accent);background:var(--accent-tint)}
 .dev-pick{position:relative;display:block;flex:1;padding:16px 16px 15px;cursor:pointer}
 .dev-pick input{position:absolute;opacity:0;width:0;height:0}
-.dev-check{position:absolute;top:14px;right:14px;width:19px;height:19px;border-radius:50%;border:1.5px solid #C6CBD1;background:var(--main-white);display:flex;align-items:center;justify-content:center;transition:.15s}
+.dev-check{position:absolute;top:14px;right:14px;z-index:1;width:19px;height:19px;border-radius:50%;border:1.5px solid #C6CBD1;background:var(--main-white);box-shadow:0 1px 3px rgba(12,13,15,.1);display:flex;align-items:center;justify-content:center;transition:.15s}
 .dev-check svg{width:11px;height:11px;color:#fff;opacity:0;transition:.15s}
 .dev-card.is-on .dev-check{background:var(--accent);border-color:var(--accent)}
 .dev-card.is-on .dev-check svg{opacity:1}
 .dev-card:hover .dev-check{border-color:var(--ink-2)}
 .dev-pick input:focus-visible + .dev-check{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.2)}
-.dev-ico{display:block;color:var(--ink-4);margin-bottom:9px;transition:color .15s}
-.dev-ico svg{width:22px;height:22px;display:block}
-.dev-card.is-on .dev-ico{color:var(--accent)}
+/* 사진 자리 — 배경을 비워 선택 시 카드 틴트가 그대로 비치게 한다 */
+.dev-media{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/3;margin-bottom:10px;overflow:hidden}
+.dev-media img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
 .dev-name{display:block;font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
 .dev-desc{display:block;margin-top:3px;font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
 .dev-qty{display:none;padding:0 14px 14px}
@@ -358,7 +358,7 @@ body.quote-page{
             <label class="dev-pick">
               <input type="checkbox" name="use_W400" value="Y" aria-label="벽부형 견적 받기">
               <span class="dev-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
-              <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7M8.5 10h7"/><circle cx="12" cy="15.5" r="2.4"/></svg></span>
+              <span class="dev-media"><img src="images/card-reader/wall.png" alt="벽부형 퇴직공제 전자카드 단말기" loading="lazy"></span>
               <span class="dev-name">벽부형</span>
               <span class="dev-desc">출입구에 고정 설치. 상시 출입 통제가 필요한 현장.</span>
             </label>
@@ -376,7 +376,7 @@ body.quote-page{
             <label class="dev-pick">
               <input type="checkbox" name="use_M400" value="Y" aria-label="이동형 견적 받기">
               <span class="dev-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
-              <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="12.5" rx="2.5"/><path d="M9 7V5.2A1.7 1.7 0 0 1 10.7 3.5h2.6A1.7 1.7 0 0 1 15 5.2V7"/><path d="M2.5 12.6h19"/></svg></span>
+              <span class="dev-media"><img src="images/card-reader/mobile.png" alt="이동형 퇴직공제 전자카드 단말기" loading="lazy"></span>
               <span class="dev-name">이동형</span>
               <span class="dev-desc">케이스형으로 현장 간 이동 설치. 위치가 바뀌는 현장.</span>
             </label>
@@ -394,7 +394,7 @@ body.quote-page{
             <label class="dev-pick">
               <input type="checkbox" name="use_T900" value="Y" aria-label="휴대형 견적 받기">
               <span class="dev-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
-              <span class="dev-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M9.5 6h5"/><path d="M10.5 18.5h3"/></svg></span>
+              <span class="dev-media"><img src="images/card-reader/portable.png" alt="휴대형 퇴직공제 전자카드 단말기" loading="lazy"></span>
               <span class="dev-name">휴대형</span>
               <span class="dev-desc">들고 다니며 태그. 소규모·분산 현장이나 순회 점검.</span>
             </label>
