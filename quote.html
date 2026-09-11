@@ -167,7 +167,7 @@ body.quote-page{
 /* align-items:start — 선택한 카드만 수량만큼 길어지고, 고르지 않은 카드는
    제 높이로 끝난다. 늘어난 이웃 때문에 빈 공간이 생기지 않게. */
 .dev-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:start}
-.dev-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:var(--main-white);transition:border-color .15s,background .15s}
+.dev-card{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:var(--main-white);transition:border-color .15s,background .15s}
 .dev-card:hover{border-color:#C6CBD1}
 .dev-card.is-on{border-color:var(--accent);background:var(--accent-tint)}
 .dev-pick{position:relative;display:block;flex:1;padding:0 16px 15px;cursor:pointer}
@@ -182,21 +182,21 @@ body.quote-page{
 /* 사진 자리 — 카드 폭을 꽉 채우는 띠로 두고, 사진은 그 바닥에 붙인다.
    제품컷은 흔히 아래가 잘린 채로 오는데, 바닥에 붙여야 '잘린' 게 아니라
    '놓여 있는' 것으로 읽힌다. 높이를 고정해 세 카드의 사진 크기도 맞춘다. */
-.dev-media{display:block;width:calc(100% + 32px);height:124px;margin:0 -16px 12px;background:var(--fill);border-radius:7px 7px 0 0;overflow:hidden}
+.dev-media{display:block;width:calc(100% + 32px);height:112px;margin:0 -16px 12px;background:var(--fill);border-radius:7px 7px 0 0;overflow:hidden}
 .dev-media img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block}
 .dev-name{display:block;font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
 .dev-desc{display:block;margin-top:3px;font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
-.dev-qty{display:none;align-items:center;gap:8px;padding:0 14px 14px}
-.dev-card.is-on .dev-qty{display:flex}
-.dev-qty .qty-lb{font-size:13px;font-weight:600;color:var(--ink-3)}
+/* 카드 우측 상단에 띄운다 — 골라도 카드 높이가 변하지 않는다 */
+.dev-qty{display:none;position:absolute;top:10px;right:10px;z-index:2}
+.dev-card.is-on .dev-qty{display:block}
 /* 수량 스테퍼 — 대부분 몇 대 수준이라 전체 폭 입력칸 대신 눌러서 맞추는 컨트롤 */
-.stepper{margin-left:auto;display:inline-flex;align-items:center;height:34px;background:var(--main-white);border:1px solid var(--line);border-radius:4px;overflow:hidden;transition:border-color .15s}
+.stepper{display:inline-flex;align-items:center;height:32px;background:var(--main-white);border:1px solid var(--line);border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(12,13,15,.12);transition:border-color .15s}
 .stepper:focus-within{border-color:var(--field-ink)}
-.stepper button{width:30px;height:100%;display:flex;align-items:center;justify-content:center;padding:0;border:0;background:none;color:var(--ink-2);font-size:15px;line-height:1;cursor:pointer;transition:background .15s,color .15s}
+.stepper button{width:28px;height:100%;display:flex;align-items:center;justify-content:center;padding:0;border:0;background:none;color:var(--ink-2);font-size:15px;line-height:1;cursor:pointer;transition:background .15s,color .15s}
 .stepper button:hover:not(:disabled){background:var(--fill);color:var(--ink)}
 .stepper button:disabled{color:#CDD2D8;cursor:default}
 .stepper button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.stepper input{width:40px;height:100%;padding:0;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);background:none;outline:0;font:inherit;font-size:14px;font-weight:700;color:var(--field-ink);text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.stepper input{width:36px;height:100%;padding:0;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);background:none;outline:0;font:inherit;font-size:14px;font-weight:700;color:var(--field-ink);text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
 .stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 /* 1열로 접히는 구간에서는 세로 카드가 화면을 너무 먹는다(3장에 800px 가까이).
    사진을 왼쪽 썸네일로 돌려 가로형으로 눕힌다. 마크업은 그대로 두고 grid 영역으로만
@@ -207,7 +207,8 @@ body.quote-page{
   .dev-media{grid-area:media;align-self:center;width:104px;height:78px;margin:0;border-radius:6px}
   .dev-name{grid-area:name;align-self:end}
   .dev-desc{grid-area:desc;align-self:start;margin-top:3px}
-  .dev-qty{padding:0 14px 12px 132px}   /* 이름·설명과 같은 열에서 시작 */
+  /* 가로형에서는 띄우지 않고 아래 오른쪽에 둔다 */
+  .dev-qty{position:static;transform:none;padding:0 14px 12px;text-align:right}
 }
 
 /* ===== 견적 요약 (영수증) ===== */
@@ -420,7 +421,6 @@ body.quote-page{
               <span class="dev-desc">출입구에 고정 설치. 상시 출입 통제가 필요한 현장.</span>
             </label>
             <div class="dev-qty">
-              <label class="qty-lb" for="q-qty-W400">수량</label>
               <div class="stepper">
                 <button type="button" data-step="-1" aria-label="벽부형 수량 줄이기">−</button>
                 <input id="q-qty-W400" type="number" name="qty_W400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="벽부형 수량">
@@ -438,7 +438,6 @@ body.quote-page{
               <span class="dev-desc">케이스형으로 현장 간 이동 설치. 위치가 바뀌는 현장.</span>
             </label>
             <div class="dev-qty">
-              <label class="qty-lb" for="q-qty-M400">수량</label>
               <div class="stepper">
                 <button type="button" data-step="-1" aria-label="이동형 수량 줄이기">−</button>
                 <input id="q-qty-M400" type="number" name="qty_M400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="이동형 수량">
@@ -456,7 +455,6 @@ body.quote-page{
               <span class="dev-desc">들고 다니며 태그. 소규모·분산 현장이나 순회 점검.</span>
             </label>
             <div class="dev-qty">
-              <label class="qty-lb" for="q-qty-T900">수량</label>
               <div class="stepper">
                 <button type="button" data-step="-1" aria-label="휴대형 수량 줄이기">−</button>
                 <input id="q-qty-T900" type="number" name="qty_T900" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="휴대형 수량">
