@@ -210,8 +210,13 @@ body.quote-page{
    --q-sticky-top을 헤더 높이 + 여백으로 덮어쓰면 된다. */
 .q-sum{position:sticky;top:var(--q-sticky-top,20px)}
 .q-sum-card{background:var(--fill);border:1px solid var(--line);border-radius:8px;padding:22px 20px;color:var(--ink);box-shadow:none}
-.q-sum-lines{border-top:0;padding-top:0}
-.q-sum-lines[hidden]{display:none}
+/* 겉에는 무엇을 몇 대 골랐는지만. 단가·소계는 계산 내역 안으로 들어간다
+   (소계의 합이 곧 월 합계라 겉에 두면 중복이고, 할인된 단가가 '할인 전' 바로
+    위에 놓여 헷갈렸다) */
+.q-sum-picked{font-size:13px;font-weight:600;color:var(--ink);line-height:1.6;word-break:keep-all}
+.q-sum-picked[hidden]{display:none}
+#sumItems{padding-bottom:7px;margin-bottom:7px;border-bottom:1px dashed var(--line)}
+#sumItems .nm{font-weight:600;color:var(--ink)}
 .q-sum-line{display:flex;align-items:baseline;gap:8px;font-size:13.5px;padding:5px 0;color:var(--ink-2)}
 .q-sum-line .nm{font-weight:600;color:var(--ink)}
 .q-sum-line .qty{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
@@ -249,7 +254,7 @@ body.quote-page{
 /* 할인이 보일 때는 할인 전 → 할인율 → 총액이 한 덩어리로 읽히도록 사이 구분선을 뺀다.
    할인이 없을 때는 총액이 부가세 줄에 바로 붙지 않도록 원래 구분선을 그대로 쓴다. */
 .q-sum-disc.on + .q-sum-fold > .q-sum-total{margin-top:12px;padding-top:0;border-top:0}
-.q-sum-lines[hidden] ~ .q-sum-fold > .q-sum-total{margin-top:0;padding-top:0;border-top:0}
+.q-sum-picked[hidden] ~ .q-sum-fold > .q-sum-total{margin-top:0;padding-top:0;border-top:0}
 .q-sum-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3);line-height:1.65;word-break:keep-all}
 .q-sum-submit{margin-top:16px}
 @media(max-width:1024px){.q-sum{position:static}.q-sum-card{margin-top:0}}
@@ -478,9 +483,7 @@ body.quote-page{
     <!-- 우측 : 견적 요약 (입력 즉시 재계산) -->
     <aside class="q-sum" id="sumPane">
       <div class="q-sum-card">
-        <div class="q-sum-lines" id="sumLinesBox">
-          <div id="sumLines"></div>
-        </div>
+        <p class="q-sum-picked" id="sumPicked" hidden></p>
 
         <div class="q-sum-disc" id="sumDisc">
           <div class="q-sum-rate"><span class="nm" id="sumOffLabel">장기계약 할인</span><span class="pct tnum" id="sumOff">0%</span></div>
@@ -493,6 +496,7 @@ body.quote-page{
             <span class="vv tnum" id="sumTotal">0원</span>
           </summary>
           <div class="q-sum-mid-body">
+            <div id="sumItems"></div>
             <div class="q-sum-line"><span class="nm">월 합계</span><span class="amt" id="sumMonthly">0원</span></div>
             <div class="q-sum-line"><span class="nm">공급가액 <span class="qty">(월 합계 × <span id="sumMonthsX">12</span>개월)</span></span><span class="amt" id="sumSupply">0원</span></div>
             <div class="q-sum-line"><span class="nm">부가세 (10%)</span><span class="amt" id="sumVat">0원</span></div>
@@ -608,7 +612,8 @@ function tier(m){ return Math.min(Math.max(parseInt(m,10)||0, 1), MAX_TIER); }
 
 var form      = document.getElementById('quoteForm');
 var monthsEl  = document.getElementById('months');
-var sumLines  = document.getElementById('sumLines');
+var sumPicked = document.getElementById('sumPicked');
+var sumItems  = document.getElementById('sumItems');
 var sumMid    = document.getElementById('sumMid');
 var btnSubmit = document.getElementById('btnSubmit');
 var errBox    = document.getElementById('formErr');
@@ -663,14 +668,17 @@ function render(){
             .classList.toggle('is-on', !!on && on.checked);
   });
 
-  sumLines.innerHTML = q.items.map(function(it){
+  /* 겉: 무엇을 몇 대 골랐는지 */
+  sumPicked.textContent = q.items.map(function(it){ return it.name + ' ' + it.qty + '대'; }).join(' · ');
+  /* 계산 내역: 단가 × 수량 = 소계 */
+  sumItems.innerHTML = q.items.map(function(it){
     return '<div class="q-sum-line"><span class="nm">' + it.name + '</span>'
          + '<span class="qty">' + won(it.unit) + ' × ' + it.qty + '대</span>'
          + '<span class="amt">' + won(it.monthly) + '</span></div>';
   }).join('');
 
   var has = q.items.length > 0 && q.months >= 1;
-  document.getElementById('sumLinesBox').hidden = !q.items.length;
+  sumPicked.hidden = !q.items.length;
   /* 고를 게 없으면 펼칠 내용도 없다 → 토글을 끄고 접어둔다 */
   sumMid.classList.toggle('no-detail', !has);
   if (!has) sumMid.open = false;
