@@ -102,6 +102,8 @@ body.quote-page{
   --accent:var(--main-blue);
   --accent-tint:rgba(var(--color-blue-rgb),.06);
   --danger:#D93F45;
+  --field-line:#6D7882;   /* 라이브 폼 테두리 */
+  --field-ink:#33363D;    /* 라이브 폼 입력 텍스트 */
   background:var(--main-white);
   color:var(--ink);
   letter-spacing:-.012em;
@@ -139,37 +141,42 @@ body.quote-page{
 .q-step-desc b{color:var(--ink);font-weight:700}
 .q-note{margin-top:14px;font-size:12.5px;color:var(--ink-3);line-height:1.7;word-break:keep-all}
 
-/* ===== 입력 필드 (인라인 라벨 · 헤어라인) ===== */
-.f-grid{display:flex;flex-wrap:wrap;gap:8px}
-.field{display:flex;align-items:center;gap:10px;min-height:48px;padding:0 14px;background:var(--main-white);border:1px solid var(--line);border-radius:10px;transition:border-color .15s,box-shadow .15s}
-.field:hover{border-color:#D7DBE0}
-.field:focus-within{border-color:var(--ink);box-shadow:0 0 0 3px rgba(12,13,15,.05)}
-.field.is-on{border-color:var(--line);background:var(--main-white)}
-.field.is-err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(217,63,69,.08)}
-.field.grow{flex:1 1 220px;min-width:0}
-.field.full{width:100%}
-.f-label{flex:none;display:inline-flex;align-items:center;gap:2px;font-size:13px;font-weight:600;color:var(--ink-3);white-space:nowrap;transition:color .15s}
-.field:focus-within .f-label{color:var(--ink)}
+/* =========================================================
+   입력 필드 — kbz.co.kr 라이브 폼 규격
+   높이 54 · radius 4 · 테두리 1px #6D7882 · 본문 16px/400
+   라벨은 필드 위에, 안내는 placeholder로. (라이브 사이트에서 계산된 값)
+   ========================================================= */
+.f-grid{display:flex;flex-wrap:wrap;gap:20px 12px}
+.f-item{display:flex;flex-direction:column;gap:8px;min-width:0}
+.f-item.grow{flex:1 1 240px}
+.f-item.full{width:100%}
+.f-label{display:flex;align-items:baseline;gap:3px;font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.02em;line-height:1.4}
+.f-label .f-note{margin-left:auto;font-size:12.5px;font-weight:500;color:var(--ink-3);letter-spacing:0}
 .f-req{color:var(--danger);font-weight:600;line-height:1}
-.field input,.field select,.field textarea{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.015em;padding:12px 0}
-.field input::placeholder,.field textarea::placeholder{color:var(--ink-4);font-weight:500}
+.field{display:flex;align-items:center;gap:8px;height:54px;padding:0 12px;background:var(--main-white);border:1px solid var(--field-line);border-radius:4px;transition:border-color .15s,box-shadow .15s}
+.field:hover{border-color:#525C66}
+/* 라이브 폼은 포커스 시 아무 변화가 없다. 키보드 사용자가 위치를 잃지 않도록
+   같은 색 계열에서 테두리만 진하게 + 옅은 링을 더했다. */
+.field:focus-within{border-color:var(--field-ink);box-shadow:0 0 0 3px rgba(51,54,61,.09)}
+.field.is-err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(217,63,69,.09)}
+.field input,.field select,.field textarea{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;font-weight:400;color:var(--field-ink);letter-spacing:-.01em}
+.field input{height:100%}
+.field input::placeholder,.field textarea::placeholder{color:var(--field-line)}
 .field input[type=number]{text-align:right;-moz-appearance:textfield;font-variant-numeric:tabular-nums}
 .field input[type=number]::-webkit-outer-spin-button,.field input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.field.ta{align-items:flex-start;padding-top:13px;padding-bottom:13px}
-.field.ta .f-label{padding-top:2px}
-.field textarea{resize:vertical;min-height:80px;line-height:1.65;padding:0}
-.f-unit{flex:none;font-size:13.5px;font-weight:600;color:var(--ink-2)}
-.f-hint{flex:none;font-size:12px;font-weight:500;color:var(--ink-3);white-space:nowrap}
+.field.ta{height:auto;min-height:105px;padding:10px 12px;align-items:flex-start}
+.field.ta textarea{min-height:85px;line-height:1.6;resize:vertical;padding:0}
+.f-unit{flex:none;font-size:15px;font-weight:400;color:var(--field-ink)}
 
 
 /* ===== 단말기 선택 카드 ===== */
 .dev-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.dev-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;background:var(--main-white);transition:border-color .15s,background .15s}
+.dev-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:var(--main-white);transition:border-color .15s,background .15s}
 .dev-card:hover{border-color:#C6CBD1}
 .dev-card.is-on{border-color:var(--accent);background:var(--accent-tint)}
 .dev-pick{position:relative;display:block;flex:1;padding:16px 16px 15px;cursor:pointer}
 .dev-pick input{position:absolute;opacity:0;width:0;height:0}
-.dev-check{position:absolute;top:14px;right:14px;z-index:1;width:19px;height:19px;border-radius:50%;border:1.5px solid #C6CBD1;background:var(--main-white);box-shadow:0 1px 3px rgba(12,13,15,.1);display:flex;align-items:center;justify-content:center;transition:.15s}
+.dev-check{position:absolute;top:14px;right:14px;z-index:1;width:19px;height:19px;border-radius:4px;border:1.5px solid #C6CBD1;background:var(--main-white);box-shadow:0 1px 3px rgba(12,13,15,.1);display:flex;align-items:center;justify-content:center;transition:.15s}
 .dev-check svg{width:11px;height:11px;color:#fff;opacity:0;transition:.15s}
 .dev-card.is-on .dev-check{background:var(--accent);border-color:var(--accent)}
 .dev-card.is-on .dev-check svg{opacity:1}
@@ -181,16 +188,15 @@ body.quote-page{
 .dev-name{display:block;font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
 .dev-desc{display:block;margin-top:3px;font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
 .dev-qty{display:none;padding:0 14px 14px}
-.dev-card.is-on .dev-qty{display:block}
-.dev-qty .field{width:100%;min-height:42px;padding:0 12px;gap:6px}
-.dev-qty .field input{font-size:14.5px;padding:9px 0}
+.dev-card.is-on .dev-qty{display:flex;flex-direction:column;gap:7px}
+.dev-qty .f-label{font-size:13px}
 @media(max-width:860px){.dev-grid{grid-template-columns:1fr}.dev-pick{padding:15px 16px 14px}.dev-desc{margin-top:2px}}
 
 /* ===== 견적 요약 (영수증) ===== */
 /* 홈페이지 공통 헤더(고정형) 아래에 붙도록 --header-height 만큼 내려둔다.
    실제 사이트 헤더 높이가 다르면 :root의 --header-height 값만 바꾸면 된다. */
 .q-sum{position:sticky;top:calc(var(--header-height) + 24px)}
-.q-sum-card{background:var(--fill);border:1px solid var(--line);border-radius:14px;padding:22px 20px;color:var(--ink);box-shadow:none}
+.q-sum-card{background:var(--fill);border:1px solid var(--line);border-radius:8px;padding:22px 20px;color:var(--ink);box-shadow:none}
 .q-sum-ttl{display:flex;align-items:center;font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink-3);margin-bottom:3px}
 .q-sum-ttl .live{display:none}
 .q-sum-cond{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:18px;letter-spacing:-.02em}
@@ -217,7 +223,7 @@ body.quote-page{
 @media(max-width:1024px){.q-sum{position:static}.q-sum-card{margin-top:0}}
 
 /* ===== 버튼 (알약 → 사각 · 그림자 없음) ===== */
-.quote-page .banner-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:10px;font-size:15px;font-weight:700;letter-spacing:-.02em;background:var(--ink);color:#fff;border:0;box-shadow:none;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
+.quote-page .banner-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:4px;font-size:15px;font-weight:700;letter-spacing:-.02em;background:var(--ink);color:#fff;border:0;box-shadow:none;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
 .quote-page .banner-btn:hover{background:#2A2D33}
 .quote-page .banner-btn.sec{background:var(--main-white);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
 .quote-page .banner-btn.sec:hover{background:var(--main-white);box-shadow:inset 0 0 0 1px #CDD2D8}
@@ -228,21 +234,24 @@ body.quote-page{
 #btnSubmit[disabled]{background:#E4E7EA;color:var(--ink-3);cursor:not-allowed}
 
 /* ===== 동의 ===== */
-.q-agree{margin-top:28px;padding:20px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:none}
-.q-check{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.5}
+.q-agree{margin-top:16px;padding:14px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:none}
+.q-check{display:flex;align-items:flex-start;gap:9px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.5;word-break:keep-all}
 .q-check input{position:absolute;opacity:0;width:0;height:0}
-.q-check .box{flex:none;margin-top:1px;width:17px;height:17px;border-radius:5px;border:1.5px solid #C6CBD1;background:#fff;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
+.q-check .box{flex:none;margin-top:0;width:16px;height:16px;border-radius:3px;border:1.5px solid #C6CBD1;background:#fff;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
 .q-check .box svg{width:11px;height:11px;color:#fff;opacity:0;transition:.15s}
 .q-check input:checked + .box{background:var(--accent);border-color:var(--accent)}
 .q-check input:checked + .box svg{opacity:1}
 .q-check input:focus-visible + .box{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
-.q-agree .det{margin-top:9px;margin-left:27px;font-size:12px;color:var(--ink-3);line-height:1.7;word-break:keep-all}
+.q-agree .det{margin-top:7px;margin-left:25px;font-size:11px;color:var(--ink-3);line-height:1.65;word-break:keep-all}
+/* 동의만 빠진 채 제출했을 때 눈에 들어오도록 */
+.q-agree.is-err .box{border-color:var(--danger);box-shadow:0 0 0 3px rgba(217,63,69,.12)}
+.q-agree.is-err .q-check{color:#B8353A}
 .q-agree .det b{color:var(--ink-2);font-weight:700}
 
 /* ===== 완료 화면 ===== */
 .q-done{display:none;text-align:center;padding:0}
 .q-done.on{display:block;grid-column:1 / -1;width:100%;max-width:520px;margin:0 auto;padding:8px 0 0}
-.q-done .ic{width:52px;height:52px;margin:0 auto 20px;border-radius:14px;background:var(--accent-tint);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.q-done .ic{width:52px;height:52px;margin:0 auto 20px;border-radius:8px;background:var(--accent-tint);color:var(--accent);display:flex;align-items:center;justify-content:center}
 .q-done .ic svg{width:24px;height:24px}
 .q-done h2{font-family:var(--font-body);font-size:22px;font-weight:800;letter-spacing:-.04em;color:var(--ink);margin-bottom:12px}
 .q-done p{font-size:14.5px;color:var(--ink-2);line-height:1.72;max-width:420px;margin:0 auto;word-break:keep-all}
@@ -251,7 +260,7 @@ body.quote-page{
 .q-done .rcpt .k{color:var(--ink-3);font-weight:600}
 .q-done .rcpt .v{font-variant-numeric:tabular-nums;letter-spacing:.01em}
 .q-done .acts{display:flex;justify-content:center;gap:8px;margin-top:28px;flex-wrap:wrap}
-.q-done-recap{margin:24px auto 0;max-width:100%;text-align:left;border:1px solid var(--line);border-radius:12px;background:var(--fill);padding:16px 18px}
+.q-done-recap{margin:24px auto 0;max-width:100%;text-align:left;border:1px solid var(--line);border-radius:8px;background:var(--fill);padding:16px 18px}
 .q-done-recap .rl{display:flex;align-items:baseline;gap:10px;font-size:13px;color:var(--ink-2);padding:4px 0}
 .q-done-recap .rl .v{margin-left:auto;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;text-align:right}
 .q-done-recap .rl.tot{margin-top:8px;padding-top:12px;border-top:1px solid var(--line)}
@@ -259,7 +268,7 @@ body.quote-page{
 .q-done-recap .rl.tot small{font-weight:500;color:var(--ink-3)}
 
 /* 에러 */
-.q-err{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:rgba(217,63,69,.05);border:1px solid rgba(217,63,69,.22);font-size:13px;font-weight:600;color:#B8353A;line-height:1.55}
+.q-err{display:none;margin-top:14px;padding:11px 13px;border-radius:4px;background:rgba(217,63,69,.05);border:1px solid rgba(217,63,69,.22);font-size:12.5px;font-weight:600;color:#B8353A;line-height:1.55;word-break:keep-all}
 .q-err.on{display:block}
 </style>
 </head>
@@ -296,35 +305,34 @@ body.quote-page{
         <p class="q-step-desc">견적서는 아래 입력하신 이메일로 자동 발송됩니다.</p>
 
         <div class="f-grid">
-          <label class="field grow">
-            <span class="f-label">회사명<span class="f-req" aria-hidden="true">*</span></span>
-            <input type="text" name="company" required placeholder="㈜한국건설">
-          </label>
-          <label class="field grow">
-            <span class="f-label">담당자명<span class="f-req" aria-hidden="true">*</span></span>
-            <input type="text" name="manager" required placeholder="홍길동">
-          </label>
-          <label class="field grow">
-            <span class="f-label">연락처<span class="f-req" aria-hidden="true">*</span></span>
-            <input type="tel" name="phone" required inputmode="tel" placeholder="010-0000-0000">
-          </label>
-          <label class="field grow">
-            <span class="f-label">이메일<span class="f-req" aria-hidden="true">*</span></span>
-            <input type="email" name="email" required inputmode="email" placeholder="name@company.com">
-            <span class="f-hint">견적서 수신</span>
-          </label>
-          <label class="field grow">
-            <span class="f-label">현장명</span>
-            <input type="text" name="site" placeholder="○○아파트 신축공사">
-          </label>
-          <label class="field grow">
-            <span class="f-label">현장 지역</span>
-            <input type="text" name="region" placeholder="광주광역시 북구">
-          </label>
-          <label class="field full ta">
-            <span class="f-label">요청사항</span>
-            <textarea name="memo" rows="3" placeholder="설치 일정, 기존 단말기 교체 여부 등 알려주실 내용을 적어주세요."></textarea>
-          </label>
+          <div class="f-item grow">
+            <label class="f-label" for="q-company">회사명<span class="f-req" aria-hidden="true">*</span></label>
+            <div class="field"><input id="q-company" type="text" name="company" required placeholder="회사명을 입력하세요"></div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-manager">담당자명<span class="f-req" aria-hidden="true">*</span></label>
+            <div class="field"><input id="q-manager" type="text" name="manager" required placeholder="이름을 입력하세요"></div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-phone">연락처<span class="f-req" aria-hidden="true">*</span></label>
+            <div class="field"><input id="q-phone" type="tel" name="phone" required inputmode="tel" placeholder="010 - **** - ****"></div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-email">이메일<span class="f-req" aria-hidden="true">*</span><span class="f-note">견적서 수신</span></label>
+            <div class="field"><input id="q-email" type="email" name="email" required inputmode="email" placeholder="이메일을 입력하세요"></div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-site">현장명</label>
+            <div class="field"><input id="q-site" type="text" name="site" placeholder="현장명을 입력하세요"></div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-region">현장 지역</label>
+            <div class="field"><input id="q-region" type="text" name="region" placeholder="현장 지역을 입력하세요"></div>
+          </div>
+          <div class="f-item full">
+            <label class="f-label" for="q-memo">요청사항<span class="f-note">설치 일정 · 기존 단말기 교체 여부 등</span></label>
+            <div class="field ta"><textarea id="q-memo" name="memo" rows="3" placeholder="내용을 입력해 주세요"></textarea></div>
+          </div>
         </div>
       </div>
 
@@ -334,15 +342,17 @@ body.quote-page{
         <p class="q-step-desc">임대 기간에 따라 월 임대료가 달라집니다. 기간을 먼저 정해주세요.</p>
 
         <div class="f-grid">
-          <label class="field grow" id="fieldMonths">
-            <span class="f-label">기간(월)<span class="f-req" aria-hidden="true">*</span></span>
-            <input type="number" name="months" id="months" min="1" max="60" step="1" value="12" inputmode="numeric">
-            <span class="f-unit">개월</span>
-          </label>
-          <label class="field grow">
-            <span class="f-label">희망 설치일</span>
-            <input type="date" name="start_date">
-          </label>
+          <div class="f-item grow">
+            <label class="f-label" for="months">기간(월)<span class="f-req" aria-hidden="true">*</span></label>
+            <div class="field" id="fieldMonths">
+              <input id="months" type="number" name="months" min="1" max="60" step="1" value="12" inputmode="numeric">
+              <span class="f-unit">개월</span>
+            </div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-start">희망 설치일</label>
+            <div class="field"><input id="q-start" type="date" name="start_date"></div>
+          </div>
         </div>
         <p class="q-note" style="margin-top:10px">기간이 길수록 월 임대료가 낮아집니다. 13개월 이상은 12개월 요율로 계산되며, 정확한 금액은 담당자가 확인 후 안내드립니다.</p>
       </div>
@@ -363,11 +373,11 @@ body.quote-page{
               <span class="dev-desc">출입구에 고정 설치. 상시 출입 통제가 필요한 현장.</span>
             </label>
             <div class="dev-qty">
-              <label class="field">
-                <span class="f-label">수량</span>
-                <input type="number" name="qty_W400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="벽부형 수량">
+              <label class="f-label" for="q-qty-W400">수량</label>
+              <div class="field">
+                <input id="q-qty-W400" type="number" name="qty_W400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="벽부형 수량">
                 <span class="f-unit">대</span>
-              </label>
+              </div>
             </div>
           </div>
 
@@ -381,11 +391,11 @@ body.quote-page{
               <span class="dev-desc">케이스형으로 현장 간 이동 설치. 위치가 바뀌는 현장.</span>
             </label>
             <div class="dev-qty">
-              <label class="field">
-                <span class="f-label">수량</span>
-                <input type="number" name="qty_M400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="이동형 수량">
+              <label class="f-label" for="q-qty-M400">수량</label>
+              <div class="field">
+                <input id="q-qty-M400" type="number" name="qty_M400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="이동형 수량">
                 <span class="f-unit">대</span>
-              </label>
+              </div>
             </div>
           </div>
 
@@ -399,23 +409,15 @@ body.quote-page{
               <span class="dev-desc">들고 다니며 태그. 소규모·분산 현장이나 순회 점검.</span>
             </label>
             <div class="dev-qty">
-              <label class="field">
-                <span class="f-label">수량</span>
-                <input type="number" name="qty_T900" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="휴대형 수량">
+              <label class="f-label" for="q-qty-T900">수량</label>
+              <div class="field">
+                <input id="q-qty-T900" type="number" name="qty_T900" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="휴대형 수량">
                 <span class="f-unit">대</span>
-              </label>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="q-agree">
-          <label class="q-check">
-            <input type="checkbox" name="agree" id="agree">
-            <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
-            <span>개인정보 수집·이용에 동의합니다. <span class="f-req">*</span></span>
-          </label>
-          <p class="det"><b>수집항목</b> 회사명·담당자명·연락처·이메일·현장정보 · <b>이용목적</b> 견적서 발송 및 단말기 임대 상담 · <b>보유기간</b> 상담 종료 후 1년 (동의 거부 시 견적 발송이 어렵습니다)</p>
-        </div>
 
         <div class="q-err" id="formErr" role="alert"></div>
       </div>
@@ -459,6 +461,15 @@ body.quote-page{
         <div class="q-save" id="sumSave"></div>
 
         <p class="q-sum-note">본 금액은 기본 요율 기준 자동 계산 결과입니다. 설치비·통신비 및 수량·계약조건에 따른 추가 할인은 담당자 확인 후 최종 견적서에 반영됩니다.</p>
+
+          <div class="q-agree">
+            <label class="q-check">
+              <input type="checkbox" name="agree" id="agree" form="quoteForm">
+              <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
+              <span>개인정보 수집·이용에 동의합니다. <span class="f-req">*</span></span>
+            </label>
+            <p class="det"><b>수집항목</b> 회사명·담당자명·연락처·이메일·현장정보 · <b>이용목적</b> 견적서 발송 및 단말기 임대 상담 · <b>보유기간</b> 상담 종료 후 1년 (동의 거부 시 견적 발송이 어렵습니다)</p>
+          </div>
 
         <div class="q-sum-submit">
           <button type="submit" form="quoteForm" class="banner-btn" id="btnSubmit">견적신청하기</button>
@@ -577,6 +588,7 @@ function render(){
 function validate(q){
   var bad = [];
   form.querySelectorAll('.field.is-err').forEach(function(f){ f.classList.remove('is-err'); });
+  document.querySelector('.q-agree').classList.remove('is-err');
 
   function need(sel, label){
     var el = form.querySelector(sel);
@@ -599,7 +611,10 @@ function validate(q){
     bad.push('올바른 이메일 형식');
     email.closest('.field').classList.add('is-err');
   }
-  if (!document.getElementById('agree').checked) bad.push('개인정보 수집·이용 동의');
+  if (!document.getElementById('agree').checked){
+    bad.push('개인정보 수집·이용 동의');
+    document.querySelector('.q-agree').classList.add('is-err');
+  }
 
   return bad;
 }
@@ -620,7 +635,9 @@ form.addEventListener('submit', function(e){
     errBox.textContent = '다음 항목을 확인해 주세요 · ' + bad.join(', ');
     errBox.classList.add('on');
     var first = form.querySelector('.field.is-err input, .field.is-err textarea');
-    (first || errBox).scrollIntoView({ behavior:'smooth', block:'center' });
+    /* 동의만 빠졌다면 폼이 아니라 버튼 옆 동의 항목으로 데려간다 */
+    var target = first || document.querySelector('.q-agree.is-err') || errBox;
+    target.scrollIntoView({ behavior:'smooth', block:'center' });
     if (first) first.focus({ preventScroll:true });
     return;
   }
