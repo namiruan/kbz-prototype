@@ -153,18 +153,6 @@ a{color:inherit;text-decoration:none}
    ========================================================= */
 body.quote-page{background:#F7F8FA}
 
-/* ===== 상단 헤더 ===== */
-.q-header{position:sticky;top:0;z-index:120;height:var(--header-height);background:rgba(255,255,255,.88);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--main-gray)}
-.q-header .inner{height:100%;display:flex;align-items:center;gap:16px}
-.q-logo{display:inline-flex;align-items:center;gap:10px;flex:none}
-.q-logo svg{width:76px;height:23px;display:block;fill:var(--main-navy)}
-.q-logo .q-logo-div{width:1px;height:14px;background:var(--main-gray)}
-.q-logo .q-logo-sub{font-size:13px;font-weight:700;color:var(--sub-d-gray);letter-spacing:-.02em}
-.q-header .q-tel{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--main-navy)}
-.q-header .q-tel .lb{font-size:12px;font-weight:600;color:var(--sub-d-gray)}
-.q-header .q-tel .num{font-family:var(--font-title);font-size:17px;letter-spacing:-.02em}
-@media(max-width:532px){.q-logo .q-logo-div,.q-logo .q-logo-sub,.q-header .q-tel .lb{display:none}}
-
 /* ===== 히어로 ===== */
 .q-hero{position:relative;overflow:hidden;background:var(--main-white);background-image:var(--grad-radi-sky-top);padding:56px 0 44px;border-bottom:1px solid var(--main-gray)}
 .q-hero .inner{display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:center}
@@ -251,6 +239,8 @@ body.quote-page{background:#F7F8FA}
 @media(max-width:532px){.dev-head .f-radios{margin-left:0;width:100%;padding-top:4px}.dev-rate{margin-left:0;text-align:left;width:100%}}
 
 /* ===== 견적 요약 (sticky) ===== */
+/* 홈페이지 공통 헤더(고정형) 아래에 붙도록 --header-height 만큼 내려둔다.
+   실제 사이트 헤더 높이가 다르면 :root의 --header-height 값만 바꾸면 된다. */
 .q-sum{position:sticky;top:calc(var(--header-height) + 20px)}
 .q-sum-card{background:var(--main-navy);color:#fff;border-radius:20px;padding:24px 22px;box-shadow:0 24px 48px -28px rgba(14,59,99,.6)}
 .q-sum-ttl{display:flex;align-items:center;gap:8px;font-family:var(--font-title);font-size:16px;font-weight:800;letter-spacing:-.03em;margin-bottom:2px}
@@ -345,20 +335,6 @@ table.q-rate-tb tbody tr.on td:first-child{background:rgba(var(--color-blue-rgb)
 </head>
 <body class="quote-page">
 
-<!-- ===== 헤더 ===== -->
-<header class="q-header">
-  <div class="inner">
-    <a class="q-logo" href="index.html" aria-label="김반장 홈으로">
-      <svg viewBox="0 0 92 28" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M15.1846 2.51313e-07L15.1846 2.24332C15.1846 6.36993 13.207 9.30564 9.25181 11.0781C6.87317 12.1306 3.78923 12.7399 4.22972e-08 12.8783L2.94261e-08 8.95944C3.04245 8.87636 5.51789 8.40554 7.41251 7.53313C9.52839 6.57764 10.5794 5.30366 10.5794 3.71118L0.401051 3.71118L0.401051 0.013848L15.1707 0.0138479L15.1846 2.51313e-07ZM1.46591 14.6924L24.5885 14.6924L24.5885 23.4303C24.5885 24.6766 24.3949 25.4797 23.9938 25.8536C23.579 26.2275 22.6939 26.4075 21.3525 26.4075L3.59562 26.4075C2.8765 26.4075 2.33715 26.2413 2.01908 25.909C1.64569 25.5628 1.46591 24.9397 1.46591 24.0811L1.46591 14.6924ZM20.2461 18.4866L5.78065 18.4866L5.78065 22.5856L20.2461 22.5856L20.2461 18.4866ZM20.2184 2.3478e-07L24.5885 2.20427e-07L24.5885 13.1137L20.2184 13.1137L20.2184 2.3478e-07Z"/><path d="M47.4072 11.7151C47.4072 12.5875 47.2274 13.2107 46.8541 13.5846C46.5222 13.9169 45.9966 14.0831 45.2637 14.0831L33.8683 14.0831C33.163 14.0831 32.6514 13.9169 32.3195 13.5846C31.9737 13.2107 31.7939 12.5875 31.7939 11.7151L31.7939 3.01185e-07L36.164 2.86832e-07L36.164 3.10188L43.051 3.10188L43.051 2.64212e-07L47.3934 2.4995e-07L47.3934 11.7151L47.4072 11.7151ZM33.2598 16.7834L37.6299 16.7834L37.6299 22.5302L56.6037 22.5302L56.6037 26.4075L35.4034 26.4075C34.6843 26.4075 34.1449 26.2552 33.8268 25.9367C33.4535 25.5628 33.2737 24.9397 33.2737 24.0673L33.2737 16.7557L33.2598 16.7834ZM36.1778 10.2196L43.0648 10.2196L43.0648 6.8269L36.1778 6.8269L36.1778 10.2196ZM56.3825 9.38872L56.3825 18.182L52.0124 18.182L52.0124 2.3478e-07L56.3825 2.20427e-07L56.3825 5.46983L59.9228 5.46983L59.9228 9.38872L56.3825 9.38872Z"/><path d="M79.2836 2.49224e-07L79.2836 3.79426L73.6966 3.79426C73.9455 4.97132 74.4572 5.9545 75.2455 6.71612C76.2135 7.67161 77.6103 8.29476 79.4081 8.61325L79.4081 12.6568C77.7762 12.5737 76.2273 12.1167 74.7891 11.2859C73.3232 10.455 72.203 9.40257 71.4424 8.11474C70.6541 9.40257 69.4648 10.4688 67.8744 11.3136C66.3809 12.1167 64.915 12.5737 63.4629 12.6568L63.4629 8.61325C65.2607 8.32245 66.6298 7.69931 67.5564 6.74382C68.317 5.9545 68.801 4.97132 68.9808 3.79426L63.5735 3.79426L63.5735 3.00821e-07L79.2836 2.49224e-07ZM84.2622 13.64C86.143 15.2324 87.0834 17.2404 87.0834 19.6637C87.0834 22.087 86.143 24.1088 84.2622 25.729C82.5197 27.2384 80.4868 28 78.1496 28C75.8125 28 73.7519 27.2384 72.0371 25.729C70.1978 24.1088 69.2712 22.087 69.2712 19.6637C69.2712 17.2404 70.1978 15.2324 72.0371 13.64C73.7519 12.1306 75.7986 11.3689 78.1496 11.3689C80.5006 11.3689 82.5058 12.1306 84.2622 13.64ZM75.1348 16.6311C74.2221 17.4619 73.7657 18.4728 73.7657 19.6775C73.7657 20.8823 74.2221 21.8932 75.1348 22.724C76.0061 23.5272 77.0156 23.9426 78.1773 23.9426C79.3389 23.9426 80.3761 23.5411 81.2474 22.724C82.1601 21.8932 82.6165 20.8823 82.6165 19.6775C82.6165 18.4728 82.1601 17.4619 81.2474 16.6311C80.3761 15.8417 79.3528 15.454 78.1773 15.454C77.0018 15.454 76.0061 15.8417 75.1348 16.6311ZM88.162 8.32245L88.162 12.6429L83.7781 12.6429L83.7781 2.34462e-07L88.162 2.20064e-07L88.162 4.4451L91.7023 4.4451L91.7023 8.3363L88.162 8.3363L88.162 8.32245Z"/></svg>
-      <span class="q-logo-div" aria-hidden="true"></span>
-      <span class="q-logo-sub">단말기 견적신청</span>
-    </a>
-    <a class="q-tel" href="tel:1588-3818">
-      <span class="lb">단말기 문의</span>
-      <span class="num">1588-3818</span>
-    </a>
-  </div>
-</header>
 
 <!-- ===== 히어로 ===== -->
 <section class="q-hero">
