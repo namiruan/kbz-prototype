@@ -92,7 +92,7 @@ body.quote-page{
   --danger:#D93F45;
   --field-line:#6D7882;   /* 라이브 폼 테두리 */
   --field-ink:#33363D;    /* 라이브 폼 입력 텍스트 */
-  --field-label:#464C53;  /* 3.0 디자인 시스템 --ds-text-label (index.html) */
+  --field-label:#131416;  /* 라이브 폼 라벨 (= 3.0 --ds-text-body) */
   background:var(--main-white);
   color:var(--ink);
   letter-spacing:-.012em;
@@ -122,30 +122,32 @@ body.quote-page{
 .q-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
 
 /* =========================================================
-   입력 필드 — kbz.co.kr 라이브 폼 규격
-   높이 54 · radius 4 · 테두리 1px #6D7882 · 본문 16px/400
-   라벨은 필드 위에, 안내는 placeholder로. (라이브 사이트에서 계산된 값)
+   입력 필드 — kbz.co.kr 라이브 폼 규격 (라이브 사이트 계산값)
+   필드 : 높이 54 · radius 4 · 테두리 1px #6D7882 · 본문 16px/400 #33363D
+   라벨 : 필드 위 · 16px/400 · #131416 · line-height 1.4 · 자간 -0.36px
+   필수 : 빨간 별표가 아니라 파란 (필수). 안내는 placeholder로.
    ========================================================= */
-.f-grid{display:flex;flex-wrap:wrap;gap:20px 12px}
-.f-item{display:flex;flex-direction:column;gap:8px;min-width:0}
+.f-grid{display:flex;flex-wrap:wrap;gap:28px 12px}
+.f-item{display:flex;flex-direction:column;gap:12px;min-width:0}
 .f-item.grow{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
 @media(max-width:640px){.f-item.grow{flex-basis:100%;max-width:100%}}
 /* 견적 조건은 가로 3열 (좁은 화면에서는 세로 1열) */
 .f-grid.cols3 .f-item{flex:1 1 0;min-width:0;max-width:none}
 @media(max-width:640px){.f-grid.cols3{flex-wrap:wrap}.f-grid.cols3 .f-item{flex-basis:100%}}
 .f-item.full{width:100%}
-.f-label{display:flex;align-items:baseline;gap:3px;font-size:14px;font-weight:600;color:var(--field-label);letter-spacing:-.01em;line-height:1.4}
-.f-req{color:var(--danger);font-weight:600;line-height:1}
+.f-label{display:flex;align-items:baseline;gap:4px;font-size:16px;font-weight:400;color:var(--field-label);letter-spacing:-.36px;line-height:1.4}
+.f-req{color:var(--main-blue);font-weight:400;line-height:inherit}
 /* 라벨 옆 안내 툴팁 — 터치에는 hover가 없어 눌러서도 열린다 */
-.f-labelrow{display:flex;align-items:center;gap:5px}
+.f-labelrow{position:relative;display:flex;align-items:center;gap:5px}
 .f-tip{position:relative;display:inline-flex}
 .f-tip-btn{display:flex;align-items:center;justify-content:center;width:17px;height:17px;padding:0;border:0;border-radius:50%;background:none;color:var(--ink-4);cursor:pointer;transition:color .15s}
 .f-tip-btn svg{width:15px;height:15px;display:block}
 .f-tip-btn:hover,.f-tip.on .f-tip-btn{color:var(--accent)}
 .f-tip-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.f-tip-box{position:absolute;left:-9px;top:calc(100% + 9px);z-index:5;width:min(240px,72vw);padding:10px 12px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.65;letter-spacing:-.01em;word-break:keep-all;opacity:0;visibility:hidden;transform:translateY(-3px);transition:opacity .15s,transform .15s,visibility .15s;pointer-events:none}
-.f-tip-box::before{content:"";position:absolute;left:12px;top:-3px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
-.f-tip:hover .f-tip-box,.f-tip.on .f-tip-box,.f-tip-btn:focus-visible ~ .f-tip-box{opacity:1;visibility:visible;transform:translateY(0)}
+.f-tip-box{position:absolute;left:0;top:calc(100% + 9px);z-index:5;width:min(240px,100%);padding:10px 12px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.65;letter-spacing:-.01em;word-break:keep-all;opacity:0;visibility:hidden;transform:translateY(-3px);transition:opacity .15s,transform .15s,visibility .15s;pointer-events:none}
+.f-tip::after{content:"";position:absolute;left:50%;top:calc(100% + 7px);z-index:6;width:8px;height:8px;margin-left:-4px;background:var(--ink);transform:rotate(45deg);opacity:0;visibility:hidden;transition:opacity .15s,visibility .15s;pointer-events:none}
+.f-tip:hover ~ .f-tip-box,.f-tip.on ~ .f-tip-box,.f-tip:focus-within ~ .f-tip-box{opacity:1;visibility:visible;transform:translateY(0)}
+.f-tip:hover::after,.f-tip.on::after,.f-tip:focus-within::after{opacity:1;visibility:visible}
 .field{display:flex;align-items:center;gap:8px;height:54px;padding:0 12px;background:var(--main-white);border:1px solid var(--field-line);border-radius:4px;transition:border-color .15s,box-shadow .15s}
 .field:hover{border-color:#525C66}
 /* 라이브 폼은 포커스 시 아무 변화가 없다. 키보드 사용자가 위치를 잃지 않도록
@@ -362,19 +364,19 @@ body.quote-page{
         <div class="q-step"><span class="n">01</span><h2>신청자 정보</h2></div>
         <div class="f-grid">
           <div class="f-item grow">
-            <label class="f-label" for="q-company">회사명<span class="f-req" aria-hidden="true">*</span></label>
+            <label class="f-label" for="q-company">회사명<span class="f-req">(필수)</span></label>
             <div class="field"><input id="q-company" type="text" name="company" required placeholder="회사명을 입력하세요"></div>
           </div>
           <div class="f-item grow">
-            <label class="f-label" for="q-manager">담당자명<span class="f-req" aria-hidden="true">*</span></label>
+            <label class="f-label" for="q-manager">담당자명<span class="f-req">(필수)</span></label>
             <div class="field"><input id="q-manager" type="text" name="manager" required placeholder="이름을 입력하세요"></div>
           </div>
           <div class="f-item grow">
-            <label class="f-label" for="q-phone">연락처<span class="f-req" aria-hidden="true">*</span></label>
+            <label class="f-label" for="q-phone">연락처<span class="f-req">(필수)</span></label>
             <div class="field"><input id="q-phone" type="tel" name="phone" required inputmode="tel" placeholder="010 - **** - ****"></div>
           </div>
           <div class="f-item grow">
-            <label class="f-label" for="q-email">이메일<span class="f-req" aria-hidden="true">*</span></label>
+            <label class="f-label" for="q-email">이메일<span class="f-req">(필수)</span></label>
             <div class="field"><input id="q-email" type="email" name="email" required inputmode="email" placeholder="이메일을 입력하세요"></div>
           </div>
         </div>
@@ -386,11 +388,11 @@ body.quote-page{
         <div class="f-grid cols3">
           <div class="f-item grow">
             <span class="f-labelrow">
-              <label class="f-label" for="months">기간(월)<span class="f-req" aria-hidden="true">*</span></label>
+              <label class="f-label" for="months">기간(월)<span class="f-req">(필수)</span></label>
               <span class="f-tip">
                 <button type="button" class="f-tip-btn" aria-label="임대 기간 안내" aria-expanded="false" aria-describedby="tipMonths"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M12 11v5.4"/><path d="M12 7.6h.01"/></svg></button>
-                <span class="f-tip-box" id="tipMonths" role="tooltip">대여 기간이 길수록 할인폭이 커져 월 임대료가 내려갑니다. 13개월 이상은 12개월 요율로 계산됩니다.</span>
               </span>
+              <span class="f-tip-box" id="tipMonths" role="tooltip">대여 기간이 길수록 할인폭이 커져 월 임대료가 내려갑니다. 13개월 이상은 12개월 요율로 계산됩니다.</span>
             </span>
             <div class="field" id="fieldMonths">
               <input id="months" type="number" name="months" min="1" max="60" step="1" value="12" inputmode="numeric">
@@ -511,7 +513,7 @@ body.quote-page{
             <label class="q-check">
               <input type="checkbox" name="agree" id="agree" form="quoteForm">
               <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
-              <span>개인정보 수집·이용에 동의합니다.<span class="f-req">*</span></span>
+              <span>개인정보 수집·이용에 동의합니다 <span class="f-req">(필수)</span></span>
             </label>
             <button type="button" class="q-agree-link" id="privacyOpen" aria-haspopup="dialog">내용 보기</button>
           </div>
