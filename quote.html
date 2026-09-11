@@ -202,11 +202,11 @@ body.quote-page{
 .q-sum-ttl .live{display:none}
 .q-sum-cond{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:18px;letter-spacing:-.02em}
 .q-sum-lines{border-top:1px solid var(--line);padding-top:14px}
+.q-sum-lines[hidden]{display:none}
 .q-sum-line{display:flex;align-items:baseline;gap:8px;font-size:13.5px;padding:5px 0;color:var(--ink-2)}
 .q-sum-line .nm{font-weight:600;color:var(--ink)}
 .q-sum-line .qty{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
 .q-sum-line .amt{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
-.q-sum-empty{font-size:13px;color:var(--ink-3);padding:6px 0 2px;line-height:1.65;word-break:keep-all}
 .q-sum-mid{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .q-sum-mid .q-sum-line{font-size:13px}
 .q-sum-mid .q-sum-line .nm{font-weight:500;color:var(--ink-2)}
@@ -465,9 +465,8 @@ body.quote-page{
         <div class="q-sum-ttl">견적 요약</div>
         <p class="q-sum-cond" id="sumCond">기간 12개월 · VAT 별도</p>
 
-        <div class="q-sum-lines">
+        <div class="q-sum-lines" id="sumLinesBox">
           <div id="sumLines"></div>
-          <p class="q-sum-empty" id="sumEmpty">견적이 필요한 단말기를 선택하시면<br>금액이 여기에 계산됩니다.</p>
         </div>
 
         <div class="q-sum-mid" id="sumMid" hidden>
@@ -560,10 +559,10 @@ function tier(m){ return Math.min(Math.max(parseInt(m,10)||0, 1), MAX_TIER); }
 var form      = document.getElementById('quoteForm');
 var monthsEl  = document.getElementById('months');
 var sumLines  = document.getElementById('sumLines');
-var sumEmpty  = document.getElementById('sumEmpty');
 var sumMid    = document.getElementById('sumMid');
 var btnSubmit = document.getElementById('btnSubmit');
 var errBox    = document.getElementById('formErr');
+var sending   = false;
 
 /* ── 현재 입력값 수집 ──────────────────────────────────── */
 function readQuote(){
@@ -609,8 +608,8 @@ function render(){
   }).join('');
 
   var has = q.items.length > 0 && q.months >= 1;
-  sumEmpty.hidden = has;
-  sumMid.hidden   = !has;
+  document.getElementById('sumLinesBox').hidden = !q.items.length;
+  sumMid.hidden = !has;
 
   document.getElementById('sumMonthsX').textContent = q.months;
   document.getElementById('sumMonthly').textContent = won(q.monthly);
@@ -631,6 +630,12 @@ function render(){
   }
 
   btnSubmit.disabled = !has;
+  /* 버튼이 왜 막혀 있는지를 버튼 자신이 알려준다 (전송 중에는 건드리지 않는다) */
+  if (!sending){
+    btnSubmit.textContent = q.months < 1      ? '기간을 입력해 주세요'
+                          : !q.items.length   ? '단말기를 선택해 주세요'
+                          :                     '견적신청하기';
+  }
 }
 
 /* ── 유효성 검사 ───────────────────────────────────────── */
@@ -711,6 +716,7 @@ form.addEventListener('submit', function(e){
     }
   };
 
+  sending = true;
   btnSubmit.disabled = true;
   btnSubmit.textContent = '전송 중…';
 
@@ -729,6 +735,7 @@ form.addEventListener('submit', function(e){
     window.scrollTo({ top:0, behavior:'smooth' });
   }
   function fail(){
+    sending = false;
     btnSubmit.disabled = false;
     btnSubmit.textContent = '견적신청하기';
     errBox.textContent = '전송에 실패했습니다. 잠시 후 다시 시도하시거나 1588-3818로 연락해 주세요.';
@@ -749,6 +756,7 @@ form.addEventListener('submit', function(e){
 
 /* 다시 신청하기 */
 document.getElementById('btnAgain').addEventListener('click', function(){
+  sending = false;
   form.reset();
   form.hidden = false;
   document.getElementById('doneCard').classList.remove('on');
