@@ -92,6 +92,7 @@ body.quote-page{
   --danger:#D93F45;
   --field-line:#6D7882;   /* 라이브 폼 테두리 */
   --field-ink:#33363D;    /* 라이브 폼 입력 텍스트 */
+  --field-label:#464C53;  /* 3.0 디자인 시스템 --ds-text-label (index.html) */
   background:var(--main-white);
   color:var(--ink);
   letter-spacing:-.012em;
@@ -133,7 +134,7 @@ body.quote-page{
 .f-grid.cols3 .f-item{flex:1 1 0;min-width:0;max-width:none}
 @media(max-width:640px){.f-grid.cols3{flex-wrap:wrap}.f-grid.cols3 .f-item{flex-basis:100%}}
 .f-item.full{width:100%}
-.f-label{display:flex;align-items:baseline;gap:3px;font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.02em;line-height:1.4}
+.f-label{display:flex;align-items:baseline;gap:3px;font-size:14px;font-weight:600;color:var(--field-label);letter-spacing:-.01em;line-height:1.4}
 .f-req{color:var(--danger);font-weight:600;line-height:1}
 /* 라벨 옆 안내 툴팁 — 터치에는 hover가 없어 눌러서도 열린다 */
 .f-labelrow{display:flex;align-items:center;gap:5px}
