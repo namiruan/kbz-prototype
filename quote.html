@@ -170,9 +170,10 @@ body.quote-page{
 
 
 /* ===== 단말기 선택 카드 ===== */
-/* align-items:start — 선택한 카드만 수량만큼 길어지고, 고르지 않은 카드는
-   제 높이로 끝난다. 늘어난 이웃 때문에 빈 공간이 생기지 않게. */
-.dev-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:start}
+/* 설명 줄 수가 달라도 세 카드의 높이는 같게 맞춘다.
+   가로 3열은 stretch가, 세로 1열은 grid-auto-rows:1fr이 맡는다.
+   수량 스테퍼는 띄워 놓았으므로 골라도 높이는 변하지 않는다. */
+.dev-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:stretch;grid-auto-rows:1fr}
 .dev-card{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:var(--main-white);transition:border-color .15s,background .15s}
 .dev-card:hover{border-color:#C6CBD1}
 .dev-card.is-on{border-color:var(--accent);background:var(--accent-tint)}
@@ -213,10 +214,12 @@ body.quote-page{
   /* 사진을 키운 만큼 스테퍼를 줄이고 칸 사이를 좁혀 설명 폭을 되찾는다.
      390/375/360px에서 카드 높이는 사진이 좁던 때와 같다. */
   /* 사진은 카드 왼쪽·위·아래에 붙이고, 글자만 안쪽 여백을 갖는다 */
-  .dev-pick{display:grid;grid-template-columns:124px minmax(0,1fr);grid-template-areas:"media name" "media desc";column-gap:10px;align-content:center;padding:12px 80px 12px 0}
-  .dev-media{grid-area:media;align-self:stretch;width:124px;height:auto;margin:-12px 0;border-radius:7px 0 0 7px}
-  .dev-name{grid-area:name;align-self:end}
-  .dev-desc{grid-area:desc;align-self:start;margin-top:3px}
+  /* 사진은 글자와 같은 격자에 두지 않고 왼쪽에 띄운다. 격자에 넣으면
+     사진 높이가 글자 줄 수에 끌려다녀 카드마다 크기가 달라진다.
+     띄워 두면 카드 높이를 그대로 채우고, 글자는 제 높이만큼만 차지한다. */
+  .dev-pick{position:relative;display:flex;flex-direction:column;justify-content:center;padding:12px 80px 12px 134px}
+  .dev-media{position:absolute;left:0;top:0;bottom:0;width:124px;height:auto;margin:0;border-radius:7px 0 0 7px}
+  .dev-desc{margin-top:3px}
   .dev-qty{top:50%;bottom:auto;right:8px;transform:translateY(-50%)}
   .stepper{height:28px}
   .stepper button{width:22px}
