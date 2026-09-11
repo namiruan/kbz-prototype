@@ -83,69 +83,6 @@ a{color:inherit;text-decoration:none}
 .sec-no{position:absolute;top:26px;left:30px;font-size:11px;font-weight:800;color:var(--sub-d-gray);opacity:.5;letter-spacing:.1em}
 
 
-/* site footer (kbz.co.kr 정보) */
-.site-footer{background:#0A2540;color:rgba(255,255,255,.6);font-size:13px;line-height:1.75}
-.site-footer .inner{max-width:900px;padding-top:52px;padding-bottom:120px}
-.site-footer .ft-links{display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:16px}
-.site-footer .ft-links a{color:rgba(255,255,255,.7);font-weight:600;font-size:13px;text-decoration:none}
-.site-footer .ft-links a:hover{color:#fff}
-.site-footer .ft-links a.strong{color:rgba(255,255,255,.82)}
-/* 패밀리사이트 드롭다운 */
-.site-footer .ft-family{position:relative;display:inline-flex}
-.site-footer .ft-family-btn{appearance:none;cursor:pointer;font:inherit;font-size:13px;font-weight:600;color:rgba(255,255,255,.7);background:transparent;border:0;padding:0;display:inline-flex;align-items:center;gap:4px}
-.site-footer .ft-family-btn:hover{color:#fff}
-.site-footer .ft-family-btn .caret{font-size:10px;line-height:1;transition:transform .15s}
-.site-footer .ft-family.open .ft-family-btn{color:#fff}
-.site-footer .ft-family.open .ft-family-btn .caret{transform:rotate(180deg)}
-.site-footer .ft-family-menu{position:absolute;left:0;bottom:calc(100% + 8px);z-index:5;min-width:196px;margin:0;padding:6px;list-style:none;background:#123350;border:1px solid rgba(255,255,255,.16);border-radius:10px;box-shadow:0 12px 28px rgba(0,0,0,.35);opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .15s,transform .15s,visibility .15s}
-.site-footer .ft-family.open .ft-family-menu{opacity:1;visibility:visible;transform:translateY(0)}
-.site-footer .ft-family-menu a{display:block;padding:7px 12px;border-radius:6px;font-size:13px;font-weight:500;color:rgba(255,255,255,.8);text-decoration:none;white-space:nowrap}
-.site-footer .ft-family-menu a:hover{background:rgba(255,255,255,.08);color:#fff}
-/* 모바일: 패밀리사이트 드롭다운이 오른쪽 화면 밖으로 뻗어 페이지 전체가 가로 스크롤되던 문제 → 왼쪽으로 펼치도록 우측 기준 정렬 */
-@media(max-width:640px){.site-footer .ft-family-menu{left:auto;right:0}}
-.site-footer .ft-label{color:rgba(255,255,255,.42);margin-right:6px}
-/* 상단: 문의 · 운영시간 · 지점 (라벨+내용 행, 구분선으로 섹션 분리) */
-.site-footer .ft-top{display:grid;grid-template-columns:200px 1fr;gap:40px;margin-bottom:28px}
-.site-footer .ft-logo{display:flex;flex-direction:column;gap:9px}
-.site-footer .ft-logo-mark{display:block}
-.site-footer .ft-logo-mark svg{height:30px;width:auto;display:block;fill:rgba(255,255,255,.82)}
-.site-footer .ft-logo-sub{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.01em;line-height:1.5}
-@media(max-width:768px){.site-footer .ft-top{grid-template-columns:1fr;gap:24px}}
-.site-footer .ft-row{display:grid;grid-template-columns:104px 1fr;gap:20px 24px;padding:22px 0;border-top:1px solid transparent;border-image:linear-gradient(90deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.06) 45%,rgba(255,255,255,0) 100%) 1}
-.site-footer .ft-row:first-child{border-top:0;padding-top:0}
-.site-footer .ft-row-label{font-size:14px;font-weight:700;color:rgba(255,255,255,.7)}
-.site-footer .ft-row-sub{display:block;margin-top:5px;font-size:12px;font-weight:400;color:rgba(255,255,255,.55)}
-/* 1순위: 문의 */
-.site-footer .ft-contact{display:flex;flex-wrap:wrap;gap:18px 40px}
-.site-footer .ft-contact .ct{display:flex;flex-direction:column;gap:3px}
-.site-footer .ft-contact .ct-label{font-size:12px;color:rgba(255,255,255,.55)}
-.site-footer .ft-contact .ct-num{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.01em;line-height:1.2}
-/* 운영시간 (오전·오후 라벨 위 / 시간 아래, 나란히) */
-.site-footer .ct-hours{display:flex;flex-wrap:wrap;gap:16px 40px}
-.site-footer .ct-hours .hr-col{display:flex;flex-direction:column;gap:3px}
-.site-footer .ct-hours .hr-k{font-size:12px;color:rgba(255,255,255,.55)}
-.site-footer .ct-hours .hr-v{font-size:16px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.01em}
-/* 3순위: 지점 주소 (은은한 텍스트 탭 + 복사) */
-.site-footer .ft-addr-tabs{display:flex;flex-wrap:wrap;gap:2px;margin-top:-2px;margin-bottom:9px}
-.site-footer .ft-addr-tabs button{appearance:none;cursor:pointer;font:inherit;font-size:12px;font-weight:600;color:rgba(255,255,255,.55);background:transparent;border:0;padding:3px 9px;border-radius:6px;transition:.15s}
-.site-footer .ft-addr-tabs button:hover{color:rgba(255,255,255,.9)}
-.site-footer .ft-addr-tabs button.on{color:#fff;background:rgba(255,255,255,.1)}
-.site-footer .ft-addr-body{display:flex;align-items:center;gap:8px}
-.site-footer .ft-addr-text{color:rgba(255,255,255,.82);min-height:1.75em}
-.site-footer .ft-addr-copy{flex:none;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;padding:0;appearance:none;cursor:pointer;color:rgba(255,255,255,.5);background:transparent;border:0;border-radius:7px;transition:.15s}
-.site-footer .ft-addr-copy svg{width:15px;height:15px;display:block}
-.site-footer .ft-addr-copy .ic-check{display:none}
-.site-footer .ft-addr-copy:hover{color:#fff;background:rgba(255,255,255,.1)}
-.site-footer .ft-addr-copy.copied{color:var(--sub-cyan);background:transparent}
-.site-footer .ft-addr-copy.copied .ic-copy{display:none}
-.site-footer .ft-addr-copy.copied .ic-check{display:block}
-/* 하단 바: 링크 · 회사정보 · 저작권 */
-.site-footer .ft-bottom{display:flex;flex-direction:column;gap:14px;padding-top:22px;border-top:1px solid transparent;border-image:linear-gradient(90deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.06) 45%,rgba(255,255,255,0) 100%) 1}
-.site-footer .ft-bottom .ft-links{margin-bottom:0}
-.site-footer .ft-legal{font-size:12px;color:rgba(255,255,255,.4);line-height:1.7}
-.site-footer .ft-legal .ft-name{font-weight:700;color:rgba(255,255,255,.55);margin-right:10px}
-.site-footer .ft-legal .sep{margin:0 8px;color:rgba(255,255,255,.24)}
-.site-footer .ft-copy{margin-top:6px;font-size:12px;color:rgba(255,255,255,.4)}
 
 
 /* =========================================================
@@ -282,18 +219,6 @@ body.quote-page{background:#F7F8FA}
 .q-check input:focus-visible + .box{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.2)}
 .q-agree .det{margin-top:8px;margin-left:27px;font-size:12.5px;color:var(--sub-d-gray);line-height:1.65}
 .q-agree .det b{color:var(--main-black);font-weight:700}
-
-/* 모바일 하단 제출 바 */
-.q-mobile-bar{display:none}
-@media(max-width:1024px){
-  .q-mobile-bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:130;align-items:center;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid var(--main-gray)}
-  .q-mobile-bar .mb-amt{line-height:1.25}
-  .q-mobile-bar .mb-amt .lb{display:block;font-size:11px;font-weight:600;color:var(--sub-d-gray)}
-  .q-mobile-bar .mb-amt .vv{font-family:var(--font-title);font-size:19px;font-weight:800;color:var(--main-navy);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-  .q-mobile-bar .banner-btn{margin-left:auto;background:var(--btn-blue);font-size:16px;font-weight:700;padding:11px 22px}
-  .q-main{padding-bottom:44px}
-  .site-footer .inner{padding-bottom:110px}
-}
 
 /* ===== 요금표 ===== */
 .q-rate{padding:64px 0 72px;background:var(--main-white);border-top:1px solid var(--main-gray)}
@@ -575,130 +500,7 @@ table.q-rate-tb tbody tr.on td:first-child{background:rgba(var(--color-blue-rgb)
   </div>
 </section>
 
-<!-- 모바일 하단 제출 바 -->
-<div class="q-mobile-bar" id="mobileBar">
-  <div class="mb-amt"><span class="lb">총 예상 견적 (VAT 포함)</span><span class="vv" id="mbTotal">0원</span></div>
-  <button type="submit" form="quoteForm" class="banner-btn">견적신청하기</button>
-</div>
-
-<!-- ===== footer : kbz.co.kr 회사정보 (index.html과 동일) ===== -->
-<footer class="site-footer">
-  <div class="inner">
-    <div class="ft-top">
-      <div class="ft-logo">
-        <span class="ft-logo-mark" aria-label="김반장"><svg viewBox="0 0 92 28" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M15.1846 2.51313e-07L15.1846 2.24332C15.1846 6.36993 13.207 9.30564 9.25181 11.0781C6.87317 12.1306 3.78923 12.7399 4.22972e-08 12.8783L2.94261e-08 8.95944C3.04245 8.87636 5.51789 8.40554 7.41251 7.53313C9.52839 6.57764 10.5794 5.30366 10.5794 3.71118L0.401051 3.71118L0.401051 0.013848L15.1707 0.0138479L15.1846 2.51313e-07ZM1.46591 14.6924L24.5885 14.6924L24.5885 23.4303C24.5885 24.6766 24.3949 25.4797 23.9938 25.8536C23.579 26.2275 22.6939 26.4075 21.3525 26.4075L3.59562 26.4075C2.8765 26.4075 2.33715 26.2413 2.01908 25.909C1.64569 25.5628 1.46591 24.9397 1.46591 24.0811L1.46591 14.6924ZM20.2461 18.4866L5.78065 18.4866L5.78065 22.5856L20.2461 22.5856L20.2461 18.4866ZM20.2184 2.3478e-07L24.5885 2.20427e-07L24.5885 13.1137L20.2184 13.1137L20.2184 2.3478e-07Z"/><path d="M47.4072 11.7151C47.4072 12.5875 47.2274 13.2107 46.8541 13.5846C46.5222 13.9169 45.9966 14.0831 45.2637 14.0831L33.8683 14.0831C33.163 14.0831 32.6514 13.9169 32.3195 13.5846C31.9737 13.2107 31.7939 12.5875 31.7939 11.7151L31.7939 3.01185e-07L36.164 2.86832e-07L36.164 3.10188L43.051 3.10188L43.051 2.64212e-07L47.3934 2.4995e-07L47.3934 11.7151L47.4072 11.7151ZM33.2598 16.7834L37.6299 16.7834L37.6299 22.5302L56.6037 22.5302L56.6037 26.4075L35.4034 26.4075C34.6843 26.4075 34.1449 26.2552 33.8268 25.9367C33.4535 25.5628 33.2737 24.9397 33.2737 24.0673L33.2737 16.7557L33.2598 16.7834ZM36.1778 10.2196L43.0648 10.2196L43.0648 6.8269L36.1778 6.8269L36.1778 10.2196ZM56.3825 9.38872L56.3825 18.182L52.0124 18.182L52.0124 2.3478e-07L56.3825 2.20427e-07L56.3825 5.46983L59.9228 5.46983L59.9228 9.38872L56.3825 9.38872Z"/><path d="M79.2836 2.49224e-07L79.2836 3.79426L73.6966 3.79426C73.9455 4.97132 74.4572 5.9545 75.2455 6.71612C76.2135 7.67161 77.6103 8.29476 79.4081 8.61325L79.4081 12.6568C77.7762 12.5737 76.2273 12.1167 74.7891 11.2859C73.3232 10.455 72.203 9.40257 71.4424 8.11474C70.6541 9.40257 69.4648 10.4688 67.8744 11.3136C66.3809 12.1167 64.915 12.5737 63.4629 12.6568L63.4629 8.61325C65.2607 8.32245 66.6298 7.69931 67.5564 6.74382C68.317 5.9545 68.801 4.97132 68.9808 3.79426L63.5735 3.79426L63.5735 3.00821e-07L79.2836 2.49224e-07ZM84.2622 13.64C86.143 15.2324 87.0834 17.2404 87.0834 19.6637C87.0834 22.087 86.143 24.1088 84.2622 25.729C82.5197 27.2384 80.4868 28 78.1496 28C75.8125 28 73.7519 27.2384 72.0371 25.729C70.1978 24.1088 69.2712 22.087 69.2712 19.6637C69.2712 17.2404 70.1978 15.2324 72.0371 13.64C73.7519 12.1306 75.7986 11.3689 78.1496 11.3689C80.5006 11.3689 82.5058 12.1306 84.2622 13.64ZM75.1348 16.6311C74.2221 17.4619 73.7657 18.4728 73.7657 19.6775C73.7657 20.8823 74.2221 21.8932 75.1348 22.724C76.0061 23.5272 77.0156 23.9426 78.1773 23.9426C79.3389 23.9426 80.3761 23.5411 81.2474 22.724C82.1601 21.8932 82.6165 20.8823 82.6165 19.6775C82.6165 18.4728 82.1601 17.4619 81.2474 16.6311C80.3761 15.8417 79.3528 15.454 78.1773 15.454C77.0018 15.454 76.0061 15.8417 75.1348 16.6311ZM88.162 8.32245L88.162 12.6429L83.7781 12.6429L83.7781 2.34462e-07L88.162 2.20064e-07L88.162 4.4451L91.7023 4.4451L91.7023 8.3363L88.162 8.3363L88.162 8.32245Z"/></svg></span>
-        <span class="ft-logo-sub">건설 노무관리 자동화 서비스</span>
-      </div>
-      <div class="ft-info">
-      <div class="ft-row">
-        <span class="ft-row-label">문의</span>
-        <div class="ft-row-body">
-          <div class="ft-contact">
-            <div class="ct">
-              <span class="ct-label">프리미엄 문의</span>
-              <span class="ct-num">1588-3818</span>
-            </div>
-            <div class="ct">
-              <span class="ct-label">고객센터</span>
-              <span class="ct-num">1688-8688</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="ft-row">
-        <span class="ft-row-label">운영시간<span class="ft-row-sub">주말·공휴일 휴무</span></span>
-        <div class="ft-row-body">
-          <div class="ct-hours">
-            <span class="hr-col"><span class="hr-k">오전</span><span class="hr-v">09:00 ~ 12:30</span></span>
-            <span class="hr-col"><span class="hr-k">오후</span><span class="hr-v">13:30 ~ 18:00</span></span>
-          </div>
-        </div>
-      </div>
-      <div class="ft-row">
-        <span class="ft-row-label">지점</span>
-        <div class="ft-row-body">
-          <div class="ft-addr-tabs">
-            <button class="on" data-addr="(61246) 전남광주통합특별시 북구 금남로 41 (임동) 에스빌딩 9층">본사</button>
-            <button data-addr="(07222) 서울 영등포구 양평로12가길 14 (양평동4가, 르네상스 한강 오피스텔) 903호">서울</button>
-            <button data-addr="(48508) 부산 남구 수영로 312 (대연동) 21센츄리시티오피스텔 627호">부산</button>
-            <button data-addr="(34186) 대전 유성구 대학로 28 (봉명동) 홍인오피스텔 2002호">대전</button>
-            <button data-addr="(41958) 대구 중구 봉산문화길 49 (봉산동) 봉성빌딩 2층">대구</button>
-          </div>
-          <div class="ft-addr-body">
-            <p class="ft-addr-text">(61246) 전남광주통합특별시 북구 금남로 41 (임동) 에스빌딩 9층</p>
-            <button type="button" class="ft-addr-copy" aria-label="주소 복사" title="주소 복사">
-              <svg class="ic-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
-              <svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
-    <div class="ft-bottom">
-      <nav class="ft-links">
-        <a href="#" class="strong">회사소개</a>
-        <a href="#">이용약관</a>
-        <a href="#" class="strong">개인정보처리방침</a>
-        <div class="ft-family">
-          <button type="button" class="ft-family-btn" aria-expanded="false">패밀리사이트<span class="caret" aria-hidden="true">▾</span></button>
-          <ul class="ft-family-menu">
-            <li><a href="http://www.bizpoll.net" target="_blank" rel="noopener">㈜한국경영원</a></li>
-            <li><a href="http://www.taewonsoft.co.kr" target="_blank" rel="noopener">㈜태원소프트</a></li>
-            <li><a href="https://www.econ.co.kr" target="_blank" rel="noopener">건설업무포털 · 이콘</a></li>
-            <li><a href="https://www.bizsee.net" target="_blank" rel="noopener">사회보험관리 · 비즈씨</a></li>
-            <li><a href="https://www.ossem.co.kr" target="_blank" rel="noopener">원격평생교육원 · 오쌤</a></li>
-          </ul>
-        </div>
-      </nav>
-      <div class="ft-legal">
-        <span class="ft-name">㈜한국기업진흥원</span><span><span class="ft-label">대표자</span>김태균</span><span class="sep">|</span><span><span class="ft-label">사업자등록번호</span>409-81-65683</span><span class="sep">|</span><span><span class="ft-label">통신판매업신고</span>2017-광주-북구-690호</span>
-        <div class="ft-copy">©Copyright 2026. All Rights Reserved.</div>
-      </div>
-    </div>
-  </div>
-</footer>
-
 <script>
-/* 푸터 지점 주소 토글 + 복사 */
-(function(){
-  var tabs=document.querySelector('.ft-addr-tabs');
-  var out=document.querySelector('.ft-addr-text');
-  var copy=document.querySelector('.ft-addr-copy');
-  if(!tabs||!out)return;
-  tabs.addEventListener('click',function(e){
-    var b=e.target.closest('button[data-addr]');
-    if(!b)return;
-    tabs.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);});
-    out.textContent=b.getAttribute('data-addr');
-  });
-  if(copy){
-    var timer;
-    copy.addEventListener('click',function(){
-      var text=out.textContent;
-      function done(){copy.classList.add('copied');copy.setAttribute('title','복사됨');clearTimeout(timer);timer=setTimeout(function(){copy.classList.remove('copied');copy.setAttribute('title','주소 복사');},1600);}
-      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(function(){fallback(text);done();});}
-      else{fallback(text);done();}
-    });
-    function fallback(text){var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
-  }
-})();
-
-/* 푸터 패밀리사이트 드롭다운 */
-(function(){
-  var fam=document.querySelector('.ft-family');
-  if(!fam)return;
-  var btn=fam.querySelector('.ft-family-btn');
-  function close(){fam.classList.remove('open');btn.setAttribute('aria-expanded','false');}
-  btn.addEventListener('click',function(e){
-    e.stopPropagation();
-    var open=fam.classList.toggle('open');
-    btn.setAttribute('aria-expanded',open?'true':'false');
-  });
-  document.addEventListener('click',function(e){if(!fam.contains(e.target))close();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
-})();
-
 /* =========================================================
    퇴직공제 전자카드 단말기 견적신청
    ========================================================= */
@@ -797,7 +599,6 @@ function render(){
   document.getElementById('sumSupply').textContent  = won(q.supply);
   document.getElementById('sumVat').textContent     = won(q.vat);
   document.getElementById('sumTotal').textContent   = won(q.total);
-  document.getElementById('mbTotal').textContent    = won(q.total);
 
   /* 1개월 요율 대비 절감액 */
   var save = document.getElementById('sumSave');
@@ -904,7 +705,6 @@ form.addEventListener('submit', function(e){
         }).join('')
       + '<div class="rl tot"><span>총 예상 견적 <small>VAT 포함</small></span><span class="v">' + won(q.total) + '</span></div>';
     form.hidden = true;
-    document.getElementById('mobileBar').style.display = 'none';
     document.getElementById('sumPane').style.display = 'none';
     document.getElementById('doneCard').classList.add('on');
     window.scrollTo({ top:0, behavior:'smooth' });
@@ -934,7 +734,6 @@ document.getElementById('btnAgain').addEventListener('click', function(){
   form.hidden = false;
   document.getElementById('doneCard').classList.remove('on');
   document.getElementById('sumPane').style.display = '';
-  document.getElementById('mobileBar').style.display = '';
   btnSubmit.textContent = '견적신청하기';
   render();
   window.scrollTo({ top:0, behavior:'smooth' });
