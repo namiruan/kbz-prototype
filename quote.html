@@ -160,7 +160,9 @@ body.quote-page{
 
 
 /* ===== 단말기 선택 카드 ===== */
-.dev-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+/* align-items:start — 선택한 카드만 수량만큼 길어지고, 고르지 않은 카드는
+   제 높이로 끝난다. 늘어난 이웃 때문에 빈 공간이 생기지 않게. */
+.dev-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:start}
 .dev-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:var(--main-white);transition:border-color .15s,background .15s}
 .dev-card:hover{border-color:#C6CBD1}
 .dev-card.is-on{border-color:var(--accent);background:var(--accent-tint)}
@@ -178,8 +180,10 @@ body.quote-page{
 .dev-name{display:block;font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
 .dev-desc{display:block;margin-top:3px;font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
 .dev-qty{display:none;padding:0 14px 14px}
-.dev-card.is-on .dev-qty{display:flex;flex-direction:column;gap:7px}
-.dev-qty .f-label{font-size:13px}
+.dev-card.is-on .dev-qty{display:block}
+.dev-qty .field{height:46px;cursor:text}
+.dev-qty .f-label{flex:none;font-size:13px;font-weight:600;color:var(--ink-3)}
+.dev-qty .field:focus-within .f-label{color:var(--field-ink)}
 @media(max-width:860px){.dev-grid{grid-template-columns:1fr}.dev-pick{padding:15px 16px 14px}.dev-desc{margin-top:2px}}
 
 /* ===== 견적 요약 (영수증) ===== */
@@ -387,11 +391,11 @@ body.quote-page{
               <span class="dev-desc">출입구에 고정 설치. 상시 출입 통제가 필요한 현장.</span>
             </label>
             <div class="dev-qty">
-              <label class="f-label" for="q-qty-W400">수량</label>
-              <div class="field">
+              <label class="field" for="q-qty-W400">
+                <span class="f-label">수량</span>
                 <input id="q-qty-W400" type="number" name="qty_W400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="벽부형 수량">
                 <span class="f-unit">대</span>
-              </div>
+              </label>
             </div>
           </div>
 
@@ -404,11 +408,11 @@ body.quote-page{
               <span class="dev-desc">케이스형으로 현장 간 이동 설치. 위치가 바뀌는 현장.</span>
             </label>
             <div class="dev-qty">
-              <label class="f-label" for="q-qty-M400">수량</label>
-              <div class="field">
+              <label class="field" for="q-qty-M400">
+                <span class="f-label">수량</span>
                 <input id="q-qty-M400" type="number" name="qty_M400" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="이동형 수량">
                 <span class="f-unit">대</span>
-              </div>
+              </label>
             </div>
           </div>
 
@@ -421,11 +425,11 @@ body.quote-page{
               <span class="dev-desc">들고 다니며 태그. 소규모·분산 현장이나 순회 점검.</span>
             </label>
             <div class="dev-qty">
-              <label class="f-label" for="q-qty-T900">수량</label>
-              <div class="field">
+              <label class="field" for="q-qty-T900">
+                <span class="f-label">수량</span>
                 <input id="q-qty-T900" type="number" name="qty_T900" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="휴대형 수량">
                 <span class="f-unit">대</span>
-              </div>
+              </label>
             </div>
           </div>
         </div>
