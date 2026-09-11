@@ -213,6 +213,10 @@ body.quote-page{
 /* 단가·소계는 계산 내역 안에 둔다. 무엇을 몇 대 골랐는지는 단말기 카드가 보여준다 */
 #sumItems{padding-bottom:7px;margin-bottom:7px;border-bottom:1px dashed var(--line)}
 #sumItems .nm{font-weight:600;color:var(--ink)}
+/* 계산 내역의 마지막 줄 — 부가세까지 더한 합계 */
+.q-sum-mid-body .q-sum-line.vat-in{margin-top:6px;padding-top:8px;border-top:1px solid var(--line)}
+.q-sum-mid-body .q-sum-line.vat-in .nm{font-weight:600;color:var(--ink)}
+.q-sum-mid-body .q-sum-line.vat-in .amt{font-weight:700;color:var(--ink)}
 .q-sum-line{display:flex;align-items:baseline;gap:8px;font-size:13.5px;padding:5px 0;color:var(--ink-2)}
 .q-sum-line .nm{font-weight:600;color:var(--ink)}
 .q-sum-line .qty{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
@@ -486,13 +490,14 @@ body.quote-page{
 
         <details class="q-sum-fold" id="sumMid">
           <summary class="q-sum-total">
-            <span class="lb"><span class="lb-t">총 예상 견적<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small>VAT 포함</small></span>
+            <span class="lb"><span class="lb-t">총 예상 견적<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small>VAT 별도</small></span>
             <span class="vv tnum" id="sumTotal">0원</span>
           </summary>
           <div class="q-sum-mid-body">
             <div id="sumItems"></div>
             <div class="q-sum-line"><span class="nm">공급가액 <span class="qty">(<span id="sumMonthly">0원</span> × <span id="sumMonthsX">12</span>개월)</span></span><span class="amt" id="sumSupply">0원</span></div>
             <div class="q-sum-line"><span class="nm">부가세 (10%)</span><span class="amt" id="sumVat">0원</span></div>
+            <div class="q-sum-line vat-in"><span class="nm">합계 <span class="qty">VAT 포함</span></span><span class="amt" id="sumTotalVat">0원</span></div>
           </div>
         </details>
 
@@ -676,13 +681,14 @@ function render(){
   document.getElementById('sumMonthly').textContent = won(q.monthly);
   document.getElementById('sumSupply').textContent  = won(q.supply);
   document.getElementById('sumVat').textContent     = won(q.vat);
-  document.getElementById('sumTotal').textContent   = won(q.total);
+  document.getElementById('sumTotal').textContent   = won(q.supply);   /* 헤드라인은 공급가액(VAT 별도) */
+  document.getElementById('sumTotalVat').textContent = won(q.total);
 
   /* 할인 전 금액(1개월 요율 기준)과 할인율 */
   var disc = document.getElementById('sumDisc');
   if (has && q.months > 1){
     var base = q.items.reduce(function(s, it){ return s + RATE[it.id][1] * it.qty; }, 0) * q.months;
-    document.getElementById('sumWas').textContent = won(base + Math.round(base * 0.1));
+    document.getElementById('sumWas').textContent = won(base);   /* 총액과 같은 VAT 별도 기준 */
     document.getElementById('sumOffLabel').textContent = q.months + '개월 계약 할인';
     document.getElementById('sumOff').textContent = Math.round((base - q.supply) / base * 100) + '%';
     disc.classList.add('on');
@@ -791,7 +797,7 @@ form.addEventListener('submit', function(e){
       + q.items.map(function(it){
           return '<div class="rl"><span>' + it.name + '</span><span class="v">' + it.qty + '대 · ' + won(it.monthly) + '/월</span></div>';
         }).join('')
-      + '<div class="rl tot"><span>총 예상 견적 <small>VAT 포함</small></span><span class="v">' + won(q.total) + '</span></div>';
+      + '<div class="rl tot"><span>총 예상 견적 <small>VAT 별도</small></span><span class="v">' + won(q.supply) + '</span></div>';
     form.hidden = true;
     document.getElementById('sumPane').style.display = 'none';
     document.getElementById('doneCard').classList.add('on');
