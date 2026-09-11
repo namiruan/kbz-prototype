@@ -214,18 +214,22 @@ body.quote-page{
 .q-sum-line .nm{font-weight:600;color:var(--ink)}
 .q-sum-line .qty{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
 .q-sum-line .amt{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
-.q-sum-mid{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
-.q-sum-mid[hidden]{display:none}
-.q-sum-mid > summary{display:flex;align-items:center;gap:4px;list-style:none;cursor:pointer;user-select:none;font-size:12.5px;font-weight:600;color:var(--ink-3);transition:color .15s}
-.q-sum-mid > summary::-webkit-details-marker{display:none}
-.q-sum-mid > summary:hover,.q-sum-mid[open] > summary{color:var(--ink)}
-.q-sum-mid > summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
-.q-sum-mid > summary svg{width:14px;height:14px;transition:transform .15s}
-.q-sum-mid[open] > summary svg{transform:rotate(180deg)}
-.q-sum-mid-body{padding-top:6px}
-.q-sum-mid .q-sum-line{font-size:13px}
-.q-sum-mid .q-sum-line .nm{font-weight:500;color:var(--ink-2)}
-.q-sum-mid .q-sum-line .amt{font-weight:600;color:var(--ink-2)}
+/* 총액 줄이 곧 토글이다. 펼치면 그 금액이 어떻게 나왔는지 아래에 붙는다.
+   (할인 전 줄에 달지 않은 이유: 펼쳐지는 월 합계·공급가액·부가세는 할인 후
+    금액이라 '할인 전' 아래에 놓이면 합이 맞지 않는다) */
+.q-sum-fold > summary{list-style:none;cursor:pointer;user-select:none}
+.q-sum-fold > summary::-webkit-details-marker{display:none}
+.q-sum-fold > summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.q-sum-fold .caret{flex:none;width:15px;height:15px;margin-left:8px;color:var(--ink-3);transition:transform .15s,color .15s}
+.q-sum-fold > summary:hover .caret{color:var(--ink)}
+.q-sum-fold[open] .caret{transform:rotate(180deg);color:var(--ink)}
+/* 고른 단말기가 없으면 펼칠 내용이 없으므로 토글을 끈다 */
+.q-sum-fold.no-detail > summary{cursor:default;pointer-events:none}
+.q-sum-fold.no-detail .caret{display:none}
+.q-sum-mid-body{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.q-sum-mid-body .q-sum-line{font-size:13px}
+.q-sum-mid-body .q-sum-line .nm{font-weight:500;color:var(--ink-2)}
+.q-sum-mid-body .q-sum-line .amt{font-weight:600;color:var(--ink-2)}
 .q-sum-total{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);display:flex;align-items:flex-end;gap:10px}
 .q-sum-total .lb{font-size:13px;font-weight:600;color:var(--ink-2);line-height:1.4}
 .q-sum-total .lb small{display:block;font-size:11.5px;font-weight:500;color:var(--ink-3)}
@@ -241,8 +245,8 @@ body.quote-page{
 .q-sum-rate .pct{margin-left:auto;font-family:var(--font-title);font-size:27px;font-weight:800;letter-spacing:-.045em;line-height:1;color:var(--accent)}
 /* 할인이 보일 때는 할인 전 → 할인율 → 총액이 한 덩어리로 읽히도록 사이 구분선을 뺀다.
    할인이 없을 때는 총액이 부가세 줄에 바로 붙지 않도록 원래 구분선을 그대로 쓴다. */
-.q-sum-disc.on + .q-sum-total{margin-top:12px;padding-top:0;border-top:0}
-.q-sum-lines[hidden] ~ .q-sum-total{margin-top:0;padding-top:0;border-top:0}
+.q-sum-disc.on + .q-sum-fold > .q-sum-total{margin-top:12px;padding-top:0;border-top:0}
+.q-sum-lines[hidden] ~ .q-sum-fold > .q-sum-total{margin-top:0;padding-top:0;border-top:0}
 .q-sum-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3);line-height:1.65;word-break:keep-all}
 .q-sum-submit{margin-top:16px}
 @media(max-width:1024px){.q-sum{position:static}.q-sum-card{margin-top:0}}
@@ -475,24 +479,23 @@ body.quote-page{
           <div id="sumLines"></div>
         </div>
 
-        <details class="q-sum-mid" id="sumMid" hidden>
-          <summary>계산 내역<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="q-sum-disc" id="sumDisc">
+          <div class="q-sum-line was"><span class="nm">할인 전</span><span class="amt" id="sumWas">0원</span></div>
+          <div class="q-sum-rate"><span class="nm" id="sumOffLabel">장기계약 할인</span><span class="pct tnum" id="sumOff">0%</span></div>
+        </div>
+
+        <details class="q-sum-fold" id="sumMid">
+          <summary class="q-sum-total">
+            <span class="lb">총 예상 견적<small>VAT 포함</small></span>
+            <span class="vv tnum" id="sumTotal">0원</span>
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
           <div class="q-sum-mid-body">
             <div class="q-sum-line"><span class="nm">월 합계</span><span class="amt" id="sumMonthly">0원</span></div>
             <div class="q-sum-line"><span class="nm">공급가액 <span class="qty">(월 합계 × <span id="sumMonthsX">12</span>개월)</span></span><span class="amt" id="sumSupply">0원</span></div>
             <div class="q-sum-line"><span class="nm">부가세 (10%)</span><span class="amt" id="sumVat">0원</span></div>
           </div>
         </details>
-
-        <div class="q-sum-disc" id="sumDisc">
-          <div class="q-sum-line was"><span class="nm">할인 전</span><span class="amt" id="sumWas">0원</span></div>
-          <div class="q-sum-rate"><span class="nm" id="sumOffLabel">장기계약 할인</span><span class="pct tnum" id="sumOff">0%</span></div>
-        </div>
-
-        <div class="q-sum-total">
-          <span class="lb">총 예상 견적<small>VAT 포함</small></span>
-          <span class="vv tnum" id="sumTotal">0원</span>
-        </div>
 
         <p class="q-sum-note">설치비·통신비 별도 · 최종 금액은 견적서에서 확정됩니다.</p>
 
@@ -666,7 +669,9 @@ function render(){
 
   var has = q.items.length > 0 && q.months >= 1;
   document.getElementById('sumLinesBox').hidden = !q.items.length;
-  sumMid.hidden = !has;
+  /* 고를 게 없으면 펼칠 내용도 없다 → 토글을 끄고 접어둔다 */
+  sumMid.classList.toggle('no-detail', !has);
+  if (!has) sumMid.open = false;
 
   document.getElementById('sumMonthsX').textContent = q.months;
   document.getElementById('sumMonthly').textContent = won(q.monthly);
