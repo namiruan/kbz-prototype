@@ -133,8 +133,8 @@ body.quote-page{
    ========================================================= */
 .f-grid{display:flex;flex-wrap:wrap;gap:20px 12px}
 .f-item{display:flex;flex-direction:column;gap:8px;min-width:0}
-.f-item.grow{flex:1 1 240px;max-width:calc(50% - 6px)}
-@media(max-width:640px){.f-item.grow{max-width:100%}}
+.f-item.grow{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
+@media(max-width:640px){.f-item.grow{flex-basis:100%;max-width:100%}}
 /* 견적 조건은 가로 3열 (좁은 화면에서는 세로 1열) */
 .f-grid.cols3 .f-item{flex:1 1 0;min-width:0;max-width:none}
 @media(max-width:640px){.f-grid.cols3{flex-wrap:wrap}.f-grid.cols3 .f-item{flex-basis:100%}}
