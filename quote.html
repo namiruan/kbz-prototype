@@ -99,15 +99,11 @@ body.quote-page{
 .quote-page .inner{max-width:1060px}
 
 /* ===== 페이지 머리 ===== */
-.q-hero{padding:72px 0 34px;border-bottom:1px solid var(--line)}
+.q-hero{padding:44px 0 34px;border-bottom:1px solid var(--line)}
 .q-hero .inner{display:block}                     /* 브로슈어 인물 컷을 빼고 타이포로 연다 */
-.q-crumb{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:500;color:var(--ink-3);margin-bottom:30px;letter-spacing:0}
-.q-crumb a{color:var(--ink-3)}
-.q-crumb a:hover{color:var(--ink)}
-.q-crumb .sep{color:var(--ink-4)}
 .q-hero h1{line-height:1.14;word-break:keep-all}
 /* 좁은 폭에선 데스크톱용 줄바꿈이 '단말기'만 남는 고아 줄을 만든다 → 자연스럽게 흐르게 */
-@media(max-width:640px){.q-hero{padding:40px 0 26px}.q-hero h1{font-size:31px}.q-hero h1 br{display:none}.q-crumb{margin-bottom:22px}}
+@media(max-width:640px){.q-hero{padding:30px 0 24px}.q-hero h1{font-size:31px}.q-hero h1 br{display:none}}
 
 /* ===== 본문 2단 ===== */
 .q-main{padding:56px 0 128px}
@@ -207,9 +203,10 @@ body.quote-page{
 }
 
 /* ===== 견적 요약 (영수증) ===== */
-/* 홈페이지 공통 헤더(고정형) 아래에 붙도록 --header-height 만큼 내려둔다.
-   실제 사이트 헤더 높이가 다르면 :root의 --header-height 값만 바꾸면 된다. */
-.q-sum{position:sticky;top:calc(var(--header-height) + 24px)}
+/* 요약 패널은 스크롤되는 조상(모달 본문이든 페이지든)에 붙어 따라온다.
+   기본값은 모달 기준 20px. 고정 헤더 아래에 넣을 때는 삽입하는 쪽에서
+   --q-sticky-top을 헤더 높이 + 여백으로 덮어쓰면 된다. */
+.q-sum{position:sticky;top:var(--q-sticky-top,20px)}
 .q-sum-card{background:var(--fill);border:1px solid var(--line);border-radius:8px;padding:22px 20px;color:var(--ink);box-shadow:none}
 .q-sum-lines{border-top:0;padding-top:0}
 .q-sum-lines[hidden]{display:none}
@@ -296,7 +293,7 @@ body.quote-page{
 .q-modal-note{margin-top:18px;padding-top:15px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);line-height:1.7;word-break:keep-all}
 .q-modal-foot{flex:none;display:flex;justify-content:flex-end;gap:8px;padding:14px 22px;border-top:1px solid var(--line);background:var(--fill)}
 .q-modal-foot .banner-btn{padding:11px 18px;font-size:14px}
-@media(max-width:532px){.q-modal-foot{flex-direction:column-reverse}.q-modal-foot .banner-btn{width:100%}}
+@media(max-width:532px){.q-modal-foot .banner-btn{flex:1}}
 .q-agree .det b{color:var(--ink-2);font-weight:700}
 
 /* ===== 완료 화면 ===== */
@@ -329,9 +326,6 @@ body.quote-page{
 <!-- ===== 히어로 ===== -->
 <section class="q-hero">
   <div class="inner">
-    <nav class="q-crumb" aria-label="현재 위치">
-      <a href="index.html">홈</a><span class="sep">›</span><span>퇴직공제 전자카드 단말기</span><span class="sep">›</span><span>견적신청</span>
-    </nav>
     <h1 class="title-lg">퇴직공제 전자카드 단말기 <br>임대 견적을 바로 받아보세요</h1>
   </div>
 </section>
