@@ -116,13 +116,9 @@ body.quote-page{
 #quoteForm,.q-sum{min-width:0}
 .q-card{min-width:0;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
 .q-card + .q-card{margin-top:54px;padding-top:54px;border-top:1px solid var(--line)}
-.q-step{display:flex;align-items:baseline;gap:11px;margin-bottom:7px}
-/* 서브카피가 없는 섹션은 제목이 바로 본문에 붙으므로 여백을 대신 준다 */
-.q-step:last-child{margin-bottom:22px}
+.q-step{display:flex;align-items:baseline;gap:11px;margin-bottom:22px}
 .q-step .n{flex:none;width:auto;height:auto;border-radius:0;background:none;color:var(--ink-4);font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:.09em;font-variant-numeric:tabular-nums}
 .q-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
-.q-step-desc{font-size:14px;color:var(--ink-2);margin:0 0 22px;line-height:1.65;word-break:keep-all}
-.q-step-desc b{color:var(--ink);font-weight:700}
 
 /* =========================================================
    입력 필드 — kbz.co.kr 라이브 폼 규격
@@ -139,6 +135,16 @@ body.quote-page{
 .f-item.full{width:100%}
 .f-label{display:flex;align-items:baseline;gap:3px;font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.02em;line-height:1.4}
 .f-req{color:var(--danger);font-weight:600;line-height:1}
+/* 라벨 옆 안내 툴팁 — 터치에는 hover가 없어 눌러서도 열린다 */
+.f-labelrow{display:flex;align-items:center;gap:5px}
+.f-tip{position:relative;display:inline-flex}
+.f-tip-btn{display:flex;align-items:center;justify-content:center;width:17px;height:17px;padding:0;border:0;border-radius:50%;background:none;color:var(--ink-4);cursor:pointer;transition:color .15s}
+.f-tip-btn svg{width:15px;height:15px;display:block}
+.f-tip-btn:hover,.f-tip.on .f-tip-btn{color:var(--accent)}
+.f-tip-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.f-tip-box{position:absolute;left:-9px;top:calc(100% + 9px);z-index:5;width:min(240px,72vw);padding:10px 12px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.65;letter-spacing:-.01em;word-break:keep-all;opacity:0;visibility:hidden;transform:translateY(-3px);transition:opacity .15s,transform .15s,visibility .15s;pointer-events:none}
+.f-tip-box::before{content:"";position:absolute;left:12px;top:-3px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
+.f-tip:hover .f-tip-box,.f-tip.on .f-tip-box,.f-tip-btn:focus-visible ~ .f-tip-box{opacity:1;visibility:visible;transform:translateY(0)}
 .field{display:flex;align-items:center;gap:8px;height:54px;padding:0 12px;background:var(--main-white);border:1px solid var(--field-line);border-radius:4px;transition:border-color .15s,box-shadow .15s}
 .field:hover{border-color:#525C66}
 /* 라이브 폼은 포커스 시 아무 변화가 없다. 키보드 사용자가 위치를 잃지 않도록
@@ -211,12 +217,8 @@ body.quote-page{
 .q-sum{position:sticky;top:var(--q-sticky-top,20px)}
 .q-sum-card{background:var(--fill);border:1px solid var(--line);border-radius:8px;padding:22px 20px;color:var(--ink);box-shadow:none}
 /* 단가·소계는 계산 내역 안에 둔다. 무엇을 몇 대 골랐는지는 단말기 카드가 보여준다 */
-#sumItems{padding-bottom:7px;margin-bottom:7px;border-bottom:1px dashed var(--line)}
+#sumItems{padding-top:2px}
 #sumItems .nm{font-weight:600;color:var(--ink)}
-/* 계산 내역의 마지막 줄 — 부가세까지 더한 합계 */
-.q-sum-mid-body .q-sum-line.vat-in{margin-top:6px;padding-top:8px;border-top:1px solid var(--line)}
-.q-sum-mid-body .q-sum-line.vat-in .nm{font-weight:600;color:var(--ink)}
-.q-sum-mid-body .q-sum-line.vat-in .amt{font-weight:700;color:var(--ink)}
 .q-sum-line{display:flex;align-items:baseline;gap:8px;font-size:13.5px;padding:5px 0;color:var(--ink-2)}
 .q-sum-line .nm{font-weight:600;color:var(--ink)}
 .q-sum-line .qty{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
@@ -233,7 +235,7 @@ body.quote-page{
 .q-sum-fold[open] .caret{transform:rotate(180deg);color:var(--ink)}
 /* 고른 단말기가 없으면 펼칠 내용이 없으므로 토글을 끈다 */
 .q-sum-fold.no-detail > summary{cursor:default;pointer-events:none}
-.q-sum-fold.no-detail .caret{display:none}
+.q-sum-fold.no-detail .caret,.q-sum-fold.no-detail .basis{display:none}
 .q-sum-mid-body{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .q-sum-mid-body .q-sum-line{font-size:13px}
 .q-sum-mid-body .q-sum-line .nm{font-weight:500;color:var(--ink-2)}
@@ -351,8 +353,6 @@ body.quote-page{
       <!-- STEP 1 : 신청자 정보 -->
       <div class="q-card">
         <div class="q-step"><span class="n">01</span><h2>신청자 정보</h2></div>
-        <p class="q-step-desc">견적서는 아래 입력하신 이메일로 자동 발송됩니다.</p>
-
         <div class="f-grid">
           <div class="f-item grow">
             <label class="f-label" for="q-company">회사명<span class="f-req" aria-hidden="true">*</span></label>
@@ -376,11 +376,15 @@ body.quote-page{
       <!-- STEP 2 : 견적 조건 — 임대 기간이 정해져야 단말기별 월 임대료가 결정된다 -->
       <div class="q-card">
         <div class="q-step"><span class="n">02</span><h2>견적 조건</h2></div>
-        <p class="q-step-desc">기간이 길수록 월 임대료가 낮아집니다. 13개월 이상은 12개월 요율로 계산됩니다.</p>
-
         <div class="f-grid cols3">
           <div class="f-item grow">
-            <label class="f-label" for="months">기간(월)<span class="f-req" aria-hidden="true">*</span></label>
+            <span class="f-labelrow">
+              <label class="f-label" for="months">기간(월)<span class="f-req" aria-hidden="true">*</span></label>
+              <span class="f-tip">
+                <button type="button" class="f-tip-btn" aria-label="임대 기간 안내" aria-expanded="false" aria-describedby="tipMonths"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M12 11v5.4"/><path d="M12 7.6h.01"/></svg></button>
+                <span class="f-tip-box" id="tipMonths" role="tooltip">대여 기간이 길수록 할인폭이 커져 월 임대료가 내려갑니다. 13개월 이상은 12개월 요율로 계산됩니다.</span>
+              </span>
+            </span>
             <div class="field" id="fieldMonths">
               <input id="months" type="number" name="months" min="1" max="60" step="1" value="12" inputmode="numeric">
               <span class="f-unit">개월</span>
@@ -490,14 +494,11 @@ body.quote-page{
 
         <details class="q-sum-fold" id="sumMid">
           <summary class="q-sum-total">
-            <span class="lb"><span class="lb-t">총 예상 견적<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small>VAT 별도</small></span>
+            <span class="lb"><span class="lb-t">총 예상 견적<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small class="basis"><span id="sumMonthly">0원</span> × <span id="sumMonthsX">12</span>개월</small></span>
             <span class="vv tnum" id="sumTotal">0원</span>
           </summary>
           <div class="q-sum-mid-body">
             <div id="sumItems"></div>
-            <div class="q-sum-line"><span class="nm">공급가액 <span class="qty">(<span id="sumMonthly">0원</span> × <span id="sumMonthsX">12</span>개월)</span></span><span class="amt" id="sumSupply">0원</span></div>
-            <div class="q-sum-line"><span class="nm">부가세 (10%)</span><span class="amt" id="sumVat">0원</span></div>
-            <div class="q-sum-line vat-in"><span class="nm">합계 <span class="qty">VAT 포함</span></span><span class="amt" id="sumTotalVat">0원</span></div>
           </div>
         </details>
 
@@ -516,7 +517,7 @@ body.quote-page{
           <button type="submit" form="quoteForm" class="banner-btn" id="btnSubmit">견적신청하기</button>
         </div>
 
-        <p class="q-sum-note">설치비·통신비 별도 · 최종 금액은 견적서에서 확정됩니다.</p>
+        <p class="q-sum-note">VAT · 설치비 · 통신비 별도 · 최종 금액은 견적서에서 확정됩니다.</p>
       </div>
     </aside>
 
@@ -679,10 +680,8 @@ function render(){
 
   document.getElementById('sumMonthsX').textContent = q.months;
   document.getElementById('sumMonthly').textContent = won(q.monthly);
-  document.getElementById('sumSupply').textContent  = won(q.supply);
-  document.getElementById('sumVat').textContent     = won(q.vat);
-  document.getElementById('sumTotal').textContent   = won(q.supply);   /* 헤드라인은 공급가액(VAT 별도) */
-  document.getElementById('sumTotalVat').textContent = won(q.total);
+  /* 화면에 내세우는 금액은 공급가액 하나뿐이다. VAT는 각주로 안내한다 */
+  document.getElementById('sumTotal').textContent   = won(q.supply);
 
   /* 할인 전 금액(1개월 요율 기준)과 할인율 */
   var disc = document.getElementById('sumDisc');
@@ -877,6 +876,19 @@ form.addEventListener('change', function(e){
   if (v < min) el.value = min;
   if (v > max) el.value = max;
   render();
+});
+
+/* 안내 툴팁 — 데스크톱은 hover, 터치는 눌러서 */
+document.querySelectorAll('.f-tip').forEach(function(tip){
+  var btn = tip.querySelector('.f-tip-btn');
+  function close(){ tip.classList.remove('on'); btn.setAttribute('aria-expanded', 'false'); }
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var on = tip.classList.toggle('on');
+    btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+  });
+  document.addEventListener('click', close);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 });
 
 /* 수량 스테퍼 */
