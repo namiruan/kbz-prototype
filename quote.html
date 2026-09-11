@@ -220,21 +220,8 @@ body.quote-page{background:#F7F8FA}
 .q-agree .det{margin-top:8px;margin-left:27px;font-size:12.5px;color:var(--sub-d-gray);line-height:1.65}
 .q-agree .det b{color:var(--main-black);font-weight:700}
 
-/* ===== 요금표 ===== */
-.q-rate{padding:64px 0 72px;background:var(--main-white);border-top:1px solid var(--main-gray)}
-.q-rate .title-container{margin-bottom:26px}
-.q-rate .eyebrow{margin-bottom:4px}
-.q-rate-wrap{overflow-x:auto;border:1px solid var(--main-gray);border-radius:16px;background:var(--main-white)}
-table.q-rate-tb{width:100%;min-width:400px;border-collapse:collapse;font-size:14.5px;font-variant-numeric:tabular-nums}
-table.q-rate-tb th,table.q-rate-tb td{padding:12px 16px;text-align:right;border-top:1px solid var(--main-gray);white-space:nowrap}
-table.q-rate-tb thead th{background:var(--main-navy);color:#fff;font-weight:700;font-size:14px;border-top:0}
-table.q-rate-tb thead th:first-child{background:var(--sub-w-gray);color:var(--main-black)}
-table.q-rate-tb th:first-child,table.q-rate-tb td:first-child{text-align:center;font-weight:700;color:var(--main-black);background:var(--sub-w-gray)}
-table.q-rate-tb tbody tr:hover td{background:rgba(var(--color-sky-rgb),.42)}
-table.q-rate-tb tbody tr.on td{background:rgba(var(--color-blue-rgb),.09);font-weight:700}
-table.q-rate-tb tbody tr.on td:first-child{background:rgba(var(--color-blue-rgb),.16);color:var(--sub-d-blue)}
-.q-rate-note{margin-top:12px;font-size:13px;color:var(--sub-d-gray);line-height:1.7}
-@media(max-width:532px){table.q-rate-tb{min-width:0}table.q-rate-tb th,table.q-rate-tb td{padding:10px 8px;font-size:13px}}
+/* 폼 안 보조 안내문 */
+.q-note{margin-top:12px;font-size:13px;color:var(--sub-d-gray);line-height:1.7}
 
 /* ===== 완료 화면 ===== */
 .q-done{display:none;text-align:center;padding:16px 4px 8px}
@@ -377,7 +364,7 @@ table.q-rate-tb tbody tr.on td:first-child{background:rgba(var(--color-blue-rgb)
             <input type="date" name="start_date">
           </label>
         </div>
-        <p class="q-rate-note" style="margin-top:10px">기간이 길수록 월 임대료가 낮아집니다. 13개월 이상은 12개월 요율로 계산되며, 정확한 금액은 담당자가 확인 후 안내드립니다.</p>
+        <p class="q-note" style="margin-top:10px">기간이 길수록 월 임대료가 낮아집니다. 13개월 이상은 12개월 요율로 계산되며, 정확한 금액은 담당자가 확인 후 안내드립니다.</p>
       </div>
 
       <!-- STEP 2 : 신청자 정보 -->
@@ -467,7 +454,7 @@ table.q-rate-tb tbody tr.on td:first-child{background:rgba(var(--color-blue-rgb)
 
         <div class="q-save" id="sumSave"></div>
 
-        <p class="q-sum-note">본 금액은 공개 요율표 기준 자동 계산 결과입니다. 설치비·통신비 및 수량·계약조건에 따른 추가 할인은 담당자 확인 후 최종 견적서에 반영됩니다.</p>
+        <p class="q-sum-note">본 금액은 기본 요율 기준 자동 계산 결과입니다. 설치비·통신비 및 수량·계약조건에 따른 추가 할인은 담당자 확인 후 최종 견적서에 반영됩니다.</p>
 
         <div class="q-sum-submit">
           <button type="submit" form="quoteForm" class="banner-btn" id="btnSubmit">견적신청하기</button>
@@ -478,27 +465,6 @@ table.q-rate-tb tbody tr.on td:first-child{background:rgba(var(--color-blue-rgb)
 
   </div>
 </main>
-
-<!-- ===== 요금표 ===== -->
-<section class="q-rate">
-  <div class="inner">
-    <div class="title-container" style="align-items:flex-start">
-      <div class="eyebrow">단말기 유형 및 월 임대료</div>
-      <h2 class="title-md">기간이 길수록 월 임대료가 내려갑니다</h2>
-      <p class="q-rate-note" style="margin-top:2px">단말기 1대당 월 임대료 · 단위: 원 · VAT 별도</p>
-    </div>
-    <div class="q-rate-wrap">
-      <table class="q-rate-tb" id="rateTable">
-        <caption class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">단말기 유형별 계약기간에 따른 월 임대료 (VAT 별도)</caption>
-        <thead>
-          <tr><th scope="col">구분</th><th scope="col">벽부형</th><th scope="col">이동형</th><th scope="col">휴대형</th></tr>
-        </thead>
-        <tbody id="rateBody"></tbody>
-      </table>
-    </div>
-    <p class="q-rate-note">* 13개월 이상 계약은 12개월 요율을 적용하며, 수량·기간에 따라 추가 할인이 가능합니다. 설치비·통신비는 별도이며 최종 견적서에서 안내드립니다.</p>
-  </div>
-</section>
 
 <script>
 /* =========================================================
@@ -515,7 +481,7 @@ var RATE = {
   M400: [null, 170000, 125000,  98000,  95000, 85000, 80000, 78000, 76000, 74000, 72000, 70000, 69000],
   T900: [null, 180000, 135000, 106000, 104000, 102000, 100000, 98000, 96000, 94000, 92000, 90000, 83000]
 };
-var MAX_TIER = 12;                                  /* 요율표 최대 구간 · 초과분은 12개월 요율 적용 */
+var MAX_TIER = 12;                      /* 요율 구간 상한 · 13개월 이상은 12개월 요율 적용 */
 var DEVS = [
   {id:'W400', name:'벽부형', model:'W400'},
   {id:'M400', name:'이동형', model:'M400'},
@@ -532,19 +498,6 @@ var sumEmpty  = document.getElementById('sumEmpty');
 var sumMid    = document.getElementById('sumMid');
 var btnSubmit = document.getElementById('btnSubmit');
 var errBox    = document.getElementById('formErr');
-
-/* ── 요금표 렌더 ───────────────────────────────────────── */
-(function(){
-  var tb = document.getElementById('rateBody');
-  var html = '';
-  for (var m = 1; m <= MAX_TIER; m++){
-    html += '<tr data-m="' + m + '"><td>' + m + '개월</td>'
-          + '<td>' + RATE.W400[m].toLocaleString('ko-KR') + '</td>'
-          + '<td>' + RATE.M400[m].toLocaleString('ko-KR') + '</td>'
-          + '<td>' + RATE.T900[m].toLocaleString('ko-KR') + '</td></tr>';
-  }
-  tb.innerHTML = html;
-})();
 
 /* ── 현재 입력값 수집 ──────────────────────────────────── */
 function readQuote(){
@@ -611,11 +564,6 @@ function render(){
   } else {
     save.classList.remove('on');
   }
-
-  /* 요금표에서 현재 기간 강조 */
-  document.querySelectorAll('#rateBody tr').forEach(function(tr){
-    tr.classList.toggle('on', has && parseInt(tr.dataset.m, 10) === q.tier);
-  });
 
   btnSubmit.disabled = !has;
 }
