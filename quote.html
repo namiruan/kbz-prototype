@@ -182,7 +182,7 @@ body.quote-page{
 /* 사진 자리 — 카드 폭을 꽉 채우는 띠로 두고, 사진은 그 바닥에 붙인다.
    제품컷은 흔히 아래가 잘린 채로 오는데, 바닥에 붙여야 '잘린' 게 아니라
    '놓여 있는' 것으로 읽힌다. 높이를 고정해 세 카드의 사진 크기도 맞춘다. */
-.dev-media{display:block;width:calc(100% + 32px);height:112px;margin:12px -16px 0;background:var(--fill);border-radius:0 0 7px 7px;overflow:hidden}
+.dev-media{display:block;width:calc(100% + 32px);height:112px;margin:12px -16px 0;border-radius:0 0 7px 7px;overflow:hidden}
 .dev-media img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block}
 .dev-name{display:block;font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
 .dev-desc{display:block;margin-top:3px;font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
@@ -205,14 +205,15 @@ body.quote-page{
 @media(max-width:860px){
   .dev-grid{grid-template-columns:1fr;gap:8px}
   /* 스테퍼가 오른쪽 가운데에 앉도록 자리를 비우고, 썸네일을 줄여 설명 폭을 확보 */
-  .dev-pick{display:grid;grid-template-columns:72px minmax(0,1fr);grid-template-areas:"media name" "media desc";column-gap:12px;align-content:center;padding:12px 106px 12px 14px}
-  .dev-media{grid-area:media;align-self:center;width:72px;height:54px;margin:0;border-radius:6px}
+  /* 사진은 카드 왼쪽·위·아래에 붙이고, 글자만 안쪽 여백을 갖는다 */
+  .dev-pick{display:grid;grid-template-columns:104px minmax(0,1fr);grid-template-areas:"media name" "media desc";column-gap:14px;align-content:center;padding:12px 92px 12px 0}
+  .dev-media{grid-area:media;align-self:stretch;width:104px;height:auto;margin:-12px 0;border-radius:7px 0 0 7px}
   .dev-name{grid-area:name;align-self:end}
   .dev-desc{grid-area:desc;align-self:start;margin-top:3px}
-  .dev-qty{top:50%;bottom:auto;right:12px;transform:translateY(-50%)}
+  .dev-qty{top:50%;bottom:auto;right:10px;transform:translateY(-50%)}
   .stepper{height:30px}
-  .stepper button{width:26px}
-  .stepper input{width:32px}
+  .stepper button{width:24px}
+  .stepper input{width:30px}
 }
 
 /* ===== 견적 요약 (영수증) ===== */
