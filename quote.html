@@ -214,13 +214,16 @@ body.quote-page{
 .q-sum-total{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);display:flex;align-items:flex-end;gap:10px}
 .q-sum-total .lb{font-size:13px;font-weight:600;color:var(--ink-2);line-height:1.4}
 .q-sum-total .lb small{display:block;font-size:11.5px;font-weight:500;color:var(--ink-3)}
-.q-sum-total .vals{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:1px}
-/* 할인 전 금액과 할인율은 기간이 1개월을 넘어 실제 할인이 붙을 때만 나온다 */
-.q-sum-total .was,.q-sum-total .off{display:none}
-.q-sum-total.has-off .was,.q-sum-total.has-off .off{display:block}
-.q-sum-total .was{font-size:12px;font-weight:500;color:var(--ink-3);font-variant-numeric:tabular-nums}
-.q-sum-total .vv{font-family:var(--font-title);font-size:31px;font-weight:800;letter-spacing:-.05em;font-variant-numeric:tabular-nums;line-height:1.05;color:var(--ink);white-space:nowrap}
-.q-sum-total .off{margin-top:5px;padding:3px 8px;border-radius:3px;background:var(--accent-tint);color:var(--accent);font-size:11.5px;font-weight:700}
+.q-sum-total .vv{margin-left:auto;font-family:var(--font-title);font-size:31px;font-weight:800;letter-spacing:-.05em;font-variant-numeric:tabular-nums;line-height:1.05;color:var(--ink);white-space:nowrap}
+/* 할인 블록 — 기간이 1개월을 넘어 실제 할인이 붙을 때만 나온다 */
+.q-sum-disc{display:none;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.q-sum-disc.on{display:block}
+.q-sum-disc .was{padding:2px 0;font-size:12.5px}
+.q-sum-disc .was .nm{font-weight:500;color:var(--ink-3)}
+.q-sum-disc .was .amt{font-weight:500;color:var(--ink-3);text-decoration:line-through}
+.q-sum-rate{display:flex;align-items:center;gap:10px;margin-top:3px}
+.q-sum-rate .nm{font-size:13.5px;font-weight:700;color:var(--accent);letter-spacing:-.02em}
+.q-sum-rate .pct{margin-left:auto;font-family:var(--font-title);font-size:27px;font-weight:800;letter-spacing:-.045em;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
 .q-sum-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3);line-height:1.65;word-break:keep-all}
 .q-sum-submit{margin-top:16px}
 @media(max-width:1024px){.q-sum{position:static}.q-sum-card{margin-top:0}}
@@ -473,13 +476,14 @@ body.quote-page{
           <div class="q-sum-line"><span class="nm">부가세 (10%)</span><span class="amt" id="sumVat">0원</span></div>
         </div>
 
-        <div class="q-sum-total" id="sumTotalBox">
+        <div class="q-sum-disc" id="sumDisc">
+          <div class="q-sum-line was"><span class="nm">할인 전</span><span class="amt" id="sumWas">0원</span></div>
+          <div class="q-sum-rate"><span class="nm" id="sumOffLabel">장기계약 할인</span><span class="pct" id="sumOff">0%</span></div>
+        </div>
+
+        <div class="q-sum-total">
           <span class="lb">총 예상 견적<small>VAT 포함</small></span>
-          <span class="vals">
-            <span class="was">할인 전 <s id="sumWas">0원</s></span>
-            <span class="vv" id="sumTotal">0원</span>
-            <span class="off" id="sumOff">0% 할인</span>
-          </span>
+          <span class="vv" id="sumTotal">0원</span>
         </div>
 
         <p class="q-sum-note">할인 전 금액은 1개월 단기 요율 기준입니다. 본 금액은 기본 요율 기준 자동 계산 결과입니다. 설치비·통신비 및 수량·계약조건에 따른 추가 할인은 담당자 확인 후 최종 견적서에 반영됩니다.</p>
@@ -615,14 +619,15 @@ function render(){
   document.getElementById('sumTotal').textContent   = won(q.total);
 
   /* 할인 전 금액(1개월 요율 기준)과 할인율 */
-  var totalBox = document.getElementById('sumTotalBox');
+  var disc = document.getElementById('sumDisc');
   if (has && q.months > 1){
     var base = q.items.reduce(function(s, it){ return s + RATE[it.id][1] * it.qty; }, 0) * q.months;
     document.getElementById('sumWas').textContent = won(base + Math.round(base * 0.1));
-    document.getElementById('sumOff').textContent = Math.round((base - q.supply) / base * 100) + '% 할인';
-    totalBox.classList.add('has-off');
+    document.getElementById('sumOffLabel').textContent = q.months + '개월 계약 할인';
+    document.getElementById('sumOff').textContent = Math.round((base - q.supply) / base * 100) + '%';
+    disc.classList.add('on');
   } else {
-    totalBox.classList.remove('has-off');
+    disc.classList.remove('on');
   }
 
   btnSubmit.disabled = !has;
