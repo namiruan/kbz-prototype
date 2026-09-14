@@ -88,8 +88,12 @@ body.quote-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;poi
 /* 같은 모서리에 둥둥 떠 있는 견적서 아이콘. 장식이므로 글자 뒤에 두고,
    파일이 없으면 배경이 비어 아무것도 그리지 않는다(화면은 그대로). */
 body.quote-page.is-done::after{content:"";position:fixed;
-  right:clamp(8px,3vw,44px);bottom:clamp(18px,3vw,40px);
-  width:clamp(190px,44vw,320px);height:clamp(190px,44vw,320px);z-index:-1;pointer-events:none;
+  /* 그림 파일 자체가 우 14.2% · 하 12.4% 를 투명 여백으로 갖고 있다.
+     그만큼 상자를 모서리 밖으로 빼야 그림이 실제로 모서리에 붙는다. */
+  --doc:clamp(190px,44vw,320px);
+  right:calc(14px - var(--doc) * .142);
+  bottom:calc(16px - var(--doc) * .124);
+  width:var(--doc);height:var(--doc);z-index:-1;pointer-events:none;
   background:url("images/done/quote-doc.png") center/contain no-repeat;
   opacity:.45;
   animation:docFloat 5.5s ease-in-out infinite}
