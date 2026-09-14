@@ -258,6 +258,7 @@ body.quote-page{
 .q-sum-mid-body .q-sum-line .nm{white-space:nowrap;font-weight:500;color:var(--ink-2)}
 .q-sum-mid-body .q-sum-line .amt{font-weight:600;color:var(--ink-2)}
 .q-sum-mid-body .q-sum-line .qty{order:3;flex-basis:100%;color:var(--ink-3)}
+.q-sum-mid-body .q-sum-line .amt.free{color:var(--accent)}
 /* 수량 할인 — 할인율을 크게, 할인 전 금액은 취소선으로 그 아래 */
 .q-sum-disc{display:none;margin-top:0;padding-top:0;border-top:0}
 .q-sum-disc.on{display:block}
@@ -673,12 +674,15 @@ function readQuote(){
   var rent   = rentM * months;
   var link   = linkM * months;
   var supply = rent + link + install;
-  /* 할인 전 = 같은 조건을 기본요금(150,000원)으로 계산한 금액.
-     연동비·설치비는 할인 대상이 아니므로 양쪽에 똑같이 들어간다. */
-  var base   = has ? BASE_UNIT * qty * months + link + install : 0;
+  /* 할인 전 = 혜택이 하나도 없을 때의 정가. 기본요금에 설치비 정가까지 넣는다.
+     설치비는 12개월 이상이면 면제되는데, 그 차액도 고객이 받은 혜택이므로
+     할인 전과 총액의 차이에 드러나야 한다. 연동비는 할인 대상이 아니라 양쪽 동일. */
+  var base   = has ? BASE_UNIT * qty * months + link + INSTALL_FEE * qty : 0;
 
   return {
     months: months, qty: qty, kbz_user: kbz, has: has,
+    volumeOff: has && unit < BASE_UNIT,            /* 수량 구간 할인을 받았나 */
+    installWaived: has && install === 0,           /* 설치비를 면제받았나 */
     unit: unit, rentMonthly: rentM, linkMonthly: linkM,
     rent: rent, link: link, install: install,
     monthly: rentM + linkM, supply: supply, base: base,
@@ -691,16 +695,17 @@ function render(){
   var q = readQuote();
 
   /* 계산 내역 — 이 줄들의 합이 곧 총 예상 견적이다 */
-  function line(nm, how, amt){
+  function line(nm, how, amt, free){
     return '<div class="q-sum-line"><span class="nm">' + nm + '</span>'
          + '<span class="qty">' + how + '</span>'
-         + '<span class="amt">' + won(amt) + '</span></div>';
+         + '<span class="amt' + (free ? ' free' : '') + '">' + (free ? '무료' : won(amt)) + '</span></div>';
   }
   var rows = [];
   if (q.has){
     rows.push(line('단말기 이용료', won(q.unit) + ' × ' + q.qty + '대 × ' + q.months + '개월', q.rent));
-    if (q.link)    rows.push(line('시스템 연동비', won(LINK_FEE) + ' × ' + q.months + '개월', q.link));
-    if (q.install) rows.push(line('설치비', won(INSTALL_FEE) + ' × ' + q.qty + '대', q.install));
+    if (q.link) rows.push(line('시스템 연동비', won(LINK_FEE) + ' × ' + q.months + '개월', q.link));
+    /* 면제돼도 줄을 남긴다 — 원래 얼마짜리를 아꼈는지 보여야 한다 */
+    rows.push(line('설치비', won(INSTALL_FEE) + ' × ' + q.qty + '대', q.install, q.installWaived));
   }
   sumItems.innerHTML = rows.join('');
 
@@ -717,11 +722,14 @@ function render(){
   /* 화면에 내세우는 금액은 공급가액 하나뿐이다. VAT는 각주로 안내한다 */
   document.getElementById('sumTotal').textContent = won(q.supply);
 
-  /* 수량 할인 — 기본요금으로 계산했을 때보다 얼마나 싼가 */
+  /* 받은 혜택 — 정가로 계산했을 때보다 얼마나 싼가 */
   var disc = document.getElementById('sumDisc');
   if (has && q.base > q.supply){
+    var got = [];
+    if (q.volumeOff)     got.push(q.qty + '대 수량 할인');
+    if (q.installWaived) got.push('설치비 지원');
     document.getElementById('sumWas').textContent = won(q.base);
-    document.getElementById('sumOffLabel').textContent = q.qty + '대 수량 할인';
+    document.getElementById('sumOffLabel').textContent = got.join(' · ');
     document.getElementById('sumOff').textContent = Math.round((q.base - q.supply) / q.base * 100) + '%';
     disc.classList.add('on');
   } else {
@@ -836,7 +844,7 @@ form.addEventListener('submit', function(e){
       '<div class="rl"><span>계약기간</span><span class="v">' + q.months + '개월</span></div>'
       + '<div class="rl"><span>' + DEV.name + '</span><span class="v">' + q.qty + '대 · ' + won(q.rentMonthly) + '/월</span></div>'
       + (q.link    ? '<div class="rl"><span>시스템 연동비</span><span class="v">' + won(q.linkMonthly) + '/월</span></div>' : '')
-      + (q.install ? '<div class="rl"><span>설치비</span><span class="v">' + won(q.install) + '</span></div>' : '')
+      + '<div class="rl"><span>설치비</span><span class="v">' + (q.installWaived ? '무료' : won(q.install)) + '</span></div>'
       + '<div class="rl"><span>김반장</span><span class="v">' + payload.applicant.kbz_user_name + '</span></div>'
       + '<div class="rl tot"><span>총 예상 견적 <small>VAT 별도</small></span><span class="v">' + won(q.supply) + '</span></div>';
     form.hidden = true;
