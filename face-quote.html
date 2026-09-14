@@ -299,7 +299,6 @@ body.quote-page{
 /* 할인이 보일 때는 할인 전 → 할인율 → 총액이 한 덩어리로 읽히도록 사이 구분선을 뺀다.
    할인이 없을 때는 총액이 부가세 줄에 바로 붙지 않도록 원래 구분선을 그대로 쓴다. */
 /* 할인 블록이 보일 때만 총액을 그만큼 띄운다 */
-.q-sum-note{margin-top:11px;font-size:11.5px;color:var(--ink-3);line-height:1.65;word-break:keep-all}
 .q-sum-submit{margin-top:16px}
 @media(max-width:1024px){.q-sum{position:static}.q-sum-card{margin-top:0}}
 
@@ -456,6 +455,7 @@ body.quote-page{
           <li>수량 할인은 신청하신 현장 전체 대수를 합산해 적용합니다.</li>
           <li>설치 위치와 네트워크 환경은 현장 협의 후 확정됩니다.</li>
           <li>견적서 유효기간은 발행일로부터 14일입니다.</li>
+          <li>표시 금액은 VAT·통신비 별도입니다. 최종 금액은 담당자와 정확한 상담 후 확정됩니다.</li>
         </ul>
       </div>
     </form>
@@ -506,7 +506,6 @@ body.quote-page{
           <button type="submit" form="quoteForm" class="banner-btn" id="btnSubmit">견적신청하기</button>
         </div>
 
-        <p class="q-sum-note">VAT · 통신비 별도 · 최종 금액은 담당자와 정확한 상담 후 확정됩니다.</p>
       </div>
     </aside>
 
@@ -754,8 +753,9 @@ function readQuote(){
   });
 
   var supply = rent + link + install;
+  var priced = sites.filter(function(st){ return st.ok; });   /* 계산에 들어간 현장 */
   return {
-    kbz_user: kbz, sites: sites, has: has,
+    kbz_user: kbz, sites: sites, priced: priced, has: has,
     qty: totalQty, unit: unit,
     volumeOff:     has && unit < BASE_UNIT,
     /* 한 현장이라도 면제받았으면 혜택을 받은 것이다 (섞인 경우 포함) */
@@ -776,10 +776,11 @@ function render(){
          + '<span class="qty">' + how + '</span>'
          + '<span class="amt' + (free ? ' free' : '') + '">' + (free ? '무료' : won(amt)) + '</span></div>';
   }
-  var many = q.sites.length > 1;
+  var many = q.priced.length > 1;
   var rows = [];
-  if (q.has){
-    q.sites.forEach(function(st){
+  /* has(전부 채워짐)가 아니라 채워진 현장만 그린다. 한 곳을 비워둔 동안에도
+     이미 적은 현장의 금액과 근거가 사라지지 않는다. */
+  q.priced.forEach(function(st){
       /* 현장이 여럿이면 어느 현장 몫인지 머리글로 끊어준다 */
       if (many){
         rows.push('<div class="q-sum-sub">현장 ' + st.no
@@ -791,12 +792,11 @@ function render(){
                      won(LINK_FEE) + ' × ' + st.months + '개월', st.link));
       /* 면제돼도 줄을 남긴다 — 원래 얼마짜리를 아꼈는지 보여야 한다 */
       rows.push(line('설치비', won(INSTALL_FEE) + ' × ' + st.qty + '대', st.install, st.waived));
-    });
-  }
+  });
   sumItems.innerHTML = rows.join('');
 
-  var has = q.has;
-  /* 고를 게 없으면 펼칠 내용도 없다 → 토글을 끄고 접어둔다 */
+  var has = q.priced.length > 0;
+  /* 펼칠 내용이 없으면 토글을 끄고 접어둔다 */
   sumMid.classList.toggle('no-detail', !has);
   if (!has) sumMid.open = false;
 
@@ -805,9 +805,9 @@ function render(){
   var basis = document.getElementById('sumBasis');
   if (has && !many && !q.install){
     basis.innerHTML = '<span class="tnum">' + won(q.monthly) + '</span> × '
-                    + q.sites[0].months + '개월';
+                    + q.priced[0].months + '개월';
   } else if (has){
-    basis.innerHTML = '단말기 ' + q.qty + '대 · 현장 ' + q.sites.length + '곳';
+    basis.innerHTML = '단말기 ' + q.qty + '대 · 현장 ' + q.priced.length + '곳';
   } else {
     basis.innerHTML = '';
   }
@@ -828,7 +828,7 @@ function render(){
     disc.classList.remove('on');
   }
 
-  btnSubmit.disabled = !has;
+  btnSubmit.disabled = !q.has;
   /* 버튼이 왜 막혀 있는지를 버튼 자신이 알려준다 (전송 중에는 건드리지 않는다) */
   if (!sending){
     var gap = q.sites.filter(function(st){ return !st.ok; })[0];
