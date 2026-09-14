@@ -206,7 +206,9 @@ body.quote-page{
 
 /* ===== 김반장 이용 여부 — 라디오 =====
    동의 체크박스(.q-check)와 같은 방식으로 원만 직접 그린다. */
-.f-radios{align-self:flex-start;display:flex;align-items:center;gap:26px;min-height:30px}
+/* 질문과 답을 한 줄에 둔다 — 좁아지면 자연스럽게 접힌다 */
+.f-item.kbz{flex-direction:row;align-items:center;flex-wrap:wrap;gap:10px 14px}
+.f-radios{align-self:flex-start;display:flex;align-items:center;gap:22px;min-height:30px}
 .f-radios label{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:var(--field-ink);letter-spacing:-.01em;white-space:nowrap;cursor:pointer}
 .f-radios input{position:absolute;opacity:0;width:0;height:0}
 .f-radios .dot{flex:none;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;border:1.5px solid #C6CBD1;background:var(--main-white);transition:border-color .15s}
@@ -249,12 +251,27 @@ body.quote-page{
 .q-sum-fold.no-detail > summary{cursor:default;pointer-events:none}
 .q-sum-fold.no-detail .caret,.q-sum-fold.no-detail .basis{display:none}
 .q-sum-mid-body{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
-.q-sum-mid-body .q-sum-line{font-size:13px}
-.q-sum-mid-body .q-sum-line .nm{font-weight:500;color:var(--ink-2)}
+/* 내역 한 줄 = 이름 + 금액, 계산식은 그 아래 줄로. 340px 패널에
+   '130,000원 × 12대 × 12개월'까지 한 줄에 넣으면 이름이 접힌다. */
+.q-sum-mid-body .q-sum-line{flex-wrap:wrap;row-gap:2px;font-size:13px}
+.q-sum-mid-body .q-sum-line .nm{white-space:nowrap;font-weight:500;color:var(--ink-2)}
 .q-sum-mid-body .q-sum-line .amt{font-weight:600;color:var(--ink-2)}
+.q-sum-mid-body .q-sum-line .qty{order:3;flex-basis:100%;color:var(--ink-3)}
+/* 수량 할인 — 할인율을 크게, 할인 전 금액은 취소선으로 그 아래 */
+.q-sum-disc{display:none;margin-top:0;padding-top:0;border-top:0}
+.q-sum-disc.on{display:block}
+.q-sum-disc .was{padding:4px 0 0;font-size:12.5px}
+.q-sum-disc .was .nm{font-weight:500;color:var(--ink-3)}
+.q-sum-disc .was .amt{font-weight:500;color:var(--ink-3);text-decoration:line-through}
+.q-sum-rate{display:flex;align-items:center;gap:10px}
+.q-sum-rate .nm{font-size:13.5px;font-weight:700;color:var(--accent);letter-spacing:-.02em}
+.q-sum-rate .pct{margin-left:auto;font-family:var(--font-title);font-size:27px;font-weight:800;letter-spacing:-.045em;line-height:1;color:var(--accent)}
+.q-sum-disc.on + .q-sum-fold > .q-sum-total{margin-top:12px}
 .q-sum-total{display:flex;align-items:flex-end;gap:10px}
 .q-sum-total .lb{font-size:13px;font-weight:600;color:var(--ink-2);line-height:1.4}
 .q-sum-total .lb small{display:block;font-size:11.5px;font-weight:500;color:var(--ink-3)}
+/* display:block 이 UA의 [hidden]{display:none} 을 덮는다 — 다시 눌러준다 */
+.q-sum-total .lb small[hidden]{display:none}
 .q-sum-total .vv{margin-left:auto;font-family:var(--font-title);font-size:31px;font-weight:800;letter-spacing:-.05em;line-height:1.05;color:var(--ink);white-space:nowrap}
 /* 할인 블록 — 기간이 1개월을 넘어 실제 할인이 붙을 때만 나온다 */
 /* 할인이 보일 때는 할인 전 → 할인율 → 총액이 한 덩어리로 읽히도록 사이 구분선을 뺀다.
@@ -376,7 +393,7 @@ body.quote-page{
             <label class="f-label" for="q-email">이메일<span class="f-req">(필수)</span></label>
             <div class="field"><input id="q-email" type="email" name="email" required inputmode="email" placeholder="이메일을 입력하세요"></div>
           </div>
-          <div class="f-item full">
+          <div class="f-item full kbz">
             <span class="f-label" id="kbzLabel">김반장 이용 중이신가요?</span>
             <div class="f-radios" role="radiogroup" aria-labelledby="kbzLabel">
               <label><input type="radio" name="kbz_user" value="Y"><span class="dot" aria-hidden="true"></span><span class="tx">네</span></label>
@@ -442,8 +459,9 @@ body.quote-page{
       <div class="q-card q-notes">
         <div class="q-step"><h2>안내</h2></div>
         <ul>
-          <li>설치비 지원은 최초 1회에 한하며, 이전 설치는 제외됩니다.</li>
-          <li>12개월 미만 계약 시 설치비는 첫 달 이용료와 함께 청구됩니다.</li>
+          <li>설치비 지원은 최초 1회에 한하며 이전 설치는 제외됩니다. 12개월 미만 계약의 설치비는 첫 달 이용료와 함께 청구됩니다.</li>
+          <li>수량 할인은 자회사 등 동일 사업주 산하 현장의 단말기를 모두 합산해 적용하며, 최초 계약일로부터 1개월 이내 체결된 대수까지 합산해 구간을 산정합니다.</li>
+          <li>이 견적은 현장 1곳 기준입니다. 현장이 여러 곳이면 담당자가 조정해 드립니다.</li>
           <li>설치 위치와 네트워크 환경은 현장 협의 후 확정됩니다.</li>
           <li>견적서 유효기간은 발행일로부터 14일입니다.</li>
         </ul>
@@ -466,9 +484,14 @@ body.quote-page{
     <!-- 우측 : 견적 요약 (입력 즉시 재계산) -->
     <aside class="q-sum" id="sumPane">
       <div class="q-sum-card">
+        <div class="q-sum-disc" id="sumDisc">
+          <div class="q-sum-rate"><span class="nm" id="sumOffLabel">수량 할인</span><span class="pct tnum" id="sumOff">0%</span></div>
+          <div class="q-sum-line was"><span class="nm">할인 전</span><span class="amt" id="sumWas">0원</span></div>
+        </div>
+
         <details class="q-sum-fold" id="sumMid">
           <summary class="q-sum-total">
-            <span class="lb"><span class="lb-t">총 예상 견적<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small class="basis"><span id="sumMonthly">0원</span> × <span id="sumMonthsX">12</span>개월</small></span>
+            <span class="lb"><span class="lb-t">총 예상 견적<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small class="basis" id="sumBasis"><span id="sumMonthly">0원</span> × <span id="sumMonthsX">12</span>개월</small></span>
             <span class="vv tnum" id="sumTotal">0원</span>
           </summary>
           <div class="q-sum-mid-body">
@@ -491,7 +514,7 @@ body.quote-page{
           <button type="submit" form="quoteForm" class="banner-btn" id="btnSubmit">견적신청하기</button>
         </div>
 
-        <p class="q-sum-note">VAT · 설치비 · 통신비 별도 · 수량에 따른 추가 할인과 최종 금액은 견적서에서 확정됩니다.</p>
+        <p class="q-sum-note">VAT · 통신비 별도 · 현장 1곳 기준 · 최종 금액은 견적서에서 확정됩니다.</p>
       </div>
     </aside>
 
@@ -529,12 +552,26 @@ body.quote-page{
    실서비스 연결 시: 아래 주소로 POST(JSON) → 서버가 견적서 PDF를 생성해 신청자 이메일로 발송 */
 var QUOTE_API = '';
 
-/* 월 대당 이용료 (VAT 별도). 메인 페이지에 고지된 금액과 같아야 한다.
-   ※ 확인 필요: 수량 구간별 할인(볼륨 단가)이 있으나 구간표를 받지 못해
-     화면 계산에는 넣지 않았다. 지금은 수량과 무관하게 이 단가로 계산하고,
-     추가 할인은 '견적서에서 확정' 각주로 안내한다. 구간표를 받으면
-     RATE를 요율표로 바꾸고 unitFor(qty)만 고치면 된다. */
-var UNIT = 150000;
+/* ── 요금 (브로슈어 '이용요금' 기준 · 모두 VAT 별도) ──────────────
+   ① 기본요금   월 150,000원 / 대
+   ② 설치비     12개월 이상 무료 · 12개월 미만 150,000원 / 대
+   ③ 수량 할인  총 계약 대수에 따라 대당 월 요금이 내려간다
+   김반장 미이용 건설사는 현장당 월 20,000원의 연동비가 추가된다. */
+var BASE_UNIT = 150000;             /* 1~5대 기본요금 = 할인 전 금액의 기준 */
+var VOLUME = [                      /* 총 계약 대수 -> 대당 월 요금 (큰 구간부터) */
+  { min: 20, unit: 120000 },
+  { min: 11, unit: 130000 },
+  { min:  6, unit: 140000 },
+  { min:  1, unit: 150000 }
+];
+var LINK_FEE = 20000;               /* 미이용 건설사 · 현장당 월 연동비 */
+var INSTALL_FEE = 150000;           /* 대당 설치비 */
+var INSTALL_FREE_MONTHS = 12;       /* 이 기간 이상이면 설치비 무료 */
+
+function unitFor(qty){
+  for (var i = 0; i < VOLUME.length; i++) if (qty >= VOLUME[i].min) return VOLUME[i].unit;
+  return BASE_UNIT;
+}
 
 /* 기종이 하나뿐이다. 화면에는 제품명이 그대로 보이고, payload에도 같은 값이 담긴다. */
 var DEV = { id:'UBIOX', name:'Ubio X Face Pro', model:'Ubio X Face Pro' };
@@ -623,20 +660,28 @@ var sending   = false;
 
 /* ── 현재 입력값 수집 ──────────────────────────────────── */
 function readQuote(){
-  var months  = parseInt(monthsEl.value, 10) || 0;
-  var qty     = parseInt((form.querySelector('input[name="qty"]') || {}).value, 10) || 0;
-  var kbz     = (form.querySelector('input[name="kbz_user"]:checked') || {}).value || '';
+  var months = parseInt(monthsEl.value, 10) || 0;
+  var qty    = parseInt((form.querySelector('input[name="qty"]') || {}).value, 10) || 0;
+  var kbz    = (form.querySelector('input[name="kbz_user"]:checked') || {}).value || '';
+  var has    = qty >= 1 && months >= 1;
 
-  var items = [], monthly = 0;
-  if (qty >= 1){
-    monthly = UNIT * qty;
-    items.push({ id:DEV.id, name:DEV.name, model:DEV.model, qty:qty, unit:UNIT, monthly:monthly });
-  }
+  var unit    = unitFor(qty);
+  var rentM   = has ? unit * qty : 0;                                 /* 월 이용료 */
+  var linkM   = (has && kbz === 'N') ? LINK_FEE : 0;                  /* 월 연동비 (현장 1곳) */
+  var install = (has && months < INSTALL_FREE_MONTHS) ? INSTALL_FEE * qty : 0;  /* 1회성 */
 
-  var supply = monthly * months;
+  var rent   = rentM * months;
+  var link   = linkM * months;
+  var supply = rent + link + install;
+  /* 할인 전 = 같은 조건을 기본요금(150,000원)으로 계산한 금액.
+     연동비·설치비는 할인 대상이 아니므로 양쪽에 똑같이 들어간다. */
+  var base   = has ? BASE_UNIT * qty * months + link + install : 0;
+
   return {
-    months: months, qty: qty, kbz_user: kbz, items: items,
-    monthly: monthly, supply: supply,
+    months: months, qty: qty, kbz_user: kbz, has: has,
+    unit: unit, rentMonthly: rentM, linkMonthly: linkM,
+    rent: rent, link: link, install: install,
+    monthly: rentM + linkM, supply: supply, base: base,
     vat: Math.round(supply * 0.1), total: supply + Math.round(supply * 0.1)
   };
 }
@@ -645,22 +690,43 @@ function readQuote(){
 function render(){
   var q = readQuote();
 
-  /* 계산 내역: 단가 × 수량 = 소계 */
-  sumItems.innerHTML = q.items.map(function(it){
-    return '<div class="q-sum-line"><span class="nm">' + it.name + '</span>'
-         + '<span class="qty">' + won(it.unit) + ' × ' + it.qty + '대</span>'
-         + '<span class="amt">' + won(it.monthly) + '</span></div>';
-  }).join('');
+  /* 계산 내역 — 이 줄들의 합이 곧 총 예상 견적이다 */
+  function line(nm, how, amt){
+    return '<div class="q-sum-line"><span class="nm">' + nm + '</span>'
+         + '<span class="qty">' + how + '</span>'
+         + '<span class="amt">' + won(amt) + '</span></div>';
+  }
+  var rows = [];
+  if (q.has){
+    rows.push(line('단말기 이용료', won(q.unit) + ' × ' + q.qty + '대 × ' + q.months + '개월', q.rent));
+    if (q.link)    rows.push(line('시스템 연동비', won(LINK_FEE) + ' × ' + q.months + '개월', q.link));
+    if (q.install) rows.push(line('설치비', won(INSTALL_FEE) + ' × ' + q.qty + '대', q.install));
+  }
+  sumItems.innerHTML = rows.join('');
 
-  var has = q.items.length > 0 && q.months >= 1;
+  var has = q.has;
   /* 고를 게 없으면 펼칠 내용도 없다 → 토글을 끄고 접어둔다 */
   sumMid.classList.toggle('no-detail', !has);
   if (!has) sumMid.open = false;
 
   document.getElementById('sumMonthsX').textContent = q.months;
   document.getElementById('sumMonthly').textContent = won(q.monthly);
+  /* 설치비는 1회성이라 '월 × 개월'이 총액과 맞지 않는다. 그럴 땐 부제를 감추고
+     펼친 내역이 설명하게 둔다 */
+  document.getElementById('sumBasis').hidden = !!q.install;
   /* 화면에 내세우는 금액은 공급가액 하나뿐이다. VAT는 각주로 안내한다 */
-  document.getElementById('sumTotal').textContent   = won(q.supply);
+  document.getElementById('sumTotal').textContent = won(q.supply);
+
+  /* 수량 할인 — 기본요금으로 계산했을 때보다 얼마나 싼가 */
+  var disc = document.getElementById('sumDisc');
+  if (has && q.base > q.supply){
+    document.getElementById('sumWas').textContent = won(q.base);
+    document.getElementById('sumOffLabel').textContent = q.qty + '대 수량 할인';
+    document.getElementById('sumOff').textContent = Math.round((q.base - q.supply) / q.base * 100) + '%';
+    disc.classList.add('on');
+  } else {
+    disc.classList.remove('on');
+  }
 
   btnSubmit.disabled = !has;
   /* 버튼이 왜 막혀 있는지를 버튼 자신이 알려준다 (전송 중에는 건드리지 않는다) */
@@ -750,10 +816,12 @@ form.addEventListener('submit', function(e){
     },
     quote: {
       months: q.months,
-      items: q.items.map(function(it){
-        return { model:it.model, name:it.name, qty:it.qty, unit_monthly:it.unit, monthly:it.monthly };
-      }),
-      monthly: q.monthly, supply: q.supply, vat: q.vat, total: q.total
+      device: { model: DEV.model, name: DEV.name, qty: q.qty, unit_monthly: q.unit },
+      rent_monthly: q.rentMonthly, rent: q.rent,
+      link_fee_monthly: q.linkMonthly, link_fee: q.link,
+      install_fee: q.install,
+      monthly: q.monthly, base: q.base,
+      supply: q.supply, vat: q.vat, total: q.total
     }
   };
 
@@ -766,9 +834,9 @@ form.addEventListener('submit', function(e){
     document.getElementById('doneNo').textContent    = payload.receipt_no;
     document.getElementById('doneRecap').innerHTML =
       '<div class="rl"><span>계약기간</span><span class="v">' + q.months + '개월</span></div>'
-      + q.items.map(function(it){
-          return '<div class="rl"><span>' + it.name + '</span><span class="v">' + it.qty + '대 · ' + won(it.monthly) + '/월</span></div>';
-        }).join('')
+      + '<div class="rl"><span>' + DEV.name + '</span><span class="v">' + q.qty + '대 · ' + won(q.rentMonthly) + '/월</span></div>'
+      + (q.link    ? '<div class="rl"><span>시스템 연동비</span><span class="v">' + won(q.linkMonthly) + '/월</span></div>' : '')
+      + (q.install ? '<div class="rl"><span>설치비</span><span class="v">' + won(q.install) + '</span></div>' : '')
       + '<div class="rl"><span>김반장</span><span class="v">' + payload.applicant.kbz_user_name + '</span></div>'
       + '<div class="rl tot"><span>총 예상 견적 <small>VAT 별도</small></span><span class="v">' + won(q.supply) + '</span></div>';
     form.hidden = true;
