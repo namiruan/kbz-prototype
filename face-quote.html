@@ -219,8 +219,6 @@ body.quote-page{
   .f-seg{align-self:stretch;display:flex;width:100%}
   .f-seg label{flex:1 1 0;min-width:0;padding:0 10px}
 }
-/* 3열 줄 안에서 이 항목만 한 줄을 다 쓴다 */
-.f-grid.cols3 .f-item.full{flex-basis:100%}
 
 /* ===== 안내 사항 ===== */
 .q-notes ul{display:flex;flex-direction:column;gap:7px;list-style:none}
@@ -381,6 +379,13 @@ body.quote-page{
             <label class="f-label" for="q-email">이메일<span class="f-req">(필수)</span></label>
             <div class="field"><input id="q-email" type="email" name="email" required inputmode="email" placeholder="이메일을 입력하세요"></div>
           </div>
+          <div class="f-item full">
+            <span class="f-label" id="kbzLabel">김반장 이용 중이신가요?</span>
+            <div class="f-seg" role="radiogroup" aria-labelledby="kbzLabel">
+              <label><input type="radio" name="kbz_user" value="Y">이용사입니다</label>
+              <label><input type="radio" name="kbz_user" value="N" checked>미이용사입니다</label>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -408,13 +413,6 @@ body.quote-page{
             <div class="field">
               <select id="q-start" name="install_when"></select>
               <span class="f-caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-            </div>
-          </div>
-          <div class="f-item full">
-            <span class="f-label" id="kbzLabel">김반장 이용 중이신가요?</span>
-            <div class="f-seg" role="radiogroup" aria-labelledby="kbzLabel">
-              <label><input type="radio" name="kbz_user" value="Y">이용사입니다</label>
-              <label><input type="radio" name="kbz_user" value="N" checked>미이용사입니다</label>
             </div>
           </div>
         </div>
