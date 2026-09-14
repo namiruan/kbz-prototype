@@ -400,7 +400,7 @@ body.quote-page{
 <!-- ===== 히어로 ===== -->
 <section class="q-hero">
   <div class="inner">
-    <h1 class="title-lg">안면인식 출퇴근관리 단말기 <br>임대 견적을 바로 받아보세요</h1>
+    <h1 class="title-lg">안면인식 출퇴근관리 단말기 <br><span id="heroLine">임대 견적을 바로 받아보세요</span></h1>
   </div>
 </section>
 
@@ -651,6 +651,9 @@ var form      = document.getElementById('quoteForm');
 var sumItems  = document.getElementById('sumItems');
 var sumMid    = document.getElementById('sumMid');
 var btnSubmit = document.getElementById('btnSubmit');
+var heroLine  = document.getElementById('heroLine');
+var HERO_ASK  = heroLine.textContent;          /* 폼을 보여줄 때의 둘째 줄 */
+var HERO_DONE = '예상 견적서가 전송됐어요!';    /* 보내고 난 뒤의 둘째 줄 */
 var errBox    = document.getElementById('formErr');
 var sending   = false;
 
@@ -1000,6 +1003,7 @@ form.addEventListener('submit', function(e){
       + '<div class="rl tot"><span>총 예상 견적 <small>VAT 별도</small></span><span class="v">' + won(q.supply) + '</span></div>';
     form.hidden = true;
     document.getElementById('sumPane').style.display = 'none';
+    heroLine.textContent = HERO_DONE;
     document.getElementById('doneCard').classList.add('on');
     window.scrollTo({ top:0, behavior:'smooth' });
   }
@@ -1028,6 +1032,7 @@ document.getElementById('btnAgain').addEventListener('click', function(){
   sending = false;
   form.reset();
   form.hidden = false;
+  heroLine.textContent = HERO_ASK;
   document.getElementById('doneCard').classList.remove('on');
   document.getElementById('sumPane').style.display = '';
   btnSubmit.textContent = '견적신청하기';
