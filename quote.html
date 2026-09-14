@@ -375,30 +375,7 @@ body.quote-page{
 
     <form id="quoteForm" novalidate>
 
-      <!-- STEP 1 : 신청자 정보 -->
-      <div class="q-card">
-        <div class="q-step"><h2>신청자 정보</h2></div>
-        <div class="f-grid">
-          <div class="f-item grow">
-            <label class="f-label" for="q-biz">사업자등록번호<span class="f-req">(필수)</span></label>
-            <div class="field"><input id="q-biz" type="text" name="biz_no" required inputmode="numeric" maxlength="12" autocomplete="off" placeholder="000 - 00 - 00000"></div>
-          </div>
-          <div class="f-item grow">
-            <label class="f-label" for="q-manager">담당자명<span class="f-req">(필수)</span></label>
-            <div class="field"><input id="q-manager" type="text" name="manager" required placeholder="이름을 입력하세요"></div>
-          </div>
-          <div class="f-item grow">
-            <label class="f-label" for="q-phone">연락처<span class="f-req">(필수)</span></label>
-            <div class="field"><input id="q-phone" type="tel" name="phone" required inputmode="tel" placeholder="010 - **** - ****"></div>
-          </div>
-          <div class="f-item grow">
-            <label class="f-label" for="q-email">이메일<span class="f-req">(필수)</span></label>
-            <div class="field"><input id="q-email" type="email" name="email" required inputmode="email" placeholder="이메일을 입력하세요"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 2 : 단말기 선택 -->
+      <!-- STEP 1 : 단말기 선택 -->
       <div class="q-card">
         <div class="q-step"><h2>단말기 선택</h2></div>
         <div id="devList" class="dev-grid">
@@ -458,7 +435,7 @@ body.quote-page{
         <div class="q-err" id="formErr" role="alert"></div>
       </div>
 
-      <!-- STEP 3 : 견적 조건 — 고른 단말기의 월 임대료는 기간에 따라 정해진다 -->
+      <!-- STEP 2 : 견적 조건 — 고른 단말기의 월 임대료는 기간에 따라 정해진다 -->
       <div class="q-card">
         <div class="q-step">
           <h2>견적 조건</h2>
@@ -485,6 +462,29 @@ body.quote-page{
               <select id="q-start" name="install_when"></select>
               <span class="f-caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 : 신청자 정보 -->
+      <div class="q-card">
+        <div class="q-step"><h2>신청자 정보</h2></div>
+        <div class="f-grid">
+          <div class="f-item grow">
+            <label class="f-label" for="q-biz">사업자등록번호<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-biz" type="text" name="biz_no" required inputmode="numeric" maxlength="12" autocomplete="off" placeholder="000 - 00 - 00000"></div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-manager">담당자명<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-manager" type="text" name="manager" required placeholder="이름을 입력하세요"></div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-phone">연락처<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-phone" type="tel" name="phone" required inputmode="tel" placeholder="010 - **** - ****"></div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-email">이메일<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-email" type="email" name="email" required inputmode="email" placeholder="이메일을 입력하세요"></div>
           </div>
         </div>
       </div>

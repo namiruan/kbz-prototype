@@ -400,7 +400,34 @@ body.quote-page{
 
     <form id="quoteForm" novalidate>
 
-      <!-- STEP 1 : 신청자 정보 -->
+      <!-- STEP 1 : 단말기 — 고르는 UI가 아니라 소개다. 맨 앞이라 구분선이
+           붙지 않고, 배너 자체가 다음 단계와의 경계가 된다 -->
+      <div class="q-card">
+        <div class="dev-card">
+          <div class="dev-pick">
+            <span class="dev-tag">단말기 정보</span>
+            <span class="dev-name">Ubio X Face Pro</span>
+            <span class="dev-desc">QR로 얼굴 1회 등록. 1초 인식으로 출퇴근·공수 기록.</span>
+            <span class="dev-media"><img src="images/face-reader/ubio-x-face-pro.png" alt="Ubio X Face Pro 안면인식 출퇴근관리 단말기" loading="lazy"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 : 현장별 견적 조건 — 현장마다 기간·수량·지역·시기가 다르다 -->
+      <div class="q-card">
+        <div class="q-step">
+          <h2>현장별 견적 조건</h2>
+          <p class="f-hint" id="siteHint">12개월 이상은 설치비 무료!</p>
+          <button type="button" class="site-add" id="btnAddSite">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>현장 추가
+          </button>
+        </div>
+        <div id="siteList"></div>
+
+        <div class="q-err" id="formErr" role="alert"></div>
+      </div>
+
+      <!-- STEP 3 : 신청자 정보 -->
       <div class="q-card">
         <div class="q-step"><h2>신청자 정보</h2></div>
         <div class="f-grid">
@@ -428,33 +455,6 @@ body.quote-page{
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- STEP 2 : 단말기 — 고르는 UI가 아니라 소개지만, 구분선이 없으면
-           바로 위 신청자 정보에 딸린 것으로 읽혀서 한 단계로 떼어 놓는다 -->
-      <div class="q-card">
-        <div class="dev-card">
-          <div class="dev-pick">
-            <span class="dev-tag">단말기 정보</span>
-            <span class="dev-name">Ubio X Face Pro</span>
-            <span class="dev-desc">QR로 얼굴 1회 등록. 1초 인식으로 출퇴근·공수 기록.</span>
-            <span class="dev-media"><img src="images/face-reader/ubio-x-face-pro.png" alt="Ubio X Face Pro 안면인식 출퇴근관리 단말기" loading="lazy"></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 3 : 현장별 견적 조건 — 현장마다 기간·수량·지역·시기가 다르다 -->
-      <div class="q-card">
-        <div class="q-step">
-          <h2>현장별 견적 조건</h2>
-          <p class="f-hint" id="siteHint">12개월 이상은 설치비 무료!</p>
-          <button type="button" class="site-add" id="btnAddSite">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>현장 추가
-          </button>
-        </div>
-        <div id="siteList"></div>
-
-        <div class="q-err" id="formErr" role="alert"></div>
       </div>
 
       <!-- 안내 -->
