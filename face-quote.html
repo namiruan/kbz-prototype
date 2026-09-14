@@ -371,8 +371,6 @@ body.quote-page{
    왼쪽 기준선에 맞춰 놓는다. */
 .q-done{display:none;padding:0}
 .q-done.on{display:block;grid-column:1 / -1;width:100%;max-width:520px;margin:0;padding:8px 0 0}
-.q-done .ic{width:52px;height:52px;margin:0 0 20px;border-radius:8px;background:var(--accent-tint);color:var(--accent);display:flex;align-items:center;justify-content:center}
-.q-done .ic svg{width:24px;height:24px}
 .q-done p{font-size:14.5px;color:var(--ink-2);line-height:1.72;margin:0;word-break:keep-all}
 .q-done p b{color:var(--ink);font-weight:700}
 .q-done .rcpt{display:inline-flex;align-items:center;gap:9px;margin-top:20px;padding:0;border:0;border-radius:0;background:none;font-size:12.5px;font-weight:600;color:var(--ink)}
@@ -470,8 +468,7 @@ body.quote-page{
 
     <!-- 완료 화면 -->
     <div class="q-card q-done" id="doneCard" role="status">
-      <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5l9 6 9-6"/><rect x="3" y="4.5" width="18" height="15" rx="2.5"/></svg></div>
-      <p><b id="doneEmail">—</b> 으로 견적서를 발송했습니다.<br>메일이 보이지 않으면 스팸함을 확인해 주세요. 담당 컨설턴트가 영업일 기준 1일 내 연락드립니다.</p>
+      <p><b id="doneEmail">—</b> 으로 견적서를 발송했습니다.<br>메일이 보이지 않으면 스팸함을 확인해 주세요.<br>담당 컨설턴트가 영업일 기준 1일 내 연락드립니다.</p>
       <div class="rcpt"><span class="k">접수번호</span><span class="v" id="doneNo">—</span></div>
       <div class="q-done-recap" id="doneRecap"></div>
       <div class="acts">
