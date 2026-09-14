@@ -119,7 +119,7 @@ body.quote-page{
 #quoteForm,.q-sum{min-width:0}
 .q-card{min-width:0;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
 .q-card + .q-card{margin-top:54px;padding-top:54px;border-top:1px solid var(--line)}
-.q-step{margin-bottom:22px}
+.q-step{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;margin-bottom:22px}
 .q-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
 
 /* =========================================================
@@ -129,7 +129,7 @@ body.quote-page{
    필수 : 빨간 별표가 아니라 파란 (필수). 안내는 placeholder로.
    ========================================================= */
 .f-grid{display:flex;flex-wrap:wrap;gap:28px 12px}
-.f-item{position:relative;display:flex;flex-direction:column;gap:12px;min-width:0}
+.f-item{display:flex;flex-direction:column;gap:12px;min-width:0}
 .f-item.grow{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
 @media(max-width:640px){.f-item.grow{flex-basis:100%;max-width:100%}}
 /* 견적 조건은 가로 3열 (좁은 화면에서는 세로 1열) */
@@ -139,18 +139,11 @@ body.quote-page{
 .f-label{display:flex;align-items:baseline;gap:4px;font-size:16px;font-weight:400;color:var(--field-label);letter-spacing:-.36px;line-height:1.4}
 .f-req{color:var(--main-blue);font-weight:400;line-height:inherit}
 /* 상시 말풍선 — 열고 닫는 툴팁이 아니라 늘 떠 있는 안내.
-   흐름에서 빼내 라벨 줄 오른쪽에 띄운다. 그래야 이 칸만 키가 커지지 않고
-   입력칸끼리의 위아래 간격이 다른 칸과 똑같이 유지된다.
-   꼬리는 아래를 향해 바로 밑의 입력칸을 가리킨다. */
-.f-hint{position:absolute;right:0;top:11px;transform:translateY(-50%);z-index:2;max-width:calc(100% - 86px);padding:9px 10px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.55;letter-spacing:-.01em;word-break:keep-all}
-.f-hint::before{content:"";position:absolute;right:16px;bottom:-3px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
-/* 라벨 옆에 한 줄로 들어갈 자리가 없으면 입력칸 아래로 내린다.
-   3열로 놓이는 넓은 화면(641px~)에서는 칸이 가로로 나란하므로 아래로 흘러도
-   간격이 흐트러지지 않고, 360px 미만에서는 겹치는 것보다 낫다. */
-@media(min-width:641px),(max-width:359px){
-  .f-hint{position:relative;right:auto;top:auto;transform:none;max-width:100%;margin-top:-3px;padding:9px 12px;align-self:start}
-  .f-hint::before{right:auto;left:14px;bottom:auto;top:-3px}
-}
+   입력칸 옆이 아니라 섹션 제목 옆에 둔다. 기간 한 칸의 이야기가 아니라
+   이 섹션 전체에 걸리는 말이고, 칸 옆에 띄우면 좁은 화면에서 칸을 덮는다.
+   꼬리는 왼쪽을 향해 제목을 가리킨다. */
+.f-hint{position:relative;max-width:100%;padding:9px 12px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.55;letter-spacing:-.01em;word-break:keep-all}
+.f-hint::before{content:"";position:absolute;left:-3px;top:50%;margin-top:-4px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
 .field{display:flex;align-items:center;gap:8px;height:54px;padding:0 12px;background:var(--main-white);border:1px solid var(--field-line);border-radius:4px;transition:border-color .15s,box-shadow .15s}
 .field:hover{border-color:#525C66}
 /* 라이브 폼은 포커스 시 아무 변화가 없다. 키보드 사용자가 위치를 잃지 않도록
@@ -397,7 +390,10 @@ body.quote-page{
 
       <!-- STEP 2 : 견적 조건 — 임대 기간이 정해져야 단말기별 월 임대료가 결정된다 -->
       <div class="q-card">
-        <div class="q-step"><h2>견적 조건</h2></div>
+        <div class="q-step">
+          <h2>견적 조건</h2>
+          <p class="f-hint" id="hintMonths">대여기간이 길수록 할인폭이 커져요!</p>
+        </div>
         <div class="f-grid cols3">
           <div class="f-item grow">
             <label class="f-label" for="months">기간<span class="f-req">(필수)</span></label>
@@ -405,7 +401,6 @@ body.quote-page{
               <input id="months" type="number" name="months" min="1" max="60" step="1" value="12" inputmode="numeric" aria-describedby="hintMonths">
               <span class="f-unit">개월</span>
             </div>
-            <p class="f-hint" id="hintMonths">대여기간이 길수록 할인폭이 커져요!</p>
           </div>
           <div class="f-item grow">
             <label class="f-label" for="q-region">현장 지역</label>
