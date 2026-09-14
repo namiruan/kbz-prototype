@@ -204,15 +204,21 @@ body.quote-page{
   .stepper input{width:26px}
 }
 
-/* ===== 김반장 이용 여부 — 둘 중 하나를 고르는 칸 =====
-   입력칸과 같은 높이·테두리로 맞춰 한 줄로 읽히게 한다. */
-.f-seg{display:flex;gap:8px}
-.f-seg label{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;height:54px;padding:0 12px;border:1px solid var(--field-line);border-radius:4px;background:var(--main-white);font-size:16px;font-weight:400;color:var(--field-ink);letter-spacing:-.01em;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+/* ===== 김반장 이용 여부 — 세그먼트 컨트롤 =====
+   칸 두 개가 아니라 하나의 트랙을 둘로 나눠 쓴다. 고른 쪽만 칠해서
+   '둘 중 하나'라는 것이 생김새로 드러난다. 높이는 입력칸과 같은 54px. */
+.f-seg{align-self:flex-start;display:inline-flex;align-items:stretch;max-width:100%;height:54px;padding:4px;border:1px solid var(--field-line);border-radius:4px;background:var(--main-white)}
+.f-seg label{display:flex;align-items:center;justify-content:center;padding:0 24px;border-radius:2px;font-size:15px;font-weight:500;color:var(--ink-2);letter-spacing:-.01em;white-space:nowrap;cursor:pointer;transition:background .15s,color .15s}
 .f-seg input{position:absolute;opacity:0;width:0;height:0}
-.f-seg label:hover{border-color:#525C66}
-/* 색만으로 구분되지 않도록 테두리를 두 겹으로 겹쳐 굵기까지 달라지게 했다 */
-.f-seg label:has(input:checked){border-color:var(--accent);background:var(--accent-tint);color:var(--accent);font-weight:700;box-shadow:0 0 0 1px var(--accent)}
-.f-seg label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.f-seg label:hover{color:var(--ink)}
+/* 고른 쪽은 칠하고 굵기까지 올린다 — 색만으로 구분되지 않게 */
+.f-seg label:has(input:checked){background:var(--accent);color:var(--main-white);font-weight:700}
+.f-seg label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:3px}
+/* 좁은 화면에서는 트랙을 폭에 꽉 채우고 둘이 반씩 나눠 갖는다 */
+@media(max-width:640px){
+  .f-seg{align-self:stretch;display:flex;width:100%}
+  .f-seg label{flex:1 1 0;min-width:0;padding:0 10px}
+}
 /* 3열 줄 안에서 이 항목만 한 줄을 다 쓴다 */
 .f-grid.cols3 .f-item.full{flex-basis:100%}
 
@@ -407,8 +413,8 @@ body.quote-page{
           <div class="f-item full">
             <span class="f-label" id="kbzLabel">김반장 이용 중이신가요?</span>
             <div class="f-seg" role="radiogroup" aria-labelledby="kbzLabel">
-              <label><input type="radio" name="kbz_user" value="Y">이용 중</label>
-              <label><input type="radio" name="kbz_user" value="N" checked>아직 이용 전</label>
+              <label><input type="radio" name="kbz_user" value="Y">이용사입니다</label>
+              <label><input type="radio" name="kbz_user" value="N" checked>미이용사입니다</label>
             </div>
           </div>
         </div>
@@ -721,7 +727,7 @@ form.addEventListener('submit', function(e){
       install_when: fd.get('install_when'),
       install_when_name: (document.getElementById('q-start').selectedOptions[0] || {}).text || '',
       kbz_user: q.kbz_user,
-      kbz_user_name: q.kbz_user === 'Y' ? '이용 중' : '아직 이용 전'
+      kbz_user_name: q.kbz_user === 'Y' ? '이용사' : '미이용사'
     },
     quote: {
       months: q.months,
