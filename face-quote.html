@@ -119,7 +119,7 @@ body.quote-page{
 #quoteForm,.q-sum{min-width:0}
 .q-card{min-width:0;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
 .q-card + .q-card{margin-top:54px;padding-top:54px;border-top:1px solid var(--line)}
-.q-step{margin-bottom:22px}
+.q-step{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;margin-bottom:22px}
 .q-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
 
 /* =========================================================
@@ -173,14 +173,15 @@ body.quote-page{
    기종이 Ubio X Face Pro 하나뿐이라 고르는 UI가 아니라 소개 카드다.
    수량은 현장마다 다르므로 아래 현장 블록에서 받는다.
    사진은 왼쪽에 띄워 카드 높이를 그대로 채우고, 글자는 제 높이만큼만. */
-.dev-card{position:relative;display:flex;min-height:150px;border:1px solid var(--line);border-radius:8px;background:var(--main-white)}
+.dev-card{position:relative;display:flex;min-height:150px;margin-top:28px;border:0;border-radius:8px;background:var(--pastel-blue)}
 .dev-pick{position:relative;display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;padding:18px 24px 18px 200px;cursor:default}
 .dev-media{position:absolute;left:0;top:0;bottom:0;width:184px;overflow:hidden;border-radius:7px 0 0 7px}
 /* 제품컷은 흔히 아래가 잘린 채로 온다. 바닥에 붙여야 '잘린' 게 아니라
    '놓여 있는' 것으로 읽힌다. */
 .dev-media img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block}
 .dev-name{display:block;font-size:17px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.3}
-.dev-desc{display:block;margin-top:6px;font-size:13px;font-weight:500;color:var(--ink-3);line-height:1.6;word-break:keep-all}
+/* 연한 파랑 배경 위에서는 --ink-3(3.7:1)이 모자라 한 단계 진하게 */
+.dev-desc{display:block;margin-top:6px;font-size:13px;font-weight:500;color:var(--ink-2);line-height:1.6;word-break:keep-all}
 @media(max-width:640px){
   .dev-card{min-height:0}
   .dev-pick{padding:12px 16px 12px 118px}
@@ -202,12 +203,11 @@ body.quote-page{
 .site-del:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 /* 현장이 하나뿐이면 지울 것이 없다 */
 #siteList.one .site-del{display:none}
-.site-add-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px}
-.site-add{flex:none;display:inline-flex;align-items:center;gap:6px;padding:11px 16px;border:1px dashed #C6CBD1;border-radius:4px;background:none;font:inherit;font-size:14px;font-weight:700;color:var(--ink-2);letter-spacing:-.02em;cursor:pointer;transition:.15s}
-.site-add svg{width:15px;height:15px}
+/* 제목 줄 오른쪽 끝에 둔다 — 현장 목록이 길어져도 늘 같은 자리에 있다 */
+.site-add{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:5px;padding:8px 13px;border:1px dashed #C6CBD1;border-radius:4px;background:none;font:inherit;font-size:13px;font-weight:700;color:var(--ink-2);letter-spacing:-.02em;cursor:pointer;transition:.15s}
+.site-add svg{width:14px;height:14px}
 .site-add:hover{border-color:var(--accent);border-style:solid;color:var(--accent);background:var(--accent-tint)}
 .site-add:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.site-add-note{flex:1 1 240px;min-width:0;font-size:12px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
 /* 현장 안은 2열 — 기간·수량이 한 줄, 지역·시기가 한 줄 */
 .site .f-grid{gap:22px 12px}
 .site .f-item.grow{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
@@ -420,27 +420,23 @@ body.quote-page{
         </div>
       </div>
 
-      <!-- STEP 2 : 단말기 소개 — 기종이 하나라 고를 것이 없다. 무엇인지만 알려준다 -->
+      <!-- STEP 2 : 현장별 견적 조건 — 현장마다 기간·수량·지역·시기가 다르다 -->
       <div class="q-card">
-        <div class="q-step"><h2>단말기</h2></div>
+        <div class="q-step">
+          <h2>현장별 견적 조건</h2>
+          <button type="button" class="site-add" id="btnAddSite">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>현장 추가
+          </button>
+        </div>
+        <div id="siteList"></div>
+
+        <!-- 단말기 소개 — 고르는 UI가 아니므로 줄을 긋지 않고 배너로 붙인다 -->
         <div class="dev-card">
           <div class="dev-pick">
             <span class="dev-name">Ubio X Face Pro</span>
             <span class="dev-desc">QR로 얼굴 1회 등록. 1초 인식으로 출퇴근·공수 기록.</span>
             <span class="dev-media"><img src="images/face-reader/ubio-x-face-pro.png" alt="Ubio X Face Pro 안면인식 출퇴근관리 단말기" loading="lazy"></span>
           </div>
-        </div>
-      </div>
-
-      <!-- STEP 3 : 현장별 견적 조건 — 현장마다 기간·수량·지역·시기가 다르다 -->
-      <div class="q-card">
-        <div class="q-step"><h2>현장별 견적 조건</h2></div>
-        <div id="siteList"></div>
-        <div class="site-add-row">
-          <button type="button" class="site-add" id="btnAddSite">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>현장 추가
-          </button>
-          <p class="site-add-note">현장을 함께 신청하면 전체 대수를 합산해 수량 할인 구간을 적용합니다.</p>
         </div>
 
         <div class="q-err" id="formErr" role="alert"></div>
