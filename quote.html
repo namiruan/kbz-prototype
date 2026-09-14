@@ -351,7 +351,7 @@ body.quote-page{
 /* 무엇이 잘못됐는지는 그 칸 바로 아래에서 말한다.
    .f-item 은 gap:12px 이므로 음수 여백으로 8px 남짓까지 당긴다. */
 .f-msg{margin-top:-4px;font-size:12px;font-weight:600;color:var(--danger);line-height:1.5;word-break:keep-all}
-/* 칸이 아닌 덩어리(단말기 선택·동의)의 메시지 */
+/* 칸이 아닌 덩어리(단말기 목록)의 메시지 */
 .f-msg.block{margin-top:10px}
 /* 남은 배너는 전송 실패 같은 폼 전체의 문제에만 쓴다 */
 .q-err{display:none;margin-top:14px;padding:11px 13px;border-radius:4px;background:rgba(217,63,69,.05);border:1px solid rgba(217,63,69,.22);font-size:12.5px;font-weight:600;color:#B8353A;line-height:1.55;word-break:keep-all}
@@ -813,8 +813,8 @@ function validate(q){
   }
   if (!document.getElementById('agree').checked){
     bad.push(1);
+    /* 체크 표시와 글자가 빨개지므로 따로 적지 않는다 */
     document.querySelector('.q-agree').classList.add('is-err');
-    say(document.querySelector('.q-agree-row'), '개인정보 수집·이용에 동의해 주세요.', true);
   }
 
   return bad;
@@ -946,10 +946,7 @@ form.addEventListener('input', function(e){
 });
 /* 동의 체크박스는 폼 바깥이라 form 이벤트로 안 잡힌다 */
 document.getElementById('agree').addEventListener('change', function(){
-  if (!this.checked) return;
-  document.querySelector('.q-agree').classList.remove('is-err');
-  var msg = document.querySelector('.q-agree-row').nextElementSibling;
-  if (msg && msg.classList.contains('f-msg')) msg.remove();
+  if (this.checked) document.querySelector('.q-agree').classList.remove('is-err');
 });
 
 /* 사업자등록번호는 치는 대로 하이픈을 붙인다 — 사람이 직접 넣지 않게 */
