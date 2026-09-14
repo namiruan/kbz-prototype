@@ -170,38 +170,50 @@ body.quote-page{
 
 
 /* ===== 단말기 카드 (1종) =====
-   기종이 Ubio X Face Pro 하나뿐이라 고르고 말고가 없다. 늘 켜져 있는
-   가로형 카드 한 장에서 수량만 맞춘다. 사진은 왼쪽에 띄워 카드 높이를
-   그대로 채우고, 글자는 제 높이만큼만 차지한다. */
-.dev-grid{display:grid;grid-template-columns:1fr;gap:10px}
+   기종이 Ubio X Face Pro 하나뿐이라 고르는 UI가 아니라 소개 카드다.
+   수량은 현장마다 다르므로 아래 현장 블록에서 받는다.
+   사진은 왼쪽에 띄워 카드 높이를 그대로 채우고, 글자는 제 높이만큼만. */
 .dev-card{position:relative;display:flex;min-height:150px;border:1px solid var(--line);border-radius:8px;background:var(--main-white)}
-.dev-pick{position:relative;display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;padding:18px 125px 18px 200px;cursor:default}
+.dev-pick{position:relative;display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;padding:18px 24px 18px 200px;cursor:default}
 .dev-media{position:absolute;left:0;top:0;bottom:0;width:184px;overflow:hidden;border-radius:7px 0 0 7px}
 /* 제품컷은 흔히 아래가 잘린 채로 온다. 바닥에 붙여야 '잘린' 게 아니라
    '놓여 있는' 것으로 읽힌다. */
 .dev-media img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block}
 .dev-name{display:block;font-size:17px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.3}
 .dev-desc{display:block;margin-top:6px;font-size:13px;font-weight:500;color:var(--ink-3);line-height:1.6;word-break:keep-all}
-.dev-qty{position:absolute;top:50%;right:16px;transform:translateY(-50%);z-index:2}
-/* 수량 스테퍼 — 대부분 몇 대 수준이라 전체 폭 입력칸 대신 눌러서 맞추는 컨트롤 */
-.stepper{display:inline-flex;align-items:center;height:34px;background:var(--main-white);border:1px solid var(--line);border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(12,13,15,.12);transition:border-color .15s}
-.stepper:focus-within{border-color:var(--field-ink)}
-.stepper button{width:30px;height:100%;display:flex;align-items:center;justify-content:center;padding:0;border:0;background:none;color:var(--ink-2);font-size:15px;line-height:1;cursor:pointer;transition:background .15s,color .15s}
-.stepper button:hover:not(:disabled){background:var(--fill);color:var(--ink)}
-.stepper button:disabled{color:#CDD2D8;cursor:default}
-.stepper button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.stepper input{width:38px;height:100%;padding:0;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);background:none;outline:0;font:inherit;font-size:14px;font-weight:700;color:var(--field-ink);text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
-.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 @media(max-width:640px){
   .dev-card{min-height:0}
-  .dev-pick{padding:12px 89px 12px 114px}
+  .dev-pick{padding:12px 16px 12px 118px}
   .dev-media{width:104px}
   .dev-name{font-size:15px}
   .dev-desc{margin-top:3px;font-size:12.5px;line-height:1.55}
-  .dev-qty{right:8px}
-  .stepper{height:28px}
-  .stepper button{width:22px}
-  .stepper input{width:26px}
+}
+
+/* ===== 현장 블록 =====
+   현장마다 기간·수량·지역·시기가 다르다. 한 덩어리씩 테두리로 묶어
+   어디까지가 한 현장인지 눈으로 끊기게 한다. */
+.site{position:relative;padding:22px;border:1px solid var(--line);border-radius:8px;background:var(--main-white)}
+.site + .site{margin-top:12px}
+.site-head{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.site-no{font-family:var(--font-body);font-size:15px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.site-del{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:4px;padding:5px 9px;border:1px solid var(--line);border-radius:4px;background:none;font:inherit;font-size:12px;font-weight:600;color:var(--ink-3);cursor:pointer;transition:.15s}
+.site-del svg{width:13px;height:13px}
+.site-del:hover{border-color:var(--danger);color:var(--danger);background:rgba(217,63,69,.04)}
+.site-del:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* 현장이 하나뿐이면 지울 것이 없다 */
+#siteList.one .site-del{display:none}
+.site-add-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px}
+.site-add{flex:none;display:inline-flex;align-items:center;gap:6px;padding:11px 16px;border:1px dashed #C6CBD1;border-radius:4px;background:none;font:inherit;font-size:14px;font-weight:700;color:var(--ink-2);letter-spacing:-.02em;cursor:pointer;transition:.15s}
+.site-add svg{width:15px;height:15px}
+.site-add:hover{border-color:var(--accent);border-style:solid;color:var(--accent);background:var(--accent-tint)}
+.site-add:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.site-add-note{flex:1 1 240px;min-width:0;font-size:12px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
+/* 현장 안은 2열 — 기간·수량이 한 줄, 지역·시기가 한 줄 */
+.site .f-grid{gap:22px 12px}
+.site .f-item.grow{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
+@media(max-width:640px){
+  .site{padding:18px 16px}
+  .site .f-item.grow{flex-basis:100%;max-width:100%}
 }
 
 /* ===== 김반장 이용 여부 — 라디오 =====
@@ -259,6 +271,9 @@ body.quote-page{
 .q-sum-mid-body .q-sum-line .amt{font-weight:600;color:var(--ink-2)}
 .q-sum-mid-body .q-sum-line .qty{order:3;flex-basis:100%;color:var(--ink-3)}
 .q-sum-mid-body .q-sum-line .amt.free{color:var(--accent)}
+/* 현장이 여럿일 때 어느 현장 몫인지 끊어주는 머리글 */
+.q-sum-sub{margin:12px 0 2px;font-size:11.5px;font-weight:700;letter-spacing:-.01em;color:var(--ink-3)}
+.q-sum-sub:first-child{margin-top:0}
 /* 수량 할인 — 할인율을 크게, 할인 전 금액은 취소선으로 그 아래 */
 .q-sum-disc{display:none;margin-top:0;padding-top:0;border-top:0}
 .q-sum-disc.on{display:block}
@@ -405,53 +420,27 @@ body.quote-page{
         </div>
       </div>
 
-      <!-- STEP 2 : 견적 조건 — 임대 기간이 정해져야 단말기별 월 임대료가 결정된다 -->
+      <!-- STEP 2 : 단말기 소개 — 기종이 하나라 고를 것이 없다. 무엇인지만 알려준다 -->
       <div class="q-card">
-        <div class="q-step"><h2>견적 조건</h2></div>
-        <div class="f-grid cols3">
-          <div class="f-item grow">
-            <label class="f-label" for="months">기간<span class="f-req">(필수)</span></label>
-            <div class="field" id="fieldMonths">
-              <input id="months" type="number" name="months" min="1" max="60" step="1" value="12" inputmode="numeric" aria-describedby="hintMonths">
-              <span class="f-unit">개월</span>
-            </div>
-            <p class="f-hint" id="hintMonths">12개월 이상이면 설치비를 지원해요!</p>
-          </div>
-          <div class="f-item grow">
-            <label class="f-label" for="q-region">현장 지역</label>
-            <div class="field">
-              <select id="q-region" name="region"></select>
-              <span class="f-caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-            </div>
-          </div>
-          <div class="f-item grow">
-            <label class="f-label" for="q-start">희망 설치 시기</label>
-            <div class="field">
-              <select id="q-start" name="install_when"></select>
-              <span class="f-caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-            </div>
+        <div class="q-step"><h2>단말기</h2></div>
+        <div class="dev-card">
+          <div class="dev-pick">
+            <span class="dev-name">Ubio X Face Pro</span>
+            <span class="dev-desc">QR로 얼굴 1회 등록. 1초 인식으로 출퇴근·공수 기록.</span>
+            <span class="dev-media"><img src="images/face-reader/ubio-x-face-pro.png" alt="Ubio X Face Pro 안면인식 출퇴근관리 단말기" loading="lazy"></span>
           </div>
         </div>
       </div>
 
-      <!-- STEP 3 : 단말기 수량 — 기종이 하나라 고르는 단계가 아니라 세는 단계다 -->
+      <!-- STEP 3 : 현장별 견적 조건 — 현장마다 기간·수량·지역·시기가 다르다 -->
       <div class="q-card">
-        <div class="q-step"><h2>단말기 수량</h2></div>
-        <div id="devList" class="dev-grid">
-          <div class="dev-card">
-            <div class="dev-pick">
-              <span class="dev-name">Ubio X Face Pro</span>
-              <span class="dev-desc">QR로 얼굴 1회 등록. 1초 인식으로 출퇴근·공수 기록.</span>
-              <span class="dev-media"><img src="images/face-reader/ubio-x-face-pro.png" alt="Ubio X Face Pro 안면인식 출퇴근관리 단말기" loading="lazy"></span>
-            </div>
-            <div class="dev-qty">
-              <div class="stepper">
-                <button type="button" data-step="-1" aria-label="수량 줄이기">−</button>
-                <input id="q-qty" type="number" name="qty" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="단말기 수량">
-                <button type="button" data-step="1" aria-label="수량 늘리기">+</button>
-              </div>
-            </div>
-          </div>
+        <div class="q-step"><h2>현장별 견적 조건</h2></div>
+        <div id="siteList"></div>
+        <div class="site-add-row">
+          <button type="button" class="site-add" id="btnAddSite">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>현장 추가
+          </button>
+          <p class="site-add-note">현장을 함께 신청하면 전체 대수를 합산해 수량 할인 구간을 적용합니다.</p>
         </div>
 
         <div class="q-err" id="formErr" role="alert"></div>
@@ -462,7 +451,7 @@ body.quote-page{
         <div class="q-step"><h2>안내</h2></div>
         <ul>
           <li>12개월 이상 설치비 지원은 최초 1회에 한하며 이전 설치는 제외됩니다. 12개월 미만 계약의 설치비는 첫 달 이용료와 함께 청구됩니다.</li>
-          <li>이 견적은 현장 1곳 기준입니다. 현장이 여러 곳이면 담당자가 조정해 드립니다.</li>
+          <li>수량 할인은 신청하신 현장 전체 대수를 합산해 적용합니다. 자회사 등 같은 사업주의 다른 현장이 있으면 담당자에게 알려주세요.</li>
           <li>설치 위치와 네트워크 환경은 현장 협의 후 확정됩니다.</li>
           <li>견적서 유효기간은 발행일로부터 14일입니다.</li>
         </ul>
@@ -492,7 +481,7 @@ body.quote-page{
 
         <details class="q-sum-fold" id="sumMid">
           <summary class="q-sum-total">
-            <span class="lb"><span class="lb-t">총 예상 견적<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small class="basis" id="sumBasis"><span id="sumMonthly">0원</span> × <span id="sumMonthsX">12</span>개월</small></span>
+            <span class="lb"><span class="lb-t">총 예상 견적<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small class="basis" id="sumBasis"></small></span>
             <span class="vv tnum" id="sumTotal">0원</span>
           </summary>
           <div class="q-sum-mid-body">
@@ -515,7 +504,7 @@ body.quote-page{
           <button type="submit" form="quoteForm" class="banner-btn" id="btnSubmit">견적신청하기</button>
         </div>
 
-        <p class="q-sum-note">VAT · 통신비 별도 · 현장 1곳 기준 · 최종 금액은 견적서에서 확정됩니다.</p>
+        <p class="q-sum-note">VAT · 통신비 별도 · 최종 금액은 견적서에서 확정됩니다.</p>
       </div>
     </aside>
 
@@ -637,55 +626,141 @@ function validBizNo(v){
 }
 
 var form      = document.getElementById('quoteForm');
-var monthsEl  = document.getElementById('months');
 var sumItems  = document.getElementById('sumItems');
 var sumMid    = document.getElementById('sumMid');
 var btnSubmit = document.getElementById('btnSubmit');
 var errBox    = document.getElementById('formErr');
 var sending   = false;
 
-/* ── 선택 항목 채우기 (지역 · 설치 시기) ──────────────────── */
-(function(){
-  [['q-region', REGIONS], ['q-start', INSTALL_WHEN]].forEach(function(pair){
-    var sel = document.getElementById(pair[0]);
-    if (!sel) return;
-    sel.innerHTML = pair[1].reduce(function(html, o){
-      return html + '<option value="' + o[0] + '">' + o[1] + '</option>';
-    }, '<option value="">선택해 주세요</option>');
-    /* 고르지 않은 상태는 placeholder 톤으로 */
-    function tone(){ sel.classList.toggle('is-empty', !sel.value); }
-    sel.addEventListener('change', tone);
-    tone();
-  });
-})();
+/* ── 현장 블록 ─────────────────────────────────────────
+   현장마다 기간·수량·지역·시기가 다르다. 블록을 복제해서 늘리고,
+   블록 안의 id는 라벨 연결에만 쓰이므로 순번을 붙여 겹치지 않게 한다. */
+var siteList = document.getElementById('siteList');
+var siteSeq  = 0;
+
+function options(list){
+  return list.reduce(function(html, o){
+    return html + '<option value="' + o[0] + '">' + o[1] + '</option>';
+  }, '<option value="">선택해 주세요</option>');
+}
+var CARET = '<span class="f-caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>';
+
+function addSite(){
+  var n = ++siteSeq;
+  var el = document.createElement('div');
+  el.className = 'site';
+  el.innerHTML =
+    '<div class="site-head">'
+    + '<span class="site-no">현장 <span class="num">' + n + '</span></span>'
+    + '<button type="button" class="site-del" aria-label="이 현장 삭제">'
+    +   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>삭제'
+    + '</button>'
+    + '</div>'
+    + '<div class="f-grid">'
+    +   '<div class="f-item grow">'
+    +     '<label class="f-label" for="s' + n + '-months">기간<span class="f-req">(필수)</span></label>'
+    +     '<div class="field" data-f="months"><input id="s' + n + '-months" class="s-months" type="number" min="1" max="60" step="1" value="12" inputmode="numeric" aria-describedby="s' + n + '-hint"><span class="f-unit">개월</span></div>'
+    +     '<p class="f-hint" id="s' + n + '-hint">12개월 이상은 설치비 무료!</p>'
+    +   '</div>'
+    +   '<div class="f-item grow">'
+    +     '<label class="f-label" for="s' + n + '-qty">단말기 수량<span class="f-req">(필수)</span></label>'
+    +     '<div class="field" data-f="qty"><input id="s' + n + '-qty" class="s-qty" type="number" min="1" max="999" step="1" value="1" inputmode="numeric"><span class="f-unit">대</span></div>'
+    +   '</div>'
+    +   '<div class="f-item grow">'
+    +     '<label class="f-label" for="s' + n + '-region">현장 지역</label>'
+    +     '<div class="field"><select id="s' + n + '-region" class="s-region">' + options(REGIONS) + '</select>' + CARET + '</div>'
+    +   '</div>'
+    +   '<div class="f-item grow">'
+    +     '<label class="f-label" for="s' + n + '-when">희망 설치 시기</label>'
+    +     '<div class="field"><select id="s' + n + '-when" class="s-when">' + options(INSTALL_WHEN) + '</select>' + CARET + '</div>'
+    +   '</div>'
+    + '</div>';
+  siteList.appendChild(el);
+  el.querySelectorAll('select').forEach(tone);
+  renumber();
+  return el;
+}
+
+/* 고르지 않은 select는 placeholder 톤으로 */
+function tone(sel){
+  function sync(){ sel.classList.toggle('is-empty', !sel.value); }
+  sel.addEventListener('change', sync);
+  sync();
+}
+
+/* 지우고 나면 번호가 비므로 다시 매긴다 (화면 번호일 뿐, 입력값과 무관) */
+function renumber(){
+  var sites = siteList.querySelectorAll('.site');
+  sites.forEach(function(el, i){ el.querySelector('.site-no .num').textContent = i + 1; });
+  siteList.classList.toggle('one', sites.length <= 1);
+}
+
+siteList.addEventListener('click', function(e){
+  var del = e.target.closest('.site-del');
+  if (!del) return;
+  if (siteList.querySelectorAll('.site').length <= 1) return;   /* 마지막 하나는 남긴다 */
+  del.closest('.site').remove();
+  renumber();
+  render();
+});
+
+document.getElementById('btnAddSite').addEventListener('click', function(){
+  var el = addSite();
+  el.querySelector('.s-qty').focus({ preventScroll: true });
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  render();
+});
+
+addSite();
 
 /* ── 현재 입력값 수집 ──────────────────────────────────── */
 function readQuote(){
-  var months = parseInt(monthsEl.value, 10) || 0;
-  var qty    = parseInt((form.querySelector('input[name="qty"]') || {}).value, 10) || 0;
-  var kbz    = (form.querySelector('input[name="kbz_user"]:checked') || {}).value || '';
-  var has    = qty >= 1 && months >= 1;
+  var kbz = (form.querySelector('input[name="kbz_user"]:checked') || {}).value || '';
 
-  var unit    = unitFor(qty);
-  var rentM   = has ? unit * qty : 0;                                 /* 월 이용료 */
-  var linkM   = (has && kbz === 'N') ? LINK_FEE : 0;                  /* 월 연동비 (현장 1곳) */
-  var install = (has && months < INSTALL_FREE_MONTHS) ? INSTALL_FEE * qty : 0;  /* 1회성 */
+  var sites = [].map.call(siteList.querySelectorAll('.site'), function(el, i){
+    var region = el.querySelector('.s-region'), when = el.querySelector('.s-when');
+    return {
+      el: el, no: i + 1,
+      months: parseInt(el.querySelector('.s-months').value, 10) || 0,
+      qty:    parseInt(el.querySelector('.s-qty').value, 10) || 0,
+      /* 고르지 않았으면 '선택해 주세요'가 이름으로 새어나가지 않게 빈 값으로 */
+      region: region.value, region_name: region.value ? (region.selectedOptions[0] || {}).text : '',
+      when:   when.value,   when_name:   when.value   ? (when.selectedOptions[0]   || {}).text : ''
+    };
+  });
 
-  var rent   = rentM * months;
-  var link   = linkM * months;
+  /* 수량 할인 구간은 신청한 현장 전체 대수로 정한다 (브로슈어 합산 규칙) */
+  var totalQty = sites.reduce(function(n, s){ return n + (s.qty > 0 ? s.qty : 0); }, 0);
+  var has = totalQty >= 1 && sites.every(function(s){ return s.months >= 1 && s.qty >= 1; });
+  var unit = unitFor(totalQty);
+
+  var rent = 0, link = 0, install = 0, base = 0, monthly = 0;
+  sites.forEach(function(s){
+    s.ok = s.months >= 1 && s.qty >= 1;
+    if (!s.ok){ s.rent = s.link = s.install = 0; s.unit = unit; s.waived = false; return; }
+    s.unit    = unit;
+    s.rent    = unit * s.qty * s.months;
+    s.link    = (kbz === 'N') ? LINK_FEE * s.months : 0;
+    s.waived  = s.months >= INSTALL_FREE_MONTHS;
+    s.install = s.waived ? 0 : INSTALL_FEE * s.qty;
+    s.supply  = s.rent + s.link + s.install;
+    rent += s.rent; link += s.link; install += s.install;
+    monthly += unit * s.qty + (kbz === 'N' ? LINK_FEE : 0);
+    /* 할인 전 = 혜택이 하나도 없을 때의 정가. 기본요금에 설치비 정가까지 넣는다.
+       설치비 면제도 고객이 받은 혜택이므로 할인 전과 총액의 차이에 드러나야 한다.
+       연동비는 할인 대상이 아니라 양쪽에 똑같이 들어간다. */
+    base += BASE_UNIT * s.qty * s.months + s.link + INSTALL_FEE * s.qty;
+  });
+
   var supply = rent + link + install;
-  /* 할인 전 = 혜택이 하나도 없을 때의 정가. 기본요금에 설치비 정가까지 넣는다.
-     설치비는 12개월 이상이면 면제되는데, 그 차액도 고객이 받은 혜택이므로
-     할인 전과 총액의 차이에 드러나야 한다. 연동비는 할인 대상이 아니라 양쪽 동일. */
-  var base   = has ? BASE_UNIT * qty * months + link + INSTALL_FEE * qty : 0;
-
   return {
-    months: months, qty: qty, kbz_user: kbz, has: has,
-    volumeOff: has && unit < BASE_UNIT,            /* 수량 구간 할인을 받았나 */
-    installWaived: has && install === 0,           /* 설치비를 면제받았나 */
-    unit: unit, rentMonthly: rentM, linkMonthly: linkM,
+    kbz_user: kbz, sites: sites, has: has,
+    qty: totalQty, unit: unit,
+    volumeOff:     has && unit < BASE_UNIT,
+    /* 한 현장이라도 면제받았으면 혜택을 받은 것이다 (섞인 경우 포함) */
+    installWaived: has && sites.some(function(st){ return st.ok && st.waived; }),
     rent: rent, link: link, install: install,
-    monthly: rentM + linkM, supply: supply, base: base,
+    monthly: monthly, supply: supply, base: has ? base : 0,
     vat: Math.round(supply * 0.1), total: supply + Math.round(supply * 0.1)
   };
 }
@@ -700,12 +775,22 @@ function render(){
          + '<span class="qty">' + how + '</span>'
          + '<span class="amt' + (free ? ' free' : '') + '">' + (free ? '무료' : won(amt)) + '</span></div>';
   }
+  var many = q.sites.length > 1;
   var rows = [];
   if (q.has){
-    rows.push(line('단말기 이용료', won(q.unit) + ' × ' + q.qty + '대 × ' + q.months + '개월', q.rent));
-    if (q.link) rows.push(line('시스템 연동비', won(LINK_FEE) + ' × ' + q.months + '개월', q.link));
-    /* 면제돼도 줄을 남긴다 — 원래 얼마짜리를 아꼈는지 보여야 한다 */
-    rows.push(line('설치비', won(INSTALL_FEE) + ' × ' + q.qty + '대', q.install, q.installWaived));
+    q.sites.forEach(function(st){
+      /* 현장이 여럿이면 어느 현장 몫인지 머리글로 끊어준다 */
+      if (many){
+        rows.push('<div class="q-sum-sub">현장 ' + st.no
+                + (st.region_name ? ' · ' + st.region_name : '') + '</div>');
+      }
+      rows.push(line(many ? '이용료' : '단말기 이용료',
+                     won(st.unit) + ' × ' + st.qty + '대 × ' + st.months + '개월', st.rent));
+      if (st.link) rows.push(line(many ? '연동비' : '시스템 연동비',
+                     won(LINK_FEE) + ' × ' + st.months + '개월', st.link));
+      /* 면제돼도 줄을 남긴다 — 원래 얼마짜리를 아꼈는지 보여야 한다 */
+      rows.push(line('설치비', won(INSTALL_FEE) + ' × ' + st.qty + '대', st.install, st.waived));
+    });
   }
   sumItems.innerHTML = rows.join('');
 
@@ -714,11 +799,17 @@ function render(){
   sumMid.classList.toggle('no-detail', !has);
   if (!has) sumMid.open = false;
 
-  document.getElementById('sumMonthsX').textContent = q.months;
-  document.getElementById('sumMonthly').textContent = won(q.monthly);
-  /* 설치비는 1회성이라 '월 × 개월'이 총액과 맞지 않는다. 그럴 땐 부제를 감추고
-     펼친 내역이 설명하게 둔다 */
-  document.getElementById('sumBasis').hidden = !!q.install;
+  /* 부제 — 현장이 하나이고 설치비도 없을 때만 '월 × 개월'이 총액과 맞는다.
+     그 밖에는 규모만 알려주고, 계산은 펼친 내역이 설명한다. */
+  var basis = document.getElementById('sumBasis');
+  if (has && !many && !q.install){
+    basis.innerHTML = '<span class="tnum">' + won(q.monthly) + '</span> × '
+                    + q.sites[0].months + '개월';
+  } else if (has){
+    basis.innerHTML = '단말기 ' + q.qty + '대 · 현장 ' + q.sites.length + '곳';
+  } else {
+    basis.innerHTML = '';
+  }
   /* 화면에 내세우는 금액은 공급가액 하나뿐이다. VAT는 각주로 안내한다 */
   document.getElementById('sumTotal').textContent = won(q.supply);
 
@@ -739,9 +830,10 @@ function render(){
   btnSubmit.disabled = !has;
   /* 버튼이 왜 막혀 있는지를 버튼 자신이 알려준다 (전송 중에는 건드리지 않는다) */
   if (!sending){
-    btnSubmit.textContent = q.months < 1 ? '기간을 입력해 주세요'
-                          : q.qty < 1    ? '수량을 입력해 주세요'
-                          :                '견적신청하기';
+    var gap = q.sites.filter(function(st){ return !st.ok; })[0];
+    btnSubmit.textContent = !gap                ? '견적신청하기'
+                          : gap.months < 1      ? '현장 ' + gap.no + '의 기간을 입력해 주세요'
+                          :                       '현장 ' + gap.no + '의 수량을 입력해 주세요';
   }
 }
 
@@ -761,8 +853,17 @@ function validate(q){
     return el;
   }
 
-  if (q.qty < 1) bad.push('단말기 수량');
-  if (q.months < 1){ bad.push('기간'); document.getElementById('fieldMonths').classList.add('is-err'); }
+  /* 현장은 저마다 기간·수량이 있어야 한다 */
+  q.sites.forEach(function(st){
+    if (st.months < 1){
+      bad.push('현장 ' + st.no + ' 기간');
+      st.el.querySelector('.field[data-f="months"]').classList.add('is-err');
+    }
+    if (st.qty < 1){
+      bad.push('현장 ' + st.no + ' 수량');
+      st.el.querySelector('.field[data-f="qty"]').classList.add('is-err');
+    }
+  });
 
   var biz = need('[name=biz_no]', '사업자등록번호');
   if (biz && biz.value.trim() && !validBizNo(biz.value)){
@@ -815,19 +916,25 @@ form.addEventListener('submit', function(e){
     applicant: {
       biz_no: digits(fd.get('biz_no')), manager: fd.get('manager'),
       phone: fd.get('phone'),     email:   fd.get('email'),
-      region:  fd.get('region'),
-      region_name: (document.getElementById('q-region').selectedOptions[0] || {}).text || '',
-      install_when: fd.get('install_when'),
-      install_when_name: (document.getElementById('q-start').selectedOptions[0] || {}).text || '',
       kbz_user: q.kbz_user,
       kbz_user_name: q.kbz_user === 'Y' ? '이용 중' : '이용 안 함'
     },
     quote: {
-      months: q.months,
-      device: { model: DEV.model, name: DEV.name, qty: q.qty, unit_monthly: q.unit },
-      rent_monthly: q.rentMonthly, rent: q.rent,
-      link_fee_monthly: q.linkMonthly, link_fee: q.link,
-      install_fee: q.install,
+      device: { model: DEV.model, name: DEV.name },
+      total_qty: q.qty,               /* 수량 할인 구간은 이 합계로 정해진다 */
+      unit_monthly: q.unit,
+      sites: q.sites.map(function(st){
+        return {
+          no: st.no,
+          region: st.region, region_name: st.region_name,
+          install_when: st.when, install_when_name: st.when_name,
+          months: st.months, qty: st.qty,
+          rent: st.rent, link_fee: st.link,
+          install_fee: st.install, install_waived: st.waived,
+          supply: st.supply
+        };
+      }),
+      rent: q.rent, link_fee: q.link, install_fee: q.install,
       monthly: q.monthly, base: q.base,
       supply: q.supply, vat: q.vat, total: q.total
     }
@@ -841,10 +948,11 @@ form.addEventListener('submit', function(e){
     document.getElementById('doneEmail').textContent = payload.applicant.email;
     document.getElementById('doneNo').textContent    = payload.receipt_no;
     document.getElementById('doneRecap').innerHTML =
-      '<div class="rl"><span>계약기간</span><span class="v">' + q.months + '개월</span></div>'
-      + '<div class="rl"><span>' + DEV.name + '</span><span class="v">' + q.qty + '대 · ' + won(q.rentMonthly) + '/월</span></div>'
-      + (q.link    ? '<div class="rl"><span>시스템 연동비</span><span class="v">' + won(q.linkMonthly) + '/월</span></div>' : '')
-      + '<div class="rl"><span>설치비</span><span class="v">' + (q.installWaived ? '무료' : won(q.install)) + '</span></div>'
+      '<div class="rl"><span>' + DEV.name + '</span><span class="v">' + q.qty + '대 · 대당 ' + won(q.unit) + '/월</span></div>'
+      + q.sites.map(function(st){
+          return '<div class="rl"><span>현장 ' + st.no + (st.region_name ? ' · ' + st.region_name : '')
+               + '</span><span class="v">' + st.qty + '대 · ' + st.months + '개월</span></div>';
+        }).join('')
       + '<div class="rl"><span>김반장</span><span class="v">' + payload.applicant.kbz_user_name + '</span></div>'
       + '<div class="rl tot"><span>총 예상 견적 <small>VAT 별도</small></span><span class="v">' + won(q.supply) + '</span></div>';
     form.hidden = true;
@@ -940,27 +1048,6 @@ form.addEventListener('change', function(e){
   if (v < min) el.value = min;
   if (v > max) el.value = max;
   render();
-});
-
-/* 수량 스테퍼 */
-document.querySelectorAll('.stepper').forEach(function(st){
-  var input = st.querySelector('input');
-  var dn = st.querySelector('[data-step="-1"]'), up = st.querySelector('[data-step="1"]');
-  function sync(){
-    var v = parseInt(input.value, 10) || 1;
-    dn.disabled = v <= 1;
-    up.disabled = v >= 999;
-  }
-  st.addEventListener('click', function(e){
-    var btn = e.target.closest('button[data-step]');
-    if (!btn) return;
-    var v = (parseInt(input.value, 10) || 1) + Number(btn.getAttribute('data-step'));
-    input.value = Math.min(999, Math.max(1, v));
-    input.dispatchEvent(new Event('input', { bubbles: true }));   /* 폼 input → 재계산 */
-    sync();
-  });
-  input.addEventListener('input', sync);
-  sync();
 });
 
 render();
