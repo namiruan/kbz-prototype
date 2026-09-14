@@ -119,6 +119,7 @@ body.quote-page{
 #quoteForm,.q-sum{min-width:0}
 .q-card{min-width:0;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
 .q-card + .q-card{margin-top:54px;padding-top:54px;border-top:1px solid var(--line)}
+.q-card.dev-banner{margin-top:36px;padding-top:0;border-top:0}
 .q-step{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;margin-bottom:22px}
 .q-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
 
@@ -178,7 +179,7 @@ body.quote-page{
    수량은 현장마다 다르므로 아래 현장 블록에서 받는다.
    사진은 왼쪽에 띄워 카드 높이를 그대로 채우고, 글자는 제 높이만큼만. */
 /* 퇴직공제 페이지의 "선택된 카드"와 같은 처리 — 옅은 틴트 + 1px 파란 테두리 */
-.dev-card{position:relative;display:flex;min-height:150px;margin-top:28px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-tint)}
+.dev-card{position:relative;display:flex;min-height:150px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-tint)}
 .dev-pick{position:relative;display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;padding:18px 24px 18px 200px;cursor:default}
 .dev-media{position:absolute;left:0;top:0;bottom:0;width:184px;overflow:hidden;border-radius:7px 0 0 7px}
 /* 제품컷은 흔히 아래가 잘린 채로 온다. 바닥에 붙여야 '잘린' 게 아니라
@@ -428,7 +429,18 @@ body.quote-page{
         </div>
       </div>
 
-      <!-- STEP 2 : 현장별 견적 조건 — 현장마다 기간·수량·지역·시기가 다르다 -->
+      <!-- STEP 2 : 단말기 — 고르는 UI가 아니므로 줄을 긋지 않고 배너로 둔다 -->
+      <div class="q-card dev-banner">
+        <div class="dev-card">
+          <div class="dev-pick">
+            <span class="dev-name">Ubio X Face Pro</span>
+            <span class="dev-desc">QR로 얼굴 1회 등록. 1초 인식으로 출퇴근·공수 기록.</span>
+            <span class="dev-media"><img src="images/face-reader/ubio-x-face-pro.png" alt="Ubio X Face Pro 안면인식 출퇴근관리 단말기" loading="lazy"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 : 현장별 견적 조건 — 현장마다 기간·수량·지역·시기가 다르다 -->
       <div class="q-card">
         <div class="q-step">
           <h2>현장별 견적 조건</h2>
@@ -439,15 +451,6 @@ body.quote-page{
         </div>
         <div id="siteList"></div>
 
-        <!-- 단말기 소개 — 고르는 UI가 아니므로 줄을 긋지 않고 배너로 붙인다 -->
-        <div class="dev-card">
-          <div class="dev-pick">
-            <span class="dev-name">Ubio X Face Pro</span>
-            <span class="dev-desc">QR로 얼굴 1회 등록. 1초 인식으로 출퇴근·공수 기록.</span>
-            <span class="dev-media"><img src="images/face-reader/ubio-x-face-pro.png" alt="Ubio X Face Pro 안면인식 출퇴근관리 단말기" loading="lazy"></span>
-          </div>
-        </div>
-
         <div class="q-err" id="formErr" role="alert"></div>
       </div>
 
@@ -455,11 +458,11 @@ body.quote-page{
       <div class="q-card q-notes">
         <div class="q-step"><h2>안내</h2></div>
         <ul>
-          <li>12개월 이상 설치비 지원은 최초 1회에 한하며 이전 설치는 제외됩니다.</li>
-          <li>수량 할인은 신청하신 현장 전체 대수를 합산해 적용합니다.</li>
-          <li>설치 위치와 네트워크 환경은 현장 협의 후 확정됩니다.</li>
-          <li>견적서 유효기간은 발행일로부터 14일입니다.</li>
-          <li>표시 금액은 VAT·통신비 별도이며 최종 금액은 담당자와 정확한 상담 후 확정됩니다.</li>
+          <li>안내된 금액은 참고용 예상 견적이며, 최종 금액은 담당자 상담 후 결정됩니다. (VAT 별도)</li>
+          <li>12개월 이상 계약 시, 최초 1회에 한해 설치비를 지원해 드립니다.</li>
+          <li>12개월 미만 계약 시, 첫 달 이용료와 설치비가 함께 합산 청구됩니다.</li>
+          <li>6대 이상 계약 시 추가 할인 혜택이 적용되오니, 자세한 사항은 문의해 주시기 바랍니다.</li>
+          <li>단말기 설치 위치 및 네트워크 환경은 현장 상황에 따라 달라질 수 있습니다.</li>
         </ul>
       </div>
     </form>
