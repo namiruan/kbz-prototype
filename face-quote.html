@@ -120,6 +120,8 @@ body.quote-page{
 .q-card{min-width:0;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
 .q-card + .q-card{margin-top:60px}
 .q-step{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;margin-bottom:22px}
+.q-step-t{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;min-width:0}
+@media(max-width:640px){.q-step-t{flex:1 1 100%}}
 .q-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
 
 /* =========================================================
@@ -416,8 +418,10 @@ body.quote-page{
       <!-- STEP 2 : 현장별 견적 조건 — 현장마다 기간·수량·지역·시기가 다르다 -->
       <div class="q-card">
         <div class="q-step">
-          <h2>현장별 견적 조건</h2>
-          <p class="f-hint" id="siteHint">12개월 이상은 설치비 무료!</p>
+          <div class="q-step-t">
+            <h2>현장별 견적 조건</h2>
+            <p class="f-hint" id="siteHint">12개월 이상은 설치비 무료!</p>
+          </div>
           <button type="button" class="site-add" id="btnAddSite">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>현장 추가
           </button>
