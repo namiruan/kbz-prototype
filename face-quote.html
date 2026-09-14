@@ -87,16 +87,15 @@ body.quote-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;poi
   background:radial-gradient(78% 108% at 100% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%) no-repeat}
 /* 같은 모서리에 둥둥 떠 있는 견적서 아이콘. 장식이므로 글자 뒤에 두고,
    파일이 없으면 배경이 비어 아무것도 그리지 않는다(화면은 그대로). */
-body.quote-page.is-done::after{content:"";position:fixed;right:44px;bottom:40px;
-  width:min(340px,42vw);height:min(340px,42vw);z-index:-1;pointer-events:none;
+body.quote-page.is-done::after{content:"";position:fixed;
+  right:clamp(8px,3vw,44px);bottom:clamp(18px,3vw,40px);
+  width:clamp(200px,52vw,360px);height:clamp(200px,52vw,360px);z-index:-1;pointer-events:none;
   background:url("images/done/quote-doc.png") center/contain no-repeat;
+  opacity:.45;
   animation:docFloat 5.5s ease-in-out infinite}
 @keyframes docFloat{
   0%,100%{transform:translate3d(0,0,0) rotate(0deg)}
   50%    {transform:translate3d(0,-15px,0) rotate(-3.5deg)}
-}
-@media(max-width:640px){
-  body.quote-page.is-done::after{right:8px;bottom:18px;width:min(230px,54vw);height:min(230px,54vw)}
 }
 @media(prefers-reduced-motion:reduce){
   body.quote-page.is-done::after{animation:none}
