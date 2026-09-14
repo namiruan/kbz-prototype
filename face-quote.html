@@ -1103,6 +1103,33 @@ form.addEventListener('change', function(e){
 });
 
 render();
+
+/* ── 프로토타입 미리보기 ────────────────────────────────────────────
+   ?done=1 로 열면 예시값을 채우고 제출까지 진행해 완료 화면을 바로 본다.
+   화면 하나 확인하자고 폼을 매번 채울 이유가 없다. 프로토타입 전용이며
+   실제 연동 시에는 이 블록을 지운다. */
+if (/(^|[?&])done=1(&|$)/.test(location.search)) (function(){
+  function set(sel, v){
+    var el = document.querySelector(sel);
+    if (!el) return;
+    el.value = v;
+    el.dispatchEvent(new Event('input',  { bubbles:true }));
+    el.dispatchEvent(new Event('change', { bubbles:true }));
+  }
+  function tick(sel){
+    var el = document.querySelector(sel);
+    if (!el) return;
+    el.checked = true;
+    el.dispatchEvent(new Event('change', { bubbles:true }));
+  }
+  set('input.s-qty', '6');
+  set('#q-biz', '220-81-62517');
+  set('#q-manager', '김현장');
+  set('#q-phone', '010-1234-5678');
+  set('#q-email', 'test@example.com');
+  tick('#agree');
+  document.getElementById('btnSubmit').click();
+})();
 </script>
 </body>
 </html>
