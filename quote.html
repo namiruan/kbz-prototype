@@ -337,15 +337,9 @@ body.quote-page{
    왼쪽 기준선에 맞춰 놓는다. */
 .q-done{display:none;padding:0}
 .q-done.on{display:block;grid-column:1 / -1;width:100%;max-width:520px;margin:0;padding:8px 0 0}
-.q-done p{font-size:14.5px;color:var(--ink-2);line-height:1.72;margin:0;word-break:keep-all}
+.q-done p{font-size:16px;color:var(--ink-2);line-height:1.7;margin:0;word-break:keep-all}
 .q-done p b{color:var(--ink);font-weight:700}
-.q-done .rcpt{display:inline-flex;align-items:center;gap:9px;margin-top:20px;padding:0;border:0;border-radius:0;background:none;font-size:12.5px;font-weight:600;color:var(--ink)}
-.q-done .rcpt .k{color:var(--ink-3);font-weight:600}
-.q-done .rcpt .v{font-variant-numeric:tabular-nums;letter-spacing:.01em}
 .q-done .acts{display:flex;gap:8px;margin-top:28px;flex-wrap:wrap}
-.q-done-recap{margin:24px 0 0;max-width:100%;border:1px solid var(--line);border-radius:8px;background:var(--fill);padding:16px 18px}
-.q-done-recap .rl{display:flex;align-items:baseline;gap:10px;font-size:13px;color:var(--ink-2);padding:4px 0}
-.q-done-recap .rl .v{margin-left:auto;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;text-align:right}
 
 /* 에러 */
 /* 무엇이 잘못됐는지는 그 칸 바로 아래에서 말한다.
@@ -494,8 +488,6 @@ body.quote-page{
     <!-- 완료 화면 -->
     <div class="q-card q-done" id="doneCard" role="status">
       <p><b id="doneEmail">—</b> 으로 견적서를 발송했습니다.<br>메일이 보이지 않으면 스팸함을 확인해 주세요.<br>담당 컨설턴트가 영업일 기준 1일 내 연락드립니다.</p>
-      <div class="rcpt"><span class="k">접수번호</span><span class="v" id="doneNo">—</span></div>
-      <div class="q-done-recap" id="doneRecap"></div>
       <div class="acts">
         <button type="button" class="banner-btn" id="btnAgain">다시 신청하기</button>
         <a class="banner-btn sec" href="index.html">메인으로</a>
@@ -871,12 +863,6 @@ form.addEventListener('submit', function(e){
 
   function done(){
     document.getElementById('doneEmail').textContent = payload.applicant.email;
-    document.getElementById('doneNo').textContent    = payload.receipt_no;
-    document.getElementById('doneRecap').innerHTML =
-      '<div class="rl"><span>계약기간</span><span class="v">' + q.months + '개월</span></div>'
-      + q.items.map(function(it){
-          return '<div class="rl"><span>' + it.name + '</span><span class="v">' + it.qty + '대 · ' + won(it.monthly) + '/월</span></div>';
-        }).join('');
     form.hidden = true;
     document.getElementById('sumPane').style.display = 'none';
     heroLine.textContent = HERO_DONE;
