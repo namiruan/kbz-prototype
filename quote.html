@@ -93,7 +93,8 @@ body.quote-page{
   --field-line:#6D7882;   /* 라이브 폼 테두리 */
   --field-ink:#33363D;    /* 라이브 폼 입력 텍스트 */
   --field-label:#131416;  /* 라이브 폼 라벨 (= 3.0 --ds-text-body) */
-  background:var(--main-white);
+  background:var(--grad-radi-sky-bottom) no-repeat,var(--main-white);
+  min-height:100vh;
   color:var(--ink);
   letter-spacing:-.012em;
 }
@@ -113,6 +114,7 @@ body.quote-page{
 
 /* ===== 본문 2단 ===== */
 .q-main{padding:56px 0 128px}
+body.is-done .q-main{padding-bottom:72px}
 .q-main .inner{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:26px 64px;align-items:start}
 @media(max-width:1024px){.q-main .inner{grid-template-columns:minmax(0,1fr)}.q-main{padding:40px 0 72px}}
 
@@ -865,6 +867,7 @@ form.addEventListener('submit', function(e){
     document.getElementById('doneEmail').textContent = payload.applicant.email;
     form.hidden = true;
     document.getElementById('sumPane').style.display = 'none';
+    document.body.classList.add('is-done');
     heroLine.textContent = HERO_DONE;
     heroLine.classList.add('sent');
     document.getElementById('doneCard').classList.add('on');
@@ -895,6 +898,7 @@ document.getElementById('btnAgain').addEventListener('click', function(){
   sending = false;
   form.reset();
   form.hidden = false;
+  document.body.classList.remove('is-done');
   heroLine.textContent = HERO_ASK;
   heroLine.classList.remove('sent');
   document.getElementById('doneCard').classList.remove('on');
