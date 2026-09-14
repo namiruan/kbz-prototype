@@ -398,38 +398,7 @@ body.quote-page{
         </div>
       </div>
 
-      <!-- STEP 2 : 견적 조건 — 임대 기간이 정해져야 단말기별 월 임대료가 결정된다 -->
-      <div class="q-card">
-        <div class="q-step">
-          <h2>견적 조건</h2>
-          <p class="f-hint" id="hintMonths">대여기간이 길수록 할인폭이 커져요!</p>
-        </div>
-        <div class="f-grid cols3">
-          <div class="f-item grow">
-            <label class="f-label" for="months">기간<span class="f-req">(필수)</span></label>
-            <div class="field" id="fieldMonths">
-              <input id="months" type="number" name="months" min="1" max="60" step="1" value="12" inputmode="numeric" aria-describedby="hintMonths">
-              <span class="f-unit">개월</span>
-            </div>
-          </div>
-          <div class="f-item grow">
-            <label class="f-label" for="q-region">현장 지역</label>
-            <div class="field">
-              <select id="q-region" name="region"></select>
-              <span class="f-caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-            </div>
-          </div>
-          <div class="f-item grow">
-            <label class="f-label" for="q-start">희망 설치 시기</label>
-            <div class="field">
-              <select id="q-start" name="install_when"></select>
-              <span class="f-caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 3 : 단말기 선택 -->
+      <!-- STEP 2 : 단말기 선택 -->
       <div class="q-card">
         <div class="q-step"><h2>단말기 선택</h2></div>
         <div id="devList" class="dev-grid">
@@ -487,6 +456,37 @@ body.quote-page{
 
 
         <div class="q-err" id="formErr" role="alert"></div>
+      </div>
+
+      <!-- STEP 3 : 견적 조건 — 고른 단말기의 월 임대료는 기간에 따라 정해진다 -->
+      <div class="q-card">
+        <div class="q-step">
+          <h2>견적 조건</h2>
+          <p class="f-hint" id="hintMonths">대여기간이 길수록 할인폭이 커져요!</p>
+        </div>
+        <div class="f-grid cols3">
+          <div class="f-item grow">
+            <label class="f-label" for="months">기간<span class="f-req">(필수)</span></label>
+            <div class="field" id="fieldMonths">
+              <input id="months" type="number" name="months" min="1" max="60" step="1" value="12" inputmode="numeric" aria-describedby="hintMonths">
+              <span class="f-unit">개월</span>
+            </div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-region">현장 지역</label>
+            <div class="field">
+              <select id="q-region" name="region"></select>
+              <span class="f-caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-start">희망 설치 시기</label>
+            <div class="field">
+              <select id="q-start" name="install_when"></select>
+              <span class="f-caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- 안내 -->
