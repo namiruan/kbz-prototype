@@ -144,10 +144,10 @@ body.quote-page{
    꼬리는 아래를 향해 바로 밑의 입력칸을 가리킨다. */
 .f-hint{position:absolute;right:0;top:11px;transform:translateY(-50%);z-index:2;max-width:calc(100% - 86px);padding:9px 10px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.55;letter-spacing:-.01em;word-break:keep-all}
 .f-hint::before{content:"";position:absolute;right:16px;bottom:-3px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
-/* 섹션 제목 옆에 둘 때는 띄우지 않는다. 아래 현장 카드들을 가리키는 꼬리만 남긴다.
-   현장마다 같은 말이라 블록마다 되풀이할 이유가 없다. */
+/* 섹션 제목 옆에 둘 때는 띄우지 않는다. 현장마다 같은 말이라 블록마다
+   되풀이할 이유가 없다. 꼬리는 왼쪽을 향해 제목을 가리킨다. */
 .q-step .f-hint{position:relative;right:auto;top:auto;transform:none;max-width:100%;margin:0}
-.q-step .f-hint::before{right:auto;left:16px;top:auto;bottom:-3px}
+.q-step .f-hint::before{right:auto;bottom:auto;left:-3px;top:50%;margin-top:-4px}
 /* 라벨 옆에 한 줄로 들어갈 자리가 없으면 입력칸 아래로 내린다.
    3열로 놓이는 넓은 화면(641px~)에서는 칸이 가로로 나란하므로 아래로 흘러도
    간격이 흐트러지지 않고, 360px 미만에서는 겹치는 것보다 낫다. */
@@ -177,7 +177,8 @@ body.quote-page{
    기종이 Ubio X Face Pro 하나뿐이라 고르는 UI가 아니라 소개 카드다.
    수량은 현장마다 다르므로 아래 현장 블록에서 받는다.
    사진은 왼쪽에 띄워 카드 높이를 그대로 채우고, 글자는 제 높이만큼만. */
-.dev-card{position:relative;display:flex;min-height:150px;margin-top:28px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-tint);box-shadow:0 0 0 1px var(--accent)}
+/* 퇴직공제 페이지의 "선택된 카드"와 같은 처리 — 옅은 틴트 + 1px 파란 테두리 */
+.dev-card{position:relative;display:flex;min-height:150px;margin-top:28px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-tint)}
 .dev-pick{position:relative;display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;padding:18px 24px 18px 200px;cursor:default}
 .dev-media{position:absolute;left:0;top:0;bottom:0;width:184px;overflow:hidden;border-radius:7px 0 0 7px}
 /* 제품컷은 흔히 아래가 잘린 채로 온다. 바닥에 붙여야 '잘린' 게 아니라
@@ -451,8 +452,8 @@ body.quote-page{
       <div class="q-card q-notes">
         <div class="q-step"><h2>안내</h2></div>
         <ul>
-          <li>12개월 이상 설치비 지원은 최초 1회에 한하며 이전 설치는 제외됩니다. 12개월 미만 계약의 설치비는 첫 달 이용료와 함께 청구됩니다.</li>
-          <li>수량 할인은 신청하신 현장 전체 대수를 합산해 적용합니다. 자회사 등 같은 사업주의 다른 현장이 있으면 담당자에게 알려주세요.</li>
+          <li>12개월 이상 설치비 지원은 최초 1회에 한하며 이전 설치는 제외됩니다.</li>
+          <li>수량 할인은 신청하신 현장 전체 대수를 합산해 적용합니다.</li>
           <li>설치 위치와 네트워크 환경은 현장 협의 후 확정됩니다.</li>
           <li>견적서 유효기간은 발행일로부터 14일입니다.</li>
         </ul>

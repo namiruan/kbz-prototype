@@ -181,10 +181,9 @@ body.quote-page{
    사진은 늘 카드 바닥에 붙는다(.dev-desc의 margin-bottom:auto). */
 .dev-pick{position:relative;display:flex;flex-direction:column;flex:1;padding:14px 16px 0;cursor:pointer}
 .dev-pick input{position:absolute;opacity:0;width:0;height:0}
-/* 체크 표시 없이 카드 자체로 선택을 알린다. 색만으로 구분되지 않도록 테두리를
-   두 겹으로 겹쳐 굵기까지 달라지게 했다(레이아웃은 밀리지 않는다).
-   선택 시 수량 입력이 나타나는 것도 색과 무관한 단서다. */
-.dev-card.is-on{box-shadow:0 0 0 1px var(--accent)}
+/* 체크 표시 없이 카드 자체로 선택을 알린다. 색과 무관한 단서는 고른 순간
+   나타나는 수량 스테퍼가 맡는다. 테두리를 두 겹으로 겹쳤더니 굵고 둔해 보여
+   한 겹으로 되돌렸다. */
 /* 체크 표시가 없어졌으니 키보드 포커스는 카드에 표시한다 */
 .dev-card:has(.dev-pick input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
 /* 사진 자리 — 배경을 비워 선택 시 카드 틴트가 그대로 비치게 한다 */
