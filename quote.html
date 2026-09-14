@@ -177,7 +177,9 @@ body.quote-page{
 .dev-card{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:var(--main-white);transition:border-color .15s,background .15s}
 .dev-card:hover{border-color:#C6CBD1}
 .dev-card.is-on{border-color:var(--accent);background:var(--accent-tint)}
-.dev-pick{position:relative;display:block;flex:1;padding:14px 16px 0;cursor:pointer}
+/* 세로 flex — 설명 줄 수가 적어도 남는 공간을 글자와 사진 사이가 흡수해
+   사진은 늘 카드 바닥에 붙는다(.dev-desc의 margin-bottom:auto). */
+.dev-pick{position:relative;display:flex;flex-direction:column;flex:1;padding:14px 16px 0;cursor:pointer}
 .dev-pick input{position:absolute;opacity:0;width:0;height:0}
 /* 체크 표시 없이 카드 자체로 선택을 알린다. 색만으로 구분되지 않도록 테두리를
    두 겹으로 겹쳐 굵기까지 달라지게 했다(레이아웃은 밀리지 않는다).
@@ -192,7 +194,7 @@ body.quote-page{
 .dev-media{display:block;width:calc(100% + 32px);height:112px;margin:12px -16px 0;border-radius:0 0 7px 7px;overflow:hidden}
 .dev-media img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block}
 .dev-name{display:block;font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
-.dev-desc{display:block;margin-top:3px;font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
+.dev-desc{display:block;margin:3px 0 auto;font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
 /* 사진 위 우측 하단에 띄운다 — 골라도 카드 높이가 변하지 않는다.
    사진은 오른쪽 아래 모서리를 비워두는 편이 좋다(README 참고) */
 .dev-qty{display:none;position:absolute;bottom:10px;right:10px;z-index:2}
@@ -219,7 +221,7 @@ body.quote-page{
      띄워 두면 카드 높이를 그대로 채우고, 글자는 제 높이만큼만 차지한다. */
   .dev-pick{position:relative;display:flex;flex-direction:column;justify-content:center;padding:12px 80px 12px 134px}
   .dev-media{position:absolute;left:0;top:0;bottom:0;width:124px;height:auto;margin:0;border-radius:7px 0 0 7px}
-  .dev-desc{margin-top:3px}
+  .dev-desc{margin:3px 0 0}
   .dev-qty{top:50%;bottom:auto;right:8px;transform:translateY(-50%)}
   .stepper{height:28px}
   .stepper button{width:22px}
