@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>안면인식 출퇴근관리 단말기 견적신청 · 김반장</title>
+<meta name="description" content="안면인식 출퇴근관리 단말기(Ubio X Face Pro) 임대 견적을 기간·수량 입력만으로 즉시 계산하고, 견적서를 이메일로 받아보세요.">
+<!-- 라이브(kbz.co.kr) 폰트: 본문/CTA=Wanted Sans, 타이틀=SUITE -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUITE/fonts/variable/woff2/SUITEVariable.css">
+<style>
+/* =========================================================
+   kbz.co.kr 라이브 CSS 토큰 그대로 이식 (common.css :root)
+   ========================================================= */
+:root{
+  --header-height:70px;
+  --color-white-rgb:255,255,255;
+  --color-gray-rgb:230,232,234;   /* #E6E8EA */
+  --color-black-rgb:19,20,22;     /* #131416 */
+  --color-blue-rgb:17,90,198;     /* #115AC6 */
+  --color-navy-rgb:14,59,99;      /* #0E3B63 */
+  --color-w-gray-rgb:244,245,246; /* #F4F5F6 */
+  --color-d-gray-rgb:109,120,130; /* #6D7882 */
+  --color-d-blue-rgb:17,71,151;   /* #114797 */
+  --color-cyan-rgb:27,159,226;    /* #1B9FE2 */
+  --color-p-blue-rgb:220,232,249; /* #DCE8F9 */
+  --color-p-cyan-rgb:183,225,245; /* #B7E1F5 */
+  --color-sky-rgb:220,238,255;    /* #DCEEFF */
+  --color-lake-rgb:138,218,255;   /* #8ADAFF */
+
+  --main-white:rgba(var(--color-white-rgb),1);
+  --main-gray:rgba(var(--color-gray-rgb),1);
+  --main-black:rgba(var(--color-black-rgb),1);
+  --main-blue:rgba(var(--color-blue-rgb),1);
+  --main-navy:rgba(var(--color-navy-rgb),1);
+  --sub-w-gray:rgba(var(--color-w-gray-rgb),1);
+  --sub-d-gray:rgba(var(--color-d-gray-rgb),1);
+  --sub-d-blue:rgba(var(--color-d-blue-rgb),1);
+  --sub-cyan:rgba(var(--color-cyan-rgb),1);
+  --pastel-blue:rgba(var(--color-p-blue-rgb),1);
+  --pastel-cyan:rgba(var(--color-p-cyan-rgb),1);
+  --sky:rgba(var(--color-sky-rgb),1);
+  --lake:rgba(var(--color-lake-rgb),1);
+  --transparent-black-60:rgba(var(--color-black-rgb),0.6);
+  --transparent-black-10:rgba(var(--color-black-rgb),0.1);
+  --btn-blue:#387eff;
+
+  /* 라이브 폰트 스택: 본문/CTA=Wanted Sans, 타이틀=SUITE, 폴백=Apple SD Gothic Neo */
+  --font-body:"Wanted Sans Variable","Wanted Sans","Apple SD Gothic Neo",sans-serif;
+  --font-title:"SUITE Variable","SUITE","Apple SD Gothic Neo",sans-serif;
+
+  /* 라이브 radial-sky 그라디언트 */
+  --grad-radi-sky-top:radial-gradient(66.24% 130.23% at 51.11% -20.35%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%);
+  --grad-radi-sky-bottom:radial-gradient(49.14% 96.61% at 51.11% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}/* iOS Safari 텍스트 자동확대(boosting) 차단: 블록 폭에 따라 폰트를 임의로 키워 figline 등 간격이 벌어지던 문제 방지 */
+body{font-family:var(--font-body);color:var(--main-black);background:#FBFBFB;line-height:1.62;-webkit-font-smoothing:antialiased;cursor:default}
+h1,h2,h3,h4{font-family:var(--font-title);line-height:1.24;letter-spacing:-0.03em;font-weight:800}
+a{color:inherit;text-decoration:none}
+.tnum{font-variant-numeric:tabular-nums}
+.inner{max-width:1120px;margin:0 auto;padding:0 30px;width:100%}
+
+
+/* ===== 라이브 버튼 · 공통 타이포 (index.html과 동일 토큰) ===== */
+.acts{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:30px}
+
+/* ===== 공통 타이포 ===== */
+.title-lg{font-family:var(--font-title);font-size:38px;color:var(--main-black);letter-spacing:-.035em}
+.title-md{font-family:var(--font-title);font-size:30px;color:var(--main-black);letter-spacing:-.03em}
+.center{text-align:center}
+
+
+
+
+/* =========================================================
+   견적신청 페이지 전용
+   ---------------------------------------------------------
+   여백과 타이포로 구조를 만들고, 색은 '선택된 것'과 CTA에만 쓴다.
+   박스·그림자·그라디언트·알약 버튼을 걷어내고 헤어라인과 위계로 대체.
+   ========================================================= */
+body.quote-page{
+  --ink:#0C0D0F;          /* 본문 */
+  --ink-2:#5C636C;        /* 보조 */
+  --ink-3:#6F767E;        /* 라벨·설명 (흰 배경 대비 4.6:1) */
+  --ink-4:#A7ADB4;        /* 장식용 — 플레이스홀더·아이콘·구분자 */
+  --line:#E8EAED;         /* 헤어라인 */
+  --line-soft:#F0F1F3;    /* 더 옅은 구분선 */
+  --fill:#F7F8F9;         /* 영수증 패널 */
+  --accent:var(--main-blue);
+  --accent-tint:rgba(var(--color-blue-rgb),.06);
+  --danger:#D93F45;
+  --field-line:#6D7882;   /* 라이브 폼 테두리 */
+  --field-ink:#33363D;    /* 라이브 폼 입력 텍스트 */
+  --field-label:#131416;  /* 라이브 폼 라벨 (= 3.0 --ds-text-body) */
+  background:var(--main-white);
+  color:var(--ink);
+  letter-spacing:-.012em;
+}
+.quote-page .inner{max-width:1060px}
+
+/* ===== 페이지 머리 ===== */
+.q-hero{padding:44px 0 34px;border-bottom:1px solid var(--line)}
+.q-hero .inner{display:block}                     /* 브로슈어 인물 컷을 빼고 타이포로 연다 */
+.q-hero h1{line-height:1.14;word-break:keep-all}
+/* 모달 안에서는 제목 오른쪽 위에 부모의 닫기 버튼이 뜬다. 첫 줄이 닿지 않게 비워둔다. */
+.is-embedded .q-hero h1{padding-right:56px}
+/* 좁은 폭에선 데스크톱용 줄바꿈이 '단말기'만 남는 고아 줄을 만든다 → 자연스럽게 흐르게 */
+/* 좁은 폭에서도 '…단말기' 다음에서 줄을 바꾼다. 크기를 고정하면 첫 줄이
+   한 번 더 접혀 '단말기'만 남는 줄이 생기므로, 폭에 따라 줄어들게 한다. */
+@media(max-width:640px){.q-hero{padding:30px 0 24px}.q-hero h1{font-size:clamp(20px,7vw,31px)}}
+
+/* ===== 본문 2단 ===== */
+.q-main{padding:56px 0 128px}
+.q-main .inner{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:26px 64px;align-items:start}
+@media(max-width:1024px){.q-main .inner{grid-template-columns:minmax(0,1fr)}.q-main{padding:40px 0 72px}}
+
+/* ===== 섹션 (박스 없음 · 헤어라인으로 구분) ===== */
+#quoteForm,.q-sum{min-width:0}
+.q-card{min-width:0;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
+.q-card + .q-card{margin-top:54px;padding-top:54px;border-top:1px solid var(--line)}
+.q-step{margin-bottom:22px}
+.q-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
+
+/* =========================================================
+   입력 필드 — kbz.co.kr 라이브 폼 규격 (라이브 사이트 계산값)
+   필드 : 높이 54 · radius 4 · 테두리 1px #6D7882 · 본문 16px/400 #33363D
+   라벨 : 필드 위 · 16px/400 · #131416 · line-height 1.4 · 자간 -0.36px
+   필수 : 빨간 별표가 아니라 파란 (필수). 안내는 placeholder로.
+   ========================================================= */
+.f-grid{display:flex;flex-wrap:wrap;gap:28px 12px}
+.f-item{position:relative;display:flex;flex-direction:column;gap:12px;min-width:0}
+.f-item.grow{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
+@media(max-width:640px){.f-item.grow{flex-basis:100%;max-width:100%}}
+/* 견적 조건은 가로 3열 (좁은 화면에서는 세로 1열) */
+.f-grid.cols3 .f-item{flex:1 1 0;min-width:0;max-width:none}
+@media(max-width:640px){.f-grid.cols3{flex-wrap:wrap}.f-grid.cols3 .f-item{flex-basis:100%}}
+.f-item.full{width:100%}
+.f-label{display:flex;align-items:baseline;gap:4px;font-size:16px;font-weight:400;color:var(--field-label);letter-spacing:-.36px;line-height:1.4}
+.f-req{color:var(--main-blue);font-weight:400;line-height:inherit}
+/* 상시 말풍선 — 열고 닫는 툴팁이 아니라 늘 떠 있는 안내.
+   흐름에서 빼내 라벨 줄 오른쪽에 띄운다. 그래야 이 칸만 키가 커지지 않고
+   입력칸끼리의 위아래 간격이 다른 칸과 똑같이 유지된다.
+   꼬리는 아래를 향해 바로 밑의 입력칸을 가리킨다. */
+.f-hint{position:absolute;right:0;top:11px;transform:translateY(-50%);z-index:2;max-width:calc(100% - 86px);padding:9px 10px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.55;letter-spacing:-.01em;word-break:keep-all}
+.f-hint::before{content:"";position:absolute;right:16px;bottom:-3px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
+/* 라벨 옆에 한 줄로 들어갈 자리가 없으면 입력칸 아래로 내린다.
+   3열로 놓이는 넓은 화면(641px~)에서는 칸이 가로로 나란하므로 아래로 흘러도
+   간격이 흐트러지지 않고, 360px 미만에서는 겹치는 것보다 낫다. */
+@media(min-width:641px),(max-width:359px){
+  .f-hint{position:relative;right:auto;top:auto;transform:none;max-width:100%;margin-top:-3px;padding:9px 12px;align-self:start}
+  .f-hint::before{right:auto;left:14px;bottom:auto;top:-3px}
+}
+.field{display:flex;align-items:center;gap:8px;height:54px;padding:0 12px;background:var(--main-white);border:1px solid var(--field-line);border-radius:4px;transition:border-color .15s,box-shadow .15s}
+.field:hover{border-color:#525C66}
+/* 라이브 폼은 포커스 시 아무 변화가 없다. 키보드 사용자가 위치를 잃지 않도록
+   같은 색 계열에서 테두리만 진하게 + 옅은 링을 더했다. */
+.field:focus-within{border-color:var(--field-ink);box-shadow:0 0 0 3px rgba(51,54,61,.09)}
+.field.is-err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(217,63,69,.09)}
+.field input,.field select{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;font-weight:400;color:var(--field-ink);letter-spacing:-.01em}
+.field input,.field select{height:100%}
+.field select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:2px}
+.field select.is-empty{color:var(--field-line)}
+.f-caret{flex:none;display:flex;align-items:center;color:var(--ink-3);pointer-events:none}
+.f-caret svg{width:15px;height:15px;display:block}
+.field input::placeholder{color:var(--field-line)}
+.field input[type=number]{text-align:right;-moz-appearance:textfield;font-variant-numeric:tabular-nums}
+.field input[type=number]::-webkit-outer-spin-button,.field input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.f-unit{flex:none;font-size:15px;font-weight:400;color:var(--field-ink)}
+
+
+/* ===== 단말기 카드 (1종) =====
+   기종이 Ubio X Face Pro 하나뿐이라 고르고 말고가 없다. 늘 켜져 있는
+   가로형 카드 한 장에서 수량만 맞춘다. 사진은 왼쪽에 띄워 카드 높이를
+   그대로 채우고, 글자는 제 높이만큼만 차지한다. */
+.dev-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.dev-card{position:relative;display:flex;min-height:150px;border:1px solid var(--line);border-radius:8px;background:var(--main-white)}
+.dev-pick{position:relative;display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;padding:18px 125px 18px 200px;cursor:default}
+.dev-media{position:absolute;left:0;top:0;bottom:0;width:184px;overflow:hidden;border-radius:7px 0 0 7px}
+/* 제품컷은 흔히 아래가 잘린 채로 온다. 바닥에 붙여야 '잘린' 게 아니라
+   '놓여 있는' 것으로 읽힌다. */
+.dev-media img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block}
+.dev-name{display:block;font-size:17px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.3}
+.dev-desc{display:block;margin-top:6px;font-size:13px;font-weight:500;color:var(--ink-3);line-height:1.6;word-break:keep-all}
+.dev-qty{position:absolute;top:50%;right:16px;transform:translateY(-50%);z-index:2}
+/* 수량 스테퍼 — 대부분 몇 대 수준이라 전체 폭 입력칸 대신 눌러서 맞추는 컨트롤 */
+.stepper{display:inline-flex;align-items:center;height:34px;background:var(--main-white);border:1px solid var(--line);border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(12,13,15,.12);transition:border-color .15s}
+.stepper:focus-within{border-color:var(--field-ink)}
+.stepper button{width:30px;height:100%;display:flex;align-items:center;justify-content:center;padding:0;border:0;background:none;color:var(--ink-2);font-size:15px;line-height:1;cursor:pointer;transition:background .15s,color .15s}
+.stepper button:hover:not(:disabled){background:var(--fill);color:var(--ink)}
+.stepper button:disabled{color:#CDD2D8;cursor:default}
+.stepper button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.stepper input{width:38px;height:100%;padding:0;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);background:none;outline:0;font:inherit;font-size:14px;font-weight:700;color:var(--field-ink);text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+@media(max-width:640px){
+  .dev-card{min-height:0}
+  .dev-pick{padding:12px 89px 12px 114px}
+  .dev-media{width:104px}
+  .dev-name{font-size:15px}
+  .dev-desc{margin-top:3px;font-size:12.5px;line-height:1.55}
+  .dev-qty{right:8px}
+  .stepper{height:28px}
+  .stepper button{width:22px}
+  .stepper input{width:26px}
+}
+
+/* ===== 김반장 이용 여부 — 둘 중 하나를 고르는 칸 =====
+   입력칸과 같은 높이·테두리로 맞춰 한 줄로 읽히게 한다. */
+.f-seg{display:flex;gap:8px}
+.f-seg label{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;height:54px;padding:0 12px;border:1px solid var(--field-line);border-radius:4px;background:var(--main-white);font-size:16px;font-weight:400;color:var(--field-ink);letter-spacing:-.01em;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+.f-seg input{position:absolute;opacity:0;width:0;height:0}
+.f-seg label:hover{border-color:#525C66}
+/* 색만으로 구분되지 않도록 테두리를 두 겹으로 겹쳐 굵기까지 달라지게 했다 */
+.f-seg label:has(input:checked){border-color:var(--accent);background:var(--accent-tint);color:var(--accent);font-weight:700;box-shadow:0 0 0 1px var(--accent)}
+.f-seg label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+/* 3열 줄 안에서 이 항목만 한 줄을 다 쓴다 */
+.f-grid.cols3 .f-item.full{flex-basis:100%}
+
+/* ===== 안내 사항 ===== */
+.q-notes ul{display:flex;flex-direction:column;gap:7px;list-style:none}
+.q-notes li{position:relative;padding-left:13px;font-size:13px;font-weight:500;color:var(--ink-2);line-height:1.6;word-break:keep-all}
+.q-notes li::before{content:"";position:absolute;left:2px;top:9px;width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
+
+/* ===== 견적 요약 (영수증) ===== */
+/* 요약 패널은 스크롤되는 조상(모달 본문이든 페이지든)에 붙어 따라온다.
+   기본값은 모달 기준 20px. 고정 헤더 아래에 넣을 때는 삽입하는 쪽에서
+   --q-sticky-top을 헤더 높이 + 여백으로 덮어쓰면 된다. */
+.q-sum{position:sticky;top:var(--q-sticky-top,20px)}
+.q-sum-card{background:var(--fill);border:1px solid var(--line);border-radius:8px;padding:22px 20px;color:var(--ink);box-shadow:none}
+/* 단가·소계는 계산 내역 안에 둔다. 무엇을 몇 대 골랐는지는 단말기 카드가 보여준다 */
+#sumItems{padding-top:2px}
+#sumItems .nm{font-weight:600;color:var(--ink)}
+.q-sum-line{display:flex;align-items:baseline;gap:8px;font-size:13.5px;padding:5px 0;color:var(--ink-2)}
+.q-sum-line .nm{font-weight:600;color:var(--ink)}
+.q-sum-line .qty{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.q-sum-line .amt{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
+/* 총액 줄이 곧 토글이다. 펼치면 그 금액이 어떻게 나왔는지 아래에 붙는다.
+   (할인 전 줄에 달지 않은 이유: 펼쳐지는 월 합계·공급가액·부가세는 할인 후
+    금액이라 '할인 전' 아래에 놓이면 합이 맞지 않는다) */
+.q-sum-fold > summary{list-style:none;cursor:pointer;user-select:none}
+.q-sum-fold > summary::-webkit-details-marker{display:none}
+.q-sum-fold > summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.q-sum-total .lb-t{display:inline-flex;align-items:center;gap:3px}
+.q-sum-fold .caret{flex:none;width:14px;height:14px;color:var(--ink-3);transition:transform .15s,color .15s}
+.q-sum-fold > summary:hover .caret{color:var(--ink)}
+.q-sum-fold[open] .caret{transform:rotate(180deg);color:var(--ink)}
+/* 고른 단말기가 없으면 펼칠 내용이 없으므로 토글을 끈다 */
+.q-sum-fold.no-detail > summary{cursor:default;pointer-events:none}
+.q-sum-fold.no-detail .caret,.q-sum-fold.no-detail .basis{display:none}
+.q-sum-mid-body{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.q-sum-mid-body .q-sum-line{font-size:13px}
+.q-sum-mid-body .q-sum-line .nm{font-weight:500;color:var(--ink-2)}
+.q-sum-mid-body .q-sum-line .amt{font-weight:600;color:var(--ink-2)}
+.q-sum-total{display:flex;align-items:flex-end;gap:10px}
+.q-sum-total .lb{font-size:13px;font-weight:600;color:var(--ink-2);line-height:1.4}
+.q-sum-total .lb small{display:block;font-size:11.5px;font-weight:500;color:var(--ink-3)}
+.q-sum-total .vv{margin-left:auto;font-family:var(--font-title);font-size:31px;font-weight:800;letter-spacing:-.05em;line-height:1.05;color:var(--ink);white-space:nowrap}
+/* 할인 블록 — 기간이 1개월을 넘어 실제 할인이 붙을 때만 나온다 */
+/* 할인이 보일 때는 할인 전 → 할인율 → 총액이 한 덩어리로 읽히도록 사이 구분선을 뺀다.
+   할인이 없을 때는 총액이 부가세 줄에 바로 붙지 않도록 원래 구분선을 그대로 쓴다. */
+/* 할인 블록이 보일 때만 총액을 그만큼 띄운다 */
+.q-sum-note{margin-top:11px;font-size:11.5px;color:var(--ink-3);line-height:1.65;word-break:keep-all}
+.q-sum-submit{margin-top:16px}
+@media(max-width:1024px){.q-sum{position:static}.q-sum-card{margin-top:0}}
+
+/* ===== 버튼 (알약 → 사각 · 그림자 없음) ===== */
+.quote-page .banner-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:4px;font-size:15px;font-weight:700;letter-spacing:-.02em;background:var(--ink);color:#fff;border:0;box-shadow:none;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
+.quote-page .banner-btn:hover{background:#2A2D33}
+.quote-page .banner-btn.sec{background:var(--main-white);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.quote-page .banner-btn.sec:hover{background:var(--main-white);box-shadow:inset 0 0 0 1px #CDD2D8}
+.quote-page .banner-btn.ghost{background:none;color:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line)}
+.quote-page .banner-btn.ghost:hover{background:var(--fill);color:var(--ink)}
+#btnSubmit{width:100%;padding:15px 20px;font-size:16px;background:var(--accent)}
+#btnSubmit:hover{background:#0E4CAA}
+#btnSubmit[disabled]{background:#E4E7EA;color:var(--ink-3);cursor:not-allowed}
+
+/* ===== 동의 ===== */
+.q-agree{margin-top:18px;padding:16px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:none}
+.q-check{display:flex;align-items:flex-start;gap:9px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.5;word-break:keep-all}
+.q-check input{position:absolute;opacity:0;width:0;height:0}
+.q-check .box{flex:none;margin-top:0;width:16px;height:16px;border-radius:3px;border:1.5px solid #C6CBD1;background:#fff;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
+.q-check .box svg{width:11px;height:11px;color:#fff;opacity:0;transition:.15s}
+.q-check input:checked + .box{background:var(--accent);border-color:var(--accent)}
+.q-check input:checked + .box svg{opacity:1}
+.q-check input:focus-visible + .box{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
+.q-agree-row{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.q-agree-link{flex:none;margin-left:auto;padding:0;border:0;background:none;font:inherit;font-size:12px;font-weight:600;color:var(--ink-3);text-decoration:underline;text-underline-offset:2px;cursor:pointer;white-space:nowrap}
+.q-agree-link:hover{color:var(--ink)}
+.q-agree-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+/* 동의만 빠진 채 제출했을 때 눈에 들어오도록 */
+.q-agree.is-err .box{border-color:var(--danger);box-shadow:0 0 0 3px rgba(217,63,69,.12)}
+.q-agree.is-err .q-check{color:#B8353A}
+
+/* ===== 안내 모달 =====
+   native <dialog>: 포커스 가둠·Esc 닫기가 기본이고 최상위 레이어에 그려져
+   홈페이지에 삽입됐을 때 조상 요소의 overflow/transform에 잘리지 않는다 */
+.q-modal{margin:auto;width:min(520px,calc(100vw - 32px));max-height:min(80vh,620px);padding:0;border:0;border-radius:8px;background:var(--main-white);color:var(--ink);box-shadow:0 24px 64px -24px rgba(12,13,15,.45);overflow:hidden}
+/* 모바일 브라우저는 주소창이 접히면 vh가 실제 화면보다 커진다 */
+@supports(height:100dvh){.q-modal{max-height:min(80dvh,620px)}}
+.q-modal[open]{display:flex;flex-direction:column}
+.q-modal::backdrop{background:rgba(12,13,15,.45)}
+.q-modal-head{flex:none;display:flex;align-items:center;gap:12px;padding:20px 22px 15px;border-bottom:1px solid var(--line)}
+.q-modal-head h2{font-family:var(--font-body);font-size:17px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
+.q-modal-x{margin-left:auto;flex:none;width:30px;height:30px;display:flex;align-items:center;justify-content:center;padding:0;border:0;border-radius:4px;background:none;color:var(--ink-3);cursor:pointer;transition:.15s}
+.q-modal-x svg{width:17px;height:17px}
+.q-modal-x:hover{background:var(--fill);color:var(--ink)}
+.q-modal-body{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 22px 22px}
+.q-modal-body dl{display:flex;flex-direction:column;gap:15px}
+.q-modal-body dt{font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink-3);margin-bottom:4px}
+.q-modal-body dd{font-size:14px;color:var(--ink);line-height:1.65;word-break:keep-all}
+.q-modal-note{margin-top:18px;padding-top:15px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);line-height:1.7;word-break:keep-all}
+.q-modal-foot{flex:none;display:flex;justify-content:flex-end;gap:8px;padding:14px 22px;border-top:1px solid var(--line);background:var(--fill)}
+.q-modal-foot .banner-btn{padding:11px 18px;font-size:14px}
+@media(max-width:532px){.q-modal-foot .banner-btn{flex:1}}
+.q-agree .det b{color:var(--ink-2);font-weight:700}
+
+/* ===== 완료 화면 ===== */
+.q-done{display:none;padding:0}
+.q-done.on{display:block;grid-column:1 / -1;width:100%;max-width:520px;margin:0 auto;padding:8px 0 0}
+.q-done .ic{width:52px;height:52px;margin:0 auto 20px;border-radius:8px;background:var(--accent-tint);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.q-done .ic svg{width:24px;height:24px}
+.q-done h2{margin-bottom:12px}
+.q-done p{font-size:14.5px;color:var(--ink-2);line-height:1.72;max-width:420px;margin:0 auto;word-break:keep-all}
+.q-done p b{color:var(--ink);font-weight:700}
+.q-done .rcpt{display:inline-flex;align-items:center;gap:9px;margin-top:20px;padding:0;border:0;border-radius:0;background:none;font-size:12.5px;font-weight:600;color:var(--ink)}
+.q-done .rcpt .k{color:var(--ink-3);font-weight:600}
+.q-done .rcpt .v{font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.q-done .acts{display:flex;justify-content:center;gap:8px;margin-top:28px;flex-wrap:wrap}
+.q-done-recap{margin:24px auto 0;max-width:100%;text-align:left;border:1px solid var(--line);border-radius:8px;background:var(--fill);padding:16px 18px}
+.q-done-recap .rl{display:flex;align-items:baseline;gap:10px;font-size:13px;color:var(--ink-2);padding:4px 0}
+.q-done-recap .rl .v{margin-left:auto;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;text-align:right}
+.q-done-recap .rl.tot{margin-top:8px;padding-top:12px;border-top:1px solid var(--line)}
+.q-done-recap .rl.tot .v{font-family:var(--font-title);font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.04em}
+.q-done-recap .rl.tot small{font-weight:500;color:var(--ink-3)}
+
+/* 에러 */
+.q-err{display:none;margin-top:14px;padding:11px 13px;border-radius:4px;background:rgba(217,63,69,.05);border:1px solid rgba(217,63,69,.22);font-size:12.5px;font-weight:600;color:#B8353A;line-height:1.55;word-break:keep-all}
+.q-err.on{display:block}
+</style>
+</head>
+<body class="quote-page">
+<script>if(window.self!==window.top)document.body.classList.add('is-embedded');</script>
+
+
+<!-- ===== 히어로 ===== -->
+<section class="q-hero">
+  <div class="inner">
+    <h1 class="title-lg">안면인식 출퇴근관리 단말기 <br>임대 견적을 바로 받아보세요</h1>
+  </div>
+</section>
+
+<!-- ===== 본문 : 폼 + 견적 요약 ===== -->
+<main class="q-main">
+  <div class="inner">
+
+    <form id="quoteForm" novalidate>
+
+      <!-- STEP 1 : 신청자 정보 -->
+      <div class="q-card">
+        <div class="q-step"><h2>신청자 정보</h2></div>
+        <div class="f-grid">
+          <div class="f-item grow">
+            <label class="f-label" for="q-company">회사명<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-company" type="text" name="company" required placeholder="회사명을 입력하세요"></div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-manager">담당자명<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-manager" type="text" name="manager" required placeholder="이름을 입력하세요"></div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-phone">연락처<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-phone" type="tel" name="phone" required inputmode="tel" placeholder="010 - **** - ****"></div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-email">이메일<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-email" type="email" name="email" required inputmode="email" placeholder="이메일을 입력하세요"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 : 견적 조건 — 임대 기간이 정해져야 단말기별 월 임대료가 결정된다 -->
+      <div class="q-card">
+        <div class="q-step"><h2>견적 조건</h2></div>
+        <div class="f-grid cols3">
+          <div class="f-item grow">
+            <label class="f-label" for="months">기간<span class="f-req">(필수)</span></label>
+            <div class="field" id="fieldMonths">
+              <input id="months" type="number" name="months" min="1" max="60" step="1" value="12" inputmode="numeric" aria-describedby="hintMonths">
+              <span class="f-unit">개월</span>
+            </div>
+            <p class="f-hint" id="hintMonths">12개월 이상이면 설치비를 지원해요!</p>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-region">현장 지역</label>
+            <div class="field">
+              <select id="q-region" name="region"></select>
+              <span class="f-caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </div>
+          </div>
+          <div class="f-item grow">
+            <label class="f-label" for="q-start">희망 설치 시기</label>
+            <div class="field">
+              <select id="q-start" name="install_when"></select>
+              <span class="f-caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </div>
+          </div>
+          <div class="f-item full">
+            <span class="f-label" id="kbzLabel">김반장 이용 중이신가요?</span>
+            <div class="f-seg" role="radiogroup" aria-labelledby="kbzLabel">
+              <label><input type="radio" name="kbz_user" value="Y">이용 중</label>
+              <label><input type="radio" name="kbz_user" value="N" checked>아직 이용 전</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 : 단말기 수량 — 기종이 하나라 고르는 단계가 아니라 세는 단계다 -->
+      <div class="q-card">
+        <div class="q-step"><h2>단말기 수량</h2></div>
+        <div id="devList" class="dev-grid">
+          <div class="dev-card">
+            <div class="dev-pick">
+              <span class="dev-name">Ubio X Face Pro</span>
+              <span class="dev-desc">QR로 얼굴 1회 등록. 1초 인식으로 출퇴근·공수 기록.</span>
+              <span class="dev-media"><img src="images/face-reader/ubio-x-face-pro.png" alt="Ubio X Face Pro 안면인식 출퇴근관리 단말기" loading="lazy"></span>
+            </div>
+            <div class="dev-qty">
+              <div class="stepper">
+                <button type="button" data-step="-1" aria-label="수량 줄이기">−</button>
+                <input id="q-qty" type="number" name="qty" min="1" max="999" step="1" value="1" inputmode="numeric" aria-label="단말기 수량">
+                <button type="button" data-step="1" aria-label="수량 늘리기">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-err" id="formErr" role="alert"></div>
+      </div>
+
+      <!-- 안내 -->
+      <div class="q-card q-notes">
+        <div class="q-step"><h2>안내</h2></div>
+        <ul>
+          <li>설치비 지원은 최초 1회에 한하며, 이전 설치는 제외됩니다.</li>
+          <li>12개월 미만 계약 시 설치비는 첫 달 이용료와 함께 청구됩니다.</li>
+          <li>QR 자동등록으로 근로자가 직접 안면을 등록합니다.</li>
+          <li>설치 위치와 네트워크 환경은 현장 협의 후 확정됩니다.</li>
+          <li>견적서 유효기간은 발행일로부터 14일입니다.</li>
+        </ul>
+      </div>
+    </form>
+
+    <!-- 완료 화면 -->
+    <div class="q-card q-done center" id="doneCard" role="status">
+      <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5l9 6 9-6"/><rect x="3" y="4.5" width="18" height="15" rx="2.5"/></svg></div>
+      <h2 class="title-md">견적서를 보내드렸습니다</h2>
+      <p><b id="doneEmail">—</b> 으로 견적서를 발송했습니다.<br>메일이 보이지 않으면 스팸함을 확인해 주세요. 담당자가 영업일 기준 1일 내 연락드립니다.</p>
+      <div class="rcpt"><span class="k">접수번호</span><span class="v" id="doneNo">—</span></div>
+      <div class="q-done-recap" id="doneRecap"></div>
+      <div class="acts">
+        <button type="button" class="banner-btn" id="btnAgain">다시 신청하기</button>
+        <a class="banner-btn sec" href="index.html">메인으로</a>
+      </div>
+    </div>
+
+    <!-- 우측 : 견적 요약 (입력 즉시 재계산) -->
+    <aside class="q-sum" id="sumPane">
+      <div class="q-sum-card">
+        <details class="q-sum-fold" id="sumMid">
+          <summary class="q-sum-total">
+            <span class="lb"><span class="lb-t">총 예상 견적<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small class="basis"><span id="sumMonthly">0원</span> × <span id="sumMonthsX">12</span>개월</small></span>
+            <span class="vv tnum" id="sumTotal">0원</span>
+          </summary>
+          <div class="q-sum-mid-body">
+            <div id="sumItems"></div>
+          </div>
+        </details>
+
+        <div class="q-agree">
+          <div class="q-agree-row">
+            <label class="q-check">
+              <input type="checkbox" name="agree" id="agree" form="quoteForm">
+              <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
+              <span>개인정보 수집·이용에 동의합니다 <span class="f-req">(필수)</span></span>
+            </label>
+            <button type="button" class="q-agree-link" id="privacyOpen" aria-haspopup="dialog">내용 보기</button>
+          </div>
+        </div>
+
+        <div class="q-sum-submit">
+          <button type="submit" form="quoteForm" class="banner-btn" id="btnSubmit">견적신청하기</button>
+        </div>
+
+        <p class="q-sum-note">VAT · 설치비 · 통신비 별도 · 수량에 따른 추가 할인과 최종 금액은 견적서에서 확정됩니다.</p>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<!-- 개인정보 수집·이용 안내 모달 -->
+<dialog class="q-modal" id="privacyModal" aria-labelledby="privacyTitle">
+  <div class="q-modal-head">
+    <h2 id="privacyTitle">개인정보 수집·이용 동의</h2>
+    <button type="button" class="q-modal-x" data-close aria-label="닫기">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="q-modal-body">
+    <dl>
+      <div><dt>수집항목</dt><dd>회사명, 담당자명, 연락처, 이메일, 현장 지역</dd></div>
+      <div><dt>이용목적</dt><dd>안면인식 출퇴근관리 단말기 임대 견적서 발송 및 도입 상담</dd></div>
+      <div><dt>보유·이용기간</dt><dd>상담 종료 후 1년. 기간이 지나면 지체 없이 파기합니다.</dd></div>
+    </dl>
+    <p class="q-modal-note">동의를 거부하실 수 있습니다. 다만 견적서는 입력하신 이메일로 발송되므로, 거부하시면 견적서 발송과 상담 안내가 어렵습니다.</p>
+  </div>
+  <div class="q-modal-foot">
+    <button type="button" class="banner-btn sec" data-close>닫기</button>
+    <button type="button" class="banner-btn" id="agreeFromModal">동의하고 닫기</button>
+  </div>
+</dialog>
+
+<script>
+/* =========================================================
+   안면인식 출퇴근관리 단말기(Ubio X Face Pro) 견적신청
+   ========================================================= */
+
+/* 견적서 발송 API. 값이 비어 있으면(프로토타입) 실제 전송 없이 완료 화면만 노출한다.
+   실서비스 연결 시: 아래 주소로 POST(JSON) → 서버가 견적서 PDF를 생성해 신청자 이메일로 발송 */
+var QUOTE_API = '';
+
+/* 월 대당 이용료 (VAT 별도). 메인 페이지에 고지된 금액과 같아야 한다.
+   ※ 확인 필요: 수량 구간별 할인(볼륨 단가)이 있으나 구간표를 받지 못해
+     화면 계산에는 넣지 않았다. 지금은 수량과 무관하게 이 단가로 계산하고,
+     추가 할인은 '견적서에서 확정' 각주로 안내한다. 구간표를 받으면
+     RATE를 요율표로 바꾸고 unitFor(qty)만 고치면 된다. */
+var UNIT = 150000;
+
+/* 기종이 하나뿐이다. 화면에는 제품명이 그대로 보이고, payload에도 같은 값이 담긴다. */
+var DEV = { id:'UBIOX', name:'Ubio X Face Pro', model:'Ubio X Face Pro' };
+
+/* 현장 지역 — 저장되는 값은 코드, 화면에 보이는 것은 이름이다.
+   지명이 바뀌어도 이름만 고치면 이미 접수된 과거 데이터와 어긋나지 않는다.
+
+   ※ 표시명 확인 필요: '전남광주통합특별시'는 이 저장소 푸터의 본사 주소 표기를
+     따랐다. 나머지 항목은 그 통합 이전 기준이라 현재 명칭과 다를 수 있다.
+     바로잡을 때는 이 배열의 두 번째 값만 고치면 된다(코드는 그대로 둘 것). */
+var REGIONS = [
+  ['seoul',           '서울특별시'],
+  ['busan',           '부산광역시'],
+  ['daegu',           '대구광역시'],
+  ['incheon',         '인천광역시'],
+  ['daejeon',         '대전광역시'],
+  ['ulsan',           '울산광역시'],
+  ['sejong',          '세종특별자치시'],
+  ['gyeonggi',        '경기도'],
+  ['gangwon',         '강원특별자치도'],
+  ['chungbuk',        '충청북도'],
+  ['chungnam',        '충청남도'],
+  ['jeonbuk',         '전북특별자치도'],
+  ['jeonnam_gwangju', '전남광주통합특별시'],
+  ['gyeongbuk',       '경상북도'],
+  ['gyeongnam',       '경상남도'],
+  ['jeju',            '제주특별자치도']
+];
+
+/* 희망 설치 시기 — 날짜 대신 구간으로 받는다. 아직 아무것도 정하지 않은 고객도
+   '아직 미정'을 고르면 되고, 영업은 급한 건을 바로 가려낼 수 있다.
+   ※ '1주일 이내'는 실제로 그 일정이 가능할 때만 남길 것. 지키지 못할 선택지는
+     기대만 만든다. 구간을 바꾸려면 이 배열만 고치면 된다. */
+var INSTALL_WHEN = [
+  ['w1',   '1주일 이내'],
+  ['m1',   '1개월 이내'],
+  ['m3',   '3개월 이내'],
+  ['none', '아직 미정']
+];
+
+function won(n){ return Number(n||0).toLocaleString('ko-KR') + '원'; }
+
+var form      = document.getElementById('quoteForm');
+var monthsEl  = document.getElementById('months');
+var sumItems  = document.getElementById('sumItems');
+var sumMid    = document.getElementById('sumMid');
+var btnSubmit = document.getElementById('btnSubmit');
+var errBox    = document.getElementById('formErr');
+var sending   = false;
+
+/* ── 선택 항목 채우기 (지역 · 설치 시기) ──────────────────── */
+(function(){
+  [['q-region', REGIONS], ['q-start', INSTALL_WHEN]].forEach(function(pair){
+    var sel = document.getElementById(pair[0]);
+    if (!sel) return;
+    sel.innerHTML = pair[1].reduce(function(html, o){
+      return html + '<option value="' + o[0] + '">' + o[1] + '</option>';
+    }, '<option value="">선택해 주세요</option>');
+    /* 고르지 않은 상태는 placeholder 톤으로 */
+    function tone(){ sel.classList.toggle('is-empty', !sel.value); }
+    sel.addEventListener('change', tone);
+    tone();
+  });
+})();
+
+/* ── 현재 입력값 수집 ──────────────────────────────────── */
+function readQuote(){
+  var months  = parseInt(monthsEl.value, 10) || 0;
+  var qty     = parseInt((form.querySelector('input[name="qty"]') || {}).value, 10) || 0;
+  var kbz     = (form.querySelector('input[name="kbz_user"]:checked') || {}).value || '';
+
+  var items = [], monthly = 0;
+  if (qty >= 1){
+    monthly = UNIT * qty;
+    items.push({ id:DEV.id, name:DEV.name, model:DEV.model, qty:qty, unit:UNIT, monthly:monthly });
+  }
+
+  var supply = monthly * months;
+  return {
+    months: months, qty: qty, kbz_user: kbz, items: items,
+    monthly: monthly, supply: supply,
+    vat: Math.round(supply * 0.1), total: supply + Math.round(supply * 0.1)
+  };
+}
+
+/* ── 견적 요약 갱신 ────────────────────────────────────── */
+function render(){
+  var q = readQuote();
+
+  /* 계산 내역: 단가 × 수량 = 소계 */
+  sumItems.innerHTML = q.items.map(function(it){
+    return '<div class="q-sum-line"><span class="nm">' + it.name + '</span>'
+         + '<span class="qty">' + won(it.unit) + ' × ' + it.qty + '대</span>'
+         + '<span class="amt">' + won(it.monthly) + '</span></div>';
+  }).join('');
+
+  var has = q.items.length > 0 && q.months >= 1;
+  /* 고를 게 없으면 펼칠 내용도 없다 → 토글을 끄고 접어둔다 */
+  sumMid.classList.toggle('no-detail', !has);
+  if (!has) sumMid.open = false;
+
+  document.getElementById('sumMonthsX').textContent = q.months;
+  document.getElementById('sumMonthly').textContent = won(q.monthly);
+  /* 화면에 내세우는 금액은 공급가액 하나뿐이다. VAT는 각주로 안내한다 */
+  document.getElementById('sumTotal').textContent   = won(q.supply);
+
+  btnSubmit.disabled = !has;
+  /* 버튼이 왜 막혀 있는지를 버튼 자신이 알려준다 (전송 중에는 건드리지 않는다) */
+  if (!sending){
+    btnSubmit.textContent = q.months < 1 ? '기간을 입력해 주세요'
+                          : q.qty < 1    ? '수량을 입력해 주세요'
+                          :                '견적신청하기';
+  }
+}
+
+/* ── 유효성 검사 ───────────────────────────────────────── */
+function validate(q){
+  var bad = [];
+  form.querySelectorAll('.field.is-err').forEach(function(f){ f.classList.remove('is-err'); });
+  document.querySelector('.q-agree').classList.remove('is-err');
+
+  function need(sel, label){
+    var el = form.querySelector(sel);
+    if (!el || !el.value.trim()){
+      bad.push(label);
+      if (el) el.closest('.field').classList.add('is-err');
+      return null;
+    }
+    return el;
+  }
+
+  if (q.qty < 1) bad.push('단말기 수량');
+  if (q.months < 1){ bad.push('기간'); document.getElementById('fieldMonths').classList.add('is-err'); }
+
+  need('[name=company]', '회사명');
+  need('[name=manager]', '담당자명');
+  need('[name=phone]',   '연락처');
+  var email = need('[name=email]', '이메일');
+  if (email && email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){
+    bad.push('올바른 이메일 형식');
+    email.closest('.field').classList.add('is-err');
+  }
+  if (!document.getElementById('agree').checked){
+    bad.push('개인정보 수집·이용 동의');
+    document.querySelector('.q-agree').classList.add('is-err');
+  }
+
+  return bad;
+}
+
+/* ── 제출 ──────────────────────────────────────────────── */
+function receiptNo(){
+  var d = new Date(), p = function(n){ return String(n).padStart(2, '0'); };
+  return 'Q' + d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + '-'
+       + String(Math.floor(Math.random() * 9000) + 1000);
+}
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  var q = readQuote();
+  var bad = validate(q);
+
+  if (bad.length){
+    errBox.textContent = '다음 항목을 확인해 주세요 · ' + bad.join(', ');
+    errBox.classList.add('on');
+    var first = form.querySelector('.field.is-err input');
+    /* 동의만 빠졌다면 폼이 아니라 버튼 옆 동의 항목으로 데려간다 */
+    var target = first || document.querySelector('.q-agree.is-err') || errBox;
+    target.scrollIntoView({ behavior:'smooth', block:'center' });
+    if (first) first.focus({ preventScroll:true });
+    return;
+  }
+  errBox.classList.remove('on');
+
+  var fd = new FormData(form);
+  var payload = {
+    receipt_no: receiptNo(),
+    requested_at: new Date().toISOString(),
+    applicant: {
+      company: fd.get('company'), manager: fd.get('manager'),
+      phone: fd.get('phone'),     email:   fd.get('email'),
+      region:  fd.get('region'),
+      region_name: (document.getElementById('q-region').selectedOptions[0] || {}).text || '',
+      install_when: fd.get('install_when'),
+      install_when_name: (document.getElementById('q-start').selectedOptions[0] || {}).text || '',
+      kbz_user: q.kbz_user,
+      kbz_user_name: q.kbz_user === 'Y' ? '이용 중' : '아직 이용 전'
+    },
+    quote: {
+      months: q.months,
+      items: q.items.map(function(it){
+        return { model:it.model, name:it.name, qty:it.qty, unit_monthly:it.unit, monthly:it.monthly };
+      }),
+      monthly: q.monthly, supply: q.supply, vat: q.vat, total: q.total
+    }
+  };
+
+  sending = true;
+  btnSubmit.disabled = true;
+  btnSubmit.textContent = '전송 중…';
+
+  function done(){
+    document.getElementById('doneEmail').textContent = payload.applicant.email;
+    document.getElementById('doneNo').textContent    = payload.receipt_no;
+    document.getElementById('doneRecap').innerHTML =
+      '<div class="rl"><span>계약기간</span><span class="v">' + q.months + '개월</span></div>'
+      + q.items.map(function(it){
+          return '<div class="rl"><span>' + it.name + '</span><span class="v">' + it.qty + '대 · ' + won(it.monthly) + '/월</span></div>';
+        }).join('')
+      + '<div class="rl"><span>김반장</span><span class="v">' + payload.applicant.kbz_user_name + '</span></div>'
+      + '<div class="rl tot"><span>총 예상 견적 <small>VAT 별도</small></span><span class="v">' + won(q.supply) + '</span></div>';
+    form.hidden = true;
+    document.getElementById('sumPane').style.display = 'none';
+    document.getElementById('doneCard').classList.add('on');
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+  function fail(){
+    sending = false;
+    btnSubmit.disabled = false;
+    btnSubmit.textContent = '견적신청하기';
+    errBox.textContent = '전송에 실패했습니다. 잠시 후 다시 시도하시거나 1588-3818로 연락해 주세요.';
+    errBox.classList.add('on');
+  }
+
+  if (!QUOTE_API){                       /* 프로토타입: 전송 없이 완료 화면 */
+    console.log('[견적신청 payload]', payload);
+    setTimeout(done, 600);
+    return;
+  }
+  fetch(QUOTE_API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(function(r){ r.ok ? done() : fail(); }).catch(fail);
+});
+
+/* 다시 신청하기 */
+document.getElementById('btnAgain').addEventListener('click', function(){
+  sending = false;
+  form.reset();
+  form.hidden = false;
+  document.getElementById('doneCard').classList.remove('on');
+  document.getElementById('sumPane').style.display = '';
+  btnSubmit.textContent = '견적신청하기';
+  render();
+  window.scrollTo({ top:0, behavior:'smooth' });
+});
+
+/* 개인정보 수집·이용 안내 모달 */
+(function(){
+  var dlg = document.getElementById('privacyModal');
+  var opener = document.getElementById('privacyOpen');
+  if (!dlg || !opener) return;
+
+  opener.addEventListener('click', function(){
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+  });
+  dlg.addEventListener('click', function(e){
+    if (e.target.closest('[data-close]')) { dlg.close(); return; }
+    /* 백드롭 클릭 판정: 클릭 좌표가 패널 바깥이면 닫는다 */
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dlg.close();
+  });
+  document.getElementById('agreeFromModal').addEventListener('click', function(){
+    var box = document.getElementById('agree');
+    box.checked = true;
+    box.dispatchEvent(new Event('change', { bubbles:true }));
+    dlg.close();
+  });
+})();
+
+/* 동의하면 누락 강조를 바로 푼다 (동의 체크박스는 폼 바깥이라 form 이벤트로 안 잡힌다) */
+document.getElementById('agree').addEventListener('change', function(){
+  if (this.checked) document.querySelector('.q-agree').classList.remove('is-err');
+});
+
+/* 입력 변화 → 즉시 재계산 */
+form.addEventListener('input',  render);
+form.addEventListener('change', render);
+
+/* 수량·기간 범위 보정 */
+form.addEventListener('change', function(e){
+  var el = e.target;
+  if (el.type !== 'number') return;
+  var v = parseInt(el.value, 10);
+  var min = parseInt(el.min, 10), max = parseInt(el.max, 10);
+  if (isNaN(v)) return;
+  if (v < min) el.value = min;
+  if (v > max) el.value = max;
+  render();
+});
+
+/* 수량 스테퍼 */
+document.querySelectorAll('.stepper').forEach(function(st){
+  var input = st.querySelector('input');
+  var dn = st.querySelector('[data-step="-1"]'), up = st.querySelector('[data-step="1"]');
+  function sync(){
+    var v = parseInt(input.value, 10) || 1;
+    dn.disabled = v <= 1;
+    up.disabled = v >= 999;
+  }
+  st.addEventListener('click', function(e){
+    var btn = e.target.closest('button[data-step]');
+    if (!btn) return;
+    var v = (parseInt(input.value, 10) || 1) + Number(btn.getAttribute('data-step'));
+    input.value = Math.min(999, Math.max(1, v));
+    input.dispatchEvent(new Event('input', { bubbles: true }));   /* 폼 input → 재계산 */
+    sync();
+  });
+  input.addEventListener('input', sync);
+  sync();
+});
+
+render();
+</script>
+</body>
+</html>

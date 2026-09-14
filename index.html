@@ -2133,7 +2133,7 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
         <p class="combo-desc">QR로 얼굴을 최초 1회만 등록하면, 1초 안면인식으로 출퇴근이 찍히고 근로자별 공수가 자동으로 산출됩니다.</p>
         <div class="combo-price"><span class="num">월 150,000원</span><span class="unit">/ 대</span></div>
         <p class="combo-note">12개월 이상 계약 시 설치비 무료 · 계약 수량에 따라 할인 · VAT 별도</p>
-        <div class="combo-cta"><a class="banner-btn" href="#">안면인식 단말기 견적받기</a></div>
+        <div class="combo-cta"><a class="banner-btn" href="face-quote.html">안면인식 단말기 견적받기</a></div>
       </div>
       <div class="combo-card">
         <div class="combo-media"><img class="dev" src="images/device/A-02.png" alt="퇴직공제 전자카드 단말기 3종"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span class="mcap">전자카드 단말기 3종 누끼컷</span><span class="msub">벽부형 · 이동형 · 휴대형</span></div>
@@ -2269,11 +2269,11 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
 </footer>
 
 <!-- ===== 견적신청 모달 ===== -->
-<dialog class="qm" id="quoteModal" aria-label="퇴직공제 전자카드 단말기 견적신청">
+<dialog class="qm" id="quoteModal" aria-label="단말기 견적신청">
   <button type="button" class="qm-x" id="quoteModalClose" aria-label="닫기">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
   </button>
-  <iframe id="quoteFrame" title="퇴직공제 전자카드 단말기 견적신청" src="about:blank"></iframe>
+  <iframe id="quoteFrame" title="단말기 견적신청" src="about:blank"></iframe>
 </dialog>
 
 <script>
@@ -3534,20 +3534,25 @@ function jumpTopic(i){
   if (!dlg || typeof dlg.showModal !== 'function') return;
   var frame = document.getElementById('quoteFrame');
   var xBtn  = document.getElementById('quoteModalClose');
-  var opener = null, loaded = false;
+  var opener = null, loaded = '';
+  var PAGES = ['quote.html', 'face-quote.html'];   /* 모달로 띄우는 견적 페이지 */
 
   function open(e){
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;  /* 새 탭으로 열려는 것은 막지 않는다 */
     e.preventDefault();
     opener = e.currentTarget;
-    if (!loaded){ frame.src = 'quote.html'; loaded = true; }
+    var page = opener.getAttribute('href');
+    /* 다른 견적 페이지를 열면 iframe을 갈아끼운다 */
+    if (loaded !== page){ frame.src = page; loaded = page; }
     dlg.showModal();
     document.body.style.overflow = 'hidden';
   }
   function close(){ dlg.close(); }
 
-  Array.prototype.forEach.call(document.querySelectorAll('a[href="quote.html"]'), function(a){
-    a.addEventListener('click', open);
+  PAGES.forEach(function(page){
+    Array.prototype.forEach.call(document.querySelectorAll('a[href="' + page + '"]'), function(a){
+      a.addEventListener('click', open);
+    });
   });
   xBtn.addEventListener('click', close);
 
