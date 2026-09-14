@@ -115,10 +115,10 @@ body.quote-page{
 .q-main .inner{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:26px 64px;align-items:start}
 @media(max-width:1024px){.q-main .inner{grid-template-columns:minmax(0,1fr)}.q-main{padding:40px 0 72px}}
 
-/* ===== 섹션 (박스 없음 · 헤어라인으로 구분) ===== */
+/* ===== 섹션 (박스 없음 · 여백으로 구분) ===== */
 #quoteForm,.q-sum{min-width:0}
 .q-card{min-width:0;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
-.q-card + .q-card{margin-top:54px;padding-top:54px;border-top:1px solid var(--line)}
+.q-card + .q-card{margin-top:60px}
 .q-step{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;margin-bottom:22px}
 .q-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
 
@@ -200,11 +200,11 @@ body.quote-page{
 /* ===== 현장 블록 =====
    현장마다 기간·수량·지역·시기가 다르다. 한 덩어리씩 테두리로 묶어
    어디까지가 한 현장인지 눈으로 끊기게 한다. */
-.site{position:relative;padding:22px;border:1px solid var(--line);border-radius:8px;background:var(--main-white)}
+.site{position:relative;padding:22px;border:0;border-radius:8px;background:var(--fill)}
 .site + .site{margin-top:12px}
 .site-head{display:flex;align-items:center;gap:10px;margin-bottom:18px}
 .site-no{font-family:var(--font-body);font-size:15px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
-.site-del{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:4px;padding:5px 9px;border:1px solid var(--line);border-radius:4px;background:none;font:inherit;font-size:12px;font-weight:600;color:var(--ink-3);cursor:pointer;transition:.15s}
+.site-del{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:4px;padding:5px 9px;border:1px solid #C6CBD1;border-radius:4px;background:var(--main-white);font:inherit;font-size:12px;font-weight:600;color:var(--ink-2);cursor:pointer;transition:.15s}
 .site-del svg{width:13px;height:13px}
 .site-del:hover{border-color:var(--danger);color:var(--danger);background:rgba(217,63,69,.04)}
 .site-del:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -377,7 +377,7 @@ body.quote-page{
 /* 에러 */
 /* 무엇이 잘못됐는지는 그 칸 바로 아래에서 말한다.
    .f-item 은 gap:12px 이므로 음수 여백으로 8px 남짓까지 당긴다. */
-.f-msg{margin-top:-4px;font-size:12px;font-weight:600;color:var(--danger);line-height:1.5;word-break:keep-all}
+.f-msg{margin-top:-4px;font-size:12px;font-weight:600;color:#B8353A;line-height:1.5;word-break:keep-all}
 /* 남은 배너는 전송 실패 같은 폼 전체의 문제에만 쓴다 */
 .q-err{display:none;margin-top:14px;padding:11px 13px;border-radius:4px;background:rgba(217,63,69,.05);border:1px solid rgba(217,63,69,.22);font-size:12.5px;font-weight:600;color:#B8353A;line-height:1.55;word-break:keep-all}
 .q-err.on{display:block}
