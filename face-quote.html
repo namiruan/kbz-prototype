@@ -204,21 +204,18 @@ body.quote-page{
   .stepper input{width:26px}
 }
 
-/* ===== 김반장 이용 여부 — 세그먼트 컨트롤 =====
-   칸 두 개가 아니라 하나의 트랙을 둘로 나눠 쓴다. 고른 쪽만 칠해서
-   '둘 중 하나'라는 것이 생김새로 드러난다. 높이는 입력칸과 같은 54px. */
-.f-seg{align-self:flex-start;display:inline-flex;align-items:stretch;max-width:100%;height:54px;padding:4px;border:1px solid var(--field-line);border-radius:4px;background:var(--main-white)}
-.f-seg label{display:flex;align-items:center;justify-content:center;padding:0 24px;border-radius:2px;font-size:15px;font-weight:500;color:var(--ink-2);letter-spacing:-.01em;white-space:nowrap;cursor:pointer;transition:background .15s,color .15s}
-.f-seg input{position:absolute;opacity:0;width:0;height:0}
-.f-seg label:hover{color:var(--ink)}
-/* 고른 쪽은 칠하고 굵기까지 올린다 — 색만으로 구분되지 않게 */
-.f-seg label:has(input:checked){background:var(--accent);color:var(--main-white);font-weight:700}
-.f-seg label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:3px}
-/* 좁은 화면에서는 트랙을 폭에 꽉 채우고 둘이 반씩 나눠 갖는다 */
-@media(max-width:640px){
-  .f-seg{align-self:stretch;display:flex;width:100%}
-  .f-seg label{flex:1 1 0;min-width:0;padding:0 10px}
-}
+/* ===== 김반장 이용 여부 — 라디오 =====
+   동의 체크박스(.q-check)와 같은 방식으로 원만 직접 그린다. */
+.f-radios{align-self:flex-start;display:flex;align-items:center;gap:26px;min-height:30px}
+.f-radios label{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:var(--field-ink);letter-spacing:-.01em;white-space:nowrap;cursor:pointer}
+.f-radios input{position:absolute;opacity:0;width:0;height:0}
+.f-radios .dot{flex:none;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;border:1.5px solid #C6CBD1;background:var(--main-white);transition:border-color .15s}
+.f-radios .dot::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);transform:scale(0);transition:transform .15s}
+.f-radios label:hover .dot{border-color:var(--ink-3)}
+.f-radios input:checked + .dot{border-color:var(--accent)}
+.f-radios input:checked + .dot::after{transform:scale(1)}
+.f-radios input:checked ~ .tx{font-weight:700;color:var(--ink)}
+.f-radios input:focus-visible + .dot{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
 
 /* ===== 안내 사항 ===== */
 .q-notes ul{display:flex;flex-direction:column;gap:7px;list-style:none}
@@ -381,9 +378,9 @@ body.quote-page{
           </div>
           <div class="f-item full">
             <span class="f-label" id="kbzLabel">김반장 이용 중이신가요?</span>
-            <div class="f-seg" role="radiogroup" aria-labelledby="kbzLabel">
-              <label><input type="radio" name="kbz_user" value="Y">이용사입니다</label>
-              <label><input type="radio" name="kbz_user" value="N" checked>미이용사입니다</label>
+            <div class="f-radios" role="radiogroup" aria-labelledby="kbzLabel">
+              <label><input type="radio" name="kbz_user" value="Y"><span class="dot" aria-hidden="true"></span><span class="tx">네</span></label>
+              <label><input type="radio" name="kbz_user" value="N" checked><span class="dot" aria-hidden="true"></span><span class="tx">아니오</span></label>
             </div>
           </div>
         </div>
@@ -750,7 +747,7 @@ form.addEventListener('submit', function(e){
       install_when: fd.get('install_when'),
       install_when_name: (document.getElementById('q-start').selectedOptions[0] || {}).text || '',
       kbz_user: q.kbz_user,
-      kbz_user_name: q.kbz_user === 'Y' ? '이용사' : '미이용사'
+      kbz_user_name: q.kbz_user === 'Y' ? '이용 중' : '이용 안 함'
     },
     quote: {
       months: q.months,
