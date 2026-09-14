@@ -668,7 +668,7 @@ function addSite(){
     +   '</div>'
     +   '<div class="f-item grow">'
     +     '<label class="f-label" for="s' + n + '-qty">단말기 수량<span class="f-req">(필수)</span></label>'
-    +     '<div class="field" data-f="qty"><input id="s' + n + '-qty" class="s-qty" type="number" min="1" max="999" step="1" value="1" inputmode="numeric"><span class="f-unit">대</span></div>'
+    +     '<div class="field" data-f="qty"><input id="s' + n + '-qty" class="s-qty" type="number" min="1" max="999" step="1" placeholder="0" inputmode="numeric"><span class="f-unit">대</span></div>'
     +   '</div>'
     +   '<div class="f-item grow">'
     +     '<label class="f-label" for="s' + n + '-region">현장 지역</label>'
@@ -836,9 +836,11 @@ function render(){
   /* 버튼이 왜 막혀 있는지를 버튼 자신이 알려준다 (전송 중에는 건드리지 않는다) */
   if (!sending){
     var gap = q.sites.filter(function(st){ return !st.ok; })[0];
-    btnSubmit.textContent = !gap                ? '견적신청하기'
-                          : gap.months < 1      ? '현장 ' + gap.no + '의 기간을 입력해 주세요'
-                          :                       '현장 ' + gap.no + '의 수량을 입력해 주세요';
+    /* 현장이 하나뿐이면 어느 현장인지 말할 필요가 없다 */
+    var where = (gap && q.sites.length > 1) ? '현장 ' + gap.no + '의 ' : '';
+    btnSubmit.textContent = !gap           ? '견적신청하기'
+                          : gap.months < 1 ? where + '기간을 입력해 주세요'
+                          :                  where + '단말기 수량을 입력해 주세요';
   }
 }
 
@@ -886,7 +888,7 @@ function validate(q){
     }
     if (st.qty < 1){
       bad.push(1);
-      boxErr(st.el.querySelector('.field[data-f="qty"]'), '수량을 입력해 주세요.');
+      boxErr(st.el.querySelector('.field[data-f="qty"]'), '단말기 수량을 입력해 주세요.');
     }
   });
 
