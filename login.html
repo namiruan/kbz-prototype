@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로그인 · 김반장</title>
+<meta name="description" content="김반장 계정으로 로그인하고 이용후기를 남겨보세요.">
+<!-- 라이브(kbz.co.kr) 폰트: 본문/CTA=Wanted Sans, 타이틀=SUITE, 배지=Pretendard -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUITE/fonts/variable/woff2/SUITEVariable.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+/* =========================================================
+   kbz.co.kr 라이브 CSS 토큰 그대로 이식 (common.css :root)
+   — index.html · quote.html 과 동일
+   ========================================================= */
+:root{
+  --header-height:70px;
+  --color-white-rgb:255,255,255;
+  --color-gray-rgb:230,232,234;   /* #E6E8EA */
+  --color-black-rgb:19,20,22;     /* #131416 */
+  --color-blue-rgb:17,90,198;     /* #115AC6 */
+  --color-navy-rgb:14,59,99;      /* #0E3B63 */
+  --color-w-gray-rgb:244,245,246; /* #F4F5F6 */
+  --color-d-gray-rgb:109,120,130; /* #6D7882 */
+  --color-d-blue-rgb:17,71,151;   /* #114797 */
+  --color-cyan-rgb:27,159,226;    /* #1B9FE2 */
+  --color-p-blue-rgb:220,232,249; /* #DCE8F9 */
+  --color-p-cyan-rgb:183,225,245; /* #B7E1F5 */
+  --color-sky-rgb:220,238,255;    /* #DCEEFF */
+  --color-lake-rgb:138,218,255;   /* #8ADAFF */
+
+  --main-white:rgba(var(--color-white-rgb),1);
+  --main-gray:rgba(var(--color-gray-rgb),1);
+  --main-black:rgba(var(--color-black-rgb),1);
+  --main-blue:rgba(var(--color-blue-rgb),1);
+  --main-navy:rgba(var(--color-navy-rgb),1);
+  --sub-w-gray:rgba(var(--color-w-gray-rgb),1);
+  --sub-d-gray:rgba(var(--color-d-gray-rgb),1);
+  --sub-d-blue:rgba(var(--color-d-blue-rgb),1);
+  --sub-cyan:rgba(var(--color-cyan-rgb),1);
+  --pastel-blue:rgba(var(--color-p-blue-rgb),1);
+  --pastel-cyan:rgba(var(--color-p-cyan-rgb),1);
+  --sky:rgba(var(--color-sky-rgb),1);
+  --lake:rgba(var(--color-lake-rgb),1);
+
+  /* 라이브 폰트 스택: 본문/CTA=Wanted Sans, 타이틀=SUITE, 폴백=Apple SD Gothic Neo */
+  --font-body:"Wanted Sans Variable","Wanted Sans","Apple SD Gothic Neo",sans-serif;
+  --font-title:"SUITE Variable","SUITE","Apple SD Gothic Neo",sans-serif;
+  /* 라이브 로그인 화면의 안내 배지는 Pretendard 를 쓴다 */
+  --font-pretendard:"Pretendard Variable","Pretendard","Apple SD Gothic Neo",sans-serif;
+
+  /* 라이브 radial-sky 그라디언트 */
+  --grad-radi-sky-top:radial-gradient(66.24% 130.23% at 51.11% -20.35%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%);
+  --grad-radi-sky-bottom:radial-gradient(49.14% 96.61% at 51.11% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:var(--font-body);color:var(--main-black);background:#FBFBFB;line-height:1.62;-webkit-font-smoothing:antialiased;cursor:default}
+h1,h2,h3,h4{font-family:var(--font-title);line-height:1.24;letter-spacing:-0.03em;font-weight:800}
+a{color:inherit;text-decoration:none}
+.tnum{font-variant-numeric:tabular-nums}
+.inner{max-width:1120px;margin:0 auto;padding:0 30px;width:100%}
+.acts{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:30px}
+.title-lg{font-family:var(--font-title);font-size:38px;color:var(--main-black);letter-spacing:-.035em}
+.title-md{font-family:var(--font-title);font-size:30px;color:var(--main-black);letter-spacing:-.03em}
+.center{text-align:center}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* =========================================================
+   후기 작성 페이지 전용
+   ---------------------------------------------------------
+   quote.html 과 같은 규율: 여백과 타이포로 구조를 만들고,
+   색은 '선택된 것'과 CTA 에만 쓴다. 박스·그림자·알약 버튼 없음.
+   ========================================================= */
+body.review-page{
+  --ink:#0C0D0F;          /* 본문 */
+  --ink-2:#5C636C;        /* 보조 */
+  --ink-3:#6F767E;        /* 라벨·설명 (흰 배경 대비 4.6:1) */
+  --ink-4:#A7ADB4;        /* 장식용 — 플레이스홀더·아이콘·구분자 */
+  --line:#E8EAED;         /* 헤어라인 */
+  --line-soft:#F0F1F3;    /* 더 옅은 구분선 */
+  --fill:#F7F8F9;         /* 사이드 패널 */
+  --accent:var(--main-blue);
+  --accent-tint:rgba(var(--color-blue-rgb),.06);
+  --danger:#D93F45;
+  --field-line:#6D7882;   /* 라이브 폼 테두리 */
+  --field-ink:#33363D;    /* 라이브 폼 입력 텍스트 */
+  --field-label:#131416;  /* 라이브 폼 라벨 */
+  background:var(--main-white);
+  color:var(--ink);
+  letter-spacing:-.012em;
+}
+.review-page .inner{max-width:1060px}
+
+/* 완료 화면에만 깔리는 하늘색 바닥 — quote.html 과 같은 연출 */
+body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(78% 108% at 100% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%) no-repeat}
+
+/* =========================================================
+   1) 로그인 게이트 — kbz.co.kr/login 라이브 규격 이식
+   ---------------------------------------------------------
+   배경 : linear-gradient(#DCEEFF 21.75%, transparent 61.64%) + #F4F5F6
+   폼   : 폭 280 고정. 라벨칸 130 + 입력칸 180 이 280 을 넘겨 줄이 접히므로
+          라벨이 위, 입력칸이 아래로 내려간다 (세로 간격 5px).
+   입력 : padding 16/12 · radius 4 · 테두리 #CDD1D5
+          본문 Wanted Sans 17/22 · 자간 -0.43px · 플레이스홀더 #6D7882
+   CTA  : 파란 알약이 아니라 검정 블록 — padding 30 · radius 12 ·
+          hover 시 radius 300 + 파란 radial 그라디언트
+   ========================================================= */
+.lg-bg{display:flex;width:100%;min-height:100vh;padding:96px 0 0;flex-direction:column;justify-content:center;align-items:center;
+  background:linear-gradient(rgba(var(--color-sky-rgb),1) 21.75%, rgba(var(--color-white-rgb),0) 61.64%), var(--sub-w-gray)}
+@supports(min-height:100dvh){.lg-bg{min-height:100dvh}}
+.lg-frame{display:flex;max-width:100%;max-height:900px;justify-content:center;align-items:center;gap:40px;flex:1 0 0;align-self:stretch}
+.lg-group{display:flex;padding:0 30px;justify-content:center;align-items:center;gap:60px;flex:1 0 0}
+.lg-list{display:flex;flex-direction:column;align-items:center;gap:30px}
+.lg-contents{display:flex;max-width:600px;flex-direction:column;align-items:center;gap:10px;align-self:stretch}
+.lg-title{display:flex;place-content:center;align-items:center;gap:2px;align-self:stretch;flex-wrap:wrap}
+/* .contents-title-txt 에는 색만 지정돼 있고 크기는 별도 타이포 클래스에서 온다.
+   그 클래스를 알 수 없어 화면에서 잰 값(CTA 24px 대비 1.43배)으로 잡았다. */
+.lg-title-txt{flex:0 0 100%;color:var(--main-navy);text-align:center;font-family:var(--font-body);font-size:34px;font-weight:700;line-height:1.28;letter-spacing:-1.7px}
+/* 라이브 타이포 클래스와 같은 지점(899 / 532)에서 줄인다. 고정 크기로 두면
+   좁은 화면에서 둘째 줄이 한 번 더 접혀 '요!' 만 남는 줄이 생긴다. */
+@media(max-width:899px){.lg-title-txt{font-size:30px;letter-spacing:-1.5px}}
+@media(max-width:532px){.lg-title-txt{font-size:24px;letter-spacing:-1.2px}}
+#login-form{display:flex;width:280px;flex-direction:column;gap:30px}
+.lg-input-group{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.lg-row{display:flex;width:280px;max-width:280px;align-items:center;align-content:center;gap:5px 10px;flex-wrap:wrap}
+.lg-row-title{display:flex;width:130px;height:19px;align-items:center;gap:5px;flex-shrink:0}
+.lg-row-title label{color:var(--main-black);font-size:16px;font-weight:500;line-height:19px;letter-spacing:-.16px}
+.lg-input{display:flex;min-width:180px;flex-direction:column;align-items:flex-start;gap:3px;flex:1 0 0}
+.lg-input-wrap{display:flex;padding:16px 12px;justify-content:space-between;align-items:center;align-self:stretch;border-radius:4px;border:1px solid #CDD1D5;background:var(--main-white);transition:border-color .15s}
+.lg-input-wrap:focus-within{border-color:var(--main-blue)}
+.lg-input-wrap.is-err{border-color:#E53935}
+.lg-input-wrap input{display:block;min-width:20px;flex:1 0 0;overflow:hidden;border:0;outline:0;background:none;text-overflow:ellipsis;
+  color:var(--main-black);font-family:var(--font-body);font-size:17px;font-style:normal;font-weight:400;line-height:22px;letter-spacing:-.43px}
+.lg-input-wrap input::placeholder{color:var(--sub-d-gray)}
+.lg-eye{flex:none;display:flex;align-items:center;justify-content:center;width:24px;height:24px;margin-left:8px;padding:0;border:0;background:none;color:var(--sub-d-gray);cursor:pointer}
+.lg-eye svg{width:20px;height:20px;display:block}
+.lg-eye:hover{color:var(--main-black)}
+.lg-eye[aria-pressed="true"] .slash{display:none}
+.lg-eye:focus-visible{outline:2px solid var(--main-blue);outline-offset:2px;border-radius:3px}
+/* 오류는 칸마다 바로 아래에 붙는다 (라이브 .input_message_atomic) */
+.lg-msg{display:none;font-size:12px;line-height:1.5}
+.lg-msg.danger{display:block;color:#E53935}
+.lg-btn-group{display:flex;flex-direction:column;align-items:center;gap:5px;align-self:stretch}
+.lg-badge{display:none;align-items:flex-start;justify-content:center;align-self:stretch;margin-bottom:5px}
+.lg-badge.on{display:flex}
+/* 살구색 알약 배경은 라이브 화면에는 보이는데 넘겨받은 CSS에는 없어 화면에서 떠 맞췄다 */
+.lg-badge span{padding:2px 10px;border-radius:4px;background:#FFEFE6;color:#E74900;
+  font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px;word-break:keep-all}
+.review-page .lg-cta{display:flex;max-width:300px;padding:30px;align-items:center;gap:40px;align-self:stretch;border-radius:12px;background:var(--main-black);
+  border:0;box-shadow:none;cursor:pointer;font-family:inherit;transition:border-radius .25s,background .25s}
+.review-page .lg-cta:hover{border-radius:300px;background:radial-gradient(49.14% 96.61% at 51.11% 100%, #0062C4 45%, rgba(0,67,134,0) 100%),var(--main-black)}
+.review-page .lg-cta:focus-visible{outline:2px solid var(--main-blue);outline-offset:3px}
+.lg-cta .btn-name{display:flex;flex-direction:column;align-items:flex-start;gap:5px;flex:1 0 0}
+/* 280 - 좌우 30 - gap 40 - 화살표 24 = 156px. Wanted Sans 로는 들어가지만
+   폰트가 안 떠 대체 글꼴로 그려지면 넘쳐 두 줄이 된다 — 줄바꿈을 막는다 */
+.lg-cta .btn-name b{color:var(--main-white);font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal;white-space:nowrap}
+.lg-cta .arrow{flex:none;display:flex;color:var(--main-white)}
+.lg-cta .arrow svg{width:24px;height:24px;display:block}
+.lg-link{max-width:500px;align-self:stretch;margin-top:15px;color:var(--sub-d-gray);text-align:center;cursor:pointer;
+  font-size:15px;font-weight:600;line-height:normal;letter-spacing:-.15px}
+.lg-link a:hover{color:var(--main-black)}
+
+/* ===== 로그인 화면 하단 이벤트 띠 =====
+   바닥은 흰색이다(위쪽 그라디언트의 #F4F5F6 과 구분된다).
+   글과 사진은 좁은 화면에서도 세로로 쌓이지 않고, 나란히 선 채
+   함께 줄어든다 — 그래서 미디어쿼리 대신 clamp 로 묶었다. */
+.lg-promo{background:var(--main-white)}
+.lg-promo-inner{max-width:1060px;margin:0 auto;padding:0 20px;display:flex;align-items:flex-end;justify-content:center;gap:clamp(8px,2.5vw,30px)}
+.lg-promo-txt{flex:0 1 auto;padding-bottom:clamp(14px,2.6vw,30px);text-align:left;word-break:keep-all}
+.lg-promo-txt .sm{color:var(--main-black);font-size:clamp(11px,1.35vw,18px);font-weight:400;line-height:1.5;letter-spacing:-.02em;white-space:nowrap}
+.lg-promo-txt .bg{margin-top:2px;color:var(--main-blue);font-family:var(--font-body);font-size:clamp(16px,2.3vw,30px);font-weight:700;line-height:1.24;letter-spacing:-.05em;white-space:nowrap}
+/* 사진은 background 로 둔다 — 파일이 없으면 깨진 아이콘 없이 그냥 비어 보인다 */
+.lg-promo-img{flex:none;width:clamp(120px,17vw,230px);height:clamp(105px,15vw,200px);background:url("images/review/login-cta.png") center bottom/contain no-repeat}
+
+</style>
+</head>
+
+<body class="review-page">
+
+<section class="lg-bg">
+  <div class="lg-frame">
+    <div class="lg-group">
+      <div class="lg-list">
+
+        <div class="lg-contents">
+          <div class="lg-title">
+            <span class="lg-title-txt">김반장 계정으로</span>
+            <span class="lg-title-txt">이용후기를 남겨보세요!</span>
+          </div>
+        </div>
+
+        <form id="login-form" novalidate>
+          <div class="lg-input-group">
+
+            <div class="lg-row">
+              <div class="lg-row-title"><label for="lg-id">아이디</label></div>
+              <div class="lg-input">
+                <div class="lg-input-wrap">
+                  <input id="lg-id" type="text" name="userid" required autocomplete="username" placeholder="아이디를 입력하세요">
+                </div>
+                <p class="lg-msg" id="lgMsgId" role="alert"></p>
+              </div>
+            </div>
+
+            <div class="lg-row">
+              <div class="lg-row-title"><label for="lg-pw">비밀번호</label></div>
+              <div class="lg-input">
+                <div class="lg-input-wrap">
+                  <input id="lg-pw" type="password" name="password" required autocomplete="current-password" placeholder="비밀번호를 입력하세요">
+                  <button type="button" class="lg-eye" id="lgEye" aria-label="비밀번호 보기" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M3 3l18 18"/>
+                    </svg>
+                  </button>
+                </div>
+                <p class="lg-msg" id="lgMsgPw" role="alert"></p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="lg-btn-group">
+            <div class="lg-badge" id="lgBadge" role="alert"><span>아이디 또는 비밀번호가 일치하지 않습니다</span></div>
+
+            <button type="submit" class="lg-cta">
+              <span class="btn-name"><b>이용후기 남기기</b></span>
+              <span class="arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+              </span>
+            </button>
+
+            <p class="lg-link"><a href="#">비밀번호 찾기</a></p>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 하단 이벤트 띠 -->
+  <div class="lg-promo">
+    <div class="lg-promo-inner">
+      <div class="lg-promo-txt">
+        <p class="sm">과거에 사용했던 이용사라도</p>
+        <p class="bg">후기이벤트 참여 가능해요</p>
+      </div>
+      <div class="lg-promo-img" role="img" aria-label="현장에서 휴대폰으로 후기를 남기는 이용자"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(s){return document.querySelector(s);};
+
+  /* 칸마다 바로 아래에 붉은 안내를 붙인다 (라이브 .input_message_atomic) */
+  var LG = [
+    {el:$('#lg-id'), msg:$('#lgMsgId'), text:'아이디를 입력해 주세요.'},
+    {el:$('#lg-pw'), msg:$('#lgMsgPw'), text:'비밀번호를 입력해 주세요.'}
+  ];
+  var lgBadge = $('#lgBadge');
+  function lgClear(f){
+    f.el.closest('.lg-input-wrap').classList.remove('is-err');
+    f.msg.classList.remove('danger');
+    f.msg.textContent = '';
+    lgBadge.classList.remove('on');
+  }
+  LG.forEach(function(f){ f.el.addEventListener('input', function(){ lgClear(f); }); });
+
+  /* 비밀번호 보기 — 가려져 있을 때만 눈에 사선이 그어진다 */
+  var lgEye = $('#lgEye');
+  lgEye.addEventListener('click', function(){
+    var pw = $('#lg-pw'), on = pw.type === 'password';
+    pw.type = on ? 'text' : 'password';
+    lgEye.setAttribute('aria-pressed', on ? 'true' : 'false');
+    lgEye.setAttribute('aria-label', on ? '비밀번호 가리기' : '비밀번호 보기');
+    pw.focus();
+  });
+
+  $('#login-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var first = null;
+    LG.forEach(function(f){
+      if(!f.el.value.trim()){
+        f.el.closest('.lg-input-wrap').classList.add('is-err');
+        f.msg.textContent = f.text;
+        f.msg.classList.add('danger');
+        if(!first) first = f.el;
+      } else lgClear(f);
+    });
+    if(first){ first.focus(); return; }
+
+    /* 프로토타입은 비어 있지만 않으면 통과시킨다.
+       인증 실패 화면(주황 배지)을 보려면 주소에 ?authfail=1 을 붙이면 된다. */
+    if(new URLSearchParams(location.search).get('authfail') === '1'){
+      lgBadge.classList.add('on');
+      $('#lg-pw').select();
+      return;
+    }
+    /* 어느 계정으로 들어왔는지 작성 화면이 머리에 띄울 수 있게 넘긴다 */
+    location.href = 'review.html?u=' + encodeURIComponent($('#lg-id').value.trim());
+  });
+})();
+</script>
+</body>
+</html>
