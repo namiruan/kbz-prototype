@@ -153,10 +153,11 @@ body.is-done .q-main{padding-bottom:72px}
    입력 필드 — kbz.co.kr 라이브 폼 규격 (라이브 사이트 계산값)
    필드 : 높이 54 · radius 4 · 테두리 1px #6D7882 · 본문 16px/400 #33363D
    라벨 : 필드 위 · 16px/400 · #131416 · line-height 1.4 · 자간 -0.36px
+   간격 : 라벨 ↔ 입력칸 5px
    필수 : 빨간 별표가 아니라 파란 (필수). 안내는 placeholder로.
    ========================================================= */
 .f-grid{display:flex;flex-wrap:wrap;gap:28px 12px}
-.f-item{display:flex;flex-direction:column;gap:12px;min-width:0}
+.f-item{display:flex;flex-direction:column;gap:5px;min-width:0}
 .f-item.grow{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
 @media(max-width:640px){.f-item.grow{flex-basis:100%;max-width:100%}}
 /* 신청자 정보 — 윗줄 2칸(사업자등록번호·사업장명), 아랫줄 3칸 */
@@ -374,7 +375,7 @@ body.is-done .q-main{padding-bottom:72px}
 /* 에러 */
 /* 무엇이 잘못됐는지는 그 칸 바로 아래에서 말한다.
    .f-item 은 gap:12px 이므로 음수 여백으로 8px 남짓까지 당긴다. */
-.f-msg{margin-top:-4px;font-size:12px;font-weight:600;color:#B8353A;line-height:1.5;word-break:keep-all}
+.f-msg{margin-top:1px;font-size:12px;font-weight:600;color:#B8353A;line-height:1.5;word-break:keep-all}
 /* 칸이 아닌 덩어리(단말기 목록)의 메시지 */
 .f-msg.block{margin-top:10px}
 /* 남은 배너는 전송 실패 같은 폼 전체의 문제에만 쓴다 */
