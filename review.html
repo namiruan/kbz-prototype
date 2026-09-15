@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이용 후기 작성 · 김반장</title>
+<meta name="description" content="김반장을 쓰면서 달라진 점을 남겨주세요. 실제 이용 중인 사업장의 후기는 다음 담당자의 선택을 돕습니다.">
+<!-- 라이브(kbz.co.kr) 폰트: 본문/CTA=Wanted Sans, 타이틀=SUITE -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUITE/fonts/variable/woff2/SUITEVariable.css">
+<style>
+/* =========================================================
+   kbz.co.kr 라이브 CSS 토큰 그대로 이식 (common.css :root)
+   — index.html · quote.html 과 동일
+   ========================================================= */
+:root{
+  --header-height:70px;
+  --color-white-rgb:255,255,255;
+  --color-gray-rgb:230,232,234;   /* #E6E8EA */
+  --color-black-rgb:19,20,22;     /* #131416 */
+  --color-blue-rgb:17,90,198;     /* #115AC6 */
+  --color-navy-rgb:14,59,99;      /* #0E3B63 */
+  --color-w-gray-rgb:244,245,246; /* #F4F5F6 */
+  --color-d-gray-rgb:109,120,130; /* #6D7882 */
+  --color-d-blue-rgb:17,71,151;   /* #114797 */
+  --color-cyan-rgb:27,159,226;    /* #1B9FE2 */
+  --color-p-blue-rgb:220,232,249; /* #DCE8F9 */
+  --color-p-cyan-rgb:183,225,245; /* #B7E1F5 */
+  --color-sky-rgb:220,238,255;    /* #DCEEFF */
+  --color-lake-rgb:138,218,255;   /* #8ADAFF */
+
+  --main-white:rgba(var(--color-white-rgb),1);
+  --main-gray:rgba(var(--color-gray-rgb),1);
+  --main-black:rgba(var(--color-black-rgb),1);
+  --main-blue:rgba(var(--color-blue-rgb),1);
+  --main-navy:rgba(var(--color-navy-rgb),1);
+  --sub-w-gray:rgba(var(--color-w-gray-rgb),1);
+  --sub-d-gray:rgba(var(--color-d-gray-rgb),1);
+  --sub-d-blue:rgba(var(--color-d-blue-rgb),1);
+  --sub-cyan:rgba(var(--color-cyan-rgb),1);
+  --pastel-blue:rgba(var(--color-p-blue-rgb),1);
+  --pastel-cyan:rgba(var(--color-p-cyan-rgb),1);
+  --sky:rgba(var(--color-sky-rgb),1);
+  --lake:rgba(var(--color-lake-rgb),1);
+
+  /* 라이브 폰트 스택: 본문/CTA=Wanted Sans, 타이틀=SUITE, 폴백=Apple SD Gothic Neo */
+  --font-body:"Wanted Sans Variable","Wanted Sans","Apple SD Gothic Neo",sans-serif;
+  --font-title:"SUITE Variable","SUITE","Apple SD Gothic Neo",sans-serif;
+
+  /* 라이브 radial-sky 그라디언트 */
+  --grad-radi-sky-top:radial-gradient(66.24% 130.23% at 51.11% -20.35%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%);
+  --grad-radi-sky-bottom:radial-gradient(49.14% 96.61% at 51.11% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:var(--font-body);color:var(--main-black);background:#FBFBFB;line-height:1.62;-webkit-font-smoothing:antialiased;cursor:default}
+h1,h2,h3,h4{font-family:var(--font-title);line-height:1.24;letter-spacing:-0.03em;font-weight:800}
+a{color:inherit;text-decoration:none}
+.tnum{font-variant-numeric:tabular-nums}
+.inner{max-width:1120px;margin:0 auto;padding:0 30px;width:100%}
+.acts{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:30px}
+.title-lg{font-family:var(--font-title);font-size:38px;color:var(--main-black);letter-spacing:-.035em}
+.title-md{font-family:var(--font-title);font-size:30px;color:var(--main-black);letter-spacing:-.03em}
+.center{text-align:center}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* =========================================================
+   후기 작성 페이지 전용
+   ---------------------------------------------------------
+   quote.html 과 같은 규율: 여백과 타이포로 구조를 만들고,
+   색은 '선택된 것'과 CTA 에만 쓴다. 박스·그림자·알약 버튼 없음.
+   ========================================================= */
+body.review-page{
+  --ink:#0C0D0F;          /* 본문 */
+  --ink-2:#5C636C;        /* 보조 */
+  --ink-3:#6F767E;        /* 라벨·설명 (흰 배경 대비 4.6:1) */
+  --ink-4:#A7ADB4;        /* 장식용 — 플레이스홀더·아이콘·구분자 */
+  --line:#E8EAED;         /* 헤어라인 */
+  --line-soft:#F0F1F3;    /* 더 옅은 구분선 */
+  --fill:#F7F8F9;         /* 사이드 패널 */
+  --accent:var(--main-blue);
+  --accent-tint:rgba(var(--color-blue-rgb),.06);
+  --danger:#D93F45;
+  --field-line:#6D7882;   /* 라이브 폼 테두리 */
+  --field-ink:#33363D;    /* 라이브 폼 입력 텍스트 */
+  --field-label:#131416;  /* 라이브 폼 라벨 */
+  background:var(--main-white);
+  color:var(--ink);
+  letter-spacing:-.012em;
+}
+.review-page .inner{max-width:1060px}
+
+/* 완료 화면에만 깔리는 하늘색 바닥 — quote.html 과 같은 연출 */
+body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(78% 108% at 100% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%) no-repeat}
+
+/* =========================================================
+   1) 로그인 게이트
+   ---------------------------------------------------------
+   후기는 실제 이용 중인 계정만 쓸 수 있다. 로그인을 별도 페이지로
+   떼어내면 돌아오는 길이 끊기므로, 같은 화면에서 게이트로 세운다.
+   ========================================================= */
+.lg-wrap{display:none;min-height:100vh;align-items:center;justify-content:center;padding:56px 0}
+@supports(min-height:100dvh){.lg-wrap{min-height:100dvh}}
+body.view-login .lg-wrap{display:flex}
+.lg-card{width:min(400px,calc(100vw - 40px));margin:0 auto}
+.lg-head{margin-bottom:34px}
+.lg-brand{display:inline-flex;align-items:center;gap:7px;margin-bottom:20px;font-size:13px;font-weight:800;letter-spacing:-.03em;color:var(--accent)}
+.lg-brand .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.lg-head h1{font-size:29px;line-height:1.24;letter-spacing:-.04em;color:var(--ink)}
+.lg-head p{margin-top:10px;font-size:14px;font-weight:500;color:var(--ink-3);line-height:1.62;word-break:keep-all}
+.lg-form{display:flex;flex-direction:column;gap:12px}
+.lg-opts{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px}
+.lg-find{font-size:12.5px;font-weight:600;color:var(--ink-3);text-decoration:underline;text-underline-offset:2px}
+.lg-find:hover{color:var(--ink)}
+.lg-submit{margin-top:10px}
+.lg-join{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;font-weight:500;color:var(--ink-3);text-align:center}
+.lg-join a{margin-left:6px;font-weight:700;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.lg-err{display:none;margin-top:2px;font-size:12.5px;font-weight:600;color:var(--danger)}
+.lg-err.on{display:block}
+
+/* =========================================================
+   2) 후기 작성
+   ========================================================= */
+body.view-write .rv-hero,body.view-write .rv-main{display:block}
+.rv-hero,.rv-main{display:none}
+.rv-hero{padding:44px 0 34px;border-bottom:1px solid var(--line)}
+.rv-hero .inner{display:block}
+.rv-hero h1{line-height:1.14;word-break:keep-all}
+.rv-hero p{margin-top:12px;font-size:15px;font-weight:500;color:var(--ink-3);line-height:1.66;word-break:keep-all;max-width:640px}
+/* 로그인한 계정을 머리에 띄운다 — 누구 이름으로 올라가는지 먼저 보여야 한다 */
+.rv-who{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:7px 12px 7px 9px;border:1px solid var(--line);border-radius:100px;background:var(--fill);font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.rv-who .av{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent-tint);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.rv-who .out{margin-left:4px;padding:0 0 0 9px;border:0;border-left:1px solid var(--line);background:none;font:inherit;font-size:12px;font-weight:600;color:var(--ink-3);cursor:pointer}
+.rv-who .out:hover{color:var(--ink)}
+@media(max-width:640px){.rv-hero{padding:30px 0 24px}.rv-hero h1{font-size:clamp(20px,7vw,31px)}}
+
+.rv-main{padding:56px 0 128px}
+body.is-done .rv-main{padding-bottom:72px}
+.rv-main .inner{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:26px 64px;align-items:start}
+@media(max-width:1024px){.rv-main .inner{grid-template-columns:minmax(0,1fr)}.rv-main{padding:40px 0 72px}}
+
+#reviewForm,.rv-side{min-width:0}
+.r-card{min-width:0;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
+.r-card + .r-card{margin-top:60px}
+.r-step{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;margin-bottom:22px}
+.r-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
+
+/* =========================================================
+   입력 필드 — kbz.co.kr 라이브 폼 규격 (quote.html 과 동일)
+   필드 : 높이 54 · radius 4 · 테두리 1px #6D7882 · 본문 16px/400 #33363D
+   라벨 : 필드 위 · 16px/400 · #131416 · 자간 -0.36px · 라벨↔칸 5px
+   필수 : 빨간 별표가 아니라 파란 (필수)
+   ========================================================= */
+.f-grid{display:flex;flex-wrap:wrap;gap:28px 12px}
+.f-item{display:flex;flex-direction:column;gap:5px;min-width:0}
+.f-item.half{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
+.f-item.third{flex:1 1 calc(33.333% - 8px);max-width:calc(33.333% - 8px)}
+.f-item.full{width:100%}
+@media(max-width:640px){.f-item.half,.f-item.third{flex-basis:100%;max-width:100%}}
+.f-label{display:flex;align-items:baseline;gap:4px;font-size:16px;font-weight:400;color:var(--field-label);letter-spacing:-.36px;line-height:1.4}
+/* '년 / 개월'은 라벨 하나를 나눠 쓴다. 둘째 칸은 라벨 높이만 비워 줄을 맞추고,
+   좁은 화면에서 1열로 접히면 빈 줄이 되므로 치운다. */
+.f-spacer{height:22px}
+@media(max-width:640px){.f-spacer{display:none}}
+.f-item.tip{justify-content:flex-end}
+.f-req{color:var(--main-blue);font-weight:400;line-height:inherit}
+.f-opt{color:var(--ink-4);font-weight:400;line-height:inherit}
+.f-help{font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.6;word-break:keep-all}
+.f-hint{position:relative;max-width:100%;padding:9px 12px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.55;letter-spacing:-.01em;word-break:keep-all}
+.f-hint::before{content:"";position:absolute;left:-3px;top:50%;margin-top:-4px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
+
+.field{display:flex;align-items:center;gap:8px;height:54px;padding:0 12px;background:var(--main-white);border:1px solid var(--field-line);border-radius:4px;transition:border-color .15s,box-shadow .15s}
+.field:hover{border-color:#525C66}
+.field:focus-within{border-color:var(--field-ink);box-shadow:0 0 0 3px rgba(51,54,61,.09)}
+.field.is-err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(217,63,69,.09)}
+.field input,.field select,.field textarea{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;font-weight:400;color:var(--field-ink);letter-spacing:-.01em}
+.field input,.field select{height:100%}
+.field select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:2px}
+.field select.is-empty{color:var(--field-line)}
+.field input::placeholder,.field textarea::placeholder{color:var(--field-line)}
+.f-caret{flex:none;display:flex;align-items:center;color:var(--ink-3);pointer-events:none}
+.f-caret svg{width:15px;height:15px;display:block}
+.f-unit{flex:none;font-size:15px;font-weight:400;color:var(--field-ink)}
+/* 숫자 칸은 단위(년·개월)에 붙여 오른쪽으로 민다. 브라우저 기본 스피너는
+   54px 칸 안에서 단위 글자와 부딪히므로 걷어낸다 (quote.html 과 동일) */
+.field input[type=number]{text-align:right;-moz-appearance:textfield;font-variant-numeric:tabular-nums}
+.field input[type=number]::-webkit-outer-spin-button,.field input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+/* 본문 칸은 높이를 늘린다 — 한 줄짜리 규격을 그대로 쓰면 긴 글이 접힌다 */
+.field.area{height:auto;align-items:flex-start;padding:14px 12px}
+.field.area textarea{height:200px;resize:vertical;line-height:1.72;font-size:15.5px}
+.f-count{margin-top:2px;font-size:12px;font-weight:600;color:var(--ink-4);text-align:right;font-variant-numeric:tabular-nums}
+.f-count.ok{color:var(--accent)}
+.f-count.is-err{color:var(--danger)}
+
+/* ===== 별점 =====
+   후기에서 가장 먼저 읽히는 값이다. 칸이 아니라 큼직한 눈금으로 둔다.
+   라디오를 숨기고 라벨을 눌러 고른다 — 키보드는 화살표로 이동한다. */
+.stars{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.star-set{display:inline-flex;gap:4px}
+.star-set input{position:absolute;opacity:0;width:0;height:0}
+.star-set label{display:flex;cursor:pointer;color:#DCE0E4;transition:color .12s,transform .12s}
+.star-set label svg{width:34px;height:34px;display:block}
+.star-set label:hover{transform:translateY(-1px)}
+.star-set input:focus-visible + label{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+.star-txt{font-size:14px;font-weight:700;letter-spacing:-.02em;color:var(--ink-3)}
+.star-txt.on{color:var(--ink)}
+.stars.is-err .star-set label{color:rgba(217,63,69,.35)}
+
+/* ===== 사진 첨부 =====
+   현장 사진 한 장이 문장 열 줄보다 믿음직하다. 없어도 넘어갈 수 있게 선택. */
+.up-zone{display:flex;align-items:center;gap:12px;padding:18px 16px;border:1px dashed #C6CBD1;border-radius:6px;background:var(--main-white);cursor:pointer;transition:border-color .15s,background .15s}
+.up-zone:hover,.up-zone.drag{border-color:var(--accent);background:var(--accent-tint)}
+.up-zone input{position:absolute;opacity:0;width:0;height:0}
+.up-ico{flex:none;width:36px;height:36px;border-radius:50%;background:var(--fill);color:var(--ink-3);display:flex;align-items:center;justify-content:center}
+.up-ico svg{width:18px;height:18px}
+.up-txt{min-width:0}
+.up-txt b{display:block;font-size:13.5px;font-weight:700;letter-spacing:-.025em;color:var(--ink)}
+.up-txt span{display:block;margin-top:2px;font-size:12px;font-weight:500;color:var(--ink-3)}
+.up-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.up-list:empty{display:none}
+.up-thumb{position:relative;width:84px;height:84px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--fill)}
+.up-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.up-thumb button{position:absolute;top:4px;right:4px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;padding:0;border:0;border-radius:50%;background:rgba(12,13,15,.62);color:#fff;cursor:pointer}
+.up-thumb button svg{width:11px;height:11px}
+.up-thumb button:hover{background:rgba(12,13,15,.82)}
+
+/* ===== 공개 범위 (라디오 카드) ===== */
+.pick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:640px){.pick-grid{grid-template-columns:1fr}}
+.pick{position:relative;display:flex;flex-direction:column;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--main-white);cursor:pointer;transition:border-color .15s,background .15s}
+.pick:hover{border-color:#C6CBD1}
+.pick input{position:absolute;opacity:0;width:0;height:0}
+.pick:has(input:checked){border-color:var(--accent);background:var(--accent-tint)}
+.pick:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.pick b{font-size:14.5px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
+.pick span{margin-top:3px;font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
+.pick:has(input:checked) span{color:var(--ink-2)}
+
+/* ===== 오류 문구 ===== */
+.r-err{display:none;margin-top:14px;font-size:13px;font-weight:600;color:var(--danger)}
+.r-err.on{display:block}
+.f-err{display:none;margin-top:1px;font-size:12.5px;font-weight:600;color:var(--danger)}
+.f-err.on{display:block}
+
+/* ===== 우측 : 미리보기 + 제출 ===== */
+.rv-side{position:sticky;top:var(--r-sticky-top,20px)}
+.rv-side-card{background:var(--fill);border:1px solid var(--line);border-radius:8px;padding:22px 20px;color:var(--ink)}
+.pv-cap{font-size:11.5px;font-weight:800;letter-spacing:.04em;color:var(--ink-3);text-transform:uppercase}
+/* 미리보기 — 메인 P7 후기 카드가 어떻게 보일지 그대로 보여준다 */
+.pv{margin-top:12px;padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--main-white)}
+.pv-stars{display:flex;gap:2px;color:#DCE0E4;margin-bottom:9px}
+.pv-stars svg{width:15px;height:15px;display:block}
+.pv-stars i.on{color:var(--accent)}
+.pv-stars i{display:block;color:inherit}
+.pv-q{font-family:var(--font-title);font-size:16px;font-weight:800;letter-spacing:-.04em;line-height:1.35;color:var(--ink);word-break:keep-all}
+.pv-q.ph{color:var(--ink-4)}
+.pv-body{margin-top:8px;font-size:12.5px;font-weight:500;color:var(--ink-2);line-height:1.66;word-break:keep-all;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.pv-body.ph{color:var(--ink-4)}
+.pv-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line-soft)}
+.pv-co{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:-.02em}
+.pv-badge{padding:2px 7px;border-radius:3px;background:var(--accent-tint);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:-.02em}
+.pv-dur{margin-left:auto;font-size:11.5px;font-weight:500;color:var(--ink-3)}
+
+.r-agree{margin-top:18px;padding:16px 0 0;border-top:1px solid var(--line)}
+.r-check{display:flex;align-items:flex-start;gap:9px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.5;word-break:keep-all}
+.r-check input{position:absolute;opacity:0;width:0;height:0}
+.r-check .box{flex:none;width:16px;height:16px;border-radius:3px;border:1.5px solid #C6CBD1;background:#fff;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
+.r-check .box svg{width:11px;height:11px;color:#fff;opacity:0;transition:.15s}
+.r-check input:checked + .box{background:var(--accent);border-color:var(--accent)}
+.r-check input:checked + .box svg{opacity:1}
+.r-check input:focus-visible + .box{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
+.r-agree-row{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.r-agree-link{flex:none;margin-left:auto;padding:0;border:0;background:none;font:inherit;font-size:12px;font-weight:600;color:var(--ink-3);text-decoration:underline;text-underline-offset:2px;cursor:pointer;white-space:nowrap}
+.r-agree-link:hover{color:var(--ink)}
+.r-agree-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+.r-agree.is-err .box{border-color:var(--danger);box-shadow:0 0 0 3px rgba(217,63,69,.12)}
+.r-agree.is-err .r-check{color:#B8353A}
+.r-submit{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+
+.r-notes{margin-top:16px;padding:0 2px}
+.r-notes h3{margin-bottom:9px;font-family:var(--font-body);font-size:13px;font-weight:800;letter-spacing:-.03em;color:var(--ink-2)}
+.r-notes ul{display:flex;flex-direction:column;gap:6px;list-style:none}
+.r-notes li{position:relative;padding-left:12px;font-size:12.5px;font-weight:500;color:var(--ink-2);line-height:1.6;word-break:keep-all}
+.r-notes li::before{content:"";position:absolute;left:2px;top:8px;width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
+@media(max-width:1024px){.rv-side{position:static}}
+
+/* ===== 버튼 (quote.html 과 같은 규격 · 알약 아님 · 그림자 없음) ===== */
+.review-page .banner-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:4px;font-size:15px;font-weight:700;letter-spacing:-.02em;background:var(--ink);color:#fff;border:0;box-shadow:none;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
+.review-page .banner-btn:hover{background:#2A2D33}
+.review-page .banner-btn.sec{background:var(--main-white);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.review-page .banner-btn.sec:hover{background:var(--main-white);box-shadow:inset 0 0 0 1px #CDD2D8}
+.review-page .banner-btn.ghost{background:none;color:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line)}
+.review-page .banner-btn.ghost:hover{background:var(--fill);color:var(--ink)}
+/* .banner-btn 이 .review-page 로 한 겹 더 묶여 있으므로 여기도 같은 깊이로 적는다 */
+.review-page .banner-btn.btn-cta{width:100%;padding:15px 20px;font-size:16px;background:var(--accent)}
+.review-page .banner-btn.btn-cta:hover{background:#0E4CAA}
+.review-page .banner-btn.btn-cta[disabled]{background:#E4E7EA;color:var(--ink-3);cursor:not-allowed}
+.review-page .banner-btn.btn-wide{width:100%;padding:13px 20px;font-size:14.5px}
+
+/* ===== 안내 모달 (native dialog) ===== */
+.r-modal{margin:auto;width:min(520px,calc(100vw - 32px));max-height:min(80vh,620px);padding:0;border:0;border-radius:8px;background:var(--main-white);color:var(--ink);box-shadow:0 24px 64px -24px rgba(12,13,15,.45);overflow:hidden}
+@supports(height:100dvh){.r-modal{max-height:min(80dvh,620px)}}
+.r-modal[open]{display:flex;flex-direction:column}
+.r-modal::backdrop{background:rgba(12,13,15,.45)}
+.r-modal-head{flex:none;display:flex;align-items:center;gap:12px;padding:20px 22px 15px;border-bottom:1px solid var(--line)}
+.r-modal-head h2{font-family:var(--font-body);font-size:17px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
+.r-modal-x{margin-left:auto;flex:none;width:30px;height:30px;display:flex;align-items:center;justify-content:center;padding:0;border:0;border-radius:4px;background:none;color:var(--ink-3);cursor:pointer;transition:.15s}
+.r-modal-x svg{width:17px;height:17px}
+.r-modal-x:hover{background:var(--fill);color:var(--ink)}
+.r-modal-body{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 22px 22px}
+.r-modal-body dl{display:flex;flex-direction:column;gap:15px}
+.r-modal-body dt{font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink-3);margin-bottom:4px}
+.r-modal-body dd{font-size:14px;color:var(--ink);line-height:1.65;word-break:keep-all}
+.r-modal-note{margin-top:18px;padding-top:15px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);line-height:1.7;word-break:keep-all}
+.r-modal-foot{flex:none;display:flex;justify-content:flex-end;gap:8px;padding:14px 22px;border-top:1px solid var(--line);background:var(--fill)}
+.r-modal-foot .banner-btn{padding:11px 18px;font-size:14px}
+@media(max-width:532px){.r-modal-foot .banner-btn{flex:1}}
+
+/* ===== 완료 화면 ===== */
+.r-done{display:none;padding:0}
+.r-done.on{display:block;grid-column:1 / -1;width:100%;max-width:520px;margin:0;padding:8px 0 0}
+.r-done p{margin-top:0;font-size:16px;color:var(--ink-2);line-height:1.7;word-break:keep-all}
+.r-done p b{color:var(--ink);font-weight:700}
+.r-done .acts{display:flex;gap:8px;margin-top:28px;flex-wrap:wrap}
+body.is-done #reviewForm,body.is-done .rv-side,body.is-done #heroDesc{display:none}
+#heroTitle.sent{color:var(--accent)}
+</style>
+</head>
+
+<body class="review-page view-login">
+<script>if(window.self!==window.top)document.body.classList.add('is-embedded');</script>
+
+<!-- =========================================================
+     1) 로그인 게이트
+     ========================================================= -->
+<section class="lg-wrap">
+  <div class="lg-card">
+    <div class="lg-head">
+      <span class="lg-brand"><span class="dot" aria-hidden="true"></span>김반장</span>
+      <h1>후기를 남기려면<br>로그인이 필요합니다</h1>
+      <p>실제로 김반장을 쓰고 계신 사업장만 후기를 남길 수 있습니다. 가입하신 아이디로 로그인해 주세요.</p>
+    </div>
+
+    <form class="lg-form" id="loginForm" novalidate>
+      <div class="f-item full">
+        <label class="f-label" for="lg-id">아이디<span class="f-req">(필수)</span></label>
+        <div class="field"><input id="lg-id" type="text" name="userid" required autocomplete="username" placeholder="아이디를 입력하세요"></div>
+      </div>
+      <div class="f-item full">
+        <label class="f-label" for="lg-pw">비밀번호<span class="f-req">(필수)</span></label>
+        <div class="field"><input id="lg-pw" type="password" name="password" required autocomplete="current-password" placeholder="비밀번호를 입력하세요"></div>
+      </div>
+
+      <p class="lg-err" id="lgErr" role="alert"></p>
+
+      <div class="lg-opts">
+        <label class="r-check">
+          <input type="checkbox" name="keep" id="lgKeep">
+          <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
+          <span>로그인 상태 유지</span>
+        </label>
+        <a class="lg-find" href="#">아이디 · 비밀번호 찾기</a>
+      </div>
+
+      <div class="lg-submit">
+        <button type="submit" class="banner-btn btn-cta">로그인</button>
+      </div>
+    </form>
+
+    <p class="lg-join">아직 회원이 아니신가요?<a href="#">회원가입</a></p>
+  </div>
+</section>
+
+<!-- =========================================================
+     2) 후기 작성
+     ========================================================= -->
+<section class="rv-hero">
+  <div class="inner">
+    <h1 class="title-lg" id="heroTitle">김반장을 쓰며 달라진 점을 <br>알려주세요</h1>
+    <p id="heroDesc">담당자 한 분의 실제 경험이, 같은 고민을 하는 다음 사업장의 선택을 돕습니다. 등록된 후기는 검수 후 홈페이지에 게시됩니다.</p>
+    <div class="rv-who">
+      <span class="av" id="whoAv" aria-hidden="true">김</span>
+      <span id="whoName">(주)천미이앤씨 · 김담당</span>
+      <button type="button" class="out" id="btnLogout">로그아웃</button>
+    </div>
+  </div>
+</section>
+
+<main class="rv-main">
+  <div class="inner">
+
+    <form id="reviewForm" novalidate>
+
+      <!-- STEP 1 : 무엇을 얼마나 쓰셨는지 -->
+      <div class="r-card">
+        <div class="r-step"><h2>이용 정보</h2></div>
+        <div class="f-grid">
+          <div class="f-item half">
+            <label class="f-label" for="r-svc">이용 서비스<span class="f-req">(필수)</span></label>
+            <div class="field">
+              <select id="r-svc" name="service" class="is-empty" required>
+                <option value="" disabled selected>서비스를 선택하세요</option>
+                <option>김반장 3.0</option>
+                <option>김반장 프리미엄</option>
+                <option>퇴직공제 전자카드 단말기</option>
+                <option>안면인식 출퇴근 단말기</option>
+              </select>
+              <span class="f-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </div>
+          </div>
+          <div class="f-item half">
+            <label class="f-label" for="r-biz">업종<span class="f-req">(필수)</span></label>
+            <div class="field">
+              <select id="r-biz" name="biztype" class="is-empty" required>
+                <option value="" disabled selected>업종을 선택하세요</option>
+                <option>토공사업</option>
+                <option>철골 및 관련 구조물 공사업</option>
+                <option>미장·방수·조적공사업</option>
+                <option>배관 및 냉·난방 공사업</option>
+                <option>도배, 실내장식 및 내장 목공사업</option>
+                <option>유리 및 창호 공사업</option>
+                <option>시설물 유지관리 공사업</option>
+                <option>보링, 그라우팅 및 관정 공사업</option>
+                <option>기타</option>
+              </select>
+              <span class="f-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </div>
+          </div>
+          <div class="f-item third">
+            <label class="f-label" for="r-yy">이용 기간<span class="f-req">(필수)</span></label>
+            <div class="field">
+              <input id="r-yy" type="number" name="years" min="0" max="40" step="1" value="" inputmode="numeric" placeholder="0">
+              <span class="f-unit">년</span>
+            </div>
+          </div>
+          <div class="f-item third">
+            <span class="f-spacer" aria-hidden="true"></span>
+            <div class="field">
+              <input id="r-mm" type="number" name="months" min="0" max="11" step="1" value="" inputmode="numeric" placeholder="0" aria-label="이용 기간 개월">
+              <span class="f-unit">개월</span>
+            </div>
+          </div>
+          <div class="f-item tip">
+            <p class="f-help">1년이 안 되면 '년'은 비워두셔도 됩니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 : 별점 -->
+      <div class="r-card">
+        <div class="r-step"><h2>만족도</h2></div>
+        <div class="stars" id="starWrap">
+          <div class="star-set" id="starSet" role="radiogroup" aria-label="만족도 별점">
+            <input type="radio" id="st1" name="rating" value="1" required><label for="st1" title="1점"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.45 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6z"/></svg><span class="sr-only">1점</span></label>
+            <input type="radio" id="st2" name="rating" value="2"><label for="st2" title="2점"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.45 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6z"/></svg><span class="sr-only">2점</span></label>
+            <input type="radio" id="st3" name="rating" value="3"><label for="st3" title="3점"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.45 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6z"/></svg><span class="sr-only">3점</span></label>
+            <input type="radio" id="st4" name="rating" value="4"><label for="st4" title="4점"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.45 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6z"/></svg><span class="sr-only">4점</span></label>
+            <input type="radio" id="st5" name="rating" value="5"><label for="st5" title="5점"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.45 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6z"/></svg><span class="sr-only">5점</span></label>
+          </div>
+          <span class="star-txt" id="starTxt">별을 눌러 점수를 매겨주세요</span>
+        </div>
+        <p class="f-err" id="errRating">만족도를 선택해 주세요.</p>
+      </div>
+
+      <!-- STEP 3 : 후기 본문 -->
+      <div class="r-card">
+        <div class="r-step">
+          <h2>후기 내용</h2>
+          <span class="f-hint">무엇이 어떻게 달라졌는지 한 가지만 구체적으로 적어주시면 충분합니다.</span>
+        </div>
+        <div class="f-grid">
+          <div class="f-item full">
+            <label class="f-label" for="r-title">한 줄 요약<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="r-title" type="text" name="title" required maxlength="30" placeholder="예) 노무비 업무의 어려움이 줄었어요"></div>
+            <p class="f-count" id="cntTitle">0 / 30자</p>
+          </div>
+          <div class="f-item full">
+            <label class="f-label" for="r-body">후기<span class="f-req">(필수)</span></label>
+            <div class="field area"><textarea id="r-body" name="body" required maxlength="1000" placeholder="도입 전에는 어떤 점이 번거로우셨고, 김반장을 쓰신 뒤로 무엇이 달라졌는지 적어주세요. (20자 이상)"></textarea></div>
+            <p class="f-count" id="cntBody">0 / 1,000자</p>
+          </div>
+          <div class="f-item full">
+            <label class="f-label">사진 첨부<span class="f-opt">(선택)</span></label>
+            <label class="up-zone" id="upZone">
+              <input type="file" id="upInput" name="photos" accept="image/*" multiple>
+              <span class="up-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-6 6"/></svg></span>
+              <span class="up-txt"><b>사진을 끌어다 놓거나 눌러서 선택</b><span>JPG · PNG · 최대 3장 · 장당 5MB</span></span>
+            </label>
+            <div class="up-list" id="upList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 : 공개 범위 -->
+      <div class="r-card">
+        <div class="r-step"><h2>공개 범위</h2></div>
+        <div class="pick-grid">
+          <label class="pick">
+            <input type="radio" name="visibility" value="full" checked>
+            <b>사업장명까지 공개</b>
+            <span>(주)천미이앤씨 처럼 상호가 함께 노출됩니다. 신뢰도가 가장 높습니다.</span>
+          </label>
+          <label class="pick">
+            <input type="radio" name="visibility" value="masked">
+            <b>업종만 공개</b>
+            <span>상호는 가리고 '토공사업' 같은 업종만 노출됩니다.</span>
+          </label>
+        </div>
+      </div>
+
+      <p class="r-err" id="formErr" role="alert"></p>
+    </form>
+
+    <!-- 완료 화면 -->
+    <div class="r-card r-done" id="doneCard" role="status">
+      <p>등록하신 후기는 <b>검수 후 2~3일 이내</b>에 홈페이지에 게시됩니다.<br>게시되면 가입하신 이메일로 알려드립니다.</p>
+      <div class="acts">
+        <a class="banner-btn" href="index.html">메인으로</a>
+        <button type="button" class="banner-btn sec" id="btnAgain">후기 하나 더 쓰기</button>
+      </div>
+    </div>
+
+    <!-- 우측 : 미리보기 + 제출 -->
+    <aside class="rv-side" id="sidePane">
+      <div class="rv-side-card">
+        <span class="pv-cap">미리보기</span>
+
+        <div class="pv">
+          <div class="pv-stars" id="pvStars" aria-hidden="true"></div>
+          <p class="pv-q ph" id="pvTitle">한 줄 요약이 여기에 보입니다</p>
+          <p class="pv-body ph" id="pvBody">작성하신 후기 본문이 이곳에 미리 보입니다. 메인 화면의 후기 카드와 같은 모양입니다.</p>
+          <div class="pv-meta">
+            <span class="pv-co" id="pvCo">(주)천미이앤씨</span>
+            <span class="pv-badge" id="pvBadge">업종</span>
+            <span class="pv-dur" id="pvDur">이용 기간</span>
+          </div>
+        </div>
+
+        <div class="r-agree" id="agreeWrap">
+          <div class="r-agree-row">
+            <label class="r-check">
+              <input type="checkbox" name="agree" id="agree" form="reviewForm">
+              <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
+              <span>후기 게시 및 활용에 동의합니다 <span class="f-req">(필수)</span></span>
+            </label>
+            <button type="button" class="r-agree-link" id="privacyOpen" aria-haspopup="dialog">내용 보기</button>
+          </div>
+        </div>
+
+        <div class="r-submit">
+          <button type="submit" form="reviewForm" class="banner-btn btn-cta" id="btnSubmit">후기 등록하기</button>
+          <button type="button" class="banner-btn ghost btn-wide" id="btnTemp">임시저장</button>
+        </div>
+      </div>
+
+      <div class="r-notes">
+        <h3>안내</h3>
+        <ul>
+          <li>등록하신 후기는 검수를 거쳐 게시되며, 욕설·광고·타인의 개인정보가 담긴 글은 게시되지 않습니다.</li>
+          <li>게시된 후기는 홈페이지와 소개 자료에 인용될 수 있습니다. 원하지 않으시면 언제든 삭제를 요청하실 수 있습니다.</li>
+        </ul>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<!-- 후기 게시·활용 동의 모달 -->
+<dialog class="r-modal" id="privacyModal" aria-labelledby="privacyTitle">
+  <div class="r-modal-head">
+    <h2 id="privacyTitle">후기 게시 및 활용 동의</h2>
+    <button type="button" class="r-modal-x" data-close aria-label="닫기">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="r-modal-body">
+    <dl>
+      <div><dt>게시 항목</dt><dd>사업장명(공개 범위 설정에 따름), 업종, 이용 서비스, 이용 기간, 별점, 후기 내용, 첨부 사진</dd></div>
+      <div><dt>이용 목적</dt><dd>홈페이지 이용 후기 게시, 서비스 소개 자료 및 광고에의 인용</dd></div>
+      <div><dt>보유·이용 기간</dt><dd>게시 삭제를 요청하시거나 회원 탈퇴 시까지</dd></div>
+    </dl>
+    <p class="r-modal-note">동의를 거부하실 수 있습니다. 다만 후기는 홈페이지에 게시되는 글이므로, 거부하시면 등록이 어렵습니다. 게시 후에도 마이페이지에서 언제든 수정·삭제하실 수 있습니다.</p>
+  </div>
+  <div class="r-modal-foot">
+    <button type="button" class="banner-btn sec" data-close>닫기</button>
+    <button type="button" class="banner-btn" id="agreeFromModal">동의하고 닫기</button>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  'use strict';
+  /* ?reviewId= 가 붙어 오면 수정 모드 (라이브 URL 규격) */
+  var rid = new URLSearchParams(location.search).get('reviewId');
+  var $  = function(s,r){return (r||document).querySelector(s);};
+  var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+  var body = document.body;
+  if(rid){
+    document.title = '이용 후기 수정 · 김반장';
+  }
+
+  /* ---------------------------------------------------------
+     화면 전환 — 로그인 게이트 → 작성
+     프로토타입이라 아이디/비밀번호는 비어 있지만 않으면 통과시킨다.
+     --------------------------------------------------------- */
+  function show(view){
+    body.classList.remove('view-login','view-write');
+    body.classList.add('view-' + view);
+    window.scrollTo(0,0);
+  }
+
+  var loginForm = $('#loginForm'), lgErr = $('#lgErr');
+  loginForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var id = $('#lg-id'), pw = $('#lg-pw'), bad = false;
+    [id,pw].forEach(function(el){
+      var wrap = el.closest('.field');
+      if(!el.value.trim()){ wrap.classList.add('is-err'); bad = true; }
+      else wrap.classList.remove('is-err');
+    });
+    if(bad){
+      lgErr.textContent = '아이디와 비밀번호를 모두 입력해 주세요.';
+      lgErr.classList.add('on');
+      (!id.value.trim() ? id : pw).focus();
+      return;
+    }
+    lgErr.classList.remove('on');
+    // 로그인한 계정 이름을 머리에 반영 (프로토타입: 입력한 아이디를 그대로 쓴다)
+    var nm = id.value.trim();
+    $('#whoName').textContent = '(주)천미이앤씨 · ' + nm;
+    $('#whoAv').textContent = nm.charAt(0).toUpperCase();
+    show('write');
+    $('#r-svc').focus();
+  });
+  $$('#loginForm .field input').forEach(function(el){
+    el.addEventListener('input', function(){ el.closest('.field').classList.remove('is-err'); lgErr.classList.remove('on'); });
+  });
+
+  $('#btnLogout').addEventListener('click', function(){
+    resetHero();
+    body.classList.remove('is-done');
+    $('#doneCard').classList.remove('on');
+    show('login');
+    $('#lg-id').focus();
+  });
+
+  /* ---------------------------------------------------------
+     select — 고르기 전에는 플레이스홀더 색으로 둔다 (라이브 규격)
+     --------------------------------------------------------- */
+  $$('#reviewForm select').forEach(function(sel){
+    var sync = function(){ sel.classList.toggle('is-empty', !sel.value); };
+    sel.addEventListener('change', function(){ sync(); sel.closest('.field').classList.remove('is-err'); paint(); });
+    sync();
+  });
+
+  /* ---------------------------------------------------------
+     별점 — 고른 별까지 채운다. 라디오라 화살표 이동은 기본 동작.
+     --------------------------------------------------------- */
+  var starSet = $('#starSet'), starTxt = $('#starTxt'), starWrap = $('#starWrap');
+  var WORDS = ['','많이 아쉬워요','아쉬워요','보통이에요','만족해요','아주 만족해요'];
+  function starValue(){ var c = $('input[name=rating]:checked', starSet); return c ? +c.value : 0; }
+  function paintStars(n){
+    $$('label', starSet).forEach(function(lb,i){
+      lb.style.color = i < n ? 'var(--accent)' : '';
+    });
+    starTxt.textContent = n ? n + '점 · ' + WORDS[n] : '별을 눌러 점수를 매겨주세요';
+    starTxt.classList.toggle('on', !!n);
+  }
+  starSet.addEventListener('change', function(){
+    starWrap.classList.remove('is-err');
+    $('#errRating').classList.remove('on');
+    paintStars(starValue());
+    paint();
+  });
+  // 마우스를 올린 동안만 미리 채워 보여준다
+  $$('label', starSet).forEach(function(lb,i){
+    lb.addEventListener('mouseenter', function(){ paintStars(i+1); });
+  });
+  starSet.addEventListener('mouseleave', function(){ paintStars(starValue()); });
+  paintStars(0);
+
+  /* ---------------------------------------------------------
+     글자 수 — 제목 30자, 본문 20자 이상 1,000자 이하
+     --------------------------------------------------------- */
+  function counter(input, out, max, min){
+    var f = function(){
+      var n = input.value.length;
+      out.textContent = n.toLocaleString('ko-KR') + ' / ' + max.toLocaleString('ko-KR') + '자';
+      out.classList.toggle('ok', min ? n >= min : n > 0);
+      if(n > 0) input.closest('.field').classList.remove('is-err');
+      paint();
+    };
+    input.addEventListener('input', f); f();
+  }
+  counter($('#r-title'), $('#cntTitle'), 30, 0);
+  counter($('#r-body'),  $('#cntBody'), 1000, 20);
+
+  /* ---------------------------------------------------------
+     사진 첨부 — 최대 3장, 장당 5MB
+     --------------------------------------------------------- */
+  var MAX_N = 3, MAX_B = 5 * 1024 * 1024;
+  var upZone = $('#upZone'), upInput = $('#upInput'), upList = $('#upList');
+  var files = [];
+  function renderFiles(){
+    upList.innerHTML = '';
+    files.forEach(function(f, i){
+      var d = document.createElement('div');
+      d.className = 'up-thumb';
+      var img = document.createElement('img');
+      img.alt = f.name;
+      img.src = URL.createObjectURL(f);
+      img.onload = function(){ URL.revokeObjectURL(img.src); };
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', f.name + ' 삭제');
+      b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+      b.addEventListener('click', function(e){ e.preventDefault(); files.splice(i,1); renderFiles(); });
+      d.appendChild(img); d.appendChild(b); upList.appendChild(d);
+    });
+  }
+  function addFiles(list){
+    Array.prototype.forEach.call(list, function(f){
+      if(files.length >= MAX_N) return;
+      if(!/^image\//.test(f.type)) return;
+      if(f.size > MAX_B) return;
+      files.push(f);
+    });
+    renderFiles();
+  }
+  upInput.addEventListener('change', function(){ addFiles(upInput.files); upInput.value = ''; });
+  ['dragenter','dragover'].forEach(function(t){
+    upZone.addEventListener(t, function(e){ e.preventDefault(); upZone.classList.add('drag'); });
+  });
+  ['dragleave','drop'].forEach(function(t){
+    upZone.addEventListener(t, function(e){ e.preventDefault(); upZone.classList.remove('drag'); });
+  });
+  upZone.addEventListener('drop', function(e){ if(e.dataTransfer) addFiles(e.dataTransfer.files); });
+
+  /* ---------------------------------------------------------
+     미리보기 — 메인 P7 후기 카드와 같은 모양으로 즉시 반영
+     --------------------------------------------------------- */
+  var pvStars = $('#pvStars');
+  var STAR_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.45 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6z"/></svg>';
+  pvStars.innerHTML = Array(5).join('|').split('|').map(function(){ return '<i>' + STAR_SVG + '</i>'; }).join('');
+  function paint(){
+    var n = starValue();
+    $$('i', pvStars).forEach(function(el,i){ el.classList.toggle('on', i < n); });
+
+    var t = $('#r-title').value.trim();
+    var pt = $('#pvTitle');
+    pt.textContent = t || '한 줄 요약이 여기에 보입니다';
+    pt.classList.toggle('ph', !t);
+
+    var b = $('#r-body').value.trim();
+    var pb = $('#pvBody');
+    pb.textContent = b || '작성하신 후기 본문이 이곳에 미리 보입니다. 메인 화면의 후기 카드와 같은 모양입니다.';
+    pb.classList.toggle('ph', !b);
+
+    var vis = $('input[name=visibility]:checked').value;
+    var biz = $('#r-biz').value;
+    $('#pvCo').textContent = vis === 'masked' ? (biz || '업종') + ' 사업장' : '(주)천미이앤씨';
+    $('#pvBadge').textContent = biz || '업종';
+    $('#pvBadge').style.display = vis === 'masked' ? 'none' : '';
+
+    var yy = +$('#r-yy').value || 0, mm = +$('#r-mm').value || 0;
+    var svc = $('#r-svc').value;
+    // 메인 P7 후기와 같은 표기: '8년 2개월째 사용중' — '째' 앞은 붙여 쓴다
+    var dur = ((yy ? yy + '년 ' : '') + (mm ? mm + '개월' : '')).trim();
+    $('#pvDur').textContent = (yy || mm) ? (svc ? svc + ' · ' : '') + dur + '째 사용중' : (svc || '이용 기간');
+  }
+  ['#r-yy','#r-mm'].forEach(function(s){ $(s).addEventListener('input', paint); });
+
+  /* 고치는 순간 빨간 표시를 거둔다 — 다 고쳤는데도 경고가 남아 있으면
+     무엇이 아직 잘못됐는지 알 수 없다. 기간은 두 칸이 한 항목이라 함께 푼다. */
+  ['#r-yy','#r-mm'].forEach(function(sel){
+    $(sel).addEventListener('input', function(){
+      if(+$('#r-yy').value || +$('#r-mm').value) $('#r-yy').closest('.field').classList.remove('is-err');
+    });
+  });
+  $('#reviewForm').addEventListener('input', function(){ $('#formErr').classList.remove('on'); });
+  $('#reviewForm').addEventListener('change', function(){ $('#formErr').classList.remove('on'); });
+  $('#agree').addEventListener('change', function(){ $('#formErr').classList.remove('on'); });
+  $$('input[name=visibility]').forEach(function(el){ el.addEventListener('change', paint); });
+  paint();
+
+  /* ---------------------------------------------------------
+     동의 모달
+     --------------------------------------------------------- */
+  var modal = $('#privacyModal'), agree = $('#agree'), agreeWrap = $('#agreeWrap');
+  $('#privacyOpen').addEventListener('click', function(){ modal.showModal(); });
+  $$('[data-close]', modal).forEach(function(b){ b.addEventListener('click', function(){ modal.close(); }); });
+  $('#agreeFromModal').addEventListener('click', function(){
+    agree.checked = true;
+    agreeWrap.classList.remove('is-err');
+    modal.close();
+  });
+  agree.addEventListener('change', function(){ if(agree.checked) agreeWrap.classList.remove('is-err'); });
+
+  /* ---------------------------------------------------------
+     제출
+     --------------------------------------------------------- */
+  var formErr = $('#formErr');
+  $('#reviewForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var bad = [], first = null;
+
+    function need(sel, label){
+      var el = $(sel), wrap = el.closest('.field');
+      if(!el.value.trim()){ wrap.classList.add('is-err'); bad.push(label); if(!first) first = el; }
+      else wrap.classList.remove('is-err');
+    }
+    need('#r-svc','이용 서비스');
+    need('#r-biz','업종');
+    need('#r-title','한 줄 요약');
+
+    var bodyEl = $('#r-body');
+    if(bodyEl.value.trim().length < 20){
+      bodyEl.closest('.field').classList.add('is-err');
+      bad.push('후기 본문(20자 이상)');
+      if(!first) first = bodyEl;
+    } else bodyEl.closest('.field').classList.remove('is-err');
+
+    if(!starValue()){
+      starWrap.classList.add('is-err');
+      $('#errRating').classList.add('on');
+      bad.push('만족도');
+      if(!first) first = $('#st5');
+    }
+
+    if(!(+$('#r-yy').value || +$('#r-mm').value)){
+      $('#r-yy').closest('.field').classList.add('is-err');
+      bad.push('이용 기간');
+      if(!first) first = $('#r-yy');
+    } else $('#r-yy').closest('.field').classList.remove('is-err');
+
+    if(!agree.checked){
+      agreeWrap.classList.add('is-err');
+      bad.push('게시 동의');
+      if(!first) first = agree;
+    }
+
+    if(bad.length){
+      formErr.textContent = bad.join(' · ') + ' 을(를) 확인해 주세요.';
+      formErr.classList.add('on');
+      // 동의 체크박스는 시각적으로 숨어 있어 초점만 주면 화면이 따라오지 않는다
+      if(first === agree) agreeWrap.scrollIntoView({block:'center',behavior:'smooth'});
+      if(first) first.focus({preventScroll: first === agree});
+      return;
+    }
+
+    formErr.classList.remove('on');
+    $('#heroTitle').textContent = rid ? '후기를 고쳐 주셔서 고맙습니다' : '후기를 보내주셔서 고맙습니다';
+    $('#heroTitle').classList.add('sent');
+    body.classList.add('is-done');
+    $('#doneCard').classList.add('on');
+    window.scrollTo(0,0);
+  });
+
+  $('#btnTemp').addEventListener('click', function(){
+    var b = $('#btnTemp'), t = b.textContent;
+    b.textContent = '임시저장했습니다';
+    setTimeout(function(){ b.textContent = t; }, 1600);
+  });
+
+  $('#btnAgain').addEventListener('click', function(){
+    resetHero();
+    $('#reviewForm').reset();
+    files = []; renderFiles();
+    $$('#reviewForm .field').forEach(function(f){ f.classList.remove('is-err'); });
+    $$('#reviewForm select').forEach(function(s){ s.classList.add('is-empty'); });
+    starWrap.classList.remove('is-err');
+    agreeWrap.classList.remove('is-err');
+    paintStars(0); paint();
+    $('#cntTitle').textContent = '0 / 30자';
+    $('#cntBody').textContent = '0 / 1,000자';
+    body.classList.remove('is-done');
+    $('#doneCard').classList.remove('on');
+    window.scrollTo(0,0);
+  });
+
+  function resetHero(){
+    $('#heroTitle').classList.remove('sent');
+    $('#heroTitle').innerHTML = rid ? '작성하신 후기를 <br>다듬어 주세요'
+                                    : '김반장을 쓰며 달라진 점을 <br>알려주세요';
+  }
+
+  /* 수정 모드 — 이미 올라간 글을 고치는 자리라 문구와 버튼이 달라진다 */
+  if(rid){
+    resetHero();
+    $('#heroDesc').textContent = '이미 등록하신 후기입니다. 내용을 고치면 검수 후 다시 게시됩니다.';
+    $('#btnSubmit').textContent = '수정한 내용 저장';
+  }
+})();
+</script>
+</body>
+</html>
