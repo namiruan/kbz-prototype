@@ -120,6 +120,10 @@ body.view-login .lg-bg{display:flex}
 /* .contents-title-txt 에는 색만 지정돼 있고 크기는 별도 타이포 클래스에서 온다.
    그 클래스를 알 수 없어 화면에서 잰 값(CTA 24px 대비 1.43배)으로 잡았다. */
 .lg-title-txt{flex:0 0 100%;color:var(--main-navy);text-align:center;font-family:var(--font-body);font-size:34px;font-weight:700;line-height:1.28;letter-spacing:-1.7px}
+/* 라이브 타이포 클래스와 같은 지점(899 / 532)에서 줄인다. 고정 크기로 두면
+   좁은 화면에서 둘째 줄이 한 번 더 접혀 '요!' 만 남는 줄이 생긴다. */
+@media(max-width:899px){.lg-title-txt{font-size:30px;letter-spacing:-1.5px}}
+@media(max-width:532px){.lg-title-txt{font-size:24px;letter-spacing:-1.2px}}
 #login-form{display:flex;width:280px;flex-direction:column;gap:30px}
 .lg-input-group{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
 .lg-row{display:flex;width:280px;max-width:280px;align-items:center;align-content:center;gap:5px 10px;flex-wrap:wrap}
@@ -160,187 +164,17 @@ body.view-login .lg-bg{display:flex}
   font-size:15px;font-weight:600;line-height:normal;letter-spacing:-.15px}
 .lg-link a:hover{color:var(--main-black)}
 
-/* ===== 로그인 화면 하단 이벤트 띠 ===== */
-.lg-promo{background:var(--sub-w-gray);padding:24px 0 0}
-.lg-promo-inner{max-width:1060px;margin:0 auto;padding:0 30px;display:flex;align-items:flex-end;justify-content:center;gap:30px}
-.lg-promo-txt{padding-bottom:34px;text-align:left;word-break:keep-all}
-.lg-promo-txt .sm{color:var(--main-black);font-size:18px;font-weight:400;line-height:1.5;letter-spacing:-.36px}
-.lg-promo-txt .bg{margin-top:2px;color:var(--main-blue);font-family:var(--font-body);font-size:30px;font-weight:700;line-height:1.24;letter-spacing:-1.5px}
+/* ===== 로그인 화면 하단 이벤트 띠 =====
+   바닥은 흰색이다(위쪽 그라디언트의 #F4F5F6 과 구분된다).
+   글과 사진은 좁은 화면에서도 세로로 쌓이지 않고, 나란히 선 채
+   함께 줄어든다 — 그래서 미디어쿼리 대신 clamp 로 묶었다. */
+.lg-promo{background:var(--main-white)}
+.lg-promo-inner{max-width:1060px;margin:0 auto;padding:0 20px;display:flex;align-items:flex-end;justify-content:center;gap:clamp(8px,2.5vw,30px)}
+.lg-promo-txt{flex:0 1 auto;padding-bottom:clamp(14px,2.6vw,30px);text-align:left;word-break:keep-all}
+.lg-promo-txt .sm{color:var(--main-black);font-size:clamp(11px,1.35vw,18px);font-weight:400;line-height:1.5;letter-spacing:-.02em;white-space:nowrap}
+.lg-promo-txt .bg{margin-top:2px;color:var(--main-blue);font-family:var(--font-body);font-size:clamp(16px,2.3vw,30px);font-weight:700;line-height:1.24;letter-spacing:-.05em;white-space:nowrap}
 /* 사진은 background 로 둔다 — 파일이 없으면 깨진 아이콘 없이 그냥 비어 보인다 */
-.lg-promo-img{flex:none;width:230px;height:200px;background:url("images/review/login-cta.png") center bottom/contain no-repeat}
-@media(max-width:640px){
-  .lg-promo-inner{flex-direction:column;align-items:center;gap:8px}
-  .lg-promo-txt{padding-bottom:0;text-align:center}
-  .lg-promo-txt .bg{font-size:24px;letter-spacing:-1.2px}
-  .lg-promo-img{width:170px;height:150px}
-}
-
-/* =========================================================
-   2) 후기 작성
-   ========================================================= */
-body.view-write .rv-hero,body.view-write .rv-main{display:block}
-.rv-hero,.rv-main{display:none}
-.rv-hero{padding:44px 0 34px;border-bottom:1px solid var(--line)}
-.rv-hero .inner{display:block}
-.rv-hero h1{line-height:1.14;word-break:keep-all}
-.rv-hero p{margin-top:12px;font-size:15px;font-weight:500;color:var(--ink-3);line-height:1.66;word-break:keep-all;max-width:640px}
-/* 로그인한 계정을 머리에 띄운다 — 누구 이름으로 올라가는지 먼저 보여야 한다 */
-.rv-who{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:7px 12px 7px 9px;border:1px solid var(--line);border-radius:100px;background:var(--fill);font-size:12.5px;font-weight:600;color:var(--ink-2)}
-.rv-who .av{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent-tint);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
-.rv-who .out{margin-left:4px;padding:0 0 0 9px;border:0;border-left:1px solid var(--line);background:none;font:inherit;font-size:12px;font-weight:600;color:var(--ink-3);cursor:pointer}
-.rv-who .out:hover{color:var(--ink)}
-@media(max-width:640px){.rv-hero{padding:30px 0 24px}.rv-hero h1{font-size:clamp(20px,7vw,31px)}}
-
-.rv-main{padding:56px 0 128px}
-body.is-done .rv-main{padding-bottom:72px}
-.rv-main .inner{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:26px 64px;align-items:start}
-@media(max-width:1024px){.rv-main .inner{grid-template-columns:minmax(0,1fr)}.rv-main{padding:40px 0 72px}}
-
-#reviewForm,.rv-side{min-width:0}
-.r-card{min-width:0;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
-.r-card + .r-card{margin-top:60px}
-.r-step{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;margin-bottom:22px}
-.r-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
-
-/* =========================================================
-   입력 필드 — kbz.co.kr 라이브 폼 규격 (quote.html 과 동일)
-   필드 : 높이 54 · radius 4 · 테두리 1px #6D7882 · 본문 16px/400 #33363D
-   라벨 : 필드 위 · 16px/400 · #131416 · 자간 -0.36px · 라벨↔칸 5px
-   필수 : 빨간 별표가 아니라 파란 (필수)
-   ========================================================= */
-.f-grid{display:flex;flex-wrap:wrap;gap:28px 12px}
-.f-item{display:flex;flex-direction:column;gap:5px;min-width:0}
-.f-item.half{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
-.f-item.third{flex:1 1 calc(33.333% - 8px);max-width:calc(33.333% - 8px)}
-.f-item.full{width:100%}
-@media(max-width:640px){.f-item.half,.f-item.third{flex-basis:100%;max-width:100%}}
-.f-label{display:flex;align-items:baseline;gap:4px;font-size:16px;font-weight:400;color:var(--field-label);letter-spacing:-.36px;line-height:1.4}
-/* '년 / 개월'은 라벨 하나를 나눠 쓴다. 둘째 칸은 라벨 높이만 비워 줄을 맞추고,
-   좁은 화면에서 1열로 접히면 빈 줄이 되므로 치운다. */
-.f-spacer{height:22px}
-@media(max-width:640px){.f-spacer{display:none}}
-.f-item.tip{justify-content:flex-end}
-.f-req{color:var(--main-blue);font-weight:400;line-height:inherit}
-.f-opt{color:var(--ink-4);font-weight:400;line-height:inherit}
-.f-help{font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.6;word-break:keep-all}
-.f-hint{position:relative;max-width:100%;padding:9px 12px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.55;letter-spacing:-.01em;word-break:keep-all}
-.f-hint::before{content:"";position:absolute;left:-3px;top:50%;margin-top:-4px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
-
-.field{display:flex;align-items:center;gap:8px;height:54px;padding:0 12px;background:var(--main-white);border:1px solid var(--field-line);border-radius:4px;transition:border-color .15s,box-shadow .15s}
-.field:hover{border-color:#525C66}
-.field:focus-within{border-color:var(--field-ink);box-shadow:0 0 0 3px rgba(51,54,61,.09)}
-.field.is-err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(217,63,69,.09)}
-.field input,.field select,.field textarea{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;font-weight:400;color:var(--field-ink);letter-spacing:-.01em}
-.field input,.field select{height:100%}
-.field select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:2px}
-.field select.is-empty{color:var(--field-line)}
-.field input::placeholder,.field textarea::placeholder{color:var(--field-line)}
-.f-caret{flex:none;display:flex;align-items:center;color:var(--ink-3);pointer-events:none}
-.f-caret svg{width:15px;height:15px;display:block}
-.f-unit{flex:none;font-size:15px;font-weight:400;color:var(--field-ink)}
-/* 숫자 칸은 단위(년·개월)에 붙여 오른쪽으로 민다. 브라우저 기본 스피너는
-   54px 칸 안에서 단위 글자와 부딪히므로 걷어낸다 (quote.html 과 동일) */
-.field input[type=number]{text-align:right;-moz-appearance:textfield;font-variant-numeric:tabular-nums}
-.field input[type=number]::-webkit-outer-spin-button,.field input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-/* 본문 칸은 높이를 늘린다 — 한 줄짜리 규격을 그대로 쓰면 긴 글이 접힌다 */
-.field.area{height:auto;align-items:flex-start;padding:14px 12px}
-.field.area textarea{height:200px;resize:vertical;line-height:1.72;font-size:15.5px}
-.f-count{margin-top:2px;font-size:12px;font-weight:600;color:var(--ink-4);text-align:right;font-variant-numeric:tabular-nums}
-.f-count.ok{color:var(--accent)}
-.f-count.is-err{color:var(--danger)}
-
-/* ===== 별점 =====
-   후기에서 가장 먼저 읽히는 값이다. 칸이 아니라 큼직한 눈금으로 둔다.
-   라디오를 숨기고 라벨을 눌러 고른다 — 키보드는 화살표로 이동한다. */
-.stars{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.star-set{display:inline-flex;gap:4px}
-.star-set input{position:absolute;opacity:0;width:0;height:0}
-.star-set label{display:flex;cursor:pointer;color:#DCE0E4;transition:color .12s,transform .12s}
-.star-set label svg{width:34px;height:34px;display:block}
-.star-set label:hover{transform:translateY(-1px)}
-.star-set input:focus-visible + label{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
-.star-txt{font-size:14px;font-weight:700;letter-spacing:-.02em;color:var(--ink-3)}
-.star-txt.on{color:var(--ink)}
-.stars.is-err .star-set label{color:rgba(217,63,69,.35)}
-
-/* ===== 사진 첨부 =====
-   현장 사진 한 장이 문장 열 줄보다 믿음직하다. 없어도 넘어갈 수 있게 선택. */
-.up-zone{display:flex;align-items:center;gap:12px;padding:18px 16px;border:1px dashed #C6CBD1;border-radius:6px;background:var(--main-white);cursor:pointer;transition:border-color .15s,background .15s}
-.up-zone:hover,.up-zone.drag{border-color:var(--accent);background:var(--accent-tint)}
-.up-zone input{position:absolute;opacity:0;width:0;height:0}
-.up-ico{flex:none;width:36px;height:36px;border-radius:50%;background:var(--fill);color:var(--ink-3);display:flex;align-items:center;justify-content:center}
-.up-ico svg{width:18px;height:18px}
-.up-txt{min-width:0}
-.up-txt b{display:block;font-size:13.5px;font-weight:700;letter-spacing:-.025em;color:var(--ink)}
-.up-txt span{display:block;margin-top:2px;font-size:12px;font-weight:500;color:var(--ink-3)}
-.up-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.up-list:empty{display:none}
-.up-thumb{position:relative;width:84px;height:84px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--fill)}
-.up-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.up-thumb button{position:absolute;top:4px;right:4px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;padding:0;border:0;border-radius:50%;background:rgba(12,13,15,.62);color:#fff;cursor:pointer}
-.up-thumb button svg{width:11px;height:11px}
-.up-thumb button:hover{background:rgba(12,13,15,.82)}
-
-/* ===== 공개 범위 (라디오 카드) ===== */
-.pick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-@media(max-width:640px){.pick-grid{grid-template-columns:1fr}}
-.pick{position:relative;display:flex;flex-direction:column;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--main-white);cursor:pointer;transition:border-color .15s,background .15s}
-.pick:hover{border-color:#C6CBD1}
-.pick input{position:absolute;opacity:0;width:0;height:0}
-.pick:has(input:checked){border-color:var(--accent);background:var(--accent-tint)}
-.pick:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
-.pick b{font-size:14.5px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
-.pick span{margin-top:3px;font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
-.pick:has(input:checked) span{color:var(--ink-2)}
-
-/* ===== 오류 문구 ===== */
-.r-err{display:none;margin-top:14px;font-size:13px;font-weight:600;color:var(--danger)}
-.r-err.on{display:block}
-.f-err{display:none;margin-top:1px;font-size:12.5px;font-weight:600;color:var(--danger)}
-.f-err.on{display:block}
-
-/* ===== 우측 : 미리보기 + 제출 ===== */
-.rv-side{position:sticky;top:var(--r-sticky-top,20px)}
-.rv-side-card{background:var(--fill);border:1px solid var(--line);border-radius:8px;padding:22px 20px;color:var(--ink)}
-.pv-cap{font-size:11.5px;font-weight:800;letter-spacing:.04em;color:var(--ink-3);text-transform:uppercase}
-/* 미리보기 — 메인 P7 후기 카드가 어떻게 보일지 그대로 보여준다 */
-.pv{margin-top:12px;padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--main-white)}
-.pv-stars{display:flex;gap:2px;color:#DCE0E4;margin-bottom:9px}
-.pv-stars svg{width:15px;height:15px;display:block}
-.pv-stars i.on{color:var(--accent)}
-.pv-stars i{display:block;color:inherit}
-.pv-q{font-family:var(--font-title);font-size:16px;font-weight:800;letter-spacing:-.04em;line-height:1.35;color:var(--ink);word-break:keep-all}
-.pv-q.ph{color:var(--ink-4)}
-.pv-body{margin-top:8px;font-size:12.5px;font-weight:500;color:var(--ink-2);line-height:1.66;word-break:keep-all;
-  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.pv-body.ph{color:var(--ink-4)}
-.pv-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line-soft)}
-.pv-co{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:-.02em}
-.pv-badge{padding:2px 7px;border-radius:3px;background:var(--accent-tint);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:-.02em}
-.pv-dur{margin-left:auto;font-size:11.5px;font-weight:500;color:var(--ink-3)}
-
-.r-agree{margin-top:18px;padding:16px 0 0;border-top:1px solid var(--line)}
-.r-check{display:flex;align-items:flex-start;gap:9px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.5;word-break:keep-all}
-.r-check input{position:absolute;opacity:0;width:0;height:0}
-.r-check .box{flex:none;width:16px;height:16px;border-radius:3px;border:1.5px solid #C6CBD1;background:#fff;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
-.r-check .box svg{width:11px;height:11px;color:#fff;opacity:0;transition:.15s}
-.r-check input:checked + .box{background:var(--accent);border-color:var(--accent)}
-.r-check input:checked + .box svg{opacity:1}
-.r-check input:focus-visible + .box{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
-.r-agree-row{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
-.r-agree-link{flex:none;margin-left:auto;padding:0;border:0;background:none;font:inherit;font-size:12px;font-weight:600;color:var(--ink-3);text-decoration:underline;text-underline-offset:2px;cursor:pointer;white-space:nowrap}
-.r-agree-link:hover{color:var(--ink)}
-.r-agree-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
-.r-agree.is-err .box{border-color:var(--danger);box-shadow:0 0 0 3px rgba(217,63,69,.12)}
-.r-agree.is-err .r-check{color:#B8353A}
-.r-submit{margin-top:16px;display:flex;flex-direction:column;gap:8px}
-
-.r-notes{margin-top:16px;padding:0 2px}
-.r-notes h3{margin-bottom:9px;font-family:var(--font-body);font-size:13px;font-weight:800;letter-spacing:-.03em;color:var(--ink-2)}
-.r-notes ul{display:flex;flex-direction:column;gap:6px;list-style:none}
-.r-notes li{position:relative;padding-left:12px;font-size:12.5px;font-weight:500;color:var(--ink-2);line-height:1.6;word-break:keep-all}
-.r-notes li::before{content:"";position:absolute;left:2px;top:8px;width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
-@media(max-width:1024px){.rv-side{position:static}}
+.lg-promo-img{flex:none;width:clamp(120px,17vw,230px);height:clamp(105px,15vw,200px);background:url("images/review/login-cta.png") center bottom/contain no-repeat}
 
 /* ===== 버튼 (quote.html 과 같은 규격 · 알약 아님 · 그림자 없음) ===== */
 .review-page .banner-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:4px;font-size:15px;font-weight:700;letter-spacing:-.02em;background:var(--ink);color:#fff;border:0;box-shadow:none;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
