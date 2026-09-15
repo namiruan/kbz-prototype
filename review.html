@@ -98,6 +98,40 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
   background:radial-gradient(78% 108% at 100% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%) no-repeat}
 
 /* =========================================================
+   사이트 헤더 — kbz.co.kr 라이브 (.header / .nav-group / .nav-title)
+   고정 70px. '이용후기'가 현재 위치라 selected.
+   ========================================================= */
+.header{width:100%;height:auto;display:flex;flex-direction:column;align-items:stretch;position:fixed;top:0;left:0;z-index:30;background:var(--main-white);box-shadow:0 2px 4px rgba(0,0,0,.05);transform:translateZ(0)}
+.nav-group{padding:0 20px;max-width:1280px;display:flex;justify-content:space-between;align-items:center;width:100%;overflow:hidden;margin:0 auto}
+.logo{position:relative;flex-shrink:0;display:flex;justify-content:center;align-items:center;gap:6px;height:59px}
+.logo-link{display:flex;align-items:center;text-decoration:none;gap:8px;cursor:pointer}
+/* 심볼은 실제 에셋이 없어 브랜드 색으로 자리만 잡아둔 것 — 진짜 파일로 갈아끼우면 된다 */
+.logo-symbol svg{height:26px;width:auto;display:block}
+.logo-text svg{height:21px;width:auto;display:block;fill:var(--main-black)}
+.nav-title{display:flex;align-items:center;list-style:none;height:70px}
+.nav-title .nav-item{display:flex;align-items:center;justify-content:center;gap:5px;text-align:center;white-space:nowrap;padding:5px 0;border-radius:6px;height:70px;
+  color:var(--main-black);font-family:var(--font-body);font-size:18px;font-weight:600;line-height:normal;transition:background .15s,color .15s}
+.nav-title .nav-item:hover{color:var(--main-blue)}
+.nav-title .premium{width:144px}
+.nav-title .kbz3{width:124px}
+.nav-title .review{width:93px}
+.nav-title .guide{width:148px}
+.nav-title .blog{width:77px}
+.nav-title .nav-item.selected{background:radial-gradient(49.14% 96.61% at 51.11% 100%, rgba(var(--color-sky-rgb),1) 0%, rgba(var(--color-sky-rgb),0) 100%);border-radius:6px;color:var(--main-blue)}
+.nav-title .kbz3 svg{width:16px;height:16px;flex:none}
+.externalLoginBtn{position:relative;display:inline-flex;justify-content:center;align-items:center;width:139px;height:40px;margin-left:20px;border:0;border-radius:1000px;
+  background:rgba(51,84,122,.5);box-shadow:0 0 2px 0 #90A3BD;overflow:hidden;cursor:pointer}
+.front-layer{position:absolute;inset:.09rem;border-radius:9999px;
+  background:linear-gradient(120deg,#6A8BAD -37.64%,#607891 -9.48%,#748EAC 10.75%,#1E385C 31.41%,#4A739B 72.36%,#2B476F 107.72%,#6A8BAD 140.42%)}
+.front-layer-hover{position:absolute;inset:.1rem;border-radius:9999px;opacity:0;transition:opacity .4s ease-in-out;
+  background:linear-gradient(120deg,#44576B -37.64%,#5D6F83 -9.48%,#3B536B 10.75%,#1F334D 31.41%,#223242 72.36%,#2B4157 107.72%,#4D5D6E 140.42%)}
+.externalLoginBtn:hover .front-layer-hover{opacity:1}
+.externalLoginBtn-text{position:relative;font-family:var(--font-pretendard);font-size:15px;font-weight:500;white-space:nowrap;color:#fff}
+.nav-hamburger{display:none;padding:0 4px;border:0;background:none;color:var(--main-black);font-size:28px;line-height:1;cursor:pointer;user-select:none}
+@media(max-width:899px){.externalLoginBtn{display:none}.nav-title .nav-item{font-size:16px}.nav-title .premium{width:120px}.nav-title .kbz3{width:106px}.nav-title .review{width:80px}.nav-title .guide{width:126px}.nav-title .blog{width:66px}}
+@media(max-width:691px){.nav-title{display:none}.nav-hamburger{display:block}}
+
+/* =========================================================
    1) 로그인 게이트 — kbz.co.kr/login 라이브 규격 이식
    ---------------------------------------------------------
    배경 : linear-gradient(#DCEEFF 21.75%, transparent 61.64%) + #F4F5F6
@@ -108,7 +142,7 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
    CTA  : 파란 알약이 아니라 검정 블록 — padding 30 · radius 12 ·
           hover 시 radius 300 + 파란 radial 그라디언트
    ========================================================= */
-.lg-bg{display:none;width:100%;min-height:100vh;padding:96px 0 72px;flex-direction:column;justify-content:center;align-items:center;
+.lg-bg{display:none;width:100%;min-height:100vh;padding:145px 0 0;flex-direction:column;justify-content:center;align-items:center;
   background:linear-gradient(rgba(var(--color-sky-rgb),1) 21.75%, rgba(var(--color-white-rgb),0) 61.64%), var(--sub-w-gray)}
 @supports(min-height:100dvh){.lg-bg{min-height:100dvh}}
 body.view-login .lg-bg{display:flex}
@@ -117,8 +151,9 @@ body.view-login .lg-bg{display:flex}
 .lg-list{display:flex;flex-direction:column;align-items:center;gap:30px}
 .lg-contents{display:flex;max-width:600px;flex-direction:column;align-items:center;gap:10px;align-self:stretch}
 .lg-title{display:flex;place-content:center;align-items:center;gap:2px;align-self:stretch;flex-wrap:wrap}
-.lg-title-txt{flex:0 0 100%;color:var(--main-navy);text-align:center;font-family:var(--font-body);font-size:30px;font-weight:700;line-height:normal;letter-spacing:-1.5px}
-.lg-desc{max-width:340px;color:var(--sub-d-gray);text-align:center;font-size:16px;font-weight:400;line-height:1.5;letter-spacing:-.16px;word-break:keep-all}
+/* .contents-title-txt 에는 색만 지정돼 있고 크기는 별도 타이포 클래스에서 온다.
+   그 클래스를 알 수 없어 화면에서 잰 값(CTA 24px 대비 1.43배)으로 잡았다. */
+.lg-title-txt{flex:0 0 100%;color:var(--main-navy);text-align:center;font-family:var(--font-body);font-size:34px;font-weight:700;line-height:1.28;letter-spacing:-1.7px}
 #login-form{display:flex;width:280px;flex-direction:column;gap:30px}
 .lg-input-group{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
 .lg-row{display:flex;width:280px;max-width:280px;align-items:center;align-content:center;gap:5px 10px;flex-wrap:wrap}
@@ -131,31 +166,55 @@ body.view-login .lg-bg{display:flex}
 .lg-input-wrap input{display:block;min-width:20px;flex:1 0 0;overflow:hidden;border:0;outline:0;background:none;text-overflow:ellipsis;
   color:var(--main-black);font-family:var(--font-body);font-size:17px;font-style:normal;font-weight:400;line-height:22px;letter-spacing:-.43px}
 .lg-input-wrap input::placeholder{color:var(--sub-d-gray)}
+.lg-eye{flex:none;display:flex;align-items:center;justify-content:center;width:24px;height:24px;margin-left:8px;padding:0;border:0;background:none;color:var(--sub-d-gray);cursor:pointer}
+.lg-eye svg{width:20px;height:20px;display:block}
+.lg-eye:hover{color:var(--main-black)}
+.lg-eye[aria-pressed="true"] .slash{display:none}
+.lg-eye:focus-visible{outline:2px solid var(--main-blue);outline-offset:2px;border-radius:3px}
 /* 오류는 칸마다 바로 아래에 붙는다 (라이브 .input_message_atomic) */
 .lg-msg{display:none;font-size:12px;line-height:1.5}
 .lg-msg.danger{display:block;color:#E53935}
 .lg-btn-group{display:flex;flex-direction:column;align-items:center;gap:5px;align-self:stretch}
-.lg-badge{display:flex;align-items:flex-start;align-self:stretch;margin-bottom:5px;text-align:left}
-.lg-badge span{color:#E74900;font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px;word-break:keep-all}
+.lg-badge{display:none;align-items:flex-start;justify-content:center;align-self:stretch;margin-bottom:5px}
+.lg-badge.on{display:flex}
+/* 살구색 알약 배경은 라이브 화면에는 보이는데 넘겨받은 CSS에는 없어 화면에서 떠 맞췄다 */
+.lg-badge span{padding:2px 10px;border-radius:4px;background:#FFEFE6;color:#E74900;
+  font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px;word-break:keep-all}
 .review-page .lg-cta{display:flex;max-width:300px;padding:30px;align-items:center;gap:40px;align-self:stretch;border-radius:12px;background:var(--main-black);
   border:0;box-shadow:none;cursor:pointer;font-family:inherit;transition:border-radius .25s,background .25s}
 .review-page .lg-cta:hover{border-radius:300px;background:radial-gradient(49.14% 96.61% at 51.11% 100%, #0062C4 45%, rgba(0,67,134,0) 100%),var(--main-black)}
 .review-page .lg-cta:focus-visible{outline:2px solid var(--main-blue);outline-offset:3px}
 .lg-cta .btn-name{display:flex;flex-direction:column;align-items:flex-start;gap:5px;flex:1 0 0}
-.lg-cta .btn-name b{color:var(--main-white);font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal}
+/* 280 - 좌우 30 - gap 40 - 화살표 24 = 156px. Wanted Sans 로는 들어가지만
+   폰트가 안 떠 대체 글꼴로 그려지면 넘쳐 두 줄이 된다 — 줄바꿈을 막는다 */
+.lg-cta .btn-name b{color:var(--main-white);font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal;white-space:nowrap}
 .lg-cta .arrow{flex:none;display:flex;color:var(--main-white)}
 .lg-cta .arrow svg{width:24px;height:24px;display:block}
 .lg-link{max-width:500px;align-self:stretch;margin-top:15px;color:var(--sub-d-gray);text-align:center;cursor:pointer;
   font-size:15px;font-weight:600;line-height:normal;letter-spacing:-.15px}
 .lg-link a:hover{color:var(--main-black)}
-.lg-link .sep{margin:0 8px;color:var(--main-gray)}
+
+/* ===== 로그인 화면 하단 이벤트 띠 ===== */
+.lg-promo{background:var(--sub-w-gray);padding:24px 0 0}
+.lg-promo-inner{max-width:1060px;margin:0 auto;padding:0 30px;display:flex;align-items:flex-end;justify-content:center;gap:30px}
+.lg-promo-txt{padding-bottom:34px;text-align:left;word-break:keep-all}
+.lg-promo-txt .sm{color:var(--main-black);font-size:18px;font-weight:400;line-height:1.5;letter-spacing:-.36px}
+.lg-promo-txt .bg{margin-top:2px;color:var(--main-blue);font-family:var(--font-body);font-size:30px;font-weight:700;line-height:1.24;letter-spacing:-1.5px}
+/* 사진은 background 로 둔다 — 파일이 없으면 깨진 아이콘 없이 그냥 비어 보인다 */
+.lg-promo-img{flex:none;width:230px;height:200px;background:url("images/review/login-cta.png") center bottom/contain no-repeat}
+@media(max-width:640px){
+  .lg-promo-inner{flex-direction:column;align-items:center;gap:8px}
+  .lg-promo-txt{padding-bottom:0;text-align:center}
+  .lg-promo-txt .bg{font-size:24px;letter-spacing:-1.2px}
+  .lg-promo-img{width:170px;height:150px}
+}
 
 /* =========================================================
    2) 후기 작성
    ========================================================= */
 body.view-write .rv-hero,body.view-write .rv-main{display:block}
 .rv-hero,.rv-main{display:none}
-.rv-hero{padding:44px 0 34px;border-bottom:1px solid var(--line)}
+.rv-hero{padding:114px 0 34px;border-bottom:1px solid var(--line)}
 .rv-hero .inner{display:block}
 .rv-hero h1{line-height:1.14;word-break:keep-all}
 .rv-hero p{margin-top:12px;font-size:15px;font-weight:500;color:var(--ink-3);line-height:1.66;word-break:keep-all;max-width:640px}
@@ -164,7 +223,7 @@ body.view-write .rv-hero,body.view-write .rv-main{display:block}
 .rv-who .av{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent-tint);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
 .rv-who .out{margin-left:4px;padding:0 0 0 9px;border:0;border-left:1px solid var(--line);background:none;font:inherit;font-size:12px;font-weight:600;color:var(--ink-3);cursor:pointer}
 .rv-who .out:hover{color:var(--ink)}
-@media(max-width:640px){.rv-hero{padding:30px 0 24px}.rv-hero h1{font-size:clamp(20px,7vw,31px)}}
+@media(max-width:640px){.rv-hero{padding:100px 0 24px}.rv-hero h1{font-size:clamp(20px,7vw,31px)}}
 
 .rv-main{padding:56px 0 128px}
 body.is-done .rv-main{padding-bottom:72px}
@@ -366,6 +425,44 @@ body.is-done #reviewForm,body.is-done .rv-side,body.is-done #heroDesc{display:no
 <!-- =========================================================
      1) 로그인 게이트
      ========================================================= -->
+<!-- =========================================================
+     사이트 헤더 (kbz.co.kr 라이브 구조) — 현재 위치는 '이용후기'
+     ========================================================= -->
+<header class="header">
+  <div class="nav-group">
+    <div class="logo">
+      <a class="logo-link" href="index.html" aria-label="김반장 홈">
+        <span class="logo-symbol" aria-hidden="true">
+          <!-- 자리표시 심볼 : 실제 로고 파일로 교체하세요 -->
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="28" height="28" rx="7" fill="#115AC6"/>
+            <path d="M9 7v14M9 14l7-7M9 14l7 7" stroke="#8ADAFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="21" cy="14" r="2.6" fill="#1B9FE2"/>
+          </svg>
+        </span>
+        <span class="logo-text"><svg viewBox="0 0 92 28" xmlns="http://www.w3.org/2000/svg"><path d="M15.1846 2.51313e-07L15.1846 2.24332C15.1846 6.36993 13.207 9.30564 9.25181 11.0781C6.87317 12.1306 3.78923 12.7399 4.22972e-08 12.8783L2.94261e-08 8.95944C3.04245 8.87636 5.51789 8.40554 7.41251 7.53313C9.52839 6.57764 10.5794 5.30366 10.5794 3.71118L0.401051 3.71118L0.401051 0.013848L15.1707 0.0138479L15.1846 2.51313e-07ZM1.46591 14.6924L24.5885 14.6924L24.5885 23.4303C24.5885 24.6766 24.3949 25.4797 23.9938 25.8536C23.579 26.2275 22.6939 26.4075 21.3525 26.4075L3.59562 26.4075C2.8765 26.4075 2.33715 26.2413 2.01908 25.909C1.64569 25.5628 1.46591 24.9397 1.46591 24.0811L1.46591 14.6924ZM20.2461 18.4866L5.78065 18.4866L5.78065 22.5856L20.2461 22.5856L20.2461 18.4866ZM20.2184 2.3478e-07L24.5885 2.20427e-07L24.5885 13.1137L20.2184 13.1137L20.2184 2.3478e-07Z"/><path d="M47.4072 11.7151C47.4072 12.5875 47.2274 13.2107 46.8541 13.5846C46.5222 13.9169 45.9966 14.0831 45.2637 14.0831L33.8683 14.0831C33.163 14.0831 32.6514 13.9169 32.3195 13.5846C31.9737 13.2107 31.7939 12.5875 31.7939 11.7151L31.7939 3.01185e-07L36.164 2.86832e-07L36.164 3.10188L43.051 3.10188L43.051 2.64212e-07L47.3934 2.4995e-07L47.3934 11.7151L47.4072 11.7151ZM33.2598 16.7834L37.6299 16.7834L37.6299 22.5302L56.6037 22.5302L56.6037 26.4075L35.4034 26.4075C34.6843 26.4075 34.1449 26.2552 33.8268 25.9367C33.4535 25.5628 33.2737 24.9397 33.2737 24.0673L33.2737 16.7557L33.2598 16.7834ZM36.1778 10.2196L43.0648 10.2196L43.0648 6.8269L36.1778 6.8269L36.1778 10.2196ZM56.3825 9.38872L56.3825 18.182L52.0124 18.182L52.0124 2.3478e-07L56.3825 2.20427e-07L56.3825 5.46983L59.9228 5.46983L59.9228 9.38872L56.3825 9.38872Z"/><path d="M79.2836 2.49224e-07L79.2836 3.79426L73.6966 3.79426C73.9455 4.97132 74.4572 5.9545 75.2455 6.71612C76.2135 7.67161 77.6103 8.29476 79.4081 8.61325L79.4081 12.6568C77.7762 12.5737 76.2273 12.1167 74.7891 11.2859C73.3232 10.455 72.203 9.40257 71.4424 8.11474C70.6541 9.40257 69.4648 10.4688 67.8744 11.3136C66.3809 12.1167 64.915 12.5737 63.4629 12.6568L63.4629 8.61325C65.2607 8.32245 66.6298 7.69931 67.5564 6.74382C68.317 5.9545 68.801 4.97132 68.9808 3.79426L63.5735 3.79426L63.5735 3.00821e-07L79.2836 2.49224e-07ZM84.2622 13.64C86.143 15.2324 87.0834 17.2404 87.0834 19.6637C87.0834 22.087 86.143 24.1088 84.2622 25.729C82.5197 27.2384 80.4868 28 78.1496 28C75.8125 28 73.7519 27.2384 72.0371 25.729C70.1978 24.1088 69.2712 22.087 69.2712 19.6637C69.2712 17.2404 70.1978 15.2324 72.0371 13.64C73.7519 12.1306 75.7986 11.3689 78.1496 11.3689C80.5006 11.3689 82.5058 12.1306 84.2622 13.64ZM75.1348 16.6311C74.2221 17.4619 73.7657 18.4728 73.7657 19.6775C73.7657 20.8823 74.2221 21.8932 75.1348 22.724C76.0061 23.5272 77.0156 23.9426 78.1773 23.9426C79.3389 23.9426 80.3761 23.5411 81.2474 22.724C82.1601 21.8932 82.6165 20.8823 82.6165 19.6775C82.6165 18.4728 82.1601 17.4619 81.2474 16.6311C80.3761 15.8417 79.3528 15.454 78.1773 15.454C77.0018 15.454 76.0061 15.8417 75.1348 16.6311ZM88.162 8.32245L88.162 12.6429L83.7781 12.6429L83.7781 2.34462e-07L88.162 2.20064e-07L88.162 4.4451L91.7023 4.4451L91.7023 8.3363L88.162 8.3363L88.162 8.32245Z"/></svg></span>
+      </a>
+    </div>
+
+    <nav class="nav-title">
+      <a class="nav-item premium" href="#">김반장 프리미엄</a>
+      <a class="nav-item kbz3" href="#">김반장 3.0
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </a>
+      <a class="nav-item review selected" href="review.html" aria-current="page">이용후기</a>
+      <a class="nav-item guide" href="#">건설실무 가이드</a>
+      <a class="nav-item blog" href="#">블로그</a>
+    </nav>
+
+    <button type="button" class="externalLoginBtn">
+      <span class="front-layer" aria-hidden="true"></span>
+      <span class="front-layer-hover" aria-hidden="true"></span>
+      <span class="externalLoginBtn-text">김반장 3.0 로그인</span>
+    </button>
+    <button type="button" class="nav-hamburger" aria-label="메뉴 열기">&#9776;</button>
+  </div>
+</header>
+
 <section class="lg-bg">
   <div class="lg-frame">
     <div class="lg-group">
@@ -373,10 +470,9 @@ body.is-done #reviewForm,body.is-done .rv-side,body.is-done #heroDesc{display:no
 
         <div class="lg-contents">
           <div class="lg-title">
-            <span class="lg-title-txt">후기를 남기려면</span>
-            <span class="lg-title-txt">로그인이 필요합니다</span>
+            <span class="lg-title-txt">김반장 계정으로</span>
+            <span class="lg-title-txt">이용후기를 남겨보세요!</span>
           </div>
-          <p class="lg-desc">가입하신 김반장 아이디로 로그인해 주세요.</p>
         </div>
 
         <form id="login-form" novalidate>
@@ -397,6 +493,11 @@ body.is-done #reviewForm,body.is-done .rv-side,body.is-done #heroDesc{display:no
               <div class="lg-input">
                 <div class="lg-input-wrap">
                   <input id="lg-pw" type="password" name="password" required autocomplete="current-password" placeholder="비밀번호를 입력하세요">
+                  <button type="button" class="lg-eye" id="lgEye" aria-label="비밀번호 보기" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M3 3l18 18"/>
+                    </svg>
+                  </button>
                 </div>
                 <p class="lg-msg" id="lgMsgPw" role="alert"></p>
               </div>
@@ -405,22 +506,31 @@ body.is-done #reviewForm,body.is-done .rv-side,body.is-done #heroDesc{display:no
           </div>
 
           <div class="lg-btn-group">
-            <div class="lg-badge"><span>실제로 김반장을 이용 중인 사업장만 후기를 남길 수 있습니다.</span></div>
+            <div class="lg-badge" id="lgBadge" role="alert"><span>아이디 또는 비밀번호가 일치하지 않습니다</span></div>
 
             <button type="submit" class="lg-cta">
-              <span class="btn-name"><b>로그인</b></span>
+              <span class="btn-name"><b>이용후기 남기기</b></span>
               <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
               </span>
             </button>
 
-            <p class="lg-link">
-              <a href="#">아이디 · 비밀번호 찾기</a><span class="sep">|</span><a href="#">회원가입</a>
-            </p>
+            <p class="lg-link"><a href="#">비밀번호 찾기</a></p>
           </div>
         </form>
 
       </div>
+    </div>
+  </div>
+
+  <!-- 하단 이벤트 띠 -->
+  <div class="lg-promo">
+    <div class="lg-promo-inner">
+      <div class="lg-promo-txt">
+        <p class="sm">과거에 사용했던 이용사라도</p>
+        <p class="bg">후기이벤트 참여 가능해요</p>
+      </div>
+      <div class="lg-promo-img" role="img" aria-label="현장에서 휴대폰으로 후기를 남기는 이용자"></div>
     </div>
   </div>
 </section>
@@ -668,11 +778,23 @@ body.is-done #reviewForm,body.is-done .rv-side,body.is-done #heroDesc{display:no
     {el:$('#lg-id'), msg:$('#lgMsgId'), text:'아이디를 입력해 주세요.'},
     {el:$('#lg-pw'), msg:$('#lgMsgPw'), text:'비밀번호를 입력해 주세요.'}
   ];
+  var lgBadge = $('#lgBadge');
   function lgClear(f){
     f.el.closest('.lg-input-wrap').classList.remove('is-err');
     f.msg.classList.remove('danger');
     f.msg.textContent = '';
+    lgBadge.classList.remove('on');
   }
+
+  /* 비밀번호 보기 — 가려져 있을 때만 눈에 사선이 그어진다 */
+  var lgEye = $('#lgEye');
+  lgEye.addEventListener('click', function(){
+    var pw = $('#lg-pw'), on = pw.type === 'password';
+    pw.type = on ? 'text' : 'password';
+    lgEye.setAttribute('aria-pressed', on ? 'true' : 'false');
+    lgEye.setAttribute('aria-label', on ? '비밀번호 가리기' : '비밀번호 보기');
+    pw.focus();
+  });
   $('#login-form').addEventListener('submit', function(e){
     e.preventDefault();
     var first = null;
@@ -685,6 +807,15 @@ body.is-done #reviewForm,body.is-done .rv-side,body.is-done #heroDesc{display:no
       } else lgClear(f);
     });
     if(first){ first.focus(); return; }
+
+    /* 프로토타입은 비어 있지만 않으면 통과시킨다.
+       인증 실패 화면(주황 배지)을 보려면 주소에 ?authfail=1 을 붙이면 된다. */
+    if(new URLSearchParams(location.search).get('authfail') === '1'){
+      lgBadge.classList.add('on');
+      $('#lg-pw').select();
+      return;
+    }
+    lgBadge.classList.remove('on');
 
     var id = $('#lg-id');
     // 로그인한 계정 이름을 머리에 반영 (프로토타입: 입력한 아이디를 그대로 쓴다)
