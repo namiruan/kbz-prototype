@@ -166,6 +166,10 @@ body.is-done .q-main{padding-bottom:72px}
 .f-item{position:relative;display:flex;flex-direction:column;gap:12px;min-width:0}
 .f-item.grow{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
 @media(max-width:640px){.f-item.grow{flex-basis:100%;max-width:100%}}
+/* 신청자 정보 — 윗줄 2칸(사업자등록번호·사업장명), 아랫줄 3칸 */
+.f-item.half{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
+.f-item.third{flex:1 1 calc(33.333% - 8px);max-width:calc(33.333% - 8px)}
+@media(max-width:640px){.f-item.half,.f-item.third{flex-basis:100%;max-width:100%}}
 /* 견적 조건은 가로 3열 (좁은 화면에서는 세로 1열) */
 .f-grid.cols3 .f-item{flex:1 1 0;min-width:0;max-width:none}
 @media(max-width:640px){.f-grid.cols3{flex-wrap:wrap}.f-grid.cols3 .f-item{flex-basis:100%}}
@@ -458,19 +462,23 @@ body.is-done .q-main{padding-bottom:72px}
       <div class="q-card">
         <div class="q-step"><h2>신청자 정보</h2></div>
         <div class="f-grid">
-          <div class="f-item grow">
+          <div class="f-item half">
             <label class="f-label" for="q-biz">사업자등록번호<span class="f-req">(필수)</span></label>
             <div class="field"><input id="q-biz" type="text" name="biz_no" required inputmode="numeric" maxlength="12" autocomplete="off" placeholder="000 - 00 - 00000"></div>
           </div>
-          <div class="f-item grow">
+          <div class="f-item half">
+            <label class="f-label" for="q-company">사업장명<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-company" type="text" name="company" required placeholder="사업장명을 입력하세요"></div>
+          </div>
+          <div class="f-item third">
             <label class="f-label" for="q-manager">담당자명<span class="f-req">(필수)</span></label>
             <div class="field"><input id="q-manager" type="text" name="manager" required placeholder="이름을 입력하세요"></div>
           </div>
-          <div class="f-item grow">
+          <div class="f-item third">
             <label class="f-label" for="q-phone">연락처<span class="f-req">(필수)</span></label>
             <div class="field"><input id="q-phone" type="tel" name="phone" required inputmode="tel" placeholder="010 - **** - ****"></div>
           </div>
-          <div class="f-item grow">
+          <div class="f-item third">
             <label class="f-label" for="q-email">이메일<span class="f-req">(필수)</span></label>
             <div class="field"><input id="q-email" type="email" name="email" required inputmode="email" placeholder="이메일을 입력하세요"></div>
           </div>
@@ -556,7 +564,7 @@ body.is-done .q-main{padding-bottom:72px}
   </div>
   <div class="q-modal-body">
     <dl>
-      <div><dt>수집 항목</dt><dd>사업자등록번호, 담당자명, 연락처, 이메일, 현장 지역</dd></div>
+      <div><dt>수집 항목</dt><dd>사업자등록번호, 사업장명, 담당자명, 연락처, 이메일, 현장 지역</dd></div>
       <div><dt>이용 목적</dt><dd>안면인식 출퇴근관리 단말기 임대 견적서 발송 및 도입 상담</dd></div>
       <div><dt>보유·이용 기간</dt><dd>상담 종료 후 1년. 기간이 지나면 지체 없이 파기합니다.</dd></div>
     </dl>
@@ -930,6 +938,7 @@ function validate(q){
     bad.push(1);
     fieldErr(biz, '사업자등록번호를 다시 확인해 주세요.');
   }
+  need('[name=company]', '사업장명을 입력해 주세요.');
   need('[name=manager]', '담당자명을 입력해 주세요.');
   need('[name=phone]',   '연락처를 입력해 주세요.');
   var email = need('[name=email]', '이메일을 입력해 주세요.');
@@ -973,7 +982,8 @@ form.addEventListener('submit', function(e){
     receipt_no: receiptNo(),
     requested_at: new Date().toISOString(),
     applicant: {
-      biz_no: digits(fd.get('biz_no')), manager: fd.get('manager'),
+      biz_no: digits(fd.get('biz_no')), company: fd.get('company'),
+      manager: fd.get('manager'),
       phone: fd.get('phone'),     email:   fd.get('email'),
       kbz_user: q.kbz_user,
       kbz_user_name: q.kbz_user === 'Y' ? '이용 중' : '이용 안 함'
@@ -1158,6 +1168,7 @@ if (/(^|[?&])done=1(&|$)/.test(location.search)) (function(){
   }
   set('input.s-qty', '6');
   set('#q-biz', '220-81-62517');
+  set('#q-company', '한강현장 신축공사');
   set('#q-manager', '김현장');
   set('#q-phone', '010-1234-5678');
   set('#q-email', 'test@example.com');
