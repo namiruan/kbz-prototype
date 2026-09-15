@@ -113,29 +113,32 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 @supports(min-height:100dvh){.lg-bg{min-height:100dvh}}
 .lg-frame{display:flex;max-width:100%;max-height:900px;justify-content:center;align-items:center;gap:40px;flex:1 0 0;align-self:stretch}
 .lg-group{display:flex;padding:0 30px;justify-content:center;align-items:center;gap:60px;flex:1 0 0}
+@media(max-width:340px){.lg-group{padding:0 20px}}
 .lg-list{display:flex;flex-direction:column;align-items:center;gap:30px}
 .lg-contents{display:flex;max-width:600px;flex-direction:column;align-items:center;gap:10px;align-self:stretch}
 .lg-title{display:flex;place-content:center;align-items:center;gap:2px;align-self:stretch;flex-wrap:wrap}
-/* .contents-title-txt 에는 색만 지정돼 있고 크기는 별도 타이포 클래스에서 온다.
-   그 클래스를 알 수 없어 화면에서 잰 값(CTA 24px 대비 1.43배)으로 잡았다. */
-.lg-title-txt{flex:0 0 100%;color:var(--main-navy);text-align:center;font-family:var(--font-body);font-size:34px;font-weight:700;line-height:1.28;letter-spacing:-1.7px}
-/* 라이브 타이포 클래스와 같은 지점(899 / 532)에서 줄인다. 고정 크기로 두면
-   좁은 화면에서 둘째 줄이 한 번 더 접혀 '요!' 만 남는 줄이 생긴다. */
-@media(max-width:899px){.lg-title-txt{font-size:30px;letter-spacing:-1.5px}}
+/* 피그마 partition-conetents-head : Wanted Sans Bold 30 / 자간 -5% / 줄높이 120%
+   (contents-title 높이 72 = 36 × 2줄). 899·532 에서 26 / 24 로 줄어든다. */
+.lg-title-txt{width:100%;color:var(--main-navy);text-align:center;font-family:var(--font-body);font-size:30px;font-weight:700;line-height:1.2;letter-spacing:-1.5px}
+@media(max-width:899px){.lg-title-txt{font-size:26px;letter-spacing:-1.3px}}
 @media(max-width:532px){.lg-title-txt{font-size:24px;letter-spacing:-1.2px}}
 #login-form{display:flex;width:280px;flex-direction:column;gap:30px}
 .lg-input-group{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
 .lg-row{display:flex;width:280px;max-width:280px;align-items:center;align-content:center;gap:5px 10px;flex-wrap:wrap}
 .lg-row-title{display:flex;width:130px;height:19px;align-items:center;gap:5px;flex-shrink:0}
-.lg-row-title label{color:var(--main-black);font-size:16px;font-weight:500;line-height:19px;letter-spacing:-.16px}
+/* 피그마 partition-banner-contents : 18/400 · 줄높이 1.4 · 자간 -0.36px */
+.lg-row-title label{color:var(--main-black);font-size:18px;font-weight:400;line-height:1.4;letter-spacing:-.36px;white-space:nowrap}
+@media(max-width:532px){.lg-row-title label{font-size:16px}}
 .lg-input{display:flex;min-width:180px;flex-direction:column;align-items:flex-start;gap:3px;flex:1 0 0}
 .lg-input-wrap{display:flex;padding:16px 12px;justify-content:space-between;align-items:center;align-self:stretch;border-radius:4px;border:1px solid #CDD1D5;background:var(--main-white);transition:border-color .15s}
 .lg-input-wrap:focus-within{border-color:var(--main-blue)}
 .lg-input-wrap.is-err{border-color:#E53935}
 .lg-input-wrap input{display:block;min-width:20px;flex:1 0 0;overflow:hidden;border:0;outline:0;background:none;text-overflow:ellipsis;
-  color:var(--main-black);font-family:var(--font-body);font-size:17px;font-style:normal;font-weight:400;line-height:22px;letter-spacing:-.43px}
+  /* Body/Regular = typo/font/type(Pretendard) 17 / 줄높이 22 / 자간 -0.43 */
+  color:var(--main-black);font-family:var(--font-pretendard);font-size:17px;font-style:normal;font-weight:400;line-height:22px;letter-spacing:-.43px}
 .lg-input-wrap input::placeholder{color:var(--sub-d-gray)}
-.lg-eye{flex:none;display:flex;align-items:center;justify-content:center;width:24px;height:24px;margin-left:8px;padding:0;border:0;background:none;color:var(--sub-d-gray);cursor:pointer}
+/* 피그마 icon_size 20×20 · Color/Icon/gray-light #8A949E */
+.lg-eye{flex:none;display:flex;align-items:center;justify-content:center;width:20px;height:20px;margin-left:10px;padding:0;border:0;background:none;color:#8A949E;cursor:pointer}
 .lg-eye svg{width:20px;height:20px;display:block}
 .lg-eye:hover{color:var(--main-black)}
 .lg-eye[aria-pressed="true"] .slash{display:none}
@@ -146,34 +149,49 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 .lg-btn-group{display:flex;flex-direction:column;align-items:center;gap:5px;align-self:stretch}
 .lg-badge{display:none;align-items:flex-start;justify-content:center;align-self:stretch;margin-bottom:5px}
 .lg-badge.on{display:flex}
-/* 살구색 알약 배경은 라이브 화면에는 보이는데 넘겨받은 CSS에는 없어 화면에서 떠 맞췄다 */
-.lg-badge span{padding:2px 10px;border-radius:4px;background:#FFEFE6;color:#E74900;
+/* 피그마 badge_atomic : padding 2/4 · radius 4 · 바탕 Color/badge/negative(#E76400 10%)
+   글자는 Footnote/Regular = Pretendard 13/18/-0.08, Color/Text/point #E74900 */
+.lg-badge span{padding:2px 4px;border-radius:4px;background:rgba(231,100,0,.1);color:#E74900;
   font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px;word-break:keep-all}
-.review-page .lg-cta{display:flex;max-width:300px;padding:30px;align-items:center;gap:40px;align-self:stretch;border-radius:12px;background:var(--main-black);
-  border:0;box-shadow:none;cursor:pointer;font-family:inherit;transition:border-radius .25s,background .25s}
-.review-page .lg-cta:hover{border-radius:300px;background:radial-gradient(49.14% 96.61% at 51.11% 100%, #0062C4 45%, rgba(0,67,134,0) 100%),var(--main-black)}
+/* 피그마 CTA button : p-30 · radius 12 · #131416 · max-w 300 (실측 280×89) */
+.review-page .lg-cta{position:relative;display:flex;max-width:300px;padding:30px;align-items:center;align-self:stretch;border-radius:12px;background:var(--main-black);
+  border:0;box-shadow:none;overflow:hidden;cursor:pointer;font-family:inherit}
 .review-page .lg-cta:focus-visible{outline:2px solid var(--main-blue);outline-offset:3px}
-.lg-cta .btn-name{display:flex;flex-direction:column;align-items:flex-start;gap:5px;flex:1 0 0}
-/* 280 - 좌우 30 - gap 40 - 화살표 24 = 156px. Wanted Sans 로는 들어가지만
-   폰트가 안 떠 대체 글꼴로 그려지면 넘쳐 두 줄이 된다 — 줄바꿈을 막는다 */
-.lg-cta .btn-name b{color:var(--main-white);font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal;white-space:nowrap}
-.lg-cta .arrow{flex:none;display:flex;color:var(--main-white)}
-.lg-cta .arrow svg{width:24px;height:24px;display:block}
-.lg-link{max-width:500px;align-self:stretch;margin-top:15px;color:var(--sub-d-gray);text-align:center;cursor:pointer;
-  font-size:15px;font-weight:600;line-height:normal;letter-spacing:-.15px}
+/* 글자칸은 오른쪽 48px 을 비워 화살표 자리를 남긴다 (피그마 btn name pr-48) */
+.lg-cta .btn-name{display:flex;flex-direction:column;align-items:flex-start;gap:5px;flex:1 0 0;min-width:0;padding-right:48px}
+.lg-cta .btn-name b{color:var(--main-white);font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal;text-align:left;white-space:nowrap}
+@media(max-width:532px){.lg-cta .btn-name b{font-size:20px}}
+/* 화살표는 흐름에 끼우지 않고 오른쪽 32px 에 띄운다 (피그마 main_banner_btn) */
+.lg-cta .arrow{position:absolute;right:32px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:24px;height:24px;color:var(--main-white)}
+.lg-cta .arrow svg{position:relative;width:14px;height:14px;display:block}
+/* hover 는 버튼 전체가 알약으로 변하는 게 아니라 화살표 뒤에 파란 빛이 도는 것이다
+   (피그마 안에 30×30 · radius 300 의 radial 그라디언트가 숨어 있다) */
+.lg-cta .arrow::before{content:"";position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:300px;
+  background:radial-gradient(50% 50% at 50% 50%, #0062C4 45%, rgba(0,67,134,0) 100%);opacity:0;transition:opacity .25s}
+.review-page .lg-cta:hover .arrow::before{opacity:1}
+/* 피그마 footer-tab : Wanted Sans 16/400 · 자간 -0.16px. group-list 간격이 30px 인데
+   .lg-btn-group 의 gap 5px 가 이미 붙으므로 25px 만 더한다 */
+.lg-link{max-width:500px;align-self:stretch;margin-top:25px;color:var(--sub-d-gray);text-align:center;cursor:pointer;
+  font-size:16px;font-weight:400;line-height:normal;letter-spacing:-.16px}
 .lg-link a:hover{color:var(--main-black)}
 
-/* ===== 로그인 화면 하단 이벤트 띠 =====
-   바닥은 흰색이다(위쪽 그라디언트의 #F4F5F6 과 구분된다).
-   글과 사진은 좁은 화면에서도 세로로 쌓이지 않고, 나란히 선 채
-   함께 줄어든다 — 그래서 미디어쿼리 대신 clamp 로 묶었다. */
-.lg-promo{background:var(--main-white)}
-.lg-promo-inner{max-width:1060px;margin:0 auto;padding:0 20px;display:flex;align-items:flex-end;justify-content:center;gap:clamp(8px,2.5vw,30px)}
-.lg-promo-txt{flex:0 1 auto;padding-bottom:clamp(14px,2.6vw,30px);text-align:left;word-break:keep-all}
-.lg-promo-txt .sm{color:var(--main-black);font-size:clamp(11px,1.35vw,18px);font-weight:400;line-height:1.5;letter-spacing:-.02em;white-space:nowrap}
-.lg-promo-txt .bg{margin-top:2px;color:var(--main-blue);font-family:var(--font-body);font-size:clamp(16px,2.3vw,30px);font-weight:700;line-height:1.24;letter-spacing:-.05em;white-space:nowrap}
+/* ===== 로그인 화면 하단 이벤트 띠 (피그마 partition-06) =====
+   바닥 흰색 + backdrop-blur 50. padding 25 에 안쪽 높이 50 → 띠 자체는 100px.
+   사진은 흐름에 끼우지 않고 띠 오른쪽에 띄워 위로 65px 삐져나온다. */
+/* .lg-bg 가 align-items:center 라 그냥 두면 띠가 내용 너비로 줄어든다 — 화면 폭을 꽉 채운다 */
+.lg-promo{align-self:stretch;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:25px;background:var(--main-white);backdrop-filter:blur(50px)}
+.lg-promo-inner{position:relative;display:flex;flex-direction:column;gap:15px;height:50px;align-items:flex-start;justify-content:center;max-width:600px;width:100%;padding:0 30px}
+@media(max-width:532px){.lg-promo-inner{padding:0}}
+.lg-promo-txt{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;max-width:450px;width:100%;line-height:normal;word-break:keep-all}
+/* contents-marque : Wanted Sans SemiBold 16 (691 아래 14) · Black #272B2F */
+.lg-promo-txt .sm{color:#272B2F;font-family:var(--font-body);font-size:16px;font-weight:600;line-height:normal;white-space:nowrap}
+/* contents-marque-header : Wanted Sans Bold 24 · 자간 -1.2px (899→22, 691→18) */
+.lg-promo-txt .bg{color:var(--main-blue);font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal;letter-spacing:-1.2px}
+@media(max-width:899px){.lg-promo-txt .bg{font-size:22px;letter-spacing:-1.1px}}
+@media(max-width:691px){.lg-promo-txt .sm{font-size:14px}.lg-promo-txt .bg{font-size:18px;letter-spacing:-.9px}}
 /* 사진은 background 로 둔다 — 파일이 없으면 깨진 아이콘 없이 그냥 비어 보인다 */
-.lg-promo-img{flex:none;width:clamp(120px,17vw,230px);height:clamp(105px,15vw,200px);background:url("images/review/login-cta.png") center bottom/contain no-repeat}
+.lg-promo-img{position:absolute;right:0;top:-65px;width:115px;height:140px;background:url("images/review/login-cta.png") center bottom/contain no-repeat}
+@media(max-width:532px){.lg-promo-img{top:-24px;width:81px;height:99px}}
 
 </style>
 </head>
@@ -187,8 +205,7 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 
         <div class="lg-contents">
           <div class="lg-title">
-            <span class="lg-title-txt">김반장 계정으로</span>
-            <span class="lg-title-txt">이용후기를 남겨보세요!</span>
+            <p class="lg-title-txt">김반장 계정으로<br>이용후기를 남겨보세요!</p>
           </div>
         </div>
 
