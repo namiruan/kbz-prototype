@@ -8,6 +8,7 @@
 <!-- 라이브(kbz.co.kr) 폰트: 본문/CTA=Wanted Sans, 타이틀=SUITE -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUITE/fonts/variable/woff2/SUITEVariable.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <style>
 /* =========================================================
    kbz.co.kr 라이브 CSS 토큰 그대로 이식 (common.css :root)
@@ -46,6 +47,8 @@
   /* 라이브 폰트 스택: 본문/CTA=Wanted Sans, 타이틀=SUITE, 폴백=Apple SD Gothic Neo */
   --font-body:"Wanted Sans Variable","Wanted Sans","Apple SD Gothic Neo",sans-serif;
   --font-title:"SUITE Variable","SUITE","Apple SD Gothic Neo",sans-serif;
+  /* 라이브 로그인 화면의 안내 배지는 Pretendard 를 쓴다 */
+  --font-pretendard:"Pretendard Variable","Pretendard","Apple SD Gothic Neo",sans-serif;
 
   /* 라이브 radial-sky 그라디언트 */
   --grad-radi-sky-top:radial-gradient(66.24% 130.23% at 51.11% -20.35%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%);
@@ -95,29 +98,57 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
   background:radial-gradient(78% 108% at 100% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%) no-repeat}
 
 /* =========================================================
-   1) 로그인 게이트
+   1) 로그인 게이트 — kbz.co.kr/login 라이브 규격 이식
    ---------------------------------------------------------
-   후기는 실제 이용 중인 계정만 쓸 수 있다. 로그인을 별도 페이지로
-   떼어내면 돌아오는 길이 끊기므로, 같은 화면에서 게이트로 세운다.
+   배경 : linear-gradient(#DCEEFF 21.75%, transparent 61.64%) + #F4F5F6
+   폼   : 폭 280 고정. 라벨칸 130 + 입력칸 180 이 280 을 넘겨 줄이 접히므로
+          라벨이 위, 입력칸이 아래로 내려간다 (세로 간격 5px).
+   입력 : padding 16/12 · radius 4 · 테두리 #CDD1D5
+          본문 Wanted Sans 17/22 · 자간 -0.43px · 플레이스홀더 #6D7882
+   CTA  : 파란 알약이 아니라 검정 블록 — padding 30 · radius 12 ·
+          hover 시 radius 300 + 파란 radial 그라디언트
    ========================================================= */
-.lg-wrap{display:none;min-height:100vh;align-items:center;justify-content:center;padding:56px 0}
-@supports(min-height:100dvh){.lg-wrap{min-height:100dvh}}
-body.view-login .lg-wrap{display:flex}
-.lg-card{width:min(400px,calc(100vw - 40px));margin:0 auto}
-.lg-head{margin-bottom:34px}
-.lg-brand{display:inline-flex;align-items:center;gap:7px;margin-bottom:20px;font-size:13px;font-weight:800;letter-spacing:-.03em;color:var(--accent)}
-.lg-brand .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
-.lg-head h1{font-size:29px;line-height:1.24;letter-spacing:-.04em;color:var(--ink)}
-.lg-head p{margin-top:10px;font-size:14px;font-weight:500;color:var(--ink-3);line-height:1.62;word-break:keep-all}
-.lg-form{display:flex;flex-direction:column;gap:12px}
-.lg-opts{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px}
-.lg-find{font-size:12.5px;font-weight:600;color:var(--ink-3);text-decoration:underline;text-underline-offset:2px}
-.lg-find:hover{color:var(--ink)}
-.lg-submit{margin-top:10px}
-.lg-join{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;font-weight:500;color:var(--ink-3);text-align:center}
-.lg-join a{margin-left:6px;font-weight:700;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
-.lg-err{display:none;margin-top:2px;font-size:12.5px;font-weight:600;color:var(--danger)}
-.lg-err.on{display:block}
+.lg-bg{display:none;width:100%;min-height:100vh;padding:96px 0 72px;flex-direction:column;justify-content:center;align-items:center;
+  background:linear-gradient(rgba(var(--color-sky-rgb),1) 21.75%, rgba(var(--color-white-rgb),0) 61.64%), var(--sub-w-gray)}
+@supports(min-height:100dvh){.lg-bg{min-height:100dvh}}
+body.view-login .lg-bg{display:flex}
+.lg-frame{display:flex;max-width:100%;max-height:900px;justify-content:center;align-items:center;gap:40px;flex:1 0 0;align-self:stretch}
+.lg-group{display:flex;padding:0 30px;justify-content:center;align-items:center;gap:60px;flex:1 0 0}
+.lg-list{display:flex;flex-direction:column;align-items:center;gap:30px}
+.lg-contents{display:flex;max-width:600px;flex-direction:column;align-items:center;gap:10px;align-self:stretch}
+.lg-title{display:flex;place-content:center;align-items:center;gap:2px;align-self:stretch;flex-wrap:wrap}
+.lg-title-txt{flex:0 0 100%;color:var(--main-navy);text-align:center;font-family:var(--font-body);font-size:30px;font-weight:700;line-height:normal;letter-spacing:-1.5px}
+.lg-desc{max-width:340px;color:var(--sub-d-gray);text-align:center;font-size:16px;font-weight:400;line-height:1.5;letter-spacing:-.16px;word-break:keep-all}
+#login-form{display:flex;width:280px;flex-direction:column;gap:30px}
+.lg-input-group{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.lg-row{display:flex;width:280px;max-width:280px;align-items:center;align-content:center;gap:5px 10px;flex-wrap:wrap}
+.lg-row-title{display:flex;width:130px;height:19px;align-items:center;gap:5px;flex-shrink:0}
+.lg-row-title label{color:var(--main-black);font-size:16px;font-weight:500;line-height:19px;letter-spacing:-.16px}
+.lg-input{display:flex;min-width:180px;flex-direction:column;align-items:flex-start;gap:3px;flex:1 0 0}
+.lg-input-wrap{display:flex;padding:16px 12px;justify-content:space-between;align-items:center;align-self:stretch;border-radius:4px;border:1px solid #CDD1D5;background:var(--main-white);transition:border-color .15s}
+.lg-input-wrap:focus-within{border-color:var(--main-blue)}
+.lg-input-wrap.is-err{border-color:#E53935}
+.lg-input-wrap input{display:block;min-width:20px;flex:1 0 0;overflow:hidden;border:0;outline:0;background:none;text-overflow:ellipsis;
+  color:var(--main-black);font-family:var(--font-body);font-size:17px;font-style:normal;font-weight:400;line-height:22px;letter-spacing:-.43px}
+.lg-input-wrap input::placeholder{color:var(--sub-d-gray)}
+/* 오류는 칸마다 바로 아래에 붙는다 (라이브 .input_message_atomic) */
+.lg-msg{display:none;font-size:12px;line-height:1.5}
+.lg-msg.danger{display:block;color:#E53935}
+.lg-btn-group{display:flex;flex-direction:column;align-items:center;gap:5px;align-self:stretch}
+.lg-badge{display:flex;align-items:flex-start;align-self:stretch;margin-bottom:5px;text-align:left}
+.lg-badge span{color:#E74900;font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px;word-break:keep-all}
+.review-page .lg-cta{display:flex;max-width:300px;padding:30px;align-items:center;gap:40px;align-self:stretch;border-radius:12px;background:var(--main-black);
+  border:0;box-shadow:none;cursor:pointer;font-family:inherit;transition:border-radius .25s,background .25s}
+.review-page .lg-cta:hover{border-radius:300px;background:radial-gradient(49.14% 96.61% at 51.11% 100%, #0062C4 45%, rgba(0,67,134,0) 100%),var(--main-black)}
+.review-page .lg-cta:focus-visible{outline:2px solid var(--main-blue);outline-offset:3px}
+.lg-cta .btn-name{display:flex;flex-direction:column;align-items:flex-start;gap:5px;flex:1 0 0}
+.lg-cta .btn-name b{color:var(--main-white);font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal}
+.lg-cta .arrow{flex:none;display:flex;color:var(--main-white)}
+.lg-cta .arrow svg{width:24px;height:24px;display:block}
+.lg-link{max-width:500px;align-self:stretch;margin-top:15px;color:var(--sub-d-gray);text-align:center;cursor:pointer;
+  font-size:15px;font-weight:600;line-height:normal;letter-spacing:-.15px}
+.lg-link a:hover{color:var(--main-black)}
+.lg-link .sep{margin:0 8px;color:var(--main-gray)}
 
 /* =========================================================
    2) 후기 작성
@@ -335,41 +366,62 @@ body.is-done #reviewForm,body.is-done .rv-side,body.is-done #heroDesc{display:no
 <!-- =========================================================
      1) 로그인 게이트
      ========================================================= -->
-<section class="lg-wrap">
-  <div class="lg-card">
-    <div class="lg-head">
-      <span class="lg-brand"><span class="dot" aria-hidden="true"></span>김반장</span>
-      <h1>후기를 남기려면<br>로그인이 필요합니다</h1>
-      <p>실제로 김반장을 쓰고 계신 사업장만 후기를 남길 수 있습니다. 가입하신 아이디로 로그인해 주세요.</p>
+<section class="lg-bg">
+  <div class="lg-frame">
+    <div class="lg-group">
+      <div class="lg-list">
+
+        <div class="lg-contents">
+          <div class="lg-title">
+            <span class="lg-title-txt">후기를 남기려면</span>
+            <span class="lg-title-txt">로그인이 필요합니다</span>
+          </div>
+          <p class="lg-desc">가입하신 김반장 아이디로 로그인해 주세요.</p>
+        </div>
+
+        <form id="login-form" novalidate>
+          <div class="lg-input-group">
+
+            <div class="lg-row">
+              <div class="lg-row-title"><label for="lg-id">아이디</label></div>
+              <div class="lg-input">
+                <div class="lg-input-wrap">
+                  <input id="lg-id" type="text" name="userid" required autocomplete="username" placeholder="아이디를 입력하세요">
+                </div>
+                <p class="lg-msg" id="lgMsgId" role="alert"></p>
+              </div>
+            </div>
+
+            <div class="lg-row">
+              <div class="lg-row-title"><label for="lg-pw">비밀번호</label></div>
+              <div class="lg-input">
+                <div class="lg-input-wrap">
+                  <input id="lg-pw" type="password" name="password" required autocomplete="current-password" placeholder="비밀번호를 입력하세요">
+                </div>
+                <p class="lg-msg" id="lgMsgPw" role="alert"></p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="lg-btn-group">
+            <div class="lg-badge"><span>실제로 김반장을 이용 중인 사업장만 후기를 남길 수 있습니다.</span></div>
+
+            <button type="submit" class="lg-cta">
+              <span class="btn-name"><b>로그인</b></span>
+              <span class="arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+              </span>
+            </button>
+
+            <p class="lg-link">
+              <a href="#">아이디 · 비밀번호 찾기</a><span class="sep">|</span><a href="#">회원가입</a>
+            </p>
+          </div>
+        </form>
+
+      </div>
     </div>
-
-    <form class="lg-form" id="loginForm" novalidate>
-      <div class="f-item full">
-        <label class="f-label" for="lg-id">아이디<span class="f-req">(필수)</span></label>
-        <div class="field"><input id="lg-id" type="text" name="userid" required autocomplete="username" placeholder="아이디를 입력하세요"></div>
-      </div>
-      <div class="f-item full">
-        <label class="f-label" for="lg-pw">비밀번호<span class="f-req">(필수)</span></label>
-        <div class="field"><input id="lg-pw" type="password" name="password" required autocomplete="current-password" placeholder="비밀번호를 입력하세요"></div>
-      </div>
-
-      <p class="lg-err" id="lgErr" role="alert"></p>
-
-      <div class="lg-opts">
-        <label class="r-check">
-          <input type="checkbox" name="keep" id="lgKeep">
-          <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
-          <span>로그인 상태 유지</span>
-        </label>
-        <a class="lg-find" href="#">아이디 · 비밀번호 찾기</a>
-      </div>
-
-      <div class="lg-submit">
-        <button type="submit" class="banner-btn btn-cta">로그인</button>
-      </div>
-    </form>
-
-    <p class="lg-join">아직 회원이 아니신가요?<a href="#">회원가입</a></p>
   </div>
 </section>
 
@@ -611,22 +663,30 @@ body.is-done #reviewForm,body.is-done .rv-side,body.is-done #heroDesc{display:no
     window.scrollTo(0,0);
   }
 
-  var loginForm = $('#loginForm'), lgErr = $('#lgErr');
-  loginForm.addEventListener('submit', function(e){
+  /* 라이브 로그인은 칸마다 바로 아래에 붉은 안내를 붙인다 (.input_message_atomic.danger) */
+  var LG = [
+    {el:$('#lg-id'), msg:$('#lgMsgId'), text:'아이디를 입력해 주세요.'},
+    {el:$('#lg-pw'), msg:$('#lgMsgPw'), text:'비밀번호를 입력해 주세요.'}
+  ];
+  function lgClear(f){
+    f.el.closest('.lg-input-wrap').classList.remove('is-err');
+    f.msg.classList.remove('danger');
+    f.msg.textContent = '';
+  }
+  $('#login-form').addEventListener('submit', function(e){
     e.preventDefault();
-    var id = $('#lg-id'), pw = $('#lg-pw'), bad = false;
-    [id,pw].forEach(function(el){
-      var wrap = el.closest('.field');
-      if(!el.value.trim()){ wrap.classList.add('is-err'); bad = true; }
-      else wrap.classList.remove('is-err');
+    var first = null;
+    LG.forEach(function(f){
+      if(!f.el.value.trim()){
+        f.el.closest('.lg-input-wrap').classList.add('is-err');
+        f.msg.textContent = f.text;
+        f.msg.classList.add('danger');
+        if(!first) first = f.el;
+      } else lgClear(f);
     });
-    if(bad){
-      lgErr.textContent = '아이디와 비밀번호를 모두 입력해 주세요.';
-      lgErr.classList.add('on');
-      (!id.value.trim() ? id : pw).focus();
-      return;
-    }
-    lgErr.classList.remove('on');
+    if(first){ first.focus(); return; }
+
+    var id = $('#lg-id');
     // 로그인한 계정 이름을 머리에 반영 (프로토타입: 입력한 아이디를 그대로 쓴다)
     var nm = id.value.trim();
     $('#whoName').textContent = '(주)천미이앤씨 · ' + nm;
@@ -634,9 +694,7 @@ body.is-done #reviewForm,body.is-done .rv-side,body.is-done #heroDesc{display:no
     show('write');
     $('#r-svc').focus();
   });
-  $$('#loginForm .field input').forEach(function(el){
-    el.addEventListener('input', function(){ el.closest('.field').classList.remove('is-err'); lgErr.classList.remove('on'); });
-  });
+  LG.forEach(function(f){ f.el.addEventListener('input', function(){ lgClear(f); }); });
 
   $('#btnLogout').addEventListener('click', function(){
     resetHero();
