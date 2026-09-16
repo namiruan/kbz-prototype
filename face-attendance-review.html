@@ -1673,10 +1673,18 @@ body.rw-done .rw-main{padding-block:0}
     $('.rw-head').innerHTML = '<span>이용 후기 등록이</span><span>완료되었습니다!</span>';
     step(3); body.classList.add('rw-done'); window.scrollTo(0,0);
   }
-  /* 완료 화면을 걷고 쓰던 자리로 돌아간다 — 인증 상태는 그대로 둔다 */
+  /* 완료 화면을 걷고 쓰던 자리로 돌아간다.
+     여기까지 온 사람은 이 후기의 주인이다 — 회원사는 로그인으로, 비회원사는 방금
+     모달에서 받은 번호 인증으로 그것이 밝혀졌다. 그러니 문을 다시 여닫아 볼 일이
+     없다. gateOpen 을 거치면 사업장 중복 검사가 한 번 더 돌아, 그 사이 같은
+     사업자번호로 남이 등록했다는 이유로 제 후기를 못 고치게 되는 수가 있다.
+     문은 여기서 직접 연다 */
   function backToForm(){
     body.classList.remove('rw-done');
     $('.rw-head').innerHTML = HEAD_HTML;
+    if(GUEST){ BIZ_EDIT=false; passBiz(); }
+    collapseVerify();
+    setLock(false); body.classList.add('rw-ok');
     step(2); markStep();
     var rec=loadRec(VD);
     if(rec && rec.data) showRestore(rec); else $('#btnSubmit').textContent='수정해서 등록';
@@ -1689,10 +1697,13 @@ body.rw-done .rw-main{padding-block:0}
      비회원사는 기댈 로그인이 없으니 본인인지 한 번은 봐야 한다. 다만 회사 정보와
      사업자번호까지 다시 받을 일은 아니다 — 모달에서 번호 인증만 다시 받고
      폼으로 돌아간다.
-     아직 인증 전이라면(확인용 주소로 바로 열었을 때) 처음부터 밟는다.
+     완료 화면에 서 있다는 것은 번호가 확인됐다는 뜻이다. 그 번호만 있으면 되고,
+     문이 열려 있는지까지 따지지 않는다 — 따졌더니 사업장 중복에 걸린 확인용
+     화면에서 빈 폼으로 되돌아가 쓴 글을 잃는 길이 났다.
+     번호조차 없으면(확인용 주소를 손으로 고쳐 연 경우) 처음부터 밟는다.
      그때 켜 둔 ?done=1 은 떼고 돌아간다. 안 그러면 완료 화면만 되풀이된다 */
   $('#btnAgain').addEventListener('click',function(){
-    if(VD && body.classList.contains('rw-ok')){
+    if(VD){
       if(!GUEST){ backToForm(); return; }
       var rec=loadRec(VD) || {status:'done', at:Date.now(), name:$('#r-name').value.trim()};
       openAsk({status:'done', at:rec.at, phone:VD, name:rec.name}, 'edit');
