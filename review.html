@@ -148,8 +148,13 @@ button{font-family:inherit}
    (기존엔 둘 다 #F4F5F6 이라 배경과도, 서로도 구분되지 않았다) */
 .rw-panel{background:var(--main-white);border:1px solid var(--ds-border-subtle);border-radius:8px;padding:25px}
 .rw-panel.auto{background:rgba(var(--color-blue-rgb),.045);border-color:rgba(var(--color-blue-rgb),.16)}
+/* 읽기 전용 패널 안의 글씨는 브랜드 톤(네이비)으로 — 중립 회색·검정은 파란 카드 위에서 겉돈다.
+   라벨은 네이비 72% (바탕 대비 약 5:1 로 AA 유지) */
+.rw-panel.auto .rw-lb span{color:rgba(var(--color-navy-rgb),.72)}
+.rw-panel.auto .rw-val{color:var(--main-navy)}
 /* 인증이 끝나면 그 패널도 읽기 전용이 되므로 같은 옷을 입는다 */
 body.rw-ok #secVerify .rw-panel{background:rgba(var(--color-blue-rgb),.045);border-color:rgba(var(--color-blue-rgb),.16)}
+body.rw-ok #secVerify .rw-sum p,body.rw-ok #secVerify .rw-sum p b{color:var(--main-navy)}
 
 
 /* 3열 그리드 */
