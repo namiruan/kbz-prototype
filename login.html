@@ -50,6 +50,13 @@
   /* 라이브 로그인 화면의 안내 배지는 Pretendard 를 쓴다 */
   --font-pretendard:"Pretendard Variable","Pretendard","Apple SD Gothic Neo",sans-serif;
 
+  /* 김반장 3.0 디자인 시스템 시맨틱 토큰 (index.html 의 .ui-demo 와 같은 출처)
+     로그인 화면이 쓰는 것만 가져왔다 */
+  --ds-text-body:#131416;
+  --ds-text-subtle:#6d7882;
+  --ds-text-disabled:#8a949e;
+  --ds-border-subtle:#cdd1d5;
+
   /* 라이브 radial-sky 그라디언트 */
   --grad-radi-sky-top:radial-gradient(66.24% 130.23% at 51.11% -20.35%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%);
   --grad-radi-sky-bottom:radial-gradient(49.14% 96.61% at 51.11% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%);
@@ -130,16 +137,21 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 .lg-row-title label{color:var(--main-black);font-size:18px;font-weight:400;line-height:1.4;letter-spacing:-.36px;white-space:nowrap}
 @media(max-width:532px){.lg-row-title label{font-size:16px}}
 .lg-input{display:flex;min-width:180px;flex-direction:column;align-items:flex-start;gap:3px;flex:1 0 0}
-.lg-input-wrap{display:flex;padding:16px 12px;justify-content:space-between;align-items:center;align-self:stretch;border-radius:4px;border:1px solid #CDD1D5;background:var(--main-white);transition:border-color .15s}
+.lg-input-wrap{display:flex;padding:16px 12px;justify-content:space-between;align-items:center;align-self:stretch;border-radius:4px;border:1px solid var(--ds-border-subtle);background:var(--main-white);transition:border-color .15s}
 .lg-input-wrap:focus-within{border-color:var(--main-blue)}
 .lg-input-wrap.is-err{border-color:#E53935}
 .lg-input-wrap input{display:block;min-width:20px;flex:1 0 0;overflow:hidden;border:0;outline:0;background:none;text-overflow:ellipsis;
   /* Body/Regular = typo/font/type(Pretendard) 17 / 줄높이 22 / 자간 -0.43 */
   color:var(--main-black);font-family:var(--font-pretendard);font-size:17px;font-style:normal;font-weight:400;line-height:22px;letter-spacing:-.43px}
 .lg-input-wrap input::placeholder{color:var(--sub-d-gray)}
-/* 피그마 icon_size 20×20 · Color/Icon/gray-light #8A949E */
-.lg-eye{flex:none;display:flex;align-items:center;justify-content:center;width:20px;height:20px;margin-left:10px;padding:0;border:0;background:none;color:#8A949E;cursor:pointer}
-.lg-eye img{width:20px;height:20px;display:block}
+/* 피그마 icon_size 20×20 · Color/Icon/gray-light = --ds-text-disabled (#8A949E) */
+.lg-eye{flex:none;display:flex;align-items:center;justify-content:center;width:20px;height:20px;margin-left:10px;padding:0;border:0;background:none;color:var(--ds-text-disabled);cursor:pointer}
+/* 색은 CSS 가 정하고 svg 는 모양만 낸다 — <img> 로 두면 파일에 박힌 색을 못 덮는다.
+   그래서 mask 로 실루엣만 떠서 currentColor 를 입힌다. */
+.lg-eye i{display:block;width:20px;height:20px;background:currentColor;
+  -webkit-mask:url("images/review/hide.svg") center/contain no-repeat;
+          mask:url("images/review/hide.svg") center/contain no-repeat}
+.lg-eye[aria-pressed="true"] i{-webkit-mask-image:url("images/review/show.svg");mask-image:url("images/review/show.svg")}
 .lg-eye:hover{color:var(--main-black)}
 .lg-eye:focus-visible{outline:2px solid var(--main-blue);outline-offset:2px;border-radius:3px}
 /* 오류는 칸마다 바로 아래에 붙는다 (라이브 .input_message_atomic) */
@@ -232,7 +244,7 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
                 <div class="lg-input-wrap">
                   <input id="lg-pw" type="password" name="password" required autocomplete="current-password" placeholder="비밀번호를 입력하세요">
                   <button type="button" class="lg-eye" id="lgEye" aria-label="비밀번호 보기" aria-pressed="false">
-                    <img id="lgEyeIcon" src="images/review/hide.svg" alt="" width="20" height="20">
+                    <i aria-hidden="true"></i>
                   </button>
                 </div>
                 <p class="lg-msg" id="lgMsgPw" role="alert"></p>
@@ -297,9 +309,6 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
     pw.type = on ? 'text' : 'password';
     lgEye.setAttribute('aria-pressed', on ? 'true' : 'false');
     lgEye.setAttribute('aria-label', on ? '비밀번호 가리기' : '비밀번호 보기');
-    /* 아이콘 두 장을 갈아끼운다. 이름은 '지금 비밀번호가 어떤 상태인지'를 가리킨다 —
-       가려져 있으면 hide.svg, 보이면 show.svg. 반대라면 이 줄의 on 을 !on 으로. */
-    $('#lgEyeIcon').src = 'images/review/' + (on ? 'show' : 'hide') + '.svg';
     pw.focus();
   });
 
