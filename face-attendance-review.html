@@ -543,6 +543,11 @@ body.rw-done .rw-main{padding-block:0}
               <div class="ms-pop" id="sitePop" hidden role="group" aria-labelledby="siteLb"></div>
             </div>
           </div>
+          <!-- 비회원은 계정에 계약 목록이 없으니 현장명을 직접 적는다 -->
+          <div id="siteNameWrap">
+            <div class="rw-lb"><label for="r-sitename"><span>현장명</span></label><em>(필수)</em></div>
+            <div class="f-in"><input id="r-sitename" type="text" placeholder="현장명을 입력하세요"></div>
+          </div>
           <div>
             <div class="rw-lb"><label for="r-biz"><span>업종명</span></label><em>(필수)</em></div>
             <div class="f-in">
@@ -1074,8 +1079,9 @@ body.rw-done .rw-main{padding-block:0}
   /* 회원은 회사명이 머리글에 있고 사업자번호를 확인할 일도 없다 */
   if(!GUEST){ $('#bizBody').hidden=true; $('#bizSum').hidden=true; }
 
-  /* 비회원은 계약이 없으니 고를 현장도 없다 */
+  /* 현장을 가리키는 칸은 하나면 된다 — 회원은 계약 목록에서 고르고, 비회원은 적는다 */
   if(GUEST) $('#siteWrap').hidden=true;
+  else $('#siteNameWrap').hidden=true;
 
   /* 비회원 사업자등록번호 — 형식과 중복만 본다 (김반장 이용 여부는 확인하지 않는다) */
   if(GUEST){
@@ -1121,7 +1127,7 @@ body.rw-done .rw-main{padding-block:0}
     }
     var bad=null;
     function need(el){ if(!el.value.trim()){ el.closest('.f-in').classList.add('is-err'); if(!bad) bad=el; } }
-    if(GUEST){ need($('#g-co')); need($('#g-biz')); }
+    if(GUEST){ need($('#g-co')); need($('#g-biz')); need($('#r-sitename')); }
     else if(!sitePicked().length){ $('#siteBtn').classList.add('is-err'); if(!bad) bad=$('#siteBtn'); }
     need($('#r-biz')); need($('#r-name'));
     QS.forEach(function(o,i){
