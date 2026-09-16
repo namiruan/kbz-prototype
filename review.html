@@ -127,7 +127,7 @@ button{font-family:inherit}
 .rw-sum .edit:hover{border-color:var(--ds-border-selected);color:var(--ds-text-body)}
 
 /* 인증 카드 안내 — 인증은 잠금 해제이면서 이전에 쓰던 내용을 되찾는 일이기도 하다 */
-.rw-gate p.tip{margin-top:7px;color:var(--main-blue);font-weight:500}
+.rw-gate p.tip{margin-top:1px;color:var(--main-blue);font-weight:500}
 
 /* 인증 후 : 불러온 기록을 카드 안에 남긴다 */
 .rw-restore{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:15px;padding:12px 14px;
@@ -180,12 +180,13 @@ body.rw-ok #secVerify .rw-panel{border:1px solid rgba(var(--color-blue-rgb),.16)
 body.rw-ok #secVerify .rw-sum p,body.rw-ok #secVerify .rw-sum p b{color:var(--main-navy)}
 
 /* 왜 해야 하는지를 패널 머리에 둔다 — 불릿에 묻어두면 읽지 않는다 */
-.rw-gate{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
-.rw-gate .ico{flex:none;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;
+.rw-gate{display:flex;align-items:flex-start;gap:8px;margin-bottom:20px}
+/* 원은 제목 첫 줄(17px × 1.45 ≒ 25px) 높이에 맞춘다 — 더 키우면 글 시작점만 밀린다 */
+.rw-gate .ico{flex:none;display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;
   background:rgba(var(--color-blue-rgb),.1);color:var(--main-blue)}
-.rw-gate .ico svg{width:17px;height:17px}
+.rw-gate .ico svg{width:14px;height:14px}
 .rw-gate b{display:block;color:var(--main-navy);font-family:var(--font-body);font-size:17px;font-weight:700;letter-spacing:-.02em;line-height:1.45;word-break:keep-all}
-.rw-gate p{margin-top:3px;color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;word-break:keep-all}
+.rw-gate p{margin-top:2px;color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;word-break:keep-all}
 body.rw-ok .rw-gate{display:none}
 
 /* 인증 버튼은 이 화면에서 유일하게 눌러야 할 것 — 외곽선이 아니라 채움으로 */
