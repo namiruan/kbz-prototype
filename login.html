@@ -270,7 +270,7 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 
             <p class="lg-link"><a href="#">비밀번호 찾기</a></p>
             <!-- 피그마에는 없다. 비회원이 작성 화면으로 갈 길이 없어 넣었다. -->
-            <p class="lg-guest">회원이 아니신가요? <a href="review.html?guest=1">로그인 없이 후기 남기기</a></p>
+            <p class="lg-guest">회원이 아니신가요? <a href="face-attendance-review.html?guest=1">로그인 없이 후기 남기기</a></p>
           </div>
         </form>
 
@@ -340,7 +340,7 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
       return;
     }
     /* 어느 계정으로 들어왔는지 작성 화면이 머리에 띄울 수 있게 넘긴다 */
-    location.href = 'review.html?u=' + encodeURIComponent($('#lg-id').value.trim());
+    location.href = 'face-attendance-review.html?u=' + encodeURIComponent($('#lg-id').value.trim());
   });
 })();
 </script>
