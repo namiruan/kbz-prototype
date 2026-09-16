@@ -176,6 +176,9 @@ button{font-family:inherit}
 #secVerify .rw-panel{border:2px solid var(--main-blue)}
 /* 인증이 끝나면 관문이 아니라 읽기 전용이 되므로 긴장을 푼다 */
 body.rw-ok #secVerify .rw-panel{border:1px solid rgba(var(--color-blue-rgb),.16);background:rgba(var(--color-blue-rgb),.045)}
+/* 회사 정보도 확인이 끝나면 같은 옷을 입는다 — 끝난 칸은 끝난 것처럼 보여야 한다 */
+#secBasic.is-ok .rw-panel{border-color:rgba(var(--color-blue-rgb),.16);background:rgba(var(--color-blue-rgb),.045)}
+#secBasic.is-ok .rw-sum p,#secBasic.is-ok .rw-sum p b{color:var(--main-navy)}
 body.rw-ok #secVerify .rw-sum p,body.rw-ok #secVerify .rw-sum p b{color:var(--main-navy)}
 
 /* 왜 해야 하는지를 패널 머리에 둔다 — 불릿에 묻어두면 읽지 않는다 */
@@ -428,10 +431,11 @@ body.rw-done .rw-main{padding-block:0}
     <section class="rw-sec" id="secBasic" hidden>
       <h2 class="rw-sec-t">회사<br>정보</h2>
       <div class="rw-panel" id="basicPanel">
-        <div class="rw-grid2" id="rwBasicGuest">
+        <div class="rw-grid2" id="bizBody">
           <div>
             <div class="rw-lb"><label for="g-co"><span>회사명</span></label><em>(필수)</em></div>
             <div class="f-in"><input id="g-co" type="text" placeholder="회사명을 입력하세요"></div>
+            <div class="f-msg"><p class="note" id="g-co-msg"></p></div>
           </div>
           <div>
             <div class="rw-lb"><label for="g-biz"><span>사업자등록번호</span></label><em>(필수)</em></div>
@@ -443,6 +447,13 @@ body.rw-done .rw-main{padding-block:0}
             </div>
             <div class="f-msg"><p class="note" id="g-biz-msg"></p></div>
           </div>
+        </div>
+
+        <!-- 확인이 끝나면 인증 카드와 같은 모양으로 접힌다 -->
+        <div class="rw-sum" id="bizSum" hidden>
+          <span class="ck" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
+          <p id="bizSumText"></p>
+          <button type="button" class="edit" id="btnEditBiz">수정</button>
         </div>
       </div>
     </section>
@@ -612,7 +623,10 @@ body.rw-done .rw-main{padding-block:0}
     }
     guestSub();
     /* 적는 대로 머리글에 올려 준다 — 회사명이 사는 곳을 한 군데로 둔다 */
-    $('#g-co').addEventListener('input', guestSub);
+    $('#g-co').addEventListener('input',function(){
+      guestSub();
+      $('#g-co').closest('.f-in').classList.remove('is-err'); $('#g-co-msg').textContent='';
+    });
   } else if(who){
     $('#rwCo').textContent='주식회사 예지건설';
   }
@@ -757,6 +771,7 @@ body.rw-done .rw-main{padding-block:0}
       el.value=d[k]; settle(el);
     });
     paintStars(starVal()); syncSite();
+    if(BIZ_OK) renderBizSum();      /* 되찾은 값이 요약과 어긋나지 않게 */
   }
   function wipe(){
     fields().forEach(function(el){
@@ -797,6 +812,7 @@ body.rw-done .rw-main{padding-block:0}
   /* 같은 번호로 낸 것은 '내 것'이니 중복이 아니다 — 불러와 고치면 된다 */
   /* 사업자번호가 지금 어떤 상태인지 — 판단은 여기 한 곳에서만 한다 */
   var BIZ_OK=false;
+  var BIZ_EDIT=false;   /* 사용자가 직접 펼쳐 둔 상태 — 이때는 자동 통과시키지 않는다 */
   function bizState(){
     var bz=onlyNum($('#g-biz').value);
     if(bz.length!==10) return {k:'bad'};
@@ -805,22 +821,31 @@ body.rw-done .rw-main{padding-block:0}
     if(o.phone===VD) return {k:'mine', o:o};   /* 내가 낸 것이니 고치면 된다 */
     return {k:'taken', o:o};
   }
+  /* 끝난 칸은 한 줄로 접는다 — 작성자 인증과 같은 모양이다 */
+  function renderBizSum(){
+    var co=$('#g-co').value.trim(), bz=onlyNum($('#g-biz').value);
+    $('#bizSumText').innerHTML='<b>'+co+'</b> · <span class="ph">'
+      +bz.slice(0,3)+'-'+bz.slice(3,5)+'-'+bz.slice(5)+'</span><span class="ok">확인됨</span>';
+  }
   function passBiz(){
     BIZ_OK=true; hideDup();
-    $('#btnBiz').disabled=true; $('#btnBiz').textContent='확인됨';
-    $('#g-biz-msg').textContent='후기를 남기실 수 있는 번호입니다.';
-    $('#g-biz-msg').className='note ok';
+    renderBizSum();
+    $('#bizBody').hidden=true; $('#bizSum').hidden=false;
+    $('#secBasic').classList.add('is-ok');
+    $('#g-biz-msg').textContent=''; $('#g-co-msg').textContent='';
   }
   function resetBiz(){
     BIZ_OK=false;
-    $('#btnBiz').disabled=false; $('#btnBiz').textContent='확인';
+    $('#bizSum').hidden=true; $('#bizBody').hidden=false;
+    $('#secBasic').classList.remove('is-ok');
   }
   /* 비회원의 사업자번호가 문을 막고 있으면 그 이유를 돌려준다 */
   function bizBlock(){
     if(!GUEST) return null;
     var st=bizState();
     if(st.k==='taken'){ showDup(st.o); return 'taken'; }
-    if(st.k==='mine'){ passBiz(); return null; }   /* 인증하고 보니 본인 것이었다 */
+    /* 인증하고 보니 본인 것이었다 — 다만 직접 펼쳐 고치는 중이면 손대지 않는다 */
+    if(st.k==='mine'){ if(BIZ_EDIT) return 'unchecked'; passBiz(); return null; }
     if(st.k==='bad' || !BIZ_OK) return 'unchecked';
     hideDup(); return null;
   }
@@ -1021,6 +1046,14 @@ body.rw-done .rw-main{padding-block:0}
   document.addEventListener('click',function(e){ if(!$('#siteMs').contains(e.target)) siteOpen(false); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') siteOpen(false); });
 
+  /* 접힌 회사 정보를 다시 펼친다 — 펼치는 순간 확인은 없던 일이 된다 */
+  $('#btnEditBiz').addEventListener('click',function(){
+    BIZ_EDIT=true; resetBiz(); hideDup();
+    if(VD) gateOpen(true);
+    $('#g-biz').focus();
+    $('#secBasic').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+
   /* 비회원은 계약이 없으니 고를 현장도 없다 */
   if(GUEST) $('#siteWrap').hidden=true;
 
@@ -1039,6 +1072,12 @@ body.rw-done .rw-main{padding-block:0}
     });
 
     $('#btnBiz').addEventListener('click',function(){
+      /* 확인하면 회사명까지 함께 접히므로 둘 다 채워져 있어야 한다 */
+      if(!$('#g-co').value.trim()){
+        $('#g-co').closest('.f-in').classList.add('is-err');
+        $('#g-co-msg').textContent='회사명을 입력해 주세요.';
+        $('#g-co-msg').className='note danger'; $('#g-co').focus(); return;
+      }
       var st=bizState();
       if(st.k==='bad'){
         biz.closest('.f-in').classList.add('is-err');
@@ -1046,7 +1085,7 @@ body.rw-done .rw-main{padding-block:0}
         $('#g-biz-msg').className='note danger'; biz.focus(); return;
       }
       if(st.k==='taken'){ showDup(st.o); biz.focus(); return; }
-      passBiz();
+      BIZ_EDIT=false; passBiz();
       if(VD) gateOpen();          /* 인증이 먼저였다면 이 확인으로 문이 열린다 */
     });
   }
