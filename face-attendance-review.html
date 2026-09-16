@@ -149,15 +149,6 @@ button{font-family:inherit}
   font-family:var(--font-pretendard);font-size:14px;font-weight:600;cursor:pointer}
 .rw-restore .edit:hover{background:var(--main-blue);border-color:var(--main-blue);color:var(--main-white)}
 
-/* 한 사업장이 두 번 참여하려 할 때 — 되찾기(파랑)와 성격이 다르니 색을 나눈다 */
-.rw-dup{display:flex;align-items:flex-start;gap:10px;margin-top:15px;padding:12px 14px;
-  border-radius:var(--rad-sm);background:rgba(231,100,0,.08)}
-.rw-dup .ic{flex:none;display:flex;width:22px;height:22px;align-items:center;justify-content:center;color:#E74900}
-.rw-dup .ic svg{width:17px;height:17px}
-.rw-dup p{flex:1 0 0;min-width:180px;color:#8A3200;font-family:var(--font-pretendard);
-  font-size:14px;font-weight:400;line-height:20px;word-break:keep-all}
-.rw-dup p b{font-weight:700;color:#E74900}
-.rw-dup p .at{color:rgba(138,50,0,.65);font-size:13px}
 
 /* =========================================================
    본문 2열 — 왼쪽 섹션 제목(파랑) · 오른쪽 내용
@@ -587,12 +578,6 @@ body.rw-done .rw-main{padding-block:0}
           <p id="restoreText"></p>
           <button type="button" class="edit" id="btnFresh">새로 작성</button>
         </div>
-
-        <!-- 같은 사업자등록번호로 이미 등록된 후기가 있을 때 -->
-        <div class="rw-dup" id="dupBar" hidden>
-          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v5"/><path d="M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg></span>
-          <p id="dupText"></p>
-        </div>
       </div>
     </section>
 
@@ -700,7 +685,7 @@ body.rw-done .rw-main{padding-block:0}
     <div class="ask-acts">
       <button type="button" class="s" id="askCancel">취소</button>
       <button type="button" class="p" id="askOk">
-        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>인증하기</button>
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span><span id="askOkTxt">이어서 작성하기</span></button>
     </div>
   </div>
 </div>
@@ -992,21 +977,19 @@ body.rw-done .rw-main{padding-block:0}
     if(st.k==='bad' || !BIZ_OK) return 'unchecked';
     hideDup(); return null;
   }
+  /* 막혔다는 말은 칸 아래 한 줄이면 된다. 같은 말을 배너로 한 번 더 하면
+     어느 쪽을 봐야 할지부터 헷갈린다 — 사연은 이미 모달이 다 말했다 */
+  var DUP=false;
   function showDup(o){
-    var done = o.status==='done';
-    var ph=o.phone.slice(0,3)+'-****-'+o.phone.slice(-4);
-    $('#dupText').innerHTML='이 사업자등록번호로 <b>'+(done?'이미 등록된':'작성 중인')+' 후기</b>가 있습니다. '
-      +'<span class="at">'+when(o.at)+' '+(done?'등록':'저장')+' · '+ph+'</span><br>'
-      +'한 사업장당 한 분만 참여하실 수 있습니다. 번호를 잘못 적으셨다면 회사 정보에서 고쳐 주세요.';
-    $('#dupBar').hidden=false;
-    var w=$('#g-biz').closest('.f-in');
-    w.classList.add('is-err');
-    $('#g-biz-msg').textContent = done ? '이미 후기가 등록된 사업자등록번호입니다.'
-                                       : '이미 작성 중인 후기가 있는 사업자등록번호입니다.';
+    DUP=true;
+    $('#g-biz').closest('.f-in').classList.add('is-err');
+    $('#g-biz-msg').textContent = o.status==='done'
+      ? '이미 후기가 등록된 사업자등록번호입니다.'
+      : '이미 작성 중인 후기가 있는 사업자등록번호입니다.';
     $('#g-biz-msg').className='note danger';
   }
   function hideDup(){
-    $('#dupBar').hidden=true;
+    DUP=false;
     if(!GUEST) return;
     $('#g-biz').closest('.f-in').classList.remove('is-err');
     if($('#g-biz-msg').className==='note danger') $('#g-biz-msg').textContent='';
@@ -1110,7 +1093,7 @@ body.rw-done .rw-main{padding-block:0}
     $('#verifyBody').hidden=false; $('#verifySum').hidden=true;
   }
   function gateOpen(quiet){
-    var already = !$('#dupBar').hidden;
+    var already = DUP;
     var blk=bizBlock();
     if(blk || !VD){
       showVerifyBodies();
@@ -1260,6 +1243,8 @@ body.rw-done .rw-main{padding-block:0}
     $('#askTitle').innerHTML = rec.status==='done' ? '등록 완료된 후기가<br>있습니다'
                                                    : '임시저장된 후기가<br>있습니다';
     $('#askMeta').textContent = when(rec.at) + (rec.status==='done' ? ' 등록' : ' 저장');
+    /* 인증은 거쳐야 할 과정일 뿐, 눌러서 얻는 것은 글이다 — 그 결과를 버튼에 적는다 */
+    $('#askOkTxt').textContent = rec.status==='done' ? '불러오기' : '이어서 작성하기';
     askReset();
     $('#askModal').hidden=false;
     body.style.overflow='hidden';
