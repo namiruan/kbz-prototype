@@ -193,11 +193,6 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 .lg-link{max-width:500px;align-self:stretch;margin-top:25px;color:var(--sub-d-gray);text-align:center;cursor:pointer;
   font-size:16px;font-weight:400;line-height:normal;letter-spacing:-.16px}
 .lg-link a:hover{color:var(--main-black)}
-/* 비회원 진입 — 피그마에 없는 추가분이라 링크만 옅게 둔다 */
-.lg-guest{align-self:stretch;margin-top:10px;color:var(--sub-d-gray);text-align:center;
-  font-size:14px;font-weight:400;line-height:normal;letter-spacing:-.14px}
-.lg-guest a{color:var(--main-blue);font-weight:600;text-decoration:underline;text-underline-offset:3px}
-.lg-guest a:hover{color:var(--main-navy)}
 
 /* ===== 로그인 화면 하단 이벤트 띠 (피그마 partition-06) =====
    바닥 흰색 + backdrop-blur 50. padding 25 에 안쪽 높이 50 → 띠 자체는 100px.
@@ -286,8 +281,6 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
             </button>
 
             <p class="lg-link"><a href="#">비밀번호 찾기</a></p>
-            <!-- 피그마에는 없다. 비회원이 작성 화면으로 갈 길이 없어 넣었다. -->
-            <p class="lg-guest">회원이 아니신가요? <a href="face-attendance-review.html?guest=1">로그인 없이 후기 남기기</a></p>
           </div>
         </form>
 
