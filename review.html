@@ -302,8 +302,12 @@ body.rw-ok .rw-gate{display:none}
   font-family:var(--font-pretendard);font-size:14px;font-weight:600;line-height:20px;word-break:keep-all}
 .rw-lockbar svg{flex:none;width:18px;height:18px}
 body.rw-ok .rw-lockbar{display:none}
-.rw-lockable{transition:opacity .3s}
-body:not(.rw-ok) .rw-lockable{opacity:.45;pointer-events:none;user-select:none}
+/* 잠금은 패널에만 건다. 섹션 제목은 선명하게 남겨 무엇이 기다리는지 보이게 한다.
+   (전에는 섹션마다 거는 자리가 달라 '후기 작성'만 제목이 진해 보였다)
+   흐리기만 하면 '왜 연한가' 싶으므로 블러를 얹는다 — 덩어리는 보이되
+   글자는 읽히지 않아 '아직 못 쓰는 곳'이 한눈에 읽힌다. */
+.rw-lockable{transition:opacity .3s,filter .3s}
+body:not(.rw-ok) .rw-lockable{opacity:.7;filter:blur(3px);pointer-events:none;user-select:none}
 
 /* =========================================================
    플로팅 버튼 — 피그마 floating button
@@ -476,9 +480,9 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     </div>
 
     <!-- ===== ② 기타 정보 ===== -->
-    <section class="rw-sec rw-lockable">
+    <section class="rw-sec">
       <h2 class="rw-sec-t">기타 정보</h2>
-      <div class="rw-panel">
+      <div class="rw-panel rw-lockable">
         <div class="rw-grid3">
           <div>
             <div class="rw-lb"><label for="r-biz"><span>업종명</span></label><em>(필수)</em></div>
@@ -505,7 +509,7 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
 
     <!-- ===== 만족 조사 ===== -->
     <section class="rw-sec">
-      <h2 class="rw-sec-t rw-lockable">만족 조사</h2>
+      <h2 class="rw-sec-t">만족 조사</h2>
       <div class="rw-panel rw-lockable" id="surveyPanel"></div>
     </section>
 
@@ -697,10 +701,20 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     $('#btnSend').disabled=true; $('#btnSend').textContent='인증됨'; phone.readOnly=true;
     $('#phoneMsg').textContent='인증되었습니다.'; $('#phoneMsg').className='note ok';
     collapseVerify();
+    setLock(false);
     body.classList.add('rw-ok');
     $('#reviewPanel').scrollIntoView({behavior:'smooth',block:'start'});
   });
   code.addEventListener('input',function(){ $('#codeWrap').classList.remove('is-err'); $('#codeMsg').textContent=''; });
+
+  /* 블러 뒤 칸이 키보드 탭에 걸리면 안 된다. pointer-events 로는 못 막는다 */
+  function setLock(on){
+    $$('.rw-lockable').forEach(function(el){
+      if(on) el.setAttribute('inert','');
+      else el.removeAttribute('inert');
+    });
+  }
+  setLock(true);
 
   /* 확인이 끝나면 섹션을 한 줄로 접는다 — 긴 폼에서 자리를 돌려준다 */
   function step(n){
@@ -721,6 +735,7 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
   }
   $('#btnEditVerify').addEventListener('click',function(){
     $('#verifySum').hidden=true; $('#verifyBody').hidden=false;
+    setLock(true);
     body.classList.remove('rw-ok');
     $('#btnSend').disabled=false; $('#btnSend').textContent='인증'; phone.readOnly=false;
     $('#phoneMsg').textContent=''; $('#codeMsg').textContent='';
