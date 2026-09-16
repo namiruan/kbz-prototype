@@ -997,6 +997,9 @@ body.rw-done .rw-main{padding-block:0}
     var d={};
     fields().forEach(function(el){
       if(el.type==='file') return;               /* 사진은 담지 않는다 */
+      /* 지금 화면에 없는 칸은 이 후기의 내용이 아니다. 회원 화면에도 비회원용
+         회사 칸이 감춰진 채로 남아 있어, 그대로 담으면 빈 값이 기록에 실린다 */
+      if(el.closest('[hidden]')) return;
       if(el.type==='radio'){ if(el.checked) d['@'+el.name]=el.value; return; }
       if(el.type==='checkbox'){                /* 여럿 고르는 칸은 배열로 담는다 */
         if(el.checked){ var k='#'+el.name; (d[k]=d[k]||[]).push(el.value); }
@@ -1007,9 +1010,15 @@ body.rw-done .rw-main{padding-block:0}
     });
     return d;
   }
-  /* 값을 넣은 뒤엔 글자수·별·플레이스홀더가 스스로 다시 그려지도록 이벤트를 흘린다 */
+  /* 값을 넣은 뒤엔 글자수·별·플레이스홀더가 스스로 다시 그려지도록 이벤트를 흘린다.
+     다만 이 이벤트는 '사람이 고쳤다'는 뜻이 아니다 — 되돌리는 중이라고 알려 둔다 */
+  var RESTORING=false;
   function settle(el){ el.dispatchEvent(new Event(el.tagName==='SELECT'?'change':'input',{bubbles:true})); }
   function fill(d){
+    RESTORING=true;
+    try{ fillRun(d); } finally { RESTORING=false; }
+  }
+  function fillRun(d){
     Object.keys(d).forEach(function(k){
       if(k.charAt(0)==='@'){
         var r=$('#rwForm input[name="'+k.slice(1)+'"][value="'+d[k]+'"]');
@@ -1030,6 +1039,10 @@ body.rw-done .rw-main{padding-block:0}
     paintStars(starVal()); syncSite();
   }
   function wipe(){
+    RESTORING=true;
+    try{ wipeRun(); } finally { RESTORING=false; }
+  }
+  function wipeRun(){
     fields().forEach(function(el){
       if(el.type==='file'){ el.value=''; return; }
       if(el.type==='radio' || el.type==='checkbox'){ el.checked=false; return; }
@@ -1043,10 +1056,20 @@ body.rw-done .rw-main{padding-block:0}
   }
 
   function key(d){ return 'kbz_rv_'+d; }
-  function loadRec(d){ try{ var v=localStorage.getItem(key(d)); return v?JSON.parse(v):null; }catch(e){ return null; } }
+  /* 회원과 비회원은 담는 칸이 다르다(회사 확인·계약 현장 ↔ 현장명). 번호만 같다고
+     서로 불러오면 남의 폼을 뒤집어쓴 꼴이 된다 — 같은 경로의 기록만 돌려준다 */
+  function loadRec(d){
+    try{
+      var v=localStorage.getItem(key(d)); if(!v) return null;
+      var r=JSON.parse(v);
+      var wasGuest = ('guest' in r) ? !!r.guest : !!(r.data && r.data['g-biz']);
+      return wasGuest===GUEST ? r : null;
+    }catch(e){ return null; }
+  }
   /* 이어쓰기 확인에서 대조하려면 누가 썼는지도 남아야 한다 */
   function saveRec(d,status){ try{ localStorage.setItem(key(d), JSON.stringify({
-    status:status, at:Date.now(), phone:d, name:$('#r-name').value.trim(), data:snap() })); }catch(e){} }
+    status:status, at:Date.now(), phone:d, guest:GUEST,
+    name:$('#r-name').value.trim(), data:snap() })); }catch(e){} }
   function dropRec(d){ try{ localStorage.removeItem(key(d)); }catch(e){} }
 
   /* 비회원은 번호(사람)만으로는 모자라다. 한 사업장이 사람만 바꿔 두 번
@@ -1258,7 +1281,15 @@ body.rw-done .rw-main{padding-block:0}
     if(GUEST) $('#bizBody').hidden=false;
     $('#verifyBody').hidden=false; $('#verifySum').hidden=true;
   }
+  /* 값을 되돌리면 그 칸의 input 이 울려 다시 여기로 들어온다. 안쪽 호출이
+     바깥 호출의 판단을 뒤집지 않도록 한 번에 하나만 돌게 한다 */
+  var GATING=false;
   function gateOpen(quiet){
+    if(GATING) return;
+    GATING=true;
+    try{ gateOpenRun(quiet); } finally { GATING=false; }
+  }
+  function gateOpenRun(quiet){
     var already = DUP;
     var blk=bizBlock();
     if(blk || !VD){
@@ -1516,6 +1547,7 @@ body.rw-done .rw-main{padding-block:0}
       biz.value=v.length>5 ? v.slice(0,3)+' - '+v.slice(3,5)+' - '+v.slice(5)
               : v.length>3 ? v.slice(0,3)+' - '+v.slice(3) : v;
       biz.closest('.f-in').classList.remove('is-err'); $('#g-biz-msg').textContent='';
+      if(RESTORING) return;          /* 되돌려 넣은 값은 이미 확인을 받은 값이다 */
       /* 번호가 달라졌으면 앞서 내린 판정은 그 번호의 것이었다 — 좋은 쪽도 나쁜 쪽도 거둔다 */
       resetBiz(); hideDup();
       /* 인증을 마친 뒤 번호를 고치면 문이 다시 닫힌다. 타이핑 중엔 조용히 */
