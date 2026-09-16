@@ -610,10 +610,29 @@ body.rw-done .rw-main{padding-block:0}
   var q=new URLSearchParams(location.search);
   var GUEST=q.get('guest')==='1';
 
-  /* 이벤트 마퀴 — 반쪽만 이동하므로 같은 목록을 두 번 깐다 */
+  /* 이벤트 마퀴.
+     애니메이션이 -50% 만큼 밀기 때문에 릴은 똑같은 두 짝이어야 하고,
+     한 짝이 창보다 좁으면 다 밀리기 전에 뒤가 비어 문구가 끊겨 보인다.
+     그래서 한 짝이 창을 덮을 때까지 목록을 되풀이해 깐다. */
   var SPARK='<i aria-hidden="true"><svg viewBox="0 0 25 25" fill="currentColor"><path d="M12.5 0l2.6 9.9L25 12.5l-9.9 2.6L12.5 25l-2.6-9.9L0 12.5l9.9-2.6z"/></svg></i>';
   var EV=['스타벅스 아메리카노 쿠폰 증정!','후기 작성하고 경품 받아가세요!'];
-  $('#rwReel').innerHTML=EV.concat(EV).map(function(t){return '<b>'+t+'</b>'+SPARK;}).join('');
+  var EV_HTML=EV.map(function(t){ return '<b>'+t+'</b>'+SPARK; }).join('');
+  var MQ_SPEED=24;                      /* px/s — 폭이 달라져도 속도는 같게 */
+
+  function fillReel(){
+    var win=$('.rw-mq-win'), reel=$('#rwReel');
+    reel.innerHTML=EV_HTML;                        /* 한 벌 폭을 먼저 잰다 */
+    var setW=reel.scrollWidth;
+    if(!setW || !win.clientWidth) return;
+    var sets=Math.max(1, Math.ceil((win.clientWidth+40)/setW));
+    reel.innerHTML=new Array(sets*2+1).join(EV_HTML);   /* 두 짝 = sets × 2 */
+    reel.style.animationDuration=(setW*sets/MQ_SPEED)+'s';
+  }
+  fillReel();
+  /* 웹폰트가 늦게 오면 글자 폭이 달라진다 — 그때 한 번 더 잰다 */
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(fillReel);
+  var mqT=null;
+  window.addEventListener('resize',function(){ clearTimeout(mqT); mqT=setTimeout(fillReel,150); });
 
   /* 로그인 화면이 넘겨준 아이디 / 비회원 모드 */
   var who=q.get('u');
