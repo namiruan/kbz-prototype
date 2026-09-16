@@ -265,13 +265,30 @@ body.rw-ok .rw-gate{display:none}
 .rw-ms .ms-btn .caret{transition:transform .15s}
 .rw-ms[data-open] .ms-btn{border-color:var(--ds-border-selected)}
 .rw-ms[data-open] .ms-btn .caret{transform:rotate(180deg)}
-.ms-pop{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:20;max-height:236px;overflow:auto;padding:6px;
-  background:var(--main-white);border:1px solid var(--ds-border-subtle);border-radius:var(--rad-sm);
-  box-shadow:0 8px 24px rgba(var(--color-black-rgb),.12)}
-.ms-pop label{display:flex;align-items:center;gap:10px;padding:10px 8px;border-radius:var(--rad-sm);cursor:pointer;
-  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:15px;line-height:20px;word-break:keep-all}
-.ms-pop label:hover{background:rgba(var(--color-blue-rgb),.06)}
-.ms-pop input{flex:none;width:17px;height:17px;margin:0;accent-color:var(--main-blue);cursor:pointer}
+/* 열리는 목록 — 피그마 option-list (3002:34926).
+   흰 바탕 · padding 5 · 줄 사이 5 · 그림자 0 0 10 검정 8% · 모서리는 각지다.
+   한 줄은 높이 40 / padding 12·10 / Wanted Sans Medium 16 / -0.16 */
+.ms-pop,.sel-pop{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;max-height:280px;overflow:auto;
+  display:flex;flex-direction:column;gap:5px;margin:0;padding:5px;list-style:none;
+  background:var(--main-white);box-shadow:0 0 10px rgba(var(--color-black-rgb),.08)}
+.ms-pop label,.sel-pop li{display:flex;align-items:center;gap:5px;min-height:40px;padding:12px 10px;cursor:pointer;
+  color:var(--main-black);font-family:var(--font-body);font-size:16px;font-weight:500;line-height:normal;
+  letter-spacing:-.16px;word-break:keep-all}
+.ms-pop label:hover,.sel-pop li:hover,.sel-pop li.on{background:rgba(var(--color-blue-rgb),.06)}
+.sel-pop li[aria-selected="true"]{color:var(--main-blue)}
+.ms-pop input{flex:none;width:16px;height:16px;margin:0;accent-color:var(--main-blue);cursor:pointer}
+
+/* 네이티브 select 는 목록을 OS 가 그리는 탓에 칸 위로 겹쳐 뜬다 — 칸 아래로
+   펼치려면 목록을 직접 그려야 한다. 값은 원래 select 가 그대로 들고 있는다 */
+.rw-sel{position:relative}
+.rw-sel .f-in{cursor:pointer}
+.rw-sel select{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none}
+.sel-txt{flex:1 0 0;min-width:20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
+.rw-sel.is-ph .sel-txt{color:var(--ds-text-subtle)}
+.rw-sel[data-open] .f-in{border-color:var(--ds-border-selected)}
+.rw-sel .caret{transition:transform .15s}
+.rw-sel[data-open] .caret{transform:rotate(180deg)}
 
 /* 칸 옆에 붙는 버튼 — 칸 안에 넣으면 버튼이 있는 칸만 높이가 달라져 줄이 어긋난다.
    align-items:stretch 라 버튼 높이가 칸(56)에 저절로 맞는다 */
@@ -847,12 +864,91 @@ body.rw-done .rw-main{padding-block:0}
   $$('label',starSet).forEach(function(l,i){l.addEventListener('mouseenter',function(){paintStars(i+1);});});
   starSet.addEventListener('mouseleave',function(){paintStars(starVal());});
 
-  /* select 플레이스홀더 색 */
-  $$('select').forEach(function(s){
-    var f=function(){s.classList.toggle('ph',!s.value);};
-    s.addEventListener('change',function(){f();s.closest('.f-in').classList.remove('is-err');});
-    f();
-  });
+  /* =========================================================
+     select 를 직접 그린 목록으로 바꾼다.
+     네이티브 목록은 OS 가 그려서 칸 위로 겹쳐 뜨고 색도 OS 를 따른다.
+     값은 원래 select 가 그대로 들고 있으므로 저장·복원·검사는 손대지 않는다.
+     ========================================================= */
+  var SEL_OPEN=null;
+  function selClose(){
+    if(!SEL_OPEN) return;
+    SEL_OPEN.removeAttribute('data-open');
+    $('.sel-pop',SEL_OPEN).hidden=true;
+    $('.f-in',SEL_OPEN).setAttribute('aria-expanded','false');
+    SEL_OPEN=null;
+  }
+  function selOpen(wrap){
+    if(SEL_OPEN===wrap){ selClose(); return; }
+    selClose();
+    SEL_OPEN=wrap;
+    wrap.setAttribute('data-open','');
+    $('.sel-pop',wrap).hidden=false;
+    $('.f-in',wrap).setAttribute('aria-expanded','true');
+    var cur=$('.sel-pop li[aria-selected="true"]',wrap);
+    if(cur) cur.scrollIntoView({block:'nearest'});
+  }
+  function enhanceSelect(sel){
+    var box=sel.closest('.f-in'), wrap=document.createElement('div');
+    wrap.className='rw-sel';
+    box.parentNode.insertBefore(wrap, box);
+    wrap.appendChild(box);
+
+    var txt=document.createElement('span'); txt.className='sel-txt';
+    box.insertBefore(txt, sel.nextSibling);
+    sel.tabIndex=-1; sel.setAttribute('aria-hidden','true');
+    box.tabIndex=0; box.setAttribute('role','combobox'); box.setAttribute('aria-expanded','false');
+    var lb=document.querySelector('label[for="'+sel.id+'"]');
+    if(lb) box.setAttribute('aria-labelledby', lb.id || (lb.id='lb-'+sel.id));
+
+    var pop=document.createElement('ul'); pop.className='sel-pop'; pop.hidden=true; pop.setAttribute('role','listbox');
+    $$('option',sel).forEach(function(o,i){
+      if(o.disabled) return;                       /* '선택하세요' 는 목록에 넣지 않는다 */
+      var li=document.createElement('li');
+      li.setAttribute('role','option'); li.dataset.i=i; li.textContent=o.textContent;
+      pop.appendChild(li);
+    });
+    wrap.appendChild(pop);
+
+    function sync(){
+      var o=sel.options[sel.selectedIndex];
+      txt.textContent = o ? o.textContent : '';
+      wrap.classList.toggle('is-ph', !sel.value);
+      $$('li',pop).forEach(function(li){
+        li.setAttribute('aria-selected', +li.dataset.i===sel.selectedIndex ? 'true':'false');
+      });
+    }
+    sel.addEventListener('change',function(){ sync(); box.classList.remove('is-err'); });
+    sync();
+
+    box.addEventListener('click',function(){ if(!sel.disabled) selOpen(wrap); });
+    box.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '||e.key==='ArrowDown'){ e.preventDefault(); selOpen(wrap); }
+    });
+    pop.addEventListener('click',function(e){
+      var li=e.target.closest('li'); if(!li) return;
+      sel.selectedIndex=+li.dataset.i;
+      sel.dispatchEvent(new Event('change',{bubbles:true}));
+      selClose(); box.focus();
+    });
+    /* 목록 안에서 위아래로 옮기고 Enter 로 고른다 */
+    pop.tabIndex=-1;
+    wrap.addEventListener('keydown',function(e){
+      if(pop.hidden) return;
+      var ls=$$('li',pop), cur=ls.indexOf($('li.on',pop));
+      if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+        e.preventDefault();
+        var n=(cur<0? (e.key==='ArrowDown'?0:ls.length-1) : cur+(e.key==='ArrowDown'?1:-1)+ls.length)%ls.length;
+        ls.forEach(function(l){l.classList.remove('on');});
+        ls[n].classList.add('on'); ls[n].scrollIntoView({block:'nearest'});
+      }else if(e.key==='Enter'){
+        e.preventDefault();
+        var on=$('li.on',pop); if(on) on.click(); else selClose();
+      }else if(e.key==='Escape'){ selClose(); box.focus(); }
+    });
+  }
+  $$('#rwForm select').forEach(enhanceSelect);
+  document.addEventListener('click',function(e){ if(!e.target.closest('.rw-sel')) selClose(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') selClose(); });
 
   /* =========================================================
      이전 작성분 — 인증한 번호를 열쇠로 임시저장분/등록분을 되찾는다
@@ -1440,7 +1536,11 @@ body.rw-done .rw-main{padding-block:0}
       if(ta.value.trim().length < o.min){ ta.closest('.f-in').classList.add('is-err'); if(!bad) bad=ta; }
     });
     if(!starVal() && !bad) bad=$('#st5');
-    if(bad){ bad.focus(); bad.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+    if(bad){
+      /* 직접 그린 select 는 원래 칸이 숨어 있다 — 눈에 보이는 칸으로 보낸다 */
+      var go = bad.closest('.rw-sel') ? bad.closest('.f-in') : bad;
+      go.focus(); go.scrollIntoView({behavior:'smooth',block:'center'}); return;
+    }
     saveRec(VD,'done');
     step(3); body.classList.add('rw-done'); window.scrollTo(0,0);
   });
