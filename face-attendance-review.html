@@ -429,8 +429,12 @@ body.rw-done .rw-main{padding-block:0}
           </div>
           <div>
             <div class="rw-lb"><label for="g-biz"><span>사업자등록번호</span></label><em>(필수)</em></div>
-            <div class="f-in"><!-- 000 - 00 - 00000 = 16자 -->
-            <input id="g-biz" type="text" inputmode="numeric" maxlength="16" placeholder="000 - 00 - 00000"></div>
+            <div class="rw-withbtn">
+              <div class="f-in"><!-- 000 - 00 - 00000 = 16자 -->
+                <input id="g-biz" type="text" inputmode="numeric" maxlength="16" placeholder="000 - 00 - 00000">
+              </div>
+              <button type="button" class="btn" id="btnBiz">확인</button>
+            </div>
             <div class="f-msg"><p class="note" id="g-biz-msg"></p></div>
           </div>
         </div>
@@ -780,10 +784,34 @@ body.rw-done .rw-main{padding-block:0}
     return null;
   }
   /* 같은 번호로 낸 것은 '내 것'이니 중복이 아니다 — 불러와 고치면 된다 */
-  function dupOwner(){
+  /* 사업자번호가 지금 어떤 상태인지 — 판단은 여기 한 곳에서만 한다 */
+  var BIZ_OK=false;
+  function bizState(){
+    var bz=onlyNum($('#g-biz').value);
+    if(bz.length!==10) return {k:'bad'};
+    var o=bizOwner(bz);
+    if(!o) return {k:'free'};
+    if(o.phone===VD) return {k:'mine', o:o};   /* 내가 낸 것이니 고치면 된다 */
+    return {k:'taken', o:o};
+  }
+  function passBiz(){
+    BIZ_OK=true; hideDup();
+    $('#btnBiz').disabled=true; $('#btnBiz').textContent='확인됨';
+    $('#g-biz-msg').textContent='후기를 남기실 수 있는 번호입니다.';
+    $('#g-biz-msg').className='note ok';
+  }
+  function resetBiz(){
+    BIZ_OK=false;
+    $('#btnBiz').disabled=false; $('#btnBiz').textContent='확인';
+  }
+  /* 비회원의 사업자번호가 문을 막고 있으면 그 이유를 돌려준다 */
+  function bizBlock(){
     if(!GUEST) return null;
-    var o=bizOwner(onlyNum($('#g-biz').value));
-    return (o && o.phone!==VD) ? o : null;
+    var st=bizState();
+    if(st.k==='taken'){ showDup(st.o); return 'taken'; }
+    if(st.k==='mine'){ passBiz(); return null; }   /* 인증하고 보니 본인 것이었다 */
+    if(st.k==='bad' || !BIZ_OK) return 'unchecked';
+    hideDup(); return null;
   }
   function showDup(o){
     var ph=o.phone.slice(0,3)+'-****-'+o.phone.slice(-4);
@@ -888,17 +916,21 @@ body.rw-done .rw-main{padding-block:0}
   /* 인증이 끝나도 사업장이 이미 참여했으면 문은 닫아둔다.
      쓰고 나서 막는 것보다 쓰기 전에 말하는 편이 낫다. */
   var FILLED=false;
-  function gateOpen(){
-    var dup=dupOwner();
-    if(dup){
-      var already = !$('#dupBar').hidden;
-      showDup(dup); hideRestore();
+  function gateOpen(quiet){
+    var already = !$('#dupBar').hidden;
+    var blk=bizBlock();
+    if(blk){
+      if(blk==='unchecked' && !quiet){
+        $('#g-biz').closest('.f-in').classList.add('is-err');
+        $('#g-biz-msg').textContent='사업자등록번호 확인을 먼저 눌러 주세요.';
+        $('#g-biz-msg').className='note danger';
+      }
+      hideRestore();
       setLock(true); body.classList.remove('rw-ok'); step(1);
       /* 번호를 고치는 중에는 화면이 튀면 안 된다 — 들어설 때 한 번만 */
-      if(!already) $('#secBasic').scrollIntoView({behavior:'smooth',block:'start'});
+      if(!quiet && !(blk==='taken' && already)) $('#secBasic').scrollIntoView({behavior:'smooth',block:'start'});
       return;
     }
-    hideDup();
     setLock(false); body.classList.add('rw-ok'); step(2);
     if(FILLED) return;                       /* 되찾기는 처음 열 때 한 번만 */
     FILLED=true;
@@ -981,7 +1013,7 @@ body.rw-done .rw-main{padding-block:0}
   /* 비회원은 계약이 없으니 고를 현장도 없다 */
   if(GUEST) $('#siteWrap').hidden=true;
 
-  /* 비회원 사업자등록번호 — 형식·실존만 본다 (이용 여부는 확인하지 않는다) */
+  /* 비회원 사업자등록번호 — 형식과 중복만 본다 (김반장 이용 여부는 확인하지 않는다) */
   if(GUEST){
     var biz=$('#g-biz');
     biz.addEventListener('input',function(){
@@ -989,8 +1021,22 @@ body.rw-done .rw-main{padding-block:0}
       biz.value=v.length>5 ? v.slice(0,3)+' - '+v.slice(3,5)+' - '+v.slice(5)
               : v.length>3 ? v.slice(0,3)+' - '+v.slice(3) : v;
       biz.closest('.f-in').classList.remove('is-err'); $('#g-biz-msg').textContent='';
-      /* 인증을 마친 뒤 번호를 고치면 문이 열리거나 다시 닫힌다 */
-      if(VD) gateOpen();
+      /* 번호가 달라졌으면 앞서 내린 판정은 그 번호의 것이었다 — 좋은 쪽도 나쁜 쪽도 거둔다 */
+      resetBiz(); hideDup();
+      /* 인증을 마친 뒤 번호를 고치면 문이 다시 닫힌다. 타이핑 중엔 조용히 */
+      if(VD) gateOpen(true);
+    });
+
+    $('#btnBiz').addEventListener('click',function(){
+      var st=bizState();
+      if(st.k==='bad'){
+        biz.closest('.f-in').classList.add('is-err');
+        $('#g-biz-msg').textContent='사업자등록번호 10자리를 모두 입력해 주세요.';
+        $('#g-biz-msg').className='note danger'; biz.focus(); return;
+      }
+      if(st.k==='taken'){ showDup(st.o); biz.focus(); return; }
+      passBiz();
+      if(VD) gateOpen();          /* 인증이 먼저였다면 이 확인으로 문이 열린다 */
     });
   }
 
@@ -999,11 +1045,7 @@ body.rw-done .rw-main{padding-block:0}
      ========================================================= */
   $('#rwForm').addEventListener('submit',function(e){
     e.preventDefault();
-    var dup=dupOwner();
-    if(dup){
-      showDup(dup); setLock(true); body.classList.remove('rw-ok'); step(1);
-      $('#g-biz').focus(); $('#g-biz').scrollIntoView({behavior:'smooth',block:'center'}); return;
-    }
+    if(bizBlock()){ gateOpen(); $('#g-biz').focus(); return; }
     if(!body.classList.contains('rw-ok')){
       $('#secVerify').scrollIntoView({behavior:'smooth',block:'start'}); phone.focus(); return;
     }
@@ -1025,12 +1067,8 @@ body.rw-done .rw-main{padding-block:0}
 
   /* 임시저장도 번호가 있어야 한다 — 다시 찾아올 열쇠가 그 번호이기 때문 */
   $('#btnTemp').addEventListener('click',function(){
-    /* 인증은 했는데 사업장이 막힌 경우 — 인증 칸으로 보내면 엉뚱하다 */
-    var dup=dupOwner();
-    if(dup){
-      showDup(dup); $('#g-biz').focus();
-      $('#g-biz').scrollIntoView({behavior:'smooth',block:'center'}); return;
-    }
+    /* 인증은 했는데 사업자번호가 막고 있는 경우 — 인증 칸으로 보내면 엉뚱하다 */
+    if(bizBlock()){ gateOpen(); $('#g-biz').focus(); return; }
     if(!body.classList.contains('rw-ok')){
       $('#secVerify').scrollIntoView({behavior:'smooth',block:'start'}); phone.focus(); return;
     }
