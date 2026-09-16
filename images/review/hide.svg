@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
-  <!-- 비밀번호가 가려진 상태 : 눈 + 사선 -->
+  <!-- 비밀번호가 가려진 상태 (기본) : 눈 + 사선 -->
   <path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7S2 12 2 12z" stroke="#8A949E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
   <circle cx="12" cy="12" r="3" stroke="#8A949E" stroke-width="1.7"/>
   <path d="M3 3 21 21" stroke="#8A949E" stroke-width="1.7" stroke-linecap="round"/>

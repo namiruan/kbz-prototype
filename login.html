@@ -232,7 +232,7 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
                 <div class="lg-input-wrap">
                   <input id="lg-pw" type="password" name="password" required autocomplete="current-password" placeholder="비밀번호를 입력하세요">
                   <button type="button" class="lg-eye" id="lgEye" aria-label="비밀번호 보기" aria-pressed="false">
-                    <img id="lgEyeIcon" src="images/review/eye-off.svg" alt="" width="20" height="20">
+                    <img id="lgEyeIcon" src="images/review/hide.svg" alt="" width="20" height="20">
                   </button>
                 </div>
                 <p class="lg-msg" id="lgMsgPw" role="alert"></p>
@@ -297,8 +297,9 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
     pw.type = on ? 'text' : 'password';
     lgEye.setAttribute('aria-pressed', on ? 'true' : 'false');
     lgEye.setAttribute('aria-label', on ? '비밀번호 가리기' : '비밀번호 보기');
-    /* 아이콘은 images/review/eye-{on,off}.svg 두 장을 갈아끼운다 */
-    $('#lgEyeIcon').src = 'images/review/eye-' + (on ? 'on' : 'off') + '.svg';
+    /* 아이콘 두 장을 갈아끼운다. 이름은 '지금 비밀번호가 어떤 상태인지'를 가리킨다 —
+       가려져 있으면 hide.svg, 보이면 show.svg. 반대라면 이 줄의 on 을 !on 으로. */
+    $('#lgEyeIcon').src = 'images/review/' + (on ? 'show' : 'hide') + '.svg';
     pw.focus();
   });
 
