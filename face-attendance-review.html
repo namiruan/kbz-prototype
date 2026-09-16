@@ -294,15 +294,19 @@ body.rw-ok .rw-gate{display:none}
 .f-msg .note{color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px}
 .f-msg .note.danger{color:#E53935}
 .f-msg .note.ok{color:var(--main-blue)}
-.f-cnt{margin-left:auto;color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;font-variant-numeric:tabular-nums}
+.f-cnt{margin-left:auto;color:var(--ds-text-label);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;font-variant-numeric:tabular-nums}
 .f-cnt.ok{color:var(--main-blue)}
 
 /* 사진 첨부 버튼 */
-.f-photo{display:inline-flex;align-items:center;gap:var(--pad-3);padding:var(--pad-1) 0;border:0;background:none;
-  color:var(--main-blue);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;cursor:pointer}
+/* 사진 첨부 — 피그마는 바탕 있는 칩이다 (파랑 10% · padding 4/10 · radius 4).
+   밑줄 링크로 두면 글자 사이에 섞여 누를 수 있는 것으로 안 보인다 */
+.f-photo{display:inline-flex;align-items:center;justify-content:center;gap:5.5px;
+  padding:var(--pad-2) var(--pad-4);border:0;border-radius:var(--rad-sm);
+  background:rgba(var(--color-blue-rgb),.1);color:var(--main-blue);
+  font-family:var(--font-body);font-size:13px;font-weight:400;line-height:normal;cursor:pointer}
 .f-photo svg{width:16px;height:16px;display:block}
 .f-photo input{position:absolute;opacity:0;width:0;height:0}
-.f-photo:hover{text-decoration:underline;text-underline-offset:2px}
+.f-photo:hover{background:rgba(var(--color-blue-rgb),.18)}
 .f-thumbs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .f-thumbs:empty{display:none}
 .f-thumb{position:relative;width:64px;height:64px;border:1px solid var(--main-gray);border-radius:var(--rad-sm);overflow:hidden}
@@ -760,7 +764,8 @@ body.rw-done .rw-main{padding-block:0}
     {min:100, t:'<b>김반장 프리미엄</b>을 도입 후 노무관리 업무가 어떻게 달라졌나요?'},
     {min:100, t:'<b>김반장 프리미엄</b>을 다른 사업장에 추천하는 이유를 말씀해 주세요'}
   ];
-  var PHOTO_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-6 6"/></svg>';
+  /* 피그마 아이콘은 카메라다 (figma.com 에서 svg 를 받을 수 없어 같은 형태로 그린다) */
+  var PHOTO_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5a1.5 1.5 0 0 1 1.5-1.5H7l1.6-2.2h6.8L17 8h2.5A1.5 1.5 0 0 1 21 9.5v8A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.2"/></svg>';
   var CARET='<span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>';
 
   $('#reviewPanel').innerHTML = QS.map(function(o,i){
