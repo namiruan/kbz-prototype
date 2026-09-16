@@ -494,10 +494,14 @@ body.rw-done #doneView{display:flex}
 body.rw-done .rw-steps,body.rw-done #rwForm,body.rw-done .rw-float{display:none}
 body.rw-done .rw-main{padding-block:0}
 
-/* 250 × 300 장식. 파일이 없으면 자리만 비우고 화면은 그대로 선다 */
-.done-img{width:250px;height:300px}
-.done-img img{width:100%;height:100%;object-fit:contain;display:block}
-.done-img.no-img{display:none}
+/* 250 × 300 장식. 올린 파일이 있으면 그것을, 없으면 직접 그린 그림을 쓴다 */
+.done-img{position:relative;width:250px;height:300px}
+.done-img img,.done-img .ph{width:100%;height:100%;display:block}
+.done-img img{object-fit:contain}
+.done-img .ph{display:none}
+.done-img.no-img img{display:none}
+.done-img.no-img .ph{display:block}
+@media(max-width:532px){.done-img{width:200px;height:240px}}
 
 /* 작성자 / 핸드폰 번호 / 제출일 — 300 폭에 밑줄 한 줄씩 */
 .done-list{display:flex;flex-direction:column;margin:10px 0 0;width:300px;max-width:100%}
@@ -700,7 +704,34 @@ body.rw-done .rw-main{padding-block:0}
 
   <!-- 완료 — 피그마 /review_submitted (3002:28867) -->
   <div id="doneView" role="status">
-    <div class="done-img"><img src="images/review/done.png" alt="" onerror="this.closest('.done-img').classList.add('no-img')"></div>
+    <!-- 피그마의 폭죽 이미지는 figma.com 에서 받을 수 없어 같은 자리에 직접 그렸다.
+         images/review/done.png 를 올리면 그림이 그 파일로 바뀐다 -->
+    <div class="done-img">
+      <img src="images/review/done.png" alt="" onerror="this.closest('.done-img').classList.add('no-img')">
+      <svg class="ph" viewBox="0 0 250 300" fill="none" aria-hidden="true">
+        <!-- 고깔 : 왼쪽 아래 꼭짓점에서 오른쪽 위 입구로 -->
+        <path d="M66 278 L155 114 L216 167 Z" fill="var(--main-blue)"/>
+        <path d="M66 278 L155 114 L186 141 Z" fill="var(--main-navy)" opacity=".3"/>
+        <ellipse cx="185.5" cy="140.5" rx="40" ry="15" fill="var(--main-white)"
+                 stroke="var(--main-blue)" stroke-width="7" transform="rotate(41 185.5 140.5)"/>
+        <!-- 입구에서 위로 흩어지는 조각들 -->
+        <g fill="var(--main-blue)">
+          <circle cx="205" cy="96" r="5" opacity=".6"/>
+          <circle cx="152" cy="62" r="6" opacity=".7"/>
+          <circle cx="232" cy="52" r="4" opacity=".45"/>
+          <circle cx="112" cy="96" r="4.5" opacity=".5"/>
+          <circle cx="178" cy="22" r="4" opacity=".4"/>
+          <rect x="162" y="104" width="11" height="11" rx="2" opacity=".6" transform="rotate(28 167 109)"/>
+          <rect x="120" y="42" width="9" height="9" rx="2" opacity=".45" transform="rotate(-22 124 46)"/>
+          <rect x="216" y="128" width="10" height="10" rx="2" opacity=".5" transform="rotate(16 221 133)"/>
+          <rect x="86" y="140" width="9" height="9" rx="2" opacity=".35" transform="rotate(38 90 144)"/>
+        </g>
+        <path d="M96 108c16 2 16-16 32-16s16 14 30 6" stroke="var(--main-blue)" stroke-width="5"
+              stroke-linecap="round" opacity=".45" fill="none"/>
+        <path d="M196 74c14-4 10-18 24-20" stroke="var(--main-blue)" stroke-width="4.5"
+              stroke-linecap="round" opacity=".35" fill="none"/>
+      </svg>
+    </div>
     <dl class="done-list">
       <div><dt>작성자</dt><dd id="doneName"></dd></div>
       <div><dt>핸드폰 번호</dt><dd id="donePhone"></dd></div>
