@@ -150,11 +150,7 @@ button{font-family:inherit}
 .rw-panel.auto{background:rgba(var(--color-blue-rgb),.045);border-color:rgba(var(--color-blue-rgb),.16)}
 /* 인증이 끝나면 그 패널도 읽기 전용이 되므로 같은 옷을 입는다 */
 body.rw-ok #secVerify .rw-panel{background:rgba(var(--color-blue-rgb),.045);border-color:rgba(var(--color-blue-rgb),.16)}
-/* 계정에서 왔다는 표시 */
-.rw-auto-tag{display:inline-flex;align-items:center;gap:5px;margin-bottom:16px;padding:2px 8px;border-radius:var(--rad-sm);
-  background:rgba(var(--color-blue-rgb),.1);color:var(--main-blue);
-  font-family:var(--font-pretendard);font-size:13px;font-weight:600;line-height:18px}
-.rw-auto-tag svg{width:13px;height:13px}
+
 
 /* 3열 그리드 */
 .rw-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
@@ -335,10 +331,6 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     <section class="rw-sec" id="secBasic">
       <h2 class="rw-sec-t">기본<br>정보</h2>
       <div class="rw-panel auto" id="basicPanel">
-        <span class="rw-auto-tag" id="basicTag">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg>
-          계정에서 불러온 정보입니다
-        </span>
         <!-- 회원 : 계정에서 자동으로 채워진 값 -->
         <div class="rw-grid3" id="rwBasicMember">
           <div><div class="rw-lb"><span>회사명</span></div><p class="rw-val">주식회사 예지건설</p></div>
@@ -506,7 +498,6 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     $('#rwCo').textContent='비회원';
     /* 비회원은 직접 입력하므로 '계정에서 온 값' 옷을 벗긴다 */
     $('#basicPanel').classList.remove('auto');
-    $('#basicTag').hidden=true;
   } else if(who){
     $('#rwCo').textContent='주식회사 예지건설';
   }
