@@ -398,9 +398,9 @@ body.rw-done .rw-main{padding-block:0}
 <main class="rw-col rw-main">
   <form id="rwForm" novalidate>
 
-    <!-- ===== ① 기본 정보 : 로그인에서 자동으로 오는 것 (비회원만 입력) ===== -->
+    <!-- ===== ① 회사 정보 : 로그인에서 자동으로 오는 것 (비회원만 입력) ===== -->
     <section class="rw-sec" id="secBasic">
-      <h2 class="rw-sec-t">기본<br>정보</h2>
+      <h2 class="rw-sec-t">회사<br>정보</h2>
       <div class="rw-panel auto" id="basicPanel">
         <!-- 회원 : 계정에서 자동으로 채워진 값 -->
         <div class="rw-grid3" id="rwBasicMember">
@@ -841,7 +841,7 @@ body.rw-done .rw-main{padding-block:0}
     });
   }
   function collapseVerify(){
-    /* 회사명은 바로 위 '기본 정보'가 이미 보여주므로 여기선 빼고 사람만 남긴다 */
+    /* 회사명은 바로 위 '회사 정보'가 이미 보여주므로 여기선 빼고 사람만 남긴다 */
     var nm = $('#r-name').value.trim() || '작성자';
     var ph = phone.value.replace(/\D/g,'');
     ph = ph ? ph.slice(0,3)+'-****-'+ph.slice(-4) : '';
