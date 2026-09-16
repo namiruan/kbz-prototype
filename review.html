@@ -126,9 +126,6 @@ button{font-family:inherit}
   background:var(--main-white);color:var(--ds-text-label);font-family:var(--font-pretendard);font-size:14px;font-weight:600;cursor:pointer}
 .rw-sum .edit:hover{border-color:var(--ds-border-selected);color:var(--ds-text-body)}
 
-/* 인증 카드 안내 — 인증은 잠금 해제이면서 이전에 쓰던 내용을 되찾는 일이기도 하다 */
-.rw-gate p.tip{margin-top:1px;color:var(--main-blue);font-weight:500}
-
 /* 인증 후 : 불러온 기록을 카드 안에 남긴다 */
 .rw-restore{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:15px;padding:12px 14px;
   border-radius:var(--rad-sm);background:rgba(var(--color-blue-rgb),.08)}
@@ -182,7 +179,13 @@ body.rw-ok #secVerify .rw-sum p,body.rw-ok #secVerify .rw-sum p b{color:var(--ma
 /* 왜 해야 하는지를 패널 머리에 둔다 — 불릿에 묻어두면 읽지 않는다 */
 .rw-gate{margin-bottom:20px}
 .rw-gate b{display:block;color:var(--main-navy);font-family:var(--font-body);font-size:17px;font-weight:700;letter-spacing:-.02em;line-height:1.45;word-break:keep-all}
-.rw-gate p{margin-top:2px;color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;word-break:keep-all}
+.rw-gate ul{display:grid;gap:2px;margin-top:6px;list-style:none}
+.rw-gate li{position:relative;padding-left:12px;color:var(--ds-text-subtle);font-family:var(--font-pretendard);
+  font-size:15px;font-weight:400;line-height:22px;word-break:keep-all}
+/* 22px 줄 한가운데(11px)에 3px 점을 앉힌다 */
+.rw-gate li::before{content:"";position:absolute;left:2px;top:9.5px;width:3px;height:3px;border-radius:50%;background:currentColor}
+/* 두 번째 줄은 인증으로 얻는 것 — 안내가 아니라 이득이라 파랗게 둔다 */
+.rw-gate li.tip{color:var(--main-blue);font-weight:500}
 body.rw-ok .rw-gate{display:none}
 
 /* 인증 버튼은 이 화면에서 유일하게 눌러야 할 것 — 외곽선이 아니라 채움으로 */
@@ -448,8 +451,10 @@ body.rw-done .rw-main{padding-block:0}
         <div id="verifyBody">
           <div class="rw-gate">
             <b>후기를 남기려면 본인 확인이 필요해요</b>
-            <p>인증하신 번호로 이벤트 경품을 보내드립니다.</p>
-            <p class="tip">이전에 쓰신 후기가 있으면 그대로 불러옵니다.</p>
+            <ul>
+              <li>인증하신 번호로 이벤트 경품 안내를 드립니다.</li>
+              <li class="tip">저장해두신 내용이 있으면 이어서 작성할 수 있습니다.</li>
+            </ul>
           </div>
           <div class="rw-vgrid">
             <div>
