@@ -526,6 +526,21 @@ body.rw-done .rw-main{padding-block:0}
       <h2 class="rw-sec-t">기타 정보</h2>
       <div class="rw-panel rw-lockable">
         <div class="rw-grid3">
+          <!-- 계약 현장 : 계정에 딸린 목록이라 회원만 고른다 (비회원은 계약이 없다) -->
+          <div id="siteWrap">
+            <div class="rw-lb"><label for="r-site"><span>계약 현장</span></label><em>(필수)</em></div>
+            <div class="f-in">
+              <select id="r-site" class="ph">
+                <option value="" disabled selected>현장을 선택하세요</option>
+                <option>예지 스타힐스 신축공사</option>
+                <option>동탄2 물류센터 신축공사</option>
+                <option>세종 행복주택 3BL 건립공사</option>
+                <option>부산 명지 오피스텔 신축공사</option>
+                <option>본사 (현장 외 근무)</option>
+              </select>
+              <span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </div>
+          </div>
           <div>
             <div class="rw-lb"><label for="r-biz"><span>업종명</span></label><em>(필수)</em></div>
             <div class="f-in">
@@ -939,6 +954,9 @@ body.rw-done .rw-main{padding-block:0}
     $('#secVerify').scrollIntoView({behavior:'smooth',block:'start'});
   });
 
+  /* 비회원은 계약이 없으니 고를 현장도 없다 */
+  if(GUEST) $('#siteWrap').hidden=true;
+
   /* 비회원 사업자등록번호 — 형식·실존만 본다 (이용 여부는 확인하지 않는다) */
   if(GUEST){
     var biz=$('#g-biz');
@@ -968,6 +986,7 @@ body.rw-done .rw-main{padding-block:0}
     var bad=null;
     function need(el){ if(!el.value.trim()){ el.closest('.f-in').classList.add('is-err'); if(!bad) bad=el; } }
     if(GUEST){ need($('#g-co')); need($('#g-biz')); need($('#g-svc')); need($('#g-yy')); }
+    else { need($('#r-site')); }
     need($('#r-biz')); need($('#r-name'));
     QS.forEach(function(o,i){
       if(o.type==='other') return;
