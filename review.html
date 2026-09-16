@@ -313,7 +313,7 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     </h1>
   </header>
   <ol class="rw-steps" id="rwSteps">
-    <li class="on" data-step="1"><b>1</b>작성자 확인</li><li class="sep" aria-hidden="true"></li>
+    <li class="on" data-step="1"><b>1</b>작성자 인증</li><li class="sep" aria-hidden="true"></li>
     <li data-step="2"><b>2</b>후기 작성</li><li class="sep" aria-hidden="true"></li>
     <li data-step="3"><b>3</b>등록 완료</li>
   </ol>
@@ -322,51 +322,57 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
 <main class="rw-col rw-main">
   <form id="rwForm" novalidate>
 
-    <!-- ===== ① 작성자 확인 ===== -->
+    <!-- ===== ① 기본 정보 : 로그인에서 자동으로 오는 것 (비회원만 입력) ===== -->
+    <section class="rw-sec">
+      <h2 class="rw-sec-t">기본<br>정보</h2>
+      <div class="rw-panel">
+        <!-- 회원 : 계정에서 자동으로 채워진 값 -->
+        <div class="rw-grid3" id="rwBasicMember">
+          <div><div class="rw-lb"><span>회사명</span></div><p class="rw-val">주식회사 예지건설</p></div>
+          <div><div class="rw-lb"><span>이용중인 서비스</span></div><p class="rw-val">단일 서비스 이용사</p></div>
+          <div><div class="rw-lb"><span>서비스 이용기간</span></div><p class="rw-val">6년차</p></div>
+        </div>
+
+        <!-- 비회원 : 가져올 계정이 없으니 직접 입력 (?guest=1) -->
+        <div class="rw-grid3" id="rwBasicGuest" hidden>
+          <div>
+            <div class="rw-lb"><label for="g-co"><span>회사명</span></label><em>(필수)</em></div>
+            <div class="f-in"><input id="g-co" type="text" placeholder="회사명을 입력하세요"></div>
+          </div>
+          <div>
+            <div class="rw-lb"><label for="g-biz"><span>사업자등록번호</span></label><em>(필수)</em></div>
+            <div class="f-in"><input id="g-biz" type="text" inputmode="numeric" maxlength="12" placeholder="000 - 00 - 00000"></div>
+            <div class="f-msg"><p class="note" id="g-biz-msg"></p></div>
+          </div>
+          <div>
+            <div class="rw-lb"><label for="g-svc"><span>이용중인 서비스</span></label><em>(필수)</em></div>
+            <div class="f-in">
+              <select id="g-svc" class="ph"><option value="" disabled selected>서비스를 선택하세요</option>
+                <option>김반장 프리미엄</option><option>김반장 3.0</option>
+                <option>안면인식 출퇴근관리</option><option>퇴직공제 전자카드</option></select>
+              <span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </div>
+          </div>
+          <div>
+            <div class="rw-lb"><label for="g-yy"><span>서비스 이용기간</span></label><em>(필수)</em></div>
+            <div class="f-in">
+              <select id="g-yy" class="ph"><option value="" disabled selected>이용기간을 선택하세요</option>
+                <option>1년차</option><option>2년차</option><option>3년차</option><option>4년차</option>
+                <option>5년차</option><option>6년차</option><option>7년차 이상</option></select>
+              <span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ② 작성자 인증 : 사용자가 해야 하는 것 ===== -->
     <section class="rw-sec" id="secVerify">
-      <h2 class="rw-sec-t">작성자<br>확인</h2>
+      <h2 class="rw-sec-t">작성자<br>인증</h2>
       <div class="rw-panel">
 
         <div id="verifyBody">
-          <!-- 회원 : 계정에서 자동으로 채워진 값 -->
-          <div class="rw-grid3" id="rwBasicMember">
-            <div><div class="rw-lb"><span>회사명</span></div><p class="rw-val">주식회사 예지건설</p></div>
-            <div><div class="rw-lb"><span>이용중인 서비스</span></div><p class="rw-val">단일 서비스 이용사</p></div>
-            <div><div class="rw-lb"><span>서비스 이용기간</span></div><p class="rw-val">6년차</p></div>
-          </div>
-
-          <!-- 비회원 : 직접 입력 (?guest=1) -->
-          <div class="rw-grid3" id="rwBasicGuest" hidden>
-            <div>
-              <div class="rw-lb"><label for="g-co"><span>회사명</span></label><em>(필수)</em></div>
-              <div class="f-in"><input id="g-co" type="text" placeholder="회사명을 입력하세요"></div>
-            </div>
-            <div>
-              <div class="rw-lb"><label for="g-biz"><span>사업자등록번호</span></label><em>(필수)</em></div>
-              <div class="f-in"><input id="g-biz" type="text" inputmode="numeric" maxlength="12" placeholder="000 - 00 - 00000"></div>
-              <div class="f-msg"><p class="note" id="g-biz-msg"></p></div>
-            </div>
-            <div>
-              <div class="rw-lb"><label for="g-svc"><span>이용중인 서비스</span></label><em>(필수)</em></div>
-              <div class="f-in">
-                <select id="g-svc" class="ph"><option value="" disabled selected>서비스를 선택하세요</option>
-                  <option>김반장 프리미엄</option><option>김반장 3.0</option>
-                  <option>안면인식 출퇴근관리</option><option>퇴직공제 전자카드</option></select>
-                <span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-              </div>
-            </div>
-            <div>
-              <div class="rw-lb"><label for="g-yy"><span>서비스 이용기간</span></label><em>(필수)</em></div>
-              <div class="f-in">
-                <select id="g-yy" class="ph"><option value="" disabled selected>이용기간을 선택하세요</option>
-                  <option>1년차</option><option>2년차</option><option>3년차</option><option>4년차</option>
-                  <option>5년차</option><option>6년차</option><option>7년차 이상</option></select>
-                <span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="rw-grid3" style="margin-top:20px">
+          <div class="rw-grid3">
             <div>
               <div class="rw-lb"><label for="r-name"><span>작성자 이름</span></label><em>(필수)</em></div>
               <div class="f-in"><input id="r-name" type="text" placeholder="이름을 입력하세요"></div>
@@ -432,7 +438,7 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
       <div>
         <div class="rw-lockbar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-          <span>작성자 확인을 마치면 이 아래가 열립니다.</span>
+          <span>작성자 인증을 마치면 이 아래가 열립니다.</span>
         </div>
         <div class="rw-panel plain rw-lockable" id="reviewPanel"></div>
       </div>
@@ -639,11 +645,11 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     });
   }
   function collapseVerify(){
-    var co = GUEST ? ($('#g-co').value.trim()||'비회원') : '주식회사 예지건설';
+    /* 회사명은 바로 위 '기본 정보'가 이미 보여주므로 여기선 빼고 사람만 남긴다 */
     var nm = $('#r-name').value.trim() || '작성자';
     var ph = phone.value.replace(/\D/g,'');
     ph = ph ? ph.slice(0,3)+'-****-'+ph.slice(-4) : '';
-    $('#sumText').innerHTML='<b>'+co+'</b> · '+nm+' · '+ph+'<span class="ok">인증됨</span>';
+    $('#sumText').innerHTML='<b>'+nm+'</b> · '+ph+'<span class="ok">인증됨</span>';
     $('#verifyBody').hidden=true; $('#verifySum').hidden=false;
     step(2);
   }
