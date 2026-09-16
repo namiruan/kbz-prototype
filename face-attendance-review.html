@@ -1471,7 +1471,9 @@ body.rw-done .rw-main{padding-block:0}
      남의 글을 열어 줄 수는 없으니 이름과 번호가 맞는지부터 대조한다.
      여기서 맞더라도 문자 인증은 그대로 거친다 — 이건 확인이지 인증이 아니다.
      ========================================================= */
-  var ASK=null, askTimer=null, askLeft=180;
+  /* 모달이 하는 일은 두 가지다 — 남의 후기를 이어받으려는 사람을 가려내는 일(dup),
+     그리고 완료 화면에서 돌아가려는 사람이 그 후기를 쓴 본인인지 보는 일(edit) */
+  var ASK=null, ASK_MODE='dup', askTimer=null, askLeft=180;
   function askMsg(t,ok){
     $('#askMsg').textContent=t||'';
     $('#askMsg').className = ok ? 'note note-ok' : 'note';
@@ -1485,13 +1487,19 @@ body.rw-done .rw-main{padding-block:0}
     $$('#askModal .f-in').forEach(function(w){ w.classList.remove('is-err'); });
     askMsg('');
   }
-  function openAsk(rec){
-    ASK=rec;
-    $('#askTitle').innerHTML = rec.status==='done' ? '등록 완료된 후기가<br>있습니다'
-                                                   : '임시저장된 후기가<br>있습니다';
-    $('#askMeta').textContent = when(rec.at) + (rec.status==='done' ? ' 등록' : ' 저장');
-    /* 인증은 거쳐야 할 과정일 뿐, 눌러서 얻는 것은 글이다 — 그 결과를 버튼에 적는다 */
-    $('#askOkTxt').textContent = rec.status==='done' ? '불러오기' : '이어서 작성하기';
+  function openAsk(rec, mode){
+    ASK=rec; ASK_MODE=mode||'dup';
+    if(ASK_MODE==='edit'){
+      $('#askTitle').innerHTML = '수정하려면<br>본인 확인이 필요합니다';
+      $('#askMeta').textContent = when(rec.at) + ' 등록';
+      $('#askOkTxt').textContent = '수정하기';
+    }else{
+      $('#askTitle').innerHTML = rec.status==='done' ? '등록 완료된 후기가<br>있습니다'
+                                                     : '임시저장된 후기가<br>있습니다';
+      $('#askMeta').textContent = when(rec.at) + (rec.status==='done' ? ' 등록' : ' 저장');
+      /* 인증은 거쳐야 할 과정일 뿐, 눌러서 얻는 것은 글이다 — 그 결과를 버튼에 적는다 */
+      $('#askOkTxt').textContent = rec.status==='done' ? '불러오기' : '이어서 작성하기';
+    }
     askReset();
     $('#askModal').hidden=false;
     body.style.overflow='hidden';
@@ -1547,7 +1555,9 @@ body.rw-done .rw-main{padding-block:0}
       $('#ask-phone').closest('.f-in').classList.add('is-err');
       askMsg('그 후기를 작성하신 분의 번호가 아닙니다.'); return;
     }
-    var rec=ASK; closeAsk();
+    var rec=ASK, mode=ASK_MODE; closeAsk();
+    /* 완료 화면에서 돌아가는 길이면 인증은 이미 끝나 있다 — 확인만 받고 그대로 돌아간다 */
+    if(mode==='edit'){ backToForm(); return; }
     BIZ_EDIT=false; passBiz();
     $('#r-name').value = rec.name || '';
     phone.value = fmtPhone(d);
@@ -1558,7 +1568,8 @@ body.rw-done .rw-main{padding-block:0}
   /* 취소 — 한 사업장에 한 분이므로 새로 시작할 자리가 없다.
      왜 막혔는지는 회사 정보 쪽에 남겨 둔다 */
   $('#askCancel').addEventListener('click',function(){
-    var rec=ASK; closeAsk();
+    var rec=ASK, mode=ASK_MODE; closeAsk();
+    if(mode==='edit') return;          /* 완료 화면에 그대로 머문다 */
     if(!rec) return;
     showDup(rec); $('#g-biz').focus();
   });
@@ -1672,14 +1683,21 @@ body.rw-done .rw-main{padding-block:0}
     syncSubmit();
     $('#reviewPanel').scrollIntoView({behavior:'smooth',block:'start'});
   }
-  /* 수정하기 — 로그인한 회원사는 이미 본인이 밝혀져 있다. 방금 인증을 마치고
-     후기를 낸 자리이므로 문자를 한 번 더 받게 할 이유가 없다. 화면만 걷고
-     쓰던 폼으로 돌려보낸다.
-     비회원은 기댈 로그인이 없어 번호 인증을 다시 거친다 — 그때는 같은 번호로
-     들어오면 방금 낸 후기를 불러온다.
-     확인용으로 켜 둔 ?done=1 은 떼고 돌아간다. 안 그러면 완료 화면만 되풀이된다 */
+  /* 수정하기 —
+     회원사는 로그인으로 이미 본인이 밝혀져 있다. 방금 인증을 마치고 후기를 낸
+     자리이므로 문자를 한 번 더 받게 할 이유가 없어 곧장 폼으로 돌려보낸다.
+     비회원사는 기댈 로그인이 없으니 본인인지 한 번은 봐야 한다. 다만 회사 정보와
+     사업자번호까지 다시 받을 일은 아니다 — 모달에서 번호 인증만 다시 받고
+     폼으로 돌아간다.
+     아직 인증 전이라면(확인용 주소로 바로 열었을 때) 처음부터 밟는다.
+     그때 켜 둔 ?done=1 은 떼고 돌아간다. 안 그러면 완료 화면만 되풀이된다 */
   $('#btnAgain').addEventListener('click',function(){
-    if(!GUEST && VD && body.classList.contains('rw-ok')){ backToForm(); return; }
+    if(VD && body.classList.contains('rw-ok')){
+      if(!GUEST){ backToForm(); return; }
+      var rec=loadRec(VD) || {status:'done', at:Date.now(), name:$('#r-name').value.trim()};
+      openAsk({status:'done', at:rec.at, phone:VD, name:rec.name}, 'edit');
+      return;
+    }
     var p=new URLSearchParams(location.search); p.delete('done');
     var qs=p.toString();
     location.href=location.pathname+(qs?'?'+qs:'');
@@ -1690,10 +1708,14 @@ body.rw-done .rw-main{padding-block:0}
   if(q.get('done')==='1'){
     $('#r-name').value='홍길동';
     VD='01012341443';
-    if(GUEST){ $('#g-co').value='대한건설'; $('#g-biz').value='123 - 45 - 67890'; }
-    /* 회원은 완료 화면에서 곧장 폼으로 돌아간다 — 그 길이 막히지 않게
-       인증을 마친 상태까지 세워 둔다 */
-    else { $('#r-phone').value=fmtPhone(VD); markPhoneDone(); }
+    /* 비회원도 머리글은 적어 낸 회사명으로 부른다. 회사명이 사는 곳이 한 군데라
+       값만 넣으면 머리글이 따라오지 않는다 — 적을 때와 같은 신호를 보낸다 */
+    if(GUEST){
+      $('#g-co').value='대한건설'; settle($('#g-co'));
+      $('#g-biz').value='123 - 45 - 67890'; BIZ_EDIT=false; passBiz();
+    }
+    /* 완료 화면에서 수정하기로 돌아가는 길이 막히지 않게 인증까지 세워 둔다 */
+    $('#r-phone').value=fmtPhone(VD); markPhoneDone();
     showDone();
   }
 })();
