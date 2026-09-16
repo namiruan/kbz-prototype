@@ -181,6 +181,12 @@ body.rw-ok .rw-gate{display:none}
 @media(max-width:899px){.rw-grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){.rw-grid3{grid-template-columns:minmax(0,1fr)}}
 
+/* 인증 줄은 셋이 필요한 폭이 다르다 — 이름은 짧아도 되고,
+   나머지 둘은 옆에 버튼을 품고 있어 더 필요하다 */
+.rw-vgrid{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.15fr) minmax(0,1.1fr);gap:20px}
+@media(max-width:899px){.rw-vgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.rw-vgrid{grid-template-columns:minmax(0,1fr)}}
+
 /* 라벨 (피그마 '회사명' 프레임) */
 .rw-lb{display:flex;align-items:center;gap:5px;min-height:19px;margin-bottom:5px}
 .rw-lb span{color:var(--ds-text-label);font-family:var(--font-pretendard);font-size:14px;font-weight:400;line-height:18px;letter-spacing:-.08px}
@@ -418,7 +424,7 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
               <p>인증하신 번호로 이벤트 경품을 보내드립니다.</p>
             </span>
           </div>
-          <div class="rw-grid3">
+          <div class="rw-vgrid">
             <div>
               <div class="rw-lb"><label for="r-name"><span>작성자 이름</span></label><em>(필수)</em></div>
               <div class="f-in"><input id="r-name" type="text" placeholder="이름을 입력하세요"></div>
