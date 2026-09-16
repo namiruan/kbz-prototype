@@ -139,9 +139,8 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 .lg-input-wrap input::placeholder{color:var(--sub-d-gray)}
 /* 피그마 icon_size 20×20 · Color/Icon/gray-light #8A949E */
 .lg-eye{flex:none;display:flex;align-items:center;justify-content:center;width:20px;height:20px;margin-left:10px;padding:0;border:0;background:none;color:#8A949E;cursor:pointer}
-.lg-eye svg{width:20px;height:20px;display:block}
+.lg-eye img{width:20px;height:20px;display:block}
 .lg-eye:hover{color:var(--main-black)}
-.lg-eye[aria-pressed="true"] .slash{display:none}
 .lg-eye:focus-visible{outline:2px solid var(--main-blue);outline-offset:2px;border-radius:3px}
 /* 오류는 칸마다 바로 아래에 붙는다 (라이브 .input_message_atomic) */
 .lg-msg{display:none;font-size:12px;line-height:1.5}
@@ -233,9 +232,7 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
                 <div class="lg-input-wrap">
                   <input id="lg-pw" type="password" name="password" required autocomplete="current-password" placeholder="비밀번호를 입력하세요">
                   <button type="button" class="lg-eye" id="lgEye" aria-label="비밀번호 보기" aria-pressed="false">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M3 3l18 18"/>
-                    </svg>
+                    <img id="lgEyeIcon" src="images/review/eye-off.svg" alt="" width="20" height="20">
                   </button>
                 </div>
                 <p class="lg-msg" id="lgMsgPw" role="alert"></p>
@@ -300,6 +297,8 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
     pw.type = on ? 'text' : 'password';
     lgEye.setAttribute('aria-pressed', on ? 'true' : 'false');
     lgEye.setAttribute('aria-label', on ? '비밀번호 가리기' : '비밀번호 보기');
+    /* 아이콘은 images/review/eye-{on,off}.svg 두 장을 갈아끼운다 */
+    $('#lgEyeIcon').src = 'images/review/eye-' + (on ? 'on' : 'off') + '.svg';
     pw.focus();
   });
 
