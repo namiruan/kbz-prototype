@@ -253,6 +253,9 @@ body.rw-ok .rw-gate{display:none}
 .f-in.area{align-items:flex-start;padding:var(--pad-6) var(--pad-5) var(--pad-4)}
 .f-in.area textarea{height:96px;resize:vertical;line-height:1.55}
 .f-in[data-disabled]{background:var(--ds-bg-disabled)}
+/* 고를 필요가 없어 닫아 둔 칸 */
+.f-in.is-off{background:var(--ds-bg-disabled)}
+.f-in.is-off input{color:var(--ds-text-disabled)}
 
 /* 여러 곳을 고르는 칸 — 한 소장님이 현장 두 곳을 맡기도 한다.
    select multiple 은 모바일에서 거의 못 쓰는 물건이라, 겉은 select 그대로 두고
@@ -780,9 +783,9 @@ body.rw-done .rw-main{padding-block:0}
     {min:50, t:'간단히 회사소개 부탁드립니다!'},
     {min:50, t:'회사에서 어떤 업무를 담당하고 있나요?'},
     {type:'other', t:'타 서비스 이용 경험 혹은 도입을 고민했던 서비스가 있나요?'},
-    {min:50, t:'<b>김반장 프리미엄</b>을 도입한 이유가 무엇인가요?'},
-    {min:100, t:'<b>김반장 프리미엄</b>을 도입 후 노무관리 업무가 어떻게 달라졌나요?'},
-    {min:100, t:'<b>김반장 프리미엄</b>을 다른 사업장에 추천하는 이유를 말씀해 주세요'}
+    {min:50, t:'<b>안면인식 출퇴근관리</b>를 도입한 이유가 무엇인가요?'},
+    {min:100, t:'<b>안면인식 출퇴근관리</b>를 도입한 뒤 무엇이 달라졌나요?'},
+    {min:100, t:'<b>안면인식 출퇴근관리</b>를 다른 사업장에 추천하는 이유를 말씀해 주세요'}
   ];
   /* 피그마 아이콘은 카메라다 (figma.com 에서 svg 를 받을 수 없어 같은 형태로 그린다) */
   var PHOTO_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5a1.5 1.5 0 0 1 1.5-1.5H7l1.6-2.2h6.8L17 8h2.5A1.5 1.5 0 0 1 21 9.5v8A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.2"/></svg>';
@@ -809,6 +812,20 @@ body.rw-done .rw-main{padding-block:0}
       +'<div class="f-thumbs" id="q'+i+'-th"></div>'
       +'</div>';
   }).join('');
+
+  /* '없습니다' 를 고르면 옆의 이름 칸은 적을 것이 없다 — 닫아 두고 비운다 */
+  QS.forEach(function(o,i){
+    if(o.type!=='other') return;
+    var yn=$('#q'+i+'-yn'), etc=$('#q'+i+'-etc');
+    function sync(){
+      var no = yn.selectedIndex===1;
+      etc.disabled=no;
+      etc.closest('.f-in').classList.toggle('is-off', no);
+      if(no){ etc.value=''; etc.closest('.f-in').classList.remove('is-err'); }
+    }
+    yn.addEventListener('change', sync);
+    sync();
+  });
 
   /* 글자 수 — 최소 글자를 넘으면 파랗게 */
   QS.forEach(function(o,i){
@@ -847,8 +864,8 @@ body.rw-done .rw-main{padding-block:0}
   }
   var STAR='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.45 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6z"/></svg>';
   $('#surveyPanel').innerHTML=
-     '<div class="rw-sv"><p class="rw-sv-t"><b>김반장 프리미엄</b>에서 만족했던 서비스를 순서대로 골라주세요</p>'+ranks('sat',SAT)+'</div>'
-    +'<div class="rw-sv"><p class="rw-sv-t"><b>김반장 3.0(프로그램)</b>에서 자주 사용하는 기능을 순서대로 골라주세요</p>'+ranks('feat',FEAT)+'</div>'
+     '<div class="rw-sv"><p class="rw-sv-t"><b>안면인식 출퇴근관리</b>에서 만족했던 점을 순서대로 골라주세요</p>'+ranks('sat',SAT)+'</div>'
+    +'<div class="rw-sv"><p class="rw-sv-t"><b>안면인식 출퇴근관리</b>에서 자주 사용하는 기능을 순서대로 골라주세요</p>'+ranks('feat',FEAT)+'</div>'
     +'<div class="rw-sv"><p class="rw-sv-t">김반장에 도입되었으면 하는 서비스 / 기능이 있으실까요?</p>'
       +'<div class="rw-q-row"><div class="f-in"><select id="wish-yn"><option>아니오. 없습니다</option><option>네. 있습니다</option></select>'+CARET+'</div>'
       +'<div class="f-in"><input id="wish" type="text" placeholder="김반장에 바라는 내용을 입력해 주세요"></div></div></div>'
