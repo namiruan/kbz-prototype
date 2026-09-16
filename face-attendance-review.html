@@ -443,7 +443,9 @@ body.rw-ready .rw-float .submit:hover{background:var(--main-white)}
    ========================================================= */
 .rw-modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
 .rw-modal-dim{position:absolute;inset:0;background:rgba(39,43,47,.8);animation:askFade .18s ease}
-.rw-modal-box{position:relative;display:flex;flex-direction:column;width:100%;max-width:350px;
+/* min-width:0 이 없으면 flex 아이템의 자동 최소폭이 max-width 를 이긴다. 안에 든 것이
+   넓어지는 만큼 상자가 350 을 넘어 화면 밖으로 밀려난다 — 좁은 화면에서 실제로 그랬다 */
+.rw-modal-box{position:relative;display:flex;flex-direction:column;width:100%;max-width:350px;min-width:0;
   max-height:calc(100vh - 40px);overflow:auto;border-radius:8px;background:var(--main-white);
   animation:askRise .22s cubic-bezier(.22,1,.36,1)}
 @keyframes askFade{from{opacity:0}to{opacity:1}}
@@ -459,7 +461,12 @@ body.rw-ready .rw-float .submit:hover{background:var(--main-white)}
   color:var(--main-black);font-family:var(--font-body);font-size:13px;font-weight:400;line-height:normal}
 
 /* 라벨은 모달 바깥 폼과 같은 크기를 쓴다 — 바로 뒤에 같은 이름의 칸이 비쳐 보인다 */
-.ask-fields{display:grid;gap:20px;margin-top:25px}
+/* 그리드 칸은 기본값(min-width:auto)이면 안에 든 것보다 좁아지지 않는다. 번호칸에는
+   줄바꿈하지 않는 '인증' 칩이 들어 있어, 그 폭이 모달의 350 을 넘기면 칸이 버티고
+   모달째로 화면 밖으로 밀려난다. 좁은 화면에서 실제로 그렇게 잘렸다.
+   글꼴이 바뀌면 그 폭도 바뀌므로 숫자로 막지 않고 줄어들 수 있게 열어 둔다 */
+.ask-fields{display:grid;gap:20px;margin-top:25px;min-width:0}
+.ask-fields>*,.ask-fields .f-in{min-width:0}
 /* 칸 안에 들어가는 작은 버튼과 남은 시간 — 피그마 모달의 '재전송' / '03:00' */
 .ask-fields .chip{flex:none;padding:4px 10px;border:0;border-radius:var(--rad-sm);background:var(--main-gray);
   color:var(--main-black);font-family:var(--font-body);font-size:13px;font-weight:400;line-height:normal;cursor:pointer}
@@ -474,16 +481,20 @@ body.rw-ready .rw-float .submit:hover{background:var(--main-white)}
 
 /* 바닥 버튼 — 상자 모서리까지 꽉 찬다 (상자의 radius 가 잘라 준다) */
 .ask-acts{display:flex;align-items:stretch;margin-top:auto;background:var(--main-blue)}
-.ask-acts button{display:flex;align-items:center;justify-content:center;gap:4px;padding:16px 24px;border:0;cursor:pointer;
-  font-family:var(--font-pretendard);font-size:22px;font-weight:600;line-height:28px;letter-spacing:-.26px;white-space:nowrap}
-.ask-acts .s{flex:none;width:120px;background:var(--main-white);color:var(--main-black);border-top:1px solid rgba(var(--color-black-rgb),.1)}
+/* 글자를 줄바꿈하지 않으므로 이 줄이 상자의 최소폭을 정한다. 글꼴이 바뀌면 그 폭도
+   바뀌어 한 지점에서 끊는 분기점으로는 못 막는다 — 화면 폭에 따라 이어서 줄어들게 둔다.
+   넓은 화면에서는 clamp 의 위쪽 값에 걸려 디자인 그대로다 */
+.ask-acts button{display:flex;align-items:center;justify-content:center;gap:4px;
+  padding:16px clamp(12px,4vw,24px);border:0;cursor:pointer;
+  font-family:var(--font-pretendard);font-size:clamp(17px,5.2vw,22px);font-weight:600;
+  line-height:28px;letter-spacing:-.26px;white-space:nowrap}
+.ask-acts .s{flex:none;width:clamp(86px,26vw,120px);background:var(--main-white);color:var(--main-black);border-top:1px solid rgba(var(--color-black-rgb),.1)}
 .ask-acts .s:hover{background:#F4F5F6}
 .ask-acts .p{flex:1 0 0;min-width:0;background:var(--main-blue);color:var(--main-white)}
 .ask-acts .p:hover{background:#0E4CAA}
 .ask-acts .p .ic{flex:none;display:flex;width:24px;height:24px;align-items:center;justify-content:center}
 .ask-acts .p .ic svg{width:20px;height:20px;display:block}
-@media(max-width:380px){.rw-modal-box h3{font-size:26px;letter-spacing:-1.3px}
-  .ask-acts button{font-size:19px;padding:14px 16px}.ask-acts .s{width:96px}}
+@media(max-width:380px){.rw-modal-box h3{font-size:26px;letter-spacing:-1.3px}}
 
 /* 완료 화면.
    상태 클래스는 body 에 .rw-done 으로 붙는다. 화면까지 같은 이름으로 두면
