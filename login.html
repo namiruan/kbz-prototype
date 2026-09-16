@@ -162,8 +162,9 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 .lg-cta .btn-name b{color:var(--main-white);font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal;text-align:left;white-space:nowrap}
 @media(max-width:532px){.lg-cta .btn-name b{font-size:20px}}
 /* 화살표는 흐름에 끼우지 않고 오른쪽 32px 에 띄운다 (피그마 main_banner_btn) */
-.lg-cta .arrow{position:absolute;right:32px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:24px;height:24px;color:var(--main-white)}
-.lg-cta .arrow svg{position:relative;width:14px;height:14px;display:block}
+/* 피그마 main_banner_btn 실측 : 19.69×19.69, 오른쪽 끝에서 32px, 세로 가운데 */
+.lg-cta .arrow{position:absolute;right:32px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:20px;height:20px;color:var(--main-white)}
+.lg-cta .arrow svg{position:relative;width:10px;height:15px;display:block}
 /* hover 는 버튼 전체가 알약으로 변하는 게 아니라 화살표 뒤에 파란 빛이 도는 것이다
    (피그마 안에 30×30 · radius 300 의 radial 그라디언트가 숨어 있다) */
 .lg-cta .arrow::before{content:"";position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:300px;
@@ -245,7 +246,7 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
             <button type="submit" class="lg-cta">
               <span class="btn-name"><b>이용후기 남기기</b></span>
               <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+                <svg viewBox="0 0 10 15" fill="none" aria-hidden="true"><path d="M2 2L7.5 7.5L2 13" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
             </button>
 
