@@ -170,10 +170,11 @@ button{font-family:inherit}
 /* 입력 패널은 흰 바탕 + 테두리 — 하늘색 배경 위에서 또렷하게 뜬다
    (기존엔 #F4F5F6 이라 배경과 구분되지 않았다) */
 .rw-panel{background:var(--main-white);border:1px solid var(--ds-border-subtle);border-radius:8px;padding:25px}
-/* 작성자 인증은 아래 전부를 막고 있는 관문이다. 다른 입력 패널과 같은 옷을 입으면
-   무게가 실리지 않는다 — 파란 테두리 2px 로 페이지에서 유일하게 두드러지게 한다.
+/* 지금 손댈 칸만 파란 테두리 2px 을 두른다 — 순서를 색으로 말한다.
+   테두리를 작성자 인증에 고정해 두면, 비회원에겐 회사 정보가 먼저인데도
+   두 번째 칸이 먼저인 것처럼 보인다.
    (그림자를 쓰지 않는 건 이 디자인이 평면 언어이기 때문이다) */
-#secVerify .rw-panel{border:2px solid var(--main-blue)}
+.rw-sec.is-now .rw-panel{border:2px solid var(--main-blue)}
 /* 인증이 끝나면 관문이 아니라 읽기 전용이 되므로 긴장을 푼다 */
 body.rw-ok #secVerify .rw-panel{border:1px solid rgba(var(--color-blue-rgb),.16);background:rgba(var(--color-blue-rgb),.045)}
 /* 회사 정보도 확인이 끝나면 같은 옷을 입는다 — 끝난 칸은 끝난 것처럼 보여야 한다 */
@@ -834,11 +835,13 @@ body.rw-done .rw-main{padding-block:0}
     $('#bizBody').hidden=true; $('#bizSum').hidden=false;
     $('#secBasic').classList.add('is-ok');
     $('#g-biz-msg').textContent=''; $('#g-co-msg').textContent='';
+    markStep();
   }
   function resetBiz(){
     BIZ_OK=false;
     $('#bizSum').hidden=true; $('#bizBody').hidden=false;
     $('#secBasic').classList.remove('is-ok');
+    markStep();
   }
   /* 비회원의 사업자번호가 문을 막고 있으면 그 이유를 돌려준다 */
   function bizBlock(){
@@ -963,12 +966,12 @@ body.rw-done .rw-main{padding-block:0}
         $('#g-biz-msg').className='note danger';
       }
       hideRestore();
-      setLock(true); body.classList.remove('rw-ok'); step(1);
+      setLock(true); body.classList.remove('rw-ok'); step(1); markStep();
       /* 번호를 고치는 중에는 화면이 튀면 안 된다 — 들어설 때 한 번만 */
       if(!quiet && !(blk==='taken' && already)) $('#secBasic').scrollIntoView({behavior:'smooth',block:'start'});
       return;
     }
-    setLock(false); body.classList.add('rw-ok'); step(2);
+    setLock(false); body.classList.add('rw-ok'); step(2); markStep();
     if(FILLED) return;                       /* 되찾기는 처음 열 때 한 번만 */
     FILLED=true;
     var rec=loadRec(VD);
@@ -1013,6 +1016,7 @@ body.rw-done .rw-main{padding-block:0}
     if(timer){clearInterval(timer);timer=null;}
     /* 다른 번호로 다시 인증할 수 있다 — 불러온 표시는 내려둔다 */
     VD=''; FILLED=false; hideRestore(); hideDup();
+    markStep();
     step(1);
     $('#secVerify').scrollIntoView({behavior:'smooth',block:'start'});
   });
@@ -1057,6 +1061,13 @@ body.rw-done .rw-main{padding-block:0}
     $('#bizBody').insertBefore($('#rwGate'), $('#bizBody').firstChild);
     $('#rwGate b').textContent='후기를 남기려면 사업장과 작성자 확인이 필요해요';
   }
+  /* 안내와 같은 자리를 테두리도 따라간다 */
+  function markStep(){
+    var now = body.classList.contains('rw-ok') ? null
+            : (GUEST && !BIZ_OK) ? $('#secBasic') : $('#secVerify');
+    $$('.rw-sec').forEach(function(sec){ sec.classList.toggle('is-now', sec===now); });
+  }
+  markStep();
 
   /* 접힌 회사 정보를 다시 펼친다 — 펼치는 순간 확인은 없던 일이 된다 */
   $('#btnEditBiz').addEventListener('click',function(){
