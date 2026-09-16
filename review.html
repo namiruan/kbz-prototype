@@ -297,7 +297,7 @@ body.rw-ok .rw-gate{display:none}
    핸드폰 인증을 마치기 전에는 아래를 흐리게 + 입력 차단.
    숨기지 않는 이유 : 무엇을 묻는지 미리 훑어볼 수 있어야 한다.
    ========================================================= */
-.rw-lockbar{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:12px 16px;border-radius:var(--rad-md);
+.rw-lockbar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:var(--rad-md);
   background:rgba(var(--color-blue-rgb),.06);color:var(--main-blue);
   font-family:var(--font-pretendard);font-size:14px;font-weight:600;line-height:20px;word-break:keep-all}
 .rw-lockbar svg{flex:none;width:18px;height:18px}
@@ -466,6 +466,15 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
       </div>
     </section>
 
+    <!-- 여기서부터 잠겨 있다는 표시. 잠긴 구간이 시작되는 자리에 둔다 -->
+    <div class="rw-sec">
+      <div></div>
+      <div class="rw-lockbar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <span>작성자 인증을 마치면 아래 항목을 작성하실 수 있습니다.</span>
+      </div>
+    </div>
+
     <!-- ===== ② 기타 정보 ===== -->
     <section class="rw-sec rw-lockable">
       <h2 class="rw-sec-t">기타 정보</h2>
@@ -491,13 +500,7 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     <!-- ===== 후기 작성 ===== -->
     <section class="rw-sec">
       <h2 class="rw-sec-t">후기 작성<br>(필수)</h2>
-      <div>
-        <div class="rw-lockbar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-          <span>작성자 인증을 마치면 이 아래가 열립니다.</span>
-        </div>
-        <div class="rw-panel rw-lockable" id="reviewPanel"></div>
-      </div>
+      <div class="rw-panel rw-lockable" id="reviewPanel"></div>
     </section>
 
     <!-- ===== 만족 조사 ===== -->
