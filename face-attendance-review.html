@@ -141,8 +141,6 @@ button{font-family:inherit}
 /* 인증 후 : 불러온 기록을 카드 안에 남긴다 */
 .rw-restore{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:15px;padding:12px 14px;
   border-radius:var(--rad-sm);background:rgba(var(--color-blue-rgb),.08)}
-.rw-restore .ic{flex:none;display:flex;width:22px;height:22px;align-items:center;justify-content:center;color:var(--main-blue)}
-.rw-restore .ic svg{width:16px;height:16px}
 .rw-restore p{flex:1 0 0;min-width:180px;color:var(--main-navy);font-family:var(--font-pretendard);
   font-size:14px;font-weight:400;line-height:20px;word-break:keep-all}
 .rw-restore p b{font-weight:700}
@@ -484,16 +482,38 @@ body.rw-ready .rw-float .submit:hover{background:var(--main-white)}
    상태 클래스는 body 에 .rw-done 으로 붙는다. 화면까지 같은 이름으로 두면
    body 자신이 .rw-done{display:none} 에 걸려 페이지가 통째로 사라진다 — 화면은 #doneView 로 잡는다.
    또 #doneView 는 .rw-main 안에 있으므로 main 이 아니라 폼을 숨긴다. */
-#doneView{display:none;padding:80px 0 120px;text-align:center}
-body.rw-done #doneView{display:block}
-body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-done #rwForm,body.rw-done .rw-float{display:none}
+#doneView{display:none;flex-direction:column;align-items:center;gap:20px;padding:0 30px 100px}
+body.rw-done #doneView{display:flex}
+body.rw-done .rw-steps,body.rw-done #rwForm,body.rw-done .rw-float{display:none}
 body.rw-done .rw-main{padding-block:0}
-#doneView h2{font-family:var(--font-body);font-size:34px;font-weight:700;letter-spacing:-1.7px;color:var(--main-navy)}
-#doneView p{margin-top:14px;color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:17px;line-height:1.7;word-break:keep-all}
-#doneView .acts{display:flex;gap:8px;justify-content:center;margin-top:30px;flex-wrap:wrap}
-#doneView .acts a,#doneView .acts button{padding:14px 22px;border:0;border-radius:var(--rad-sm);font-family:var(--font-body);font-size:15px;font-weight:700;cursor:pointer}
-#doneView .acts .p{background:var(--main-black);color:#fff}
-#doneView .acts .s{background:var(--main-white);color:var(--main-black);box-shadow:inset 0 0 0 1px var(--main-gray)}
+
+/* 250 × 300 장식. 파일이 없으면 자리만 비우고 화면은 그대로 선다 */
+.done-img{width:250px;height:300px}
+.done-img img{width:100%;height:100%;object-fit:contain;display:block}
+.done-img.no-img{display:none}
+
+/* 작성자 / 핸드폰 번호 / 제출일 — 300 폭에 밑줄 한 줄씩 */
+.done-list{display:flex;flex-direction:column;margin:10px 0 0;width:300px;max-width:100%}
+.done-list>div{display:flex;flex-wrap:wrap;gap:5px;padding:10px 20px;
+  border-bottom:1px solid rgba(var(--color-black-rgb),.6);
+  color:var(--main-black);font-family:var(--font-body);font-size:18px;line-height:1.4;letter-spacing:-.36px}
+.done-list dt{flex:none;min-width:100px;font-weight:700;white-space:nowrap}
+.done-list dd{flex:1 0 0;min-width:0;margin:0;font-weight:400;word-break:keep-all}
+
+.done-acts{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.done-acts button,.done-acts a{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 20px;border:0;border-radius:8px;cursor:pointer;text-decoration:none;
+  font-family:var(--font-body);font-size:20px;font-weight:600;line-height:normal;white-space:nowrap}
+.done-acts .edit{background:var(--main-blue);color:var(--main-white)}
+.done-acts .edit:hover{background:#0E4CAA}
+.done-acts .go{background:var(--main-black);color:var(--main-white)}
+.done-acts .go:hover{background:#2A2C30}
+.done-acts .ic{display:flex;width:24px;height:24px}
+.done-acts .ic svg{width:24px;height:24px;display:block}
+@media(max-width:532px){#doneView{padding:0 15px 70px}
+  .done-list>div{font-size:16px;padding:10px 12px}
+  .done-list dt{min-width:86px}
+  .done-acts button,.done-acts a{font-size:17px;padding:11px 16px}}
 </style>
 </head>
 
@@ -605,9 +625,8 @@ body.rw-done .rw-main{padding-block:0}
 
         <!-- 인증하면서 찾아낸 이전 작성분 -->
         <div class="rw-restore" id="restoreBar" hidden>
-          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/></svg></span>
           <p id="restoreText"></p>
-          <button type="button" class="edit" id="btnFresh">새로 작성</button>
+          <button type="button" class="edit" id="btnFresh">초기화</button>
         </div>
       </div>
     </section>
@@ -672,11 +691,20 @@ body.rw-done .rw-main{padding-block:0}
 
   </form>
 
-  <!-- 완료 -->
+  <!-- 완료 — 피그마 /review_submitted (3002:28867) -->
   <div id="doneView" role="status">
-    <h2>후기를 보내주셔서 고맙습니다</h2>
-    <p>등록하신 후기는 검수 후 2~3일 이내에 홈페이지에 게시됩니다.<br>이벤트 경품은 인증하신 번호로 안내드립니다.<br>같은 번호로 다시 인증하시면 등록하신 내용을 불러와 고치실 수 있습니다.</p>
-    <div class="acts"><a class="p" href="index.html">메인으로</a><button type="button" class="s" id="btnAgain">다시 작성하기</button></div>
+    <div class="done-img"><img src="images/review/done.png" alt="" onerror="this.closest('.done-img').classList.add('no-img')"></div>
+    <dl class="done-list">
+      <div><dt>작성자</dt><dd id="doneName"></dd></div>
+      <div><dt>핸드폰 번호</dt><dd id="donePhone"></dd></div>
+      <div><dt>제출일</dt><dd id="doneDate"></dd></div>
+    </dl>
+    <div class="done-acts">
+      <button type="button" class="edit" id="btnAgain">수정하기</button>
+      <a class="go" href="index.html">후기 보러가기
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
   </div>
 </main>
 
@@ -1161,7 +1189,7 @@ body.rw-done .rw-main{padding-block:0}
         +'<span class="at">'+when(rec.at)+' 저장</span>';
       $('#btnSubmit').textContent='등록하기';
     }
-    $('#btnFresh').textContent='새로 작성';
+    $('#btnFresh').textContent='초기화';
     $('#restoreBar').hidden=false;
   }
   function hideRestore(){
@@ -1173,7 +1201,7 @@ body.rw-done .rw-main{padding-block:0}
     var b=$('#btnFresh');
     if(b.textContent!=='정말 지울까요?'){
       b.textContent='정말 지울까요?';
-      setTimeout(function(){ if(b.textContent==='정말 지울까요?') b.textContent='새로 작성'; },4000);
+      setTimeout(function(){ if(b.textContent==='정말 지울까요?') b.textContent='초기화'; },4000);
       return;
     }
     dropRec(VD); wipe(); hideRestore();
@@ -1563,7 +1591,7 @@ body.rw-done .rw-main{padding-block:0}
       go.focus(); go.scrollIntoView({behavior:'smooth',block:'center'}); return;
     }
     saveRec(VD,'done');
-    step(3); body.classList.add('rw-done'); window.scrollTo(0,0);
+    showDone();
   });
 
   /* 임시저장도 번호가 있어야 한다 — 다시 찾아올 열쇠가 그 번호이기 때문 */
@@ -1577,6 +1605,16 @@ body.rw-done .rw-main{padding-block:0}
     var b=$('#btnTemp');
     b.textContent='임시저장했습니다'; setTimeout(function(){b.textContent='임시 저장';},1600);
   });
+  /* 완료 화면 — 피그마는 마퀴와 머리글을 그대로 두고 문구만 바꾼다 */
+  function showDone(){
+    var d=new Date(), z=function(n){ return String(n).padStart(2,'0'); };
+    $('#doneName').textContent  = $('#r-name').value.trim() || '작성자';
+    $('#donePhone').textContent = fmtPhone(VD).replace(/ - /g,' - ');
+    $('#doneDate').textContent  = d.getFullYear()+' / '+z(d.getMonth()+1)+' / '+z(d.getDate());
+    $('.rw-head').innerHTML = '<span>이용 후기 등록이</span><span>완료되었습니다!</span>';
+    step(3); body.classList.add('rw-done'); window.scrollTo(0,0);
+  }
+  /* 수정하기 — 같은 번호로 다시 들어오면 방금 낸 후기를 불러온다 */
   $('#btnAgain').addEventListener('click',function(){ location.href=location.pathname+location.search; });
 })();
 </script>
