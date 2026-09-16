@@ -390,7 +390,10 @@ body.rw-ok .rw-gate{display:none}
    흐리기만 하면 '왜 연한가' 싶으므로 블러를 얹는다 — 덩어리는 보이되
    글자는 읽히지 않아 '아직 못 쓰는 곳'이 한눈에 읽힌다. */
 .rw-lockable{transition:opacity .3s,filter .3s}
-body:not(.rw-ok) .rw-lockable{opacity:.7;filter:blur(3px);pointer-events:none;user-select:none}
+/* 읽히면 잠긴 것처럼 보이지 않는다 — 글자 모양은 남기되 읽지는 못할 만큼 흐린다 */
+body:not(.rw-ok) .rw-lockable{opacity:.55;filter:blur(6px);pointer-events:none;user-select:none}
+/* 섹션 제목은 무엇이 잠겨 있는지 알려 주는 이름표라 흐리지 않고 톤만 낮춘다 */
+body:not(.rw-ok) .rw-veil .rw-sec-t{opacity:.55}
 
 /* 못 쓰는 폼이 3000px 넘게 깔려 있으면 '이걸 다 써야 하나' 로 읽힌다.
    위쪽만 남기고 아래는 흰 바닥으로 스르륵 지운다 — 분량은 짐작되되 부담은 없다.
