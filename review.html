@@ -142,10 +142,19 @@ button{font-family:inherit}
 }
 @media(max-width:532px){.rw-sec-t{font-size:15px}}
 
-/* 회색 패널 (기본 정보 · 기타 정보) */
-.rw-panel{background:var(--sub-w-gray);border-radius:8px;padding:25px}
-/* 흰 패널 (후기 작성 · 만족 조사) */
-.rw-panel.plain{background:var(--main-white);border:1px solid var(--main-gray)}
+/* 패널은 두 종류다.
+   입력하는 것  : 흰 바탕 + 테두리 — 하늘색 배경 위에서 또렷하게 뜬다
+   읽기만 하는 것 : 옅은 파랑 — 계정에서 온 값이라 손댈 곳이 아님을 색으로 말한다
+   (기존엔 둘 다 #F4F5F6 이라 배경과도, 서로도 구분되지 않았다) */
+.rw-panel{background:var(--main-white);border:1px solid var(--ds-border-subtle);border-radius:8px;padding:25px}
+.rw-panel.auto{background:rgba(var(--color-blue-rgb),.045);border-color:rgba(var(--color-blue-rgb),.16)}
+/* 인증이 끝나면 그 패널도 읽기 전용이 되므로 같은 옷을 입는다 */
+body.rw-ok #secVerify .rw-panel{background:rgba(var(--color-blue-rgb),.045);border-color:rgba(var(--color-blue-rgb),.16)}
+/* 계정에서 왔다는 표시 */
+.rw-auto-tag{display:inline-flex;align-items:center;gap:5px;margin-bottom:16px;padding:2px 8px;border-radius:var(--rad-sm);
+  background:rgba(var(--color-blue-rgb),.1);color:var(--main-blue);
+  font-family:var(--font-pretendard);font-size:13px;font-weight:600;line-height:18px}
+.rw-auto-tag svg{width:13px;height:13px}
 
 /* 3열 그리드 */
 .rw-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
@@ -323,9 +332,13 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
   <form id="rwForm" novalidate>
 
     <!-- ===== ① 기본 정보 : 로그인에서 자동으로 오는 것 (비회원만 입력) ===== -->
-    <section class="rw-sec">
+    <section class="rw-sec" id="secBasic">
       <h2 class="rw-sec-t">기본<br>정보</h2>
-      <div class="rw-panel">
+      <div class="rw-panel auto" id="basicPanel">
+        <span class="rw-auto-tag" id="basicTag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg>
+          계정에서 불러온 정보입니다
+        </span>
         <!-- 회원 : 계정에서 자동으로 채워진 값 -->
         <div class="rw-grid3" id="rwBasicMember">
           <div><div class="rw-lb"><span>회사명</span></div><p class="rw-val">주식회사 예지건설</p></div>
@@ -440,14 +453,14 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
           <span>작성자 인증을 마치면 이 아래가 열립니다.</span>
         </div>
-        <div class="rw-panel plain rw-lockable" id="reviewPanel"></div>
+        <div class="rw-panel rw-lockable" id="reviewPanel"></div>
       </div>
     </section>
 
     <!-- ===== 만족 조사 ===== -->
     <section class="rw-sec">
       <h2 class="rw-sec-t rw-lockable">만족 조사</h2>
-      <div class="rw-panel plain rw-lockable" id="surveyPanel"></div>
+      <div class="rw-panel rw-lockable" id="surveyPanel"></div>
     </section>
 
     <div class="rw-usage">
@@ -491,6 +504,9 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
   if(GUEST){
     $('#rwBasicMember').hidden=true; $('#rwBasicGuest').hidden=false;
     $('#rwCo').textContent='비회원';
+    /* 비회원은 직접 입력하므로 '계정에서 온 값' 옷을 벗긴다 */
+    $('#basicPanel').classList.remove('auto');
+    $('#basicTag').hidden=true;
   } else if(who){
     $('#rwCo').textContent='주식회사 예지건설';
   }
