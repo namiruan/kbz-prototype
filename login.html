@@ -214,8 +214,22 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 @media(max-width:899px){.lg-promo-txt .bg{font-size:22px;letter-spacing:-1.1px}}
 @media(max-width:691px){.lg-promo-txt .sm{font-size:14px}.lg-promo-txt .bg{font-size:18px;letter-spacing:-.9px}}
 /* 사진은 background 로 둔다 — 파일이 없으면 깨진 아이콘 없이 그냥 비어 보인다 */
-.lg-promo-img{position:absolute;right:0;top:-65px;width:115px;height:140px;background:url("images/review/login-cta.png") center bottom/contain no-repeat}
+.lg-promo-img{display:block;position:absolute;right:0;top:-65px;width:115px;height:140px;background:url("images/review/login-cta.png") center bottom/contain no-repeat}
 @media(max-width:532px){.lg-promo-img{top:-24px;width:81px;height:99px}}
+/* 띠 전체가 누르는 자리다 — 글자만 링크처럼 꾸미면 어디를 눌러야 할지 흐려진다.
+   안쪽 사진이 right/top 으로 붙어 있어 여백을 주면 사진이 밀린다. 자리는 그대로
+   두고 hover 배경만 box-shadow 로 바깥까지 번지게 한다 */
+a.lg-promo-inner{text-decoration:none;color:inherit;cursor:pointer;border-radius:8px;
+  transition:background .15s,box-shadow .15s}
+a.lg-promo-inner:hover{background:rgba(var(--color-blue-rgb),.05);
+  box-shadow:0 0 0 10px rgba(var(--color-blue-rgb),.05)}
+a.lg-promo-inner:focus-visible{outline:2px solid var(--main-blue);outline-offset:2px}
+/* 갈 곳이 있다는 표시 — 문구 끝에 붙여 한 줄로 읽히게 한다 */
+.lg-promo-txt .bg .go{display:inline-flex;vertical-align:-4px;margin-left:2px;transition:transform .15s}
+.lg-promo-txt .bg .go svg{width:20px;height:20px;display:block}
+a.lg-promo-inner:hover .go{transform:translateX(3px)}
+@media(max-width:691px){.lg-promo-txt .bg .go svg{width:17px;height:17px}
+  .lg-promo-txt .bg .go{vertical-align:-3px}}
 
 </style>
 </head>
@@ -281,15 +295,16 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
     </div>
   </div>
 
-  <!-- 하단 이벤트 띠 -->
+  <!-- 하단 이벤트 띠 — 띠 전체가 비회원 작성 폼으로 가는 길이다.
+       '과거에 사용했던 이용사라도'가 곧 비회원 안내라 문구와 갈 곳이 같다 -->
   <div class="lg-promo">
-    <div class="lg-promo-inner">
+    <a class="lg-promo-inner" href="face-attendance-review.html?guest=1">
       <div class="lg-promo-txt">
         <p class="sm">과거에 사용했던 이용사라도</p>
-        <p class="bg">후기이벤트 참여 가능해요</p>
+        <p class="bg">후기이벤트 참여 가능해요<span class="go"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></p>
       </div>
-      <div class="lg-promo-img" role="img" aria-label="현장에서 휴대폰으로 후기를 남기는 이용자"></div>
-    </div>
+      <span class="lg-promo-img" role="img" aria-label="현장에서 휴대폰으로 후기를 남기는 이용자"></span>
+    </a>
   </div>
 </section>
 
