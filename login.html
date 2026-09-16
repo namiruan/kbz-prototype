@@ -162,14 +162,18 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 .lg-cta .btn-name b{color:var(--main-white);font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal;text-align:left;white-space:nowrap}
 @media(max-width:532px){.lg-cta .btn-name b{font-size:20px}}
 /* 화살표는 흐름에 끼우지 않고 오른쪽 32px 에 띄운다 (피그마 main_banner_btn) */
-/* 피그마 main_banner_btn 실측 : 19.69×19.69, 오른쪽 끝에서 32px, 세로 가운데 */
-.lg-cta .arrow{position:absolute;right:32px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:20px;height:20px;color:var(--main-white)}
-.lg-cta .arrow svg{position:relative;width:10px;height:15px;display:block}
-/* hover 는 버튼 전체가 알약으로 변하는 게 아니라 화살표 뒤에 파란 빛이 도는 것이다
-   (피그마 안에 30×30 · radius 300 의 radial 그라디언트가 숨어 있다) */
-.lg-cta .arrow::before{content:"";position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:300px;
-  background:radial-gradient(50% 50% at 50% 50%, #0062C4 45%, rgba(0,67,134,0) 100%);opacity:0;transition:opacity .25s}
-.review-page .lg-cta:hover .arrow::before{opacity:1}
+/* 라이브 .btn-icon 과 같은 규격 : 24×24 · 오른쪽 끝에서 32px · 세로 가운데 */
+.lg-cta .arrow{position:absolute;right:32px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:24px;height:24px;color:var(--main-white)}
+.lg-cta .arrow svg{position:relative;width:24px;height:24px;display:block}
+/* hover : 라이브 computed 를 보면 radius 는 12px 그대로고 background 도 단색이다.
+   버튼이 알약으로 변하지 않는다. 대신 overflow:hidden 바깥 오른쪽 아래에
+   30×30 파란 빛이 주차돼 있다가(피그마 hover 레이어: right -91 · 중앙에서 +60.5)
+   화살표 자리로 미끄러져 들어온다. */
+.lg-cta .glow{position:absolute;width:30px;height:30px;border-radius:300px;pointer-events:none;
+  background:radial-gradient(50% 50% at 50% 50%, #0062C4 45%, rgba(0,67,134,0) 100%);
+  right:-91px;top:calc(50% + 60.5px);transform:translateY(-50%);transition:right .35s ease,top .35s ease}
+.review-page .lg-cta:hover .glow{right:29px;top:50%}
+@media(prefers-reduced-motion:reduce){.lg-cta .glow{transition:none}}
 /* 피그마 footer-tab : Wanted Sans 16/400 · 자간 -0.16px. group-list 간격이 30px 인데
    .lg-btn-group 의 gap 5px 가 이미 붙으므로 25px 만 더한다 */
 .lg-link{max-width:500px;align-self:stretch;margin-top:25px;color:var(--sub-d-gray);text-align:center;cursor:pointer;
@@ -244,9 +248,10 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
             <div class="lg-badge" id="lgBadge" role="alert"><span>아이디 또는 비밀번호가 일치하지 않습니다</span></div>
 
             <button type="submit" class="lg-cta">
+              <span class="glow" aria-hidden="true"></span>
               <span class="btn-name"><b>이용후기 남기기</b></span>
               <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 10 15" fill="none" aria-hidden="true"><path d="M2 2L7.5 7.5L2 13" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
             </button>
 
