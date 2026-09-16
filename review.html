@@ -63,7 +63,11 @@ button{font-family:inherit}
 
 /* 피그마 : partition-02 의 섹션이 x=140 · 폭 1000. 머리글은 1280 전체를 쓴다 */
 .rw-inner{max-width:1280px;margin:0 auto;padding:0 20px;width:100%}
-.rw-col{max-width:1000px;margin:0 auto;padding:0 20px;width:100%}
+/* 좌우 여백 실측 : 1280→140 · 900·692·533→30 · 320→15
+   max 1000 에 padding 30 이면 1280 에서 140, 900 에서 30 이 저절로 나온다 */
+/* border-box 라 max-width 안에 패딩이 들어간다. 콘텐츠 1000 을 얻으려면 1000+60 */
+.rw-col{max-width:1060px;margin:0 auto;padding:0 30px;width:100%}
+@media(max-width:532px){.rw-col{padding:0 15px}}
 
 /* =========================================================
    상단 이벤트 마퀴 — 피그마 marquee
@@ -124,13 +128,19 @@ button{font-family:inherit}
 /* =========================================================
    본문 2열 — 왼쪽 섹션 제목(파랑) · 오른쪽 내용
    ========================================================= */
-.rw-main{padding:25px 0 180px}
+/* 단축 padding 을 쓰면 .rw-col 의 좌우 패딩이 0 으로 덮인다 — 세로만 건드린다 */
+.rw-main{padding-block:25px 180px}
 .rw-sec{display:grid;grid-template-columns:91px minmax(0,1fr);gap:0 60px;margin-bottom:20px}
 /* 피그마 제목 칸 91×31(한 줄) — Wanted Sans 22 / 줄높이 1.4 */
 .rw-sec-t{color:var(--main-blue);font-family:var(--font-body);font-size:22px;font-weight:700;line-height:1.4;letter-spacing:-.02em;padding-top:25px;white-space:nowrap}
-@media(max-width:899px){.rw-sec{grid-template-columns:minmax(0,1fr);gap:10px}
-  /* 1열로 접히면 제목이 가로로 눕는다 — <br> 를 무시한다 */
-  .rw-sec-t{padding-top:0;font-size:19px}.rw-sec-t br{display:none}}
+/* 피그마 : 692 까지는 2열, 533 부터 1열(제목 위 · 간격 15).
+   제목 크기도 22 → 18 → 15 로 줄어든다 (제목 칸 높이 31 / 26 / 21 에서 역산) */
+@media(max-width:691px){
+  .rw-sec{grid-template-columns:minmax(0,1fr);gap:15px}
+  .rw-sec-t{padding-top:0;font-size:18px}
+  .rw-sec-t br{display:none}
+}
+@media(max-width:532px){.rw-sec-t{font-size:15px}}
 
 /* 회색 패널 (기본 정보 · 기타 정보) */
 .rw-panel{background:var(--sub-w-gray);border-radius:8px;padding:25px}
