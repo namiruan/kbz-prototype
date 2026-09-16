@@ -235,6 +235,11 @@ body.rw-ok .rw-gate{display:none}
   background:var(--main-white);border:1px solid var(--ds-border-subtle);border-radius:var(--rad-sm);transition:border-color .15s}
 .f-in:focus-within{border-color:var(--ds-border-selected)}
 .f-in.is-err{border-color:#E53935}
+/* 확인을 받은 칸 — 이 디자인에서 '됐다'는 파랑이다(.note.ok 와 같은 색) */
+.f-in.is-ok{border-color:var(--main-blue);background:rgba(var(--color-blue-rgb),.045)}
+.f-in .ok-ck{display:none;flex:none;color:var(--main-blue)}
+.f-in .ok-ck svg{width:18px;height:18px;display:block}
+.f-in.is-ok .ok-ck{display:flex}
 .f-in input,.f-in select,.f-in textarea{flex:1 0 0;min-width:20px;border:0;outline:0;background:none;
   color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
 .f-in input::placeholder,.f-in textarea::placeholder{color:var(--ds-text-subtle)}
@@ -461,6 +466,7 @@ body.rw-done .rw-main{padding-block:0}
             <div class="rw-withbtn">
               <div class="f-in"><!-- 000 - 00 - 00000 = 16자 -->
                 <input id="g-biz" type="text" inputmode="numeric" maxlength="16" placeholder="000 - 00 - 00000">
+                <span class="ok-ck" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
               </div>
               <button type="button" class="btn" id="btnBiz">확인</button>
             </div>
@@ -843,14 +849,15 @@ body.rw-done .rw-main{padding-block:0}
     return {k:'taken', o:o};
   }
   /* 끝난 칸은 한 줄로 접는다 — 작성자 인증과 같은 모양이다 */
-  /* 사업자번호는 확인만 받으면 되는 값이라 접지 않는다 — 읽기 전용으로 굳히고
-     그 자리에 그냥 둔다. 확인 버튼이 그대로 '수정' 버튼이 된다. */
+  /* 확인을 받은 건 사업자번호 하나다. 접지 않고 그 자리에서 성공 상태로 바꾼다
+     — 회색으로 죽이면 '못 쓰는 칸'으로 보이지 '통과한 칸'으로 보이지 않는다.
+     회사명은 확인 대상이 아니므로 그대로 고칠 수 있다.
+     확인 버튼은 그 자리에서 '수정' 버튼이 된다. */
   function lockBizFields(on){
-    [$('#g-co'), $('#g-biz')].forEach(function(el){
-      el.readOnly=on;
-      if(on) el.closest('.f-in').setAttribute('data-disabled','');
-      else   el.closest('.f-in').removeAttribute('data-disabled');
-    });
+    var w=$('#g-biz').closest('.f-in');
+    $('#g-biz').readOnly=on;
+    w.classList.toggle('is-ok', on);
+    if(on) w.classList.remove('is-err');
     $('#btnBiz').textContent = on ? '수정' : '확인';
     $('#btnBiz').classList.toggle('is-undo', on);
   }
