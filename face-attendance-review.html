@@ -795,6 +795,7 @@ body.rw-done .rw-main{padding-block:0}
   var body=document.body;
   var q=new URLSearchParams(location.search);
   var GUEST=q.get('guest')==='1';
+  var HEAD_HTML=document.querySelector('.rw-head').innerHTML;
 
   /* 이벤트 마퀴.
      애니메이션이 -50% 만큼 밀기 때문에 릴은 똑같은 두 짝이어야 하고,
@@ -1661,9 +1662,24 @@ body.rw-done .rw-main{padding-block:0}
     $('.rw-head').innerHTML = '<span>이용 후기 등록이</span><span>완료되었습니다!</span>';
     step(3); body.classList.add('rw-done'); window.scrollTo(0,0);
   }
-  /* 수정하기 — 같은 번호로 다시 들어오면 방금 낸 후기를 불러온다.
+  /* 완료 화면을 걷고 쓰던 자리로 돌아간다 — 인증 상태는 그대로 둔다 */
+  function backToForm(){
+    body.classList.remove('rw-done');
+    $('.rw-head').innerHTML = HEAD_HTML;
+    step(2); markStep();
+    var rec=loadRec(VD);
+    if(rec && rec.data) showRestore(rec); else $('#btnSubmit').textContent='수정해서 등록';
+    syncSubmit();
+    $('#reviewPanel').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  /* 수정하기 — 로그인한 회원사는 이미 본인이 밝혀져 있다. 방금 인증을 마치고
+     후기를 낸 자리이므로 문자를 한 번 더 받게 할 이유가 없다. 화면만 걷고
+     쓰던 폼으로 돌려보낸다.
+     비회원은 기댈 로그인이 없어 번호 인증을 다시 거친다 — 그때는 같은 번호로
+     들어오면 방금 낸 후기를 불러온다.
      확인용으로 켜 둔 ?done=1 은 떼고 돌아간다. 안 그러면 완료 화면만 되풀이된다 */
   $('#btnAgain').addEventListener('click',function(){
+    if(!GUEST && VD && body.classList.contains('rw-ok')){ backToForm(); return; }
     var p=new URLSearchParams(location.search); p.delete('done');
     var qs=p.toString();
     location.href=location.pathname+(qs?'?'+qs:'');
@@ -1675,6 +1691,9 @@ body.rw-done .rw-main{padding-block:0}
     $('#r-name').value='홍길동';
     VD='01012341443';
     if(GUEST){ $('#g-co').value='대한건설'; $('#g-biz').value='123 - 45 - 67890'; }
+    /* 회원은 완료 화면에서 곧장 폼으로 돌아간다 — 그 길이 막히지 않게
+       인증을 마친 상태까지 세워 둔다 */
+    else { $('#r-phone').value=fmtPhone(VD); markPhoneDone(); }
     showDone();
   }
 })();
