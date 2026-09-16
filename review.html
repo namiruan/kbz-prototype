@@ -120,10 +120,29 @@ button{font-family:inherit}
 .rw-sum .ck svg{width:13px;height:13px}
 .rw-sum p{flex:1 0 0;min-width:180px;color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px;word-break:keep-all}
 .rw-sum p b{font-weight:600}
+.rw-sum p .ph{white-space:nowrap}
 .rw-sum p .ok{margin-left:6px;padding:2px 6px;border-radius:var(--rad-sm);background:rgba(var(--color-blue-rgb),.1);color:var(--main-blue);font-size:13px;font-weight:600}
 .rw-sum .edit{flex:none;padding:var(--pad-3) var(--pad-5);border:1px solid var(--ds-border-subtle);border-radius:var(--rad-md);
   background:var(--main-white);color:var(--ds-text-label);font-family:var(--font-pretendard);font-size:14px;font-weight:600;cursor:pointer}
 .rw-sum .edit:hover{border-color:var(--ds-border-selected);color:var(--ds-text-body)}
+
+/* 인증 카드 안내 — 인증은 잠금 해제이면서 이전에 쓰던 내용을 되찾는 일이기도 하다 */
+.rw-gate p.tip{display:flex;align-items:flex-start;gap:5px;margin-top:7px;color:var(--main-blue);font-weight:500}
+.rw-gate p.tip svg{flex:none;width:14px;height:14px;margin-top:2px}
+
+/* 인증 후 : 불러온 기록을 카드 안에 남긴다 */
+.rw-restore{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:15px;padding:12px 14px;
+  border-radius:var(--rad-sm);background:rgba(var(--color-blue-rgb),.08)}
+.rw-restore .ic{flex:none;display:flex;width:22px;height:22px;align-items:center;justify-content:center;color:var(--main-blue)}
+.rw-restore .ic svg{width:16px;height:16px}
+.rw-restore p{flex:1 0 0;min-width:180px;color:var(--main-navy);font-family:var(--font-pretendard);
+  font-size:14px;font-weight:400;line-height:20px;word-break:keep-all}
+.rw-restore p b{font-weight:700}
+.rw-restore p .at{color:rgba(var(--color-navy-rgb),.6);font-size:13px}
+.rw-restore .edit{flex:none;padding:var(--pad-3) var(--pad-5);border:1px solid rgba(var(--color-blue-rgb),.3);
+  border-radius:var(--rad-md);background:var(--main-white);color:var(--main-blue);
+  font-family:var(--font-pretendard);font-size:14px;font-weight:600;cursor:pointer}
+.rw-restore .edit:hover{background:var(--main-blue);border-color:var(--main-blue);color:var(--main-white)}
 
 /* =========================================================
    본문 2열 — 왼쪽 섹션 제목(파랑) · 오른쪽 내용
@@ -334,16 +353,20 @@ body.rw-ok .rw-float .submit{background:rgba(var(--color-white-rgb),.92);color:v
 body.rw-ok .rw-float .submit:hover{background:var(--main-white)}
 @media(max-width:640px){.rw-float button{font-size:18px;letter-spacing:-.9px;padding:10px 12px}}
 
-/* 완료 화면 */
-.rw-done{display:none;padding:80px 0 120px;text-align:center}
-body.rw-done .rw-done{display:block}
-body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-done .rw-main,body.rw-done .rw-float{display:none}
-.rw-done h2{font-family:var(--font-body);font-size:34px;font-weight:700;letter-spacing:-1.7px;color:var(--main-navy)}
-.rw-done p{margin-top:14px;color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:17px;line-height:1.7;word-break:keep-all}
-.rw-done .acts{display:flex;gap:8px;justify-content:center;margin-top:30px;flex-wrap:wrap}
-.rw-done .acts a,.rw-done .acts button{padding:14px 22px;border:0;border-radius:var(--rad-sm);font-family:var(--font-body);font-size:15px;font-weight:700;cursor:pointer}
-.rw-done .acts .p{background:var(--main-black);color:#fff}
-.rw-done .acts .s{background:var(--main-white);color:var(--main-black);box-shadow:inset 0 0 0 1px var(--main-gray)}
+/* 완료 화면.
+   상태 클래스는 body 에 .rw-done 으로 붙는다. 화면까지 같은 이름으로 두면
+   body 자신이 .rw-done{display:none} 에 걸려 페이지가 통째로 사라진다 — 화면은 #doneView 로 잡는다.
+   또 #doneView 는 .rw-main 안에 있으므로 main 이 아니라 폼을 숨긴다. */
+#doneView{display:none;padding:80px 0 120px;text-align:center}
+body.rw-done #doneView{display:block}
+body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-done #rwForm,body.rw-done .rw-float{display:none}
+body.rw-done .rw-main{padding-block:0}
+#doneView h2{font-family:var(--font-body);font-size:34px;font-weight:700;letter-spacing:-1.7px;color:var(--main-navy)}
+#doneView p{margin-top:14px;color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:17px;line-height:1.7;word-break:keep-all}
+#doneView .acts{display:flex;gap:8px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+#doneView .acts a,#doneView .acts button{padding:14px 22px;border:0;border-radius:var(--rad-sm);font-family:var(--font-body);font-size:15px;font-weight:700;cursor:pointer}
+#doneView .acts .p{background:var(--main-black);color:#fff}
+#doneView .acts .s{background:var(--main-white);color:var(--main-black);box-shadow:inset 0 0 0 1px var(--main-gray)}
 </style>
 </head>
 
@@ -432,6 +455,7 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
             <span>
               <b>후기를 남기려면 본인 확인이 필요해요</b>
               <p>인증하신 번호로 이벤트 경품을 보내드립니다.</p>
+              <p class="tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/></svg><span>임시저장했거나 이미 등록한 후기가 있으면, 인증과 동시에 그 내용을 불러옵니다.</span></p>
             </span>
           </div>
           <div class="rw-vgrid">
@@ -471,6 +495,13 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
           <span class="ck" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
           <p id="sumText"></p>
           <button type="button" class="edit" id="btnEditVerify">수정</button>
+        </div>
+
+        <!-- 인증하면서 찾아낸 이전 작성분 -->
+        <div class="rw-restore" id="restoreBar" hidden>
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/></svg></span>
+          <p id="restoreText"></p>
+          <button type="button" class="edit" id="btnFresh">새로 작성</button>
         </div>
       </div>
     </section>
@@ -520,9 +551,9 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
   </form>
 
   <!-- 완료 -->
-  <div class="rw-done" id="doneView" role="status">
+  <div id="doneView" role="status">
     <h2>후기를 보내주셔서 고맙습니다</h2>
-    <p>등록하신 후기는 검수 후 2~3일 이내에 홈페이지에 게시됩니다.<br>이벤트 경품은 인증하신 번호로 안내드립니다.</p>
+    <p>등록하신 후기는 검수 후 2~3일 이내에 홈페이지에 게시됩니다.<br>이벤트 경품은 인증하신 번호로 안내드립니다.<br>같은 번호로 다시 인증하시면 등록하신 내용을 불러와 고치실 수 있습니다.</p>
     <div class="acts"><a class="p" href="index.html">메인으로</a><button type="button" class="s" id="btnAgain">다시 작성하기</button></div>
   </div>
 </main>
@@ -657,6 +688,90 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
   });
 
   /* =========================================================
+     이전 작성분 — 인증한 번호를 열쇠로 임시저장분/등록분을 되찾는다
+     프로토타입이라 localStorage 에 둔다. 실제로는 인증 응답에 실려 온다.
+     ========================================================= */
+  var VD='';                                   /* 인증이 끝난 번호(숫자만) */
+  var SKIP={'r-phone':1,'r-code':1,'r-name':1}; /* 인증 칸은 본문이 아니다 */
+  function fields(){ return $$('#rwForm input, #rwForm select, #rwForm textarea'); }
+
+  function snap(){
+    var d={};
+    fields().forEach(function(el){
+      if(el.type==='file') return;               /* 사진은 담지 않는다 */
+      if(el.type==='radio'){ if(el.checked) d['@'+el.name]=el.value; return; }
+      if(!el.id || SKIP[el.id]) return;
+      d[el.id]=el.value;
+    });
+    return d;
+  }
+  /* 값을 넣은 뒤엔 글자수·별·플레이스홀더가 스스로 다시 그려지도록 이벤트를 흘린다 */
+  function settle(el){ el.dispatchEvent(new Event(el.tagName==='SELECT'?'change':'input',{bubbles:true})); }
+  function fill(d){
+    Object.keys(d).forEach(function(k){
+      if(k.charAt(0)==='@'){
+        var r=$('#rwForm input[name="'+k.slice(1)+'"][value="'+d[k]+'"]');
+        if(r){ r.checked=true; }
+        return;
+      }
+      var el=document.getElementById(k);
+      if(!el) return;
+      el.value=d[k]; settle(el);
+    });
+    paintStars(starVal());
+  }
+  function wipe(){
+    fields().forEach(function(el){
+      if(el.type==='file'){ el.value=''; return; }
+      if(el.type==='radio'){ el.checked=false; return; }
+      if(!el.id || SKIP[el.id]) return;
+      if(el.tagName==='SELECT') el.selectedIndex=0; else el.value='';
+      settle(el);
+    });
+    $$('.f-thumbs').forEach(function(t){ t.innerHTML=''; });
+    $$('[id$="-pc"]').forEach(function(c){ c.textContent='사진 0 / 1'; });
+    paintStars(0);
+  }
+
+  function key(d){ return 'kbz_rv_'+d; }
+  function loadRec(d){ try{ var v=localStorage.getItem(key(d)); return v?JSON.parse(v):null; }catch(e){ return null; } }
+  function saveRec(d,status){ try{ localStorage.setItem(key(d), JSON.stringify({status:status,at:Date.now(),data:snap()})); }catch(e){} }
+  function dropRec(d){ try{ localStorage.removeItem(key(d)); }catch(e){} }
+
+  function when(ts){
+    var t=new Date(ts), z=function(n){ return String(n).padStart(2,'0'); };
+    return t.getFullYear()+'.'+z(t.getMonth()+1)+'.'+z(t.getDate())+' '+z(t.getHours())+':'+z(t.getMinutes());
+  }
+  function showRestore(rec){
+    if(rec.status==='done'){
+      $('#restoreText').innerHTML='<b>이미 등록하신 후기</b>를 불러왔습니다. '
+        +'<span class="at">'+when(rec.at)+' 등록</span><br>고치신 뒤 다시 등록하시면 이 내용을 대신합니다.';
+      $('#btnSubmit').textContent='수정해서 등록';
+    }else{
+      $('#restoreText').innerHTML='<b>임시저장하신 내용</b>을 불러왔습니다. '
+        +'<span class="at">'+when(rec.at)+' 저장</span>';
+      $('#btnSubmit').textContent='등록하기';
+    }
+    $('#btnFresh').textContent='새로 작성';
+    $('#restoreBar').hidden=false;
+  }
+  function hideRestore(){
+    $('#restoreBar').hidden=true;
+    $('#btnSubmit').textContent='등록하기';
+  }
+  /* 지우는 건 되돌릴 수 없으니 한 번 더 묻는다 */
+  $('#btnFresh').addEventListener('click',function(){
+    var b=$('#btnFresh');
+    if(b.textContent!=='정말 지울까요?'){
+      b.textContent='정말 지울까요?';
+      setTimeout(function(){ if(b.textContent==='정말 지울까요?') b.textContent='새로 작성'; },4000);
+      return;
+    }
+    dropRec(VD); wipe(); hideRestore();
+    $('#reviewPanel').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+
+  /* =========================================================
      작성자 확인 — 핸드폰 인증을 마쳐야 아래가 열린다
      프로토타입 : 인증번호는 6자리면 통과. 000000 이면 실패로 떨어진다.
      ========================================================= */
@@ -702,6 +817,10 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     collapseVerify();
     setLock(false);
     body.classList.add('rw-ok');
+    /* 인증은 잠금 해제이면서 조회다 — 쓰던 게 있으면 그대로 돌려준다 */
+    VD = phone.value.replace(/\D/g,'');
+    var rec = loadRec(VD);
+    if(rec && rec.data){ fill(rec.data); showRestore(rec); } else { hideRestore(); }
     $('#reviewPanel').scrollIntoView({behavior:'smooth',block:'start'});
   });
   code.addEventListener('input',function(){ $('#codeWrap').classList.remove('is-err'); $('#codeMsg').textContent=''; });
@@ -728,7 +847,7 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     var nm = $('#r-name').value.trim() || '작성자';
     var ph = phone.value.replace(/\D/g,'');
     ph = ph ? ph.slice(0,3)+'-****-'+ph.slice(-4) : '';
-    $('#sumText').innerHTML='<b>'+nm+'</b> · '+ph+'<span class="ok">인증됨</span>';
+    $('#sumText').innerHTML='<b>'+nm+'</b> · <span class="ph">'+ph+'</span><span class="ok">인증됨</span>';
     $('#verifyBody').hidden=true; $('#verifySum').hidden=false;
     step(2);
   }
@@ -741,6 +860,8 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     code.value=''; code.disabled=true; $('#btnVerify').disabled=true;
     $('#codeWrap').setAttribute('data-disabled',''); $('#codeTimer').hidden=true;
     if(timer){clearInterval(timer);timer=null;}
+    /* 다른 번호로 다시 인증할 수 있다 — 불러온 표시는 내려둔다 */
+    VD=''; hideRestore();
     step(1);
     $('#secVerify').scrollIntoView({behavior:'smooth',block:'start'});
   });
@@ -773,12 +894,18 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     });
     if(!starVal() && !bad) bad=$('#st5');
     if(bad){ bad.focus(); bad.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+    saveRec(VD,'done');
     step(3); body.classList.add('rw-done'); window.scrollTo(0,0);
   });
 
+  /* 임시저장도 번호가 있어야 한다 — 다시 찾아올 열쇠가 그 번호이기 때문 */
   $('#btnTemp').addEventListener('click',function(){
-    var b=$('#btnTemp'), t=b.textContent;
-    b.textContent='임시저장했습니다'; setTimeout(function(){b.textContent=t;},1600);
+    if(!body.classList.contains('rw-ok')){
+      $('#secVerify').scrollIntoView({behavior:'smooth',block:'start'}); phone.focus(); return;
+    }
+    saveRec(VD,'temp');
+    var b=$('#btnTemp');
+    b.textContent='임시저장했습니다'; setTimeout(function(){b.textContent='임시 저장';},1600);
   });
   $('#btnAgain').addEventListener('click',function(){ location.href=location.pathname+location.search; });
 })();
