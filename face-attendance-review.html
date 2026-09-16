@@ -398,7 +398,11 @@ body:not(.rw-ok) .rw-veil .rw-sec-t{opacity:.7;filter:blur(3px);pointer-events:n
 /* 못 쓰는 폼이 3000px 넘게 깔려 있으면 '이걸 다 써야 하나' 로 읽힌다.
    위쪽만 남기고 아래는 흰 바닥으로 스르륵 지운다 — 분량은 짐작되되 부담은 없다.
    max-height 를 none 으로 두면 전환이 안 되므로 충분히 큰 값으로 편다. */
-.rw-veil{position:relative;max-height:20000px;overflow:hidden;transition:max-height .55s ease}
+/* 접으려고 overflow 를 잘라 두는데, 그 자르는 선이 제목의 왼쪽 끝과 겹친다.
+   흐림은 글자 밖으로 번지므로 번진 만큼이 잘려 제목이 칼로 자른 듯 보인다 —
+   좌우로 번질 자리를 만들고 같은 만큼 당겨 자리는 그대로 둔다 */
+.rw-veil{position:relative;max-height:20000px;overflow:hidden;transition:max-height .55s ease;
+  padding-inline:12px;margin-inline:-12px}
 body:not(.rw-ok) .rw-veil{max-height:320px}
 body:not(.rw-ok) .rw-veil::after{content:"";position:absolute;left:0;right:0;bottom:0;height:240px;pointer-events:none;
   background:linear-gradient(180deg, rgba(var(--color-white-rgb),0) 0%, rgba(var(--color-white-rgb),1) 82%)}
