@@ -167,17 +167,9 @@ button{font-family:inherit}
 }
 @media(max-width:532px){.rw-sec-t{font-size:15px}}
 
-/* 패널은 두 종류다.
-   입력하는 것  : 흰 바탕 + 테두리 — 하늘색 배경 위에서 또렷하게 뜬다
-   읽기만 하는 것 : 옅은 파랑 — 계정에서 온 값이라 손댈 곳이 아님을 색으로 말한다
-   (기존엔 둘 다 #F4F5F6 이라 배경과도, 서로도 구분되지 않았다) */
+/* 입력 패널은 흰 바탕 + 테두리 — 하늘색 배경 위에서 또렷하게 뜬다
+   (기존엔 #F4F5F6 이라 배경과 구분되지 않았다) */
 .rw-panel{background:var(--main-white);border:1px solid var(--ds-border-subtle);border-radius:8px;padding:25px}
-.rw-panel.auto{background:rgba(var(--color-blue-rgb),.045);border-color:rgba(var(--color-blue-rgb),.16)}
-/* 읽기 전용 패널 안의 글씨는 브랜드 톤(네이비)으로 — 중립 회색·검정은 파란 카드 위에서 겉돈다.
-   라벨은 네이비 72% (바탕 대비 약 5:1 로 AA 유지) */
-.rw-panel.auto .rw-lb span{color:rgba(var(--color-navy-rgb),.72)}
-.rw-panel.auto .rw-val{color:var(--main-navy)}
-/* 인증이 끝나면 그 패널도 읽기 전용이 되므로 같은 옷을 입는다 */
 /* 작성자 인증은 아래 전부를 막고 있는 관문이다. 다른 입력 패널과 같은 옷을 입으면
    무게가 실리지 않는다 — 파란 테두리 2px 로 페이지에서 유일하게 두드러지게 한다.
    (그림자를 쓰지 않는 건 이 디자인이 평면 언어이기 때문이다) */
@@ -219,8 +211,6 @@ body.rw-ok .rw-gate{display:none}
 .rw-lb{display:flex;align-items:center;gap:5px;min-height:19px;margin-bottom:5px}
 .rw-lb span{color:var(--ds-text-label);font-family:var(--font-pretendard);font-size:14px;font-weight:400;line-height:18px;letter-spacing:-.08px}
 .rw-lb em{font-style:normal;color:var(--main-blue);font-family:var(--font-pretendard);font-size:14px;font-weight:400}
-/* 읽기 전용 값 */
-.rw-val{color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:600;line-height:22px;letter-spacing:-.43px}
 
 /* =========================================================
    입력 아톰 — 피그마 Text input_atomic / select-atomic
@@ -427,19 +417,12 @@ body.rw-done .rw-main{padding-block:0}
 <main class="rw-col rw-main">
   <form id="rwForm" novalidate>
 
-    <!-- ===== ① 회사 정보 : 로그인에서 자동으로 오는 것 (비회원만 입력) ===== -->
-    <section class="rw-sec" id="secBasic">
+    <!-- ===== ① 회사 정보 : 비회원만 쓴다.
+         회원은 회사명이 이미 머리글에 있어 섹션째 감춘다 ===== -->
+    <section class="rw-sec" id="secBasic" hidden>
       <h2 class="rw-sec-t">회사<br>정보</h2>
-      <div class="rw-panel auto" id="basicPanel">
-        <!-- 회원 : 계정에서 자동으로 채워진 값 -->
-        <div class="rw-grid3" id="rwBasicMember">
-          <div><div class="rw-lb"><span>회사명</span></div><p class="rw-val">주식회사 예지건설</p></div>
-          <div><div class="rw-lb"><span>이용중인 서비스</span></div><p class="rw-val">단일 서비스 이용사</p></div>
-          <div><div class="rw-lb"><span>서비스 이용기간</span></div><p class="rw-val">6년차</p></div>
-        </div>
-
-        <!-- 비회원 : 가져올 계정이 없으니 직접 입력 (?guest=1) -->
-        <div class="rw-grid3" id="rwBasicGuest" hidden>
+      <div class="rw-panel" id="basicPanel">
+        <div class="rw-grid3" id="rwBasicGuest">
           <div>
             <div class="rw-lb"><label for="g-co"><span>회사명</span></label><em>(필수)</em></div>
             <div class="f-in"><input id="g-co" type="text" placeholder="회사명을 입력하세요"></div>
@@ -449,24 +432,6 @@ body.rw-done .rw-main{padding-block:0}
             <div class="f-in"><!-- 000 - 00 - 00000 = 16자 -->
             <input id="g-biz" type="text" inputmode="numeric" maxlength="16" placeholder="000 - 00 - 00000"></div>
             <div class="f-msg"><p class="note" id="g-biz-msg"></p></div>
-          </div>
-          <div>
-            <div class="rw-lb"><label for="g-svc"><span>이용중인 서비스</span></label><em>(필수)</em></div>
-            <div class="f-in">
-              <select id="g-svc" class="ph"><option value="" disabled selected>서비스를 선택하세요</option>
-                <option>김반장 프리미엄</option><option>김반장 3.0</option>
-                <option>안면인식 출퇴근관리</option><option>퇴직공제 전자카드</option></select>
-              <span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-            </div>
-          </div>
-          <div>
-            <div class="rw-lb"><label for="g-yy"><span>서비스 이용기간</span></label><em>(필수)</em></div>
-            <div class="f-in">
-              <select id="g-yy" class="ph"><option value="" disabled selected>이용기간을 선택하세요</option>
-                <option>1년차</option><option>2년차</option><option>3년차</option><option>4년차</option>
-                <option>5년차</option><option>6년차</option><option>7년차 이상</option></select>
-              <span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-            </div>
           </div>
         </div>
       </div>
@@ -626,10 +591,13 @@ body.rw-done .rw-main{padding-block:0}
   /* 로그인 화면이 넘겨준 아이디 / 비회원 모드 */
   var who=q.get('u');
   if(GUEST){
-    $('#rwBasicMember').hidden=true; $('#rwBasicGuest').hidden=false;
+    /* 비회원만 회사를 직접 밝힌다. 회원은 머리글이 이미 회사명을 달고 있다 */
+    $('#secBasic').hidden=false;
     $('#rwCo').textContent='비회원';
-    /* 비회원은 직접 입력하므로 '계정에서 온 값' 옷을 벗긴다 */
-    $('#basicPanel').classList.remove('auto');
+    /* 적는 대로 머리글에 올려 준다 — 회사명이 사는 곳을 한 군데로 둔다 */
+    $('#g-co').addEventListener('input',function(){
+      $('#rwCo').textContent=$('#g-co').value.trim()||'비회원';
+    });
   } else if(who){
     $('#rwCo').textContent='주식회사 예지건설';
   }
@@ -1041,7 +1009,7 @@ body.rw-done .rw-main{padding-block:0}
     }
     var bad=null;
     function need(el){ if(!el.value.trim()){ el.closest('.f-in').classList.add('is-err'); if(!bad) bad=el; } }
-    if(GUEST){ need($('#g-co')); need($('#g-biz')); need($('#g-svc')); need($('#g-yy')); }
+    if(GUEST){ need($('#g-co')); need($('#g-biz')); }
     else if(!sitePicked().length){ $('#siteBtn').classList.add('is-err'); if(!bad) bad=$('#siteBtn'); }
     need($('#r-biz')); need($('#r-name'));
     QS.forEach(function(o,i){
