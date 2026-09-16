@@ -207,6 +207,16 @@ body.rw-ok .rw-gate{display:none}
 .f-in.area textarea{height:96px;resize:vertical;line-height:1.55}
 .f-in[data-disabled]{background:var(--ds-bg-disabled)}
 
+/* 칸 옆에 붙는 버튼 — 칸 안에 넣으면 버튼이 있는 칸만 높이가 달라져 줄이 어긋난다.
+   align-items:stretch 라 버튼 높이가 칸(56)에 저절로 맞는다 */
+.rw-withbtn{display:flex;align-items:stretch;gap:8px}
+.rw-withbtn .f-in{flex:1 0 0;min-width:0}
+.rw-withbtn .btn{flex:none;padding:0 16px;border-radius:var(--rad-sm);border:1px solid var(--main-blue);
+  background:var(--main-blue);color:var(--main-white);
+  font-family:var(--font-pretendard);font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap}
+.rw-withbtn .btn:hover{background:#0E4CAA;border-color:#0E4CAA}
+.rw-withbtn .btn[disabled]{background:var(--ds-bg-disabled);border-color:var(--ds-border-subtle);color:var(--ds-text-disabled);cursor:not-allowed}
+
 /* 인증 버튼 (피그마 : 칸 안 오른쪽) */
 .f-btn{flex:none;padding:var(--pad-3) var(--pad-5);border:1px solid var(--ds-border-selected);border-radius:var(--rad-md);
   background:var(--main-white);color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:14px;font-weight:600;line-height:18px;cursor:pointer;white-space:nowrap}
@@ -412,25 +422,31 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
             <div>
               <div class="rw-lb"><label for="r-name"><span>작성자 이름</span></label><em>(필수)</em></div>
               <div class="f-in"><input id="r-name" type="text" placeholder="이름을 입력하세요"></div>
+              <div class="f-msg"><p class="note"></p></div>
             </div>
+
             <div>
               <div class="rw-lb"><label for="r-phone"><span>핸드폰 번호</span></label><em>(필수)</em></div>
-              <div class="f-in" id="phoneWrap">
-                <input id="r-phone" type="tel" inputmode="tel" maxlength="13" placeholder="010 - **** - ****">
-                <button type="button" class="f-btn" id="btnSend">인증</button>
+              <div class="rw-withbtn">
+                <div class="f-in" id="phoneWrap">
+                  <input id="r-phone" type="tel" inputmode="tel" maxlength="13" placeholder="010 - **** - ****">
+                </div>
+                <button type="button" class="btn" id="btnSend">인증</button>
               </div>
               <div class="f-msg"><p class="note" id="phoneMsg"></p></div>
-              <div id="codeBox" hidden style="margin-top:10px">
-                <div class="f-in" id="codeWrap">
-                  <input id="r-code" type="text" inputmode="numeric" maxlength="6" placeholder="인증번호 6자리">
-                  <span class="f-cnt" id="codeTimer">03:00</span>
-                  <button type="button" class="f-btn" id="btnVerify">확인</button>
+            </div>
+
+            <div>
+              <div class="rw-lb"><label for="r-code"><span>인증번호</span></label><em>(필수)</em></div>
+              <div class="rw-withbtn">
+                <div class="f-in" id="codeWrap" data-disabled>
+                  <input id="r-code" type="text" inputmode="numeric" maxlength="6" placeholder="문자로 받은 6자리" disabled>
                 </div>
-                <div class="f-msg"><p class="note" id="codeMsg"></p></div>
+                <button type="button" class="btn" id="btnVerify" disabled>확인</button>
               </div>
+              <div class="f-msg"><p class="note" id="codeMsg"></p><span class="f-cnt" id="codeTimer" hidden>03:00</span></div>
             </div>
           </div>
-
         </div>
 
         <!-- 인증이 끝나면 이 한 줄만 남는다 -->
@@ -648,8 +664,11 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
       $('#phoneWrap').classList.add('is-err');
       $('#phoneMsg').textContent='핸드폰 번호를 정확히 입력해 주세요.'; $('#phoneMsg').className='note danger'; return;
     }
-    $('#codeBox').hidden=false; $('#btnSend').textContent='재전송';
+    $('#btnSend').textContent='재전송';
     $('#phoneMsg').textContent='인증번호를 보냈습니다.'; $('#phoneMsg').className='note ok';
+    /* 숨겼다 펼치면 줄이 흔들린다 — 자리는 그대로 두고 잠금만 푼다 */
+    code.disabled=false; $('#btnVerify').disabled=false;
+    $('#codeWrap').removeAttribute('data-disabled'); $('#codeTimer').hidden=false;
     $('#codeMsg').textContent=''; code.value=''; code.focus();
     left=180; if(timer) clearInterval(timer); tick(); timer=setInterval(tick,1000);
   });
@@ -661,7 +680,6 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     }
     if(timer){clearInterval(timer);timer=null;}
     $('#codeWrap').classList.remove('is-err');
-    $('#codeBox').hidden=true;
     $('#btnSend').disabled=true; $('#btnSend').textContent='인증됨'; phone.readOnly=true;
     $('#phoneMsg').textContent='인증되었습니다.'; $('#phoneMsg').className='note ok';
     collapseVerify();
@@ -691,7 +709,11 @@ body.rw-done .rw-mq-wrap,body.rw-done .rw-hero,body.rw-done .rw-steps,body.rw-do
     $('#verifySum').hidden=true; $('#verifyBody').hidden=false;
     body.classList.remove('rw-ok');
     $('#btnSend').disabled=false; $('#btnSend').textContent='인증'; phone.readOnly=false;
-    $('#phoneMsg').textContent=''; step(1);
+    $('#phoneMsg').textContent=''; $('#codeMsg').textContent='';
+    code.value=''; code.disabled=true; $('#btnVerify').disabled=true;
+    $('#codeWrap').setAttribute('data-disabled',''); $('#codeTimer').hidden=true;
+    if(timer){clearInterval(timer);timer=null;}
+    step(1);
     $('#secVerify').scrollIntoView({behavior:'smooth',block:'start'});
   });
 
