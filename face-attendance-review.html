@@ -1630,8 +1630,22 @@ body.rw-done .rw-main{padding-block:0}
     $('.rw-head').innerHTML = '<span>이용 후기 등록이</span><span>완료되었습니다!</span>';
     step(3); body.classList.add('rw-done'); window.scrollTo(0,0);
   }
-  /* 수정하기 — 같은 번호로 다시 들어오면 방금 낸 후기를 불러온다 */
-  $('#btnAgain').addEventListener('click',function(){ location.href=location.pathname+location.search; });
+  /* 수정하기 — 같은 번호로 다시 들어오면 방금 낸 후기를 불러온다.
+     확인용으로 켜 둔 ?done=1 은 떼고 돌아간다. 안 그러면 완료 화면만 되풀이된다 */
+  $('#btnAgain').addEventListener('click',function(){
+    var p=new URLSearchParams(location.search); p.delete('done');
+    var qs=p.toString();
+    location.href=location.pathname+(qs?'?'+qs:'');
+  });
+
+  /* 확인용 — ?done=1 이면 폼을 다 채우지 않고도 완료 화면을 볼 수 있다.
+     값은 보여 주기 위한 예시다. 실제 등록을 거친 것이 아니므로 저장하지 않는다 */
+  if(q.get('done')==='1'){
+    $('#r-name').value='홍길동';
+    VD='01012341443';
+    if(GUEST){ $('#g-co').value='대한건설'; $('#g-biz').value='123 - 45 - 67890'; }
+    showDone();
+  }
 })();
 </script>
 </body>
