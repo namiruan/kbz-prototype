@@ -395,9 +395,13 @@ body:not(.rw-ok) .rw-float-in{pointer-events:none}
   border-right:1px dashed rgba(var(--color-white-rgb),.6);box-shadow:0 4px 4px rgba(0,0,0,.25)}
 .rw-float .temp:hover{background:rgba(var(--color-black-rgb),.78)}
 /* 등록하기는 잠겨 있을 땐 글자까지 흰색 60% 라 배경에 묻힌다 (피그마 비활성 상태) */
+/* 인증만으로는 부족하다 — 필수 칸을 다 채워야 눌릴 것처럼 보인다.
+   다만 실제로 못 누르게 막지는 않는다. 긴 폼에서 죽은 버튼은 무엇이 모자란지
+   알려 주지 못한다 — 누르면 첫 빈 칸으로 데려간다 */
 .rw-float .submit{background:rgba(var(--color-white-rgb),.6);color:rgba(var(--color-white-rgb),.6);cursor:not-allowed}
-body.rw-ok .rw-float .submit{background:rgba(var(--color-white-rgb),.92);color:var(--main-black);cursor:pointer}
-body.rw-ok .rw-float .submit:hover{background:var(--main-white)}
+body.rw-ok .rw-float .submit{cursor:pointer}
+body.rw-ready .rw-float .submit{background:rgba(var(--color-white-rgb),.92);color:var(--main-black)}
+body.rw-ready .rw-float .submit:hover{background:var(--main-white)}
 @media(max-width:640px){.rw-float button{font-size:18px;letter-spacing:-.9px;padding:10px 12px}}
 
 /* =========================================================
@@ -956,15 +960,38 @@ body.rw-done .rw-main{padding-block:0}
     $('#btnBiz').textContent = on ? '수정' : '확인';
     $('#btnBiz').classList.toggle('is-undo', on);
   }
+  /* 사업장이 확인되기 전에는 작성자 칸을 열지 않는다 — 순서가 있는 일이고,
+     비어 있는 칸을 먼저 채우게 두면 확인에서 막혔을 때 그게 다 헛일이 된다.
+     회원은 사업장 확인 자체가 없으니 처음부터 열려 있다. */
+  function lockVerifyFields(on){
+    if(!GUEST) return;
+    if(VD) on=false;                 /* 이미 인증을 마쳤으면 되돌리지 않는다 */
+    [$('#r-name'), $('#r-phone')].forEach(function(el){
+      el.disabled=on;
+      if(on) el.closest('.f-in').setAttribute('data-disabled','');
+      else   el.closest('.f-in').removeAttribute('data-disabled');
+    });
+    if(on){
+      $('#btnSend').disabled=true;
+      code.disabled=true; $('#btnVerify').disabled=true;
+      $('#codeWrap').setAttribute('data-disabled','');
+      $('#codeTimer').hidden=true;
+      if(timer){ clearInterval(timer); timer=null; }
+      $('#phoneMsg').textContent=''; $('#codeMsg').textContent='';
+    }else if(!VD){
+      $('#btnSend').disabled=false;
+    }
+  }
+
   function passBiz(){
     BIZ_OK=true; hideDup();
-    lockBizFields(true);
+    lockBizFields(true); lockVerifyFields(false);
     $('#g-biz-msg').textContent=''; $('#g-co-msg').textContent='';
     markStep();
   }
   function resetBiz(){
     BIZ_OK=false;
-    lockBizFields(false);
+    lockBizFields(false); lockVerifyFields(true);
     markStep();
   }
   /* 비회원의 사업자번호가 문을 막고 있으면 그 이유를 돌려준다 */
@@ -1109,13 +1136,31 @@ body.rw-done .rw-main{padding-block:0}
       return;
     }
     collapseVerify();
-    setLock(false); body.classList.add('rw-ok'); markStep();
+    setLock(false); body.classList.add('rw-ok'); markStep(); syncSubmit();
     if(FILLED) return;                       /* 되찾기는 처음 열 때 한 번만 */
     FILLED=true;
     var rec=loadRec(VD);
     if(rec && rec.data){ fill(rec.data); showRestore(rec); } else { hideRestore(); }
+    syncSubmit();
     $('#reviewPanel').scrollIntoView({behavior:'smooth',block:'start'});
   }
+
+  /* 등록 버튼이 눌릴 것처럼 보이는 조건 — 제출 검사와 같은 목록을 본다 */
+  function formReady(){
+    if(!body.classList.contains('rw-ok')) return false;
+    if(GUEST){
+      if(!BIZ_OK || !$('#g-co').value.trim() || !$('#r-sitename').value.trim()) return false;
+    } else if(!sitePicked().length) return false;
+    if(!$('#r-biz').value || !$('#r-name').value.trim()) return false;
+    for(var i=0;i<QS.length;i++){
+      if(QS[i].type==='other') continue;
+      if($('#q'+i).value.trim().length < QS[i].min) return false;
+    }
+    return !!starVal();
+  }
+  function syncSubmit(){ body.classList.toggle('rw-ready', formReady()); }
+  $('#rwForm').addEventListener('input', syncSubmit);
+  $('#rwForm').addEventListener('change', syncSubmit);
 
   /* 블러 뒤 칸이 키보드 탭에 걸리면 안 된다. pointer-events 로는 못 막는다 */
   function setLock(on){
@@ -1218,6 +1263,7 @@ body.rw-done .rw-main{padding-block:0}
 
   /* 회원은 회사명이 머리글에 있고 사업자번호를 확인할 일도 없다 */
   if(!GUEST) $('#bizBody').hidden=true;
+  else lockVerifyFields(true);       /* 비회원은 사업장 확인부터 */
 
   /* =========================================================
      이어쓰기 확인 — 같은 사업자번호로 남은 후기가 있으면 먼저 묻는다.
