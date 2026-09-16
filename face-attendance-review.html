@@ -254,9 +254,6 @@ body.rw-ok .rw-gate{display:none}
 .f-in.area{align-items:flex-start;padding:var(--pad-6) var(--pad-5) var(--pad-4)}
 .f-in.area textarea{height:96px;resize:vertical;line-height:1.55}
 .f-in[data-disabled]{background:var(--ds-bg-disabled)}
-/* 고를 필요가 없어 닫아 둔 칸 */
-.f-in.is-off{background:var(--ds-bg-disabled)}
-.f-in.is-off input{color:var(--ds-text-disabled)}
 
 /* 여러 곳을 고르는 칸 — 한 소장님이 현장 두 곳을 맡기도 한다.
    select multiple 은 모바일에서 거의 못 쓰는 물건이라, 겉은 select 그대로 두고
@@ -820,8 +817,10 @@ body.rw-done .rw-main{padding-block:0}
   var QS=[
     {min:50, t:'간단히 회사소개 부탁드립니다!'},
     {min:50, t:'회사에서 어떤 업무를 담당하고 있나요?'},
-    {type:'other', t:'타 서비스 이용 경험 혹은 도입을 고민했던 서비스가 있나요?'},
-    {min:50, t:'<b>안면인식 출퇴근관리</b>를 도입한 이유가 무엇인가요?'},
+    /* '타 서비스를 고민했나'를 여기 흡수했다. 경쟁사 이름은 공개 후기에 실을 수
+       없는 답이었고, 전자카드제가 의무인 시장이라 애초에 비교 구매도 아니었다.
+       무엇을 쓰다 왔는지는 '도입 전 기록 방식'으로 물으면 그대로 답이 된다 */
+    {min:50, t:'<b>안면인식 출퇴근관리</b>를 도입하기 전에는 출퇴근을 어떻게 기록하셨고, 어떤 점이 번거로우셨나요?'},
     {min:100, t:'<b>안면인식 출퇴근관리</b>를 도입한 뒤 무엇이 달라졌나요?'},
     {min:100, t:'<b>안면인식 출퇴근관리</b>를 다른 사업장에 추천하는 이유를 말씀해 주세요'}
   ];
@@ -830,14 +829,6 @@ body.rw-done .rw-main{padding-block:0}
   var CARET='<span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>';
 
   $('#reviewPanel').innerHTML = QS.map(function(o,i){
-    if(o.type==='other'){
-      return '<div class="rw-q">'
-        +'<p class="rw-q-t">'+o.t+'</p>'
-        +'<div class="rw-q-row">'
-        +'<div class="f-in"><select id="q'+i+'-yn"><option>네. 있습니다</option><option>아니오. 없습니다</option></select>'+CARET+'</div>'
-        +'<div class="f-in"><input id="q'+i+'-etc" type="text" placeholder="사용했던 서비스 이름을 적어주세요"></div>'
-        +'</div></div>';
-    }
     return '<div class="rw-q">'
       +'<p class="rw-q-min">[ '+o.min+'자 이상 ]</p>'
       +'<p class="rw-q-t">'+o.t+'</p>'
@@ -851,23 +842,8 @@ body.rw-done .rw-main{padding-block:0}
       +'</div>';
   }).join('');
 
-  /* '없습니다' 를 고르면 옆의 이름 칸은 적을 것이 없다 — 닫아 두고 비운다 */
-  QS.forEach(function(o,i){
-    if(o.type!=='other') return;
-    var yn=$('#q'+i+'-yn'), etc=$('#q'+i+'-etc');
-    function sync(){
-      var no = yn.selectedIndex===1;
-      etc.disabled=no;
-      etc.closest('.f-in').classList.toggle('is-off', no);
-      if(no){ etc.value=''; etc.closest('.f-in').classList.remove('is-err'); }
-    }
-    yn.addEventListener('change', sync);
-    sync();
-  });
-
   /* 글자 수 — 최소 글자를 넘으면 파랗게 */
   QS.forEach(function(o,i){
-    if(o.type==='other') return;
     var ta=$('#q'+i), cnt=$('#q'+i+'-cnt');
     var f=function(){ var n=ta.value.length;
       cnt.textContent=n+'/'+o.min; cnt.classList.toggle('ok', n>=o.min);
@@ -1316,7 +1292,6 @@ body.rw-done .rw-main{padding-block:0}
     } else if(!sitePicked().length) return false;
     if(!$('#r-biz').value || !$('#r-name').value.trim()) return false;
     for(var i=0;i<QS.length;i++){
-      if(QS[i].type==='other') continue;
       if($('#q'+i).value.trim().length < QS[i].min) return false;
     }
     return !!starVal();
@@ -1590,7 +1565,6 @@ body.rw-done .rw-main{padding-block:0}
     else if(!sitePicked().length){ $('#siteBtn').classList.add('is-err'); if(!bad) bad=$('#siteBtn'); }
     need($('#r-biz')); need($('#r-name'));
     QS.forEach(function(o,i){
-      if(o.type==='other') return;
       var ta=$('#q'+i);
       if(ta.value.trim().length < o.min){ ta.closest('.f-in').classList.add('is-err'); if(!bad) bad=ta; }
     });
