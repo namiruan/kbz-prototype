@@ -241,6 +241,25 @@ body.rw-ok .rw-gate{display:none}
 .f-in.area textarea{height:96px;resize:vertical;line-height:1.55}
 .f-in[data-disabled]{background:var(--ds-bg-disabled)}
 
+/* 여러 곳을 고르는 칸 — 한 소장님이 현장 두 곳을 맡기도 한다.
+   select multiple 은 모바일에서 거의 못 쓰는 물건이라, 겉은 select 그대로 두고
+   안쪽만 체크박스 목록으로 연다 */
+.rw-ms{position:relative}
+.rw-ms .ms-btn{width:100%;appearance:none;-webkit-appearance:none;cursor:pointer;text-align:left}
+.rw-ms .ms-btn .t{flex:1 0 0;min-width:20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
+.rw-ms .ms-btn.ph .t{color:var(--ds-text-subtle)}
+.rw-ms .ms-btn .caret{transition:transform .15s}
+.rw-ms[data-open] .ms-btn{border-color:var(--ds-border-selected)}
+.rw-ms[data-open] .ms-btn .caret{transform:rotate(180deg)}
+.ms-pop{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:20;max-height:236px;overflow:auto;padding:6px;
+  background:var(--main-white);border:1px solid var(--ds-border-subtle);border-radius:var(--rad-sm);
+  box-shadow:0 8px 24px rgba(var(--color-black-rgb),.12)}
+.ms-pop label{display:flex;align-items:center;gap:10px;padding:10px 8px;border-radius:var(--rad-sm);cursor:pointer;
+  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:15px;line-height:20px;word-break:keep-all}
+.ms-pop label:hover{background:rgba(var(--color-blue-rgb),.06)}
+.ms-pop input{flex:none;width:17px;height:17px;margin:0;accent-color:var(--main-blue);cursor:pointer}
+
 /* 칸 옆에 붙는 버튼 — 칸 안에 넣으면 버튼이 있는 칸만 높이가 달라져 줄이 어긋난다.
    align-items:stretch 라 버튼 높이가 칸(56)에 저절로 맞는다 */
 .rw-withbtn{display:flex;align-items:stretch;gap:8px}
@@ -528,17 +547,13 @@ body.rw-done .rw-main{padding-block:0}
         <div class="rw-grid3">
           <!-- 계약 현장 : 계정에 딸린 목록이라 회원만 고른다 (비회원은 계약이 없다) -->
           <div id="siteWrap">
-            <div class="rw-lb"><label for="r-site"><span>계약 현장</span></label><em>(필수)</em></div>
-            <div class="f-in">
-              <select id="r-site" class="ph">
-                <option value="" disabled selected>현장을 선택하세요</option>
-                <option>예지 스타힐스 신축공사</option>
-                <option>동탄2 물류센터 신축공사</option>
-                <option>세종 행복주택 3BL 건립공사</option>
-                <option>부산 명지 오피스텔 신축공사</option>
-                <option>본사 (현장 외 근무)</option>
-              </select>
-              <span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            <div class="rw-lb"><span id="siteLb">계약 현장</span><em>(필수)</em></div>
+            <div class="rw-ms" id="siteMs">
+              <button type="button" class="f-in ms-btn ph" id="siteBtn" aria-labelledby="siteLb" aria-expanded="false">
+                <span class="t" id="siteTxt">현장을 선택하세요</span>
+                <span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+              </button>
+              <div class="ms-pop" id="sitePop" hidden role="group" aria-labelledby="siteLb"></div>
             </div>
           </div>
           <div>
@@ -729,6 +744,10 @@ body.rw-done .rw-main{padding-block:0}
     fields().forEach(function(el){
       if(el.type==='file') return;               /* 사진은 담지 않는다 */
       if(el.type==='radio'){ if(el.checked) d['@'+el.name]=el.value; return; }
+      if(el.type==='checkbox'){                /* 여럿 고르는 칸은 배열로 담는다 */
+        if(el.checked){ var k='#'+el.name; (d[k]=d[k]||[]).push(el.value); }
+        return;
+      }
       if(!el.id || SKIP[el.id]) return;
       d[el.id]=el.value;
     });
@@ -743,23 +762,30 @@ body.rw-done .rw-main{padding-block:0}
         if(r){ r.checked=true; }
         return;
       }
+      if(k.charAt(0)==='#'){
+        (d[k]||[]).forEach(function(v){
+          var c=$('#rwForm input[name="'+k.slice(1)+'"][value="'+v+'"]');
+          if(c){ c.checked=true; }
+        });
+        return;
+      }
       var el=document.getElementById(k);
       if(!el) return;
       el.value=d[k]; settle(el);
     });
-    paintStars(starVal());
+    paintStars(starVal()); syncSite();
   }
   function wipe(){
     fields().forEach(function(el){
       if(el.type==='file'){ el.value=''; return; }
-      if(el.type==='radio'){ el.checked=false; return; }
+      if(el.type==='radio' || el.type==='checkbox'){ el.checked=false; return; }
       if(!el.id || SKIP[el.id]) return;
       if(el.tagName==='SELECT') el.selectedIndex=0; else el.value='';
       settle(el);
     });
     $$('.f-thumbs').forEach(function(t){ t.innerHTML=''; });
     $$('[id$="-pc"]').forEach(function(c){ c.textContent='사진 0 / 1'; });
-    paintStars(0);
+    paintStars(0); syncSite();
   }
 
   function key(d){ return 'kbz_rv_'+d; }
@@ -954,6 +980,36 @@ body.rw-done .rw-main{padding-block:0}
     $('#secVerify').scrollIntoView({behavior:'smooth',block:'start'});
   });
 
+  /* =========================================================
+     계약 현장 — 한 소장님이 두 곳을 맡으면 후기를 두 번 쓰는 게 아니라
+     현장을 여럿 고른다. 그래서 후기 한 건에 현장이 여럿 붙는다.
+     실제로는 계정의 계약 목록이 그대로 온다.
+     ========================================================= */
+  var SITES=['예지 스타힐스 신축공사','동탄2 물류센터 신축공사','세종 행복주택 3BL 건립공사',
+             '부산 명지 오피스텔 신축공사','본사 (현장 외 근무)'];
+  $('#sitePop').innerHTML=SITES.map(function(t){
+    return '<label><input type="checkbox" name="site" value="'+t+'"><span>'+t+'</span></label>';
+  }).join('');
+
+  function sitePicked(){ return $$('#sitePop input:checked').map(function(c){return c.value;}); }
+  function syncSite(){
+    var v=sitePicked(), b=$('#siteBtn');
+    /* 여러 곳이면 첫 곳 + 나머지 수 — 칸 하나에 다 넣으면 잘려서 못 읽는다 */
+    $('#siteTxt').textContent = !v.length ? '현장을 선택하세요'
+      : v.length===1 ? v[0] : v[0]+' 외 '+(v.length-1)+'곳';
+    b.classList.toggle('ph', !v.length);
+  }
+  function siteOpen(on){
+    $('#sitePop').hidden=!on;
+    $('#siteMs').toggleAttribute('data-open', on);
+    $('#siteBtn').setAttribute('aria-expanded', on?'true':'false');
+  }
+  $('#siteBtn').addEventListener('click',function(e){ e.stopPropagation(); siteOpen($('#sitePop').hidden); });
+  $('#sitePop').addEventListener('change',function(){ syncSite(); $('#siteBtn').classList.remove('is-err'); });
+  /* 고른 뒤 바깥을 누르면 닫힌다. 목록 안에서는 계속 고를 수 있어야 한다 */
+  document.addEventListener('click',function(e){ if(!$('#siteMs').contains(e.target)) siteOpen(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') siteOpen(false); });
+
   /* 비회원은 계약이 없으니 고를 현장도 없다 */
   if(GUEST) $('#siteWrap').hidden=true;
 
@@ -986,7 +1042,7 @@ body.rw-done .rw-main{padding-block:0}
     var bad=null;
     function need(el){ if(!el.value.trim()){ el.closest('.f-in').classList.add('is-err'); if(!bad) bad=el; } }
     if(GUEST){ need($('#g-co')); need($('#g-biz')); need($('#g-svc')); need($('#g-yy')); }
-    else { need($('#r-site')); }
+    else if(!sitePicked().length){ $('#siteBtn').classList.add('is-err'); if(!bad) bad=$('#siteBtn'); }
     need($('#r-biz')); need($('#r-name'));
     QS.forEach(function(o,i){
       if(o.type==='other') return;
