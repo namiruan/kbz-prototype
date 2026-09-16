@@ -180,9 +180,10 @@ body.rw-ok #secVerify .rw-panel{border:1px solid rgba(var(--color-blue-rgb),.16)
 /* 회사 정보도 확인이 끝나면 같은 옷을 입는다 — 끝난 칸은 끝난 것처럼 보여야 한다 */
 /* 한 카드 안에 회사 확인과 본인 인증이 차례로 들어간다.
    둘 사이를 가는 선으로만 나눈다 — 카드를 쪼개면 순서가 다시 헷갈린다 */
-body.rw-guest #verifyBody,body.rw-guest #verifySum{
+/* 위에 사업자 칸이 떠 있을 때만 긋는다 — 접히고 나면 나눌 것이 없다 */
+body.rw-guest #bizBody:not([hidden]) ~ #verifyBody,
+body.rw-guest #bizBody:not([hidden]) ~ #verifySum{
   margin-top:20px;padding-top:20px;border-top:1px solid var(--ds-border-subtle)}
-body.rw-ok #verifyBody,body.rw-ok #verifySum{border-top-color:rgba(var(--color-blue-rgb),.16)}
 body.rw-ok #secVerify .rw-sum p,body.rw-ok #secVerify .rw-sum p b{color:var(--main-navy)}
 
 /* 왜 해야 하는지를 패널 머리에 둔다 — 불릿에 묻어두면 읽지 않는다 */
@@ -272,6 +273,9 @@ body.rw-ok .rw-gate{display:none}
   background:var(--main-blue);color:var(--main-white);
   font-family:var(--font-pretendard);font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap}
 .rw-withbtn .btn:hover{background:#0E4CAA;border-color:#0E4CAA}
+/* 확인이 끝난 뒤의 되돌리기 — 같은 자리 같은 크기지만 유도하는 행동이 아니다 */
+.rw-withbtn .btn.is-undo{background:var(--main-white);border-color:var(--ds-border-subtle);color:var(--ds-text-label)}
+.rw-withbtn .btn.is-undo:hover{background:var(--main-white);border-color:var(--ds-border-selected);color:var(--ds-text-body)}
 .rw-withbtn .btn[disabled]{background:var(--ds-bg-disabled);border-color:var(--ds-border-subtle);color:var(--ds-text-disabled);cursor:not-allowed}
 
 /* 인증 버튼 (피그마 : 칸 안 오른쪽) */
@@ -462,13 +466,6 @@ body.rw-done .rw-main{padding-block:0}
             </div>
             <div class="f-msg"><p class="note" id="g-biz-msg"></p></div>
           </div>
-        </div>
-
-        <!-- 확인이 끝나면 인증 카드와 같은 모양으로 접힌다 -->
-        <div class="rw-sum" id="bizSum" hidden>
-          <span class="ck" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
-          <p id="bizSumText"></p>
-          <button type="button" class="edit" id="btnEditBiz">수정</button>
         </div>
 
         <div id="verifyBody">
@@ -796,7 +793,6 @@ body.rw-done .rw-main{padding-block:0}
       el.value=d[k]; settle(el);
     });
     paintStars(starVal()); syncSite();
-    if(BIZ_OK) renderBizSum();      /* 되찾은 값이 요약과 어긋나지 않게 */
   }
   function wipe(){
     fields().forEach(function(el){
@@ -847,22 +843,26 @@ body.rw-done .rw-main{padding-block:0}
     return {k:'taken', o:o};
   }
   /* 끝난 칸은 한 줄로 접는다 — 작성자 인증과 같은 모양이다 */
-  function renderBizSum(){
-    var co=$('#g-co').value.trim(), bz=onlyNum($('#g-biz').value);
-    $('#bizSumText').innerHTML='<b>'+co+'</b> · <span class="ph">'
-      +bz.slice(0,3)+'-'+bz.slice(3,5)+'-'+bz.slice(5)+'</span><span class="ok">확인됨</span>';
+  /* 사업자번호는 확인만 받으면 되는 값이라 접지 않는다 — 읽기 전용으로 굳히고
+     그 자리에 그냥 둔다. 확인 버튼이 그대로 '수정' 버튼이 된다. */
+  function lockBizFields(on){
+    [$('#g-co'), $('#g-biz')].forEach(function(el){
+      el.readOnly=on;
+      if(on) el.closest('.f-in').setAttribute('data-disabled','');
+      else   el.closest('.f-in').removeAttribute('data-disabled');
+    });
+    $('#btnBiz').textContent = on ? '수정' : '확인';
+    $('#btnBiz').classList.toggle('is-undo', on);
   }
   function passBiz(){
     BIZ_OK=true; hideDup();
-    renderBizSum();
-    $('#bizBody').hidden=true; $('#bizSum').hidden=false;
-
+    lockBizFields(true);
     $('#g-biz-msg').textContent=''; $('#g-co-msg').textContent='';
     markStep();
   }
   function resetBiz(){
     BIZ_OK=false;
-    $('#bizSum').hidden=true; $('#bizBody').hidden=false;
+    lockBizFields(false);
     markStep();
   }
   /* 비회원의 사업자번호가 문을 막고 있으면 그 이유를 돌려준다 */
@@ -970,18 +970,23 @@ body.rw-done .rw-main{padding-block:0}
     $('#btnSend').disabled=true; $('#btnSend').textContent='인증됨'; phone.readOnly=true;
     $('#phoneMsg').textContent='인증되었습니다.'; $('#phoneMsg').className='note ok';
     VD = phone.value.replace(/\D/g,'');
-    collapseVerify();
-    gateOpen();
+    gateOpen();          /* 접는 건 문이 실제로 열릴 때만 — 사업장이 막고 있으면 아직이다 */
   });
   code.addEventListener('input',function(){ $('#codeWrap').classList.remove('is-err'); $('#codeMsg').textContent=''; });
 
   /* 인증이 끝나도 사업장이 이미 참여했으면 문은 닫아둔다.
      쓰고 나서 막는 것보다 쓰기 전에 말하는 편이 낫다. */
   var FILLED=false;
+  /* 접힌 카드를 도로 펼친다 — 인증 상태는 건드리지 않는다 */
+  function showVerifyBodies(){
+    if(GUEST) $('#bizBody').hidden=false;
+    $('#verifyBody').hidden=false; $('#verifySum').hidden=true;
+  }
   function gateOpen(quiet){
     var already = !$('#dupBar').hidden;
     var blk=bizBlock();
-    if(blk){
+    if(blk || !VD){
+      showVerifyBodies();
       if(blk==='unchecked' && !quiet){
         $('#g-biz').closest('.f-in').classList.add('is-err');
         $('#g-biz-msg').textContent='사업자등록번호 확인을 먼저 눌러 주세요.';
@@ -990,10 +995,11 @@ body.rw-done .rw-main{padding-block:0}
       hideRestore();
       setLock(true); body.classList.remove('rw-ok'); step(1); markStep();
       /* 번호를 고치는 중에는 화면이 튀면 안 된다 — 들어설 때 한 번만 */
-      if(!quiet && !(blk==='taken' && already)) $('#secVerify').scrollIntoView({behavior:'smooth',block:'start'});
+      if(!quiet && blk && !(blk==='taken' && already)) $('#secVerify').scrollIntoView({behavior:'smooth',block:'start'});
       return;
     }
-    setLock(false); body.classList.add('rw-ok'); step(2); markStep();
+    collapseVerify();
+    setLock(false); body.classList.add('rw-ok'); markStep();
     if(FILLED) return;                       /* 되찾기는 처음 열 때 한 번만 */
     FILLED=true;
     var rec=loadRec(VD);
@@ -1018,17 +1024,26 @@ body.rw-done .rw-main{padding-block:0}
       li.classList.toggle('done', i<n);
     });
   }
+  /* 둘 다 끝나야 한 줄로 접는다 — 칸마다 '확인됨'을 달면 끝난 건지 아닌지가
+     오히려 흐려진다. 사업장과 사람을 한 줄에 적고 '인증 완료' 하나만 붙인다. */
   function collapseVerify(){
-    /* 회사명은 바로 위 '회사 정보'가 이미 보여주므로 여기선 빼고 사람만 남긴다 */
     var nm = $('#r-name').value.trim() || '작성자';
     var ph = phone.value.replace(/\D/g,'');
     ph = ph ? ph.slice(0,3)+'-****-'+ph.slice(-4) : '';
-    $('#sumText').innerHTML='<b>'+nm+'</b> · <span class="ph">'+ph+'</span><span class="ok">인증됨</span>';
+    var who = '<b>'+nm+'</b> · <span class="ph">'+ph+'</span>';
+    if(GUEST){
+      var bz=onlyNum($('#g-biz').value);
+      who = '<b>'+$('#g-co').value.trim()+'</b> · <span class="ph">'
+          + bz.slice(0,3)+'-'+bz.slice(3,5)+'-'+bz.slice(5)+'</span><br>' + who;
+    }
+    $('#sumText').innerHTML = who + '<span class="ok">인증 완료</span>';
+    $('#bizBody').hidden=true;
     $('#verifyBody').hidden=true; $('#verifySum').hidden=false;
     step(2);
   }
   $('#btnEditVerify').addEventListener('click',function(){
     $('#verifySum').hidden=true; $('#verifyBody').hidden=false;
+    if(GUEST) $('#bizBody').hidden=false;   /* 확인된 사업자 칸은 읽기 전용인 채로 */
     setLock(true);
     body.classList.remove('rw-ok');
     $('#btnSend').disabled=false; $('#btnSend').textContent='인증'; phone.readOnly=false;
@@ -1087,16 +1102,8 @@ body.rw-done .rw-main{padding-block:0}
   }
   markStep();
 
-  /* 접힌 회사 정보를 다시 펼친다 — 펼치는 순간 확인은 없던 일이 된다 */
-  $('#btnEditBiz').addEventListener('click',function(){
-    BIZ_EDIT=true; resetBiz(); hideDup();
-    if(VD) gateOpen(true);
-    $('#g-biz').focus();
-    $('#secVerify').scrollIntoView({behavior:'smooth',block:'start'});
-  });
-
   /* 회원은 회사명이 머리글에 있고 사업자번호를 확인할 일도 없다 */
-  if(!GUEST){ $('#bizBody').hidden=true; $('#bizSum').hidden=true; }
+  if(!GUEST) $('#bizBody').hidden=true;
 
   /* 현장을 가리키는 칸은 하나면 된다 — 회원은 계약 목록에서 고르고, 비회원은 적는다 */
   if(GUEST) $('#siteWrap').hidden=true;
@@ -1117,7 +1124,13 @@ body.rw-done .rw-main{padding-block:0}
     });
 
     $('#btnBiz').addEventListener('click',function(){
-      /* 확인하면 회사명까지 함께 접히므로 둘 다 채워져 있어야 한다 */
+      /* 이미 확인된 상태면 이 버튼은 되돌리기다 */
+      if(BIZ_OK){
+        BIZ_EDIT=true; resetBiz(); hideDup();
+        if(VD) gateOpen(true);
+        biz.focus(); return;
+      }
+      /* 확인은 회사명까지 같이 본다 — 둘이 한 묶음으로 굳는다 */
       if(!$('#g-co').value.trim()){
         $('#g-co').closest('.f-in').classList.add('is-err');
         $('#g-co-msg').textContent='회사명을 입력해 주세요.';
