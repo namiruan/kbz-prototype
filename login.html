@@ -211,6 +211,7 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 .lg-promo-txt .bg{color:var(--main-blue);font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal;letter-spacing:-1.2px}
 @media(max-width:899px){.lg-promo-txt .bg{font-size:22px;letter-spacing:-1.1px}}
 @media(max-width:691px){.lg-promo-txt .sm{font-size:14px}.lg-promo-txt .bg{font-size:18px;letter-spacing:-.9px}}
+@media(max-width:360px){.lg-promo-txt .sm{font-size:13px}.lg-promo-txt .bg{font-size:17px;letter-spacing:-.85px}}
 /* =========================================================
    계약 현장이 다 찼을 때 뜨는 모달
    ---------------------------------------------------------
@@ -276,6 +277,13 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 /* 사진은 background 로 둔다 — 파일이 없으면 깨진 아이콘 없이 그냥 비어 보인다 */
 .lg-promo-img{display:block;position:absolute;right:0;top:-65px;width:115px;height:140px;background:url("images/review/login-cta.png") center bottom/contain no-repeat}
 @media(max-width:532px){.lg-promo-img{top:-24px;width:81px;height:99px}}
+/* 460 아래에선 사진을 비운다 — 문구가 두 줄 다 사진 자리까지 와서, 같이 두면 글자가 사진에 깔린다.
+   사진은 곁들인 그림이고 문구가 이 띠의 용건이라 그림을 접는다.
+   접힌 만큼 큰 줄이 두 줄이 될 수 있으므로 높이는 고정을 풀고 최소값으로만 둔다 */
+@media(max-width:459px){
+  .lg-promo-img{display:none}
+  .lg-promo-inner{height:auto;min-height:50px}
+}
 /* 띠 전체가 누르는 자리다 — 글자만 링크처럼 꾸미면 어디를 눌러야 할지 흐려진다.
    안쪽 사진이 right/top 으로 붙어 있어 여백을 주면 사진이 밀린다. 자리는 그대로
    두고 hover 배경만 box-shadow 로 바깥까지 번지게 한다 */
@@ -354,12 +362,14 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
   </div>
 
   <!-- 하단 이벤트 띠 — 띠 전체가 비회원 작성 폼으로 가는 길이다.
-       '과거에 사용했던 이용사라도'가 곧 비회원 안내라 문구와 갈 곳이 같다 -->
+       작은 줄은 자격(26년 안면인식 사용 이력), 큰 줄은 지금 상태를 풀어 준다.
+       '계약이 끝났어도'라고 하면 안면인식 계약인지 본 서비스 계약인지 모른다 —
+       안면인식은 그만뒀어도 김반장은 쓰고 있을 수 있어서, 제품명을 그대로 적는다 -->
   <div class="lg-promo">
     <a class="lg-promo-inner" href="face-attendance-review.html?guest=1">
       <div class="lg-promo-txt">
-        <p class="sm">과거에 사용했던 이용사라도</p>
-        <p class="bg">후기이벤트 참여 가능해요<span class="go"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></p>
+        <p class="sm">26년에 안면인식 출퇴근관리를 쓴 적 있다면</p>
+        <p class="bg">현재 이용사가 아니어도 참여 가능해요!<span class="go"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></p>
       </div>
       <span class="lg-promo-img" role="img" aria-label="현장에서 휴대폰으로 후기를 남기는 이용자"></span>
     </a>
