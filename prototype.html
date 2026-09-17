@@ -131,12 +131,12 @@
         data-steps="모달이 뜬 채로 후기 불러오기를 바로 누른 상태입니다"
         data-look="'핸드폰 번호를 입력하고 인증을 눌러 주세요.'|번호 칸이 붉어집니다 — 인증번호 칸은 아직 잠겨 있습니다">본인 확인 · 번호 없이 진행</button>
       <button class="proto-nav-btn" type="button" data-scenario="err-모달남의번호"
-        data-why="문자가 그 번호로 갔으니 본인은 맞습니다. 다만 그 후기를 쓴 사람인지는 별개입니다."
-        data-steps="모달에서 다른 번호로 인증까지 마치고 후기 불러오기를 누른 상태입니다"
-        data-look="'그 후기를 작성하신 분의 번호가 아닙니다.'|인증 자체는 통과했습니다 — 막는 것은 후기의 주인이 아니라는 사실입니다">본인 확인 · 남의 번호</button>
+        data-why="그 후기의 번호가 아니면 통과할 수 없는 번호입니다. 문자를 보내 6자리를 받아 본 뒤에 돌려보내면 헛걸음을 한 번 더 시키는 셈이라, 인증을 누른 그 자리에서 막습니다."
+        data-steps="모달에 다른 번호를 넣고 인증을 누른 상태입니다"
+        data-look="'그 후기를 작성하신 분의 번호가 아닙니다.'|문자는 가지 않았습니다 — 인증번호 칸은 잠긴 채이고 타이머도 없습니다|번호를 고치면 안내가 사라집니다">본인 확인 · 남의 번호</button>
       <button class="proto-nav-btn" type="button" data-scenario="err-로그인모달"
-        data-why="계약 현장이 다 찬 모달에서도 같은 일을 합니다. 다만 찾는 대상이 사업장이 아니라 계약 현장이라 문구가 다릅니다."
-        data-steps="로그인 → 모달 → 그 현장의 후기를 쓰지 않은 번호로 인증까지 마치고 후기 불러오기를 누른 상태입니다"
+        data-why="계약 현장이 다 찬 모달에서도 같은 규칙입니다. 불러올 후기가 없는 번호에는 문자를 보내지 않습니다. 다만 찾는 대상이 사업장이 아니라 계약 현장이라 문구가 다릅니다."
+        data-steps="로그인 → 모달 → 후기를 쓰지 않은 번호를 넣고 인증을 누른 상태입니다"
         data-look="'이 계약 현장의 후기를 작성하신 번호가 아닙니다.'|작성 화면의 '그 후기를 작성하신 분의…' 와 짝을 이룹니다">본인 확인 · 로그인 모달</button>
       <button class="proto-nav-btn" type="button" data-scenario="err-필수칸"
         data-why="빈 칸을 둔 채 제출한 자리. 여기서만은 글이 아니라 붉은 테두리로 가리키고 첫 칸으로 데려갑니다."
@@ -209,12 +209,10 @@
     put(d.querySelector('#g-biz'),'3214567890');
     hit(d.querySelector('#btnBiz')); await wait(350);
   }
-  /* 모달에서 남의 번호로 인증까지 마친다 — 인증은 되지만 주인은 아니다 */
-  async function askOther(d,go){
+  /* 모달에 남의 번호를 넣고 인증을 누른다 — 문자는 가지 않고 그 자리에서 막힌다 */
+  async function askOther(d){
     put(d.querySelector('#ask-phone'),'01088880000');
-    hit(d.querySelector('#askSend')); await wait(150);
-    put(d.querySelector('#ask-code'),'123456');
-    hit(d.querySelector(go)); await wait(150);
+    hit(d.querySelector('#askSend')); await wait(200);
   }
   function look(d,sel){ var e=d.querySelector(sel); if(e) e.scrollIntoView({block:'center'}); }
   async function logIn(d){
@@ -284,13 +282,13 @@
       act:async function(d){ await dupAsk(d);
         hit(d.querySelector('#askOk')); await wait(150); }},
     'err-모달남의번호':{url:REVIEW+'?guest=1', seed:[DUP_G],
-      act:async function(d){ await dupAsk(d); await askOther(d,'#askOk'); }},
+      act:async function(d){ await dupAsk(d); await askOther(d); }},
     'err-로그인모달':{url:LOGIN+'?sec=180',
       seed:[mem('01011110001','김소장',[SITES[0]],'done',7200000),
             mem('01011110002','이소장',[SITES[1]],'done',5400000),
             mem('01011110003','박소장',[SITES[2]],'temp',3600000),
             mem('01011110004','최소장',[SITES[3]],'done',1800000)],
-      act:async function(d){ await logIn(d); await wait(200); await askOther(d,'#fullGo'); }},
+      act:async function(d){ await logIn(d); await wait(250); await askOther(d); }},
     'err-필수칸'   :{url:REVIEW+'?u=yeji', seed:[],
       act:async function(d){ await signIn(d,'최소장','01090000001');
         hit(d.querySelector('#btnSubmit')); await wait(500); }}
