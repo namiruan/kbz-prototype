@@ -793,7 +793,7 @@ body.rw-done .rw-main{padding-block:0}
     <div class="ask-acts">
       <button type="button" class="s" id="askCancel">취소</button>
       <button type="button" class="p" id="askOk">
-        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span><span id="askOkTxt">이어서 작성하기</span></button>
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span><span id="askOkTxt">후기 불러오기</span></button>
     </div>
   </div>
 </div>
@@ -1506,11 +1506,12 @@ body.rw-done .rw-main{padding-block:0}
       $('#askMeta').textContent = when(rec.at) + ' 등록';
       $('#askOkTxt').textContent = '수정하기';
     }else{
-      $('#askTitle').innerHTML = rec.status==='done' ? '등록 완료된 후기가<br>있습니다'
-                                                     : '임시저장된 후기가<br>있습니다';
+      /* 임시저장이든 등록 완료든 여기서 할 일은 같다 — 그 후기를 불러오는 것.
+         묻는 말과 버튼을 상태마다 달리 쓰면 같은 동작이 둘로 보인다.
+         언제 무엇을 했는지는 바로 아래 시각이 말해 준다 */
+      $('#askTitle').innerHTML = '이미 생성된<br>후기가 있습니다';
       $('#askMeta').textContent = when(rec.at) + (rec.status==='done' ? ' 등록' : ' 저장');
-      /* 인증은 거쳐야 할 과정일 뿐, 눌러서 얻는 것은 글이다 — 그 결과를 버튼에 적는다 */
-      $('#askOkTxt').textContent = rec.status==='done' ? '불러오기' : '이어서 작성하기';
+      $('#askOkTxt').textContent = '후기 불러오기';
     }
     askReset();
     $('#askModal').hidden=false;
