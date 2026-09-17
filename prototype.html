@@ -3,160 +3,96 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>이용후기 프로토타입 · 시나리오</title>
+<title>이용후기 프로토타입</title>
 <meta name="description" content="조건에 따라 달라지는 이용후기 화면을 시나리오별로 모아 본다.">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+<!-- 김반장 3.0 디자인 시스템. 크롬(사이드바·설명·폭·비교)은 components.js 의
+     initProtoChrome 이 맡는다 — 이 파일이 따로 만들지 않는다.
+     주소가 절대경로인 것은 시스템 규약이다(kbz_3.0_ui_stytem 의 프로토타입 예시와 같다) -->
+<link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/tokens.css">
+<link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/components.css">
 <style>
-:root{color-scheme:light}
-:root{
-  --blue:#115AC6; --navy:#0E3B63; --black:#131416; --white:#fff;
-  --line:#E3E6E9; --line-soft:#EFF1F3; --fill:#F7F8F9; --ink-2:#5C636C; --ink-3:#8A949E;
-  --font:"Wanted Sans Variable","Wanted Sans","Apple SD Gothic Neo",sans-serif;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);color:var(--black);background:var(--fill);
-  line-height:1.6;letter-spacing:-.012em;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit}
-
-/* 도구지 제품이 아니다 — 크롬은 눈에 띄지 않게 회색으로 둔다 */
-.pt{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:100vh}
-@supports(min-height:100dvh){.pt{min-height:100dvh}}
-
-/* ── 왼쪽 : 시나리오 목록 ───────────────────────────── */
-.pt-side{display:flex;flex-direction:column;gap:0;border-right:1px solid var(--line);
-  background:var(--white);max-height:100vh;position:sticky;top:0;overflow:auto}
-@supports(max-height:100dvh){.pt-side{max-height:100dvh}}
-.pt-brand{padding:22px 20px 16px;border-bottom:1px solid var(--line-soft)}
-.pt-brand b{display:block;font-size:17px;font-weight:700;letter-spacing:-.4px}
-.pt-brand span{display:block;margin-top:2px;color:var(--ink-3);font-size:13px}
-.pt-grp{padding:16px 12px 4px;color:var(--ink-3);font-size:12px;font-weight:600;letter-spacing:.02em}
-.pt-nav{display:flex;flex-direction:column;gap:2px;padding:0 8px}
-.pt-nav button{display:flex;gap:8px;align-items:baseline;width:100%;padding:9px 12px;border:0;border-radius:6px;
-  background:none;text-align:left;cursor:pointer;color:var(--black);font-size:14px;line-height:1.45;
-  letter-spacing:-.2px}
-.pt-nav button:hover{background:rgba(17,90,198,.06)}
-.pt-nav button.on{background:var(--blue);color:var(--white)}
-.pt-nav .n{flex:none;min-width:18px;color:var(--ink-3);font-size:12px;font-variant-numeric:tabular-nums}
-.pt-nav button.on .n{color:rgba(255,255,255,.7)}
-.pt-side-foot{margin-top:auto;padding:16px 20px 20px;border-top:1px solid var(--line-soft)}
-.pt-side-foot p{color:var(--ink-3);font-size:12px;line-height:1.55;word-break:keep-all}
-
-/* ── 오른쪽 : 설명 + 화면 ──────────────────────────── */
-.pt-main{display:flex;flex-direction:column;min-width:0}
-.pt-head{padding:24px 28px 20px;border-bottom:1px solid var(--line);background:var(--white)}
-.pt-head h1{font-size:22px;font-weight:700;letter-spacing:-.6px;line-height:1.3}
-.pt-head .why{margin-top:8px;max-width:760px;color:var(--ink-2);font-size:15px;word-break:keep-all}
-.pt-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
-.pt-meta code{padding:3px 8px;border-radius:4px;background:var(--fill);border:1px solid var(--line);
-  color:var(--ink-2);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
-.pt-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 28px;margin-top:16px;max-width:860px}
-@media(max-width:900px){.pt-cols{grid-template-columns:minmax(0,1fr)}}
-.pt-cols h2{margin-bottom:4px;font-size:12px;font-weight:600;color:var(--ink-3);letter-spacing:.02em}
-.pt-cols ol,.pt-cols ul{padding-left:18px;color:var(--ink-2);font-size:14px;line-height:1.7}
-.pt-cols li{word-break:keep-all}
-.pt-cols b{color:var(--black);font-weight:600}
-
-.pt-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 28px;
-  border-bottom:1px solid var(--line);background:var(--white)}
-.pt-seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.pt-seg button{padding:6px 12px;border:0;background:var(--white);cursor:pointer;color:var(--ink-2);font-size:13px;
-  white-space:nowrap}
-.pt-seg button+button{border-left:1px solid var(--line)}
-.pt-seg button.on{background:var(--black);color:var(--white)}
-.pt-seg .px{margin-left:5px;color:var(--ink-3);font-size:11px;font-variant-numeric:tabular-nums}
-.pt-seg button.on .px{color:rgba(255,255,255,.65)}
-.pt-act{margin-left:auto;display:flex;gap:8px}
-.pt-act a,.pt-act button,.pt-fold{display:inline-flex;align-items:center;padding:6px 12px;border:1px solid var(--line);
-  border-radius:6px;background:var(--white);cursor:pointer;color:var(--ink-2);font-size:13px}
-.pt-act a:hover,.pt-act button:hover,.pt-fold:hover{border-color:var(--ink-3);color:var(--black)}
-
-/* 셸은 검정이다. 화면이 놓이는 판이지 화면의 일부가 아니라서다 — 밝은 회색 위에
-   흰 화면을 얹으면 어디까지가 화면인지 눈이 매번 다시 찾는다 (kbz 3.0 프로토타입 크롬 규약) */
-.pt-shell{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;
-  padding:20px;background:#17191C;overflow:auto}
-.pt-wrap{display:flex;justify-content:center}
-/* 폭은 iframe 에 직접 준다 — content-box 라 이 값이 그대로 안쪽 뷰포트의 폭이다.
-   높이도 기기 값이다. 폭만 맞추면 폰인데 세로가 끝없이 긴 화면이 되어
-   '한 화면에 어디까지 들어오는가'를 볼 수 없다 */
-.pt-stage{position:relative}
-.pt-stage iframe{display:block;border:1px solid #3A3F45;border-radius:6px;background:var(--white);
-  box-sizing:content-box}
-/* 끌기 손잡이 — 오른쪽 모서리 */
-.pt-grip{position:absolute;top:0;right:-11px;width:22px;height:100%;cursor:ew-resize;
-  display:flex;align-items:center;justify-content:center;touch-action:none}
-.pt-grip::before{content:"";width:4px;height:44px;border-radius:2px;background:#5A6067}
-.pt-grip:hover::before,.pt-grip.on::before{background:var(--blue)}
-.pt-readout{color:#C7CCD1;font-size:12px;font-variant-numeric:tabular-nums}
-.pt-readout b{color:#fff;font-weight:600}
-/* 비교 — 셋을 같은 배율로 나란히. 각자 맞춰 키우면 나란히 놓은 뜻이 사라진다 */
-.pt-cells{display:flex;align-items:flex-start;gap:16px}
-.pt-cell__label{margin-bottom:6px;color:#C7CCD1;font-size:12px;font-variant-numeric:tabular-nums}
-.pt-cell__box{overflow:hidden}
-.pt-cell__box iframe{transform-origin:0 0}
-
-/* 설명 접기 */
-.pt-head.is-fold .why,.pt-head.is-fold .pt-meta,.pt-head.is-fold .pt-cols{display:none}
-.pt-head.is-fold{padding-bottom:16px}
-
-@media(max-width:820px){
-  .pt{grid-template-columns:minmax(0,1fr)}
-  .pt-side{position:static;max-height:none}
-  .pt-head,.pt-bar{padding-inline:18px}
-}
+/* 이 파일이 갖는 것은 '화면을 끼우는 자리' 하나뿐이다. 나머지 생김새는 전부 시스템이 낸다 */
+#screen{display:block;width:100%;height:100dvh}
+#screen iframe{display:block;width:100%;height:100%;border:0;background:var(--color-bg-base,#fff)}
 </style>
 </head>
 <body>
 
-<div class="pt">
-  <aside class="pt-side">
-    <div class="pt-brand">
-      <b>이용후기 프로토타입</b>
-      <span>조건별 화면 모아보기</span>
+<div class="proto-layout" data-proto-sub="조건별 화면 모아보기">
+  <aside class="proto-sidebar">
+    <!-- 접기 손잡이와 폭 컨트롤은 여기 적지만, 크롬이 툴바(화면 바로 위)로 옮긴다 -->
+    <button class="proto-nav-toggle" type="button" aria-expanded="true" aria-label="시나리오 목록 접기">
+      <svg aria-hidden="true"><use href="#icon-menu"></use></svg>
+    </button>
+    <div class="proto-viewport" role="group" aria-label="화면 폭">
+      <button class="proto-viewport__btn" type="button" data-viewport="lg" aria-pressed="true">lg</button>
+      <button class="proto-viewport__btn" type="button" data-viewport="md" aria-pressed="false">md</button>
+      <button class="proto-viewport__btn" type="button" data-viewport="sm" aria-pressed="false">sm</button>
+      <button class="proto-viewport__btn" type="button" data-viewport="compare" aria-pressed="false">비교</button>
     </div>
-    <nav id="ptNav"></nav>
-    <div class="pt-side-foot">
-      <p>시나리오를 고르면 그에 맞는 기록을 브라우저에 심고 화면을 엽니다.
-         실제 데이터가 아니라 이 브라우저에만 남습니다.</p>
-    </div>
+
+    <nav class="proto-nav" aria-label="시나리오 선택">
+      <div class="proto-nav-group-label">로그인</div>
+      <button class="proto-nav-btn is-active" type="button" data-scenario="login-기본"
+        data-why="회원사가 들어오는 자리. 아래 띠는 비회원사가 바로 작성 화면으로 가는 길입니다."
+        data-steps="아이디·비밀번호를 넣고 이용후기 남기기를 누르면 작성 화면으로 넘어갑니다"
+        data-look="아래 띠를 누르면 비회원 작성 화면으로 갑니다|로그인 박스 아래에는 비밀번호 찾기만 있습니다">기본</button>
+      <button class="proto-nav-btn" type="button" data-scenario="login-실패"
+        data-why="아이디나 비밀번호가 틀렸을 때. 주소에 authfail=1 을 붙이면 그 화면이 나옵니다."
+        data-steps="아이디·비밀번호를 넣고 이용후기 남기기를 누른 상태입니다"
+        data-look="주황 배지로 '아이디 또는 비밀번호가 일치하지 않습니다'|칸 아래 붉은 안내와는 다른 자리입니다 — 그쪽은 빈 칸을 가리킵니다">인증 실패</button>
+      <button class="proto-nav-btn" type="button" data-scenario="login-만석"
+        data-why="계약 중인 네 현장에 모두 후기가 있습니다. 들어가도 새로 쓸 자리가 없어 로그인을 누른 자리에서 알립니다. 임시저장분도 한 자리를 차지합니다 — 아직 제출 전이라도 그 현장을 맡은 사람이 있기 때문입니다."
+        data-steps="아이디·비밀번호를 넣고 이용후기 남기기를 누른 상태입니다"
+        data-look="모달 '모든 계약 현장에 후기가 있습니다'|누구의 후기인지 모르는 채라 시각을 적지 않습니다|후기 수정하기 → 작성 화면으로 넘어가 본인 확인을 거칩니다">계약 현장이 다 참</button>
+
+      <div class="proto-nav-group-label">회원사</div>
+      <button class="proto-nav-btn" type="button" data-scenario="mem-새글"
+        data-why="로그인한 회원사가 처음 쓰는 자리. 회사명은 계정에서 오므로 머리글에만 있고 따로 묻지 않습니다."
+        data-steps="이름과 핸드폰 번호를 넣고 인증|인증번호는 000000 만 아니면 6자리 아무거나 → 확인"
+        data-look="인증 전에는 아래가 흐리고 플로팅 막대가 숨어 있습니다|인증 후 한 줄 요약으로 접히고 수정이 붙습니다|필수값을 다 채우기 전 제출 버튼은 눌린 것처럼 보이지 않습니다">새 후기 작성</button>
+      <button class="proto-nav-btn" type="button" data-scenario="mem-임시"
+        data-why="쓰다 만 후기가 있으면 인증과 동시에 그대로 돌아옵니다."
+        data-steps="이름 김소장, 번호 010-5555-0001 로 인증을 마친 상태입니다"
+        data-look="'임시저장하신 내용을 불러왔습니다'|초기화가 있습니다 — 임시저장분에만 둡니다|인증 수정은 없습니다 — 번호가 그 후기를 찾는 열쇠입니다">임시저장분 불러오기</button>
+      <button class="proto-nav-btn" type="button" data-scenario="mem-제출"
+        data-why="이미 낸 후기를 고치러 온 자리. 검토 전이라 고쳐서 다시 낼 수 있습니다."
+        data-steps="이름 이소장, 번호 010-5555-0002 로 인증을 마친 상태입니다"
+        data-look="제출 버튼이 '수정해서 제출'|플로팅에 임시 저장이 없습니다 — 이미 보관된 글 위에 초안을 덮지 않습니다|초기화도 인증 수정도 없습니다">제출분 수정</button>
+      <button class="proto-nav-btn" type="button" data-scenario="mem-만석현장"
+        data-why="한 현장에 후기는 하나입니다. 다른 분이 맡은 현장은 고를 수 없습니다."
+        data-steps="아직 후기를 쓰지 않은 번호로 인증하고 계약 현장 목록을 열어 둔 상태입니다|회색으로 눌린 줄에 마우스를 올려 보세요"
+        data-look="1번·3번 현장이 회색으로 잠겨 있습니다|올리면 '이미 작성 중인 후기입니다'|목록에서 지우지는 않습니다 — 없어진 현장인지 찬 현장인지 구별되어야 합니다">이미 찬 현장</button>
+      <button class="proto-nav-btn" type="button" data-scenario="mem-완료"
+        data-why="제출한 직후 화면. 후기는 바로 실리지 않고 검토를 거칩니다."
+        data-steps="따로 할 것 없이 바로 보입니다"
+        data-look="'이용 후기 제출이 완료되었습니다'|검토를 거친 뒤 목록에 등록된다는 안내|수정하기를 누르면 회원사는 곧장 폼으로 돌아갑니다">제출 완료</button>
+
+      <div class="proto-nav-group-label">비회원사</div>
+      <button class="proto-nav-btn" type="button" data-scenario="gst-새글"
+        data-why="로그인 없이 들어온 자리. 계약 목록이 없으니 회사명·사업자등록번호를 직접 밝히고 현장명은 적습니다."
+        data-steps="회사명을 적고 사업자등록번호 10자리 → 확인|이어서 이름·번호 인증"
+        data-look="회사명을 적는 대로 머리글이 따라옵니다|사업자등록번호를 확인하기 전에는 작성자 칸이 잠겨 있습니다|확인이 끝나면 회색으로 죽지 않고 성공 상태로 바뀝니다">새 후기 작성</button>
+      <button class="proto-nav-btn" type="button" data-scenario="gst-중복"
+        data-why="한 사업장에 한 분입니다. 같은 번호로 남은 후기가 있으면 본인인지 먼저 묻습니다."
+        data-steps="회사명과 사업자등록번호 321-45-67890 을 넣고 확인을 누른 상태입니다|모달에서 번호 010-7777-0001 → 인증 → 6자리 → 후기 불러오기"
+        data-look="모달 '이미 생성된 후기가 있습니다' — 임시저장이든 제출이든 같은 문구입니다|다른 번호를 넣으면 '그 후기를 작성하신 분의 번호가 아닙니다'|취소하면 사업자번호 칸 아래에 까닭이 남습니다">이미 쓴 사업자번호</button>
+      <button class="proto-nav-btn" type="button" data-scenario="gst-완료"
+        data-why="비회원사도 적어 낸 회사명으로 부릅니다."
+        data-steps="따로 할 것 없이 바로 보입니다"
+        data-look="머리글이 '대한건설 담당자님'|수정하기를 누르면 번호 인증 모달이 뜹니다 — 기댈 로그인이 없기 때문입니다|통과하면 회사 정보를 다시 받지 않고 쓰던 폼으로 돌아갑니다">제출 완료</button>
+    </nav>
   </aside>
 
-  <main class="pt-main">
-    <header class="pt-head">
-      <h1 id="ptTitle"></h1>
-      <p class="why" id="ptWhy"></p>
-      <div class="pt-meta" id="ptMeta"></div>
-      <div class="pt-cols">
-        <div><h2>지금 화면은</h2><ol id="ptSteps"></ol></div>
-        <div><h2>볼 것</h2><ul id="ptLook"></ul></div>
-      </div>
-    </header>
-
-    <div class="pt-bar">
-      <button type="button" class="pt-fold" id="ptFold" aria-expanded="true">설명 접기</button>
-      <div class="pt-seg" role="group" aria-label="화면 폭" id="ptSeg">
-        <button type="button" data-v="lg" class="on">데스크톱<span class="px">1280</span></button>
-        <button type="button" data-v="md">태블릿<span class="px">768</span></button>
-        <button type="button" data-v="sm">모바일<span class="px">390</span></button>
-        <button type="button" data-v="cmp">비교</button>
-      </div>
-      <div class="pt-act">
-        <button type="button" id="ptReset">기록 비우고 다시</button>
-        <a id="ptOpen" href="#" target="_blank" rel="noopener">새 창으로 열기</a>
-      </div>
-    </div>
-
-    <div class="pt-shell" id="ptShell">
-      <div class="pt-wrap" id="ptWrap"></div>
-      <div class="pt-readout" id="ptReadout"></div>
-    </div>
+  <main class="proto-content">
+    <div id="screen"><iframe title="화면 미리보기"></iframe></div>
   </main>
 </div>
 
 <script>
 (function(){
   'use strict';
-  var $=function(s){return document.querySelector(s);};
+  var $=function(s,r){return (r||document).querySelector(s);};
   var REVIEW='face-attendance-review.html', LOGIN='login.html';
   var SITES=['예지 스타힐스 신축공사','동탄2 물류센터 신축공사','세종 행복주택 3BL 건립공사',
              '부산 명지 오피스텔 신축공사'];
@@ -183,11 +119,10 @@ button{font-family:inherit}
 
   /* 시나리오 이름이 가리키는 상태를 열자마자 보여 준다. 누르는 순서를 적어 두고
      직접 밟게 하면, 그 화면을 보러 온 사람이 매번 같은 준비를 되풀이하게 된다.
-     미리보기가 같은 출처라 여기서 직접 몰 수 있다 — 작성 화면에는 손대지 않는다 */
+     미리보기가 같은 출처라 여기서 대신 몰 수 있다 — 작성 화면에는 손대지 않는다 */
   function wait(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
   function put(el,v){ if(!el) return; el.value=v; el.dispatchEvent(new Event('input',{bubbles:true})); }
   function hit(el){ if(el) el.click(); }
-  /* 작성 화면의 인증 — 번호는 열쇠라 시나리오마다 다르다 */
   async function signIn(d,name,phone){
     put(d.querySelector('#r-name'),name);
     put(d.querySelector('#r-phone'),phone);
@@ -201,148 +136,37 @@ button{font-family:inherit}
     hit(d.querySelector('#login-form button[type=submit]')); await wait(300);
   }
 
-  var NONE=['심어 둔 기록이 없습니다 — 처음 쓰는 자리입니다.'];
-
-  var S=[
-  {g:'로그인',
-   t:'기본',
-   url:LOGIN, seed:[],
-   why:'회원사가 들어오는 자리. 아래 띠는 비회원사가 바로 작성 화면으로 가는 길입니다.',
-   steps:['아이디·비밀번호에 아무 값이나 넣고 <b>이용후기 남기기</b>'],
-   look:['아래 띠를 누르면 비회원 작성 화면으로 갑니다',
-         '로그인 박스 아래에는 비밀번호 찾기만 있습니다']},
-
-  {g:'로그인',
-   t:'인증 실패',
-   url:LOGIN+'?authfail=1', seed:[],
-   why:'아이디나 비밀번호가 틀렸을 때. 주소에 authfail=1 을 붙이면 그 화면이 나옵니다.',
-   act:logIn,
-   steps:['아이디·비밀번호를 넣고 <b>이용후기 남기기</b>를 누른 상태입니다'],
-   look:['주황 배지로 "아이디 또는 비밀번호가 일치하지 않습니다"',
-         '칸 아래 붉은 안내와는 다른 자리입니다 — 그쪽은 빈 칸을 가리킵니다']},
-
-  {g:'로그인',
-   t:'계약 현장이 다 참',
-   url:LOGIN,
-   seed:[mem('01011110001','김소장',[SITES[0]],'done',7200000),
-         mem('01011110002','이소장',[SITES[1]],'done',5400000),
-         mem('01011110003','박소장',[SITES[2]],'temp',3600000),
-         mem('01011110004','최소장',[SITES[3]],'done',1800000)],
-   why:'계약 중인 네 현장에 모두 후기가 있습니다. 들어가도 새로 쓸 자리가 없어 로그인을 누른 자리에서 알립니다. '
-      +'임시저장분도 한 자리를 차지합니다 — 아직 제출 전이라도 그 현장을 맡은 사람이 있기 때문입니다.',
-   act:logIn,
-   steps:['아이디·비밀번호를 넣고 <b>이용후기 남기기</b>를 누른 상태입니다'],
-   look:['모달 "모든 계약 현장에 후기가 있습니다"',
-         '누구의 후기인지 모르는 채라 <b>시각을 적지 않습니다</b>',
-         '후기 수정하기 → 작성 화면으로 넘어가 본인 확인을 거칩니다']},
-
-  {g:'회원사',
-   t:'새 후기 작성',
-   url:REVIEW+'?u=yeji', seed:[],
-   why:'로그인한 회원사가 처음 쓰는 자리. 회사명은 계정에서 오므로 머리글에만 있고 따로 묻지 않습니다.',
-   steps:['이름과 핸드폰 번호를 넣고 <b>인증</b>',
-          '인증번호는 000000 만 아니면 6자리 아무거나 → <b>확인</b>'],
-   look:['인증 전에는 아래가 흐리고 플로팅 막대가 숨어 있습니다',
-         '인증 후 한 줄 요약으로 접히고 <b>수정</b>이 붙습니다',
-         '필수값을 다 채우기 전 제출 버튼은 눌린 것처럼 보이지 않습니다']},
-
-  {g:'회원사',
-   t:'임시저장분 불러오기',
-   url:REVIEW+'?u=yeji',
-   seed:[mem('01055550001','김소장',[SITES[1]],'temp')],
-   why:'쓰다 만 후기가 있으면 인증과 동시에 그대로 돌아옵니다.',
-   act:function(d){ return signIn(d,'김소장','01055550001'); },
-   steps:['이름 <b>김소장</b>, 번호 <b>010-5555-0001</b> 로 인증을 마친 상태입니다'],
-   look:['"임시저장하신 내용을 불러왔습니다"',
-         '<b>초기화</b>가 있습니다 — 임시저장분에만 둡니다',
-         '<b>인증 수정</b>은 없습니다 — 번호가 그 후기를 찾는 열쇠입니다']},
-
-  {g:'회원사',
-   t:'제출분 수정',
-   url:REVIEW+'?u=yeji',
-   seed:[mem('01055550002','이소장',[SITES[2]],'done')],
-   why:'이미 낸 후기를 고치러 온 자리. 검토 전이라 고쳐서 다시 낼 수 있습니다.',
-   act:function(d){ return signIn(d,'이소장','01055550002'); },
-   steps:['이름 <b>이소장</b>, 번호 <b>010-5555-0002</b> 로 인증을 마친 상태입니다'],
-   look:['제출 버튼이 <b>수정해서 제출</b>',
-         '플로팅에 <b>임시 저장이 없습니다</b> — 이미 보관된 글 위에 초안을 덮지 않습니다',
-         '<b>초기화</b>도 <b>인증 수정</b>도 없습니다']},
-
-  {g:'회원사',
-   t:'이미 찬 현장',
-   url:REVIEW+'?u=yeji',
-   seed:[mem('01066660001','김소장',[SITES[0]],'done'),
-         mem('01066660002','박소장',[SITES[2]],'temp')],
-   why:'한 현장에 후기는 하나입니다. 다른 분이 맡은 현장은 고를 수 없습니다.',
-   act:async function(d){ await signIn(d,'최소장','01077777777');
+  /* 화면은 목록 버튼이 가리킨다 — 설명(why·steps·look)은 버튼이 들고 있고,
+     여기서는 '무엇을 열고 무엇을 심을지'만 정한다 */
+  var S={
+    'login-기본'   :{url:LOGIN, seed:[]},
+    'login-실패'   :{url:LOGIN+'?authfail=1', seed:[], act:logIn},
+    'login-만석'   :{url:LOGIN, act:logIn,
+      seed:[mem('01011110001','김소장',[SITES[0]],'done',7200000),
+            mem('01011110002','이소장',[SITES[1]],'done',5400000),
+            mem('01011110003','박소장',[SITES[2]],'temp',3600000),
+            mem('01011110004','최소장',[SITES[3]],'done',1800000)]},
+    'mem-새글'     :{url:REVIEW+'?u=yeji', seed:[]},
+    'mem-임시'     :{url:REVIEW+'?u=yeji', seed:[mem('01055550001','김소장',[SITES[1]],'temp')],
+      act:function(d){ return signIn(d,'김소장','01055550001'); }},
+    'mem-제출'     :{url:REVIEW+'?u=yeji', seed:[mem('01055550002','이소장',[SITES[2]],'done')],
+      act:function(d){ return signIn(d,'이소장','01055550002'); }},
+    'mem-만석현장' :{url:REVIEW+'?u=yeji',
+      seed:[mem('01066660001','김소장',[SITES[0]],'done'), mem('01066660002','박소장',[SITES[2]],'temp')],
+      act:async function(d){ await signIn(d,'최소장','01077777777');
         d.querySelector('#siteBtn').scrollIntoView({block:'center'});
-        hit(d.querySelector('#siteBtn')); await wait(150); },
-   steps:['아직 후기를 쓰지 않은 번호로 인증하고 <b>계약 현장</b> 목록을 열어 둔 상태입니다',
-          '회색으로 눌린 줄에 <b>마우스를 올려</b> 보세요'],
-   look:['1번·3번 현장이 회색으로 잠겨 있습니다',
-         '올리면 "이미 작성 중인 후기입니다"',
-         '목록에서 지우지는 않습니다 — 없어진 현장인지 찬 현장인지 구별되어야 합니다']},
-
-  {g:'회원사',
-   t:'제출 완료',
-   url:REVIEW+'?u=yeji&done=1', seed:[],
-   why:'제출한 직후 화면. 후기는 바로 실리지 않고 검토를 거칩니다.',
-   steps:['따로 할 것 없이 바로 보입니다'],
-   look:['"이용 후기 <b>제출</b>이 완료되었습니다"',
-         '검토를 거친 뒤 목록에 등록된다는 안내',
-         '<b>수정하기</b>를 누르면 회원사는 곧장 폼으로 돌아갑니다']},
-
-  {g:'비회원사',
-   t:'새 후기 작성',
-   url:REVIEW+'?guest=1', seed:[],
-   why:'로그인 없이 들어온 자리. 계약 목록이 없으니 회사명·사업자등록번호를 직접 밝히고 현장명은 적습니다.',
-   steps:['회사명을 적고 사업자등록번호 10자리 → <b>확인</b>',
-          '이어서 이름·번호 인증'],
-   look:['회사명을 적는 대로 머리글이 따라옵니다',
-         '사업자등록번호를 확인하기 전에는 작성자 칸이 잠겨 있습니다',
-         '확인이 끝나면 회색으로 죽지 않고 <b>성공 상태</b>로 바뀝니다']},
-
-  {g:'비회원사',
-   t:'이미 쓴 사업자번호',
-   url:REVIEW+'?guest=1',
-   seed:[gst('01077770001','정소장','대한건설','321 - 45 - 67890','예지타워 신축공사','done')],
-   why:'한 사업장에 한 분입니다. 같은 번호로 남은 후기가 있으면 본인인지 먼저 묻습니다.',
-   act:async function(d){ put(d.querySelector('#g-co'),'대한건설');
+        hit(d.querySelector('#siteBtn')); await wait(150); }},
+    'mem-완료'     :{url:REVIEW+'?u=yeji&done=1', seed:[]},
+    'gst-새글'     :{url:REVIEW+'?guest=1', seed:[]},
+    'gst-중복'     :{url:REVIEW+'?guest=1',
+      seed:[gst('01077770001','정소장','대한건설','321 - 45 - 67890','예지타워 신축공사','done')],
+      act:async function(d){ put(d.querySelector('#g-co'),'대한건설');
         put(d.querySelector('#g-biz'),'3214567890');
-        hit(d.querySelector('#btnBiz')); await wait(350); },
-   steps:['회사명과 사업자등록번호 <b>321-45-67890</b> 을 넣고 <b>확인</b>을 누른 상태입니다',
-          '모달에서 번호 <b>010-7777-0001</b> → 인증 → 6자리 → <b>후기 불러오기</b>'],
-   look:['모달 "이미 생성된 후기가 있습니다" — 임시저장이든 제출이든 같은 문구입니다',
-         '<b>다른 번호</b>를 넣으면 "그 후기를 작성하신 분의 번호가 아닙니다"',
-         '취소하면 사업자번호 칸 아래에 까닭이 남습니다']},
+        hit(d.querySelector('#btnBiz')); await wait(350); }},
+    'gst-완료'     :{url:REVIEW+'?guest=1&done=1', seed:[]}
+  };
 
-  {g:'비회원사',
-   t:'제출 완료',
-   url:REVIEW+'?guest=1&done=1', seed:[],
-   why:'비회원사도 적어 낸 회사명으로 부릅니다.',
-   steps:['따로 할 것 없이 바로 보입니다'],
-   look:['머리글이 "대한건설 담당자님"',
-         '<b>수정하기</b>를 누르면 번호 인증 모달이 뜹니다 — 기댈 로그인이 없기 때문입니다',
-         '통과하면 회사 정보를 다시 받지 않고 쓰던 폼으로 돌아갑니다']}
-  ];
-
-  /* ── 목록 ── */
-  var nav=$('#ptNav'), last=null, cur=0;
-  S.forEach(function(s,i){
-    if(s.g!==last){ last=s.g;
-      var h=document.createElement('div'); h.className='pt-grp'; h.textContent=s.g; nav.appendChild(h);
-      var w=document.createElement('div'); w.className='pt-nav'; w.dataset.g=s.g; nav.appendChild(w); }
-    var b=document.createElement('button');
-    b.type='button'; b.dataset.i=i;
-    b.innerHTML='<span class="n">'+(i+1)+'</span><span>'+s.t+'</span>';
-    b.addEventListener('click',function(){ show(i); });
-    nav.lastChild.appendChild(b);
-  });
-
-  function li(list,tag){
-    return list.map(function(t){ return '<li>'+t+'</li>'; }).join('');
-  }
-  /* 시나리오마다 기록을 새로 깐다. 미리보기는 같은 출처라 여기서 심으면 그대로 읽는다 */
+  /* 시나리오마다 기록을 새로 깐다. 화면이 같은 출처라 여기서 심으면 그대로 읽는다 */
   function seed(s){
     try{
       for(var i=localStorage.length-1;i>=0;i--){
@@ -352,148 +176,46 @@ button{font-family:inherit}
       (s.seed||[]).forEach(function(r){ localStorage.setItem('kbz_rv_'+r.phone, JSON.stringify(r)); });
     }catch(e){}
   }
-  function show(i){
-    cur=i; var s=S[i];
-    Array.prototype.forEach.call(document.querySelectorAll('.pt-nav button'),function(b){
-      b.classList.toggle('on', +b.dataset.i===i); });
-    $('#ptTitle').textContent=s.g+' · '+s.t;
-    $('#ptWhy').innerHTML=s.why;
-    var rec=(s.seed||[]).map(function(r){
-      return '<code>'+(r.guest?'비회원':'회원')+' '+r.name+' · '+(r.status==='done'?'제출':'임시저장')
-           +(r.data['#site']?' · '+r.data['#site'].join(', '):'')+'</code>'; });
-    $('#ptMeta').innerHTML='<code>'+s.url+'</code>'+(rec.length?rec.join(''):'<code>심어 둔 기록 없음</code>');
-    $('#ptSteps').innerHTML=li(s.steps);
-    $('#ptLook').innerHTML=li(s.look);
-    $('#ptOpen').href=s.url;
+  function open(name){
+    var s=S[name]; if(!s) return;
     seed(s);
-    render();
-    location.hash='s'+(i+1);
-  }
-  $('#ptReset').addEventListener('click',function(){ show(cur); });
-
-  /* =========================================================
-     화면 폭 — kbz 3.0 프로토타입 크롬 규약을 따른다
-     기기 크기 그대로 1:1. 세로도 기기 값이다 — 폭만 맞추면 폰인데 세로가
-     끝없이 긴 화면이 되어 '한 화면에 어디까지 들어오는가'를 볼 수 없다.
-     폭을 iframe 에 직접 주는 것이 핵심이다. 바깥 상자만 줄이면 미디어쿼리는
-     뷰포트를 보므로 걸리지 않고, 데스크톱 레이아웃을 좁은 상자에 욱여넣은
-     그림이 나온다 — 확인하려던 것과 정반대다.
-     ========================================================= */
-  var VIEWS={lg:[1280,800], md:[768,1024], sm:[390,844]};
-  var CMP=['lg','md','sm'], GAP=16, BORDER=2, MIN_W=280;
-  var VIEW=sessionStorage.getItem('pt-view')||'lg';
-  var wrap=$('#ptWrap'), shell=$('#ptShell'), readout=$('#ptReadout');
-  var single=null, cells=[];
-
-  function src(s){ return s.url+(s.url.indexOf('?')<0?'?':'&')+'_t='+Date.now(); }
-  /* 틀마다 같은 몰이를 돌린다 — 비교에서는 셋 다 같은 상태로 서야 한다 */
-  function newFrame(s,i){
-    var f=document.createElement('iframe');
-    f.title='화면 미리보기';
+    var f=$('#screen iframe'); if(!f) return;
     f.onload=function(){
-      if(i!==cur || !s.act) return;      /* 그새 다른 시나리오로 옮겨 갔으면 손대지 않는다 */
+      if(!s.act) return;
+      /* 그새 다른 시나리오로 옮겨 갔으면 손대지 않는다 */
+      var now=document.querySelector('.proto-nav-btn.is-active');
+      if(now && now.dataset.scenario!==name) return;
       try{ s.act(f.contentDocument); }catch(e){}
     };
-    f.src=src(s);
-    return f;
+    f.src=s.url+(s.url.indexOf('?')<0?'?':'&')+'_t='+Date.now();
   }
-  function mark(v){
-    Array.prototype.forEach.call($('#ptSeg').children,function(b){
-      b.classList.toggle('on', b.dataset.v===v); });
-  }
-  function render(){
-    var s=S[cur]; single=null; cells=[];
-    wrap.textContent=''; readout.textContent='';
-    if(VIEW==='cmp'){ buildCompare(s); mark('cmp'); return; }
-    buildSingle(s, VIEWS[VIEW][0], VIEWS[VIEW][1]);
-  }
-  function buildSingle(s,w,h){
-    var stage=document.createElement('div'); stage.className='pt-stage';
-    var f=newFrame(s,cur); f.style.height=h+'px';
-    var grip=document.createElement('div'); grip.className='pt-grip'; grip.title='끌어서 폭 조절';
-    stage.append(f,grip); wrap.appendChild(stage);
-    single={frame:f,width:w,height:h};
-    setWidth(w);
-    /* 가운데 정렬이라 폭은 이동거리의 두 배로 변한다 — 오른쪽 모서리가 손끝을 따라온다 */
-    grip.addEventListener('pointerdown',function(e){
-      e.preventDefault(); grip.setPointerCapture(e.pointerId); grip.classList.add('on');
-      var x0=e.clientX, w0=single.width;
-      function mv(ev){ setWidth(w0+(ev.clientX-x0)*2); }
-      function up(){ grip.classList.remove('on');
-        grip.removeEventListener('pointermove',mv); grip.removeEventListener('pointerup',up); }
-      grip.addEventListener('pointermove',mv); grip.addEventListener('pointerup',up);
-    });
-  }
-  function setWidth(w){
-    if(!single) return;
-    w=Math.max(MIN_W,Math.round(w)); single.width=w;
-    single.frame.style.width=w+'px';
-    var named=Object.keys(VIEWS).filter(function(k){
-      return VIEWS[k][0]===w && VIEWS[k][1]===single.height; })[0];
-    readout.innerHTML='<b>'+w+'</b> × '+single.height+' px'+(named?' · '+named:'')+' — 모서리를 끌어 조절';
-    /* 이름 있는 폭에서만 버튼이 켜진다. 끌어서 벗어나면 어느 것도 켜지지 않는다 —
-       1042px 을 보면서 데스크톱이 눌려 있으면 그 표시가 거짓말이 된다 */
-    mark(named||'');
-  }
-  function buildCompare(s){
-    var row=document.createElement('div'); row.className='pt-cells';
-    CMP.forEach(function(k){
-      var cell=document.createElement('div');
-      var lb=document.createElement('div'); lb.className='pt-cell__label';
-      lb.textContent=k+' · '+VIEWS[k][0];
-      var box=document.createElement('div'); box.className='pt-cell__box';
-      var f=newFrame(s,cur);
-      f.style.width=VIEWS[k][0]+'px'; f.style.height=VIEWS[k][1]+'px';
-      box.appendChild(f); cell.append(lb,box); row.appendChild(cell);
-      cells.push({k:k,box:box,frame:f});
-    });
-    wrap.appendChild(row);
-    layoutCompare();
-    readout.textContent='같은 배율로 나란히 — 안쪽은 여전히 1280·768·390 으로 계산됩니다';
-  }
-  /* 배율은 하나다. 셋을 각자 맞춰 키우면 모바일이 데스크톱보다 좁다는 사실이
-     그림에서 사라진다. 배율이 곱해지지 않는 것들(테두리·간격)을 먼저 뺀다 */
-  function layoutCompare(){
-    if(!cells.length) return;
-    var sumW=0,maxH=0;
-    CMP.forEach(function(k){ sumW+=VIEWS[k][0]; maxH=Math.max(maxH,VIEWS[k][1]); });
-    var chrome=GAP*(CMP.length-1)+BORDER*CMP.length;
-    var availW=shell.clientWidth-40-chrome;
-    var availH=shell.clientHeight-40-24-BORDER;
-    var sc=Math.min(availW/sumW, availH/maxH, 1);
-    sc=Math.floor(sc*1000)/1000;        /* 올림 오차로 다시 넘치지 않게 내림 */
-    cells.forEach(function(c){
-      var w=VIEWS[c.k][0], h=VIEWS[c.k][1];
-      c.box.style.width=Math.floor(w*sc)+'px';
-      c.box.style.height=Math.floor(h*sc)+'px';
-      c.frame.style.transform='scale('+sc+')';
-    });
-  }
-  $('#ptSeg').addEventListener('click',function(e){
-    var b=e.target.closest('button[data-v]'); if(!b) return;
-    VIEW=b.dataset.v; sessionStorage.setItem('pt-view',VIEW); render();
-  });
-  var rt=null;
-  window.addEventListener('resize',function(){
-    if(VIEW!=='cmp') return; clearTimeout(rt); rt=setTimeout(layoutCompare,120);
-  });
 
-  /* 설명 접기 — 어느 시나리오인지는 남기고 풀이만 접는다 */
-  var head=document.querySelector('.pt-head'), fold=$('#ptFold');
-  function setFold(on){
-    head.classList.toggle('is-fold',on);
-    fold.textContent=on?'설명 펼치기':'설명 접기';
-    fold.setAttribute('aria-expanded',on?'false':'true');
-    sessionStorage.setItem('pt-fold',on?'1':'0');
-    if(VIEW==='cmp') layoutCompare();
-  }
-  fold.addEventListener('click',function(){ setFold(!head.classList.contains('is-fold')); });
-  setFold(sessionStorage.getItem('pt-fold')==='1');
-
-  mark(VIEW);
-  var h=(location.hash||'').match(/^#s(\d+)$/);
-  show(h && S[+h[1]-1] ? +h[1]-1 : 0);
+  /* 크롬이 틀 안에서 ?scenario= 를 읽어 해당 버튼을 눌러 준다 — 그 누름을 여기서 받는다.
+     DOMContentLoaded 보다 먼저 붙어 있어야 그 클릭을 놓치지 않는다 */
+  document.querySelectorAll('.proto-nav-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.proto-nav-btn').forEach(function(o){
+        o.classList.toggle('is-active', o===b); });
+      open(b.dataset.scenario);
+    });
+  });
+  var first=document.querySelector('.proto-nav-btn.is-active')||document.querySelector('.proto-nav-btn');
+  if(first) open(first.dataset.scenario);
 })();
+</script>
+<script src="https://namiruan.github.io/kbz_3.0_ui_stytem/components.js"></script>
+<script>
+  /* 아이콘은 스프라이트를 주입해 쓴다 (시스템 규약: 원격 절대 URL) */
+  fetch('https://namiruan.github.io/kbz_3.0_ui_stytem/icons/sprite.svg')
+    .then(function(r){ return r.text(); })
+    .then(function(svg){
+      var d=document.createElement('div');
+      d.style.cssText='position:absolute;width:0;height:0;overflow:hidden';
+      d.innerHTML=svg;
+      document.body.insertBefore(d, document.body.firstChild);
+    }).catch(function(){});
+  /* components.js 는 초기화 함수를 등록만 한다 — 크롬은 여기서 켠다 */
+  if (typeof initProtoChrome === 'function') initProtoChrome(document);
 </script>
 </body>
 </html>
