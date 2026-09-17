@@ -1094,8 +1094,11 @@ body.rw-done .rw-main{padding-block:0}
     fields().forEach(function(el){
       if(el.type==='file') return;               /* 사진은 담지 않는다 */
       /* 지금 화면에 없는 칸은 이 후기의 내용이 아니다. 회원 화면에도 비회원용
-         회사 칸이 감춰진 채로 남아 있어, 그대로 담으면 빈 값이 기록에 실린다 */
-      if(el.closest('[hidden]')) return;
+         회사 칸이 감춰진 채로 남아 있어, 그대로 담으면 빈 값이 기록에 실린다.
+         다만 여러 곳 고르는 목록은 닫혀 있는 동안 hidden 이다 — 접힌 것이지
+         없는 칸이 아니므로, 그 안의 고른 값까지 버리면 안 된다 */
+      var off=el.closest('[hidden]');
+      if(off && !off.classList.contains('ms-pop')) return;
       if(el.type==='radio'){ if(el.checked) d['@'+el.name]=el.value; return; }
       if(el.type==='checkbox'){                /* 여럿 고르는 칸은 배열로 담는다 */
         if(el.checked){ var k='#'+el.name; (d[k]=d[k]||[]).push(el.value); }
