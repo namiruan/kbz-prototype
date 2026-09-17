@@ -280,6 +280,20 @@ body.rw-ok .rw-gate{display:none}
   color:var(--main-black);font-family:var(--font-body);font-size:16px;font-weight:500;line-height:normal;
   letter-spacing:-.16px;word-break:keep-all}
 .ms-pop label:hover,.sel-pop li:hover,.sel-pop li.on{background:rgba(var(--color-blue-rgb),.06)}
+/* 이미 다른 분이 맡은 현장 — 목록에는 두되 고를 수 없다.
+   까닭은 hover 로 알린다. 목록이 스크롤되므로 툴팁을 줄 밖으로 띄우면 잘린다 —
+   줄 안 오른쪽에 붙이고, 이름 쪽이 대신 줄어들게 한다 */
+.ms-pop label.is-off{position:relative;cursor:not-allowed;color:var(--ds-text-disabled)}
+.ms-pop label.is-off:hover{background:none}
+.ms-pop label.is-off input{cursor:not-allowed}
+.ms-pop label.is-off>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ms-pop label.is-off::after{content:attr(data-tip);flex:none;margin-left:auto;padding:3px 8px;border-radius:var(--rad-sm);
+  background:var(--sub-d-gray);color:var(--main-white);font-family:var(--font-body);font-size:13px;font-weight:400;
+  line-height:normal;white-space:nowrap;opacity:0;transition:opacity .15s ease}
+.ms-pop label.is-off:hover::after,.ms-pop label.is-off:focus-within::after{opacity:1}
+/* 손가락으로 쓰는 화면에는 hover 가 없다 — 늘 보이게 둔다 */
+@media(hover:none){.ms-pop label.is-off::after{opacity:1}}
+@media(prefers-reduced-motion:reduce){.ms-pop label.is-off::after{transition:none}}
 .sel-pop li[aria-selected="true"]{color:var(--main-blue)}
 .ms-pop input{flex:none;width:16px;height:16px;margin:0;accent-color:var(--main-blue);cursor:pointer}
 
@@ -443,6 +457,8 @@ body.rw-ready .rw-float .submit{background:rgba(var(--color-blue-rgb),.6);color:
 body.rw-ready .rw-float .submit:hover{background:rgba(var(--color-blue-rgb),.8)}
 /* 제출한 후기를 고치는 중 — 임시저장을 내리고 제출만 남긴다 (flex:1 이라 저절로 채운다) */
 body.rw-edit .rw-float .temp{display:none}
+/* 기록이 생긴 뒤로는 작성자 인증을 고칠 수 없다 — 번호가 그 후기를 찾는 열쇠다 */
+body.rw-rec #btnEditVerify{display:none}
 
 /* 임시저장 안내 툴팁 — 임시 저장 칸 한가운데 위로. 25% 는 막대의 왼쪽 절반 가운데라
    폭이 줄어도 따라간다 (피그마의 50% - 125px 과 같은 자리) */
@@ -1290,8 +1306,15 @@ body.rw-done .rw-main{padding-block:0}
   /* 이미 제출한 후기를 고치는 중이면 임시저장할 것이 없다 — 그 글은 이미 보관돼
      있고, 위에 초안을 덮으면 어느 쪽이 제 글인지 흐려진다. 제출만 남긴다 */
   function markEditing(on){ body.classList.toggle('rw-edit', !!on); }
+  /* 임시저장했거나 제출한 뒤에는 작성자를 바꿀 수 없다. 번호가 그 후기를 찾는
+     열쇠라, 도중에 바꾸면 앞사람이 쓴 글이 새 번호로 딸려 간다.
+     작성자는 새로 쓰기 시작할 때만 고른다 */
+  function lockWriter(on){ body.classList.toggle('rw-rec', !!on); }
   function showRestore(rec){
     markEditing(rec.status==='done');
+    lockWriter(true);
+    /* 초기화는 임시저장분에만 둔다 — 제출한 후기를 여기서 지울 일은 아니다 */
+    $('#btnFresh').hidden = rec.status==='done';
     if(rec.status==='done'){
       $('#restoreText').innerHTML='<b>이미 제출하신 후기</b>를 불러왔습니다. '
         +'<span class="at">'+when(rec.at)+' 제출</span><br>고치신 뒤 다시 제출하시면 이 내용을 대신합니다.';
@@ -1306,6 +1329,8 @@ body.rw-done .rw-main{padding-block:0}
   }
   function hideRestore(){
     markEditing(false);
+    lockWriter(false);
+    $('#btnFresh').hidden=false;
     $('#restoreBar').hidden=true;
     $('#btnSubmit').textContent='제출하기';
   }
@@ -1502,6 +1527,35 @@ body.rw-done .rw-main{padding-block:0}
   }).join('');
 
   function sitePicked(){ return $$('#sitePop input:checked').map(function(c){return c.value;}); }
+  /* 한 현장에 후기는 하나다. 다른 분이 이미 맡았으면 고를 수 없게 하되 목록에서
+     지우지는 않는다 — 없어진 현장인지 이미 찬 현장인지 구별이 안 되기 때문이다.
+     내 기록은 뺀다. 내가 맡은 현장까지 잠기면 내 후기를 못 고친다 */
+  function takenSites(){
+    var out={};
+    try{
+      for(var i=0;i<localStorage.length;i++){
+        var k=localStorage.key(i);
+        if(k.indexOf('kbz_rv_')!==0) continue;
+        if(k==='kbz_rv_'+VD) continue;
+        var r=JSON.parse(localStorage.getItem(k)||'null');
+        if(!r || r.guest || !r.data) continue;
+        (r.data['#site']||[]).forEach(function(v){ out[v]=r.name||'다른 담당자'; });
+      }
+    }catch(e){}
+    return out;
+  }
+  function paintSiteLock(){
+    var t=takenSites();
+    $$('#sitePop label').forEach(function(lb){
+      var c=lb.querySelector('input');
+      /* 이미 고른 칸은 잠그지 않는다 — 내 후기에 든 현장을 빼앗지 않는다 */
+      var off = !!t[c.value] && !c.checked;
+      c.disabled=off;
+      lb.classList.toggle('is-off', off);
+      if(off) lb.setAttribute('data-tip','이미 작성 중인 후기입니다');
+      else lb.removeAttribute('data-tip');
+    });
+  }
   function syncSite(){
     var v=sitePicked(), b=$('#siteBtn');
     /* 여러 곳이면 첫 곳 + 나머지 수 — 칸 하나에 다 넣으면 잘려서 못 읽는다 */
@@ -1510,6 +1564,7 @@ body.rw-done .rw-main{padding-block:0}
     b.classList.toggle('ph', !v.length);
   }
   function siteOpen(on){
+    if(on) paintSiteLock();        /* 열 때마다 다시 본다 — 그 사이 누가 맡았을 수 있다 */
     $('#sitePop').hidden=!on;
     $('#siteMs').toggleAttribute('data-open', on);
     $('#siteBtn').setAttribute('aria-expanded', on?'true':'false');
@@ -1734,6 +1789,7 @@ body.rw-done .rw-main{padding-block:0}
       $('#secVerify').scrollIntoView({behavior:'smooth',block:'start'}); phone.focus(); return;
     }
     saveRec(VD,'temp');
+    lockWriter(true);          /* 기록이 생긴 뒤로는 작성자를 바꾸지 못한다 */
     tip();
   });
   /* 눌렀다는 것은 눌린 사람이 안다 — 알려야 할 것은 저장이 끝났다는 사실이다.
@@ -1774,7 +1830,7 @@ body.rw-done .rw-main{padding-block:0}
     step(2); markStep();
     var rec=loadRec(VD);
     if(rec && rec.data){ showRestore(rec); }
-    else { markEditing(true); $('#btnSubmit').textContent='수정해서 제출'; }
+    else { markEditing(true); lockWriter(true); $('#btnSubmit').textContent='수정해서 제출'; }
     syncSubmit();
     $('#reviewPanel').scrollIntoView({behavior:'smooth',block:'start'});
   }
