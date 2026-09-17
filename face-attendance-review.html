@@ -86,8 +86,8 @@ button{font-family:inherit}
           mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent)}
 .rw-mq-reel{display:inline-flex;align-items:center;gap:14px;white-space:nowrap;animation:rwRoll 26s linear infinite}
 .rw-mq-reel b{color:var(--main-blue);font-family:var(--font-body);font-size:16px;font-weight:500;line-height:normal;letter-spacing:-.16px}
-.rw-mq-reel i{flex:none;display:flex;width:25px;height:25px;color:var(--main-blue)}
-.rw-mq-reel i svg{width:25px;height:25px;display:block}
+/* 문구 사이를 가르는 점 — 읽는 것이 아니라 끊어 주는 것이라 작게 둔다 */
+.rw-mq-reel i{flex:none;width:4px;height:4px;border-radius:50%;background:var(--main-blue)}
 @keyframes rwRoll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.rw-mq-reel{animation:none}}
 @media(max-width:640px){.rw-mq-wrap{padding:24px 15px 0}.rw-mq-label{padding:0 10px;font-size:13px}.rw-mq-reel b{font-size:14px}}
@@ -812,7 +812,8 @@ body.rw-done .rw-main{padding-block:0}
      애니메이션이 -50% 만큼 밀기 때문에 릴은 똑같은 두 짝이어야 하고,
      한 짝이 창보다 좁으면 다 밀리기 전에 뒤가 비어 문구가 끊겨 보인다.
      그래서 한 짝이 창을 덮을 때까지 목록을 되풀이해 깐다. */
-  var SPARK='<i aria-hidden="true"><svg viewBox="0 0 25 25" fill="currentColor"><path d="M12.5 0l2.6 9.9L25 12.5l-9.9 2.6L12.5 25l-2.6-9.9L0 12.5l9.9-2.6z"/></svg></i>';
+  /* 문구와 문구를 가르는 표시일 뿐이라 작은 점 하나면 된다 */
+  var SPARK='<i aria-hidden="true"></i>';
   var EV=['스타벅스 아메리카노 쿠폰 증정!','후기 작성하고 경품 받아가세요!'];
   var EV_HTML=EV.map(function(t){ return '<b>'+t+'</b>'+SPARK; }).join('');
   var MQ_SPEED=24;                      /* px/s — 폭이 달라져도 속도는 같게 */
