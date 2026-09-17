@@ -863,6 +863,9 @@ body.rw-done .rw-main{padding-block:0}
   var body=document.body;
   var q=new URLSearchParams(location.search);
   var GUEST=q.get('guest')==='1';
+  /* 인증 유효 시간. 3 분을 그대로 기다리게 하면 '시간이 지났습니다' 화면을 볼 방법이 없다 —
+     시나리오에서만 주소에 sec=3 처럼 붙여 초를 줄인다. 값이 없으면 180 초 그대로다 */
+  var SEC=(function(){ var n=parseInt(q.get('sec'),10); return (n>0 && n<=180) ? n : 180; })();
   var HEAD_HTML=document.querySelector('.rw-head').innerHTML;
 
   /* 이벤트 마퀴.
@@ -1356,7 +1359,7 @@ body.rw-done .rw-main{padding-block:0}
      작성자 확인 — 핸드폰 인증을 마쳐야 아래가 열린다
      프로토타입 : 인증번호는 6자리면 통과. 000000 이면 실패로 떨어진다.
      ========================================================= */
-  var phone=$('#r-phone'), code=$('#r-code'), timer=null, left=180;
+  var phone=$('#r-phone'), code=$('#r-code'), timer=null, left=SEC;
   /* 010 - 1234 - 5678 — 인증 칸과 이어쓰기 모달이 같은 모양을 쓴다 */
   function fmtPhone(v){
     v=String(v).replace(/\D/g,'').slice(0,11);
@@ -1387,7 +1390,7 @@ body.rw-done .rw-main{padding-block:0}
     code.disabled=false; $('#btnVerify').disabled=false;
     $('#codeWrap').removeAttribute('data-disabled'); $('#codeTimer').hidden=false;
     $('#codeMsg').textContent=''; code.value=''; code.focus();
-    left=180; if(timer) clearInterval(timer); tick(); timer=setInterval(tick,1000);
+    left=SEC; if(timer) clearInterval(timer); tick(); timer=setInterval(tick,1000);
   });
   $('#btnVerify').addEventListener('click',function(){
     var v=code.value.replace(/\D/g,'');
@@ -1606,7 +1609,7 @@ body.rw-done .rw-main{padding-block:0}
      ========================================================= */
   /* 모달이 하는 일은 두 가지다 — 남의 후기를 이어받으려는 사람을 가려내는 일(dup),
      그리고 완료 화면에서 돌아가려는 사람이 그 후기를 쓴 본인인지 보는 일(edit) */
-  var ASK=null, ASK_MODE='dup', askTimer=null, askLeft=180;
+  var ASK=null, ASK_MODE='dup', askTimer=null, askLeft=SEC;
   function askMsg(t,ok){
     $('#askMsg').textContent=t||'';
     $('#askMsg').className = ok ? 'note note-ok' : 'note';
@@ -1668,7 +1671,7 @@ body.rw-done .rw-main{padding-block:0}
     $('#ask-code').disabled=false; $('#askCodeWrap').removeAttribute('data-disabled');
     $('#askTimer').hidden=false; $('#ask-code').value=''; $('#ask-code').focus();
     askMsg('인증번호를 보냈습니다.', true);
-    askLeft=180; if(askTimer) clearInterval(askTimer); askTick(); askTimer=setInterval(askTick,1000);
+    askLeft=SEC; if(askTimer) clearInterval(askTimer); askTick(); askTimer=setInterval(askTick,1000);
   });
 
   /* 문자 인증까지가 이 모달의 일이다. 통과하면 카드의 인증도 끝난 것으로 본다 —

@@ -535,7 +535,10 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
     return d.length>7 ? d.slice(0,3)+' - '+d.slice(3,7)+' - '+d.slice(7)
          : d.length>3 ? d.slice(0,3)+' - '+d.slice(3) : d;
   }
-  var askTimer=null, askLeft=180;
+  /* 인증 유효 시간. 작성 화면과 같은 규칙이다 — 시나리오에서만 sec=3 처럼 줄인다 */
+  var SEC=(function(){ var n=parseInt(new URLSearchParams(location.search).get('sec'),10);
+    return (n>0 && n<=180) ? n : 180; })();
+  var askTimer=null, askLeft=SEC;
   function askMsg(t,ok){
     var m=$('#askMsg'); m.textContent=t||''; m.className = ok ? 'note note-ok' : 'note';
   }
@@ -581,7 +584,7 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
     $('#ask-code').disabled=false; $('#askCodeWrap').removeAttribute('data-disabled');
     $('#askTimer').hidden=false; $('#ask-code').value=''; $('#ask-code').focus();
     askMsg('인증번호를 보냈습니다.', true);
-    askLeft=180; if(askTimer) clearInterval(askTimer); askTick(); askTimer=setInterval(askTick,1000);
+    askLeft=SEC; if(askTimer) clearInterval(askTimer); askTick(); askTimer=setInterval(askTick,1000);
   });
   $('#fullGo').addEventListener('click',function(){
     var d=onlyNum($('#ask-phone').value), v=onlyNum($('#ask-code').value);
