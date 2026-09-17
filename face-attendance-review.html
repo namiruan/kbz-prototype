@@ -426,7 +426,7 @@ body:not(.rw-ok) .rw-float-in{pointer-events:none}
 .rw-float .temp{background:rgba(var(--color-black-rgb),.6);color:var(--main-white);
   border-right:1px dashed rgba(var(--color-white-rgb),.6);box-shadow:0 4px 4px rgba(0,0,0,.25)}
 .rw-float .temp:hover{background:rgba(var(--color-black-rgb),.78)}
-/* 등록하기는 잠겨 있을 땐 글자까지 흰색 60% 라 배경에 묻힌다 (피그마 비활성 상태) */
+/* 제출하기는 잠겨 있을 땐 글자까지 흰색 60% 라 배경에 묻힌다 (피그마 비활성 상태) */
 /* 인증만으로는 부족하다 — 필수 칸을 다 채워야 눌릴 것처럼 보인다.
    다만 실제로 못 누르게 막지는 않는다. 긴 폼에서 죽은 버튼은 무엇이 모자란지
    알려 주지 못한다 — 누르면 첫 빈 칸으로 데려간다 */
@@ -514,6 +514,13 @@ body.rw-done .rw-main{padding-block:0}
 .done-img.no-img .ph{display:block}
 @media(max-width:532px){.done-img{width:200px;height:240px}}
 
+/* 검토를 거친다는 안내 — 목록 바로 위에 한 줄. 알려 주는 말이지 알리는 말이 아니라
+   본문보다 한 단계 옅게 두고, 굵게 잡는 것은 '검토를 거친 뒤' 한 곳뿐이다 */
+.done-note{margin-top:4px;max-width:420px;text-align:center;word-break:keep-all;
+  color:var(--ds-text-label);font-family:var(--font-body);font-size:16px;line-height:1.5;letter-spacing:-.32px}
+.done-note b{color:var(--main-black);font-weight:600}
+@media(max-width:532px){.done-note{font-size:15px}}
+
 /* 작성자 / 핸드폰 번호 / 제출일 — 300 폭에 밑줄 한 줄씩 */
 .done-list{display:flex;flex-direction:column;margin:10px 0 0;width:300px;max-width:100%}
 .done-list>div{display:flex;flex-wrap:wrap;gap:5px;padding:10px 20px;
@@ -561,7 +568,7 @@ body.rw-done .rw-main{padding-block:0}
   <ol class="rw-steps" id="rwSteps">
     <li class="on" data-step="1"><b>1</b>작성자 인증</li><li class="sep" aria-hidden="true"></li>
     <li data-step="2"><b>2</b>후기 작성</li><li class="sep" aria-hidden="true"></li>
-    <li data-step="3"><b>3</b>등록 완료</li>
+    <li data-step="3"><b>3</b>제출 완료</li>
   </ol>
 </div>
 
@@ -743,6 +750,9 @@ body.rw-done .rw-main{padding-block:0}
               stroke-linecap="round" opacity=".35" fill="none"/>
       </svg>
     </div>
+    <!-- 제출과 게시 사이에 검토가 있다. 그 말이 없으면 목록에서 제 후기를 찾다가
+         빠진 줄 안다 — 완료 화면에서 한 줄로 밝힌다 -->
+    <p class="done-note">보내주신 후기는 <b>검토를 거친 뒤</b> 후기 목록에 등록됩니다.</p>
     <dl class="done-list">
       <div><dt>작성자</dt><dd id="doneName"></dd></div>
       <div><dt>핸드폰 번호</dt><dd id="donePhone"></dd></div>
@@ -760,7 +770,7 @@ body.rw-done .rw-main{padding-block:0}
 <div class="rw-float">
   <div class="rw-float-in">
     <button type="button" class="temp" id="btnTemp">임시 저장</button>
-    <button type="submit" form="rwForm" class="submit" id="btnSubmit">등록하기</button>
+    <button type="submit" form="rwForm" class="submit" id="btnSubmit">제출하기</button>
   </div>
 </div>
 
@@ -1217,7 +1227,7 @@ body.rw-done .rw-main{padding-block:0}
     DUP=true;
     $('#g-biz').closest('.f-in').classList.add('is-err');
     $('#g-biz-msg').textContent = o.status==='done'
-      ? '이미 후기가 등록된 사업자등록번호입니다.'
+      ? '이미 후기가 제출된 사업자등록번호입니다.'
       : '이미 작성 중인 후기가 있는 사업자등록번호입니다.';
     $('#g-biz-msg').className='note danger';
   }
@@ -1234,20 +1244,20 @@ body.rw-done .rw-main{padding-block:0}
   }
   function showRestore(rec){
     if(rec.status==='done'){
-      $('#restoreText').innerHTML='<b>이미 등록하신 후기</b>를 불러왔습니다. '
-        +'<span class="at">'+when(rec.at)+' 등록</span><br>고치신 뒤 다시 등록하시면 이 내용을 대신합니다.';
-      $('#btnSubmit').textContent='수정해서 등록';
+      $('#restoreText').innerHTML='<b>이미 제출하신 후기</b>를 불러왔습니다. '
+        +'<span class="at">'+when(rec.at)+' 제출</span><br>고치신 뒤 다시 제출하시면 이 내용을 대신합니다.';
+      $('#btnSubmit').textContent='수정해서 제출';
     }else{
       $('#restoreText').innerHTML='<b>임시저장하신 내용</b>을 불러왔습니다. '
         +'<span class="at">'+when(rec.at)+' 저장</span>';
-      $('#btnSubmit').textContent='등록하기';
+      $('#btnSubmit').textContent='제출하기';
     }
     $('#btnFresh').textContent='초기화';
     $('#restoreBar').hidden=false;
   }
   function hideRestore(){
     $('#restoreBar').hidden=true;
-    $('#btnSubmit').textContent='등록하기';
+    $('#btnSubmit').textContent='제출하기';
   }
   /* 지우는 건 되돌릴 수 없으니 한 번 더 묻는다 */
   $('#btnFresh').addEventListener('click',function(){
@@ -1359,7 +1369,7 @@ body.rw-done .rw-main{padding-block:0}
     $('#reviewPanel').scrollIntoView({behavior:'smooth',block:'start'});
   }
 
-  /* 등록 버튼이 눌릴 것처럼 보이는 조건 — 제출 검사와 같은 목록을 본다 */
+  /* 제출 버튼이 눌릴 것처럼 보이는 조건 — 제출 검사와 같은 목록을 본다 */
   function formReady(){
     if(!body.classList.contains('rw-ok')) return false;
     if(GUEST){
@@ -1503,14 +1513,14 @@ body.rw-done .rw-main{padding-block:0}
     ASK=rec; ASK_MODE=mode||'dup';
     if(ASK_MODE==='edit'){
       $('#askTitle').innerHTML = '수정하려면<br>본인 확인이 필요합니다';
-      $('#askMeta').textContent = when(rec.at) + ' 등록';
+      $('#askMeta').textContent = when(rec.at) + ' 제출';
       $('#askOkTxt').textContent = '수정하기';
     }else{
       /* 임시저장이든 등록 완료든 여기서 할 일은 같다 — 그 후기를 불러오는 것.
          묻는 말과 버튼을 상태마다 달리 쓰면 같은 동작이 둘로 보인다.
          언제 무엇을 했는지는 바로 아래 시각이 말해 준다 */
       $('#askTitle').innerHTML = '이미 생성된<br>후기가 있습니다';
-      $('#askMeta').textContent = when(rec.at) + (rec.status==='done' ? ' 등록' : ' 저장');
+      $('#askMeta').textContent = when(rec.at) + (rec.status==='done' ? ' 제출' : ' 저장');
       $('#askOkTxt').textContent = '후기 불러오기';
     }
     askReset();
@@ -1683,7 +1693,7 @@ body.rw-done .rw-main{padding-block:0}
     $('#doneName').textContent  = $('#r-name').value.trim() || '작성자';
     $('#donePhone').textContent = fmtPhone(VD).replace(/ - /g,' - ');
     $('#doneDate').textContent  = d.getFullYear()+' / '+z(d.getMonth()+1)+' / '+z(d.getDate());
-    $('.rw-head').innerHTML = '<span>이용 후기 등록이</span><span>완료되었습니다!</span>';
+    $('.rw-head').innerHTML = '<span>이용 후기 제출이</span><span>완료되었습니다!</span>';
     step(3); body.classList.add('rw-done'); window.scrollTo(0,0);
   }
   /* 완료 화면을 걷고 쓰던 자리로 돌아간다.
@@ -1700,7 +1710,7 @@ body.rw-done .rw-main{padding-block:0}
     setLock(false); body.classList.add('rw-ok');
     step(2); markStep();
     var rec=loadRec(VD);
-    if(rec && rec.data) showRestore(rec); else $('#btnSubmit').textContent='수정해서 등록';
+    if(rec && rec.data) showRestore(rec); else $('#btnSubmit').textContent='수정해서 제출';
     syncSubmit();
     $('#reviewPanel').scrollIntoView({behavior:'smooth',block:'start'});
   }
