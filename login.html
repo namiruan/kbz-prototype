@@ -369,8 +369,7 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
   <div class="lg-modal-box" role="dialog" aria-modal="true" aria-labelledby="fullTitle">
     <div class="lg-modal-body">
       <h3 id="fullTitle">모든 계약 현장에<br>후기가 있습니다</h3>
-      <p class="lg-modal-note">계약 중인 현장 <b id="fullCnt">4</b>곳 모두 작성 중이거나 제출된 후기가 있습니다.
-         이미 남기신 후기를 이어서 쓰시려면 작성자 본인 확인을 해주세요.</p>
+      <p class="lg-modal-note">이미 제출한 후기를 불러오려면 작성자 본인 확인을 해주세요.</p>
       <!-- 작성 화면의 인증 모달과 같은 칸이다. 시각은 적지 않는다 —
            아직 누구인지 모르는 채라, 남의 기록의 시각을 보여 주는 셈이 된다 -->
       <div class="ask-fields">
@@ -515,7 +514,6 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
     askMsg('');
   }
   function openFull(){
-    $('#fullCnt').textContent=SITES.length;
     askReset();
     fullModal.hidden=false;
     document.body.style.overflow='hidden';
