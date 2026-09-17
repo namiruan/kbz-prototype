@@ -60,19 +60,44 @@ button{font-family:inherit}
 .pt-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 28px;
   border-bottom:1px solid var(--line);background:var(--white)}
 .pt-seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.pt-seg button{padding:6px 12px;border:0;background:var(--white);cursor:pointer;color:var(--ink-2);font-size:13px}
+.pt-seg button{padding:6px 12px;border:0;background:var(--white);cursor:pointer;color:var(--ink-2);font-size:13px;
+  white-space:nowrap}
 .pt-seg button+button{border-left:1px solid var(--line)}
 .pt-seg button.on{background:var(--black);color:var(--white)}
+.pt-seg .px{margin-left:5px;color:var(--ink-3);font-size:11px;font-variant-numeric:tabular-nums}
+.pt-seg button.on .px{color:rgba(255,255,255,.65)}
 .pt-act{margin-left:auto;display:flex;gap:8px}
-.pt-act a,.pt-act button{display:inline-flex;align-items:center;padding:6px 12px;border:1px solid var(--line);
+.pt-act a,.pt-act button,.pt-fold{display:inline-flex;align-items:center;padding:6px 12px;border:1px solid var(--line);
   border-radius:6px;background:var(--white);cursor:pointer;color:var(--ink-2);font-size:13px}
-.pt-act a:hover,.pt-act button:hover{border-color:var(--ink-3);color:var(--black)}
+.pt-act a:hover,.pt-act button:hover,.pt-fold:hover{border-color:var(--ink-3);color:var(--black)}
 
-.pt-stage{flex:1;display:flex;justify-content:center;padding:20px;background:var(--fill)}
-.pt-frame{width:100%;max-width:100%;height:100%;min-height:640px;border:1px solid var(--line);border-radius:8px;
-  background:var(--white);box-shadow:0 1px 3px rgba(19,20,22,.06);transition:max-width .2s ease}
-.pt-stage.mob .pt-frame{max-width:390px}
-.pt-frame iframe{display:block;width:100%;height:100%;min-height:638px;border:0;border-radius:8px}
+/* 셸은 검정이다. 화면이 놓이는 판이지 화면의 일부가 아니라서다 — 밝은 회색 위에
+   흰 화면을 얹으면 어디까지가 화면인지 눈이 매번 다시 찾는다 (kbz 3.0 프로토타입 크롬 규약) */
+.pt-shell{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:20px;background:#17191C;overflow:auto}
+.pt-wrap{display:flex;justify-content:center}
+/* 폭은 iframe 에 직접 준다 — content-box 라 이 값이 그대로 안쪽 뷰포트의 폭이다.
+   높이도 기기 값이다. 폭만 맞추면 폰인데 세로가 끝없이 긴 화면이 되어
+   '한 화면에 어디까지 들어오는가'를 볼 수 없다 */
+.pt-stage{position:relative}
+.pt-stage iframe{display:block;border:1px solid #3A3F45;border-radius:6px;background:var(--white);
+  box-sizing:content-box}
+/* 끌기 손잡이 — 오른쪽 모서리 */
+.pt-grip{position:absolute;top:0;right:-11px;width:22px;height:100%;cursor:ew-resize;
+  display:flex;align-items:center;justify-content:center;touch-action:none}
+.pt-grip::before{content:"";width:4px;height:44px;border-radius:2px;background:#5A6067}
+.pt-grip:hover::before,.pt-grip.on::before{background:var(--blue)}
+.pt-readout{color:#C7CCD1;font-size:12px;font-variant-numeric:tabular-nums}
+.pt-readout b{color:#fff;font-weight:600}
+/* 비교 — 셋을 같은 배율로 나란히. 각자 맞춰 키우면 나란히 놓은 뜻이 사라진다 */
+.pt-cells{display:flex;align-items:flex-start;gap:16px}
+.pt-cell__label{margin-bottom:6px;color:#C7CCD1;font-size:12px;font-variant-numeric:tabular-nums}
+.pt-cell__box{overflow:hidden}
+.pt-cell__box iframe{transform-origin:0 0}
+
+/* 설명 접기 */
+.pt-head.is-fold .why,.pt-head.is-fold .pt-meta,.pt-head.is-fold .pt-cols{display:none}
+.pt-head.is-fold{padding-bottom:16px}
 
 @media(max-width:820px){
   .pt{grid-template-columns:minmax(0,1fr)}
@@ -108,9 +133,12 @@ button{font-family:inherit}
     </header>
 
     <div class="pt-bar">
-      <div class="pt-seg" role="group" aria-label="화면 폭">
-        <button type="button" id="ptDesk" class="on">데스크톱</button>
-        <button type="button" id="ptMob">모바일</button>
+      <button type="button" class="pt-fold" id="ptFold" aria-expanded="true">설명 접기</button>
+      <div class="pt-seg" role="group" aria-label="화면 폭" id="ptSeg">
+        <button type="button" data-v="lg" class="on">데스크톱<span class="px">1280</span></button>
+        <button type="button" data-v="md">태블릿<span class="px">768</span></button>
+        <button type="button" data-v="sm">모바일<span class="px">390</span></button>
+        <button type="button" data-v="cmp">비교</button>
       </div>
       <div class="pt-act">
         <button type="button" id="ptReset">기록 비우고 다시</button>
@@ -118,8 +146,9 @@ button{font-family:inherit}
       </div>
     </div>
 
-    <div class="pt-stage" id="ptStage">
-      <div class="pt-frame"><iframe id="ptFrame" title="화면 미리보기"></iframe></div>
+    <div class="pt-shell" id="ptShell">
+      <div class="pt-wrap" id="ptWrap"></div>
+      <div class="pt-readout" id="ptReadout"></div>
     </div>
   </main>
 </div>
@@ -337,23 +366,131 @@ button{font-family:inherit}
     $('#ptLook').innerHTML=li(s.look);
     $('#ptOpen').href=s.url;
     seed(s);
-    /* 같은 주소를 다시 고르면 새로 고침이 필요하다 — 심은 기록을 다시 읽어야 한다 */
-    var fr=$('#ptFrame');
-    fr.onload=function(){
-      if(i!==cur || !s.act) return;      /* 그새 다른 시나리오로 옮겨 갔으면 손대지 않는다 */
-      try{ s.act(fr.contentDocument); }catch(e){}
-    };
-    fr.src=s.url+(s.url.indexOf('?')<0?'?':'&')+'_t='+Date.now();
+    render();
     location.hash='s'+(i+1);
   }
   $('#ptReset').addEventListener('click',function(){ show(cur); });
 
-  var stage=$('#ptStage');
-  $('#ptDesk').addEventListener('click',function(){
-    stage.classList.remove('mob'); this.classList.add('on'); $('#ptMob').classList.remove('on'); });
-  $('#ptMob').addEventListener('click',function(){
-    stage.classList.add('mob'); this.classList.add('on'); $('#ptDesk').classList.remove('on'); });
+  /* =========================================================
+     화면 폭 — kbz 3.0 프로토타입 크롬 규약을 따른다
+     기기 크기 그대로 1:1. 세로도 기기 값이다 — 폭만 맞추면 폰인데 세로가
+     끝없이 긴 화면이 되어 '한 화면에 어디까지 들어오는가'를 볼 수 없다.
+     폭을 iframe 에 직접 주는 것이 핵심이다. 바깥 상자만 줄이면 미디어쿼리는
+     뷰포트를 보므로 걸리지 않고, 데스크톱 레이아웃을 좁은 상자에 욱여넣은
+     그림이 나온다 — 확인하려던 것과 정반대다.
+     ========================================================= */
+  var VIEWS={lg:[1280,800], md:[768,1024], sm:[390,844]};
+  var CMP=['lg','md','sm'], GAP=16, BORDER=2, MIN_W=280;
+  var VIEW=sessionStorage.getItem('pt-view')||'lg';
+  var wrap=$('#ptWrap'), shell=$('#ptShell'), readout=$('#ptReadout');
+  var single=null, cells=[];
 
+  function src(s){ return s.url+(s.url.indexOf('?')<0?'?':'&')+'_t='+Date.now(); }
+  /* 틀마다 같은 몰이를 돌린다 — 비교에서는 셋 다 같은 상태로 서야 한다 */
+  function newFrame(s,i){
+    var f=document.createElement('iframe');
+    f.title='화면 미리보기';
+    f.onload=function(){
+      if(i!==cur || !s.act) return;      /* 그새 다른 시나리오로 옮겨 갔으면 손대지 않는다 */
+      try{ s.act(f.contentDocument); }catch(e){}
+    };
+    f.src=src(s);
+    return f;
+  }
+  function mark(v){
+    Array.prototype.forEach.call($('#ptSeg').children,function(b){
+      b.classList.toggle('on', b.dataset.v===v); });
+  }
+  function render(){
+    var s=S[cur]; single=null; cells=[];
+    wrap.textContent=''; readout.textContent='';
+    if(VIEW==='cmp'){ buildCompare(s); mark('cmp'); return; }
+    buildSingle(s, VIEWS[VIEW][0], VIEWS[VIEW][1]);
+  }
+  function buildSingle(s,w,h){
+    var stage=document.createElement('div'); stage.className='pt-stage';
+    var f=newFrame(s,cur); f.style.height=h+'px';
+    var grip=document.createElement('div'); grip.className='pt-grip'; grip.title='끌어서 폭 조절';
+    stage.append(f,grip); wrap.appendChild(stage);
+    single={frame:f,width:w,height:h};
+    setWidth(w);
+    /* 가운데 정렬이라 폭은 이동거리의 두 배로 변한다 — 오른쪽 모서리가 손끝을 따라온다 */
+    grip.addEventListener('pointerdown',function(e){
+      e.preventDefault(); grip.setPointerCapture(e.pointerId); grip.classList.add('on');
+      var x0=e.clientX, w0=single.width;
+      function mv(ev){ setWidth(w0+(ev.clientX-x0)*2); }
+      function up(){ grip.classList.remove('on');
+        grip.removeEventListener('pointermove',mv); grip.removeEventListener('pointerup',up); }
+      grip.addEventListener('pointermove',mv); grip.addEventListener('pointerup',up);
+    });
+  }
+  function setWidth(w){
+    if(!single) return;
+    w=Math.max(MIN_W,Math.round(w)); single.width=w;
+    single.frame.style.width=w+'px';
+    var named=Object.keys(VIEWS).filter(function(k){
+      return VIEWS[k][0]===w && VIEWS[k][1]===single.height; })[0];
+    readout.innerHTML='<b>'+w+'</b> × '+single.height+' px'+(named?' · '+named:'')+' — 모서리를 끌어 조절';
+    /* 이름 있는 폭에서만 버튼이 켜진다. 끌어서 벗어나면 어느 것도 켜지지 않는다 —
+       1042px 을 보면서 데스크톱이 눌려 있으면 그 표시가 거짓말이 된다 */
+    mark(named||'');
+  }
+  function buildCompare(s){
+    var row=document.createElement('div'); row.className='pt-cells';
+    CMP.forEach(function(k){
+      var cell=document.createElement('div');
+      var lb=document.createElement('div'); lb.className='pt-cell__label';
+      lb.textContent=k+' · '+VIEWS[k][0];
+      var box=document.createElement('div'); box.className='pt-cell__box';
+      var f=newFrame(s,cur);
+      f.style.width=VIEWS[k][0]+'px'; f.style.height=VIEWS[k][1]+'px';
+      box.appendChild(f); cell.append(lb,box); row.appendChild(cell);
+      cells.push({k:k,box:box,frame:f});
+    });
+    wrap.appendChild(row);
+    layoutCompare();
+    readout.textContent='같은 배율로 나란히 — 안쪽은 여전히 1280·768·390 으로 계산됩니다';
+  }
+  /* 배율은 하나다. 셋을 각자 맞춰 키우면 모바일이 데스크톱보다 좁다는 사실이
+     그림에서 사라진다. 배율이 곱해지지 않는 것들(테두리·간격)을 먼저 뺀다 */
+  function layoutCompare(){
+    if(!cells.length) return;
+    var sumW=0,maxH=0;
+    CMP.forEach(function(k){ sumW+=VIEWS[k][0]; maxH=Math.max(maxH,VIEWS[k][1]); });
+    var chrome=GAP*(CMP.length-1)+BORDER*CMP.length;
+    var availW=shell.clientWidth-40-chrome;
+    var availH=shell.clientHeight-40-24-BORDER;
+    var sc=Math.min(availW/sumW, availH/maxH, 1);
+    sc=Math.floor(sc*1000)/1000;        /* 올림 오차로 다시 넘치지 않게 내림 */
+    cells.forEach(function(c){
+      var w=VIEWS[c.k][0], h=VIEWS[c.k][1];
+      c.box.style.width=Math.floor(w*sc)+'px';
+      c.box.style.height=Math.floor(h*sc)+'px';
+      c.frame.style.transform='scale('+sc+')';
+    });
+  }
+  $('#ptSeg').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-v]'); if(!b) return;
+    VIEW=b.dataset.v; sessionStorage.setItem('pt-view',VIEW); render();
+  });
+  var rt=null;
+  window.addEventListener('resize',function(){
+    if(VIEW!=='cmp') return; clearTimeout(rt); rt=setTimeout(layoutCompare,120);
+  });
+
+  /* 설명 접기 — 어느 시나리오인지는 남기고 풀이만 접는다 */
+  var head=document.querySelector('.pt-head'), fold=$('#ptFold');
+  function setFold(on){
+    head.classList.toggle('is-fold',on);
+    fold.textContent=on?'설명 펼치기':'설명 접기';
+    fold.setAttribute('aria-expanded',on?'false':'true');
+    sessionStorage.setItem('pt-fold',on?'1':'0');
+    if(VIEW==='cmp') layoutCompare();
+  }
+  fold.addEventListener('click',function(){ setFold(!head.classList.contains('is-fold')); });
+  setFold(sessionStorage.getItem('pt-fold')==='1');
+
+  mark(VIEW);
   var h=(location.hash||'').match(/^#s(\d+)$/);
   show(h && S[+h[1]-1] ? +h[1]-1 : 0);
 })();
