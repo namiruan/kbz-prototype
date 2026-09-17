@@ -50,10 +50,14 @@
         data-look="모달 '모든 계약 현장의 후기가 작성되었습니다'|누구의 후기인지 모르는 채라 시각을 적지 않습니다|후기 수정하기 → 작성 화면으로 넘어가 본인 확인을 거칩니다">계약 현장이 다 참</button>
 
       <span class="proto-nav-group-label">회원사</span>
-      <button class="proto-nav-btn" type="button" data-scenario="mem-새글"
-        data-why="로그인한 회원사가 처음 쓰는 자리. 회사명은 계정에서 오므로 머리글에만 있고 따로 묻지 않습니다."
-        data-steps="이름과 핸드폰 번호를 넣고 인증|인증번호는 000000 만 아니면 6자리 아무거나 → 확인"
-        data-look="인증 전에는 아래가 흐리고 플로팅 막대가 숨어 있습니다|인증 후 한 줄 요약으로 접히고 수정이 붙습니다|필수값을 다 채우기 전 제출 버튼은 눌린 것처럼 보이지 않습니다">새 후기 작성</button>
+      <button class="proto-nav-btn" type="button" data-scenario="mem-인증전"
+        data-why="로그인한 회원사가 처음 들어온 자리. 회사명은 계정에서 오므로 머리글에만 있고 따로 묻지 않습니다."
+        data-steps="아무것도 하지 않은 처음 상태입니다|이름과 번호를 넣고 인증하면 다음 시나리오의 화면이 됩니다"
+        data-look="아래가 흐리고 손이 닿지 않습니다 — 탭으로도 들어가지 않습니다|플로팅 막대가 숨어 있습니다|단계 표시가 ① 작성자 인증에 있습니다">새 후기 작성 · 인증 전</button>
+      <button class="proto-nav-btn" type="button" data-scenario="mem-인증후"
+        data-why="번호 인증을 마친 직후. 쓴 적 없는 번호라 되찾을 기록이 없고, 빈 폼이 열립니다."
+        data-steps="이름 최소장, 번호 010-9000-0001 로 인증을 마친 상태입니다"
+        data-look="인증 칸이 한 줄 요약으로 접히고 수정이 붙습니다|흐림이 걷히고 플로팅 막대가 올라옵니다|필수값을 다 채우기 전 제출 버튼은 눌린 것처럼 보이지 않습니다">새 후기 작성 · 인증 후</button>
       <button class="proto-nav-btn" type="button" data-scenario="mem-임시"
         data-why="쓰다 만 후기가 있으면 인증과 동시에 그대로 돌아옵니다."
         data-steps="이름 김소장, 번호 010-5555-0001 로 인증을 마친 상태입니다"
@@ -72,10 +76,18 @@
         data-look="'이용 후기 제출이 완료되었습니다'|검토를 거친 뒤 목록에 등록된다는 안내|수정하기를 누르면 회원사는 곧장 폼으로 돌아갑니다">제출 완료</button>
 
       <span class="proto-nav-group-label">비회원사</span>
-      <button class="proto-nav-btn" type="button" data-scenario="gst-새글"
-        data-why="로그인 없이 들어온 자리. 계약 목록이 없으니 회사명·사업자등록번호를 직접 밝히고 현장명은 적습니다."
-        data-steps="회사명을 적고 사업자등록번호 10자리 → 확인|이어서 이름·번호 인증"
-        data-look="회사명을 적는 대로 머리글이 따라옵니다|사업자등록번호를 확인하기 전에는 작성자 칸이 잠겨 있습니다|확인이 끝나면 회색으로 죽지 않고 성공 상태로 바뀝니다">새 후기 작성</button>
+      <button class="proto-nav-btn" type="button" data-scenario="gst-인증전"
+        data-why="로그인 없이 들어온 자리. 계약 목록이 없으니 회사명·사업자등록번호를 직접 밝힙니다. 회원사와 달리 문이 둘이라, 사업장을 먼저 밝혀야 작성자 칸이 열립니다."
+        data-steps="아무것도 하지 않은 처음 상태입니다"
+        data-look="작성자 이름·번호 칸이 회색으로 잠겨 있습니다|머리글이 '다시 만나서 반가워요!' — 아직 회사명을 모릅니다|회사명을 적는 대로 머리글이 따라옵니다">새 후기 작성 · 인증 전</button>
+      <button class="proto-nav-btn" type="button" data-scenario="gst-사업자확인"
+        data-why="사업자등록번호 확인을 마친 직후. 사업장이 밝혀져 작성자 칸이 열립니다."
+        data-steps="회사명 대한건설, 사업자등록번호 555-66-77880 을 확인한 상태입니다"
+        data-look="확인된 칸이 회색으로 죽지 않고 파란 성공 상태가 됩니다 — 못 쓰는 칸이 아니라 통과한 칸입니다|확인 버튼이 그 자리에서 수정으로 바뀝니다|작성자 칸의 잠금이 풀립니다">새 후기 작성 · 사업자 확인 후</button>
+      <button class="proto-nav-btn" type="button" data-scenario="gst-인증후"
+        data-why="문 둘을 다 지난 상태. 사업장과 작성자가 한 줄로 접히고 폼이 열립니다."
+        data-steps="사업자등록번호 확인에 이어 이름 김소장, 번호 010-9000-0002 로 인증까지 마친 상태입니다"
+        data-look="회사 정보와 작성자가 한 카드에서 함께 접힙니다|현장명을 직접 적습니다 — 계약 목록이 없기 때문입니다|플로팅 막대가 올라옵니다">새 후기 작성 · 인증 후</button>
       <button class="proto-nav-btn" type="button" data-scenario="gst-중복"
         data-why="한 사업장에 한 분입니다. 같은 번호로 남은 후기가 있으면 본인인지 먼저 묻습니다."
         data-steps="회사명과 사업자등록번호 321-45-67890 을 넣고 확인을 누른 상태입니다|모달에서 번호 010-7777-0001 → 인증 → 6자리 → 후기 불러오기"
@@ -133,6 +145,12 @@
     put(d.querySelector('#r-code'),'123456');
     hit(d.querySelector('#btnVerify')); await wait(500);
   }
+  /* 비회원은 문이 둘이다 — 사업장을 밝혀야 작성자 칸이 열린다 */
+  async function passBiz(d){
+    put(d.querySelector('#g-co'),'대한건설');
+    put(d.querySelector('#g-biz'),'5556677880');
+    hit(d.querySelector('#btnBiz')); await wait(350);
+  }
   async function logIn(d){
     put(d.querySelector('#lg-id'),'yeji');
     put(d.querySelector('#lg-pw'),'kbz1234!');
@@ -149,7 +167,9 @@
             mem('01011110002','이소장',[SITES[1]],'done',5400000),
             mem('01011110003','박소장',[SITES[2]],'temp',3600000),
             mem('01011110004','최소장',[SITES[3]],'done',1800000)]},
-    'mem-새글'     :{url:REVIEW+'?u=yeji', seed:[]},
+    'mem-인증전'   :{url:REVIEW+'?u=yeji', seed:[]},
+    'mem-인증후'   :{url:REVIEW+'?u=yeji', seed:[],
+      act:function(d){ return signIn(d,'최소장','01090000001'); }},
     'mem-임시'     :{url:REVIEW+'?u=yeji', seed:[mem('01055550001','김소장',[SITES[1]],'temp')],
       act:function(d){ return signIn(d,'김소장','01055550001'); }},
     'mem-제출'     :{url:REVIEW+'?u=yeji', seed:[mem('01055550002','이소장',[SITES[2]],'done')],
@@ -160,7 +180,10 @@
         d.querySelector('#siteBtn').scrollIntoView({block:'center'});
         hit(d.querySelector('#siteBtn')); await wait(150); }},
     'mem-완료'     :{url:REVIEW+'?u=yeji&done=1', seed:[]},
-    'gst-새글'     :{url:REVIEW+'?guest=1', seed:[]},
+    'gst-인증전'   :{url:REVIEW+'?guest=1', seed:[]},
+    'gst-사업자확인':{url:REVIEW+'?guest=1', seed:[], act:passBiz},
+    'gst-인증후'   :{url:REVIEW+'?guest=1', seed:[],
+      act:async function(d){ await passBiz(d); await signIn(d,'김소장','01090000002'); }},
     'gst-중복'     :{url:REVIEW+'?guest=1',
       seed:[gst('01077770001','정소장','대한건설','321 - 45 - 67890','예지타워 신축공사','done')],
       act:async function(d){ put(d.querySelector('#g-co'),'대한건설');

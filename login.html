@@ -248,10 +248,13 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 .f-in input{flex:1 0 0;min-width:20px;border:0;outline:0;background:none;
   color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
 .f-in input::placeholder{color:var(--ds-text-subtle)}
-.ask-fields .chip{flex:none;padding:4px 10px;border:0;border-radius:4px;background:var(--main-gray);
-  color:var(--main-black);font-family:var(--font-body);font-size:13px;font-weight:400;line-height:normal;cursor:pointer}
-.ask-fields .chip:hover{background:#D7DADD}
-.ask-fields .chip[disabled]{color:var(--ds-text-disabled);cursor:default}
+/* 칸 옆에 붙는 버튼 — 작성 폼과 같은 규칙. align-items:stretch 라 버튼 높이가 칸에 맞는다 */
+.rw-withbtn{display:flex;align-items:stretch;gap:8px}
+.rw-withbtn .f-in{flex:1 0 0;min-width:0}
+.rw-withbtn .btn{flex:none;padding:0 16px;border-radius:4px;border:1px solid var(--main-blue);
+  background:var(--main-blue);color:var(--main-white);
+  font-family:var(--font-pretendard);font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap}
+.rw-withbtn .btn:hover{background:#0E4CAA;border-color:#0E4CAA}
 .ask-fields .timer{flex:none;color:var(--main-blue);font-family:var(--font-body);font-size:14px;font-variant-numeric:tabular-nums}
 .lg-modal-box .note{margin-top:12px;color:#E53935;font-family:var(--font-pretendard);font-size:13px;line-height:18px;word-break:keep-all}
 .lg-modal-box .note:empty{display:none}
@@ -375,9 +378,13 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
       <div class="ask-fields">
         <div>
           <div class="rw-lb"><label for="ask-phone"><span>작성자 핸드폰번호</span></label><em>(필수)</em></div>
-          <div class="f-in">
-            <input id="ask-phone" type="tel" inputmode="tel" maxlength="17" placeholder="010 - **** - ****" autocomplete="off">
-            <button type="button" class="chip" id="askSend">인증</button>
+          <!-- 인증 버튼은 작성 폼의 것과 같다 — 같은 일을 하는 버튼이 자리마다 다르게
+               생기면 같은 버튼인지 알아보지 못한다 (피그마 3617:35909 의 칸 안 칩에서 벗어난다) -->
+          <div class="rw-withbtn">
+            <div class="f-in">
+              <input id="ask-phone" type="tel" inputmode="tel" maxlength="17" placeholder="010 - **** - ****" autocomplete="off">
+            </div>
+            <button type="button" class="btn" id="askSend">인증</button>
           </div>
         </div>
         <div>
