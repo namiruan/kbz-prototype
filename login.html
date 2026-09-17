@@ -429,8 +429,9 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
         if(k.indexOf('kbz_rv_')!==0) continue;
         var r=JSON.parse(localStorage.getItem(k)||'null');
         /* 임시저장분도 센다 — 아직 제출 전이라도 그 현장을 맡은 사람이 이미 있다.
-           비회원 기록은 계약 현장과 무관하므로 빼둔다 */
-        if(!r || r.guest || !r.data) continue;
+           비회원은 계약 목록이 없어 현장명을 글로 적는다(r-sitename). 계약 현장을
+           가리키는 #site 는 애초에 담기지 않으니 따로 걸러낼 것이 없다 */
+        if(!r || !r.data) continue;
         (r.data['#site']||[]).forEach(function(v){ out[v]=true; });
       }
     }catch(e){}
