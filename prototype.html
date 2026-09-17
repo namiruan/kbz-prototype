@@ -102,7 +102,7 @@ button{font-family:inherit}
       <p class="why" id="ptWhy"></p>
       <div class="pt-meta" id="ptMeta"></div>
       <div class="pt-cols">
-        <div><h2>이렇게 하면 그 상태가 됩니다</h2><ol id="ptSteps"></ol></div>
+        <div><h2>지금 화면은</h2><ol id="ptSteps"></ol></div>
         <div><h2>볼 것</h2><ul id="ptLook"></ul></div>
       </div>
     </header>
@@ -152,6 +152,26 @@ button{font-family:inherit}
     return {status:status,at:Date.now()-(ago||3600000),phone:phone,guest:true,name:name,data:d};
   }
 
+  /* 시나리오 이름이 가리키는 상태를 열자마자 보여 준다. 누르는 순서를 적어 두고
+     직접 밟게 하면, 그 화면을 보러 온 사람이 매번 같은 준비를 되풀이하게 된다.
+     미리보기가 같은 출처라 여기서 직접 몰 수 있다 — 작성 화면에는 손대지 않는다 */
+  function wait(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+  function put(el,v){ if(!el) return; el.value=v; el.dispatchEvent(new Event('input',{bubbles:true})); }
+  function hit(el){ if(el) el.click(); }
+  /* 작성 화면의 인증 — 번호는 열쇠라 시나리오마다 다르다 */
+  async function signIn(d,name,phone){
+    put(d.querySelector('#r-name'),name);
+    put(d.querySelector('#r-phone'),phone);
+    hit(d.querySelector('#btnSend')); await wait(120);
+    put(d.querySelector('#r-code'),'123456');
+    hit(d.querySelector('#btnVerify')); await wait(500);
+  }
+  async function logIn(d){
+    put(d.querySelector('#lg-id'),'yeji');
+    put(d.querySelector('#lg-pw'),'kbz1234!');
+    hit(d.querySelector('#login-form button[type=submit]')); await wait(300);
+  }
+
   var NONE=['심어 둔 기록이 없습니다 — 처음 쓰는 자리입니다.'];
 
   var S=[
@@ -167,8 +187,10 @@ button{font-family:inherit}
    t:'인증 실패',
    url:LOGIN+'?authfail=1', seed:[],
    why:'아이디나 비밀번호가 틀렸을 때. 주소에 authfail=1 을 붙이면 그 화면이 나옵니다.',
-   steps:['아무 값이나 넣고 <b>이용후기 남기기</b>'],
-   look:['주황 배지로 "아이디 또는 비밀번호가 일치하지 않습니다"']},
+   act:logIn,
+   steps:['아이디·비밀번호를 넣고 <b>이용후기 남기기</b>를 누른 상태입니다'],
+   look:['주황 배지로 "아이디 또는 비밀번호가 일치하지 않습니다"',
+         '칸 아래 붉은 안내와는 다른 자리입니다 — 그쪽은 빈 칸을 가리킵니다']},
 
   {g:'로그인',
    t:'계약 현장이 다 참',
@@ -179,7 +201,8 @@ button{font-family:inherit}
          mem('01011110004','최소장',[SITES[3]],'done',1800000)],
    why:'계약 중인 네 현장에 모두 후기가 있습니다. 들어가도 새로 쓸 자리가 없어 로그인을 누른 자리에서 알립니다. '
       +'임시저장분도 한 자리를 차지합니다 — 아직 제출 전이라도 그 현장을 맡은 사람이 있기 때문입니다.',
-   steps:['아무 값이나 넣고 <b>이용후기 남기기</b>'],
+   act:logIn,
+   steps:['아이디·비밀번호를 넣고 <b>이용후기 남기기</b>를 누른 상태입니다'],
    look:['모달 "모든 계약 현장에 후기가 있습니다"',
          '누구의 후기인지 모르는 채라 <b>시각을 적지 않습니다</b>',
          '후기 수정하기 → 작성 화면으로 넘어가 본인 확인을 거칩니다']},
@@ -199,7 +222,8 @@ button{font-family:inherit}
    url:REVIEW+'?u=yeji',
    seed:[mem('01055550001','김소장',[SITES[1]],'temp')],
    why:'쓰다 만 후기가 있으면 인증과 동시에 그대로 돌아옵니다.',
-   steps:['이름 <b>김소장</b>, 번호 <b>010-5555-0001</b> 로 인증'],
+   act:function(d){ return signIn(d,'김소장','01055550001'); },
+   steps:['이름 <b>김소장</b>, 번호 <b>010-5555-0001</b> 로 인증을 마친 상태입니다'],
    look:['"임시저장하신 내용을 불러왔습니다"',
          '<b>초기화</b>가 있습니다 — 임시저장분에만 둡니다',
          '<b>인증 수정</b>은 없습니다 — 번호가 그 후기를 찾는 열쇠입니다']},
@@ -209,7 +233,8 @@ button{font-family:inherit}
    url:REVIEW+'?u=yeji',
    seed:[mem('01055550002','이소장',[SITES[2]],'done')],
    why:'이미 낸 후기를 고치러 온 자리. 검토 전이라 고쳐서 다시 낼 수 있습니다.',
-   steps:['이름 <b>이소장</b>, 번호 <b>010-5555-0002</b> 로 인증'],
+   act:function(d){ return signIn(d,'이소장','01055550002'); },
+   steps:['이름 <b>이소장</b>, 번호 <b>010-5555-0002</b> 로 인증을 마친 상태입니다'],
    look:['제출 버튼이 <b>수정해서 제출</b>',
          '플로팅에 <b>임시 저장이 없습니다</b> — 이미 보관된 글 위에 초안을 덮지 않습니다',
          '<b>초기화</b>도 <b>인증 수정</b>도 없습니다']},
@@ -220,9 +245,11 @@ button{font-family:inherit}
    seed:[mem('01066660001','김소장',[SITES[0]],'done'),
          mem('01066660002','박소장',[SITES[2]],'temp')],
    why:'한 현장에 후기는 하나입니다. 다른 분이 맡은 현장은 고를 수 없습니다.',
-   steps:['아무 이름과 <b>쓰지 않은 번호</b>로 인증 (예: 010-7777-7777)',
-          '기타 정보의 <b>계약 현장</b> 목록을 엽니다',
-          '회색으로 눌린 줄에 <b>마우스를 올려</b> 봅니다'],
+   act:async function(d){ await signIn(d,'최소장','01077777777');
+        d.querySelector('#siteBtn').scrollIntoView({block:'center'});
+        hit(d.querySelector('#siteBtn')); await wait(150); },
+   steps:['아직 후기를 쓰지 않은 번호로 인증하고 <b>계약 현장</b> 목록을 열어 둔 상태입니다',
+          '회색으로 눌린 줄에 <b>마우스를 올려</b> 보세요'],
    look:['1번·3번 현장이 회색으로 잠겨 있습니다',
          '올리면 "이미 작성 중인 후기입니다"',
          '목록에서 지우지는 않습니다 — 없어진 현장인지 찬 현장인지 구별되어야 합니다']},
@@ -251,7 +278,10 @@ button{font-family:inherit}
    url:REVIEW+'?guest=1',
    seed:[gst('01077770001','정소장','대한건설','321 - 45 - 67890','예지타워 신축공사','done')],
    why:'한 사업장에 한 분입니다. 같은 번호로 남은 후기가 있으면 본인인지 먼저 묻습니다.',
-   steps:['회사명 아무거나, 사업자등록번호 <b>3214567890</b> → <b>확인</b>',
+   act:async function(d){ put(d.querySelector('#g-co'),'대한건설');
+        put(d.querySelector('#g-biz'),'3214567890');
+        hit(d.querySelector('#btnBiz')); await wait(350); },
+   steps:['회사명과 사업자등록번호 <b>321-45-67890</b> 을 넣고 <b>확인</b>을 누른 상태입니다',
           '모달에서 번호 <b>010-7777-0001</b> → 인증 → 6자리 → <b>후기 불러오기</b>'],
    look:['모달 "이미 생성된 후기가 있습니다" — 임시저장이든 제출이든 같은 문구입니다',
          '<b>다른 번호</b>를 넣으면 "그 후기를 작성하신 분의 번호가 아닙니다"',
@@ -308,7 +338,12 @@ button{font-family:inherit}
     $('#ptOpen').href=s.url;
     seed(s);
     /* 같은 주소를 다시 고르면 새로 고침이 필요하다 — 심은 기록을 다시 읽어야 한다 */
-    $('#ptFrame').src=s.url+(s.url.indexOf('?')<0?'?':'&')+'_t='+Date.now();
+    var fr=$('#ptFrame');
+    fr.onload=function(){
+      if(i!==cur || !s.act) return;      /* 그새 다른 시나리오로 옮겨 갔으면 손대지 않는다 */
+      try{ s.act(fr.contentDocument); }catch(e){}
+    };
+    fr.src=s.url+(s.url.indexOf('?')<0?'?':'&')+'_t='+Date.now();
     location.hash='s'+(i+1);
   }
   $('#ptReset').addEventListener('click',function(){ show(cur); });
