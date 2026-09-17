@@ -341,9 +341,9 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
   <div class="lg-modal-dim" id="fullDim"></div>
   <div class="lg-modal-box" role="dialog" aria-modal="true" aria-labelledby="fullTitle">
     <div class="lg-modal-body">
-      <h3 id="fullTitle">계약 현장의 후기를<br>모두 제출하셨습니다</h3>
-      <p>계약 중인 현장 <b id="fullCnt">4</b>곳 모두 후기가 제출되어 있습니다.
-         이미 제출하신 후기를 고치시려면 그대로 들어가 작성자 본인 확인을 해주세요.</p>
+      <h3 id="fullTitle">모든 계약 현장에<br>후기가 있습니다</h3>
+      <p>계약 중인 현장 <b id="fullCnt">4</b>곳 모두 작성 중이거나 제출된 후기가 있습니다.
+         이미 남기신 후기를 이어서 쓰거나 고치시려면 그대로 들어가 작성자 본인 확인을 해주세요.</p>
     </div>
     <div class="lg-modal-acts">
       <button type="button" class="s" id="fullCancel">닫기</button>
@@ -428,8 +428,9 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
         var k=localStorage.key(i);
         if(k.indexOf('kbz_rv_')!==0) continue;
         var r=JSON.parse(localStorage.getItem(k)||'null');
-        /* 제출까지 마친 회원사 후기만 센다 — 임시저장분은 아직 그 현장을 채운 것이 아니다 */
-        if(!r || r.guest || r.status!=='done' || !r.data) continue;
+        /* 임시저장분도 센다 — 아직 제출 전이라도 그 현장을 맡은 사람이 이미 있다.
+           비회원 기록은 계약 현장과 무관하므로 빼둔다 */
+        if(!r || r.guest || !r.data) continue;
         (r.data['#site']||[]).forEach(function(v){ out[v]=true; });
       }
     }catch(e){}
