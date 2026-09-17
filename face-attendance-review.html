@@ -209,9 +209,13 @@ body.rw-ok .rw-gate{display:none}
 
 
 /* 3열 그리드 */
-.rw-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-@media(max-width:899px){.rw-grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:640px){.rw-grid3{grid-template-columns:minmax(0,1fr)}}
+/* 기타 정보 — 칸은 셋을 적어 두었지만 한 번에 보이는 것은 늘 둘이다.
+   회원은 계약 현장, 비회원은 현장명, 그리고 업종명. 셋으로 나누면 한 칸이 늘 비고
+   그만큼 현장 이름이 좁아진다 — 둘로 나누되 이름이 긴 현장 쪽을 넓게 준다 */
+.rw-grid-site{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px}
+/* 720 아래로는 섹션 제목이 아직 제 칸을 차지해 패널이 눌린다. 거기서 둘로 나누면
+   현장 이름이 잘린다 — 두 칸은 실제로 들어갈 때만 쓴다 */
+@media(max-width:719px){.rw-grid-site{grid-template-columns:minmax(0,1fr)}}
 
 /* 비회원 회사 정보는 두 칸뿐이다. 3열 격자에 두면 한 칸이 폭의 1/3 밖에 못 받아
    '000 - 00 - 00000' 이 확인 버튼에 밀려 잘린다 — 번호 쪽을 더 준다 */
@@ -432,8 +436,11 @@ body:not(.rw-ok) .rw-float-in{pointer-events:none}
    알려 주지 못한다 — 누르면 첫 빈 칸으로 데려간다 */
 .rw-float .submit{background:rgba(var(--color-white-rgb),.6);color:rgba(var(--color-white-rgb),.6);cursor:not-allowed}
 body.rw-ok .rw-float .submit{cursor:pointer}
-body.rw-ready .rw-float .submit{background:rgba(var(--color-white-rgb),.92);color:var(--main-black)}
-body.rw-ready .rw-float .submit:hover{background:var(--main-white)}
+/* 활성 상태는 피그마에 없다 — 놓인 인스턴스가 모두 비활성 한 가지뿐이다.
+   비활성이 흰색 60%/글자 흰색 60% 이니, 활성은 그 둘을 제 색으로 되돌린 것으로 본다.
+   디자인 시스템의 Main/white(#FFFFFF)와 본문 검정을 그대로 쓴다 */
+body.rw-ready .rw-float .submit{background:var(--main-white);color:var(--main-black)}
+body.rw-ready .rw-float .submit:hover{background:var(--sub-w-gray)}
 @media(max-width:640px){.rw-float button{font-size:18px;letter-spacing:-.9px;padding:10px 12px}}
 
 /* =========================================================
@@ -665,7 +672,7 @@ body.rw-done .rw-main{padding-block:0}
     <section class="rw-sec">
       <h2 class="rw-sec-t">기타 정보</h2>
       <div class="rw-panel rw-lockable">
-        <div class="rw-grid3">
+        <div class="rw-grid-site">
           <!-- 계약 현장 : 계정에 딸린 목록이라 회원만 고른다 (비회원은 계약이 없다) -->
           <div id="siteWrap">
             <div class="rw-lb"><span id="siteLb">계약 현장</span><em>(필수)</em></div>
