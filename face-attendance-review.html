@@ -1320,8 +1320,10 @@ body.rw-done .rw-main{padding-block:0}
     /* 초기화는 임시저장분에만 둔다 — 제출한 후기를 여기서 지울 일은 아니다 */
     $('#btnFresh').hidden = rec.status==='done';
     if(rec.status==='done'){
+      /* 임시저장분과 같은 구조로 둔다 — 한 문장과 시각. 뒤에 붙던 '고치신 뒤 다시
+         제출하시면 이 내용을 대신합니다'는 버튼이 '수정해서 제출'이라 이미 하는 말이다 */
       $('#restoreText').innerHTML='<b>이미 제출하신 후기</b>를 불러왔습니다. '
-        +'<span class="at">'+when(rec.at)+' 제출</span><br>고치신 뒤 다시 제출하시면 이 내용을 대신합니다.';
+        +'<span class="at">'+when(rec.at)+' 제출</span>';
       $('#btnSubmit').textContent='수정해서 제출';
     }else{
       $('#restoreText').innerHTML='<b>임시저장하신 내용</b>을 불러왔습니다. '
