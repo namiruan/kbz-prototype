@@ -512,10 +512,11 @@ body.rw-rec #btnEditVerify{display:none}
 .ask-fields .chip[disabled]{color:var(--ds-text-disabled);cursor:default}
 .ask-fields .timer{flex:none;color:var(--main-blue);font-family:var(--font-body);font-size:14px;font-variant-numeric:tabular-nums}
 
-/* 자리를 미리 비워 두면 버튼 위가 늘 떠 보인다 — 말이 있을 때만 자리를 차지한다 */
-.rw-modal-box .note{margin-top:12px;color:#E53935;font-family:var(--font-pretendard);font-size:13px;line-height:18px;word-break:keep-all}
-.rw-modal-box .note:empty{display:none}
-.rw-modal-box .note.note-ok{color:var(--main-blue)}
+/* 칸 아래 한 줄 — 작성 폼의 .f-msg 를 그대로 쓴다. 자리를 미리 비워 두면
+   칸 사이가 늘 떠 보이므로, 말이 있을 때만 자리를 차지한다 */
+.ask-fields .f-msg{margin-top:0}
+.ask-fields .f-msg .note{margin-top:8px;word-break:keep-all}
+.ask-fields .f-msg .note:empty{display:none}
 
 /* 바닥 버튼 — 상자 모서리까지 꽉 찬다 (상자의 radius 가 잘라 준다) */
 .ask-acts{display:flex;align-items:stretch;margin-top:auto;background:var(--main-blue)}
@@ -836,6 +837,9 @@ body.rw-done .rw-main{padding-block:0}
             </div>
             <button type="button" class="btn" id="askSend">인증</button>
           </div>
+          <!-- 막힌 칸 바로 밑에서 말한다 — 상자 맨 아래 한 줄로 몰아 두면
+               두 칸 중 어느 쪽 이야기인지 알아보려 눈이 되돌아간다 -->
+          <div class="f-msg"><p class="note" id="askPhoneMsg"></p></div>
         </div>
         <div>
           <div class="rw-lb"><label for="ask-code"><span>인증번호</span></label><em>(필수)</em></div>
@@ -843,9 +847,9 @@ body.rw-done .rw-main{padding-block:0}
             <input id="ask-code" type="text" inputmode="numeric" maxlength="6" placeholder="문자로 받은 6자리" autocomplete="off" disabled>
             <span class="timer" id="askTimer" hidden>03:00</span>
           </div>
+          <div class="f-msg"><p class="note" id="askCodeMsg"></p></div>
         </div>
       </div>
-      <p class="note" id="askMsg"></p>
     </div>
     <div class="ask-acts">
       <button type="button" class="s" id="askCancel">취소</button>
@@ -1610,9 +1614,13 @@ body.rw-done .rw-main{padding-block:0}
   /* 모달이 하는 일은 두 가지다 — 남의 후기를 이어받으려는 사람을 가려내는 일(dup),
      그리고 완료 화면에서 돌아가려는 사람이 그 후기를 쓴 본인인지 보는 일(edit) */
   var ASK=null, ASK_MODE='dup', askTimer=null, askLeft=SEC;
-  function askMsg(t,ok){
-    $('#askMsg').textContent=t||'';
-    $('#askMsg').className = ok ? 'note note-ok' : 'note';
+  /* 말은 그 말이 가리키는 칸 밑에 둔다. where 가 'code' 면 인증번호 칸,
+     아니면 핸드폰 칸이다. 한 번에 한 마디만 남기고 다른 칸은 비운다 */
+  function askMsg(t,ok,where){
+    var on = $(where==='code' ? '#askCodeMsg' : '#askPhoneMsg');
+    var off= $(where==='code' ? '#askPhoneMsg' : '#askCodeMsg');
+    on.textContent=t||''; on.className = t ? (ok?'note ok':'note danger') : 'note';
+    off.textContent=''; off.className='note';
   }
   function askReset(){
     if(askTimer){ clearInterval(askTimer); askTimer=null; }
@@ -1659,7 +1667,7 @@ body.rw-done .rw-main{padding-block:0}
     var m=String(Math.floor(askLeft/60)).padStart(2,'0'), sec=String(askLeft%60).padStart(2,'0');
     $('#askTimer').textContent=m+':'+sec;
     if(askLeft--<=0){ clearInterval(askTimer); askTimer=null;
-      askMsg('인증 시간이 지났습니다. 다시 요청해 주세요.'); }
+      askMsg('인증 시간이 지났습니다. 다시 요청해 주세요.', false, 'code'); }
   }
   $('#askSend').addEventListener('click',function(){
     var d=onlyNum($('#ask-phone').value);
@@ -1691,7 +1699,7 @@ body.rw-done .rw-main{padding-block:0}
     }
     if(v.length!==6 || v==='000000'){
       $('#askCodeWrap').classList.add('is-err');
-      askMsg('인증번호가 올바르지 않습니다.'); return;
+      askMsg('인증번호가 올바르지 않습니다.', false, 'code'); return;
     }
     /* 여기까지 오는 건 문자를 보낸 뒤 번호를 고친 경우뿐이다 — 인증을 누를 때 이미 걸렀다 */
     if(d!==ASK.phone){

@@ -256,9 +256,15 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
   font-family:var(--font-pretendard);font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap}
 .rw-withbtn .btn:hover{background:#0E4CAA;border-color:#0E4CAA}
 .ask-fields .timer{flex:none;color:var(--main-blue);font-family:var(--font-body);font-size:14px;font-variant-numeric:tabular-nums}
-.lg-modal-box .note{margin-top:12px;color:#E53935;font-family:var(--font-pretendard);font-size:13px;line-height:18px;word-break:keep-all}
-.lg-modal-box .note:empty{display:none}
-.lg-modal-box .note.note-ok{color:var(--main-blue)}
+/* 칸 아래 한 줄 — 작성 폼의 .f-msg 와 같은 규격이다 (input_message_atomic) */
+.f-msg{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.f-msg .note{color:var(--sub-d-gray);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px}
+.f-msg .note.danger{color:#E53935}
+.f-msg .note.ok{color:var(--main-blue)}
+/* 자리를 미리 비워 두면 칸 사이가 늘 떠 보인다 — 말이 있을 때만 자리를 차지한다 */
+.ask-fields .f-msg{margin-top:0}
+.ask-fields .f-msg .note{margin-top:8px;word-break:keep-all}
+.ask-fields .f-msg .note:empty{display:none}
 .lg-modal-acts .p .ic{flex:none;display:flex;width:24px;height:24px;align-items:center;justify-content:center}
 .lg-modal-acts .p .ic svg{width:20px;height:20px;display:block}
 .lg-modal-acts{display:flex;align-items:stretch;margin-top:auto;background:var(--main-blue)}
@@ -414,6 +420,9 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
             </div>
             <button type="button" class="btn" id="askSend">인증</button>
           </div>
+          <!-- 막힌 칸 바로 밑에서 말한다 — 상자 맨 아래 한 줄로 몰아 두면
+               두 칸 중 어느 쪽 이야기인지 알아보려 눈이 되돌아간다 -->
+          <div class="f-msg"><p class="note" id="askPhoneMsg"></p></div>
         </div>
         <div>
           <div class="rw-lb"><label for="ask-code"><span>인증번호</span></label><em>(필수)</em></div>
@@ -421,9 +430,9 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
             <input id="ask-code" type="text" inputmode="numeric" maxlength="6" placeholder="문자로 받은 6자리" autocomplete="off" disabled>
             <span class="timer" id="askTimer" hidden>03:00</span>
           </div>
+          <div class="f-msg"><p class="note" id="askCodeMsg"></p></div>
         </div>
       </div>
-      <p class="note" id="askMsg"></p>
     </div>
     <div class="lg-modal-acts">
       <button type="button" class="s" id="fullCancel">취소</button>
@@ -539,8 +548,13 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
   var SEC=(function(){ var n=parseInt(new URLSearchParams(location.search).get('sec'),10);
     return (n>0 && n<=180) ? n : 180; })();
   var askTimer=null, askLeft=SEC;
-  function askMsg(t,ok){
-    var m=$('#askMsg'); m.textContent=t||''; m.className = ok ? 'note note-ok' : 'note';
+  /* 말은 그 말이 가리키는 칸 밑에 둔다. where 가 'code' 면 인증번호 칸,
+     아니면 핸드폰 칸이다. 한 번에 한 마디만 남기고 다른 칸은 비운다 */
+  function askMsg(t,ok,where){
+    var on = $(where==='code' ? '#askCodeMsg' : '#askPhoneMsg');
+    var off= $(where==='code' ? '#askPhoneMsg' : '#askCodeMsg');
+    on.textContent=t||''; on.className = t ? (ok?'note ok':'note danger') : 'note';
+    off.textContent=''; off.className='note';
   }
   function askReset(){
     if(askTimer){ clearInterval(askTimer); askTimer=null; }
@@ -572,7 +586,7 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
     var m=String(Math.floor(askLeft/60)).padStart(2,'0'), sec=String(askLeft%60).padStart(2,'0');
     $('#askTimer').textContent=m+':'+sec;
     if(askLeft--<=0){ clearInterval(askTimer); askTimer=null;
-      askMsg('인증 시간이 지났습니다. 다시 요청해 주세요.'); }
+      askMsg('인증 시간이 지났습니다. 다시 요청해 주세요.', false, 'code'); }
   }
   /* 이 번호로 남은 계약 현장 후기 — 없으면 이 창에서 할 수 있는 일이 없다 */
   function ownerOf(d){
@@ -605,7 +619,7 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
     }
     if(v.length!==6 || v==='000000'){
       $('#askCodeWrap').classList.add('is-err');
-      askMsg('인증번호가 올바르지 않습니다.'); return;
+      askMsg('인증번호가 올바르지 않습니다.', false, 'code'); return;
     }
     /* 여기까지 오는 건 문자를 보낸 뒤 번호를 고친 경우뿐이다 — 인증을 누를 때 이미 걸렀다 */
     if(!ownerOf(d)){
