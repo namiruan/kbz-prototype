@@ -8,6 +8,7 @@
 <!-- 김반장 3.0 디자인 시스템. 크롬(사이드바·설명·폭·비교)은 components.js 의
      initProtoChrome 이 맡는다 — 이 파일이 따로 만들지 않는다.
      주소가 절대경로인 것은 시스템 규약이다(kbz_3.0_ui_stytem 의 프로토타입 예시와 같다) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/tokens.css">
 <link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/components.css">
 <style>
@@ -22,17 +23,19 @@
   <aside class="proto-sidebar">
     <!-- 접기 손잡이와 폭 컨트롤은 여기 적지만, 크롬이 툴바(화면 바로 위)로 옮긴다 -->
     <button class="proto-nav-toggle" type="button" aria-expanded="true" aria-label="시나리오 목록 접기">
-      <svg aria-hidden="true"><use href="#icon-menu"></use></svg>
+      <svg aria-hidden="true"><use href="#icon-sidebar-collapse"></use></svg>
     </button>
     <div class="proto-viewport" role="group" aria-label="화면 폭">
-      <button class="proto-viewport__btn" type="button" data-viewport="lg" aria-pressed="true">lg</button>
+      <button class="proto-viewport__btn is-active" type="button" data-viewport="lg" aria-pressed="true">lg</button>
       <button class="proto-viewport__btn" type="button" data-viewport="md" aria-pressed="false">md</button>
       <button class="proto-viewport__btn" type="button" data-viewport="sm" aria-pressed="false">sm</button>
       <button class="proto-viewport__btn" type="button" data-viewport="compare" aria-pressed="false">비교</button>
     </div>
 
+    <div class="proto-nav-divider"></div>
+
     <nav class="proto-nav" aria-label="시나리오 선택">
-      <div class="proto-nav-group-label">로그인</div>
+      <span class="proto-nav-group-label">로그인</span>
       <button class="proto-nav-btn is-active" type="button" data-scenario="login-기본"
         data-why="회원사가 들어오는 자리. 아래 띠는 비회원사가 바로 작성 화면으로 가는 길입니다."
         data-steps="아이디·비밀번호를 넣고 이용후기 남기기를 누르면 작성 화면으로 넘어갑니다"
@@ -46,7 +49,7 @@
         data-steps="아이디·비밀번호를 넣고 이용후기 남기기를 누른 상태입니다"
         data-look="모달 '모든 계약 현장에 후기가 있습니다'|누구의 후기인지 모르는 채라 시각을 적지 않습니다|후기 수정하기 → 작성 화면으로 넘어가 본인 확인을 거칩니다">계약 현장이 다 참</button>
 
-      <div class="proto-nav-group-label">회원사</div>
+      <span class="proto-nav-group-label">회원사</span>
       <button class="proto-nav-btn" type="button" data-scenario="mem-새글"
         data-why="로그인한 회원사가 처음 쓰는 자리. 회사명은 계정에서 오므로 머리글에만 있고 따로 묻지 않습니다."
         data-steps="이름과 핸드폰 번호를 넣고 인증|인증번호는 000000 만 아니면 6자리 아무거나 → 확인"
@@ -68,7 +71,7 @@
         data-steps="따로 할 것 없이 바로 보입니다"
         data-look="'이용 후기 제출이 완료되었습니다'|검토를 거친 뒤 목록에 등록된다는 안내|수정하기를 누르면 회원사는 곧장 폼으로 돌아갑니다">제출 완료</button>
 
-      <div class="proto-nav-group-label">비회원사</div>
+      <span class="proto-nav-group-label">비회원사</span>
       <button class="proto-nav-btn" type="button" data-scenario="gst-새글"
         data-why="로그인 없이 들어온 자리. 계약 목록이 없으니 회사명·사업자등록번호를 직접 밝히고 현장명은 적습니다."
         data-steps="회사명을 적고 사업자등록번호 10자리 → 확인|이어서 이름·번호 인증"
