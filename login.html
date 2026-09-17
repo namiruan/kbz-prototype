@@ -208,6 +208,41 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 .lg-promo-txt .bg{color:var(--main-blue);font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal;letter-spacing:-1.2px}
 @media(max-width:899px){.lg-promo-txt .bg{font-size:22px;letter-spacing:-1.1px}}
 @media(max-width:691px){.lg-promo-txt .sm{font-size:14px}.lg-promo-txt .bg{font-size:18px;letter-spacing:-.9px}}
+/* =========================================================
+   계약 현장이 다 찼을 때 뜨는 모달
+   ---------------------------------------------------------
+   작성 화면의 모달(피그마 3617:35909)과 같은 껍데기를 쓴다. 같은 일을 하는
+   창이 화면마다 달라 보이면 같은 창인지 알아보지 못한다.
+   다만 시각 배지는 두지 않는다 — 로그인 전이라 누구의 후기인지 모르는 채이고,
+   모르는 사람의 시각을 적으면 남의 기록을 보여 주는 셈이 된다.
+   ========================================================= */
+.lg-modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
+.lg-modal[hidden]{display:none}
+.lg-modal-dim{position:absolute;inset:0;background:rgba(39,43,47,.8);animation:lgFade .18s ease}
+/* min-width:0 이 없으면 flex 아이템의 자동 최소폭이 max-width 를 이겨 상자가 화면 밖으로 밀린다 */
+.lg-modal-box{position:relative;display:flex;flex-direction:column;width:100%;max-width:350px;min-width:0;
+  max-height:calc(100vh - 40px);overflow:auto;border-radius:8px;background:var(--main-white);
+  animation:lgRise .22s cubic-bezier(.22,1,.36,1)}
+@keyframes lgFade{from{opacity:0}to{opacity:1}}
+@keyframes lgRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.lg-modal-dim,.lg-modal-box{animation:none}}
+.lg-modal-body{padding:20px}
+.lg-modal-box h3{color:var(--main-black);font-family:var(--font-body);font-size:30px;font-weight:700;
+  letter-spacing:-1.5px;line-height:normal;word-break:keep-all}
+.lg-modal-box p{margin-top:14px;color:var(--ds-text-subtle);font-family:var(--font-body);
+  font-size:16px;font-weight:400;line-height:1.5;letter-spacing:-.32px;word-break:keep-all}
+.lg-modal-acts{display:flex;align-items:stretch;margin-top:auto;background:var(--main-blue)}
+.lg-modal-acts button{display:flex;align-items:center;justify-content:center;gap:4px;
+  padding:16px clamp(12px,4vw,24px);border:0;cursor:pointer;
+  font-family:var(--font-pretendard);font-size:clamp(17px,5.2vw,22px);font-weight:600;
+  line-height:28px;letter-spacing:-.26px;white-space:nowrap}
+.lg-modal-acts .s{flex:none;width:clamp(86px,26vw,120px);background:var(--main-white);color:var(--main-black);
+  border-top:1px solid rgba(var(--color-black-rgb),.1)}
+.lg-modal-acts .s:hover{background:#F4F5F6}
+.lg-modal-acts .p{flex:1 0 0;min-width:0;background:var(--main-blue);color:var(--main-white)}
+.lg-modal-acts .p:hover{background:#0E4CAA}
+@media(max-width:380px){.lg-modal-box h3{font-size:26px;letter-spacing:-1.3px}}
+
 /* 사진은 background 로 둔다 — 파일이 없으면 깨진 아이콘 없이 그냥 비어 보인다 */
 .lg-promo-img{display:block;position:absolute;right:0;top:-65px;width:115px;height:140px;background:url("images/review/login-cta.png") center bottom/contain no-repeat}
 @media(max-width:532px){.lg-promo-img{top:-24px;width:81px;height:99px}}
@@ -301,6 +336,22 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
   </div>
 </section>
 
+<!-- 계약 현장이 다 찼을 때 -->
+<div class="lg-modal" id="fullModal" hidden>
+  <div class="lg-modal-dim" id="fullDim"></div>
+  <div class="lg-modal-box" role="dialog" aria-modal="true" aria-labelledby="fullTitle">
+    <div class="lg-modal-body">
+      <h3 id="fullTitle">계약 현장의 후기를<br>모두 제출하셨습니다</h3>
+      <p>계약 중인 현장 <b id="fullCnt">4</b>곳 모두 후기가 제출되어 있습니다.
+         이미 제출하신 후기를 고치시려면 그대로 들어가 작성자 본인 확인을 해주세요.</p>
+    </div>
+    <div class="lg-modal-acts">
+      <button type="button" class="s" id="fullCancel">닫기</button>
+      <button type="button" class="p" id="fullGo">후기 수정하기</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
   'use strict';
@@ -350,8 +401,58 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
       $('#lg-pw').select();
       return;
     }
-    /* 어느 계정으로 들어왔는지 작성 화면이 머리에 띄울 수 있게 넘긴다 */
+    /* 계약 현장에 빠짐없이 후기가 있으면 새로 쓸 자리가 없다 — 들여보내기 전에 말한다 */
+    if(allSitesCovered()){ openFull(); return; }
+    go();
+  });
+
+  /* 어느 계정으로 들어왔는지 작성 화면이 머리에 띄울 수 있게 넘긴다 */
+  function go(){
     location.href = 'face-attendance-review.html?u=' + encodeURIComponent($('#lg-id').value.trim());
+  }
+
+  /* =========================================================
+     계약 현장이 다 찼는지
+     ---------------------------------------------------------
+     프로토타입이라 계약 목록과 후기가 한 브라우저 안에 있다. 목록은 작성 화면과
+     같은 것을 써야 하므로 여기에도 같은 배열을 둔다 (한 파일씩 독립인 구조라
+     가져다 쓸 자리가 없다 — 작성 화면의 SITES 를 고치면 여기도 같이 고친다).
+     본사는 현장이 아니라 계약 건에서 뺀다.
+     ========================================================= */
+  var SITES=['예지 스타힐스 신축공사','동탄2 물류센터 신축공사','세종 행복주택 3BL 건립공사',
+             '부산 명지 오피스텔 신축공사'];
+  function coveredSites(){
+    var out={};
+    try{
+      for(var i=0;i<localStorage.length;i++){
+        var k=localStorage.key(i);
+        if(k.indexOf('kbz_rv_')!==0) continue;
+        var r=JSON.parse(localStorage.getItem(k)||'null');
+        /* 제출까지 마친 회원사 후기만 센다 — 임시저장분은 아직 그 현장을 채운 것이 아니다 */
+        if(!r || r.guest || r.status!=='done' || !r.data) continue;
+        (r.data['#site']||[]).forEach(function(v){ out[v]=true; });
+      }
+    }catch(e){}
+    return out;
+  }
+  function allSitesCovered(){
+    var c=coveredSites();
+    return SITES.every(function(t){ return c[t]; });
+  }
+
+  var fullModal=$('#fullModal');
+  function openFull(){
+    $('#fullCnt').textContent=SITES.length;
+    fullModal.hidden=false;
+    document.body.style.overflow='hidden';
+    setTimeout(function(){ $('#fullGo').focus(); },30);
+  }
+  function closeFull(){ fullModal.hidden=true; document.body.style.overflow=''; }
+  $('#fullCancel').addEventListener('click', closeFull);
+  $('#fullDim').addEventListener('click', closeFull);
+  $('#fullGo').addEventListener('click', function(){ closeFull(); go(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape' && !fullModal.hidden) closeFull();
   });
 })();
 </script>
