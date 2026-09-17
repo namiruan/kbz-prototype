@@ -968,10 +968,25 @@ body.rw-done .rw-main{padding-block:0}
     +'<div class="rw-sv"><p class="rw-sv-t">김반장에 도입되었으면 하는 서비스 / 기능이 있으실까요?</p>'
       +'<div class="rw-q-row"><div class="f-in"><select id="wish-yn"><option>아니오. 없습니다</option><option>네. 있습니다</option></select>'+CARET+'</div>'
       +'<div class="f-in"><input id="wish" type="text" placeholder="김반장에 바라는 내용을 입력해 주세요"></div></div></div>'
-    +'<div class="rw-sv"><p class="rw-sv-t">김반장 서비스에 대한 최종 만족도를 알려주세요!</p>'
-      +'<div class="rw-stars" id="stars" role="radiogroup" aria-label="최종 만족도">'
+    /* 이 후기가 묻는 것은 안면인식 출퇴근관리 하나다 — 별점도 그것에 매긴다.
+       앞의 문항들과 같은 자리에 같은 이름을 둔다 */
+    +'<div class="rw-sv"><p class="rw-sv-t"><b>안면인식 출퇴근관리</b>에 대한 최종 만족도를 알려주세요!</p>'
+      +'<div class="rw-stars" id="stars" role="radiogroup" aria-label="안면인식 출퇴근관리 최종 만족도">'
       +[1,2,3,4,5].map(function(n){return '<input type="radio" id="st'+n+'" name="sat-final" value="'+n+'"><label for="st'+n+'">'+STAR+'<span class="sr-only">'+n+'점</span></label>';}).join('')
       +'</div></div>';
+
+  /* '아니오. 없습니다'를 고른 채로 옆 칸에 적을 수 있으면, 고른 말과 적은 말이
+     서로 어긋난 채 저장된다. 아니오면 칸을 닫고 적힌 것도 비운다 —
+     남겨 두면 본인이 물린 답이 그대로 실려 나간다 */
+  function syncWish(){
+    var yes=/^네/.test($('#wish-yn').value);
+    var w=$('#wish'), box=w.closest('.f-in');
+    w.disabled=!yes;
+    if(yes){ box.removeAttribute('data-disabled'); }
+    else { box.setAttribute('data-disabled',''); if(w.value){ w.value=''; } }
+  }
+  $('#wish-yn').addEventListener('change', syncWish);
+  syncWish();
 
   var starSet=$('#stars');
   function starVal(){var c=$('input[name=sat-final]:checked',starSet);return c?+c.value:0;}
