@@ -164,12 +164,6 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 .lg-msg{display:none;font-size:12px;line-height:1.5}
 .lg-msg.danger{display:block;color:#E53935}
 .lg-btn-group{display:flex;flex-direction:column;align-items:center;gap:5px;align-self:stretch}
-.lg-badge{display:none;align-items:flex-start;justify-content:center;align-self:stretch;margin-bottom:5px}
-.lg-badge.on{display:flex}
-/* 피그마 badge_atomic : padding 2/4 · radius 4 · 바탕 Color/badge/negative(#E76400 10%)
-   글자는 Footnote/Regular = Pretendard 13/18/-0.08, Color/Text/point #E74900 */
-.lg-badge span{padding:2px 4px;border-radius:4px;background:rgba(231,100,0,.1);color:#E74900;
-  font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px;word-break:keep-all}
 /* 피그마 CTA button : p-30 · radius 12 · #131416 · max-w 300 (실측 280×89) */
 .review-page .lg-cta{position:relative;display:flex;max-width:300px;padding:30px;align-items:center;align-self:stretch;border-radius:12px;background:var(--main-black);
   border:0;box-shadow:none;overflow:hidden;cursor:pointer;font-family:inherit;z-index:1}
@@ -368,8 +362,6 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
           </div>
 
           <div class="lg-btn-group">
-            <div class="lg-badge" id="lgBadge" role="alert"><span>아이디 또는 비밀번호가 일치하지 않습니다</span></div>
-
             <button type="submit" class="lg-cta">
               <span class="btn-name"><b>이용후기 남기기</b></span>
               <span class="arrow" aria-hidden="true">
@@ -452,14 +444,18 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
     {el:$('#lg-id'), msg:$('#lgMsgId'), text:'아이디를 입력해 주세요.'},
     {el:$('#lg-pw'), msg:$('#lgMsgPw'), text:'비밀번호를 입력해 주세요.'}
   ];
-  var lgBadge = $('#lgBadge');
+  /* 값이 틀린 경우는 어느 칸 탓인지 가릴 수 없다 — 둘 다 붉게 두고 말은 아래 칸에 붙인다.
+     '아이디 또는' 이 이미 어느 쪽인지 모른다고 말하고 있다.
+     빈 칸과 달리 한 칸만 고쳐 지울 수 없으므로, 어느 칸을 건드리든 둘 다 푼다 */
+  var MISS = false;
   function lgClear(f){
     f.el.closest('.lg-input-wrap').classList.remove('is-err');
     f.msg.classList.remove('danger');
     f.msg.textContent = '';
-    lgBadge.classList.remove('on');
   }
-  LG.forEach(function(f){ f.el.addEventListener('input', function(){ lgClear(f); }); });
+  function lgClearAll(){ LG.forEach(lgClear); MISS = false; }
+  LG.forEach(function(f){ f.el.addEventListener('input', function(){
+    if(MISS) lgClearAll(); else lgClear(f); }); });
 
   /* 비밀번호 보기 — 가려져 있을 때만 눈에 사선이 그어진다 */
   var lgEye = $('#lgEye');
@@ -473,6 +469,7 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
 
   $('#login-form').addEventListener('submit', function(e){
     e.preventDefault();
+    if(MISS) lgClearAll();
     var first = null;
     LG.forEach(function(f){
       if(!f.el.value.trim()){
@@ -485,9 +482,13 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
     if(first){ first.focus(); return; }
 
     /* 프로토타입은 비어 있지만 않으면 통과시킨다.
-       인증 실패 화면(주황 배지)을 보려면 주소에 ?authfail=1 을 붙이면 된다. */
+       값이 틀린 화면을 보려면 주소에 ?authfail=1 을 붙이면 된다. */
     if(new URLSearchParams(location.search).get('authfail') === '1'){
-      lgBadge.classList.add('on');
+      MISS = true;
+      LG.forEach(function(f){ f.el.closest('.lg-input-wrap').classList.add('is-err'); });
+      var m = $('#lgMsgPw');
+      m.textContent = '아이디 또는 비밀번호가 일치하지 않습니다.';
+      m.classList.add('danger');
       $('#lg-pw').select();
       return;
     }
