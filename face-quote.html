@@ -895,22 +895,41 @@ function render(){
 /* ── 유효성 검사 ───────────────────────────────────────── */
 function clearErrs(){
   form.querySelectorAll('.field.is-err').forEach(function(f){ f.classList.remove('is-err'); });
+  /* 붙였던 표시를 되돌린다. 원래 있던 aria-describedby 는 되살린다 */
+  document.querySelectorAll('[aria-invalid]').forEach(function(el){
+    el.removeAttribute('aria-invalid');
+    if (el.dataset.describedby){ el.setAttribute('aria-describedby', el.dataset.describedby); delete el.dataset.describedby; }
+    else el.removeAttribute('aria-describedby');
+  });
   document.querySelectorAll('.f-msg').forEach(function(m){ m.remove(); });
   document.querySelector('.q-agree').classList.remove('is-err');
 }
 
 /* 메시지를 붙일 자리는 칸(.field) 또는 덩어리(동의 줄) 바로 아래 */
+var errSeq = 0;                          /* 문구를 칸과 이으려면 id 가 있어야 한다 */
 function say(anchor, msg, block){
-  if (!anchor) return;
+  if (!anchor) return null;
   var p = document.createElement('p');
   p.className = 'f-msg' + (block ? ' block' : '');
+  p.id = 'ferr-' + (++errSeq);
   p.textContent = msg;
   anchor.insertAdjacentElement('afterend', p);
+  return p;
+}
+/* 붉은 테두리는 눈으로 보는 사람에게만 닿는다. 칸이 잘못됐다는 사실과
+   그 까닭을 보조기술에도 넘긴다 — 없으면 초점만 옮겨 오고 왜인지는 모른다. */
+function markInvalid(box, msgEl){
+  var input = box && box.querySelector('input,select,textarea');
+  if (!input || !msgEl) return;
+  input.setAttribute('aria-invalid', 'true');
+  var prev = input.getAttribute('aria-describedby');
+  if (prev) input.dataset.describedby = prev;   /* 기간 칸처럼 원래 있던 안내는 지키고 뒤에 붙인다 */
+  input.setAttribute('aria-describedby', (prev ? prev + ' ' : '') + msgEl.id);
 }
 function boxErr(box, msg){
   if (!box) return;
   box.classList.add('is-err');
-  say(box, msg);
+  markInvalid(box, say(box, msg));
 }
 function fieldErr(el, msg){ if (el) boxErr(el.closest('.field'), msg); }
 
@@ -955,7 +974,9 @@ function validate(q){
   }
   if (!document.getElementById('agree').checked){
     bad.push(1);
-    /* 체크 표시와 글자가 빨개지므로 따로 적지 않는다 */
+    /* 체크 표시와 글자가 빨개지므로 따로 적지 않는다.
+       다만 '잘못됐다'는 사실은 보조기술에도 넘긴다 */
+    document.getElementById('agree').setAttribute('aria-invalid', 'true');
     document.querySelector('.q-agree').classList.add('is-err');
   }
 
