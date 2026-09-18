@@ -1298,9 +1298,11 @@ body.rw-done .rw-main{padding-block:0}
   function showDup(o){
     DUP=true;
     $('#g-biz').closest('.f-in').classList.add('is-err');
-    $('#g-biz-msg').textContent = o.status==='done'
-      ? '이미 후기가 제출된 사업자등록번호입니다.'
-      : '이미 작성 중인 후기가 있는 사업자등록번호입니다.';
+    /* 제출분이든 임시저장분이든 막는 까닭은 하나다 — 그 사업장에 이미 후기가 있다.
+       '제출된' 과 '작성 중인' 으로 갈라 쓰면 막는 세기가 다른 것처럼 읽히는데,
+       실은 같다. 모달이 둘을 '이미 생성된 후기가 있습니다' 하나로 묻는 것과 같은 뜻이고,
+       언제 무엇을 했는지는 그 모달의 시각이 이미 말했다 */
+    $('#g-biz-msg').textContent='이미 후기가 있는 사업자등록번호입니다.';
     $('#g-biz-msg').className='note danger';
   }
   function hideDup(){
@@ -1565,7 +1567,7 @@ body.rw-done .rw-main{padding-block:0}
       var off = !!t[c.value] && !c.checked;
       c.disabled=off;
       lb.classList.toggle('is-off', off);
-      if(off) lb.setAttribute('data-tip','이미 작성 중인 후기입니다');
+      if(off) lb.setAttribute('data-tip','이미 후기가 있는 현장입니다');
       else lb.removeAttribute('data-tip');
     });
   }
