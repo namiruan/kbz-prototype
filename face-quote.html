@@ -132,12 +132,15 @@ body.quote-page{
 .q-hero .inner{display:block}                     /* 브로슈어 인물 컷을 빼고 타이포로 연다 */
 .q-hero h1{line-height:1.14;word-break:keep-all}
 #heroLine.sent{color:var(--accent)}
-/* 모달 안에서는 제목 오른쪽 위에 부모의 닫기 버튼이 뜬다. 첫 줄이 닿지 않게 비워둔다. */
-.is-embedded .q-hero h1{padding-right:56px}
+/* 모달 안에서는 제목 오른쪽 위에 부모의 닫기 버튼이 뜬다. 버튼이 걸치는 것은
+   첫 줄의 오른쪽 끝뿐인데 padding 으로 막으면 아래 줄까지 폭을 잃어 제목이
+   쓸데없이 더 접힌다. 띄운 상자는 제가 닿는 줄만 밀어낸다. */
+.is-embedded .q-hero h1::before{content:"";float:right;width:26px;height:1px}
 /* 좁은 폭에선 데스크톱용 줄바꿈이 '단말기'만 남는 고아 줄을 만든다 → 자연스럽게 흐르게 */
 /* 좁은 폭에서도 '…단말기' 다음에서 줄을 바꾼다. 크기를 고정하면 첫 줄이
    한 번 더 접혀 '단말기'만 남는 줄이 생기므로, 폭에 따라 줄어들게 한다. */
-@media(max-width:640px){.q-hero{padding:30px 0 24px}.q-hero h1{font-size:clamp(20px,7vw,31px)}}
+/* 7vw 는 '예상 견적서가 전송됐어요!' 한 줄보다 3% 남짓 커서 늘 두 줄로 쪼개졌다 */
+@media(max-width:640px){.q-hero{padding:30px 0 24px}.q-hero h1{font-size:clamp(18px,6vw,31px)}}
 
 /* ===== 본문 2단 ===== */
 .q-main{padding:56px 0 128px}
