@@ -921,7 +921,9 @@ form.addEventListener('submit', function(e){
 
   if (!QUOTE_API){                       /* 프로토타입: 전송 없이 완료 화면 */
     console.log('[견적신청 payload]', payload);
-    setTimeout(done, 600);
+    /* ?hold=1 — '전송 중'에서 멈춰 세운다. 그 화면은 0.6초만 스쳐 지나가
+       시나리오로 보여 줄 수가 없다 */
+    if (!/(^|[?&])hold=1(&|$)/.test(location.search)) setTimeout(done, 600);
     return;
   }
   fetch(QUOTE_API, {
@@ -1069,9 +1071,10 @@ render();
 
 /* ── 프로토타입 미리보기 ────────────────────────────────────────────
    ?done=1 로 열면 예시값을 채우고 제출까지 진행해 완료 화면을 바로 본다.
+   ?hold=1 은 같은 길을 밟되 '전송 중'에서 멈춘다.
    화면 하나 확인하자고 폼을 매번 채울 이유가 없다. 프로토타입 전용이며
    실제 연동 시에는 이 블록을 지운다. */
-if (/(^|[?&])done=1(&|$)/.test(location.search)) (function(){
+if (/(^|[?&])(done|hold)=1(&|$)/.test(location.search)) (function(){
   function set(sel, v){
     var el = document.querySelector(sel);
     if (!el) return;

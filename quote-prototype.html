@@ -1,0 +1,292 @@
+<!-- design-system: v1.0.0 -->
+<!-- prototype: 단말기 견적신청 — 조건별 화면 모아보기 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>견적신청 프로토타입</title>
+<meta name="description" content="조건에 따라 달라지는 단말기 견적신청 화면을 시나리오별로 모아 본다.">
+<!-- 김반장 3.0 디자인 시스템. 크롬(사이드바·설명·폭·비교)은 components.js 의
+     initProtoChrome 이 맡는다 — 이 파일이 따로 만들지 않는다.
+     주소가 절대경로인 것은 시스템 규약이다(이용후기 프로토타입과 같다) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/tokens.css">
+<link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/components.css">
+<style>
+/* 이 파일이 갖는 것은 '화면을 끼우는 자리' 하나뿐이다. 나머지 생김새는 전부 시스템이 낸다 */
+#screen{display:block;width:100%;height:100dvh}
+#screen iframe{display:block;width:100%;height:100%;border:0;background:var(--color-surface-base)}
+</style>
+</head>
+<body>
+
+<div class="proto-layout" data-proto-sub="조건별 화면 모아보기">
+  <aside class="proto-sidebar">
+    <!-- 접기 손잡이와 폭 컨트롤은 여기 적지만, 크롬이 툴바(화면 바로 위)로 옮긴다 -->
+    <button class="proto-nav-toggle" type="button" aria-expanded="true" aria-label="시나리오 목록 접기">
+      <svg aria-hidden="true"><use href="#icon-sidebar-collapse"></use></svg>
+    </button>
+    <div class="proto-viewport" role="group" aria-label="화면 폭">
+      <button class="proto-viewport__btn is-active" type="button" data-viewport="lg" aria-pressed="true">lg</button>
+      <button class="proto-viewport__btn" type="button" data-viewport="md" aria-pressed="false">md</button>
+      <button class="proto-viewport__btn" type="button" data-viewport="sm" aria-pressed="false">sm</button>
+      <button class="proto-viewport__btn" type="button" data-viewport="compare" aria-pressed="false">비교</button>
+    </div>
+
+    <div class="proto-nav-divider"></div>
+
+    <nav class="proto-nav" aria-label="시나리오 선택">
+
+      <span class="proto-nav-group-label">퇴직공제 전자카드</span>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">고르는 만큼 금액</span>
+      <button class="proto-nav-btn proto-nav-sub is-active" type="button" data-scenario="ec-첫진입"
+        data-why="열자마자의 자리. 금액을 먼저 보여 주고 귀찮은 칸은 뒤로 미룬 순서입니다. 아직 고른 것이 없어 계산할 것도 없습니다."
+        data-steps="페이지를 연 그대로입니다"
+        data-look="요약 패널의 총 예상 견적은 0원|버튼이 '단말기를 선택해 주세요'로 다음에 할 일을 말합니다|할인 줄은 아직 나오지 않습니다">첫 진입</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-한종"
+        data-why="한 종만 고른 가장 흔한 자리. 고르는 즉시 요약이 채워집니다."
+        data-steps="벽부형을 고르고 3대·12개월을 넣은 상태입니다"
+        data-look="고른 카드만 파란 테두리에 옅은 파랑 바닥|요약에 '벽부형 3대' 한 줄|12개월 요율이라 대당 74,000원|버튼이 '견적신청하기'로 바뀝니다">한 종만</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-세종"
+        data-why="세 종을 함께 쓰는 현장. 종마다 요율이 달라 줄이 갈립니다 — 한 줄로 합치면 무엇이 얼마인지 사라집니다."
+        data-steps="벽부형 2대·이동형 1대·휴대형 4대를 12개월로 넣은 상태입니다"
+        data-look="요약에 세 줄이 따로|종마다 대당 단가가 다릅니다|합계는 세 줄을 더한 값">세 종 모두</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-장기"
+        data-why="13개월을 넘겨도 요율은 12개월에서 멈춥니다. 표에 13개월 칸이 없어서인데, 화면은 그 사실을 말하지 않고 계산만 그렇게 합니다 — 안내에 넣을지 판단이 필요한 자리입니다."
+        data-steps="벽부형 3대를 18개월로 넣은 상태입니다"
+        data-look="대당 74,000원 — 12개월과 같습니다|부제는 '74,000원 × 18개월'|총액은 12개월의 1.5배">13개월 이상</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-단기"
+        data-why="가장 짧은 계약. 요율이 가장 비싼 구간이라 '길수록 싸진다'는 말풍선이 실제로 무엇을 뜻하는지 여기서 드러납니다."
+        data-steps="벽부형 3대를 1개월로 넣은 상태입니다"
+        data-look="대당 205,000원 — 12개월(74,000원)의 두 배 반|할인 줄이 나오지 않습니다|말풍선 '대여 기간이 길수록 할인 폭이 커져요!'">1개월</button>
+
+      <span class="proto-nav-group-label proto-nav-group-label--sub">막히는 자리</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-오류-빈칸"
+        data-why="다 고르고 신청자 정보를 비운 채 누른 자리. 막는 말은 배너가 아니라 막힌 칸 아래에 답니다 — 어디를 고쳐야 하는지 눈이 바로 갑니다."
+        data-steps="단말기를 고르고 동의만 한 채 견적신청하기를 누른 상태입니다"
+        data-look="빈 칸마다 붉은 테두리와 그 아래 한 줄|화면이 첫 빈 칸으로 내려갑니다|동의 항목은 글씨가 붉어질 뿐 따로 말을 달지 않습니다">빈 칸</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-오류-사업자"
+        data-why="자릿수는 맞는데 국세청 검증식을 통과하지 못하는 번호. 길이만 세면 오타가 그대로 접수되어 견적서가 엉뚱한 곳으로 갑니다."
+        data-steps="123-45-67890 을 넣고 견적신청하기를 누른 상태입니다"
+        data-look="'사업자등록번호를 다시 확인해 주세요.'|그 칸에만 붉은 테두리 — 다른 칸은 멀쩡합니다|칸을 고치면 말이 사라집니다">사업자번호 오류</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-개인정보"
+        data-why="동의 옆 '내용 보기'가 여는 자리. 무엇을 받아 어디에 쓰는지 읽고 그 자리에서 동의까지 끝냅니다 — 읽으러 갔다가 돌아와 다시 체크하게 두지 않습니다."
+        data-steps="요약 패널의 '내용 보기'를 누른 상태입니다"
+        data-look="수집 항목·이용 목적·보유 기간 세 줄|거부해도 되지만 그러면 어떻게 되는지 적혀 있습니다|'동의하고 닫기'가 체크까지 함께 합니다">개인정보 안내</button>
+
+      <span class="proto-nav-group-label proto-nav-group-label--sub">보낸 뒤</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-전송중"
+        data-why="누르고 응답을 기다리는 사이. 0.6초면 스쳐 지나가지만 회선이 느리면 이 화면에 오래 머뭅니다 — 두 번 누르지 않게 막아 두는 자리입니다."
+        data-steps="다 채우고 견적신청하기를 누른 직후에서 멈춘 상태입니다"
+        data-look="버튼이 '전송 중…'이고 눌리지 않습니다|폼은 그대로 남아 있습니다|요약 금액도 그대로입니다">전송 중</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-완료"
+        data-why="보내고 난 자리. 금액은 메일에 있으니 화면에는 다시 적지 않고, '보냈다'는 한 가지만 말합니다."
+        data-steps="다 채우고 견적신청하기를 눌러 전송이 끝난 상태입니다"
+        data-look="제목 둘째 줄이 브랜드 색으로 바뀝니다|아래로 갈수록 하늘색 — 이 화면에만 깔립니다|우측 하단에 견적서 아이콘이 떠 있습니다|'다시 신청하기'로 폼으로 되돌아갑니다">완료</button>
+
+      <span class="proto-nav-group-label">안면인식 출퇴근관리</span>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">현장 수에 따라</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-첫진입"
+        data-why="열자마자의 자리. 기기가 하나뿐이라 고르는 UI가 없고, 대신 현장마다 기간·수량이 달라 현장이 단위가 됩니다."
+        data-steps="페이지를 연 그대로입니다"
+        data-look="단말기는 고르는 카드가 아니라 소개 배너|기간은 12개월이 들어 있고 수량만 비어 있습니다|버튼이 '단말기 수량을 입력해 주세요'">첫 진입</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-한현장"
+        data-why="현장 한 곳만 하는 가장 흔한 자리."
+        data-steps="현장 1에 5대·12개월을 넣은 상태입니다"
+        data-look="1~5대 구간이라 대당 150,000원|12개월이라 설치비가 '무료'로 지워집니다|미이용 건설사라 현장당 월 20,000원 연동비가 붙습니다">한 현장</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-세현장"
+        data-why="수량 할인은 현장별이 아니라 신청 전체를 합산해 정해집니다. 현장 셋을 각각 보면 구간이 안 되는데 합치면 되는 자리 — 합산 규칙이 화면에서 드러나는지 보는 곳입니다."
+        data-steps="현장을 셋으로 늘리고 4대·4대·4대를 12개월로 넣은 상태입니다"
+        data-look="합계 12대라 11~19대 구간(대당 130,000원)|현장마다 4대뿐인데 단가는 12대 기준|연동비는 현장마다 따로 세 번">현장 셋 (합산 할인)</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-대량"
+        data-why="가장 싼 구간. 20대를 넘기면 대당 120,000원까지 내려갑니다."
+        data-steps="현장 1에 22대·24개월을 넣은 상태입니다"
+        data-look="대당 120,000원 — 기본요금 150,000원에서 20% 아래|할인 줄에 '수량 할인 · 설치비 지원'이 함께|할인 전 금액과의 차이가 곧 받은 혜택">20대 이상</button>
+
+      <span class="proto-nav-group-label proto-nav-group-label--sub">조건이 갈리는 자리</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-단기"
+        data-why="12개월을 못 채우면 설치비가 청구됩니다. 무료가 지워지는 게 아니라 금액으로 살아나는 자리 — 같은 대수인데 총액이 달라지는 이유입니다."
+        data-steps="현장 1에 5대·6개월을 넣은 상태입니다"
+        data-look="설치비 줄이 '무료'가 아니라 750,000원|할인 줄에서 '설치비 지원'이 빠집니다|말풍선 '12개월 이상은 설치비 무료!'가 무엇을 뜻하는지 여기서 드러납니다">12개월 미만</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-이용사"
+        data-why="김반장을 이미 쓰는 건설사는 연동비가 붙지 않습니다. 신청자 정보의 라디오 하나가 금액을 바꾸는 유일한 칸입니다."
+        data-steps="현장 1에 5대·12개월을 넣고 김반장 이용 중을 '네'로 고른 상태입니다"
+        data-look="연동비 줄이 통째로 사라집니다|같은 조건의 '한 현장'보다 240,000원 적습니다|기기 이용료와 설치비는 그대로">김반장 이용사</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-미완"
+        data-why="현장을 늘려 놓고 한 곳만 채운 자리. 채운 현장의 금액은 그대로 보여 주되 제출은 막습니다 — 계산을 통째로 지우면 왜 막혔는지가 사라집니다."
+        data-steps="현장을 둘로 늘리고 현장 1만 5대·12개월로 채운 상태입니다"
+        data-look="요약에는 현장 1의 금액이 그대로 남습니다|버튼이 '현장 2의 단말기 수량을 입력해 주세요'|어느 현장이 비었는지 버튼이 짚어 줍니다">채우다 만 현장</button>
+
+      <span class="proto-nav-group-label proto-nav-group-label--sub">보낸 뒤</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-전송중"
+        data-why="퇴직공제와 같은 자리. 두 페이지가 같은 모양으로 기다리는지 견주어 봅니다."
+        data-steps="다 채우고 견적신청하기를 누른 직후에서 멈춘 상태입니다"
+        data-look="버튼이 '전송 중…'이고 눌리지 않습니다|현장 카드는 그대로 남아 있습니다">전송 중</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-완료"
+        data-why="퇴직공제와 같은 완료 화면. 제목 첫 줄의 기기 이름만 다릅니다."
+        data-steps="다 채우고 견적신청하기를 눌러 전송이 끝난 상태입니다"
+        data-look="'안면인식 출퇴근관리 단말기 / 예상 견적서가 전송됐어요!'|현장이 몇이든 완료 화면은 같은 두 줄|계약 정보를 적지 않습니다 — 현장이 늘수록 길어져 '보냈다'를 가립니다">완료</button>
+
+      <span class="proto-nav-group-label">메인에서 띄운 모달</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="md-열림"
+        data-why="실제로 사람이 만나는 자리는 단독 페이지가 아니라 이 모달입니다. 메인의 견적받기를 누르면 그 자리에서 뜹니다 — 페이지를 떠나지 않습니다."
+        data-steps="메인에서 '안면인식 단말기 견적받기'를 누른 상태입니다"
+        data-look="모달 1040×792 — 페이지가 최상단으로 튀지 않습니다|헤더·푸터 없이 폼만|우측 상단 닫기, Esc 로도 닫힙니다">모달로 열기</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="md-완료"
+        data-why="완료 화면은 몇 줄뿐이라 모달이 기본 크기로 있으면 빈 상자가 됩니다. 안쪽을 재서 상자를 줄이는 자리."
+        data-steps="모달 안에서 다 채우고 견적신청하기를 누른 상태입니다"
+        data-look="모달이 1040×792 → 580×437 로 줄어듭니다|'메인으로'가 '닫기'로 바뀝니다 — 모달 안에 또 메인이 뜨면 안 되니까|'다시 신청하기'를 누르면 상자가 도로 커집니다">모달 · 완료</button>
+
+    </nav>
+  </aside>
+
+  <main class="proto-content">
+    <div id="screen"><iframe title="화면 미리보기"></iframe></div>
+  </main>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $=function(s,r){return (r||document).querySelector(s);};
+  var EC='quote.html', FA='face-quote.html', MAIN='index.html';
+
+  /* 시나리오 이름이 가리키는 상태를 열자마자 보여 준다. 누르는 순서를 적어 두고
+     직접 밟게 하면, 그 화면을 보러 온 사람이 매번 같은 준비를 되풀이하게 된다.
+     미리보기가 같은 출처라 여기서 대신 몰 수 있다 — 견적 화면에는 손대지 않는다 */
+  function wait(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+  function put(el,v){ if(!el) return; el.value=v; el.dispatchEvent(new Event('input',{bubbles:true})); el.dispatchEvent(new Event('change',{bubbles:true})); }
+  function hit(el){ if(el) el.click(); }
+  function look(d,sel){ var e=d.querySelector(sel); if(e) e.scrollIntoView({block:'center'}); }
+
+  /* ── 퇴직공제 ── */
+  function pick(d,id){
+    var c=d.querySelector('input[name="use_'+id+'"]');
+    if(!c) return;
+    c.checked=true; c.dispatchEvent(new Event('change',{bubbles:true}));
+  }
+  function ecQty(d,id,v){ put(d.querySelector('#q-qty-'+id), v); }
+  /* ── 안면인식 ── */
+  function sites(d){ return d.querySelectorAll('.site'); }
+  async function addSites(d,n){ for(var i=1;i<n;i++){ hit(d.querySelector('#btnAddSite')); await wait(60); } }
+  function fill(d,i,qty,months){
+    var s=sites(d)[i]; if(!s) return;
+    put(s.querySelector('input.s-months'), months);
+    put(s.querySelector('input.s-qty'), qty);
+  }
+  /* 신청자 정보 — 금액과 무관하지만 제출까지 가려면 있어야 한다 */
+  function applicant(d){
+    put(d.querySelector('#q-biz'),'220-81-62517');
+    put(d.querySelector('#q-company'),'한강현장 신축공사');
+    put(d.querySelector('#q-manager'),'홍길동');
+    put(d.querySelector('#q-phone'),'010-1234-5678');
+    put(d.querySelector('#q-email'),'hong@example.com');
+  }
+  function agree(d){ var a=d.querySelector('#agree'); if(a){ a.checked=true; a.dispatchEvent(new Event('change',{bubbles:true})); } }
+
+  var S={
+    /* 퇴직공제 — 고르는 만큼 금액 */
+    'ec-첫진입':{url:EC},
+    'ec-한종'  :{url:EC, act:function(d){ pick(d,'W400'); ecQty(d,'W400',3); put(d.querySelector('#months'),12); }},
+    'ec-세종'  :{url:EC, act:function(d){
+      pick(d,'W400'); pick(d,'M400'); pick(d,'T900');
+      ecQty(d,'W400',2); ecQty(d,'M400',1); ecQty(d,'T900',4);
+      put(d.querySelector('#months'),12); }},
+    'ec-장기'  :{url:EC, act:function(d){ pick(d,'W400'); ecQty(d,'W400',3); put(d.querySelector('#months'),18); }},
+    'ec-단기'  :{url:EC, act:function(d){ pick(d,'W400'); ecQty(d,'W400',3); put(d.querySelector('#months'),1); }},
+
+    /* 퇴직공제 — 막히는 자리 */
+    'ec-오류-빈칸':{url:EC, act:async function(d){
+      pick(d,'W400'); ecQty(d,'W400',3); agree(d);
+      hit(d.querySelector('#btnSubmit')); await wait(300); }},
+    'ec-오류-사업자':{url:EC, act:async function(d){
+      pick(d,'W400'); ecQty(d,'W400',3); applicant(d);
+      put(d.querySelector('#q-biz'),'123-45-67890'); agree(d);
+      hit(d.querySelector('#btnSubmit')); await wait(300); look(d,'#q-biz'); }},
+    'ec-개인정보':{url:EC, act:async function(d){
+      pick(d,'W400'); ecQty(d,'W400',3);
+      hit(d.querySelector('#privacyOpen')); await wait(200); }},
+
+    /* 퇴직공제 — 보낸 뒤. 채우고 누르는 길은 페이지가 이미 알고 있다(?done=1 · ?hold=1) */
+    'ec-전송중':{url:EC+'?hold=1'},
+    'ec-완료'  :{url:EC+'?done=1'},
+
+    /* 안면인식 — 현장 수에 따라 */
+    'fa-첫진입':{url:FA},
+    'fa-한현장':{url:FA, act:function(d){ fill(d,0,5,12); }},
+    'fa-세현장':{url:FA, act:async function(d){
+      await addSites(d,3);
+      fill(d,0,4,12); fill(d,1,4,12); fill(d,2,4,12); }},
+    'fa-대량'  :{url:FA, act:function(d){ fill(d,0,22,24); }},
+
+    /* 안면인식 — 조건이 갈리는 자리 */
+    'fa-단기'  :{url:FA, act:function(d){ fill(d,0,5,6); }},
+    'fa-이용사':{url:FA, act:async function(d){
+      fill(d,0,5,12); await wait(80);
+      var y=d.querySelector('input[name=kbz_user][value=Y]');
+      if(y){ y.checked=true; y.dispatchEvent(new Event('change',{bubbles:true})); }
+      look(d,'.f-item.kbz'); }},
+    'fa-미완'  :{url:FA, act:async function(d){
+      await addSites(d,2); fill(d,0,5,12); look(d,'#btnSubmit'); }},
+
+    /* 안면인식 — 보낸 뒤 */
+    'fa-전송중':{url:FA+'?hold=1'},
+    'fa-완료'  :{url:FA+'?done=1'},
+
+    /* 메인에서 띄운 모달 — 실제로 사람이 만나는 자리 */
+    'md-열림'  :{url:MAIN, act:async function(d){
+      var a=d.querySelector('a[href="face-quote.html"]');
+      if(a){ a.scrollIntoView({block:'center'}); await wait(120); hit(a); } }},
+    'md-완료'  :{url:MAIN, act:async function(d){
+      var a=d.querySelector('a[href="face-quote.html"]');
+      if(!a) return;
+      a.scrollIntoView({block:'center'}); await wait(120); hit(a); await wait(700);
+      var f=d.querySelector('#quoteFrame'); if(!f) return;
+      var q=f.contentDocument; if(!q) return;
+      fill(q,0,5,12); applicant(q); agree(q); await wait(150);
+      hit(q.querySelector('#btnSubmit')); await wait(1400); }}
+  };
+
+  function open(name){
+    var s=S[name]; if(!s) return;
+    var f=$('#screen iframe'); if(!f) return;
+    f.onload=function(){
+      if(!s.act) return;
+      /* 그새 다른 시나리오로 옮겨 갔으면 손대지 않는다 */
+      var now=document.querySelector('.proto-nav-btn.is-active');
+      if(now && now.dataset.scenario!==name) return;
+      try{ s.act(f.contentDocument); }catch(e){}
+    };
+    f.src=s.url+(s.url.indexOf('?')<0?'?':'&')+'_t='+Date.now();
+  }
+
+  /* 크롬이 틀 안에서 ?scenario= 를 읽어 해당 버튼을 눌러 준다 — 그 누름을 여기서 받는다.
+     DOMContentLoaded 보다 먼저 붙어 있어야 그 클릭을 놓치지 않는다 */
+  document.querySelectorAll('.proto-nav-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.proto-nav-btn').forEach(function(o){
+        o.classList.toggle('is-active', o===b); });
+      open(b.dataset.scenario);
+    });
+  });
+  var first=document.querySelector('.proto-nav-btn.is-active')||document.querySelector('.proto-nav-btn');
+  if(first) open(first.dataset.scenario);
+})();
+</script>
+<script src="https://namiruan.github.io/kbz_3.0_ui_stytem/components.js"></script>
+<script>
+  /* 아이콘은 스프라이트를 주입해 쓴다 (시스템 규약: 원격 절대 URL) */
+  fetch('https://namiruan.github.io/kbz_3.0_ui_stytem/icons/sprite.svg')
+    .then(function(r){ return r.text(); })
+    .then(function(svg){
+      var d=document.createElement('div');
+      d.style.cssText='position:absolute;width:0;height:0;overflow:hidden';
+      d.innerHTML=svg;
+      document.body.insertBefore(d, document.body.firstChild);
+    }).catch(function(){});
+  /* components.js 는 초기화 함수를 등록만 한다 — 크롬은 여기서 켠다 */
+  if (typeof initProtoChrome === 'function') initProtoChrome(document);
+</script>
+</body>
+</html>
