@@ -38,14 +38,13 @@
 
     <nav class="proto-nav" aria-label="시나리오 선택">
 
-      <!-- 두 제품이 같은 골격을 쓴다 — 첫 진입 → 금액이 갈리는 자리 → 막히는 자리 → 보낸 뒤.
-           묶음 이름이 제품마다 다르면 같은 성격의 화면이 서로 다른 자리에 숨는다 -->
+      <!-- 제품 둘은 같은 골격을 쓰고, 오류는 한자리에 모은다 — 검증 코드를
+           두 페이지가 같이 쓰므로 제품마다 되풀이하면 같은 것을 두 번 보여 준다 -->
       <span class="proto-nav-group-label">퇴직공제 전자카드</span>
       <button class="proto-nav-btn proto-nav-sub is-active" type="button" data-scenario="ec-첫진입"
         data-why="페이지를 열면 기간 12개월과 수량 1대가 이미 들어 있고, 단말기만 아무것도 골라져 있지 않습니다. 고른 기기가 없으니 계산할 것이 없어 금액은 0원이고 제출 버튼도 눌리지 않습니다."
         data-steps="페이지를 엽니다 — 그 뒤로는 아무것도 누르지 않습니다"
         data-look="기간 12개월·수량 1대는 처음부터 들어 있습니다|단말기 카드 셋 다 선택 안 된 상태입니다(체크박스 해제·테두리 회색)|제출 버튼이 disabled — 눌리지 않고, 글자가 '단말기를 선택해 주세요'로 다음 할 일을 말합니다|금액 0원, 할인 줄 없음">첫 진입</button>
-
       <span class="proto-nav-group-label proto-nav-group-label--sub">금액이 갈리는 자리</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-한종"
         data-why="벽부형 하나만 고른 가장 흔한 자리. 카드를 고르는 즉시 오른쪽 요약이 채워지고, 대당 단가는 기간이 정합니다."
@@ -63,21 +62,6 @@
         data-why="가장 짧은 계약. 요율이 가장 비싼 구간이라, 견적 조건 옆 말풍선이 말하는 '길수록 싸진다'가 얼마나 차이 나는 말인지 여기서 드러납니다."
         data-steps="벽부형 카드를 누르고 수량 3대를 넣습니다|기간을 12에서 1로 바꿉니다"
         data-look="대당 단가가 가장 비싼 구간입니다|할인 줄이 통째로 사라집니다 — 1개월이 기준가라 깎을 것이 없습니다">1개월</button>
-
-      <span class="proto-nav-group-label proto-nav-group-label--sub">막히는 자리</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-오류-빈칸"
-        data-why="단말기와 동의는 마쳤지만 신청자 정보를 하나도 채우지 않고 제출한 자리. 막는 말을 화면 위 배너로 모으지 않고 막힌 칸 아래에 답니다 — 어디를 고쳐야 하는지 눈이 바로 갑니다."
-        data-steps="벽부형 3대를 고릅니다|개인정보 동의만 체크합니다|신청자 정보는 비운 채 견적신청하기를 누릅니다"
-        data-look="빈 칸이 오류 상태가 됩니다 — 붉은 테두리와 칸 아래 한 줄|화면이 첫 빈 칸으로 내려갑니다|요약 금액은 그대로 — 고른 것까지 지우지 않습니다|동의 항목은 글씨 색만 바뀌고 따로 말을 달지 않습니다">빈 칸</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-오류-사업자"
-        data-why="자릿수는 열 자리로 맞지만 국세청 검증식을 통과하지 못하는 번호입니다. 길이만 세면 오타가 그대로 접수되어 견적서가 엉뚱한 곳으로 갑니다."
-        data-steps="벽부형 3대를 고르고 신청자 정보를 모두 채웁니다|사업자등록번호만 123-45-67890 으로 넣습니다|견적신청하기를 누릅니다"
-        data-look="그 칸만 오류 상태가 되고 나머지는 그대로입니다|'다시 확인해 주세요' — 칸이 비었을 때와 다른 말입니다|열 자리를 다 채웠는데도 막힙니다">사업자번호 오류</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-개인정보"
-        data-why="요약 패널의 동의 줄 옆 '내용 보기'가 여는 모달입니다. 무엇을 받아 어디에 쓰는지 읽고 그 자리에서 동의까지 끝냅니다 — 읽으러 갔다가 돌아와 다시 체크하게 두지 않습니다."
-        data-steps="벽부형 3대를 고릅니다|요약 패널 오른쪽 아래 '내용 보기'를 누릅니다"
-        data-look="수집 항목 · 이용 목적 · 보유·이용 기간 세 줄|이용 목적에 제품 이름이 적힙니다 — 안면인식 쪽과 이 줄만 다릅니다|'동의하고 닫기'가 체크까지 함께 합니다">개인정보 안내</button>
-
       <span class="proto-nav-group-label proto-nav-group-label--sub">보낸 뒤</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ec-전송중"
         data-why="누르고 서버 응답을 기다리는 사이입니다. 지금은 0.6초면 지나가지만 회선이 느리면 이 화면에 오래 머뭅니다 — 그동안 두 번 누르지 못하게 막아 두는 자리입니다."
@@ -93,7 +77,6 @@
         data-why="페이지를 열면 현장 한 곳이 이미 놓여 있고 기간 12개월도 들어 있습니다. 비어 있는 것은 단말기 수량 하나뿐이라 버튼이 그 칸을 가리킵니다. 기기가 한 종뿐이라 고르는 카드가 없습니다."
         data-steps="페이지를 엽니다 — 그 뒤로는 아무것도 누르지 않습니다"
         data-look="현장 1이 이미 놓여 있고 기간 12개월도 들어 있습니다|김반장 이용 여부는 '아니요'가 기본|단말기는 고르는 카드가 아니라 소개 배너입니다|비어 있는 것은 수량 하나뿐이라, disabled 인 버튼이 그 칸을 가리킵니다">첫 진입</button>
-
       <span class="proto-nav-group-label proto-nav-group-label--sub">금액이 갈리는 자리</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-한현장"
         data-why="현장 한 곳만 신청하는 가장 흔한 자리. 5대는 기본 구간이라 수량 할인은 없고, 12개월을 채웠으니 설치비만 지워집니다."
@@ -115,25 +98,6 @@
         data-why="김반장을 이미 쓰는 건설사는 연동비가 붙지 않습니다. 신청자 정보의 라디오 하나가 금액을 바꾸는 유일한 칸입니다."
         data-steps="현장 1의 수량에 5를 넣습니다(기간 12개월 그대로)|신청자 정보로 내려가 '김반장 이용 중이신가요?'를 '네'로 바꿉니다"
         data-look="연동비 줄이 통째로 사라집니다 — 0원으로 남지 않습니다|라디오 하나로 총액이 내려갑니다|이용료와 설치비는 그대로">김반장 이용사</button>
-
-      <span class="proto-nav-group-label proto-nav-group-label--sub">막히는 자리</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-미완"
-        data-why="현장을 둘로 늘려 놓고 한 곳만 채운 자리. 퇴직공제에는 없는 막힘입니다 — 현장이 반복 단위라 '어느 현장이 비었는지'를 짚어 줘야 합니다."
-        data-steps="'현장 추가'를 눌러 현장을 둘로 만듭니다|현장 1에만 수량 5대를 넣습니다|현장 2의 수량은 비워 둡니다"
-        data-look="제출 버튼이 disabled 이고, 비어 있는 현장을 번호로 집습니다|채운 현장의 금액은 그대로 남습니다|할인 줄은 없습니다 — 총 대수가 확정되지 않아 구간을 못 정합니다">채우다 만 현장</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-오류-빈칸"
-        data-why="현장 칸은 다 채웠지만 신청자 정보를 비운 채 제출한 자리. 퇴직공제와 같은 검증 코드를 쓰므로 막는 말도 같아야 합니다 — 나란히 두고 견주는 자리입니다."
-        data-steps="현장 1에 수량 5대를 넣습니다|개인정보 동의만 체크합니다|신청자 정보는 비운 채 견적신청하기를 누릅니다"
-        data-look="빈 칸이 오류 상태가 됩니다 — 퇴직공제와 같은 문구|현장 칸이 다 차 있어도 신청자 정보가 비면 막힙니다|요약 금액은 그대로 남습니다">빈 칸</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-오류-사업자"
-        data-why="검증식은 두 페이지가 같은 코드를 씁니다. 한쪽만 고치고 다른 쪽을 잊는 일이 없게 나란히 둡니다."
-        data-steps="현장 1에 수량 5대를 넣고 신청자 정보를 모두 채웁니다|사업자등록번호만 123-45-67890 으로 넣습니다|견적신청하기를 누릅니다"
-        data-look="그 칸만 오류 상태 — 퇴직공제와 같은 문구|열 자리를 다 채웠는데도 막힙니다 — 자릿수가 아니라 검증식을 봅니다">사업자번호 오류</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-개인정보"
-        data-why="퇴직공제와 같은 모달이지만 이용 목적 줄에 적히는 기기 이름이 다릅니다. 문구가 제품을 따라가는지 보는 자리입니다."
-        data-steps="현장 1에 수량 5대를 넣습니다|요약 패널 오른쪽 아래 '내용 보기'를 누릅니다"
-        data-look="이용 목적에 '안면인식 출퇴근관리 단말기'가 적힙니다|수집 항목은 퇴직공제와 글자까지 같습니다">개인정보 안내</button>
-
       <span class="proto-nav-group-label proto-nav-group-label--sub">보낸 뒤</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fa-전송중"
         data-why="퇴직공제와 같은 자리. 두 페이지가 같은 모양으로 기다리는지 견주어 봅니다."
@@ -143,6 +107,45 @@
         data-why="퇴직공제와 같은 완료 화면입니다. 제목 첫 줄의 기기 이름만 다릅니다."
         data-steps="현장 1에 수량 6대를 넣고(기간 12개월) 신청자 정보를 모두 채웁니다|동의하고 견적신청하기를 누릅니다|전송이 끝날 때까지 기다립니다"
         data-look="제목 첫 줄의 기기 이름만 퇴직공제와 다릅니다|현장이 몇 곳이든 같은 두 줄 — 계약 정보를 적지 않습니다|우측 하단 하늘색과 아이콘은 퇴직공제와 같습니다">완료</button>
+
+      <span class="proto-nav-group-label">막히는 자리</span>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">비워 두면</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="er-빈칸"
+        data-why="신청자 정보를 하나도 채우지 않고 제출한 자리. 막는 말을 화면 위 배너로 모으지 않고 막힌 칸 아래에 답니다 — 어디를 고쳐야 하는지 눈이 바로 갑니다. 두 페이지가 검증 코드를 글자까지 같이 씁니다. 퇴직공제 화면으로 보이지만 안면인식도 같은 말로 막습니다."
+        data-steps="벽부형 3대를 고릅니다|개인정보 동의만 체크합니다|신청자 정보는 비운 채 견적신청하기를 누릅니다"
+        data-look="빈 칸이 오류 상태가 됩니다 — 붉은 테두리와 칸 아래 한 줄|화면이 첫 빈 칸으로 내려갑니다|요약 금액은 그대로 — 고른 것까지 지우지 않습니다|동의 항목은 글씨 색만 바뀌고 따로 말을 달지 않습니다">빈 칸</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="er-동의"
+        data-why="신청자 정보는 다 채우고 개인정보 동의만 빠뜨린 자리. 여기만 칸 아래에 말을 달지 않습니다 — 체크 표시와 글자가 빨개지는 것으로 충분하다고 본 자리입니다."
+        data-steps="단말기를 고르고 신청자 정보를 모두 채웁니다|개인정보 동의는 체크하지 않습니다|견적신청하기를 누릅니다"
+        data-look="동의 줄의 체크 표시와 글자 색이 바뀝니다|칸 아래 문구는 없습니다 — 다른 막힘과 다른 점입니다|화면이 동의 줄로 내려갑니다|보조기술에는 잘못됐다는 사실만 넘어가고 까닭은 넘어가지 않습니다">동의 안 함</button>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">형식이 틀리면</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="er-사업자"
+        data-why="자릿수는 열 자리로 맞지만 국세청 검증식을 통과하지 못하는 번호입니다. 길이만 세면 오타가 그대로 접수되어 견적서가 엉뚱한 곳으로 갑니다. 두 페이지가 검증 코드를 글자까지 같이 씁니다. 퇴직공제 화면으로 보이지만 안면인식도 같은 말로 막습니다."
+        data-steps="벽부형 3대를 고르고 신청자 정보를 모두 채웁니다|사업자등록번호만 123-45-67890 으로 넣습니다|견적신청하기를 누릅니다"
+        data-look="그 칸만 오류 상태가 되고 나머지는 그대로입니다|'다시 확인해 주세요' — 칸이 비었을 때와 다른 말입니다|열 자리를 다 채웠는데도 막힙니다">사업자번호</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="er-연락처"
+        data-why="숫자가 아니거나 자릿수가 맞지 않는 번호. 견적서를 보낸 뒤 전화를 걸어야 하는데, 오타가 그대로 접수되면 닿을 곳이 없습니다."
+        data-steps="단말기를 고르고 신청자 정보를 채웁니다|연락처만 010-12 로 넣습니다|견적신청하기를 누릅니다"
+        data-look="'연락처를 다시 확인해 주세요.' — 비었을 때와 다른 말입니다|그 칸만 오류 상태가 되고 나머지는 그대로입니다|02-123-4567 이나 1588-3818 같은 번호는 통과합니다">연락처</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="er-이메일"
+        data-why="견적서가 가는 곳입니다. 형식이 틀리면 보낸 메일이 어디에도 닿지 않고, 신청한 사람은 기다리기만 합니다."
+        data-steps="단말기를 고르고 신청자 정보를 채웁니다|이메일만 hong@example 로 넣습니다(@ 뒤에 점이 없습니다)|견적신청하기를 누릅니다"
+        data-look="'이메일 형식을 확인해 주세요.' — 비었을 때와 다른 말입니다|그 칸만 오류 상태가 되고 나머지는 그대로입니다|칸을 채웠는데도 막히는 자리입니다">이메일</button>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">덜 채우면</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="er-미완"
+        data-why="현장을 둘로 늘려 놓고 한 곳만 채운 자리. 퇴직공제에는 없는 막힘입니다 — 현장이 반복 단위라 '어느 현장이 비었는지'를 짚어 줘야 합니다."
+        data-steps="'현장 추가'를 눌러 현장을 둘로 만듭니다|현장 1에만 수량 5대를 넣습니다|현장 2의 수량은 비워 둡니다"
+        data-look="제출 버튼이 disabled 이고, 비어 있는 현장을 번호로 집습니다|채운 현장의 금액은 그대로 남습니다|할인 줄은 없습니다 — 총 대수가 확정되지 않아 구간을 못 정합니다">채우다 만 현장</button>
+
+      <span class="proto-nav-group-label">개인정보 동의 안내</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="pv-퇴직공제"
+        data-why="요약 패널의 동의 줄 옆 '내용 보기'가 여는 모달입니다. 무엇을 받아 어디에 쓰는지 읽고 그 자리에서 동의까지 끝냅니다 — 읽으러 갔다가 돌아와 다시 체크하게 두지 않습니다."
+        data-steps="벽부형 3대를 고릅니다|요약 패널 오른쪽 아래 '내용 보기'를 누릅니다"
+        data-look="수집 항목 · 이용 목적 · 보유·이용 기간 세 줄|이용 목적에 제품 이름이 적힙니다 — 안면인식 쪽과 이 줄만 다릅니다|'동의하고 닫기'가 체크까지 함께 합니다">퇴직공제</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="pv-안면인식"
+        data-why="퇴직공제와 같은 모달이지만 이용 목적 줄에 적히는 기기 이름이 다릅니다. 문구가 제품을 따라가는지 보는 자리입니다."
+        data-steps="현장 1에 수량 5대를 넣습니다|요약 패널 오른쪽 아래 '내용 보기'를 누릅니다"
+        data-look="이용 목적에 '안면인식 출퇴근관리 단말기'가 적힙니다|수집 항목은 퇴직공제와 글자까지 같습니다">안면인식</button>
 
       <span class="proto-nav-group-label">메인에서 띄운 모달</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="md-열림"
@@ -212,18 +215,6 @@
     'ec-장기'  :{url:EC, act:function(d){ pick(d,'W400'); ecQty(d,'W400',3); put(d.querySelector('#months'),18); }},
     'ec-단기'  :{url:EC, act:function(d){ pick(d,'W400'); ecQty(d,'W400',3); put(d.querySelector('#months'),1); }},
 
-    /* 퇴직공제 — 막히는 자리 */
-    'ec-오류-빈칸':{url:EC, act:async function(d){
-      pick(d,'W400'); ecQty(d,'W400',3); agree(d);
-      hit(d.querySelector('#btnSubmit')); await wait(300); }},
-    'ec-오류-사업자':{url:EC, act:async function(d){
-      pick(d,'W400'); ecQty(d,'W400',3); applicant(d);
-      put(d.querySelector('#q-biz'),'123-45-67890'); agree(d);
-      hit(d.querySelector('#btnSubmit')); await wait(300); look(d,'#q-biz'); }},
-    'ec-개인정보':{url:EC, act:async function(d){
-      pick(d,'W400'); ecQty(d,'W400',3);
-      hit(d.querySelector('#privacyOpen')); await wait(200); }},
-
     /* 퇴직공제 — 보낸 뒤. 채우고 누르는 길은 페이지가 이미 알고 있다(?done=1 · ?hold=1) */
     'ec-전송중':{url:EC+'?hold=1'},
     'ec-완료'  :{url:EC+'?done=1'},
@@ -243,24 +234,41 @@
       var y=d.querySelector('input[name=kbz_user][value=Y]');
       if(y){ y.checked=true; y.dispatchEvent(new Event('change',{bubbles:true})); }
       look(d,'.f-item.kbz'); }},
-    'fa-미완'  :{url:FA, act:async function(d){
-      await addSites(d,2); fill(d,0,5,12); look(d,'#btnSubmit'); }},
-
-    /* 안면인식 — 막히는 자리. 검증은 퇴직공제와 같은 코드를 쓴다 */
-    'fa-오류-빈칸':{url:FA, act:async function(d){
-      fill(d,0,5,12); agree(d); await wait(80);
-      hit(d.querySelector('#btnSubmit')); await wait(300); }},
-    'fa-오류-사업자':{url:FA, act:async function(d){
-      fill(d,0,5,12); applicant(d);
-      put(d.querySelector('#q-biz'),'123-45-67890'); agree(d); await wait(80);
-      hit(d.querySelector('#btnSubmit')); await wait(300); look(d,'#q-biz'); }},
-    'fa-개인정보':{url:FA, act:async function(d){
-      fill(d,0,5,12); await wait(80);
-      hit(d.querySelector('#privacyOpen')); await wait(200); }},
 
     /* 안면인식 — 보낸 뒤 */
     'fa-전송중':{url:FA+'?hold=1'},
     'fa-완료'  :{url:FA+'?done=1'},
+
+    /* 막히는 자리 — 검증 코드를 두 페이지가 같이 쓰므로 한 화면으로 보여 준다.
+       현장 칸이 얽힌 '채우다 만 현장'만 안면인식에서 봐야 한다 */
+    'er-빈칸'  :{url:EC, act:async function(d){
+      pick(d,'W400'); ecQty(d,'W400',3); agree(d);
+      hit(d.querySelector('#btnSubmit')); await wait(300); }},
+    'er-동의'  :{url:EC, act:async function(d){
+      pick(d,'W400'); ecQty(d,'W400',3); applicant(d);
+      hit(d.querySelector('#btnSubmit')); await wait(300); look(d,'.q-agree'); }},
+    'er-사업자':{url:EC, act:async function(d){
+      pick(d,'W400'); ecQty(d,'W400',3); applicant(d);
+      put(d.querySelector('#q-biz'),'123-45-67890'); agree(d);
+      hit(d.querySelector('#btnSubmit')); await wait(300); look(d,'#q-biz'); }},
+    'er-연락처':{url:EC, act:async function(d){
+      pick(d,'W400'); ecQty(d,'W400',3); applicant(d);
+      put(d.querySelector('#q-phone'),'010-12'); agree(d);
+      hit(d.querySelector('#btnSubmit')); await wait(300); look(d,'#q-phone'); }},
+    'er-이메일':{url:EC, act:async function(d){
+      pick(d,'W400'); ecQty(d,'W400',3); applicant(d);
+      put(d.querySelector('#q-email'),'hong@example'); agree(d);
+      hit(d.querySelector('#btnSubmit')); await wait(300); look(d,'#q-email'); }},
+    'er-미완'  :{url:FA, act:async function(d){
+      await addSites(d,2); fill(d,0,5,12); look(d,'#btnSubmit'); }},
+
+    /* 개인정보 동의 안내 — 이용 목적 줄의 기기 이름만 다르다 */
+    'pv-퇴직공제':{url:EC, act:async function(d){
+      pick(d,'W400'); ecQty(d,'W400',3);
+      hit(d.querySelector('#privacyOpen')); await wait(200); }},
+    'pv-안면인식':{url:FA, act:async function(d){
+      fill(d,0,5,12); await wait(80);
+      hit(d.querySelector('#privacyOpen')); await wait(200); }},
 
     /* 메인에서 띄운 모달 — 실제로 사람이 만나는 자리 */
     'md-열림'  :{url:MAIN, act:async function(d){
