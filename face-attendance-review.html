@@ -1544,9 +1544,11 @@ body.rw-done .rw-main{padding-block:0}
   }).join('');
 
   function sitePicked(){ return $$('#sitePop input:checked').map(function(c){return c.value;}); }
-  /* 한 현장에 후기는 하나다. 다른 분이 이미 맡았으면 고를 수 없게 하되 목록에서
-     지우지는 않는다 — 없어진 현장인지 이미 찬 현장인지 구별이 안 되기 때문이다.
-     내 기록은 뺀다. 내가 맡은 현장까지 잠기면 내 후기를 못 고친다 */
+  /* 한 현장에 후기는 하나다. 가리는 기준은 담당 여부가 아니라 기록이다 —
+     그 현장을 고른 후기가 이미 있으면(임시저장이든 제출이든) 잠근다.
+     누가 진짜 담당인지는 여기서 알 길이 없고, 알 필요도 없다.
+     목록에서 지우지는 않는다 — 없어진 현장인지 이미 찬 현장인지 구별이 안 되기 때문이다.
+     내 기록은 뺀다. 내 후기에 든 현장까지 잠기면 내 후기를 못 고친다 */
   function takenSites(){
     var out={};
     try{
@@ -1556,7 +1558,9 @@ body.rw-done .rw-main{padding-block:0}
         if(k==='kbz_rv_'+VD) continue;
         var r=JSON.parse(localStorage.getItem(k)||'null');
         if(!r || r.guest || !r.data) continue;
-        (r.data['#site']||[]).forEach(function(v){ out[v]=r.name||'다른 담당자'; });
+        /* 이름은 담지 않는다 — 잠그는 데 쓰이지 않고, 남겨 두면 담당자를 대조한
+           것처럼 읽힌다. 필요한 것은 '그 현장에 후기가 있다' 하나다 */
+        (r.data['#site']||[]).forEach(function(v){ out[v]=true; });
       }
     }catch(e){}
     return out;
