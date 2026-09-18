@@ -1231,6 +1231,8 @@ body[data-mode="b"] .partition-11::before{content:"";position:absolute;inset:0;z
 @media(max-width:640px){
   .qm{width:100vw;height:100vh;border-radius:0}
   @supports(height:100dvh){.qm{height:100dvh}}
+  /* 완료 화면은 내용만큼만 — 전체화면이 아니게 되므로 모서리를 되살린다 */
+  .qm.is-fit{width:calc(100vw - 24px);border-radius:14px}
   .qm-x{top:10px;right:10px;width:34px;height:34px}
 }
 </style>
@@ -3561,14 +3563,20 @@ function jumpTopic(i){
     try { d = frame.contentDocument; } catch (err) { return; }
     var card = d && d.getElementById('doneCard');
     var main = d && d.querySelector('.q-main');
-    var full = window.matchMedia('(max-width:640px)').matches;   /* 좁은 화면은 전체화면이 기본 */
-    if (full || !card || !main || !card.classList.contains('on')){
-      dlg.style.width = dlg.style.height = '';
+    var on = !!(card && main && card.classList.contains('on'));
+    dlg.classList.toggle('is-fit', on);
+    if (!on){ dlg.style.width = dlg.style.height = ''; return; }
+    var h = Math.ceil(main.getBoundingClientRect().bottom + (d.defaultView.scrollY || 0));
+    /* 좁은 화면은 폼일 때 전체화면이 맞다. 다만 완료 화면은 몇 줄뿐이라
+       그대로 두면 아래가 통째로 비고, 화면 바닥에 붙는 그라데이션·아이콘이
+       내용에서 멀어진다. 폭은 CSS 에 맡기고 높이만 내용에 맞춘다. */
+    if (window.matchMedia('(max-width:640px)').matches){
+      dlg.style.width  = '';
+      dlg.style.height = 'min(' + h + 'px, calc(100dvh - 32px))';
       return;
     }
     var r = card.getBoundingClientRect();
     var w = Math.ceil(r.width + r.left * 2);                     /* 좌우 여백을 같게 */
-    var h = Math.ceil(main.getBoundingClientRect().bottom + (d.defaultView.scrollY || 0));
     dlg.style.width  = 'min(' + w + 'px, calc(100vw - 40px))';
     dlg.style.height = 'min(' + h + 'px, 88vh, 900px)';
   }

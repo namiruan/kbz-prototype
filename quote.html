@@ -93,7 +93,7 @@ body.quote-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;poi
 body.quote-page.is-done::after{content:"";position:fixed;
   /* 그림 파일 자체가 우 14.2% · 하 12.4% 를 투명 여백으로 갖고 있다.
      그만큼 상자를 모서리 밖으로 빼야 그림이 실제로 모서리에 붙는다. */
-  --doc:clamp(190px,44vw,320px);
+  --doc:clamp(150px,min(44vw,58vh),320px);
   right:calc(14px - var(--doc) * .142);
   bottom:calc(16px - var(--doc) * .124);
   width:var(--doc);height:var(--doc);z-index:-1;pointer-events:none;
