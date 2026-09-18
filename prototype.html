@@ -96,7 +96,7 @@
         data-why="비회원사도 적어 낸 회사명으로 부릅니다."
         data-steps="따로 할 것 없이 바로 보입니다"
         data-look="머리글이 '대한건설 담당자님'|수정하기를 누르면 번호 인증 모달이 뜹니다 — 기댈 로그인이 없기 때문입니다|통과하면 회사 정보를 다시 받지 않고 쓰던 폼으로 돌아갑니다">제출 완료</button>
-      <span class="proto-nav-group-label">인증 실패</span>
+      <span class="proto-nav-group-label">막히는 자리</span>
       <span class="proto-nav-group-label proto-nav-group-label--sub">로그인</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="err-로그인빈칸"
         data-why="빈 칸으로 로그인을 누른 자리. 무엇이 틀렸는지가 아니라 무엇이 비었는지를 말합니다."
@@ -268,7 +268,7 @@
       seed:[DUP_G], act:dupAsk},
     'gst-완료'     :{url:REVIEW+'?guest=1&done=1', seed:[]},
 
-    /* 인증 실패 — 칸마다 어떤 말로 막는지 한 자리에 모은다.
+    /* 막히는 자리 — 칸마다 어떤 말로 막는지 한 자리에 모은다.
        실패 문구는 성공 화면보다 눈에 덜 띄어 고칠 때 빠지기 쉽다 */
     'err-로그인빈칸':{url:LOGIN, seed:[],
       act:function(d){ hit(d.querySelector('#login-form button[type=submit]')); }},
