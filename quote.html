@@ -37,6 +37,7 @@
   /* 오류 — 네 페이지가 같이 본다. 테두리는 비텍스트라 3:1 이면 되지만
      칸 아래 문구는 4.5:1 이 필요해 한 단계 짙은 값을 따로 둔다 */
   --danger:#D93F45;            /* 테두리·아이콘 */
+  --danger-rgb:217,63,69;      /* 위 값의 rgb — 투명도를 쓸 때 */
   --danger-text:#B8353A;       /* 칸 아래 문구 — 흰 바탕 5.82:1 */
   --main-blue:rgba(var(--color-blue-rgb),1);
   --main-navy:rgba(var(--color-navy-rgb),1);
@@ -198,7 +199,7 @@ body.is-done .q-main{padding-bottom:72px}
 /* 라이브 폼은 포커스 시 아무 변화가 없다. 키보드 사용자가 위치를 잃지 않도록
    같은 색 계열에서 테두리만 진하게 + 옅은 링을 더했다. */
 .field:focus-within{border-color:var(--field-ink);box-shadow:0 0 0 3px rgba(51,54,61,.09)}
-.field.is-err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(217,63,69,.09)}
+.field.is-err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(var(--danger-rgb),.09)}
 .field input,.field select{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;font-weight:400;color:var(--field-ink);letter-spacing:-.01em}
 .field input,.field select{height:100%}
 .field select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:2px}
@@ -346,7 +347,7 @@ body.is-done .q-main{padding-bottom:72px}
 .q-agree-link:hover{color:var(--ink)}
 .q-agree-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
 /* 동의만 빠진 채 제출했을 때 눈에 들어오도록 */
-.q-agree.is-err .box{border-color:var(--danger);box-shadow:0 0 0 3px rgba(217,63,69,.12)}
+.q-agree.is-err .box{border-color:var(--danger);box-shadow:0 0 0 3px rgba(var(--danger-rgb),.12)}
 .q-agree.is-err .q-check{color:var(--danger-text)}
 
 /* ===== 안내 모달 =====
@@ -388,7 +389,7 @@ body.is-done .q-main{padding-bottom:72px}
 /* 칸이 아닌 덩어리(단말기 목록)의 메시지 */
 .f-msg.block{margin-top:10px}
 /* 남은 배너는 전송 실패 같은 폼 전체의 문제에만 쓴다 */
-.q-err{display:none;margin-top:14px;padding:11px 13px;border-radius:4px;background:rgba(217,63,69,.05);border:1px solid rgba(217,63,69,.22);font-size:12.5px;font-weight:600;color:var(--danger-text);line-height:1.55;word-break:keep-all}
+.q-err{display:none;margin-top:14px;padding:11px 13px;border-radius:4px;background:rgba(var(--danger-rgb),.05);border:1px solid rgba(var(--danger-rgb),.22);font-size:12.5px;font-weight:600;color:var(--danger-text);line-height:1.55;word-break:keep-all}
 .q-err.on{display:block}
 </style>
 </head>
