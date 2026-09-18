@@ -771,7 +771,11 @@ function render(){
   if (has && q.months > 1){
     var base = q.items.reduce(function(s, it){ return s + RATE[it.id][1] * it.qty; }, 0) * q.months;
     document.getElementById('sumWas').textContent = won(base);   /* 총액과 같은 VAT 별도 기준 */
-    document.getElementById('sumOffLabel').textContent = q.months + '개월 계약 할인';
+    /* 13개월을 넘겨도 요율은 12개월에서 멈춘다. '18개월 계약 할인'이라 적으면
+       18개월에 제 요율이 따로 있는 것처럼 읽혀 라벨이 사실보다 크게 말한다. */
+    document.getElementById('sumOffLabel').textContent = q.months > MAX_TIER
+      ? MAX_TIER + '개월 이상 할인'
+      : q.months + '개월 계약 할인';
     document.getElementById('sumOff').textContent = Math.round((base - q.supply) / base * 100) + '%';
     disc.classList.add('on');
   } else {
