@@ -48,8 +48,8 @@
       <span class="proto-nav-group-label proto-nav-group-label--sub">새 후기 작성</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-인증전"
         data-why="로그인한 이용사가 처음 들어온 자리. 회사명은 계정에서 오므로 머리글에만 있고 따로 묻지 않습니다."
-        data-steps="아무것도 하지 않은 처음 상태입니다|이름과 번호를 넣고 인증하면 다음 시나리오의 화면이 됩니다"
-        data-look="아래가 흐리고 손이 닿지 않습니다 — 탭으로도 들어가지 않습니다|플로팅 막대가 숨어 있습니다|단계 표시가 ① 작성자 인증에 있습니다">인증 전</button>
+        data-steps="아무것도 하지 않은 처음 상태입니다|핸드폰 번호에 하이픈 없이 숫자만 쳐 보세요|이름과 번호를 넣고 인증하면 다음 시나리오의 화면이 됩니다"
+        data-look="아래가 흐리고 손이 닿지 않습니다 — 탭으로도 들어가지 않습니다|플로팅 막대가 숨어 있습니다|단계 표시가 ① 작성자 인증에 있습니다|숫자만 쳐도 '010 - 1234 - 5678' 로 구분선이 저절로 들어갑니다 — 하이픈은 사람이 넣지 않습니다">인증 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-인증후"
         data-why="번호 인증을 마친 직후. 쓴 적 없는 번호라 되찾을 기록이 없고, 빈 폼이 열립니다."
         data-steps="이름 최소장, 번호 010-9000-0001 로 인증을 마친 상태입니다"
@@ -76,8 +76,8 @@
       <span class="proto-nav-group-label proto-nav-group-label--sub">새 후기 작성</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-인증전"
         data-why="로그인 없이 들어온 자리. 계약 목록이 없으니 회사명·사업자등록번호를 직접 밝힙니다. 이용사와 달리 문이 둘이라, 사업장을 먼저 밝혀야 작성자 칸이 열립니다."
-        data-steps="아무것도 하지 않은 처음 상태입니다"
-        data-look="작성자 이름·번호 칸이 회색으로 잠겨 있습니다|머리글이 '다시 만나서 반가워요!' — 아직 회사명을 모릅니다|회사명을 적는 대로 머리글이 따라옵니다">인증 전</button>
+        data-steps="아무것도 하지 않은 처음 상태입니다|사업자등록번호에 하이픈 없이 숫자만 쳐 보세요"
+        data-look="작성자 이름·번호 칸이 회색으로 잠겨 있습니다|머리글이 '다시 만나서 반가워요!' — 아직 회사명을 모릅니다|회사명을 적는 대로 머리글이 따라옵니다|숫자만 쳐도 '123 - 45 - 67890' 으로 구분선이 저절로 들어갑니다 — 핸드폰 번호도 같습니다">인증 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-사업자확인"
         data-why="사업자등록번호 확인을 마친 직후. 사업장이 밝혀져 작성자 칸이 열립니다."
         data-steps="회사명 대한건설, 사업자등록번호 555-66-77880 을 확인한 상태입니다"
