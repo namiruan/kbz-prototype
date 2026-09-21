@@ -1157,21 +1157,28 @@ body.rw-done .rw-main{padding-block:0}
 
     var pop=document.createElement('ul'); pop.className='sel-pop'; pop.hidden=true;
     pop.id=pid; pop.setAttribute('role','listbox');
-    $$('option',sel).forEach(function(o,i){
-      if(o.disabled) return;                       /* '고르세요' 는 목록에 넣지 않는다 */
-      var li=document.createElement('li');
-      li.setAttribute('role','option'); li.tabIndex=-1; li.dataset.i=i; li.textContent=o.textContent;
-      pop.appendChild(li);
-    });
-    var order=$$('li[role="option"]',pop);         /* 처음 차례 — 되돌려 세울 때 쓴다 */
     var none=null;
     if(COMBO){
       /* 찾은 것이 없다는 말은 읽어 주는 쪽에도 넘긴다 */
       none=document.createElement('li'); none.className='sel-none';
       none.setAttribute('role','presentation'); none.setAttribute('aria-live','polite');
       none.textContent='검색 결과가 없습니다.'; none.hidden=true;
-      pop.appendChild(none);
     }
+    var order=[];                                  /* 처음 차례 — 되돌려 세울 때 쓴다 */
+    /* select 의 option 을 그대로 옮겨 적는다. 목록이 통째로 바뀌는 칸(업종명)이
+       있으므로 다시 부를 수 있게 함수로 둔다 */
+    function build(){
+      pop.innerHTML='';
+      $$('option',sel).forEach(function(o,i){
+        if(o.disabled) return;                     /* '고르세요' 는 목록에 넣지 않는다 */
+        var li=document.createElement('li');
+        li.setAttribute('role','option'); li.tabIndex=-1; li.dataset.i=i; li.textContent=o.textContent;
+        pop.appendChild(li);
+      });
+      if(none) pop.appendChild(none);
+      order=$$('li[role="option"]',pop);
+    }
+    build();
     wrap.appendChild(pop);
 
     function label(){ var o=sel.options[sel.selectedIndex]; return (o && !o.disabled) ? o.textContent : ''; }
@@ -1194,6 +1201,7 @@ body.rw-done .rw-main{padding-block:0}
       if(none) none.hidden = hit>0;
     }
     wrap.__sync=sync;
+    wrap.__rebuild=function(){ build(); sync(); };
     wrap.__open=function(){
       if(!COMBO){
         var cur0=$('li[aria-selected="true"]',pop);
@@ -1738,6 +1746,24 @@ body.rw-done .rw-main{padding-block:0}
   }).join('');
 
   function sitePicked(){ return $$('#sitePop input:checked').map(function(c){return c.value;}); }
+  /* 현장마다 계약에 실린 면허가 다르다 — 실제로는 계약 정보에 딸려 온다.
+     한 후기가 여러 현장을 덮으므로, 고른 현장들의 면허를 합쳐서 보여 준다.
+     계정이 가진 면허 밖의 것은 걸러 낸다(lic 로 면허 수를 줄여 볼 때를 위해) */
+  var SITE_LIC={};
+  SITE_LIC[SITES[0]]=['토목건축공사업'];
+  SITE_LIC[SITES[1]]=['토목건축공사업','철근·콘크리트공사업'];
+  SITE_LIC[SITES[2]]=['철근·콘크리트공사업'];
+  SITE_LIC[SITES[3]]=['실내건축공사업'];
+  SITE_LIC[SITES[4]]=ACCT_LIC;                 /* 본사는 현장 계약이 아니라 계정 전체다 */
+  function licFor(picked){
+    var out=[];
+    picked.forEach(function(v){
+      (SITE_LIC[v] || ACCT_LIC).forEach(function(t){
+        if(ACCT_LIC.indexOf(t)>=0 && out.indexOf(t)<0) out.push(t);
+      });
+    });
+    return out.sort(byKo);
+  }
   /* 한 현장에 후기는 하나다. 가리는 기준은 담당 여부가 아니라 기록이다 —
      그 현장을 고른 후기가 이미 있으면(임시저장이든 제출이든) 잠근다.
      누가 진짜 담당인지는 여기서 알 길이 없고, 알 필요도 없다.
@@ -1787,21 +1813,33 @@ body.rw-done .rw-main{padding-block:0}
   function syncBizLock(){
     if(GUEST) return;
     var sel=$('#r-biz'); if(!sel) return;
-    var on=sitePicked().length>0, box=sel.closest('.f-in'), inp=$('#'+sel.id+'-in');
+    var picked=sitePicked(), on=picked.length>0;
+    var box=sel.closest('.f-in'), wrap=sel.closest('.rw-sel'), inp=$('#'+sel.id+'-in');
     sel.disabled=!on;
     if(inp){
       inp.disabled=!on;
       inp.placeholder = on ? '업종명을 검색하거나 고르세요' : '계약 현장을 먼저 선택해 주세요';
     }
     if(on) box.removeAttribute('data-disabled'); else box.setAttribute('data-disabled','');
+
+    /* 고른 현장들의 계약 면허를 합친다. 두 곳을 고르면 두 곳의 면허가 다 들어온다 —
+       한 후기가 여러 현장을 덮으므로 그 현장들 중 어느 것의 업종이든 답이 될 수 있다 */
+    var want=licFor(picked), cur=sel.value;
+    var out='<option value="" disabled selected>업종명을 검색하거나 고르세요</option>'
+          + want.map(function(t){ return '<option>'+t+'</option>'; }).join('');
+    if(out!==sel.innerHTML){
+      sel.innerHTML=out;
+      /* 고른 값이 새 목록에도 있으면 지킨다. 없으면 그 현장의 업종이 아니므로 버린다 */
+      if(cur && want.indexOf(cur)>=0) sel.value=cur;
+      if(wrap && wrap.__rebuild) wrap.__rebuild();
+    }
     if(!on && sel.value){
       sel.selectedIndex=0;                       /* 0 번은 '고르세요' 다 */
-      sel.dispatchEvent(new Event('change',{bubbles:true}));
-    }else if(on && !sel.value && sel.options.length===2){
-      /* 계정에 면허가 하나뿐이면 고를 것이 없다 — 현장이 정해진 지금 채워 둔다 */
-      sel.selectedIndex=1;
-      sel.dispatchEvent(new Event('change',{bubbles:true}));
+    }else if(on && !sel.value && want.length===1){
+      /* 고를 것이 하나뿐이면 고를 일이 없다 — 지금 채워 둔다 */
+      sel.value=want[0];
     }
+    if(sel.value!==cur) sel.dispatchEvent(new Event('change',{bubbles:true}));
   }
   syncBizLock();                     /* 처음 들어왔을 때도 잠근 채로 시작한다 */
   function siteOpen(on){
