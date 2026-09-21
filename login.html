@@ -381,7 +381,7 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
     </div>
   </div>
 
-  <!-- 하단 이벤트 띠 — 띠 전체가 비이용사 작성 폼으로 가는 길이다.
+  <!-- 하단 이벤트 띠 — 띠 전체가 미이용사 작성 폼으로 가는 길이다.
        작은 줄은 자격(26년 안면인식 사용 이력), 큰 줄은 지금 상태를 풀어 준다.
        '계약이 끝났어도'라고 하면 안면인식 계약인지 본 서비스 계약인지 모른다 —
        안면인식은 그만뒀어도 김반장은 쓰고 있을 수 있어서, 제품명을 그대로 적는다 -->
@@ -524,7 +524,7 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
         if(k.indexOf('kbz_rv_')!==0) continue;
         var r=JSON.parse(localStorage.getItem(k)||'null');
         /* 임시저장분도 센다 — 아직 제출 전이라도 그 현장을 맡은 사람이 이미 있다.
-           비이용사는 계약 목록이 없어 현장명을 글로 적는다(r-sitename). 계약 현장을
+           미이용사는 계약 목록이 없어 현장명을 글로 적는다(r-sitename). 계약 현장을
            가리키는 #site 는 애초에 담기지 않으니 따로 걸러낼 것이 없다 */
         if(!r || !r.data) continue;
         (r.data['#site']||[]).forEach(function(v){ out[v]=true; });
