@@ -1093,18 +1093,15 @@ body.rw-done .rw-main{padding-block:0}
   (function(){
     var n=parseInt(q.get('lic'),10);
     if(n>0) ACCT_LIC=ACCT_LIC.slice(0,n);
-    var sel=$('#r-biz'), list, out='';
-    if(GUEST){
-      out='<option value="" disabled selected>업종명을 검색하거나 고르세요</option>';
-      list=LICENSE.slice().sort(byKo);
-    }else{
-      /* 계정이 들고 온 것만 담고 맨 앞을 미리 골라 둔다 — 한 개뿐이면 고를 일이 없고,
-         여럿이면 이번 현장의 업종으로 바꾸기만 하면 된다 */
-      list=ACCT_LIC.slice().sort(byKo);
-    }
-    out+=list.map(function(t,i){
-      return '<option'+(!GUEST && !i ? ' selected' : '')+'>'+t+'</option>';
-    }).join('');
+    var sel=$('#r-biz'), list;
+    /* 미이용사는 스무 가지 전부, 이용사는 계정이 들고 온 것만 */
+    list=(GUEST ? LICENSE : ACCT_LIC).slice().sort(byKo);
+    /* 미리 고르는 것은 고를 것이 없을 때뿐이다. 면허가 여럿인데 하나를 채워 두면,
+       아직 고르지도 않은 계약 현장의 업종이 이미 정해진 셈이 된다 — 업종명은
+       그 현장에 딸린 값이므로 현장을 정한 뒤에 짚어야 앞뒤가 맞는다 */
+    var one = !GUEST && list.length===1;
+    var out = one ? '' : '<option value="" disabled selected>업종명을 검색하거나 고르세요</option>';
+    out+=list.map(function(t){ return '<option'+(one?' selected':'')+'>'+t+'</option>'; }).join('');
     sel.innerHTML=out;
     /* 이 칸만 쳐서 찾는다 — 업종명은 사람이 제 회사의 답을 이미 알고 온다.
        이용사 쪽에는 '고르세요' 옵션이 없으므로(맨 앞이 미리 골라져 있다)
