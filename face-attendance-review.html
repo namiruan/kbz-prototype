@@ -335,7 +335,9 @@ body.rw-ok .rw-gate{display:none}
 
 /* 칸 아래 메시지 (input_message_atomic) */
 .f-msg{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:var(--pad-3)}
-.f-msg .note{color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px}
+/* 두 줄로 접힐 때 낱말 한가운데가 아니라 낱말 사이에서 끊기게 한다 —
+   '…없습니 / 다.' 로 갈라지면 읽다 말고 다시 붙여 읽어야 한다 */
+.f-msg .note{color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px;word-break:keep-all}
 .f-msg .note.danger{color:var(--danger-text);font-size:12px;font-weight:600;line-height:1.5}
 .f-msg .note.ok{color:var(--main-blue)}
 .f-cnt{margin-left:auto;color:var(--ds-text-label);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;font-variant-numeric:tabular-nums}
@@ -1318,7 +1320,7 @@ body.rw-done .rw-main{padding-block:0}
   }
   /* 참여 대상이 아닌 사업장 — 고칠 수 있는 실수가 아니라 자격이라, 무엇이 없어서
      막혔는지까지 말한다. 번호를 다시 치게 하는 말이면 안 된다 */
-  function showOld(){ showBizBlocked('2026년 이후 계약 내역이 없어 참여하실 수 없습니다.'); }
+  function showOld(){ showBizBlocked('2026년 이후 체결한 계약 내역이 없어 참여하실 수 없습니다.'); }
   function showDup(o){
     DUP=true;
     $('#g-biz').closest('.f-in').classList.add('is-err');
