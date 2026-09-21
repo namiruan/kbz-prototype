@@ -664,8 +664,11 @@ body.rw-done .rw-main{padding-block:0}
               <div class="rw-lb"><label for="r-phone"><span>핸드폰 번호</span></label><em>(필수)</em></div>
               <div class="rw-withbtn">
                 <div class="f-in" id="phoneWrap">
-                  <!-- 010 - 1234 - 5678 = 17자. 11 이나 13 으로 잡으면 구분자 때문에 중간에서 잘린다 -->
-                  <input id="r-phone" type="tel" inputmode="tel" maxlength="17" placeholder="010 - **** - ****">
+                  <!-- 010 - 1234 - 5678 = 17자. 11 이나 13 으로 잡으면 구분자 때문에 중간에서 잘린다.
+                       자리표시자의 셋째 자리는 별표다 — 010 만 받는 칸이 아니라 01 로 시작하는
+                       11자리를 다 받으므로, 010 을 적어 두면 011 을 쓰는 분이 자기 번호를 못 넣는
+                       칸으로 읽는다. 막는 말('01로 시작하는 11자리')과도 같은 말이 된다 -->
+                  <input id="r-phone" type="tel" inputmode="tel" maxlength="17" placeholder="01* - **** - ****">
                 </div>
                 <button type="button" class="btn" id="btnSend">인증</button>
               </div>
@@ -837,7 +840,7 @@ body.rw-done .rw-main{padding-block:0}
                생기면 같은 버튼인지 알아보지 못한다 (피그마 3617:35909 의 칸 안 칩에서 벗어난다) -->
           <div class="rw-withbtn">
             <div class="f-in">
-              <input id="ask-phone" type="tel" inputmode="tel" maxlength="17" placeholder="010 - **** - ****" autocomplete="off">
+              <input id="ask-phone" type="tel" inputmode="tel" maxlength="17" placeholder="01* - **** - ****" autocomplete="off">
             </div>
             <button type="button" class="btn" id="askSend">인증</button>
           </div>
