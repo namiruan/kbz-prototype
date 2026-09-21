@@ -215,7 +215,7 @@ body.rw-ok .rw-gate{display:none}
 
 /* 3열 그리드 */
 /* 기타 정보 — 칸은 셋을 적어 두었지만 한 번에 보이는 것은 늘 둘이다.
-   이용사는 계약 현장, 미이용사는 현장명, 그리고 업종명. 셋으로 나누면 한 칸이 늘 비고
+   이용사는 계약 현장, 미이용사는 현장명, 그리고 면허. 셋으로 나누면 한 칸이 늘 비고
    그만큼 현장 이름이 좁아진다 — 둘로 나누되 이름이 긴 현장 쪽을 넓게 준다 */
 .rw-grid-site{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px}
 /* 720 아래로는 섹션 제목이 아직 제 칸을 차지해 패널이 눌린다. 거기서 둘로 나누면
@@ -300,6 +300,18 @@ body.rw-ok .rw-gate{display:none}
 @media(hover:none){.ms-pop label.is-off::after{opacity:1}}
 @media(prefers-reduced-motion:reduce){.ms-pop label.is-off::after{transition:none}}
 .sel-pop li[aria-selected="true"]{color:var(--main-blue)}
+/* 스무 가지를 훑게 하지 않는다 — 목록 맨 위에 검색 줄을 붙이고 스크롤해도 따라오게 한다 */
+.sel-pop .sel-qrow{position:sticky;top:-5px;z-index:1;min-height:0;padding:5px 0 8px;background:var(--main-white);cursor:default}
+.sel-pop .sel-qrow:hover{background:var(--main-white)}
+.sel-pop .sel-q{width:100%;height:40px;padding:0 10px;border:1px solid var(--ds-border-subtle);border-radius:var(--rad-sm);
+  background:var(--main-white);color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:16px}
+.sel-pop .sel-q:focus{outline:none;border-color:var(--main-blue)}
+/* 묶음 머리글 — 고르는 줄이 아니므로 작고 옅게, 손 모양도 주지 않는다 */
+.sel-pop .sel-grp{min-height:0;padding:8px 10px 4px;cursor:default;color:var(--ds-text-subtle);
+  font-family:var(--font-pretendard);font-size:13px;font-weight:600;letter-spacing:-.08px}
+.sel-pop .sel-grp:hover{background:none}
+.sel-pop .sel-none{min-height:0;padding:12px 10px;cursor:default;color:var(--ds-text-subtle);font-size:15px}
+.sel-pop .sel-none:hover{background:none}
 .ms-pop input{flex:none;width:16px;height:16px;margin:0;accent-color:var(--main-blue);cursor:pointer}
 
 /* 네이티브 select 는 목록을 OS 가 그리는 탓에 칸 위로 겹쳐 뜬다 — 칸 아래로
@@ -731,15 +743,11 @@ body.rw-done .rw-main{padding-block:0}
             <div class="f-in"><input id="r-sitename" type="text" placeholder="현장명을 입력하세요"></div>
           </div>
           <div>
-            <div class="rw-lb"><label for="r-biz"><span>업종명</span></label><em>(필수)</em></div>
+            <div class="rw-lb"><label for="r-biz"><span>면허</span></label><em>(필수)</em></div>
             <div class="f-in">
-              <select id="r-biz" class="ph">
-                <option value="" disabled selected>업종을 선택하세요</option>
-                <option>종합건축사업</option><option>토공사업</option>
-                <option>철골 및 관련 구조물 공사업</option><option>미장·방수·조적공사업</option>
-                <option>배관 및 냉·난방 공사업</option><option>도배, 실내장식 및 내장 목공사업</option>
-                <option>유리 및 창호 공사업</option><option>시설물 유지관리 공사업</option><option>기타</option>
-              </select>
+              <!-- 목록은 스크립트가 채운다 — 이용사는 계정이 들고 온 면허만,
+                   미이용사는 스무 가지 전부(검색으로 좁힌다) -->
+              <select id="r-biz" class="ph"></select>
               <span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
             </div>
           </div>
@@ -1053,7 +1061,47 @@ body.rw-done .rw-main{padding-block:0}
     $('.f-in',wrap).setAttribute('aria-expanded','true');
     var cur=$('.sel-pop li[aria-selected="true"]',wrap);
     if(cur) cur.scrollIntoView({block:'nearest'});
+    /* 검색이 붙은 목록은 열 때마다 비워 둔다 — 지난번에 친 말이 남아 있으면 목록이 빈 것처럼 보인다 */
+    var qi=$('.sel-q',wrap);
+    if(qi){ qi.value=''; qi.dispatchEvent(new Event('input')); setTimeout(function(){ qi.focus(); },0); }
   }
+  /* =========================================================
+     면허 — 인트라넷 계약 화면의 종합 5 · 전문 15 를 그대로 둔다.
+     이용사는 로그인이 계정의 면허를 들고 오므로 그 안에서 고르고,
+     미이용사는 스무 가지를 다 보여 주되 훑어 찾기 힘드니 검색을 붙인다.
+     ========================================================= */
+  var LICENSE=[
+    ['종합면허',['토목공사업','건축공사업','토목건축공사업','산업·환경설비공사업','조경공사업']],
+    ['전문면허',['실내건축공사업','구조물해체·비계공사업','철근·콘크리트공사업','상·하수도설비공사업',
+                 '철도·궤도공사업','철강구조물공사업','시설물유지관리업','지반조성·포장공사업',
+                 '금속창호·지붕건축물조립공사업','도장·습식·방수·석공사업','조경식재·시설물공사업',
+                 '수중·준설공사업','승강기·삭도공사업','기계가스설비공사업','가스난방공사업']]
+  ];
+  /* 계정이 들고 오는 면허 — 실제로는 로그인 정보에 딸려 온다.
+     시나리오에서 개수를 바꿔 볼 수 있게 주소로 받는다 (lic=1 이면 한 개) */
+  var ACCT_LIC=['철근·콘크리트공사업','토목건축공사업','실내건축공사업'];
+  (function(){
+    var n=parseInt(q.get('lic'),10);
+    if(n>0) ACCT_LIC=ACCT_LIC.slice(0,n);
+    var sel=$('#r-biz'), out='';
+    if(GUEST){
+      out='<option value="" disabled selected>면허를 검색하거나 고르세요</option>';
+      LICENSE.forEach(function(g){
+        out+='<optgroup label="'+g[0]+'">'
+           + g[1].map(function(t){ return '<option>'+t+'</option>'; }).join('')
+           + '</optgroup>';
+      });
+      sel.setAttribute('data-search','');      /* 목록 위에 검색 줄이 붙는다 */
+    }else{
+      /* 가나다순으로 세우고 맨 앞을 미리 골라 둔다 — 한 개뿐이면 고를 일이 없고,
+         여럿이면 그 현장의 면허로 바꾸기만 하면 된다 */
+      out=ACCT_LIC.slice().sort(function(a,b){ return a.localeCompare(b,'ko'); })
+          .map(function(t,i){ return '<option'+(i?'':' selected')+'>'+t+'</option>'; }).join('');
+    }
+    sel.innerHTML=out;
+    sel.classList.toggle('ph', !sel.value);
+  })();
+
   function enhanceSelect(sel){
     var box=sel.closest('.f-in'), wrap=document.createElement('div');
     wrap.className='rw-sel';
@@ -1068,12 +1116,49 @@ body.rw-done .rw-main{padding-block:0}
     if(lb) box.setAttribute('aria-labelledby', lb.id || (lb.id='lb-'+sel.id));
 
     var pop=document.createElement('ul'); pop.className='sel-pop'; pop.hidden=true; pop.setAttribute('role','listbox');
-    $$('option',sel).forEach(function(o,i){
-      if(o.disabled) return;                       /* '선택하세요' 는 목록에 넣지 않는다 */
+    /* 스무 가지를 훑게 하지 않는다 — 치는 대로 좁혀 준다 */
+    var qin=null;
+    if(sel.dataset.search!=null){
+      var qrow=document.createElement('li'); qrow.className='sel-qrow'; qrow.setAttribute('role','presentation');
+      qin=document.createElement('input'); qin.type='text'; qin.className='sel-q';
+      qin.placeholder='면허명 검색'; qin.setAttribute('aria-label','면허 검색');
+      qrow.appendChild(qin); pop.appendChild(qrow);
+    }
+    /* 원래 select 의 차례를 그대로 센다 — 묶음 머리글은 세지 않는다 */
+    var idx=0;
+    function addOpt(o){
+      var i=idx++;
+      if(o.disabled) return;                       /* '고르세요' 는 목록에 넣지 않는다 */
       var li=document.createElement('li');
       li.setAttribute('role','option'); li.dataset.i=i; li.textContent=o.textContent;
       pop.appendChild(li);
+    }
+    Array.prototype.forEach.call(sel.children, function(node){
+      if(node.tagName==='OPTGROUP'){
+        var h=document.createElement('li'); h.className='sel-grp'; h.setAttribute('role','presentation');
+        h.textContent=node.label; pop.appendChild(h);
+        Array.prototype.forEach.call(node.children, addOpt);
+      }else addOpt(node);
     });
+    if(qin){
+      var none=document.createElement('li'); none.className='sel-none'; none.setAttribute('role','presentation');
+      none.textContent='찾는 면허가 없습니다'; none.hidden=true; pop.appendChild(none);
+      qin.addEventListener('input',function(){
+        var k=qin.value.trim().toLowerCase(), hit=0;
+        $$('li[role="option"]',pop).forEach(function(li){
+          var on = !k || li.textContent.toLowerCase().indexOf(k)>=0;
+          li.hidden=!on; if(on) hit++;
+        });
+        /* 머리글은 그 아래에 남은 줄이 있을 때만 남긴다 — 빈 묶음 이름만 뜨면 찾은 줄 알고 멈춘다 */
+        $$('li.sel-grp',pop).forEach(function(h){
+          var any=false;
+          for(var n=h.nextElementSibling; n && !n.classList.contains('sel-grp'); n=n.nextElementSibling)
+            if(n.getAttribute('role')==='option' && !n.hidden) any=true;
+          h.hidden=!any;
+        });
+        none.hidden = hit>0;
+      });
+    }
     wrap.appendChild(pop);
 
     function sync(){
@@ -1092,7 +1177,8 @@ body.rw-done .rw-main{padding-block:0}
       if(e.key==='Enter'||e.key===' '||e.key==='ArrowDown'){ e.preventDefault(); selOpen(wrap); }
     });
     pop.addEventListener('click',function(e){
-      var li=e.target.closest('li'); if(!li) return;
+      var li=e.target.closest('li');
+      if(!li || li.getAttribute('role')!=='option') return;   /* 검색 줄·머리글은 고르는 줄이 아니다 */
       sel.selectedIndex=+li.dataset.i;
       sel.dispatchEvent(new Event('change',{bubbles:true}));
       selClose(); box.focus();
@@ -1101,7 +1187,7 @@ body.rw-done .rw-main{padding-block:0}
     pop.tabIndex=-1;
     wrap.addEventListener('keydown',function(e){
       if(pop.hidden) return;
-      var ls=$$('li',pop), cur=ls.indexOf($('li.on',pop));
+      var ls=$$('li[role="option"]',pop).filter(function(l){return !l.hidden;}), cur=ls.indexOf($('li.on',pop));
       if(e.key==='ArrowDown'||e.key==='ArrowUp'){
         e.preventDefault();
         var n=(cur<0? (e.key==='ArrowDown'?0:ls.length-1) : cur+(e.key==='ArrowDown'?1:-1)+ls.length)%ls.length;
