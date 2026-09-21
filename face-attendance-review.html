@@ -300,16 +300,7 @@ body.rw-ok .rw-gate{display:none}
 @media(hover:none){.ms-pop label.is-off::after{opacity:1}}
 @media(prefers-reduced-motion:reduce){.ms-pop label.is-off::after{transition:none}}
 .sel-pop li[aria-selected="true"]{color:var(--main-blue)}
-/* 스무 가지를 훑게 하지 않는다 — 목록 맨 위에 검색 줄을 붙이고 스크롤해도 따라오게 한다 */
-.sel-pop .sel-qrow{position:sticky;top:-5px;z-index:1;min-height:0;padding:5px 0 8px;background:var(--main-white);cursor:default}
-.sel-pop .sel-qrow:hover{background:var(--main-white)}
-.sel-pop .sel-q{width:100%;height:40px;padding:0 10px;border:1px solid var(--ds-border-subtle);border-radius:var(--rad-sm);
-  background:var(--main-white);color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:16px}
-.sel-pop .sel-q:focus{outline:none;border-color:var(--main-blue)}
-/* 묶음 머리글 — 고르는 줄이 아니므로 작고 옅게, 손 모양도 주지 않는다 */
-.sel-pop .sel-grp{min-height:0;padding:8px 10px 4px;cursor:default;color:var(--ds-text-subtle);
-  font-family:var(--font-pretendard);font-size:13px;font-weight:600;letter-spacing:-.08px}
-.sel-pop .sel-grp:hover{background:none}
+/* 찾은 것이 없을 때 — 고르는 줄이 아니므로 손 모양도 덧칠도 주지 않는다 */
 .sel-pop .sel-none{min-height:0;padding:12px 10px;cursor:default;color:var(--ds-text-subtle);font-size:15px}
 .sel-pop .sel-none:hover{background:none}
 .ms-pop input{flex:none;width:16px;height:16px;margin:0;accent-color:var(--main-blue);cursor:pointer}
@@ -319,9 +310,11 @@ body.rw-ok .rw-gate{display:none}
 .rw-sel{position:relative}
 .rw-sel .f-in{cursor:pointer}
 .rw-sel select{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none}
-.sel-txt{flex:1 0 0;min-width:20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+.rw-sel .sel-in{flex:1 0 0;min-width:20px;border:0;outline:0;background:none;text-overflow:ellipsis;cursor:pointer;
   color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
-.rw-sel.is-ph .sel-txt{color:var(--ds-text-subtle)}
+/* 열려 있을 때만 글자 커서 — 닫힌 칸은 눌러서 여는 물건으로 보여야 한다 */
+.rw-sel[data-open] .sel-in{cursor:text}
+.rw-sel .sel-in::placeholder{color:var(--ds-text-subtle)}
 .rw-sel[data-open] .f-in{border-color:var(--ds-border-selected)}
 .rw-sel .caret{transition:transform .15s}
 .rw-sel[data-open] .caret{transform:rotate(180deg)}
@@ -1040,65 +1033,67 @@ body.rw-done .rw-main{padding-block:0}
   starSet.addEventListener('mouseleave',function(){paintStars(starVal());});
 
   /* =========================================================
-     select 를 직접 그린 목록으로 바꾼다.
-     네이티브 목록은 OS 가 그려서 칸 위로 겹쳐 뜨고 색도 OS 를 따른다.
+     콤보박스 — 폼에서 고르는 칸은 모두 이것으로 연다.
+     (김반장 3.0 · components/molecules/combobox.md)
+     겉모습은 쓰던 목록 그대로이고 하는 일만 그 규격을 따른다.
+     · 트리거가 곧 검색창이다 — 칸에 바로 쳐서 좁힌다. 고를 것이 몇 개뿐이어도
+       마찬가지다. 칸처럼 생긴 것 앞에서 사람은 타이핑을 기대한다.
+     · 열 때 친 말을 지우고 전체를 보이되, 고른 줄을 맨 위로 올린다.
+     · 닫을 때(바깥 클릭·Esc·탭 이동) 친 말을 버리고 고른 값을 되돌려 적는다.
+     · 고르는 것은 mousedown 에서 막고 click 에서 한다 — 그러지 않으면 blur 가
+       먼저 일어나 목록이 닫힌 뒤에 클릭이 온다.
      값은 원래 select 가 그대로 들고 있으므로 저장·복원·검사는 손대지 않는다.
      ========================================================= */
-  var SEL_OPEN=null;
+  var SEL_OPEN=null, SEL_UID=0;
   function selClose(){
     if(!SEL_OPEN) return;
-    SEL_OPEN.removeAttribute('data-open');
-    $('.sel-pop',SEL_OPEN).hidden=true;
-    $('.f-in',SEL_OPEN).setAttribute('aria-expanded','false');
-    SEL_OPEN=null;
+    var w=SEL_OPEN; SEL_OPEN=null;
+    w.removeAttribute('data-open');
+    $('.sel-pop',w).hidden=true;
+    $('.sel-in',w).setAttribute('aria-expanded','false');
+    if(w.__sync) w.__sync();
   }
   function selOpen(wrap){
-    if(SEL_OPEN===wrap){ selClose(); return; }
+    if(SEL_OPEN===wrap) return;
     selClose();
     SEL_OPEN=wrap;
     wrap.setAttribute('data-open','');
     $('.sel-pop',wrap).hidden=false;
-    $('.f-in',wrap).setAttribute('aria-expanded','true');
-    var cur=$('.sel-pop li[aria-selected="true"]',wrap);
-    if(cur) cur.scrollIntoView({block:'nearest'});
-    /* 검색이 붙은 목록은 열 때마다 비워 둔다 — 지난번에 친 말이 남아 있으면 목록이 빈 것처럼 보인다 */
-    var qi=$('.sel-q',wrap);
-    if(qi){ qi.value=''; qi.dispatchEvent(new Event('input')); setTimeout(function(){ qi.focus(); },0); }
+    $('.sel-in',wrap).setAttribute('aria-expanded','true');
+    if(wrap.__open) wrap.__open();
   }
   /* =========================================================
      업종명 — 칸 이름은 업종명이지만 고르는 값은 계약서의 면허다.
-     인트라넷 계약 화면의 종합 5 · 전문 15 를 그대로 둔다.
+     인트라넷 계약 화면의 스무 가지를 그대로 쓰되 종합·전문으로 가르지 않는다 —
+     고르는 사람은 제 회사의 대표 업종 하나를 짚는 것이지 분류를 고르는 것이 아니다.
+     가나다순 한 줄로 세워 두면 찾는 자리도 하나다.
      이용사는 로그인이 계정의 면허를 들고 오므로 그 안에서 고르고,
-     미이용사는 스무 가지를 다 보여 주되 훑어 찾기 힘드니 검색을 붙인다.
+     미이용사는 스무 가지를 다 보여 준다 — 어느 쪽이든 칸에 바로 쳐서 좁힌다.
      ========================================================= */
-  var LICENSE=[
-    ['종합면허',['토목공사업','건축공사업','토목건축공사업','산업·환경설비공사업','조경공사업']],
-    ['전문면허',['실내건축공사업','구조물해체·비계공사업','철근·콘크리트공사업','상·하수도설비공사업',
-                 '철도·궤도공사업','철강구조물공사업','시설물유지관리업','지반조성·포장공사업',
-                 '금속창호·지붕건축물조립공사업','도장·습식·방수·석공사업','조경식재·시설물공사업',
-                 '수중·준설공사업','승강기·삭도공사업','기계가스설비공사업','가스난방공사업']]
-  ];
+  var LICENSE=['토목공사업','건축공사업','토목건축공사업','산업·환경설비공사업','조경공사업',
+    '실내건축공사업','구조물해체·비계공사업','철근·콘크리트공사업','상·하수도설비공사업',
+    '철도·궤도공사업','철강구조물공사업','시설물유지관리업','지반조성·포장공사업',
+    '금속창호·지붕건축물조립공사업','도장·습식·방수·석공사업','조경식재·시설물공사업',
+    '수중·준설공사업','승강기·삭도공사업','기계가스설비공사업','가스난방공사업'];
+  function byKo(a,b){ return a.localeCompare(b,'ko'); }
   /* 계정이 들고 오는 면허 — 실제로는 로그인 정보에 딸려 온다.
      시나리오에서 개수를 바꿔 볼 수 있게 주소로 받는다 (lic=1 이면 한 개) */
   var ACCT_LIC=['철근·콘크리트공사업','토목건축공사업','실내건축공사업'];
   (function(){
     var n=parseInt(q.get('lic'),10);
     if(n>0) ACCT_LIC=ACCT_LIC.slice(0,n);
-    var sel=$('#r-biz'), out='';
+    var sel=$('#r-biz'), list, out='';
     if(GUEST){
       out='<option value="" disabled selected>업종명을 검색하거나 고르세요</option>';
-      LICENSE.forEach(function(g){
-        out+='<optgroup label="'+g[0]+'">'
-           + g[1].map(function(t){ return '<option>'+t+'</option>'; }).join('')
-           + '</optgroup>';
-      });
-      sel.setAttribute('data-search','');      /* 목록 위에 검색 줄이 붙는다 */
+      list=LICENSE.slice().sort(byKo);
     }else{
-      /* 가나다순으로 세우고 맨 앞을 미리 골라 둔다 — 한 개뿐이면 고를 일이 없고,
-         여럿이면 그 현장의 면허로 바꾸기만 하면 된다 */
-      out=ACCT_LIC.slice().sort(function(a,b){ return a.localeCompare(b,'ko'); })
-          .map(function(t,i){ return '<option'+(i?'':' selected')+'>'+t+'</option>'; }).join('');
+      /* 계정이 들고 온 것만 담고 맨 앞을 미리 골라 둔다 — 한 개뿐이면 고를 일이 없고,
+         여럿이면 이번 현장의 업종으로 바꾸기만 하면 된다 */
+      list=ACCT_LIC.slice().sort(byKo);
     }
+    out+=list.map(function(t,i){
+      return '<option'+(!GUEST && !i ? ' selected' : '')+'>'+t+'</option>';
+    }).join('');
     sel.innerHTML=out;
     sel.classList.toggle('ph', !sel.value);
   })();
@@ -1109,100 +1104,119 @@ body.rw-done .rw-main{padding-block:0}
     box.parentNode.insertBefore(wrap, box);
     wrap.appendChild(box);
 
-    var txt=document.createElement('span'); txt.className='sel-txt';
-    box.insertBefore(txt, sel.nextSibling);
+    var pid='sel-pop-'+(++SEL_UID);
+    var inp=document.createElement('input');
+    inp.type='text'; inp.className='sel-in'; inp.autocomplete='off'; inp.id=sel.id+'-in';
+    inp.setAttribute('role','combobox');
+    inp.setAttribute('aria-haspopup','listbox');
+    inp.setAttribute('aria-expanded','false');
+    inp.setAttribute('aria-autocomplete','list');
+    inp.setAttribute('aria-controls',pid);
+    box.insertBefore(inp, sel.nextSibling);
     sel.tabIndex=-1; sel.setAttribute('aria-hidden','true');
-    box.tabIndex=0; box.setAttribute('role','combobox'); box.setAttribute('aria-expanded','false');
+    /* 라벨은 이제 눈에 보이는 칸을 가리킨다 — 라벨을 눌러도 여기로 들어온다 */
     var lb=document.querySelector('label[for="'+sel.id+'"]');
-    if(lb) box.setAttribute('aria-labelledby', lb.id || (lb.id='lb-'+sel.id));
+    if(lb) lb.setAttribute('for', inp.id);
+    var ph=$('option[disabled]',sel);
+    if(ph) inp.placeholder=ph.textContent;
 
-    var pop=document.createElement('ul'); pop.className='sel-pop'; pop.hidden=true; pop.setAttribute('role','listbox');
-    /* 스무 가지를 훑게 하지 않는다 — 치는 대로 좁혀 준다 */
-    var qin=null;
-    if(sel.dataset.search!=null){
-      var qrow=document.createElement('li'); qrow.className='sel-qrow'; qrow.setAttribute('role','presentation');
-      qin=document.createElement('input'); qin.type='text'; qin.className='sel-q';
-      qin.placeholder='업종명 검색'; qin.setAttribute('aria-label','업종명 검색');
-      qrow.appendChild(qin); pop.appendChild(qrow);
-    }
-    /* 원래 select 의 차례를 그대로 센다 — 묶음 머리글은 세지 않는다 */
-    var idx=0;
-    function addOpt(o){
-      var i=idx++;
+    var pop=document.createElement('ul'); pop.className='sel-pop'; pop.hidden=true;
+    pop.id=pid; pop.setAttribute('role','listbox');
+    $$('option',sel).forEach(function(o,i){
       if(o.disabled) return;                       /* '고르세요' 는 목록에 넣지 않는다 */
       var li=document.createElement('li');
-      li.setAttribute('role','option'); li.dataset.i=i; li.textContent=o.textContent;
+      li.setAttribute('role','option'); li.tabIndex=-1; li.dataset.i=i; li.textContent=o.textContent;
       pop.appendChild(li);
-    }
-    Array.prototype.forEach.call(sel.children, function(node){
-      if(node.tagName==='OPTGROUP'){
-        var h=document.createElement('li'); h.className='sel-grp'; h.setAttribute('role','presentation');
-        h.textContent=node.label; pop.appendChild(h);
-        Array.prototype.forEach.call(node.children, addOpt);
-      }else addOpt(node);
     });
-    if(qin){
-      var none=document.createElement('li'); none.className='sel-none'; none.setAttribute('role','presentation');
-      none.textContent='찾는 업종명이 없습니다'; none.hidden=true; pop.appendChild(none);
-      qin.addEventListener('input',function(){
-        var k=qin.value.trim().toLowerCase(), hit=0;
-        $$('li[role="option"]',pop).forEach(function(li){
-          var on = !k || li.textContent.toLowerCase().indexOf(k)>=0;
-          li.hidden=!on; if(on) hit++;
-        });
-        /* 머리글은 그 아래에 남은 줄이 있을 때만 남긴다 — 빈 묶음 이름만 뜨면 찾은 줄 알고 멈춘다 */
-        $$('li.sel-grp',pop).forEach(function(h){
-          var any=false;
-          for(var n=h.nextElementSibling; n && !n.classList.contains('sel-grp'); n=n.nextElementSibling)
-            if(n.getAttribute('role')==='option' && !n.hidden) any=true;
-          h.hidden=!any;
-        });
-        none.hidden = hit>0;
-      });
-    }
+    var order=$$('li[role="option"]',pop);         /* 처음 차례 — 되돌려 세울 때 쓴다 */
+    /* 찾은 것이 없다는 말은 읽어 주는 쪽에도 넘긴다 */
+    var none=document.createElement('li'); none.className='sel-none';
+    none.setAttribute('role','presentation'); none.setAttribute('aria-live','polite');
+    none.textContent='검색 결과가 없습니다.'; none.hidden=true;
+    pop.appendChild(none);
     wrap.appendChild(pop);
 
+    function label(){ var o=sel.options[sel.selectedIndex]; return (o && !o.disabled) ? o.textContent : ''; }
     function sync(){
-      var o=sel.options[sel.selectedIndex];
-      txt.textContent = o ? o.textContent : '';
+      inp.value=label();
       wrap.classList.toggle('is-ph', !sel.value);
-      $$('li',pop).forEach(function(li){
+      order.forEach(function(li){
         li.setAttribute('aria-selected', +li.dataset.i===sel.selectedIndex ? 'true':'false');
+        li.classList.remove('on');
       });
     }
+    function filter(k){
+      k=(k||'').trim().toLowerCase();
+      var hit=0;
+      order.forEach(function(li){
+        var on=!k || li.textContent.toLowerCase().indexOf(k)>=0;
+        li.hidden=!on; if(on) hit++;
+      });
+      none.hidden = hit>0;
+    }
+    wrap.__sync=sync;
+    wrap.__open=function(){
+      inp.value=''; wrap.classList.add('is-ph'); filter('');
+      /* 고른 줄을 맨 위로 — 나머지는 처음 차례를 지킨다 */
+      var cur=null;
+      order.forEach(function(li){ if(li.getAttribute('aria-selected')==='true') cur=li; });
+      if(cur) pop.insertBefore(cur, pop.firstChild);
+      order.forEach(function(li){ if(li!==cur) pop.insertBefore(li, none); });
+      pop.appendChild(none);
+      pop.scrollTop=0;
+    };
+    function vis(){ return $$('li[role="option"]',pop).filter(function(l){ return !l.hidden; }); }
+    function pick(li){
+      sel.selectedIndex=+li.dataset.i;
+      sel.dispatchEvent(new Event('change',{bubbles:true}));
+      selClose(); inp.focus();
+    }
+
     sel.addEventListener('change',function(){ sync(); box.classList.remove('is-err'); });
     sync();
 
-    box.addEventListener('click',function(){ if(!sel.disabled) selOpen(wrap); });
-    box.addEventListener('keydown',function(e){
-      if(e.key==='Enter'||e.key===' '||e.key==='ArrowDown'){ e.preventDefault(); selOpen(wrap); }
+    inp.addEventListener('focus',function(){ if(!sel.disabled) selOpen(wrap); });
+    inp.addEventListener('blur',function(){ if(SEL_OPEN===wrap) selClose(); });
+    inp.addEventListener('input',function(){
+      if(SEL_OPEN!==wrap) selOpen(wrap);
+      wrap.classList.remove('is-ph'); filter(inp.value);
     });
+    /* 화살표나 칸의 빈 자리를 눌러도 열린다. 열린 채로 다시 누르면 닫는다.
+       이미 포커스가 있는 칸을 다시 누르면 focus 가 오지 않으므로 여기서 직접 연다 */
+    box.addEventListener('mousedown',function(e){
+      if(sel.disabled){ e.preventDefault(); return; }
+      if(SEL_OPEN===wrap){ e.preventDefault(); selClose(); return; }
+      if(e.target!==inp) e.preventDefault();
+      inp.focus(); selOpen(wrap);
+    });
+    /* blur 보다 먼저 고르기 위해 누름을 막는다 — 막지 않으면 목록이 닫힌 뒤에 클릭이 온다 */
+    pop.addEventListener('mousedown',function(e){ e.preventDefault(); });
     pop.addEventListener('click',function(e){
       var li=e.target.closest('li');
-      if(!li || li.getAttribute('role')!=='option') return;   /* 검색 줄·머리글은 고르는 줄이 아니다 */
-      sel.selectedIndex=+li.dataset.i;
-      sel.dispatchEvent(new Event('change',{bubbles:true}));
-      selClose(); box.focus();
+      if(!li || li.getAttribute('role')!=='option') return;
+      pick(li);
     });
-    /* 목록 안에서 위아래로 옮기고 Enter 로 고른다 */
-    pop.tabIndex=-1;
     wrap.addEventListener('keydown',function(e){
-      if(pop.hidden) return;
-      var ls=$$('li[role="option"]',pop).filter(function(l){return !l.hidden;}), cur=ls.indexOf($('li.on',pop));
+      if(e.key==='Escape'){ if(SEL_OPEN===wrap){ e.preventDefault(); selClose(); } return; }
       if(e.key==='ArrowDown'||e.key==='ArrowUp'){
         e.preventDefault();
-        var n=(cur<0? (e.key==='ArrowDown'?0:ls.length-1) : cur+(e.key==='ArrowDown'?1:-1)+ls.length)%ls.length;
-        ls.forEach(function(l){l.classList.remove('on');});
+        if(SEL_OPEN!==wrap){ selOpen(wrap); return; }
+        var ls=vis(); if(!ls.length) return;
+        var cur=ls.indexOf($('li.on',pop));
+        var n=(cur<0 ? (e.key==='ArrowDown'?0:ls.length-1)
+                     : cur+(e.key==='ArrowDown'?1:-1)+ls.length)%ls.length;
+        ls.forEach(function(l){ l.classList.remove('on'); });
         ls[n].classList.add('on'); ls[n].scrollIntoView({block:'nearest'});
       }else if(e.key==='Enter'){
+        if(SEL_OPEN!==wrap) return;
         e.preventDefault();
-        var on=$('li.on',pop); if(on) on.click(); else selClose();
-      }else if(e.key==='Escape'){ selClose(); box.focus(); }
+        var on=$('li.on',pop) || vis()[0];
+        if(on) pick(on); else selClose();
+      }
     });
   }
   $$('#rwForm select').forEach(enhanceSelect);
-  document.addEventListener('click',function(e){ if(!e.target.closest('.rw-sel')) selClose(); });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') selClose(); });
+  document.addEventListener('mousedown',function(e){ if(!e.target.closest('.rw-sel')) selClose(); });
 
   /* =========================================================
      이전 작성분 — 인증한 번호를 열쇠로 임시저장분/등록분을 되찾는다
@@ -1919,7 +1933,8 @@ body.rw-done .rw-main{padding-block:0}
     if(!starVal() && !bad) bad=$('#st5');
     if(bad){
       /* 직접 그린 select 는 원래 칸이 숨어 있다 — 눈에 보이는 칸으로 보낸다 */
-      var go = bad.closest('.rw-sel') ? bad.closest('.f-in') : bad;
+      var w = bad.closest('.rw-sel');
+      var go = w ? (w.querySelector('.sel-in') || bad.closest('.f-in')) : bad;
       go.focus(); go.scrollIntoView({behavior:'smooth',block:'center'}); return;
     }
     saveRec(VD,'done');

@@ -59,9 +59,9 @@
         data-steps="아직 후기를 쓰지 않은 번호로 인증하고 계약 현장 목록을 열어 둔 상태입니다|회색으로 눌린 줄에 마우스를 올려 보세요|잠기지 않은 두 곳을 함께 눌러 보세요"
         data-look="1번·3번 현장이 회색으로 잠겨 있습니다|올리면 '이미 작성된 후기가 있는 현장입니다'|내 후기에 든 현장은 잠기지 않습니다 — 잠기면 내 후기를 못 고칩니다|잠긴 현장도 목록에서 지우지는 않습니다 — 없어진 현장과 구별되어야 합니다|남은 곳은 여러 개를 함께 고를 수 있습니다|고른 뒤 버튼은 '첫 현장 외 N곳' 으로 줄어듭니다">이미 찬 현장</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-면허"
-        data-why="로그인하면 그 계정이 가진 면허를 불러옵니다. 여러 개를 가진 회사는 이번 현장에 해당하는 면허로 바꾸면 됩니다. 가나다순으로 세우고 맨 앞을 미리 골라 두어, 한 개뿐인 회사는 고를 일이 없습니다."
-        data-steps="인증을 마치고 업종명 칸을 열어 둔 상태입니다|주소에 lic=1 을 붙이면 면허가 하나인 계정이 됩니다"
-        data-look="이 계정이 가진 세 가지만 들어 있습니다 — 스무 가지를 다 보여 주지 않습니다|가나다순입니다 — 실내건축공사업 · 철근·콘크리트공사업 · 토목건축공사업|맨 앞이 미리 골라져 있어 칸이 비어 있지 않습니다|검색 줄은 없습니다 — 세 줄을 훑는 데 검색은 거추장스럽습니다">업종명 고르기</button>
+        data-why="로그인하면 그 계정이 가진 면허를 불러옵니다. 여러 개를 가진 회사는 이번 현장의 대표 업종으로 바꾸면 됩니다. 가나다순으로 세우고 맨 앞을 미리 골라 두어, 한 개뿐인 회사는 고를 일이 없습니다."
+        data-steps="인증을 마치고 업종명 칸에 들어간 상태입니다|주소에 lic=1 을 붙이면 면허가 하나인 계정이 됩니다"
+        data-look="이 계정이 가진 세 가지만 들어 있습니다 — 스무 가지를 다 보여 주지 않습니다|가나다순입니다 — 실내건축공사업 · 철근·콘크리트공사업 · 토목건축공사업|맨 앞이 미리 골라져 있어 칸이 비어 있지 않습니다|칸을 누르면 고른 값이 잠시 지워지고 그 줄이 맨 위로 올라옵니다|여기서도 쳐서 좁힐 수 있습니다 — 세 줄뿐이라 쓸 일이 드물 뿐, 칸의 생김과 조작은 미이용사 쪽과 같습니다">업종명 고르기</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">쓰던 후기</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-임시"
         data-why="쓰다 만 후기가 있으면 인증과 동시에 그대로 돌아옵니다."
@@ -91,9 +91,9 @@
         data-steps="사업자등록번호 확인에 이어 이름 김소장, 번호 010-9000-0002 로 인증까지 마친 상태입니다"
         data-look="회사 정보와 작성자가 한 카드에서 함께 접힙니다|현장명을 직접 적습니다 — 계약 목록이 없기 때문입니다|플로팅 막대가 올라옵니다">인증 후</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-면허"
-        data-why="기댈 로그인이 없으니 업종명을 직접 고릅니다. 인트라넷 계약 화면과 같은 스무 가지(종합 5 · 전문 15)라 드롭다운만으로는 훑어 찾기 힘들어, 목록 위에 검색 줄을 답니다."
-        data-steps="사업장 확인과 작성자 인증을 마치고 업종명 칸을 열어 '조경' 을 친 상태입니다|지우면 스무 가지가 다시 보입니다"
-        data-look="검색 줄이 목록 맨 위에 붙어 있고 스크롤해도 따라옵니다|'조경' 두 글자에 종합·전문에서 한 줄씩 남습니다|남은 줄이 없는 묶음은 머리글도 함께 사라집니다|하나도 없으면 '찾는 업종명이 없습니다'|이용사 쪽에는 이 검색 줄이 없습니다 — 계정이 가진 몇 가지만 나오기 때문입니다">업종명 검색</button>
+        data-why="기댈 로그인이 없으니 업종명을 직접 고릅니다. 인트라넷 계약 화면과 같은 스무 가지인데, 종합·전문으로 가르지 않고 가나다순 한 줄로 세웁니다 — 고르는 사람은 제 회사의 대표 업종 하나를 짚는 것이지 분류를 고르는 것이 아닙니다."
+        data-steps="사업장 확인과 작성자 인증을 마치고 업종명 칸에 '조경' 을 친 상태입니다|지우면 스무 가지가 다시 보입니다"
+        data-look="칸 자체가 검색창입니다 — 목록 안에 따로 검색 줄을 두지 않습니다|'조경' 두 글자에 두 줄만 남습니다|하나도 없으면 '검색 결과가 없습니다.'|고르면 칸에 그 이름이 적히고 목록이 닫힙니다|다시 열면 고른 줄이 맨 위로 올라옵니다 — 무엇을 골랐는지 스크롤하지 않고 보입니다">업종명 검색</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">쓰던 후기</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-중복"
         data-why="한 사업장에 한 분입니다. 같은 번호로 남은 후기가 있으면 본인인지 먼저 묻습니다."
@@ -270,8 +270,8 @@
     /* 면허 칸을 열어 둔 채로 보여 준다 — 무엇이 들어 있는지가 이 시나리오의 전부다 */
     'mem-면허'     :{url:REVIEW+'?u=yeji', seed:[],
       act:async function(d){ await signIn(d,'최소장','01090000003');
-        d.querySelector('#r-biz').closest('.rw-sel').scrollIntoView({block:'center'});
-        hit(d.querySelector('#r-biz').closest('.f-in')); await wait(250); }},
+        var i=d.querySelector('#r-biz-in');
+        i.scrollIntoView({block:'center'}); i.focus(); await wait(300); }},
     'mem-완료'     :{url:REVIEW+'?u=yeji&done=1', seed:[]},
     'gst-인증전'   :{url:REVIEW+'?guest=1', seed:[]},
     'gst-사업자확인':{url:REVIEW+'?guest=1', seed:[], act:passBiz},
@@ -279,9 +279,9 @@
       act:async function(d){ await passBiz(d); await signIn(d,'김소장','01090000002'); }},
     'gst-면허'     :{url:REVIEW+'?guest=1', seed:[],
       act:async function(d){ await passBiz(d); await signIn(d,'김소장','01090000004');
-        d.querySelector('#r-biz').closest('.rw-sel').scrollIntoView({block:'center'});
-        hit(d.querySelector('#r-biz').closest('.f-in')); await wait(300);
-        put(d.querySelector('.sel-q'),'조경'); await wait(250); }},
+        var i=d.querySelector('#r-biz-in');
+        i.scrollIntoView({block:'center'}); i.focus(); await wait(300);
+        put(i,'조경'); await wait(250); }},
     'gst-중복'     :{url:REVIEW+'?guest=1',
       seed:[DUP_G], act:dupAsk},
     'gst-완료'     :{url:REVIEW+'?guest=1&done=1', seed:[]},
