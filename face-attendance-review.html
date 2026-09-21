@@ -1096,12 +1096,10 @@ body.rw-done .rw-main{padding-block:0}
     var sel=$('#r-biz'), list;
     /* 미이용사는 스무 가지 전부, 이용사는 계정이 들고 온 것만 */
     list=(GUEST ? LICENSE : ACCT_LIC).slice().sort(byKo);
-    /* 미리 고르는 것은 고를 것이 없을 때뿐이다. 면허가 여럿인데 하나를 채워 두면,
-       아직 고르지도 않은 계약 현장의 업종이 이미 정해진 셈이 된다 — 업종명은
-       그 현장에 딸린 값이므로 현장을 정한 뒤에 짚어야 앞뒤가 맞는다 */
-    var one = !GUEST && list.length===1;
-    var out = one ? '' : '<option value="" disabled selected>업종명을 검색하거나 고르세요</option>';
-    out+=list.map(function(t){ return '<option'+(one?' selected':'')+'>'+t+'</option>'; }).join('');
+    /* 아무것도 미리 고르지 않는다. 업종명은 그 계약 현장에 딸린 값이라,
+       현장을 정하기 전에 채워 두면 고르지도 않은 현장의 업종이 이미 적힌 셈이 된다 */
+    var out='<option value="" disabled selected>업종명을 검색하거나 고르세요</option>';
+    out+=list.map(function(t){ return '<option>'+t+'</option>'; }).join('');
     sel.innerHTML=out;
     /* 이 칸만 쳐서 찾는다 — 업종명은 사람이 제 회사의 답을 이미 알고 온다.
        이용사 쪽에는 '고르세요' 옵션이 없으므로(맨 앞이 미리 골라져 있다)
@@ -1779,7 +1777,33 @@ body.rw-done .rw-main{padding-block:0}
     $('#siteTxt').textContent = !v.length ? '현장을 선택하세요'
       : v.length===1 ? v[0] : v[0]+' 외 '+(v.length-1)+'곳';
     b.classList.toggle('ph', !v.length);
+    syncBizLock();
   }
+  /* 업종명은 그 계약 현장에 딸린 값이다 — 현장을 고르기 전에는 목록도 열리지
+     않게 잠근다. 고를 수 없는 칸을 열어 두면 무엇부터 해야 하는지 화면이 말해
+     주지 못한다. 현장을 비우면 업종명도 함께 비운다 — 남겨 두면 어느 현장의
+     업종인지 없는 채로 값만 남는다.
+     미이용사는 계약 목록이 없어 현장명을 글로 적으므로 이 매임이 없다 */
+  function syncBizLock(){
+    if(GUEST) return;
+    var sel=$('#r-biz'); if(!sel) return;
+    var on=sitePicked().length>0, box=sel.closest('.f-in'), inp=$('#'+sel.id+'-in');
+    sel.disabled=!on;
+    if(inp){
+      inp.disabled=!on;
+      inp.placeholder = on ? '업종명을 검색하거나 고르세요' : '계약 현장을 먼저 선택해 주세요';
+    }
+    if(on) box.removeAttribute('data-disabled'); else box.setAttribute('data-disabled','');
+    if(!on && sel.value){
+      sel.selectedIndex=0;                       /* 0 번은 '고르세요' 다 */
+      sel.dispatchEvent(new Event('change',{bubbles:true}));
+    }else if(on && !sel.value && sel.options.length===2){
+      /* 계정에 면허가 하나뿐이면 고를 것이 없다 — 현장이 정해진 지금 채워 둔다 */
+      sel.selectedIndex=1;
+      sel.dispatchEvent(new Event('change',{bubbles:true}));
+    }
+  }
+  syncBizLock();                     /* 처음 들어왔을 때도 잠근 채로 시작한다 */
   function siteOpen(on){
     if(on) paintSiteLock();        /* 열 때마다 다시 본다 — 그 사이 누가 맡았을 수 있다 */
     $('#sitePop').hidden=!on;

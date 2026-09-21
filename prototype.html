@@ -59,9 +59,9 @@
         data-steps="아직 후기를 쓰지 않은 번호로 인증하고 계약 현장 목록을 열어 둔 상태입니다|회색으로 눌린 줄에 마우스를 올려 보세요|잠기지 않은 두 곳을 함께 눌러 보세요"
         data-look="1번·3번 현장이 회색으로 잠겨 있습니다|올리면 '이미 작성된 후기가 있는 현장입니다'|내 후기에 든 현장은 잠기지 않습니다 — 잠기면 내 후기를 못 고칩니다|잠긴 현장도 목록에서 지우지는 않습니다 — 없어진 현장과 구별되어야 합니다|남은 곳은 여러 개를 함께 고를 수 있습니다|고른 뒤 버튼은 '첫 현장 외 N곳' 으로 줄어듭니다">이미 찬 현장</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-면허"
-        data-why="로그인하면 그 계정이 가진 면허를 불러옵니다. 업종명은 그 계약 현장에 딸린 값이라, 면허가 여럿이면 미리 고르지 않습니다 — 아직 고르지도 않은 현장의 업종이 이미 정해져 있으면 앞뒤가 맞지 않습니다. 면허가 하나뿐인 회사만 고를 것이 없어 채워 둡니다."
-        data-steps="인증을 마치고 업종명 칸에 들어간 상태입니다|주소에 lic=1 을 붙이면 면허가 하나인 계정이 됩니다 — 그때는 채워져 있습니다"
-        data-look="이 계정이 가진 세 가지만 들어 있습니다 — 스무 가지를 다 보여 주지 않습니다|가나다순입니다 — 실내건축공사업 · 철근·콘크리트공사업 · 토목건축공사업|칸은 비어 있고 '업종명을 검색하거나 고르세요' 만 있습니다|여기서도 쳐서 좁힐 수 있습니다 — 세 줄뿐이라 쓸 일이 드물 뿐, 칸의 생김과 조작은 미이용사 쪽과 같습니다|고르면 오른쪽에 × 가 나타납니다 — 누르면 비우고 목록을 연 채로 둡니다">업종명 고르기</button>
+        data-why="업종명은 그 계약 현장에 딸린 값입니다. 그래서 현장을 고르기 전에는 칸이 잠겨 있고, 고르는 순간 계정이 가진 면허가 열립니다. 면허가 하나뿐인 계정은 그때 저절로 채워집니다 — 고를 것이 없으니 어느 현장이든 틀릴 수가 없습니다."
+        data-steps="인증을 마치고 계약 현장을 한 곳 고른 뒤 업종명 칸에 들어간 상태입니다|계약 현장을 다시 빼 보세요|주소에 lic=1 을 붙이면 면허가 하나인 계정이 됩니다"
+        data-look="현장을 고르기 전에는 업종명 칸이 회색이고 '계약 현장을 먼저 선택해 주세요' 입니다|고르면 칸이 열리고 이 계정이 가진 세 가지만 들어 있습니다 — 스무 가지를 다 보여 주지 않습니다|가나다순입니다 — 실내건축공사업 · 철근·콘크리트공사업 · 토목건축공사업|현장을 다시 빼면 업종명도 함께 비워지고 칸이 잠깁니다|고르면 오른쪽에 × 가 나타납니다 — 누르면 비우고 목록을 연 채로 둡니다">업종명 고르기</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">쓰던 후기</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-임시"
         data-why="쓰다 만 후기가 있으면 인증과 동시에 그대로 돌아옵니다."
@@ -268,8 +268,12 @@
         d.querySelector('#siteBtn').scrollIntoView({block:'center'});
         hit(d.querySelector('#siteBtn')); await wait(150); }},
     /* 면허 칸을 열어 둔 채로 보여 준다 — 무엇이 들어 있는지가 이 시나리오의 전부다 */
+    /* 업종명은 현장을 고른 뒤에야 열린다 — 그 차례대로 몰아 준다 */
     'mem-면허'     :{url:REVIEW+'?u=yeji', seed:[],
       act:async function(d){ await signIn(d,'최소장','01090000003');
+        hit(d.querySelector('#siteBtn')); await wait(150);
+        var c=d.querySelector('#sitePop input'); if(c) c.click();
+        hit(d.querySelector('#siteBtn')); await wait(200);
         var i=d.querySelector('#r-biz-in');
         i.scrollIntoView({block:'center'}); i.focus(); await wait(300); }},
     'mem-완료'     :{url:REVIEW+'?u=yeji&done=1', seed:[]},
