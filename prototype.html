@@ -37,17 +37,17 @@
     <nav class="proto-nav" aria-label="시나리오 선택">
       <span class="proto-nav-group-label">로그인</span>
       <button class="proto-nav-btn proto-nav-sub is-active" type="button" data-scenario="login-기본"
-        data-why="회원사가 들어오는 자리. 아래 띠는 비회원사가 바로 작성 화면으로 가는 길입니다."
+        data-why="이용사가 들어오는 자리. 아래 띠는 비이용사가 바로 작성 화면으로 가는 길입니다."
         data-steps="아이디·비밀번호를 넣고 이용후기 남기기를 누르면 작성 화면으로 넘어갑니다"
-        data-look="아래 띠를 누르면 비회원 작성 화면으로 갑니다|로그인 박스 아래에는 비밀번호 찾기만 있습니다">기본</button>
+        data-look="아래 띠를 누르면 비이용사 작성 화면으로 갑니다|로그인 박스 아래에는 비밀번호 찾기만 있습니다">기본</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="login-만석"
         data-why="이 계정의 계약 현장이 하나도 남지 않았을 때. 들어가도 새로 쓸 자리가 없어 로그인을 누른 자리에서 알립니다. 임시저장만 해둔 현장도 찬 것으로 봅니다. 현장 수는 계정마다 다르고, 이 시나리오에서는 네 곳으로 두었습니다."
         data-steps="아이디·비밀번호를 넣고 이용후기 남기기를 누른 상태입니다"
         data-look="모달 '모든 계약 현장의 후기가 작성되었습니다'|누구의 후기인지 모르는 채라 시각을 적지 않습니다|후기 수정하기 → 작성 화면으로 넘어가 본인 확인을 거칩니다">계약 현장이 다 참</button>
-      <span class="proto-nav-group-label">회원사</span>
+      <span class="proto-nav-group-label">이용사</span>
       <span class="proto-nav-group-label proto-nav-group-label--sub">새 후기 작성</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-인증전"
-        data-why="로그인한 회원사가 처음 들어온 자리. 회사명은 계정에서 오므로 머리글에만 있고 따로 묻지 않습니다."
+        data-why="로그인한 이용사가 처음 들어온 자리. 회사명은 계정에서 오므로 머리글에만 있고 따로 묻지 않습니다."
         data-steps="아무것도 하지 않은 처음 상태입니다|이름과 번호를 넣고 인증하면 다음 시나리오의 화면이 됩니다"
         data-look="아래가 흐리고 손이 닿지 않습니다 — 탭으로도 들어가지 않습니다|플로팅 막대가 숨어 있습니다|단계 표시가 ① 작성자 인증에 있습니다">인증 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-인증후"
@@ -71,11 +71,11 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-완료"
         data-why="제출한 직후 화면. 후기는 바로 실리지 않고 검토를 거칩니다."
         data-steps="따로 할 것 없이 바로 보입니다"
-        data-look="'이용 후기 제출이 완료되었습니다'|검토를 거친 뒤 목록에 등록된다는 안내|수정하기를 누르면 회원사는 곧장 폼으로 돌아갑니다">제출 완료</button>
-      <span class="proto-nav-group-label">비회원사</span>
+        data-look="'이용 후기 제출이 완료되었습니다'|검토를 거친 뒤 목록에 등록된다는 안내|수정하기를 누르면 이용사는 곧장 폼으로 돌아갑니다">제출 완료</button>
+      <span class="proto-nav-group-label">비이용사</span>
       <span class="proto-nav-group-label proto-nav-group-label--sub">새 후기 작성</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-인증전"
-        data-why="로그인 없이 들어온 자리. 계약 목록이 없으니 회사명·사업자등록번호를 직접 밝힙니다. 회원사와 달리 문이 둘이라, 사업장을 먼저 밝혀야 작성자 칸이 열립니다."
+        data-why="로그인 없이 들어온 자리. 계약 목록이 없으니 회사명·사업자등록번호를 직접 밝힙니다. 이용사와 달리 문이 둘이라, 사업장을 먼저 밝혀야 작성자 칸이 열립니다."
         data-steps="아무것도 하지 않은 처음 상태입니다"
         data-look="작성자 이름·번호 칸이 회색으로 잠겨 있습니다|머리글이 '다시 만나서 반가워요!' — 아직 회사명을 모릅니다|회사명을 적는 대로 머리글이 따라옵니다">인증 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-사업자확인"
@@ -93,7 +93,7 @@
         data-look="모달 '이미 생성된 후기가 있습니다' — 임시저장이든 제출이든 같은 문구입니다|다른 번호를 넣고 인증을 누르면 그 자리에서 '후기 작성 시 인증한 번호와 일치하지 않습니다' — 문자는 가지 않습니다|취소하면 사업자번호 칸 아래에 까닭이 남습니다">이미 쓴 사업자번호</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">제출한 뒤</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-완료"
-        data-why="비회원사도 적어 낸 회사명으로 부릅니다."
+        data-why="비이용사도 적어 낸 회사명으로 부릅니다."
         data-steps="따로 할 것 없이 바로 보입니다"
         data-look="머리글이 '대한건설 담당자님'|수정하기를 누르면 번호 인증 모달이 뜹니다 — 기댈 로그인이 없기 때문입니다|통과하면 회사 정보를 다시 받지 않고 쓰던 폼으로 돌아갑니다">제출 완료</button>
       <span class="proto-nav-group-label">인증 실패</span>
@@ -200,7 +200,7 @@
     put(d.querySelector('#r-code'),'123456');
     hit(d.querySelector('#btnVerify')); await wait(500);
   }
-  /* 비회원은 문이 둘이다 — 사업장을 밝혀야 작성자 칸이 열린다 */
+  /* 비이용사는 문이 둘이다 — 사업장을 밝혀야 작성자 칸이 열린다 */
   async function passBiz(d){
     put(d.querySelector('#g-co'),'대한건설');
     put(d.querySelector('#g-biz'),'5556677880');
