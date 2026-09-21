@@ -29,6 +29,11 @@
   --main-white:rgba(var(--color-white-rgb),1);
   --main-gray:rgba(var(--color-gray-rgb),1);
   --main-black:rgba(var(--color-black-rgb),1);
+  /* 오류 — 네 페이지가 같이 본다. 테두리는 비텍스트라 3:1 이면 되지만
+     칸 아래 문구는 4.5:1 이 필요해 한 단계 짙은 값을 따로 둔다 */
+  --danger:#D93F45;            /* 테두리·아이콘 */
+  --danger-rgb:217,63,69;      /* 위 값의 rgb — 투명도를 쓸 때 */
+  --danger-text:#B8353A;       /* 칸 아래 문구 — 흰 바탕 5.82:1 */
   --main-blue:rgba(var(--color-blue-rgb),1);
   --main-navy:rgba(var(--color-navy-rgb),1);
   --sub-w-gray:rgba(var(--color-w-gray-rgb),1);
@@ -242,7 +247,7 @@ body.rw-ok .rw-gate{display:none}
 .f-in{display:flex;align-items:center;gap:var(--pad-4);padding:var(--pad-6) var(--pad-5);
   background:var(--main-white);border:1px solid var(--ds-border-subtle);border-radius:var(--rad-sm);transition:border-color .15s}
 .f-in:focus-within{border-color:var(--ds-border-selected)}
-.f-in.is-err{border-color:#E53935}
+.f-in.is-err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(var(--danger-rgb),.09)}
 /* 확인을 받은 칸 — 이 디자인에서 '됐다'는 파랑이다(.note.ok 와 같은 색) */
 .f-in.is-ok{border-color:var(--main-blue);background:rgba(var(--color-blue-rgb),.045)}
 .f-in .ok-ck{display:none;flex:none;color:var(--main-blue)}
@@ -331,7 +336,7 @@ body.rw-ok .rw-gate{display:none}
 /* 칸 아래 메시지 (input_message_atomic) */
 .f-msg{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:var(--pad-3)}
 .f-msg .note{color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px}
-.f-msg .note.danger{color:#E53935}
+.f-msg .note.danger{color:var(--danger-text);font-size:12px;font-weight:600;line-height:1.5}
 .f-msg .note.ok{color:var(--main-blue)}
 .f-cnt{margin-left:auto;color:var(--ds-text-label);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;font-variant-numeric:tabular-nums}
 .f-cnt.ok{color:var(--main-blue)}
