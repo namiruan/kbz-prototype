@@ -43,7 +43,7 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="login-만석"
         data-why="이 계정의 계약 현장이 하나도 남지 않았을 때. 들어가도 새로 쓸 자리가 없어 로그인을 누른 자리에서 알립니다. 임시저장만 해둔 현장도 찬 것으로 봅니다. 현장 수는 계정마다 다르고, 이 시나리오에서는 네 곳으로 두었습니다."
         data-steps="아이디·비밀번호를 넣고 이용후기 남기기를 누른 상태입니다"
-        data-look="모달 '모든 계약 현장의 후기가 작성되었습니다'|누구의 후기인지 모르는 채라 시각을 적지 않습니다|후기 수정하기 → 작성 화면으로 넘어가 본인 확인을 거칩니다">계약 현장이 다 참</button>
+        data-look="모달 '모든 계약 현장의 후기가 작성되었습니다'|누구의 후기인지 모르는 채라 시각을 적지 않습니다|본인 확인은 이 모달 안에서 합니다 — 번호 인증까지 마치고 '후기 불러오기' 를 누릅니다|통과하면 작성 화면이 그 번호를 이어받아 다시 묻지 않습니다">계약 현장이 다 참</button>
       <span class="proto-nav-group-label">이용사</span>
       <span class="proto-nav-group-label proto-nav-group-label--sub">새 후기 작성</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-인증전"
@@ -118,7 +118,7 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="err-시간초과"
         data-why="문자로 받은 번호는 3분까지만 삽니다. 이 화면을 보려고 주소에 sec=3 을 붙여 3초로 줄였습니다 — 실제 화면은 3분입니다."
         data-steps="인증번호를 요청하고 시간이 다 지나기를 기다린 상태입니다"
-        data-look="'인증 시간이 지났습니다. 다시 요청해 주세요.'|타이머가 00:00 에 멈춰 있습니다|재전송을 누르면 다시 3분이 시작됩니다">시간 초과</button>
+        data-look="'인증 시간이 지났습니다. 다시 요청해 주세요.'|타이머가 00:00 에 멈춰 있습니다|재전송을 누르면 타이머가 처음부터 다시 갑니다 — 이 화면은 3초로 줄여 둔 것이고 실제로는 3분입니다">시간 초과</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">사업장 확인</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="err-계약없음"
         data-why="2026년 이후에 계약한 사업장만 참여할 수 있습니다. 번호를 잘못 친 것이 아니라 자격이 아니어서 막히는 자리라, 다시 쳐 보라는 말이 아니라 무엇이 없어서 막혔는지를 말합니다."
