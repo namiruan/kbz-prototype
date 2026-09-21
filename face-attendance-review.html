@@ -215,7 +215,7 @@ body.rw-ok .rw-gate{display:none}
 
 /* 3열 그리드 */
 /* 기타 정보 — 칸은 셋을 적어 두었지만 한 번에 보이는 것은 늘 둘이다.
-   이용사는 계약 현장, 미이용사는 현장명, 그리고 면허. 셋으로 나누면 한 칸이 늘 비고
+   이용사는 계약 현장, 미이용사는 현장명, 그리고 업종명. 셋으로 나누면 한 칸이 늘 비고
    그만큼 현장 이름이 좁아진다 — 둘로 나누되 이름이 긴 현장 쪽을 넓게 준다 */
 .rw-grid-site{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px}
 /* 720 아래로는 섹션 제목이 아직 제 칸을 차지해 패널이 눌린다. 거기서 둘로 나누면
@@ -743,7 +743,7 @@ body.rw-done .rw-main{padding-block:0}
             <div class="f-in"><input id="r-sitename" type="text" placeholder="현장명을 입력하세요"></div>
           </div>
           <div>
-            <div class="rw-lb"><label for="r-biz"><span>면허</span></label><em>(필수)</em></div>
+            <div class="rw-lb"><label for="r-biz"><span>업종명</span></label><em>(필수)</em></div>
             <div class="f-in">
               <!-- 목록은 스크립트가 채운다 — 이용사는 계정이 들고 온 면허만,
                    미이용사는 스무 가지 전부(검색으로 좁힌다) -->
@@ -1066,7 +1066,8 @@ body.rw-done .rw-main{padding-block:0}
     if(qi){ qi.value=''; qi.dispatchEvent(new Event('input')); setTimeout(function(){ qi.focus(); },0); }
   }
   /* =========================================================
-     면허 — 인트라넷 계약 화면의 종합 5 · 전문 15 를 그대로 둔다.
+     업종명 — 칸 이름은 업종명이지만 고르는 값은 계약서의 면허다.
+     인트라넷 계약 화면의 종합 5 · 전문 15 를 그대로 둔다.
      이용사는 로그인이 계정의 면허를 들고 오므로 그 안에서 고르고,
      미이용사는 스무 가지를 다 보여 주되 훑어 찾기 힘드니 검색을 붙인다.
      ========================================================= */
@@ -1085,7 +1086,7 @@ body.rw-done .rw-main{padding-block:0}
     if(n>0) ACCT_LIC=ACCT_LIC.slice(0,n);
     var sel=$('#r-biz'), out='';
     if(GUEST){
-      out='<option value="" disabled selected>면허를 검색하거나 고르세요</option>';
+      out='<option value="" disabled selected>업종명을 검색하거나 고르세요</option>';
       LICENSE.forEach(function(g){
         out+='<optgroup label="'+g[0]+'">'
            + g[1].map(function(t){ return '<option>'+t+'</option>'; }).join('')
@@ -1121,7 +1122,7 @@ body.rw-done .rw-main{padding-block:0}
     if(sel.dataset.search!=null){
       var qrow=document.createElement('li'); qrow.className='sel-qrow'; qrow.setAttribute('role','presentation');
       qin=document.createElement('input'); qin.type='text'; qin.className='sel-q';
-      qin.placeholder='면허명 검색'; qin.setAttribute('aria-label','면허 검색');
+      qin.placeholder='업종명 검색'; qin.setAttribute('aria-label','업종명 검색');
       qrow.appendChild(qin); pop.appendChild(qrow);
     }
     /* 원래 select 의 차례를 그대로 센다 — 묶음 머리글은 세지 않는다 */
@@ -1142,7 +1143,7 @@ body.rw-done .rw-main{padding-block:0}
     });
     if(qin){
       var none=document.createElement('li'); none.className='sel-none'; none.setAttribute('role','presentation');
-      none.textContent='찾는 면허가 없습니다'; none.hidden=true; pop.appendChild(none);
+      none.textContent='찾는 업종명이 없습니다'; none.hidden=true; pop.appendChild(none);
       qin.addEventListener('input',function(){
         var k=qin.value.trim().toLowerCase(), hit=0;
         $$('li[role="option"]',pop).forEach(function(li){
