@@ -700,16 +700,25 @@ button.kbd-k{border:0;padding:0;font-family:inherit;cursor:pointer}
      바닥에 붙은 것은 브라우저가 이미 키보드 위로 올려 주므로,
      자리를 다시 잡지 않고 막대만 내린다 */
   (function(){
-    var vv=window.visualViewport; if(!vv) return;
+    var vv=window.visualViewport;
+    /* 손끝으로 쓰는 기기다 — 칸에 들어가면 키보드가 올라온다고 본다.
+       **틀(iframe) 안에서는 visualViewport 가 줄지 않는다.** 키보드는 맨 바깥 창의 일이라
+       안쪽 문서는 그 줄어듦을 못 본다 — 시나리오 브라우저로 열면 늘 이 경우다.
+       그래서 이 기기에서는 가려진 높이를 묻지 않고 **칸에 들어갔는지**만 본다 */
+    var coarse=window.matchMedia && window.matchMedia('(pointer:coarse)').matches;
+    if(!coarse && !vv) return;
     function look(){
       /* 흉내 낸 판이 켜져 있으면 그쪽이 말한다 */
       if(document.body.classList.contains('kbd-on')) return;
-      var hid=Math.round(window.innerHeight - vv.height - vv.offsetTop);
-      var up = vv.scale<=1.01 && hid>120 && editable(document.activeElement);
+      var up=editable(document.activeElement);
+      if(up && !coarse){
+        /* 마우스로 쓰는 기기에서는 화면이 실제로 줄어든 것만 키보드로 본다 */
+        var hid=Math.round(window.innerHeight - vv.height - vv.offsetTop);
+        up = vv.scale<=1.01 && hid>120;
+      }
       document.body.classList.toggle('kbd-real', up);
     }
-    vv.addEventListener('resize', look);
-    vv.addEventListener('scroll', look);
+    if(vv){ vv.addEventListener('resize', look); vv.addEventListener('scroll', look); }
     document.addEventListener('focusin', look);
     document.addEventListener('focusout', function(){ setTimeout(look, 80); });
   })();
