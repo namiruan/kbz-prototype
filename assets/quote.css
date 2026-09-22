@@ -11,7 +11,23 @@
       아니다. 합치지 말 것.
    ⚠ --ink · --line · --accent 같은 이름은 견적 쪽 고유 체계다. 정의는 각 HTML
       안에 있다(assets/base.css 의 kbz 토큰과 이름 체계가 둘이다).
+
+   목차
+     1. 바탕 · 여러 곳이 쓰는 조각
+     2. 머리글
+     3. 본문 뼈대 — 카드와 단계
+     4. 폼 격자 · 라벨 · 안내 목록
+     5. 입력 칸
+     6. 금액 요약
+     7. 버튼
+     8. 동의 체크
+     9. 약관 모달
+     10. 보낸 뒤
+     11. 오류 표시
    ================================================================ */
+
+/* ── 1. 바탕 · 여러 곳이 쓰는 조각 ─────────────────────────────────────── */
+
 
 
 /* iOS Safari 텍스트 자동확대(boosting) 차단: 블록 폭에 따라 폰트를 임의로 키워 figline 등 간격이 벌어지던 문제 방지 */
@@ -83,6 +99,9 @@ body.quote-page{
 }
 .quote-page .inner{max-width:1060px}
 
+/* ── 2. 머리글 ─────────────────────────────────────── */
+
+
 /* ===== 페이지 머리 ===== */
 .q-hero{padding:44px 0 34px;border-bottom:1px solid var(--line)}
 .q-hero .inner{display:block}                     /* 브로슈어 인물 컷을 빼고 타이포로 연다 */
@@ -98,6 +117,9 @@ body.quote-page{
 /* 7vw 는 '예상 견적서가 전송됐어요!' 한 줄보다 3% 남짓 커서 늘 두 줄로 쪼개졌다 */
 @media(max-width:640px){.q-hero{padding:30px 0 24px}.q-hero h1{font-size:clamp(18px,6vw,31px)}}
 
+/* ── 3. 본문 뼈대 — 카드와 단계 ─────────────────────────────────────── */
+
+
 /* ===== 본문 2단 ===== */
 .q-main{padding:56px 0 128px}
 body.is-done .q-main{padding-bottom:72px}
@@ -110,6 +132,9 @@ body.is-done .q-main{padding-bottom:72px}
 .q-card + .q-card{margin-top:60px}
 .q-step{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;margin-bottom:22px}
 .q-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
+
+/* ── 4. 폼 격자 · 라벨 · 안내 목록 ─────────────────────────────────────── */
+
 
 /* =========================================================
    입력 필드 — kbz.co.kr 라이브 폼 규격 (라이브 사이트 계산값)
@@ -139,6 +164,9 @@ body.is-done .q-main{padding-bottom:72px}
 .q-notes ul{display:flex;flex-direction:column;gap:6px;list-style:none}
 .q-notes li{position:relative;padding-left:12px;font-size:12.5px;font-weight:500;color:var(--ink-2);line-height:1.6;word-break:keep-all}
 .q-notes li::before{content:"";position:absolute;left:2px;top:8px;width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
+
+/* ── 5. 입력 칸 ─────────────────────────────────────── */
+
 .field{display:flex;align-items:center;gap:8px;height:54px;padding:0 12px;background:var(--main-white);border:1px solid var(--field-line);border-radius:4px;transition:border-color .15s,box-shadow .15s}
 .field:hover{border-color:#525C66}
 /* 라이브 폼은 포커스 시 아무 변화가 없다. 키보드 사용자가 위치를 잃지 않도록
@@ -156,6 +184,9 @@ body.is-done .q-main{padding-bottom:72px}
 .field input[type=number]::-webkit-outer-spin-button,.field input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .f-unit{flex:none;font-size:15px;font-weight:400;color:var(--field-ink)}
 .dev-media img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block}
+
+/* ── 6. 금액 요약 ─────────────────────────────────────── */
+
 
 /* ===== 견적 요약 (영수증) ===== */
 /* 요약 패널은 스크롤되는 조상(모달 본문이든 페이지든)에 붙어 따라온다.
@@ -205,6 +236,9 @@ body.is-done .q-main{padding-bottom:72px}
 .q-sum-submit{margin-top:16px}
 @media(max-width:1024px){.q-sum{position:static}.q-sum-card{margin-top:0}}
 
+/* ── 7. 버튼 ─────────────────────────────────────── */
+
+
 /* ===== 버튼 (알약 → 사각 · 그림자 없음) ===== */
 .quote-page .banner-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:4px;font-size:15px;font-weight:700;letter-spacing:-.02em;background:var(--ink);color:#fff;border:0;box-shadow:none;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
 .quote-page .banner-btn:hover{background:#2A2D33}
@@ -215,6 +249,9 @@ body.is-done .q-main{padding-bottom:72px}
 #btnSubmit{width:100%;padding:15px 20px;font-size:16px;background:var(--accent)}
 #btnSubmit:hover{background:#0E4CAA}
 #btnSubmit[disabled]{background:#E4E7EA;color:var(--ink-3);cursor:not-allowed}
+
+/* ── 8. 동의 체크 ─────────────────────────────────────── */
+
 
 /* ===== 동의 ===== */
 .q-agree{margin-top:18px;padding:16px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:none}
@@ -232,6 +269,9 @@ body.is-done .q-main{padding-bottom:72px}
 /* 동의만 빠진 채 제출했을 때 눈에 들어오도록 */
 .q-agree.is-err .box{border-color:var(--danger);box-shadow:0 0 0 3px rgba(var(--danger-rgb),.12)}
 .q-agree.is-err .q-check{color:var(--danger-text)}
+
+/* ── 9. 약관 모달 ─────────────────────────────────────── */
+
 
 /* ===== 안내 모달 =====
    native <dialog>: 포커스 가둠·Esc 닫기가 기본이고 최상위 레이어에 그려져
@@ -256,6 +296,9 @@ body.is-done .q-main{padding-bottom:72px}
 @media(max-width:532px){.q-modal-foot .banner-btn{flex:1}}
 .q-agree .det b{color:var(--ink-2);font-weight:700}
 
+/* ── 10. 보낸 뒤 ─────────────────────────────────────── */
+
+
 /* ===== 완료 화면 ===== */
 /* 결과는 이미 페이지 제목이 말한다. 카드는 제목 없이 내용만, 폼과 같은
    왼쪽 기준선에 맞춰 놓는다. */
@@ -264,6 +307,9 @@ body.is-done .q-main{padding-bottom:72px}
 .q-done p{font-size:16px;color:var(--ink-2);line-height:1.7;margin:0;word-break:keep-all}
 .q-done p b{color:var(--ink);font-weight:700}
 .q-done .acts{display:flex;gap:8px;margin-top:28px;flex-wrap:wrap}
+
+/* ── 11. 오류 표시 ─────────────────────────────────────── */
+
 
 /* 에러 */
 /* 무엇이 잘못됐는지는 그 칸 바로 아래에서 말한다.

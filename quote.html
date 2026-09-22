@@ -13,6 +13,23 @@
 <link rel="stylesheet" href="assets/quote.css">
 <link rel="stylesheet" href="assets/kbd.css">
 <style>
+/* ================================================================
+   quote.html — 퇴직공제 전자카드 단말기 견적 화면의 고유 스타일.
+
+   함께 쓰는 것은 밖에 있다:
+     assets/base.css  토큰 · 리셋 · 타이포 (네 화면 공통)
+     assets/quote.css 견적 두 화면의 공통 스타일 — 규칙의 대부분이 여기 있다
+     assets/kbd.css   화면 키보드 (프로토타입 전용 장치)
+
+   목차
+      1. 퇴직공제 고유 — 단말기 카드 그리드
+      2. 수량 스테퍼
+      3. 금액 요약 안의 줄
+   ================================================================ */
+
+
+/* ── 1. 퇴직공제 고유 — 단말기 카드 그리드 ────────────────────────────────────────── */
+
 .f-item{display:flex;flex-direction:column;gap:5px;min-width:0}
 /* 상시 말풍선 — 열고 닫는 툴팁이 아니라 늘 떠 있는 안내.
    입력칸 옆이 아니라 섹션 제목 옆에 둔다. 기간 한 칸의 이야기가 아니라
@@ -54,6 +71,9 @@
 .dev-card.is-on .dev-qty{display:block}
 /* 수량 스테퍼 — 대부분 몇 대 수준이라 전체 폭 입력칸 대신 눌러서 맞추는 컨트롤 */
 .stepper{display:inline-flex;align-items:center;height:32px;background:var(--main-white);border:1px solid var(--line);border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(12,13,15,.12);transition:border-color .15s}
+
+/* ── 2. 수량 스테퍼 ────────────────────────────────────────── */
+
 .stepper:focus-within{border-color:var(--field-ink)}
 .stepper button{width:28px;height:100%;display:flex;align-items:center;justify-content:center;padding:0;border:0;background:none;color:var(--ink-2);font-size:15px;line-height:1;cursor:pointer;transition:background .15s,color .15s}
 .stepper button:hover:not(:disabled){background:var(--fill);color:var(--ink)}
@@ -81,6 +101,9 @@
   .stepper input{width:26px}
 }
 .q-sum-mid-body .q-sum-line{font-size:13px}
+
+/* ── 3. 금액 요약 안의 줄 ────────────────────────────────────────── */
+
 .q-sum-mid-body .q-sum-line .nm{font-weight:500;color:var(--ink-2)}
 /* 칸이 아닌 덩어리(단말기 목록)의 메시지 */
 .f-msg.block{margin-top:10px}</style>

@@ -13,6 +13,24 @@
 <link rel="stylesheet" href="assets/quote.css">
 <link rel="stylesheet" href="assets/kbd.css">
 <style>
+/* ================================================================
+   face-quote.html — 안면인식 출퇴근관리 단말기 견적 화면의 고유 스타일.
+
+   함께 쓰는 것은 밖에 있다:
+     assets/base.css  토큰 · 리셋 · 타이포 (네 화면 공통)
+     assets/quote.css 견적 두 화면의 공통 스타일 — 규칙의 대부분이 여기 있다
+     assets/kbd.css   화면 키보드 (프로토타입 전용 장치)
+
+   목차
+      1. 말풍선 안내 · 단말기 카드
+      2. 현장 단위 반복 칸 — 더하고 지운다
+      3. 김반장 이용사 여부(라디오)
+      4. 금액 요약 안의 줄
+   ================================================================ */
+
+
+/* ── 1. 말풍선 안내 · 단말기 카드 ────────────────────────────────────────── */
+
 @media(max-width:640px){
   .q-step.has-add{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"hint hint" "title add";gap:12px}
   .q-step.has-add h2{grid-area:title;align-self:center}
@@ -61,6 +79,9 @@
   .dev-desc{margin-top:3px;font-size:12.5px;line-height:1.55}
 }
 
+/* ── 2. 현장 단위 반복 칸 — 더하고 지운다 ────────────────────────────────────────── */
+
+
 /* ===== 현장 블록 =====
    현장마다 기간·수량·지역·시기가 다르다. 한 덩어리씩 테두리로 묶어
    어디까지가 한 현장인지 눈으로 끊기게 한다. */
@@ -87,6 +108,9 @@
   .site .f-item.grow{flex-basis:100%;max-width:100%}
 }
 
+/* ── 3. 김반장 이용사 여부(라디오) ────────────────────────────────────────── */
+
+
 /* ===== 김반장 이용 여부 — 라디오 =====
    동의 체크박스(.q-check)와 같은 방식으로 원만 직접 그린다. */
 /* 질문은 왼쪽 끝, 답은 오른쪽 끝 — 위 입력칸들과 좌우 폭을 맞춘다.
@@ -102,6 +126,9 @@
 .f-radios input:checked + .dot::after{transform:scale(1)}
 .f-radios input:checked ~ .tx{font-weight:700;color:var(--ink)}
 .f-radios input:focus-visible + .dot{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
+
+/* ── 4. 금액 요약 안의 줄 ────────────────────────────────────────── */
+
 /* 내역 한 줄 = 이름 + 금액, 계산식은 그 아래 줄로. 340px 패널에
    '130,000원 × 12대 × 12개월'까지 한 줄에 넣으면 이름이 접힌다. */
 .q-sum-mid-body .q-sum-line{flex-wrap:wrap;row-gap:2px;font-size:13px}
