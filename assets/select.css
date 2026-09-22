@@ -1,0 +1,68 @@
+/* ================================================================
+   select.css — 고르는 칸의 생김새(assets/select.js 와 한 쌍).
+
+   네이티브 <select> 의 목록은 OS 가 그린다 — 칸 위로 곹쳐 뜨고 색도 기기를
+   따른다. 그래서 목록을 직접 그린다. 칸을 감싼 상자는 화면마다 이름이 다르므로
+   (이용후기 .f-in · 견적 .field) 둘 다 적어 둔다.
+
+   · 콤보박스(data-combo) — 계약 현장·업종명처럼 사람이 답을 미리 떠올릴 수
+     있는 칸. 트리거가 곱 검색창이라 바로 쳐서 좁힌다.
+     (김반장 3.0 · components/molecules/combobox.md)
+   · 드롭다운 — 만족도·기능처럼 어떤 말이 있는지 겪어 보지 않은 칸.
+     칠 말을 떠올릴 수 없는데 검색창을 내밀면 빈 칸 앞에서 멈췄다.
+   ================================================================ */
+
+/* 열리는 목록 — 피그마 option-list (3002:34926).
+   흰 바탕 · padding 5 · 줄 사이 5 · 그림자 0 0 10 검정 8% · 모서리는 각지다.
+   한 줄은 높이 40 / padding 12·10 / Wanted Sans Medium 16 / -0.16 */
+.ms-pop,.sel-pop{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;max-height:280px;overflow:auto;
+  display:flex;flex-direction:column;gap:5px;margin:0;padding:5px;list-style:none;
+  background:var(--main-white);box-shadow:0 0 10px rgba(var(--color-black-rgb),.08)}
+.ms-pop label,.sel-pop li{display:flex;align-items:center;gap:5px;min-height:40px;padding:12px 10px;cursor:pointer;
+  color:var(--main-black);font-family:var(--font-body);font-size:16px;font-weight:500;line-height:normal;
+  letter-spacing:-.16px;word-break:keep-all}
+.ms-pop label:hover,.sel-pop li:hover,.sel-pop li.on{background:rgba(var(--color-blue-rgb),.06)}
+/* 이미 다른 분이 맡은 현장 — 목록에는 두되 고를 수 없다.
+   까닭은 hover 로 알린다. 목록이 스크롤되므로 툴팁을 줄 밖으로 띄우면 잘린다 —
+   줄 안 오른쪽에 붙이고, 이름 쪽이 대신 줄어들게 한다 */
+.ms-pop label.is-off{position:relative;cursor:not-allowed;color:var(--ds-text-disabled)}
+.ms-pop label.is-off:hover{background:none}
+.ms-pop label.is-off input{cursor:not-allowed}
+.ms-pop label.is-off>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ms-pop label.is-off::after{content:attr(data-tip);flex:none;margin-left:auto;padding:3px 8px;border-radius:var(--rad-sm);
+  background:var(--sub-d-gray);color:var(--main-white);font-family:var(--font-body);font-size:13px;font-weight:400;
+  line-height:normal;white-space:nowrap;opacity:0;transition:opacity .15s ease}
+.ms-pop label.is-off:hover::after,.ms-pop label.is-off:focus-within::after{opacity:1}
+/* 손가락으로 쓰는 화면에는 hover 가 없다 — 늘 보이게 둔다 */
+@media(hover:none){.ms-pop label.is-off::after{opacity:1}}
+@media(prefers-reduced-motion:reduce){.ms-pop label.is-off::after{transition:none}}
+.sel-pop li[aria-selected="true"]{color:var(--main-blue)}
+/* 찾은 것이 없을 때 — 고르는 줄이 아니므로 손 모양도 덧칠도 주지 않는다 */
+.sel-pop .sel-none{min-height:0;padding:12px 10px;cursor:default;color:var(--ds-text-subtle);font-size:15px}
+.sel-pop .sel-none:hover{background:none}
+.ms-pop input{flex:none;width:16px;height:16px;margin:0;accent-color:var(--main-blue);cursor:pointer}
+
+
+
+/* 네이티브 select 는 목록을 OS 가 그리는 탓에 칸 위로 겹쳐 뜬다 — 칸 아래로
+   펼치려면 목록을 직접 그려야 한다. 값은 원래 select 가 그대로 들고 있는다 */
+.rw-sel{position:relative}
+.rw-sel .f-in,.rw-sel .field{cursor:pointer}
+.rw-sel select{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none}
+.sel-txt{flex:1 0 0;min-width:20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
+.rw-sel.is-ph .sel-txt{color:var(--ds-text-subtle)}
+.rw-sel .sel-in{flex:1 0 0;min-width:20px;border:0;outline:0;background:none;text-overflow:ellipsis;cursor:pointer;
+  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
+/* 열려 있을 때만 글자 커서 — 닫힌 칸은 눌러서 여는 물건으로 보여야 한다 */
+.rw-sel[data-open] .sel-in{cursor:text}
+.rw-sel .sel-in::placeholder{color:var(--ds-text-subtle)}
+/* 고른 값을 지우는 × — 값이 있을 때만 나온다. 화살표 왼쪽에 붙어 칸 높이를 바꾸지 않는다 */
+.rw-sel .sel-clr{display:none;flex:none;width:24px;height:24px;padding:0;border:0;background:none;
+  color:var(--ds-text-subtle);cursor:pointer;align-items:center;justify-content:center}
+.rw-sel.has-val .sel-clr{display:flex}
+.rw-sel .sel-clr:hover{color:var(--main-black)}
+.rw-sel .sel-clr svg{display:block;width:16px;height:16px}
+.rw-sel[data-open] .f-in,.rw-sel[data-open] .field{border-color:var(--ds-border-selected)}
+.rw-sel .caret,.rw-sel .f-caret{transition:transform .15s}
+.rw-sel[data-open] .caret,.rw-sel[data-open] .f-caret{transform:rotate(180deg)}

@@ -36,8 +36,6 @@
 /* ── 1. 바탕 · 뼈대 ────────────────────────────────────────── */
 
 
-/* display 를 주는 클래스가 hidden 속성을 이겨서 숨김이 안 먹는다 — 못을 박는다 */
-[hidden]{display:none!important}
 /* 이 화면의 바탕만 여기서 정한다 — 글꼴·글자색·줄높이는 assets/base.css */
 body{background:var(--main-white)}
 /* 페이지 위쪽에 깔리는 하늘색. 마퀴 알약이 흰색 60% 라 바탕에 색이 있어야 보인다. */
@@ -251,63 +249,7 @@ body.rw-ok .rw-gate{display:none}
 .rw-ms[data-open] .ms-btn{border-color:var(--ds-border-selected)}
 .rw-ms[data-open] .ms-btn .caret{transform:rotate(180deg)}
 
-/* ── 12. 목록 팝업 — 다중선택과 콤보박스가 함께 쓴다 ────────────────────────────────────────── */
-
-/* 열리는 목록 — 피그마 option-list (3002:34926).
-   흰 바탕 · padding 5 · 줄 사이 5 · 그림자 0 0 10 검정 8% · 모서리는 각지다.
-   한 줄은 높이 40 / padding 12·10 / Wanted Sans Medium 16 / -0.16 */
-.ms-pop,.sel-pop{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;max-height:280px;overflow:auto;
-  display:flex;flex-direction:column;gap:5px;margin:0;padding:5px;list-style:none;
-  background:var(--main-white);box-shadow:0 0 10px rgba(var(--color-black-rgb),.08)}
-.ms-pop label,.sel-pop li{display:flex;align-items:center;gap:5px;min-height:40px;padding:12px 10px;cursor:pointer;
-  color:var(--main-black);font-family:var(--font-body);font-size:16px;font-weight:500;line-height:normal;
-  letter-spacing:-.16px;word-break:keep-all}
-.ms-pop label:hover,.sel-pop li:hover,.sel-pop li.on{background:rgba(var(--color-blue-rgb),.06)}
-/* 이미 다른 분이 맡은 현장 — 목록에는 두되 고를 수 없다.
-   까닭은 hover 로 알린다. 목록이 스크롤되므로 툴팁을 줄 밖으로 띄우면 잘린다 —
-   줄 안 오른쪽에 붙이고, 이름 쪽이 대신 줄어들게 한다 */
-.ms-pop label.is-off{position:relative;cursor:not-allowed;color:var(--ds-text-disabled)}
-.ms-pop label.is-off:hover{background:none}
-.ms-pop label.is-off input{cursor:not-allowed}
-.ms-pop label.is-off>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ms-pop label.is-off::after{content:attr(data-tip);flex:none;margin-left:auto;padding:3px 8px;border-radius:var(--rad-sm);
-  background:var(--sub-d-gray);color:var(--main-white);font-family:var(--font-body);font-size:13px;font-weight:400;
-  line-height:normal;white-space:nowrap;opacity:0;transition:opacity .15s ease}
-.ms-pop label.is-off:hover::after,.ms-pop label.is-off:focus-within::after{opacity:1}
-/* 손가락으로 쓰는 화면에는 hover 가 없다 — 늘 보이게 둔다 */
-@media(hover:none){.ms-pop label.is-off::after{opacity:1}}
-@media(prefers-reduced-motion:reduce){.ms-pop label.is-off::after{transition:none}}
-.sel-pop li[aria-selected="true"]{color:var(--main-blue)}
-/* 찾은 것이 없을 때 — 고르는 줄이 아니므로 손 모양도 덧칠도 주지 않는다 */
-.sel-pop .sel-none{min-height:0;padding:12px 10px;cursor:default;color:var(--ds-text-subtle);font-size:15px}
-.sel-pop .sel-none:hover{background:none}
-.ms-pop input{flex:none;width:16px;height:16px;margin:0;accent-color:var(--main-blue);cursor:pointer}
-
-/* ── 13. 콤보박스 · 드롭다운(업종명 등) ────────────────────────────────────────── */
-
-
-/* 네이티브 select 는 목록을 OS 가 그리는 탓에 칸 위로 겹쳐 뜬다 — 칸 아래로
-   펼치려면 목록을 직접 그려야 한다. 값은 원래 select 가 그대로 들고 있는다 */
-.rw-sel{position:relative}
-.rw-sel .f-in{cursor:pointer}
-.rw-sel select{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none}
-.sel-txt{flex:1 0 0;min-width:20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
-.rw-sel.is-ph .sel-txt{color:var(--ds-text-subtle)}
-.rw-sel .sel-in{flex:1 0 0;min-width:20px;border:0;outline:0;background:none;text-overflow:ellipsis;cursor:pointer;
-  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
-/* 열려 있을 때만 글자 커서 — 닫힌 칸은 눌러서 여는 물건으로 보여야 한다 */
-.rw-sel[data-open] .sel-in{cursor:text}
-.rw-sel .sel-in::placeholder{color:var(--ds-text-subtle)}
-/* 고른 값을 지우는 × — 값이 있을 때만 나온다. 화살표 왼쪽에 붙어 칸 높이를 바꾸지 않는다 */
-.rw-sel .sel-clr{display:none;flex:none;width:24px;height:24px;padding:0;border:0;background:none;
-  color:var(--ds-text-subtle);cursor:pointer;align-items:center;justify-content:center}
-.rw-sel.has-val .sel-clr{display:flex}
-.rw-sel .sel-clr:hover{color:var(--main-black)}
-.rw-sel .sel-clr svg{display:block;width:16px;height:16px}
-.rw-sel[data-open] .f-in{border-color:var(--ds-border-selected)}
-.rw-sel .caret{transition:transform .15s}
-.rw-sel[data-open] .caret{transform:rotate(180deg)}
+/* ── 12. (목록 팝업 · 콤보박스 · 드롭다운은 assets/select.css 로 옮겼다) ── */
 
 /* 인증 버튼 (피그마 : 칸 안 오른쪽) */
 .f-btn{flex:none;padding:var(--pad-3) var(--pad-5);border:1px solid var(--ds-border-selected);border-radius:var(--rad-md);

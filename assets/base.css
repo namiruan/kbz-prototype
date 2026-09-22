@@ -93,6 +93,9 @@
 /* ── 리셋 · 타이포 ─────────────────────────────────────────────
    body 의 바탕색과 커서는 화면마다 달라 각 HTML 에 남겨 뒀다 */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+/* display 를 주는 클래스가 hidden 속성을 이겨서 숨김이 안 먹는다 — 못을 박는다.
+   목록 팝업(.sel-pop 은 display:flex)처럼 숨겼다 폈다 하는 것이 여기 걸린다 */
+[hidden]{display:none!important}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{font-family:var(--font-body);color:var(--main-black);line-height:1.62;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}

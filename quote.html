@@ -12,9 +12,11 @@
 <!-- 스타일은 전부 assets/ 에 있다. 이름 규칙: HTML 과 같은 이름 = 이 화면 전용,
      다른 이름 = 여러 화면이 나눠 쓰는 것. 위에서 아래로 놓인 순서가 겹칠 때의 승패다 -->
 <link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/select.css">
 <link rel="stylesheet" href="assets/quote-common.css">
 <link rel="stylesheet" href="assets/quote.css">
 <link rel="stylesheet" href="assets/kbd.css">
+<script src="assets/select.js"></script>
 </head>
 <body class="quote-page">
 <script>if(window.self!==window.top)document.body.classList.add('is-embedded');</script>
@@ -444,6 +446,9 @@ function say(anchor, msg, block){
   /* 이용후기 화면과 같은 부품이다 — .f-msg 는 칸 아래 '줄'(상자)이고 그 안의
      .note 가 글자다. 상자를 따로 두면 한 줄에 안내와 글자수를 나란히 놓을 수
      있고, 톤은 글자 쪽 클래스(.danger · .ok)가 정한다 */
+  /* 고르는 칸은 assets/select.js 가 .rw-sel 로 감싼다 — 그 바깥에 붙여야
+     칸 덩이(.f-item)의 줄 간격을 그대로 받는다 */
+  if (anchor.parentNode && anchor.parentNode.classList.contains('rw-sel')) anchor = anchor.parentNode;
   var box = document.createElement('div');
   box.className = 'f-msg' + (block ? ' block' : '');
   var p = document.createElement('p');
@@ -624,6 +629,9 @@ btnHome.addEventListener('click', function(e){
   try { window.parent.postMessage({ kbz:'close' }, '*'); } catch (err) {}
 });
 window.addEventListener('resize', syncHome);
+/* 고르는 칸의 목록은 assets/select.js 가 그린다 — 네이티브 목록은 OS 가 그려서
+   칸 위로 겹쳐 뜨고 색도 기기를 따르기 때문이다(이용후기 화면과 같은 부품) */
+document.querySelectorAll('.field select').forEach(kbzSelect);
 syncHome();
 
 document.getElementById('btnAgain').addEventListener('click', function(){

@@ -354,3 +354,9 @@ body.is-done .q-main{padding-bottom:72px}
 
 /* 칸이 아닌 덩어리(단말기 목록·동의 줄) 아래에 붙는 줄은 좀 더 띄운다 */
 .f-msg.block{margin-top:10px}
+
+/* 고르는 칸의 글씨 — select.css 의 기본값은 이용후기 칸(17px)에 맞춰 있다.
+   견적의 입력칸은 16px 이라 옆 칸과 어긋나므로 여기서 맞춘다 */
+.rw-sel .sel-txt,.rw-sel .sel-in{font-size:16px;font-weight:400;line-height:25.92px;
+  letter-spacing:-.16px;color:var(--field-ink)}
+.rw-sel.is-ph .sel-txt{color:var(--field-line)}
