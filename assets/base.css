@@ -96,3 +96,6 @@
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{font-family:var(--font-body);color:var(--main-black);line-height:1.62;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
+
+/* 눈으로는 안 보이고 보조기술에만 닿는 글 — 폼 부품이 아니라 여기 둔다 */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}

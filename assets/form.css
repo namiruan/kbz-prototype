@@ -1,23 +1,26 @@
 /* ================================================================
-   form.css — 이용후기 두 화면(face-attendance-review · login)이 함께 쓰는 폼 부품.
+   form.css — 이용후기 두 화면(face-attendance-review · login)의 **폼 부품 전부**.
 
-   로그인 화면의 본인 확인 모달과 후기 작성 화면은 **같은 칸**을 쓴다 —
-   라벨 줄(.rw-lb), 칸(.f-in), 칸+버튼(.rw-withbtn), 칸 아래 한 줄(.f-msg .note).
-   두 곳에 나눠 두었더니 한쪽은 토큰을, 한쪽은 값을 박아 놓고 있었다:
-   지금은 같은 값이라 똑같아 보이지만 시스템 토큰이 바뀌면 한쪽만 따라온다.
-   한 벌로 모으면서 전부 토큰으로 되돌렸다.
+   담는 기준은 하나다: **선택자의 뿌리가 부품 이름이면 여기.**
+     .rw-lb        라벨 줄
+     .f-in         칸 (상태·입력글씨·드롭다운 화살표·여러 줄 칸까지)
+     .rw-withbtn   칸 + 옆 버튼
+     .f-msg        칸 아래 한 줄 과 그 안의 글자(.note · .danger · .ok)
+     .ask-fields   본인 확인 모달의 칸 격자
+   한 화면에서만 쓰는 변형도 넣는다 — 안 쓰는 화면에서는 잠잘 뿐이다.
+
+   왜 이 기준인가: 전에는 「두 화면에 글자까지 똑같이 있으면 공통」이라 갈랐는데,
+   그러면 같은 부품이 두 파일에 걸쳐 놓인다. 실제로 .rw-lb label 을 후기 화면에만
+   고쳤다가 로그인 모달의 라벨 줄만 3px 높은 채로 남았다.
+
+   화면이 정하는 것은 화면 파일에 남겨 두었다 — 예를 들어 .ask-fields 의 위 여백은
+   후기 25px · 로그인 20px 로 다르다(격자 자체는 여기에 있다).
 
    ⚠ 견적 두 화면은 이 파일을 쓰지 않는다 — 그쪽은 quote-common.css 다.
-      그쪽에도 .f-msg 가 있고 **하는 일은 같다** — 칸에 대한 한 줄 안내다.
-      다른 것은 생김새다: 여기서의 .f-msg 는 **상자**고 그 안의 .note 가 글자이며
-      글자수(.f-cnt)·사진(.f-photo) 도 같은 줄에 싣는다. 마크업에 늘 있다.
-      견적의 .f-msg 는 **글자 자체**이고, 오류일 때만 say() 가 만들어 붙였다 지운다.
-      합칠 수 없는 것이 아니라, 합치려면 견적의 say() 가
-      .f-msg > .note.danger 를 만들도록 먼저 고쳐야 한다 — 그 전에 규칙만 섞으면
-      한쪽 마크업이 깨진다.
+      다만 .f-msg > .note 구조는 같아졌으니, 다음에 두 제품을 합치면 이 파일이
+      네 화면 공통이 된다.
    ================================================================ */
 
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
 /* 라벨 (피그마 '회사명' 프레임) */
 .rw-lb{display:flex;align-items:center;gap:5px;min-height:19px;margin-bottom:5px}
@@ -55,3 +58,60 @@
 .ask-fields .f-msg{margin-top:0}
 .ask-fields .f-msg .note{margin-top:8px;word-break:keep-all}
 .ask-fields .f-msg .note:empty{display:none}
+
+/* ── 한 화면에서만 쓰는 변형도 여기 둔다 ────────────────────
+   이전에는 「두 화면에 글자까지 똑같이 있으면 공통」을 기준으로 갈랐다.
+   그러자 같은 부품이 두 파일에 걸쳐 놓였고, 한쪽만 고치면 다른 쪽이 조용히
+   뒤처졌다 — 실제로 .rw-lb label 을 후기 화면에만 고쳐 로그인 모달의 라벨 줄만
+   3px 높은 채로 남아 있었다.
+   이제 기준은 하나다: **선택자의 뿌리가 부품 이름이면 여기**.
+   한 화면에서만 쓰는 변형이어도 그렇다 — 안 쓰는 화면에서는 그냥 잠잘 뿐이고,
+   나중에 그 변형이 필요해지면 마크업만 써 주면 된다. */
+
+
+/* ── 10. 입력 칸 ────────────────────────────────────────── */
+
+/* 라벨을 <label>로 감싼 칸과 그냥 <span>인 칸이 섞여 있다 — 계약 현장은 고르는 것이
+   <button>이라 <label for>를 걸 수 없어 span + aria-labelledby 다.
+   <label>에 규칙이 없으면 안쪽 글자가 14px 이어도 제 줄상자는 본문 16px 로 잡혀
+   그 줄만 3px 높아지고, 나란히 선 칸들의 시작선이 어긋난다. 안의 글자에 맞춘다 */
+.rw-lb label{font-size:14px;line-height:18px}
+/* 확인을 받은 칸 — 이 디자인에서 '됐다'는 파랑이다(.note.ok 와 같은 색) */
+.f-in.is-ok{border-color:var(--main-blue);background:rgba(var(--color-blue-rgb),.045)}
+.f-in .ok-ck{display:none;flex:none;color:var(--main-blue)}
+.f-in .ok-ck svg{width:18px;height:18px;display:block}
+.f-in.is-ok .ok-ck{display:flex}
+.f-in input,.f-in select,.f-in textarea{flex:1 0 0;min-width:20px;border:0;outline:0;background:none;
+  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
+.f-in input::placeholder,.f-in textarea::placeholder{color:var(--ds-text-subtle)}
+.f-in select{appearance:none;-webkit-appearance:none;cursor:pointer}
+.f-in select.ph{color:var(--ds-text-subtle)}
+.f-in .caret{flex:none;display:flex;color:var(--ds-text-body);pointer-events:none}
+.f-in .caret svg{width:20px;height:20px;display:block}
+.f-in.area{align-items:flex-start;padding:var(--pad-6) var(--pad-5) var(--pad-4)}
+.f-in.area textarea{height:96px;resize:vertical;line-height:1.55}
+
+/* ── 14. 칸 옆 버튼 ────────────────────────────────────────── */
+
+/* 확인이 끝난 뒤의 되돌리기 — 같은 자리 같은 크기지만 유도하는 행동이 아니다 */
+.rw-withbtn .btn.is-undo{background:var(--main-white);border-color:var(--ds-border-subtle);color:var(--ds-text-label)}
+.rw-withbtn .btn.is-undo:hover{background:var(--main-white);border-color:var(--ds-border-selected);color:var(--ds-text-body)}
+.rw-withbtn .btn[disabled]{background:var(--ds-bg-disabled);border-color:var(--ds-border-subtle);color:var(--ds-text-disabled);cursor:not-allowed}
+
+/* ── 15. 칸 아래 한 줄 · 글자수 · 사진 ────────────────────────────────────────── */
+
+
+/* 칸 아래 메시지 (input_message_atomic) */
+.f-msg{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:var(--pad-3)}
+
+/* 라벨은 모달 바깥 폼과 같은 크기를 쓴다 — 바로 뒤에 같은 이름의 칸이 비쳐 보인다 */
+/* 그리드 칸은 기본값(min-width:auto)이면 안에 든 것보다 좁아지지 않는다. 번호칸에는
+   줄바꿈하지 않는 '인증' 칩이 들어 있어, 그 폭이 모달의 350 을 넘기면 칸이 버티고
+   모달째로 화면 밖으로 밀려난다. 좁은 화면에서 실제로 그렇게 잘렸다.
+   글꼴이 바뀌면 그 폭도 바뀌므로 숫자로 막지 않고 줄어들 수 있게 열어 둔다 */
+.ask-fields{display:grid;gap:20px;min-width:0}
+/* 칸 안에 들어가는 작은 버튼과 남은 시간 — 피그마 모달의 '재전송' / '03:00' */
+.ask-fields .chip{flex:none;padding:4px 10px;border:0;border-radius:var(--rad-sm);background:var(--main-gray);
+  color:var(--main-black);font-family:var(--font-body);font-size:13px;font-weight:400;line-height:normal;cursor:pointer}
+.ask-fields .chip:hover{background:#D7DADD}
+.ask-fields .chip[disabled]{color:var(--ds-text-disabled);cursor:default}

@@ -236,28 +236,6 @@ body.rw-ok .rw-gate{display:none}
 @media(max-width:899px){.rw-vgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){.rw-vgrid{grid-template-columns:minmax(0,1fr)}}
 
-/* ── 10. 입력 칸 ────────────────────────────────────────── */
-
-/* 라벨을 <label>로 감싼 칸과 그냥 <span>인 칸이 섞여 있다 — 계약 현장은 고르는 것이
-   <button>이라 <label for>를 걸 수 없어 span + aria-labelledby 다.
-   <label>에 규칙이 없으면 안쪽 글자가 14px 이어도 제 줄상자는 본문 16px 로 잡혀
-   그 줄만 3px 높아지고, 나란히 선 칸들의 시작선이 어긋난다. 안의 글자에 맞춘다 */
-.rw-lb label{font-size:14px;line-height:18px}
-/* 확인을 받은 칸 — 이 디자인에서 '됐다'는 파랑이다(.note.ok 와 같은 색) */
-.f-in.is-ok{border-color:var(--main-blue);background:rgba(var(--color-blue-rgb),.045)}
-.f-in .ok-ck{display:none;flex:none;color:var(--main-blue)}
-.f-in .ok-ck svg{width:18px;height:18px;display:block}
-.f-in.is-ok .ok-ck{display:flex}
-.f-in input,.f-in select,.f-in textarea{flex:1 0 0;min-width:20px;border:0;outline:0;background:none;
-  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
-.f-in input::placeholder,.f-in textarea::placeholder{color:var(--ds-text-subtle)}
-.f-in select{appearance:none;-webkit-appearance:none;cursor:pointer}
-.f-in select.ph{color:var(--ds-text-subtle)}
-.f-in .caret{flex:none;display:flex;color:var(--ds-text-body);pointer-events:none}
-.f-in .caret svg{width:20px;height:20px;display:block}
-.f-in.area{align-items:flex-start;padding:var(--pad-6) var(--pad-5) var(--pad-4)}
-.f-in.area textarea{height:96px;resize:vertical;line-height:1.55}
-
 /* ── 11. 계약 현장 — 여러 곳을 고르는 칸 ────────────────────────────────────────── */
 
 
@@ -331,24 +309,11 @@ body.rw-ok .rw-gate{display:none}
 .rw-sel .caret{transition:transform .15s}
 .rw-sel[data-open] .caret{transform:rotate(180deg)}
 
-/* ── 14. 칸 옆 버튼 ────────────────────────────────────────── */
-
-/* 확인이 끝난 뒤의 되돌리기 — 같은 자리 같은 크기지만 유도하는 행동이 아니다 */
-.rw-withbtn .btn.is-undo{background:var(--main-white);border-color:var(--ds-border-subtle);color:var(--ds-text-label)}
-.rw-withbtn .btn.is-undo:hover{background:var(--main-white);border-color:var(--ds-border-selected);color:var(--ds-text-body)}
-.rw-withbtn .btn[disabled]{background:var(--ds-bg-disabled);border-color:var(--ds-border-subtle);color:var(--ds-text-disabled);cursor:not-allowed}
-
 /* 인증 버튼 (피그마 : 칸 안 오른쪽) */
 .f-btn{flex:none;padding:var(--pad-3) var(--pad-5);border:1px solid var(--ds-border-selected);border-radius:var(--rad-md);
   background:var(--main-white);color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:14px;font-weight:600;line-height:18px;cursor:pointer;white-space:nowrap}
 .f-btn:hover{background:var(--sub-w-gray)}
 .f-btn[disabled]{border-color:var(--ds-border-subtle);color:var(--ds-text-disabled);background:var(--ds-bg-disabled);cursor:default}
-
-/* ── 15. 칸 아래 한 줄 · 글자수 · 사진 ────────────────────────────────────────── */
-
-
-/* 칸 아래 메시지 (input_message_atomic) */
-.f-msg{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:var(--pad-3)}
 .f-cnt{margin-left:auto;color:var(--ds-text-label);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;font-variant-numeric:tabular-nums}
 .f-cnt.ok{color:var(--main-blue)}
 
@@ -537,12 +502,7 @@ body.rw-rec #btnEditVerify{display:none}
    줄바꿈하지 않는 '인증' 칩이 들어 있어, 그 폭이 모달의 350 을 넘기면 칸이 버티고
    모달째로 화면 밖으로 밀려난다. 좁은 화면에서 실제로 그렇게 잘렸다.
    글꼴이 바뀌면 그 폭도 바뀌므로 숫자로 막지 않고 줄어들 수 있게 열어 둔다 */
-.ask-fields{display:grid;gap:20px;margin-top:25px;min-width:0}
-/* 칸 안에 들어가는 작은 버튼과 남은 시간 — 피그마 모달의 '재전송' / '03:00' */
-.ask-fields .chip{flex:none;padding:4px 10px;border:0;border-radius:var(--rad-sm);background:var(--main-gray);
-  color:var(--main-black);font-family:var(--font-body);font-size:13px;font-weight:400;line-height:normal;cursor:pointer}
-.ask-fields .chip:hover{background:#D7DADD}
-.ask-fields .chip[disabled]{color:var(--ds-text-disabled);cursor:default}
+.ask-fields{margin-top:25px}
 
 /* 바닥 버튼 — 상자 모서리까지 꽉 찬다 (상자의 radius 가 잘라 준다) */
 .ask-acts{display:flex;align-items:stretch;margin-top:auto;background:var(--main-blue)}
