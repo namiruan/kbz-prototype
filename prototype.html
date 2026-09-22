@@ -102,7 +102,15 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-중복"
         data-why="한 사업장에 한 분입니다. 같은 번호로 남은 후기가 있으면 본인인지 먼저 묻습니다."
         data-steps="회사명과 사업자등록번호 321-45-67890 을 넣고 확인을 누른 상태입니다|모달에서 번호 010-7777-0001 → 인증 → 6자리 → 후기 불러오기"
-        data-look="모달 '이미 작성된 후기가 있습니다' — 임시저장이든 제출이든 같은 문구입니다|다른 번호를 넣고 인증을 누르면 그 자리에서 '후기 작성 시 인증한 번호와 일치하지 않습니다' — 문자는 가지 않습니다|취소하면 사업자번호 칸 아래에 까닭이 남습니다">이미 쓴 사업자번호</button>
+        data-look="모달 '이미 작성된 후기가 있습니다' — 임시저장이든 제출이든 같은 문구입니다|다른 번호를 넣고 인증을 누르면 그 자리에서 '후기 작성 시 인증한 번호와 일치하지 않습니다' — 문자는 가지 않습니다|취소하면 사업자번호 칸 아래에 까닭이 남습니다|불러오기를 누른 뒤는 다음 두 화면입니다 — 임시저장분이냐 제출분이냐에 따라 달라집니다">이미 쓴 사업자번호</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-불러임시"
+        data-why="아직 내지 않은 글입니다. 그래서 쓰던 자리로 그대로 돌려놓고, 다시 지울 수도 다시 저장할 수도 있게 둡니다."
+        data-steps="010-7777-0002 로 본인 확인을 마치고 후기 불러오기를 누른 뒤입니다|저장해 둔 값은 회사 정보·현장명·업종명·문항 답까지 모두 들어 있습니다"
+        data-look="맨 위 띠 '임시저장하신 내용을 불러왔습니다.' 뒤에 저장 시각이 붙습니다|머리글 옆에 초기화가 있습니다 — 아직 낸 글이 아니라 지워도 되기 때문입니다|플로팅 막대에 임시 저장과 제출하기가 함께 있습니다|칸은 모두 저장한 그대로입니다 — 회사 정보도 다시 인증하지 않습니다">임시저장분 불러온 뒤</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-불러제출"
+        data-why="이미 낸 글입니다. 지우는 길을 없애고, 누르는 단추도 새로 내는 말이 아니라 고쳐 내는 말로 바꿉니다 — 같은 화면이지만 하는 일이 다릅니다."
+        data-steps="010-7777-0001 로 본인 확인을 마치고 후기 불러오기를 누른 뒤입니다|앞의 임시저장분 화면과 나란히 보면 다른 자리가 보입니다"
+        data-look="맨 위 띠 '이미 제출하신 후기를 불러왔습니다.' 뒤에 제출 시각이 붙습니다|초기화가 없습니다 — 낸 글을 통째로 비우는 길은 두지 않습니다|임시 저장도 없습니다 — 이미 낸 글에 임시는 없기 때문입니다|단추가 '수정해서 제출' 입니다|칸은 낸 그대로이고 회사 정보도 다시 인증하지 않습니다">제출분 불러온 뒤</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">제출한 뒤</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-완료"
         data-why="미이용사도 적어 낸 회사명으로 부릅니다."
@@ -235,6 +243,13 @@
     await dupAsk(d);
     hit(d.querySelector('#askCancel')); await wait(200);
   }
+  /* 제 번호로 인증을 마치고 그 후기를 불러온다 */
+  async function askOwn(d,ph){
+    put(d.querySelector('#ask-phone'),ph);
+    hit(d.querySelector('#askSend')); await wait(200);
+    put(d.querySelector('#ask-code'),'123456');
+    hit(d.querySelector('#askOk')); await wait(500);
+  }
   /* 모달에 남의 번호를 넣고 인증을 누른다 — 문자는 가지 않고 그 자리에서 막힌다 */
   async function askOther(d){
     put(d.querySelector('#ask-phone'),'01088880000');
@@ -247,8 +262,10 @@
     hit(d.querySelector('#login-form button[type=submit]')); await wait(300);
   }
 
-  /* 이미 후기가 남은 사업자번호 — 중복과 본인 확인 시나리오가 함께 쓴다 */
+  /* 이미 후기가 남은 사업자번호 — 중복과 본인 확인 시나리오가 함께 쓴다.
+     같은 번호라도 제출분이냐 임시저장분이냐에 따라 불러온 뒤 화면이 갈린다 */
   var DUP_G=gst('01077770001','정소장','대한건설','321 - 45 - 67890','예지타워 신축공사','done');
+  var DUP_T=gst('01077770002','한소장','대한건설','321 - 45 - 67890','예지타워 신축공사','temp');
 
   /* 화면은 목록 버튼이 가리킨다 — 설명(why·steps·look)은 버튼이 들고 있고,
      여기서는 '무엇을 열고 무엇을 심을지'만 정한다 */
@@ -302,6 +319,10 @@
         put(i,'조경'); await wait(250); }},
     'gst-중복'     :{url:REVIEW+'?guest=1',
       seed:[DUP_G], act:dupAsk},
+    'gst-불러임시' :{url:REVIEW+'?guest=1', seed:[DUP_T],
+      act:async function(d){ await dupAsk(d); await askOwn(d,'01077770002'); }},
+    'gst-불러제출' :{url:REVIEW+'?guest=1', seed:[DUP_G],
+      act:async function(d){ await dupAsk(d); await askOwn(d,'01077770001'); }},
     'gst-완료'     :{url:REVIEW+'?guest=1&done=1', seed:[]},
 
     /* 막히는 자리 — 칸마다 어떤 말로 막는지 한 자리에 모은다.
