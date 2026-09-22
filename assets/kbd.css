@@ -1,0 +1,38 @@
+/* ────────────────────────────────────────────────────────────────
+     화면 키보드 — 두 가지를 다룬다.
+     (1) **진짜 키보드**: 기기에서 키보드가 올라오면 visualViewport 가 줄어든다.
+         그때 플로팅 막대를 내린다 — 키보드 위에 막대까지 겹치면 칸이 설 자리가 없다.
+         이쪽은 늘 켜져 있다(제품 동작이다).
+     (2) **흉내 낸 판**: 데스크톱에서 그 자리가 얼마인지 보려고 두는 프로토타입 장치다.
+         주소 스위치: ?kbd=1 켬 · ?kbd=320 그 높이로 켬 · 없거나 ?kbd=0 이면 꺼져 있다
+     ──────────────────────────────────────────────────────────────── */
+:root{--kbd:0px}
+/* 맨 아래 칸도 맨 위까지 올라갈 수 있게 문서 끝에 자리를 비워 둔다 — 굴릴 데가
+   없으면 「맨 위로」 가 성립하지 않는다. 키보드가 올라와 있는 동안만이고,
+   내용 아래라 눈에 띄지 않는다 */
+body.kbd-on{padding-bottom:calc(var(--kbd) + 70vh)}
+body.kbd-real{padding-bottom:70vh}
+/* 안드로이드·최신 iOS(interactive-widget=resizes-content)처럼 **키보드가 화면을 줄인다**.
+   바닥에 붙은 것들은 키보드 위로 올라앉고, 가운데 세우는 것들은 남은 칸 가운데에 선다 */
+/* 플로팅 막대는 키보드가 올라오면 내린다 — 남은 자리를 그만큼 더 쓸 수 있고,
+   키보드 위에 막대까지 겹쳐 두면 칸이 설 자리가 없다.
+   kbd-on 은 흉내 낸 판, kbd-real 은 기기의 진짜 키보드다 */
+body.kbd-on .rw-float,body.kbd-real .rw-float{display:none}
+body.kbd-on .rw-modal,body.kbd-on .lg-modal{bottom:var(--kbd)}
+.kbd{position:fixed;left:0;right:0;bottom:0;z-index:90;height:var(--kbd);
+  display:flex;flex-direction:column;background:#d1d4d9;
+  font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+  box-shadow:0 -1px 0 rgba(0,0,0,.14);user-select:none;-webkit-user-select:none}
+.kbd[hidden]{display:none}
+.kbd-keys{flex:1 1 auto;display:flex;flex-direction:column;gap:6px;padding:6px 3px 8px}
+.kbd-row{flex:1 1 0;display:flex;gap:5px;justify-content:center;padding:0 3px}
+.kbd-k{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;
+  background:#fff;border-radius:5px;box-shadow:0 1px 0 rgba(0,0,0,.28);
+  font-size:20px;color:#000;line-height:1}
+.kbd-k.fn{background:#adb3bd;font-size:13px;color:#111}
+button.kbd-k{border:0;padding:0;font-family:inherit;cursor:pointer}
+.kbd-k.sp{flex:4 1 0}
+.kbd-k.w15{flex:1.5 1 0}
+.kbd-k.blank{background:transparent;box-shadow:none}
+.kbd-k .sub{display:block;font-size:9px;letter-spacing:1px;color:#8a8f98;margin-top:2px}
+.kbd-num .kbd-k{flex-direction:column;font-size:24px;font-weight:400}
