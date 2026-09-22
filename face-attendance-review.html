@@ -2189,26 +2189,22 @@ body.rw-done .rw-main{padding-block:0}
 body.kbd-on{padding-bottom:var(--kbd)}
 /* 안드로이드·최신 iOS(interactive-widget=resizes-content)처럼 **키보드가 화면을 줄인다**.
    바닥에 붙은 것들은 키보드 위로 올라앉고, 가운데 세우는 것들은 남은 칸 가운데에 선다 */
-body.kbd-on .rw-float{bottom:var(--kbd)}
+/* 플로팅 막대는 키보드가 올라오면 내린다 — 남은 자리를 그만큼 더 쓸 수 있고,
+   실제로도 키보드 위에 막대까지 겹쳐 두면 칸이 설 자리가 없다 */
+body.kbd-on .rw-float{display:none}
 body.kbd-on .rw-modal,body.kbd-on .lg-modal{bottom:var(--kbd)}
 .kbd{position:fixed;left:0;right:0;bottom:0;z-index:90;height:var(--kbd);
   display:flex;flex-direction:column;background:#d1d4d9;
   font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
   box-shadow:0 -1px 0 rgba(0,0,0,.14);user-select:none;-webkit-user-select:none}
 .kbd[hidden]{display:none}
-/* 재는 자 — 진짜 키보드에는 없는 줄이다. 흉내라는 걸 알아보게 어둡게 둔다 */
-.kbd-bar{flex:0 0 28px;display:flex;align-items:center;justify-content:space-between;
-  gap:8px;padding:0 10px;background:#3a3f47;color:#fff;font-size:11px;letter-spacing:-.2px}
-.kbd-bar b{font-weight:700}
-.kbd-down{border:0;background:rgba(255,255,255,.18);color:#fff;font-size:11px;
-  padding:3px 9px;border-radius:999px;cursor:pointer;font-family:inherit}
-.kbd-down:hover{background:rgba(255,255,255,.3)}
 .kbd-keys{flex:1 1 auto;display:flex;flex-direction:column;gap:6px;padding:6px 3px 8px}
 .kbd-row{flex:1 1 0;display:flex;gap:5px;justify-content:center;padding:0 3px}
 .kbd-k{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;
   background:#fff;border-radius:5px;box-shadow:0 1px 0 rgba(0,0,0,.28);
   font-size:20px;color:#000;line-height:1}
 .kbd-k.fn{background:#adb3bd;font-size:13px;color:#111}
+button.kbd-k{border:0;padding:0;font-family:inherit;cursor:pointer}
 .kbd-k.sp{flex:4 1 0}
 .kbd-k.w15{flex:1.5 1 0}
 .kbd-k.blank{background:transparent;box-shadow:none}
@@ -2216,11 +2212,7 @@ body.kbd-on .rw-modal,body.kbd-on .lg-modal{bottom:var(--kbd)}
 .kbd-num .kbd-k{flex-direction:column;font-size:24px;font-weight:400}
 </style>
 <div class="kbd" id="kbd" hidden>
-  <div class="kbd-bar">
-    <span>화면 키보드 <b id="kbdH">0</b>px · 남은 화면 <b id="kbdRest">0</b>px</span>
-    <button type="button" class="kbd-down" id="kbdDown">내리기</button>
-  </div>
-  <div class="kbd-keys" id="kbdKeys" aria-hidden="true"></div>
+  <div class="kbd-keys" id="kbdKeys"></div>
 </div>
 <script>
 (function(){
@@ -2232,9 +2224,7 @@ body.kbd-on .rw-modal,body.kbd-on .lg-modal{bottom:var(--kbd)}
   /* 진짜 키보드가 올라오는 기기에서는 켜지 않는다 — 두 개가 겹친다 */
   if(window.matchMedia && window.matchMedia('(pointer:coarse)').matches) return;
 
-  var kbd=document.getElementById('kbd'), keys=document.getElementById('kbdKeys'),
-      hOut=document.getElementById('kbdH'), restOut=document.getElementById('kbdRest');
-  var BAR=28;
+  var kbd=document.getElementById('kbd'), keys=document.getElementById('kbdKeys');
   /* 아이폰 세로 기준 실측값에 맞춘다 — 글자판은 자동완성 줄까지, 숫자판은 그보다 낮다 */
   var H={ko:319, num:254};
   if(on>1) H={ko:on, num:on};   /* ?kbd=<px> — 높이를 직접 준다 */
@@ -2243,10 +2233,13 @@ body.kbd-on .rw-modal,body.kbd-on .lg-modal{bottom:var(--kbd)}
           ['ㅁ','ㄴ','ㅇ','ㄹ','ㅎ','ㅗ','ㅓ','ㅏ','ㅣ'],
           ['⇧','ㅋ','ㅌ','ㅊ','ㅍ','ㅠ','ㅜ','ㅡ','⌫'],
           ['!#1','한/영','space','.','완료']];
-  var NUM=[['1','2','3'],['4','5','6'],['7','8','9'],['','0','⌫']];
+  var NUM=[['1','2','3'],['4','5','6'],['7','8','9'],['완료','0','⌫']];
 
   function keyEl(t,kind){
-    var b=document.createElement('span'), fn=/^(⇧|⌫|!#1|한\/영|완료|space)$/.test(t);
+    var b=document.createElement(t==='완료'?'button':'span'),
+        fn=/^(⇧|⌫|!#1|한\/영|완료|space)$/.test(t);
+    if(t==='완료'){ b.type='button'; b.dataset.k='done'; b.setAttribute('aria-label','키보드 내리기'); }
+    else b.setAttribute('aria-hidden','true');
     b.className='kbd-k'+(fn?' fn':'')+(t==='space'?' sp':'')+(t===''?' blank':'')
       +((kind==='ko'&&(t==='⇧'||t==='⌫'))?' w15':'');
     b.textContent = t==='space' ? '' : t;
@@ -2320,8 +2313,8 @@ body.kbd-on .rw-modal,body.kbd-on .lg-modal{bottom:var(--kbd)}
     var h=Math.min(H[k], Math.round(window.innerHeight*0.6));
     if(!shown || k!==kind){ kind=k; draw(k); }
     document.documentElement.style.setProperty('--kbd', h+'px');
-    hOut.textContent=h; restOut.textContent=window.innerHeight-h;
     kbd.hidden=false; document.body.classList.add('kbd-on'); shown=true;
+    tell(h);
     settleAt(Math.round(window.scrollY), el);
   }
   function hide(){
@@ -2329,6 +2322,13 @@ body.kbd-on .rw-modal,body.kbd-on .lg-modal{bottom:var(--kbd)}
     shown=false; kbd.hidden=true;
     document.body.classList.remove('kbd-on');
     document.documentElement.style.setProperty('--kbd','0px');
+    tell(0);
+  }
+  /* 높이와 남은 화면은 **크롬의 크기 표시줄**이 말한다 — 재는 자가 둘일 까닭이 없다.
+     시나리오 브라우저가 이 말을 받아 그 줄 끝에 붙인다 */
+  function tell(h){
+    if(window.parent===window) return;
+    try{ window.parent.postMessage({kbz:'kbd', h:h, rest:h?window.innerHeight-h:0}, '*'); }catch(e){}
   }
 
   /* 넓은 화면에서는 켜지 않는다 — 진짜 키보드가 화면을 먹는 건 모바일 폭의 일이다 */
@@ -2346,7 +2346,9 @@ body.kbd-on .rw-modal,body.kbd-on .lg-modal{bottom:var(--kbd)}
   });
   /* 키보드를 눌러도 칸의 포커스가 풀리지 않게 한다 — 풀리면 제가 저를 내린다 */
   kbd.addEventListener('mousedown', function(e){ e.preventDefault(); });
-  document.getElementById('kbdDown').addEventListener('click', function(){
+  /* 「완료」 로 내린다 — 진짜 자판에도 그 자리에 있다 */
+  kbd.addEventListener('click', function(e){
+    if(!e.target.closest('[data-k="done"]')) return;
     if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
     hide();
   });
