@@ -8,7 +8,13 @@
    한 벌로 모으면서 전부 토큰으로 되돌렸다.
 
    ⚠ 견적 두 화면은 이 파일을 쓰지 않는다 — 그쪽은 quote-common.css 다.
-      두 제품의 .f-msg 는 이름만 같고 뜻이 다르니 합치지 말 것.
+      그쪽에도 .f-msg 가 있고 **하는 일은 같다** — 칸에 대한 한 줄 안내다.
+      다른 것은 생김새다: 여기서의 .f-msg 는 **상자**고 그 안의 .note 가 글자이며
+      글자수(.f-cnt)·사진(.f-photo) 도 같은 줄에 싣는다. 마크업에 늘 있다.
+      견적의 .f-msg 는 **글자 자체**이고, 오류일 때만 say() 가 만들어 붙였다 지운다.
+      합칠 수 없는 것이 아니라, 합치려면 견적의 say() 가
+      .f-msg > .note.danger 를 만들도록 먼저 고쳐야 한다 — 그 전에 규칙만 섞으면
+      한쪽 마크업이 깨진다.
    ================================================================ */
 
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
