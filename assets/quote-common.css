@@ -330,9 +330,27 @@ body.is-done .q-main{padding-bottom:72px}
    단말기 카드(.dev-name · .dev-desc)도 두었다 — 그림과 짝지어 읽히는 소개글이다 */
 .f-label,.f-req,
 .field input,.field select,.f-unit,
-.stepper input,
 .f-msg .note,
 .q-check,
 .q-notes h3,.q-notes li,
-.f-hint,
-.f-radios label{font-family:var(--font-pretendard)}
+.f-hint{font-family:var(--font-pretendard)}
+
+/* ── 두 화면이 함께 쓰는 부품 ──────────────────────────────
+   이름이 같으면 생김새도 같아야 한다. 달라질 수 있는 것은 **붙는 자리**뿐이고,
+   그것만 화면 파일이 덮어쓴다 — 안면인식 화면은 말풍선을 칸 오른쪽에 띄운다. */
+
+/* 칸 한 덩이 — 라벨·칸·칸 아래 줄을 세로로 쌓는다 */
+.f-item{display:flex;flex-direction:column;gap:5px;min-width:0}
+
+/* 상시 말풍선 — 열고 닫는 툴팁이 아니라 늘 떠 있는 안내.
+   기본 자리는 제목 옆, 꼬리는 왼쪽을 향해 제목을 가리킨다 */
+.f-hint{position:relative;max-width:100%;padding:9px 12px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.55;letter-spacing:-.01em;word-break:keep-all}
+.f-hint::before{content:"";position:absolute;left:-3px;top:50%;margin-top:-4px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
+
+/* 금액 요약 가운데 줄 */
+.q-sum-mid-body .q-sum-line{font-size:13px}
+.q-sum-mid-body .q-sum-line .nm{font-weight:500;color:var(--ink-2)}
+.q-sum-total .lb small[hidden]{display:none}
+
+/* 칸이 아닌 덩어리(단말기 목록·동의 줄) 아래에 붙는 줄은 좀 더 띄운다 */
+.f-msg.block{margin-top:10px}

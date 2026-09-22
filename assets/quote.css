@@ -16,13 +16,10 @@
 
 /* ── 1. 퇴직공제 고유 — 단말기 카드 그리드 ────────────────────────────────────────── */
 
-.f-item{display:flex;flex-direction:column;gap:5px;min-width:0}
 /* 상시 말풍선 — 열고 닫는 툴팁이 아니라 늘 떠 있는 안내.
    입력칸 옆이 아니라 섹션 제목 옆에 둔다. 기간 한 칸의 이야기가 아니라
    이 섹션 전체에 걸리는 말이고, 칸 옆에 띄우면 좁은 화면에서 칸을 덮는다.
    꼬리는 왼쪽을 향해 제목을 가리킨다. */
-.f-hint{position:relative;max-width:100%;padding:9px 12px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.55;letter-spacing:-.01em;word-break:keep-all}
-.f-hint::before{content:"";position:absolute;left:-3px;top:50%;margin-top:-4px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
 
 
 /* ===== 단말기 선택 카드 ===== */
@@ -56,6 +53,8 @@
 .dev-qty{display:none;position:absolute;bottom:10px;right:10px;z-index:2}
 .dev-card.is-on .dev-qty{display:block}
 /* 수량 스테퍼 — 대부분 몇 대 수준이라 전체 폭 입력칸 대신 눌러서 맞추는 컨트롤 */
+/* 수량 스테퍼는 이 화면만 쓴다 — 부품이 통째로 여기 있다 */
+.stepper input{font-family:var(--font-pretendard)}
 .stepper{display:inline-flex;align-items:center;height:32px;background:var(--main-white);border:1px solid var(--line);border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(12,13,15,.12);transition:border-color .15s}
 
 /* ── 2. 수량 스테퍼 ────────────────────────────────────────── */
@@ -86,10 +85,7 @@
   .stepper button{width:22px}
   .stepper input{width:26px}
 }
-.q-sum-mid-body .q-sum-line{font-size:13px}
 
 /* ── 3. 금액 요약 안의 줄 ────────────────────────────────────────── */
 
-.q-sum-mid-body .q-sum-line .nm{font-weight:500;color:var(--ink-2)}
 /* 칸이 아닌 덩어리(단말기 목록)의 메시지 */
-.f-msg.block{margin-top:10px}
