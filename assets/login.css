@@ -115,9 +115,9 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 /* 색은 CSS 가 정하고 svg 는 모양만 낸다 — <img> 로 두면 파일에 박힌 색을 못 덮는다.
    그래서 mask 로 실루엣만 떠서 currentColor 를 입힌다. */
 .lg-eye i{display:block;width:20px;height:20px;background:currentColor;
-  -webkit-mask:url("images/review/hide.svg") center/contain no-repeat;
-          mask:url("images/review/hide.svg") center/contain no-repeat}
-.lg-eye[aria-pressed="true"] i{-webkit-mask-image:url("images/review/show.svg");mask-image:url("images/review/show.svg")}
+  -webkit-mask:url("../images/review/hide.svg") center/contain no-repeat;
+          mask:url("../images/review/hide.svg") center/contain no-repeat}
+.lg-eye[aria-pressed="true"] i{-webkit-mask-image:url("../images/review/show.svg");mask-image:url("../images/review/show.svg")}
 .lg-eye:hover{color:var(--main-black)}
 .lg-eye:focus-visible{outline:2px solid var(--main-blue);outline-offset:2px;border-radius:3px}
 /* 오류는 칸마다 바로 아래에 붙는다 (라이브 .input_message_atomic) */
@@ -217,7 +217,7 @@ body.review-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;po
 
 
 /* 사진은 background 로 둔다 — 파일이 없으면 깨진 아이콘 없이 그냥 비어 보인다 */
-.lg-promo-img{display:block;position:absolute;right:0;top:-65px;width:115px;height:140px;background:url("images/review/login-cta.png") center bottom/contain no-repeat}
+.lg-promo-img{display:block;position:absolute;right:0;top:-65px;width:115px;height:140px;background:url("../images/review/login-cta.png") center bottom/contain no-repeat}
 @media(max-width:532px){.lg-promo-img{top:-24px;width:81px;height:99px}}
 /* 460 아래에선 사진을 비운다 — 문구가 두 줄 다 사진 자리까지 와서, 같이 두면 글자가 사진에 깔린다.
    사진은 곁들인 그림이고 문구가 이 띠의 용건이라 그림을 접는다.

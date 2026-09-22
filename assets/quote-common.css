@@ -72,7 +72,7 @@ body.quote-page.is-done::after{content:"";position:fixed;
   right:calc(14px - var(--doc) * .142);
   bottom:calc(16px - var(--doc) * .124);
   width:var(--doc);height:var(--doc);z-index:-1;pointer-events:none;
-  background:url("images/done/quote-doc.png") center/contain no-repeat;
+  background:url("../images/done/quote-doc.png") center/contain no-repeat;
   opacity:.45;
   animation:docFloat 5.5s ease-in-out infinite}
 @keyframes docFloat{
