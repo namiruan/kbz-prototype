@@ -1,0 +1,52 @@
+/* ================================================================
+   review.css — 이용후기 두 화면(face-attendance-review.html · login.html)이
+   함께 쓰는 폼 부품.
+
+   로그인 화면의 본인 확인 모달과 후기 작성 화면은 **같은 칸**을 쓴다 —
+   라벨 줄(.rw-lb), 칸(.f-in), 칸+버튼(.rw-withbtn), 칸 아래 한 줄(.f-msg .note).
+   두 곳에 나눠 두었더니 한쪽은 토큰을, 한쪽은 값을 박아 놓고 있었다:
+   지금은 같은 값이라 똑같아 보이지만 시스템 토큰이 바뀌면 한쪽만 따라온다.
+   한 벌로 모으면서 전부 토큰으로 되돌렸다.
+
+   ⚠ 견적 두 화면은 이 파일을 쓰지 않는다 — 그쪽은 assets/quote.css 다.
+      두 제품의 .f-msg 는 이름만 같고 뜻이 다르니 합치지 말 것.
+   ================================================================ */
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* 라벨 (피그마 '회사명' 프레임) */
+.rw-lb{display:flex;align-items:center;gap:5px;min-height:19px;margin-bottom:5px}
+.rw-lb span{color:var(--ds-text-label);font-family:var(--font-pretendard);font-size:14px;font-weight:400;line-height:18px;letter-spacing:-.08px}
+.rw-lb em{font-style:normal;color:var(--main-blue);font-family:var(--font-pretendard);font-size:14px;font-weight:400}
+
+/* =========================================================
+   입력 아톰 — 피그마 Text input_atomic / select-atomic
+   padding 16/12 · radius 4 · 테두리 #CDD1D5 · Pretendard 17/22/-0.43
+   ========================================================= */
+.f-in{display:flex;align-items:center;gap:var(--pad-4);padding:var(--pad-6) var(--pad-5);
+  background:var(--main-white);border:1px solid var(--ds-border-subtle);border-radius:var(--rad-sm);transition:border-color .15s}
+.f-in:focus-within{border-color:var(--ds-border-selected)}
+.f-in.is-err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(var(--danger-rgb),.09)}
+.f-in[data-disabled]{background:var(--ds-bg-disabled)}
+
+/* 칸 옆에 붙는 버튼 — 칸 안에 넣으면 버튼이 있는 칸만 높이가 달라져 줄이 어긋난다.
+   align-items:stretch 라 버튼 높이가 칸(56)에 저절로 맞는다 */
+.rw-withbtn{display:flex;align-items:stretch;gap:8px}
+.rw-withbtn .f-in{flex:1 0 0;min-width:0}
+.rw-withbtn .btn{flex:none;padding:0 16px;border-radius:var(--rad-sm);border:1px solid var(--main-blue);
+  background:var(--main-blue);color:var(--main-white);
+  font-family:var(--font-pretendard);font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap}
+.rw-withbtn .btn:hover{background:#0E4CAA;border-color:#0E4CAA}
+/* 두 줄로 접힐 때 낱말 한가운데가 아니라 낱말 사이에서 끊기게 한다 —
+   '…없습니 / 다.' 로 갈라지면 읽다 말고 다시 붙여 읽어야 한다 */
+.f-msg .note{color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px;word-break:keep-all}
+.f-msg .note.danger{color:var(--danger-text);font-size:12px;font-weight:600;line-height:1.5}
+.f-msg .note.ok{color:var(--main-blue)}
+.ask-fields>*,.ask-fields .f-in{min-width:0}
+.ask-fields .timer{flex:none;color:var(--main-blue);font-family:var(--font-body);font-size:14px;font-variant-numeric:tabular-nums}
+
+/* 칸 아래 한 줄 — 작성 폼의 .f-msg 를 그대로 쓴다. 자리를 미리 비워 두면
+   칸 사이가 늘 떠 보이므로, 말이 있을 때만 자리를 차지한다 */
+.ask-fields .f-msg{margin-top:0}
+.ask-fields .f-msg .note{margin-top:8px;word-break:keep-all}
+.ask-fields .f-msg .note:empty{display:none}
