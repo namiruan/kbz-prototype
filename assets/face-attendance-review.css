@@ -1,0 +1,613 @@
+/* ================================================================
+   face-attendance-review.css — 이용 후기 작성 화면(face-attendance-review.html) 전용.
+
+   그 화면이 불러 오는 순서 — 아래로 갈수록 이긴다:
+     base.css                      토큰 · 리셋 · 타이포        (네 화면 공통)
+     form.css                      폼 부품 — 라벨 줄·칸·칸+버튼  (로그인 화면과 공통)
+     face-attendance-review.css    ← 이 파일
+     kbd.css                       화면 키보드              (프로토타입 전용 장치)
+
+   목차
+      1. 바탕 · 뼈대
+      2. 상단 이벤트 마퀴
+      3. 머리글
+      4. 단계 표시(1·2·3)
+      5. 인증 요약 — 인증이 끝나면 접힌다
+      6. 이어쓰기 띠 — 저장분·제출분을 불러왔을 때
+      7. 본문 2열 — 왼쪽 섹션 제목 · 오른쪽 내용
+      8. 패널 · 안내문 · 잠금 전 문구
+      9. 폼 격자
+     10. 입력 칸
+     11. 계약 현장 — 여러 곳을 고르는 칸
+     12. 목록 팝업 — 다중선택과 콤보박스가 함께 쓴다
+     13. 콤보박스 · 드롭다운(업종명 등)
+     14. 칸 옆 버튼
+     15. 칸 아래 한 줄 · 글자수 · 사진
+     16. 유의사항 목록
+     17. 후기 문항
+     18. 만족 조사
+     19. 작성자 확인 잠금
+     20. 플로팅 버튼
+     21. 본인 확인 모달
+     22. 제출 완료 화면
+   ================================================================ */
+
+
+/* ── 1. 바탕 · 뼈대 ────────────────────────────────────────── */
+
+
+/* display 를 주는 클래스가 hidden 속성을 이겨서 숨김이 안 먹는다 — 못을 박는다 */
+[hidden]{display:none!important}
+/* 이 화면의 바탕만 여기서 정한다 — 글꼴·글자색·줄높이는 assets/base.css */
+body{background:var(--main-white)}
+/* 페이지 위쪽에 깔리는 하늘색. 마퀴 알약이 흰색 60% 라 바탕에 색이 있어야 보인다. */
+body.rw-page{position:relative}
+body.rw-page::before{content:"";position:absolute;top:0;left:0;right:0;height:700px;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg, rgba(var(--color-sky-rgb),1) 0%, rgba(var(--color-sky-rgb),0) 100%)}
+button{font-family:inherit}
+
+/* 피그마 : partition-02 의 섹션이 x=140 · 폭 1000. 머리글은 1280 전체를 쓴다 */
+.rw-inner{max-width:1280px;margin:0 auto;padding:0 20px;width:100%}
+/* 좌우 여백 실측 : 1280→140 · 900·692·533→30 · 320→15
+   max 1000 에 padding 30 이면 1280 에서 140, 900 에서 30 이 저절로 나온다 */
+/* border-box 라 max-width 안에 패딩이 들어간다. 콘텐츠 1000 을 얻으려면 1000+60 */
+.rw-col{max-width:1060px;margin:0 auto;padding:0 30px;width:100%}
+@media(max-width:532px){.rw-col{padding:0 15px}}
+
+/* ── 2. 상단 이벤트 마퀴 ────────────────────────────────────────── */
+
+
+/* =========================================================
+   상단 이벤트 마퀴 — 피그마 marquee
+   바깥 : pt 85 · px 15      알약 : 흰색 60% · max 900 · p5 · radius 8
+   라벨 : Wanted Sans 14 #0E3B63   항목 : Medium 16 #115AC6 자간 -0.16
+   ========================================================= */
+.rw-mq-wrap{display:flex;flex-direction:column;align-items:center;padding:85px 15px 0}
+.rw-mq{display:flex;align-items:center;justify-content:space-between;gap:5px;width:100%;max-width:900px;
+  padding:5px;border-radius:8px;background:rgba(var(--color-white-rgb),.6);overflow:hidden}
+.rw-mq-label{flex:none;padding:0 15px;color:var(--main-navy);font-family:var(--font-body);font-size:14px;font-weight:400;line-height:normal;white-space:nowrap}
+.rw-mq-win{flex:1 0 0;min-width:0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent)}
+.rw-mq-reel{display:inline-flex;align-items:center;gap:14px;white-space:nowrap;animation:rwRoll 26s linear infinite}
+.rw-mq-reel b{color:var(--main-blue);font-family:var(--font-body);font-size:16px;font-weight:500;line-height:normal;letter-spacing:-.16px}
+/* 문구 사이를 가르는 점 — 읽는 것이 아니라 끊어 주는 것이라 작게 둔다 */
+.rw-mq-reel i{flex:none;width:4px;height:4px;border-radius:50%;background:var(--main-blue)}
+@keyframes rwRoll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.rw-mq-reel{animation:none}}
+@media(max-width:640px){.rw-mq-wrap{padding:24px 15px 0}.rw-mq-label{padding:0 10px;font-size:13px}.rw-mq-reel b{font-size:14px}}
+
+/* ── 3. 머리글 ────────────────────────────────────────── */
+
+
+/* =========================================================
+   머리글 (partition-01) — 피그마 pt 60 / pb 30
+   ========================================================= */
+.rw-hero{display:flex;flex-direction:column;align-items:center;padding:60px 0 30px}
+.rw-sub{max-width:500px;width:100%;display:flex;flex-wrap:wrap;gap:5px;align-items:center;justify-content:center;
+  color:var(--main-blue);font-family:var(--font-body);font-size:26px;font-weight:400;line-height:normal;text-align:center}
+.rw-head{display:flex;flex-direction:column;gap:5px;align-items:center;width:100%;margin-top:5px;
+  color:var(--main-navy);font-family:var(--font-body);font-size:42px;font-weight:500;line-height:normal;letter-spacing:-2.1px;text-align:center}
+.rw-head b{font-weight:700}
+.rw-head-row{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;width:100%}
+@media(max-width:899px){.rw-sub{font-size:22px}.rw-head{font-size:38px;letter-spacing:-1.9px}.rw-hero{padding:40px 0 24px}}
+@media(max-width:532px){.rw-sub{font-size:18px}.rw-head{font-size:28px;letter-spacing:-1.4px}}
+
+/* ── 4. 단계 표시(1·2·3) ────────────────────────────────────────── */
+
+
+/* ===== 진행 단계 ===== */
+.rw-steps{display:flex;align-items:center;justify-content:center;gap:10px;list-style:none;margin:0 auto 34px;flex-wrap:wrap}
+.rw-steps li{display:flex;align-items:center;gap:8px;color:var(--ds-text-disabled);
+  font-family:var(--font-pretendard);font-size:15px;font-weight:600;letter-spacing:-.2px}
+.rw-steps li b{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;
+  background:var(--main-gray);color:var(--main-white);font-size:13px;font-weight:700}
+.rw-steps li.on{color:var(--main-navy)}
+.rw-steps li.on b{background:var(--main-blue)}
+.rw-steps li.done b{background:var(--main-navy)}
+.rw-steps .sep{width:22px;height:1px;background:var(--main-gray)}
+@media(max-width:640px){.rw-steps{gap:6px;margin-bottom:24px}.rw-steps li{font-size:13px}.rw-steps .sep{width:12px}}
+
+/* ── 5. 인증 요약 — 인증이 끝나면 접힌다 ────────────────────────────────────────── */
+
+
+/* ===== 작성자 확인이 끝나면 한 줄로 접힌다 ===== */
+/* 인증이 끝난 카드.
+   값만 점으로 이어 붙이면 회사명·번호·이름·번호가 한 덩어리로 읽혀
+   무엇이 무엇인지 알 수 없다 — 위에 있던 입력 칸과 같은 라벨을 그대로 붙인다 */
+.rw-sum-head{display:flex;align-items:center;gap:10px}
+.rw-sum .ck{flex:none;display:flex;width:22px;height:22px;align-items:center;justify-content:center;border-radius:50%;background:var(--main-blue);color:#fff}
+.rw-sum .ck svg{width:13px;height:13px}
+.rw-sum-head b{flex:1 0 0;color:var(--main-navy);font-family:var(--font-pretendard);font-size:15px;font-weight:700;line-height:22px}
+.rw-sum .edit{flex:none;padding:var(--pad-3) var(--pad-5);border:1px solid var(--ds-border-subtle);border-radius:var(--rad-md);
+  background:var(--main-white);color:var(--ds-text-label);font-family:var(--font-pretendard);font-size:14px;font-weight:600;cursor:pointer}
+.rw-sum .edit:hover{border-color:var(--ds-border-selected);color:var(--ds-text-body)}
+/* 값은 체크 아래가 아니라 글자 줄에 맞춰 들여쓴다 (22 + gap 10) */
+/* 미이용사는 넷, 이용사는 둘 — 넷을 한 줄에 담아 두면 둘일 때도 왼쪽부터 가지런하다 */
+.rw-sum-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 20px;margin:14px 0 0;padding-left:32px}
+@media(max-width:899px){.rw-sum-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.rw-sum-grid dt{color:rgba(var(--color-navy-rgb),.62);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;letter-spacing:-.08px}
+.rw-sum-grid dd{margin:0;color:var(--main-navy);font-family:var(--font-pretendard);font-size:17px;font-weight:600;line-height:22px;letter-spacing:-.43px;
+  overflow-wrap:anywhere}
+/* 값이 짧아 좁은 화면에서도 두 줄이면 충분하다 — 넷을 세로로 쌓으면 카드만 길어진다 */
+@media(max-width:532px){.rw-sum-grid{gap:12px 16px;padding-left:0}}
+
+/* ── 6. 이어쓰기 띠 — 저장분·제출분을 불러왔을 때 ────────────────────────────────────────── */
+
+
+/* 인증 후 : 불러온 기록을 카드 안에 남긴다 */
+.rw-restore{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:15px;padding:12px 14px;
+  border-radius:var(--rad-sm);background:rgba(var(--color-blue-rgb),.08)}
+.rw-restore p{flex:1 0 0;min-width:180px;color:var(--main-navy);font-family:var(--font-pretendard);
+  font-size:14px;font-weight:400;line-height:20px;word-break:keep-all}
+.rw-restore p b{font-weight:700}
+.rw-restore p .at{color:rgba(var(--color-navy-rgb),.6);font-size:13px}
+.rw-restore .edit{flex:none;padding:var(--pad-3) var(--pad-5);border:1px solid rgba(var(--color-blue-rgb),.3);
+  border-radius:var(--rad-md);background:var(--main-white);color:var(--main-blue);
+  font-family:var(--font-pretendard);font-size:14px;font-weight:600;cursor:pointer}
+.rw-restore .edit:hover{background:var(--main-blue);border-color:var(--main-blue);color:var(--main-white)}
+
+/* ── 7. 본문 2열 — 왼쪽 섹션 제목 · 오른쪽 내용 ────────────────────────────────────────── */
+
+
+
+/* =========================================================
+   본문 2열 — 왼쪽 섹션 제목(파랑) · 오른쪽 내용
+   ========================================================= */
+/* 단축 padding 을 쓰면 .rw-col 의 좌우 패딩이 0 으로 덮인다 — 세로만 건드린다 */
+.rw-main{padding-block:25px 180px}
+/* 아래 180 은 떠 있는 버튼에 가리지 않으려고 비워 둔 자리다.
+   인증 전에는 그 버튼이 내려가 있으므로 빈 칸만 남는다 */
+body:not(.rw-ok) .rw-main{padding-bottom:40px}
+.rw-sec{display:grid;grid-template-columns:91px minmax(0,1fr);gap:0 60px;margin-bottom:20px}
+/* 피그마 제목 칸 91×31(한 줄) — Wanted Sans 22 / 줄높이 1.4 */
+.rw-sec-t{color:var(--main-blue);font-family:var(--font-body);font-size:22px;font-weight:700;line-height:1.4;letter-spacing:-.02em;padding-top:25px;white-space:nowrap}
+/* 피그마 : 692 까지는 2열, 533 부터 1열(제목 위 · 간격 15).
+   제목 크기도 22 → 18 → 15 로 줄어든다 (제목 칸 높이 31 / 26 / 21 에서 역산) */
+@media(max-width:691px){
+  .rw-sec{grid-template-columns:minmax(0,1fr);gap:15px}
+  .rw-sec-t{padding-top:0;font-size:18px}
+  .rw-sec-t br{display:none}
+}
+@media(max-width:532px){.rw-sec-t{font-size:15px}}
+
+/* ── 8. 패널 · 안내문 · 잠금 전 문구 ────────────────────────────────────────── */
+
+
+/* 입력 패널은 흰 바탕 + 테두리 — 하늘색 배경 위에서 또렷하게 뜬다
+   (기존엔 #F4F5F6 이라 배경과 구분되지 않았다) */
+.rw-panel{background:var(--main-white);border:1px solid var(--ds-border-subtle);border-radius:8px;padding:25px}
+/* 지금 손댈 칸만 파란 테두리 2px 을 두른다 — 순서를 색으로 말한다.
+   테두리를 작성자 인증에 고정해 두면, 미이용사에겐 회사 정보가 먼저인데도
+   두 번째 칸이 먼저인 것처럼 보인다.
+   (그림자를 쓰지 않는 건 이 디자인이 평면 언어이기 때문이다) */
+.rw-sec.is-now .rw-panel{border:2px solid var(--main-blue)}
+/* 인증이 끝나면 관문이 아니라 읽기 전용이 되므로 긴장을 푼다 */
+body.rw-ok #secVerify .rw-panel{border:1px solid rgba(var(--color-blue-rgb),.16);background:rgba(var(--color-blue-rgb),.045)}
+/* 회사 정보도 확인이 끝나면 같은 옷을 입는다 — 끝난 칸은 끝난 것처럼 보여야 한다 */
+/* 한 카드 안에 회사 확인과 본인 인증이 차례로 들어간다.
+   둘 사이를 가는 선으로만 나눈다 — 카드를 쪼개면 순서가 다시 헷갈린다 */
+/* 위에 사업자 칸이 떠 있을 때만 긋는다 — 접히고 나면 나눌 것이 없다 */
+body.rw-guest #bizBody:not([hidden]) ~ #verifyBody,
+body.rw-guest #bizBody:not([hidden]) ~ #verifySum{
+  margin-top:20px;padding-top:20px;border-top:1px solid var(--ds-border-subtle)}
+body.rw-ok #secVerify .rw-sum p,body.rw-ok #secVerify .rw-sum p b{color:var(--main-navy)}
+
+/* 왜 해야 하는지를 패널 머리에 둔다 — 불릿에 묻어두면 읽지 않는다 */
+.rw-gate{margin-bottom:20px}
+.rw-gate b{display:block;color:var(--main-navy);font-family:var(--font-body);font-size:17px;font-weight:700;letter-spacing:-.02em;line-height:1.45;word-break:keep-all}
+.rw-gate ul{display:grid;gap:2px;margin-top:6px;list-style:none}
+.rw-gate li{position:relative;padding-left:12px;color:var(--ds-text-subtle);font-family:var(--font-pretendard);
+  font-size:15px;font-weight:400;line-height:22px;word-break:keep-all}
+/* 22px 줄 한가운데(11px)에 3px 점을 앉힌다 */
+.rw-gate li::before{content:"";position:absolute;left:2px;top:9.5px;width:3px;height:3px;border-radius:50%;background:currentColor}
+/* 두 번째 줄은 인증으로 얻는 것 — 안내가 아니라 이득이라 파랗게 둔다 */
+.rw-gate li.tip{color:var(--main-blue);font-weight:500}
+body.rw-ok .rw-gate{display:none}
+
+/* 인증 버튼은 이 화면에서 유일하게 눌러야 할 것 — 외곽선이 아니라 채움으로 */
+#secVerify .f-btn{background:var(--main-blue);border-color:var(--main-blue);color:var(--main-white)}
+#secVerify .f-btn:hover{background:#0E4CAA;border-color:#0E4CAA}
+#secVerify .f-btn[disabled]{background:var(--ds-bg-disabled);border-color:var(--ds-border-subtle);color:var(--ds-text-disabled)}
+
+/* ── 9. 폼 격자 ────────────────────────────────────────── */
+
+
+
+/* 3열 그리드 */
+/* 기타 정보 — 칸은 셋을 적어 두었지만 한 번에 보이는 것은 늘 둘이다.
+   이용사는 계약 현장, 미이용사는 현장명, 그리고 업종명. 셋으로 나누면 한 칸이 늘 비고
+   그만큼 현장 이름이 좁아진다 — 둘로 나누되 이름이 긴 현장 쪽을 넓게 준다 */
+.rw-grid-site{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px}
+/* 720 아래로는 섹션 제목이 아직 제 칸을 차지해 패널이 눌린다. 거기서 둘로 나누면
+   현장 이름이 잘린다 — 두 칸은 실제로 들어갈 때만 쓴다 */
+@media(max-width:719px){.rw-grid-site{grid-template-columns:minmax(0,1fr)}}
+
+/* 미이용사 회사 정보는 두 칸뿐이다. 3열 격자에 두면 한 칸이 폭의 1/3 밖에 못 받아
+   '000 - 00 - 00000' 이 확인 버튼에 밀려 잘린다 — 번호 쪽을 더 준다 */
+.rw-grid2{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:20px}
+
+/* 900 아래로는 섹션 제목이 아직 왼쪽 열을 차지해 패널이 좁다. 두 칸뿐이니 세로로 쌓는다 */
+@media(max-width:899px){.rw-grid2{grid-template-columns:minmax(0,1fr)}}
+
+/* 인증 줄은 셋이 필요한 폭이 다르다 — 이름은 짧아도 되고,
+   나머지 둘은 옆에 버튼을 품고 있어 더 필요하다 */
+.rw-vgrid{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.15fr) minmax(0,1.1fr);gap:20px}
+@media(max-width:899px){.rw-vgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.rw-vgrid{grid-template-columns:minmax(0,1fr)}}
+
+/* ── 10. 입력 칸 ────────────────────────────────────────── */
+
+/* 라벨을 <label>로 감싼 칸과 그냥 <span>인 칸이 섞여 있다 — 계약 현장은 고르는 것이
+   <button>이라 <label for>를 걸 수 없어 span + aria-labelledby 다.
+   <label>에 규칙이 없으면 안쪽 글자가 14px 이어도 제 줄상자는 본문 16px 로 잡혀
+   그 줄만 3px 높아지고, 나란히 선 칸들의 시작선이 어긋난다. 안의 글자에 맞춘다 */
+.rw-lb label{font-size:14px;line-height:18px}
+/* 확인을 받은 칸 — 이 디자인에서 '됐다'는 파랑이다(.note.ok 와 같은 색) */
+.f-in.is-ok{border-color:var(--main-blue);background:rgba(var(--color-blue-rgb),.045)}
+.f-in .ok-ck{display:none;flex:none;color:var(--main-blue)}
+.f-in .ok-ck svg{width:18px;height:18px;display:block}
+.f-in.is-ok .ok-ck{display:flex}
+.f-in input,.f-in select,.f-in textarea{flex:1 0 0;min-width:20px;border:0;outline:0;background:none;
+  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
+.f-in input::placeholder,.f-in textarea::placeholder{color:var(--ds-text-subtle)}
+.f-in select{appearance:none;-webkit-appearance:none;cursor:pointer}
+.f-in select.ph{color:var(--ds-text-subtle)}
+.f-in .caret{flex:none;display:flex;color:var(--ds-text-body);pointer-events:none}
+.f-in .caret svg{width:20px;height:20px;display:block}
+.f-in.area{align-items:flex-start;padding:var(--pad-6) var(--pad-5) var(--pad-4)}
+.f-in.area textarea{height:96px;resize:vertical;line-height:1.55}
+
+/* ── 11. 계약 현장 — 여러 곳을 고르는 칸 ────────────────────────────────────────── */
+
+
+/* 여러 곳을 고르는 칸 — 한 소장님이 현장 두 곳을 맡기도 한다.
+   select multiple 은 모바일에서 거의 못 쓰는 물건이라, 겉은 select 그대로 두고
+   안쪽만 체크박스 목록으로 연다 */
+.rw-ms{position:relative}
+.rw-ms .ms-btn{width:100%;appearance:none;-webkit-appearance:none;cursor:pointer;text-align:left}
+.rw-ms .ms-btn .t{flex:1 0 0;min-width:20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
+.rw-ms .ms-btn.ph .t{color:var(--ds-text-subtle)}
+.rw-ms .ms-btn .caret{transition:transform .15s}
+.rw-ms[data-open] .ms-btn{border-color:var(--ds-border-selected)}
+.rw-ms[data-open] .ms-btn .caret{transform:rotate(180deg)}
+
+/* ── 12. 목록 팝업 — 다중선택과 콤보박스가 함께 쓴다 ────────────────────────────────────────── */
+
+/* 열리는 목록 — 피그마 option-list (3002:34926).
+   흰 바탕 · padding 5 · 줄 사이 5 · 그림자 0 0 10 검정 8% · 모서리는 각지다.
+   한 줄은 높이 40 / padding 12·10 / Wanted Sans Medium 16 / -0.16 */
+.ms-pop,.sel-pop{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;max-height:280px;overflow:auto;
+  display:flex;flex-direction:column;gap:5px;margin:0;padding:5px;list-style:none;
+  background:var(--main-white);box-shadow:0 0 10px rgba(var(--color-black-rgb),.08)}
+.ms-pop label,.sel-pop li{display:flex;align-items:center;gap:5px;min-height:40px;padding:12px 10px;cursor:pointer;
+  color:var(--main-black);font-family:var(--font-body);font-size:16px;font-weight:500;line-height:normal;
+  letter-spacing:-.16px;word-break:keep-all}
+.ms-pop label:hover,.sel-pop li:hover,.sel-pop li.on{background:rgba(var(--color-blue-rgb),.06)}
+/* 이미 다른 분이 맡은 현장 — 목록에는 두되 고를 수 없다.
+   까닭은 hover 로 알린다. 목록이 스크롤되므로 툴팁을 줄 밖으로 띄우면 잘린다 —
+   줄 안 오른쪽에 붙이고, 이름 쪽이 대신 줄어들게 한다 */
+.ms-pop label.is-off{position:relative;cursor:not-allowed;color:var(--ds-text-disabled)}
+.ms-pop label.is-off:hover{background:none}
+.ms-pop label.is-off input{cursor:not-allowed}
+.ms-pop label.is-off>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ms-pop label.is-off::after{content:attr(data-tip);flex:none;margin-left:auto;padding:3px 8px;border-radius:var(--rad-sm);
+  background:var(--sub-d-gray);color:var(--main-white);font-family:var(--font-body);font-size:13px;font-weight:400;
+  line-height:normal;white-space:nowrap;opacity:0;transition:opacity .15s ease}
+.ms-pop label.is-off:hover::after,.ms-pop label.is-off:focus-within::after{opacity:1}
+/* 손가락으로 쓰는 화면에는 hover 가 없다 — 늘 보이게 둔다 */
+@media(hover:none){.ms-pop label.is-off::after{opacity:1}}
+@media(prefers-reduced-motion:reduce){.ms-pop label.is-off::after{transition:none}}
+.sel-pop li[aria-selected="true"]{color:var(--main-blue)}
+/* 찾은 것이 없을 때 — 고르는 줄이 아니므로 손 모양도 덧칠도 주지 않는다 */
+.sel-pop .sel-none{min-height:0;padding:12px 10px;cursor:default;color:var(--ds-text-subtle);font-size:15px}
+.sel-pop .sel-none:hover{background:none}
+.ms-pop input{flex:none;width:16px;height:16px;margin:0;accent-color:var(--main-blue);cursor:pointer}
+
+/* ── 13. 콤보박스 · 드롭다운(업종명 등) ────────────────────────────────────────── */
+
+
+/* 네이티브 select 는 목록을 OS 가 그리는 탓에 칸 위로 겹쳐 뜬다 — 칸 아래로
+   펼치려면 목록을 직접 그려야 한다. 값은 원래 select 가 그대로 들고 있는다 */
+.rw-sel{position:relative}
+.rw-sel .f-in{cursor:pointer}
+.rw-sel select{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none}
+.sel-txt{flex:1 0 0;min-width:20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
+.rw-sel.is-ph .sel-txt{color:var(--ds-text-subtle)}
+.rw-sel .sel-in{flex:1 0 0;min-width:20px;border:0;outline:0;background:none;text-overflow:ellipsis;cursor:pointer;
+  color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:17px;font-weight:400;line-height:22px;letter-spacing:-.43px}
+/* 열려 있을 때만 글자 커서 — 닫힌 칸은 눌러서 여는 물건으로 보여야 한다 */
+.rw-sel[data-open] .sel-in{cursor:text}
+.rw-sel .sel-in::placeholder{color:var(--ds-text-subtle)}
+/* 고른 값을 지우는 × — 값이 있을 때만 나온다. 화살표 왼쪽에 붙어 칸 높이를 바꾸지 않는다 */
+.rw-sel .sel-clr{display:none;flex:none;width:24px;height:24px;padding:0;border:0;background:none;
+  color:var(--ds-text-subtle);cursor:pointer;align-items:center;justify-content:center}
+.rw-sel.has-val .sel-clr{display:flex}
+.rw-sel .sel-clr:hover{color:var(--main-black)}
+.rw-sel .sel-clr svg{display:block;width:16px;height:16px}
+.rw-sel[data-open] .f-in{border-color:var(--ds-border-selected)}
+.rw-sel .caret{transition:transform .15s}
+.rw-sel[data-open] .caret{transform:rotate(180deg)}
+
+/* ── 14. 칸 옆 버튼 ────────────────────────────────────────── */
+
+/* 확인이 끝난 뒤의 되돌리기 — 같은 자리 같은 크기지만 유도하는 행동이 아니다 */
+.rw-withbtn .btn.is-undo{background:var(--main-white);border-color:var(--ds-border-subtle);color:var(--ds-text-label)}
+.rw-withbtn .btn.is-undo:hover{background:var(--main-white);border-color:var(--ds-border-selected);color:var(--ds-text-body)}
+.rw-withbtn .btn[disabled]{background:var(--ds-bg-disabled);border-color:var(--ds-border-subtle);color:var(--ds-text-disabled);cursor:not-allowed}
+
+/* 인증 버튼 (피그마 : 칸 안 오른쪽) */
+.f-btn{flex:none;padding:var(--pad-3) var(--pad-5);border:1px solid var(--ds-border-selected);border-radius:var(--rad-md);
+  background:var(--main-white);color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:14px;font-weight:600;line-height:18px;cursor:pointer;white-space:nowrap}
+.f-btn:hover{background:var(--sub-w-gray)}
+.f-btn[disabled]{border-color:var(--ds-border-subtle);color:var(--ds-text-disabled);background:var(--ds-bg-disabled);cursor:default}
+
+/* ── 15. 칸 아래 한 줄 · 글자수 · 사진 ────────────────────────────────────────── */
+
+
+/* 칸 아래 메시지 (input_message_atomic) */
+.f-msg{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:var(--pad-3)}
+.f-cnt{margin-left:auto;color:var(--ds-text-label);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;font-variant-numeric:tabular-nums}
+.f-cnt.ok{color:var(--main-blue)}
+
+/* 사진 첨부 버튼 */
+/* 사진 첨부 — 피그마는 바탕 있는 칩이다 (파랑 10% · padding 4/10 · radius 4).
+   밑줄 링크로 두면 글자 사이에 섞여 누를 수 있는 것으로 안 보인다 */
+.f-photo{display:inline-flex;align-items:center;justify-content:center;gap:5.5px;
+  padding:var(--pad-2) var(--pad-4);border:0;border-radius:var(--rad-sm);
+  background:rgba(var(--color-blue-rgb),.1);color:var(--main-blue);
+  font-family:var(--font-body);font-size:13px;font-weight:400;line-height:normal;cursor:pointer}
+.f-photo svg{width:16px;height:16px;display:block}
+.f-photo input{position:absolute;opacity:0;width:0;height:0}
+.f-photo:hover{background:rgba(var(--color-blue-rgb),.18)}
+.f-thumbs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.f-thumbs:empty{display:none}
+.f-thumb{position:relative;width:64px;height:64px;border:1px solid var(--main-gray);border-radius:var(--rad-sm);overflow:hidden}
+.f-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.f-thumb button{position:absolute;top:3px;right:3px;width:18px;height:18px;display:flex;align-items:center;justify-content:center;
+  padding:0;border:0;border-radius:50%;background:rgba(19,20,22,.62);color:#fff;cursor:pointer}
+.f-thumb button svg{width:10px;height:10px}
+
+/* ── 16. 유의사항 목록 ────────────────────────────────────────── */
+
+
+/* 안내 리스트 */
+.rw-notes{margin-top:25px;list-style:none;display:flex;flex-direction:column;gap:5px}
+.rw-notes li{position:relative;padding-left:11px;color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;word-break:keep-all}
+.rw-notes li::before{content:"";position:absolute;left:2px;top:8px;width:3px;height:3px;border-radius:50%;background:var(--ds-text-disabled)}
+
+/* ── 17. 후기 문항 ────────────────────────────────────────── */
+
+
+/* =========================================================
+   후기 문항
+   ========================================================= */
+/* 피그마 : 문항 사이 45px. 구분선은 없다 */
+.rw-q{margin-top:45px}
+.rw-q:first-child{margin-top:0}
+.rw-q-min{color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px}
+.rw-q-t{margin:2px 0 12px;color:var(--ds-text-body);font-family:var(--font-body);font-size:18px;font-weight:700;line-height:1.45;letter-spacing:-.02em;word-break:keep-all}
+.rw-q-t b{color:var(--main-blue);font-weight:700}
+.rw-q-row{display:grid;grid-template-columns:200px minmax(0,1fr);gap:10px}
+@media(max-width:640px){.rw-q-row{grid-template-columns:minmax(0,1fr)}}
+
+/* ── 18. 만족 조사 ────────────────────────────────────────── */
+
+
+/* =========================================================
+   만족 조사
+   ========================================================= */
+.rw-sv{margin-top:45px}
+.rw-sv:first-child{margin-top:0}
+.rw-sv-t{margin-bottom:12px;color:var(--ds-text-body);font-family:var(--font-body);font-size:18px;font-weight:700;line-height:1.45;letter-spacing:-.02em;word-break:keep-all}
+.rw-sv-t b{color:var(--main-blue)}
+.rw-rank{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media(max-width:640px){.rw-rank{grid-template-columns:minmax(0,1fr)}}
+
+/* 별점 — 피그마 54px */
+.rw-stars{display:flex;gap:6px}
+.rw-stars input{position:absolute;opacity:0;width:0;height:0}
+.rw-stars label{display:flex;cursor:pointer;color:var(--main-gray);transition:color .12s}
+.rw-stars label svg{width:54px;height:54px;display:block}
+.rw-stars input:focus-visible + label{outline:2px solid var(--main-blue);outline-offset:3px;border-radius:4px}
+@media(max-width:640px){.rw-stars label svg{width:40px;height:40px}}
+
+/* 활용 안내 */
+.rw-usage{max-width:800px;margin:6px 0 0 auto;text-align:right}
+.rw-usage b{display:block;color:var(--ds-text-body);font-family:var(--font-pretendard);font-size:13px;font-weight:600;line-height:18px}
+.rw-usage p{color:var(--ds-text-subtle);font-family:var(--font-pretendard);font-size:13px;font-weight:400;line-height:18px;word-break:keep-all}
+
+/* ── 19. 작성자 확인 잠금 ────────────────────────────────────────── */
+
+
+/* =========================================================
+   작성자 확인 잠금
+   ---------------------------------------------------------
+   핸드폰 인증을 마치기 전에는 아래를 흐리게 + 입력 차단.
+   숨기지 않는 이유 : 무엇을 묻는지 미리 훑어볼 수 있어야 한다.
+   ========================================================= */
+/* 잠금은 패널에만 건다. 섹션 제목은 선명하게 남겨 무엇이 기다리는지 보이게 한다.
+   (전에는 섹션마다 거는 자리가 달라 '후기 작성'만 제목이 진해 보였다)
+   흐리기만 하면 '왜 연한가' 싶으므로 블러를 얹는다 — 덩어리는 보이되
+   글자는 읽히지 않아 '아직 못 쓰는 곳'이 한눈에 읽힌다. */
+.rw-lockable{transition:opacity .3s,filter .3s}
+/* 잠긴 구간은 제목과 카드가 한 덩어리다 — 같은 흐림을 건다.
+   제목만 또렷하면 그 줄만 살아 있는 것처럼 보인다 */
+body:not(.rw-ok) .rw-lockable,
+body:not(.rw-ok) .rw-veil .rw-sec-t{opacity:.7;filter:blur(3px);pointer-events:none;user-select:none}
+
+/* 못 쓰는 폼이 3000px 넘게 깔려 있으면 '이걸 다 써야 하나' 로 읽힌다.
+   위쪽만 남기고 아래는 흰 바닥으로 스르륵 지운다 — 분량은 짐작되되 부담은 없다.
+   max-height 를 none 으로 두면 전환이 안 되므로 충분히 큰 값으로 편다. */
+/* 접으려고 overflow 를 잘라 두는데, 그 자르는 선이 제목의 왼쪽 끝과 겹친다.
+   흐림은 글자 밖으로 번지므로 번진 만큼이 잘려 제목이 칼로 자른 듯 보인다 —
+   좌우로 번질 자리를 만들고 같은 만큼 당겨 자리는 그대로 둔다 */
+.rw-veil{position:relative;max-height:20000px;overflow:hidden;transition:max-height .55s ease;
+  padding-inline:12px;margin-inline:-12px}
+body:not(.rw-ok) .rw-veil{max-height:320px}
+body:not(.rw-ok) .rw-veil::after{content:"";position:absolute;left:0;right:0;bottom:0;height:240px;pointer-events:none;
+  background:linear-gradient(180deg, rgba(var(--color-white-rgb),0) 0%, rgba(var(--color-white-rgb),1) 82%)}
+@media(max-width:691px){body:not(.rw-ok) .rw-veil{max-height:260px}}
+@media(prefers-reduced-motion:reduce){.rw-veil{transition:none}}
+
+/* ── 20. 플로팅 버튼 ────────────────────────────────────────── */
+
+
+/* =========================================================
+   플로팅 버튼 — 피그마 floating button
+   바깥 : pb 15 · pt 5 · px 5        알약 : max 500 · radius 10 ·
+   backdrop-blur 20 · rgba(19,20,22,.6) · 흰 테두리 2px
+   왼쪽(임시저장) 오른쪽 경계는 흰색 60% 점선
+   ========================================================= */
+/* 인증을 마치기 전에는 누를 수 없는 버튼이라 아예 내려둔다.
+   통과하는 순간 아래에서 올라온다 — 잠긴 버튼을 띄워 두는 것보다 조용하다 */
+.rw-float{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;padding:5px 5px 15px;pointer-events:none;
+  transform:translateY(130%);opacity:0;transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .3s}
+body.rw-ok .rw-float{transform:none;opacity:1}
+body:not(.rw-ok) .rw-float-in{pointer-events:none}
+@media(prefers-reduced-motion:reduce){.rw-float{transition:none}}
+.rw-float-in{display:flex;align-items:stretch;width:100%;max-width:500px;border-radius:10px;overflow:hidden;
+  border:2px solid var(--main-white);background:rgba(var(--color-black-rgb),.6);backdrop-filter:blur(20px);pointer-events:auto}
+.rw-float button{flex:1 0 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:10px 20px;border:0;cursor:pointer;font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal;letter-spacing:-1.2px}
+.rw-float .temp{background:rgba(var(--color-black-rgb),.6);color:var(--main-white);
+  border-right:1px dashed rgba(var(--color-white-rgb),.6);box-shadow:0 4px 4px rgba(0,0,0,.25)}
+.rw-float .temp:hover{background:rgba(var(--color-black-rgb),.78)}
+/* 제출하기는 잠겨 있을 땐 글자까지 흰색 60% 라 배경에 묻힌다 (피그마 비활성 상태) */
+/* 인증만으로는 부족하다 — 필수 칸을 다 채워야 눌릴 것처럼 보인다.
+   다만 실제로 못 누르게 막지는 않는다. 긴 폼에서 죽은 버튼은 무엇이 모자란지
+   알려 주지 못한다 — 누르면 첫 빈 칸으로 데려간다 */
+.rw-float .submit{background:rgba(var(--color-white-rgb),.6);color:rgba(var(--color-white-rgb),.6);cursor:not-allowed}
+body.rw-ok .rw-float .submit{cursor:pointer}
+/* 활성 (피그마 floating button · type=submit) — 막대 바탕이 검정 90% 로 짙어지고
+   제출 쪽이 파랑 60% 에 흰 글자가 된다. 임시 저장 쪽은 그대로다 */
+body.rw-ready .rw-float-in{background:rgba(var(--color-black-rgb),.9)}
+body.rw-ready .rw-float .submit{background:rgba(var(--color-blue-rgb),.6);color:var(--main-white)}
+body.rw-ready .rw-float .submit:hover{background:rgba(var(--color-blue-rgb),.8)}
+/* 제출한 후기를 고치는 중 — 임시저장을 내리고 제출만 남긴다 (flex:1 이라 저절로 채운다) */
+body.rw-edit .rw-float .temp{display:none}
+/* 기록이 생긴 뒤로는 작성자 인증을 고칠 수 없다 — 번호가 그 후기를 찾는 열쇠다 */
+body.rw-rec #btnEditVerify{display:none}
+
+/* 임시저장 안내 툴팁 — 임시 저장 칸 한가운데 위로. 25% 는 막대의 왼쪽 절반 가운데라
+   폭이 줄어도 따라간다 (피그마의 50% - 125px 과 같은 자리) */
+.rw-float-box{position:relative;width:100%;max-width:500px;pointer-events:none}
+.rw-tip{position:absolute;left:25%;bottom:calc(100% + 7px);transform:translateX(-50%);
+  margin:0;padding:4px 10px;border-radius:var(--rad-sm);background:var(--sub-d-gray);
+  color:var(--main-white);font-family:var(--font-body);font-size:16px;font-weight:600;
+  line-height:normal;white-space:nowrap;
+  opacity:0;transition:opacity .18s ease}
+.rw-tip::after{content:"";position:absolute;left:50%;top:100%;margin-left:-5.5px;
+  border:5.5px solid transparent;border-top-color:var(--sub-d-gray);border-bottom:0}
+.rw-tip.on{opacity:1}
+@media(prefers-reduced-motion:reduce){.rw-tip{transition:none}}
+@media(max-width:640px){.rw-float button{font-size:18px;letter-spacing:-.9px;padding:10px 12px}}
+
+/* ── 21. 본인 확인 모달 ────────────────────────────────────────── */
+
+
+/* =========================================================
+   이어쓰기 확인 모달 — 피그마 3617:35909 (인증번호 모달) 을 그대로 따른다
+   딤 #272B2F 80% · 상자 max 350 / radius 8 / padding 20 · 제목 30px
+   바닥 버튼은 상자 끝까지 꽉 차고, 취소는 120px 로 고정한다
+   ========================================================= */
+.rw-modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
+.rw-modal-dim{position:absolute;inset:0;background:rgba(39,43,47,.8);animation:askFade .18s ease}
+/* min-width:0 이 없으면 flex 아이템의 자동 최소폭이 max-width 를 이긴다. 안에 든 것이
+   넓어지는 만큼 상자가 350 을 넘어 화면 밖으로 밀려난다 — 좁은 화면에서 실제로 그랬다 */
+.rw-modal-box{position:relative;display:flex;flex-direction:column;width:100%;max-width:350px;min-width:0;
+  max-height:calc(100vh - 40px);overflow:auto;border-radius:8px;background:var(--main-white);
+  animation:askRise .22s cubic-bezier(.22,1,.36,1)}
+@keyframes askFade{from{opacity:0}to{opacity:1}}
+@keyframes askRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.rw-modal-dim,.rw-modal-box{animation:none}}
+
+.ask-body{padding:20px}
+.rw-modal-box h3{color:var(--main-black);font-family:var(--font-body);font-size:30px;font-weight:700;
+  letter-spacing:-1.5px;line-height:normal;word-break:keep-all}
+/* 시각은 값이지 문장이 아니다 — 디자인의 '재전송' 칩과 같은 옷을 입힌다 */
+.ask-meta{margin-top:14px}
+.ask-meta span{display:inline-block;padding:4px 10px;border-radius:var(--rad-sm);background:var(--main-gray);
+  color:var(--main-black);font-family:var(--font-body);font-size:13px;font-weight:400;line-height:normal}
+
+/* 라벨은 모달 바깥 폼과 같은 크기를 쓴다 — 바로 뒤에 같은 이름의 칸이 비쳐 보인다 */
+/* 그리드 칸은 기본값(min-width:auto)이면 안에 든 것보다 좁아지지 않는다. 번호칸에는
+   줄바꿈하지 않는 '인증' 칩이 들어 있어, 그 폭이 모달의 350 을 넘기면 칸이 버티고
+   모달째로 화면 밖으로 밀려난다. 좁은 화면에서 실제로 그렇게 잘렸다.
+   글꼴이 바뀌면 그 폭도 바뀌므로 숫자로 막지 않고 줄어들 수 있게 열어 둔다 */
+.ask-fields{display:grid;gap:20px;margin-top:25px;min-width:0}
+/* 칸 안에 들어가는 작은 버튼과 남은 시간 — 피그마 모달의 '재전송' / '03:00' */
+.ask-fields .chip{flex:none;padding:4px 10px;border:0;border-radius:var(--rad-sm);background:var(--main-gray);
+  color:var(--main-black);font-family:var(--font-body);font-size:13px;font-weight:400;line-height:normal;cursor:pointer}
+.ask-fields .chip:hover{background:#D7DADD}
+.ask-fields .chip[disabled]{color:var(--ds-text-disabled);cursor:default}
+
+/* 바닥 버튼 — 상자 모서리까지 꽉 찬다 (상자의 radius 가 잘라 준다) */
+.ask-acts{display:flex;align-items:stretch;margin-top:auto;background:var(--main-blue)}
+/* 글자를 줄바꿈하지 않으므로 이 줄이 상자의 최소폭을 정한다. 글꼴이 바뀌면 그 폭도
+   바뀌어 한 지점에서 끊는 분기점으로는 못 막는다 — 화면 폭에 따라 이어서 줄어들게 둔다.
+   넓은 화면에서는 clamp 의 위쪽 값에 걸려 디자인 그대로다 */
+.ask-acts button{display:flex;align-items:center;justify-content:center;gap:4px;
+  padding:16px clamp(12px,4vw,24px);border:0;cursor:pointer;
+  font-family:var(--font-pretendard);font-size:clamp(17px,5.2vw,22px);font-weight:600;
+  line-height:28px;letter-spacing:-.26px;white-space:nowrap}
+.ask-acts .s{flex:none;width:clamp(86px,26vw,120px);background:var(--main-white);color:var(--main-black);border-top:1px solid rgba(var(--color-black-rgb),.1)}
+.ask-acts .s:hover{background:#F4F5F6}
+.ask-acts .p{flex:1 0 0;min-width:0;background:var(--main-blue);color:var(--main-white)}
+.ask-acts .p:hover{background:#0E4CAA}
+.ask-acts .p .ic{flex:none;display:flex;width:24px;height:24px;align-items:center;justify-content:center}
+.ask-acts .p .ic svg{width:20px;height:20px;display:block}
+@media(max-width:380px){.rw-modal-box h3{font-size:26px;letter-spacing:-1.3px}}
+
+/* ── 22. 제출 완료 화면 ────────────────────────────────────────── */
+
+
+/* 완료 화면.
+   상태 클래스는 body 에 .rw-done 으로 붙는다. 화면까지 같은 이름으로 두면
+   body 자신이 .rw-done{display:none} 에 걸려 페이지가 통째로 사라진다 — 화면은 #doneView 로 잡는다.
+   또 #doneView 는 .rw-main 안에 있으므로 main 이 아니라 폼을 숨긴다. */
+#doneView{display:none;flex-direction:column;align-items:center;gap:20px;padding:0 30px 100px}
+body.rw-done #doneView{display:flex}
+body.rw-done .rw-steps,body.rw-done #rwForm,body.rw-done .rw-float{display:none}
+body.rw-done .rw-main{padding-block:0}
+
+/* 250 × 300 장식. 올린 파일이 있으면 그것을, 없으면 직접 그린 그림을 쓴다 */
+.done-img{position:relative;width:250px;height:300px}
+.done-img img,.done-img .ph{width:100%;height:100%;display:block}
+.done-img img{object-fit:contain}
+.done-img .ph{display:none}
+.done-img.no-img img{display:none}
+.done-img.no-img .ph{display:block}
+@media(max-width:532px){.done-img{width:200px;height:240px}}
+
+/* 검토를 거친다는 안내 — 목록 바로 위에 한 줄. 알려 주는 말이지 알리는 말이 아니라
+   본문보다 한 단계 옅게 두고, 굵게 잡는 것은 '검토를 거친 뒤' 한 곳뿐이다 */
+.done-note{margin-top:4px;max-width:420px;text-align:center;word-break:keep-all;
+  color:var(--ds-text-label);font-family:var(--font-body);font-size:16px;line-height:1.5;letter-spacing:-.32px}
+.done-note b{color:var(--main-black);font-weight:600}
+@media(max-width:532px){.done-note{font-size:15px}}
+
+/* 작성자 / 핸드폰 번호 / 제출일 — 300 폭에 밑줄 한 줄씩 */
+.done-list{display:flex;flex-direction:column;margin:10px 0 0;width:300px;max-width:100%}
+.done-list>div{display:flex;flex-wrap:wrap;gap:5px;padding:10px 20px;
+  border-bottom:1px solid rgba(var(--color-black-rgb),.6);
+  color:var(--main-black);font-family:var(--font-body);font-size:18px;line-height:1.4;letter-spacing:-.36px}
+.done-list dt{flex:none;min-width:100px;font-weight:700;white-space:nowrap}
+.done-list dd{flex:1 0 0;min-width:0;margin:0;font-weight:400;word-break:keep-all}
+
+.done-acts{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.done-acts button,.done-acts a{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 20px;border:0;border-radius:8px;cursor:pointer;text-decoration:none;
+  font-family:var(--font-body);font-size:20px;font-weight:600;line-height:normal;white-space:nowrap}
+.done-acts .edit{background:var(--main-blue);color:var(--main-white)}
+.done-acts .edit:hover{background:#0E4CAA}
+.done-acts .go{background:var(--main-black);color:var(--main-white)}
+.done-acts .go:hover{background:#2A2C30}
+.done-acts .ic{display:flex;width:24px;height:24px}
+.done-acts .ic svg{width:24px;height:24px;display:block}
+@media(max-width:532px){#doneView{padding:0 15px 70px}
+  .done-list>div{font-size:16px;padding:10px 12px}
+  .done-list dt{min-width:86px}
+  .done-acts button,.done-acts a{font-size:17px;padding:11px 16px}}

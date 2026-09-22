@@ -8,105 +8,12 @@
 <!-- 라이브(kbz.co.kr) 폰트: 본문/CTA=Wanted Sans, 타이틀=SUITE -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUITE/fonts/variable/woff2/SUITEVariable.css">
-<!-- 네 화면이 함께 쓰는 바탕: 토큰 · 리셋 · 타이포. 화면 고유 스타일은 아래 스타일 블록에 있다 -->
+<!-- 스타일은 전부 assets/ 에 있다. 이름 규칙: HTML 과 같은 이름 = 이 화면 전용,
+     다른 이름 = 여러 화면이 나눠 쓰는 것. 위에서 아래로 놓인 순서가 겹칠 때의 승패다 -->
 <link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/quote-common.css">
 <link rel="stylesheet" href="assets/quote.css">
 <link rel="stylesheet" href="assets/kbd.css">
-<style>
-/* ================================================================
-   quote.html — 퇴직공제 전자카드 단말기 견적 화면의 고유 스타일.
-
-   함께 쓰는 것은 밖에 있다:
-     assets/base.css  토큰 · 리셋 · 타이포 (네 화면 공통)
-     assets/quote.css 견적 두 화면의 공통 스타일 — 규칙의 대부분이 여기 있다
-     assets/kbd.css   화면 키보드 (프로토타입 전용 장치)
-
-   목차
-      1. 퇴직공제 고유 — 단말기 카드 그리드
-      2. 수량 스테퍼
-      3. 금액 요약 안의 줄
-   ================================================================ */
-
-
-/* ── 1. 퇴직공제 고유 — 단말기 카드 그리드 ────────────────────────────────────────── */
-
-.f-item{display:flex;flex-direction:column;gap:5px;min-width:0}
-/* 상시 말풍선 — 열고 닫는 툴팁이 아니라 늘 떠 있는 안내.
-   입력칸 옆이 아니라 섹션 제목 옆에 둔다. 기간 한 칸의 이야기가 아니라
-   이 섹션 전체에 걸리는 말이고, 칸 옆에 띄우면 좁은 화면에서 칸을 덮는다.
-   꼬리는 왼쪽을 향해 제목을 가리킨다. */
-.f-hint{position:relative;max-width:100%;padding:9px 12px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.55;letter-spacing:-.01em;word-break:keep-all}
-.f-hint::before{content:"";position:absolute;left:-3px;top:50%;margin-top:-4px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
-
-
-/* ===== 단말기 선택 카드 ===== */
-/* 설명 줄 수가 달라도 세 카드의 높이는 같게 맞춘다.
-   가로 3열은 stretch가, 세로 1열은 grid-auto-rows:1fr이 맡는다.
-   수량 스테퍼는 띄워 놓았으므로 골라도 높이는 변하지 않는다. */
-.dev-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:stretch;grid-auto-rows:1fr}
-.dev-card{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;background:var(--main-white);transition:border-color .15s,background .15s}
-.dev-card:hover{border-color:#C6CBD1}
-.dev-card.is-on{border-color:var(--accent);background:var(--accent-tint)}
-/* 세로 flex — 설명 줄 수가 적어도 남는 공간을 글자와 사진 사이가 흡수해
-   사진은 늘 카드 바닥에 붙는다(.dev-desc의 margin-bottom:auto). */
-.dev-pick{position:relative;display:flex;flex-direction:column;flex:1;padding:14px 16px 0;cursor:pointer}
-.dev-pick input{position:absolute;opacity:0;width:0;height:0}
-/* 체크 표시 없이 카드 자체로 선택을 알린다. 색과 무관한 단서는 고른 순간
-   나타나는 수량 스테퍼가 맡는다. 테두리를 두 겹으로 겹쳤더니 굵고 둔해 보여
-   한 겹으로 되돌렸다. */
-/* 체크 표시가 없어졌으니 키보드 포커스는 카드에 표시한다 */
-.dev-card:has(.dev-pick input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
-/* 사진 자리 — 배경을 비워 선택 시 카드 틴트가 그대로 비치게 한다 */
-/* 사진 자리 — 카드 폭을 꽉 채우는 띠로 두고, 사진은 그 바닥에 붙인다.
-   제품컷은 흔히 아래가 잘린 채로 오는데, 바닥에 붙여야 '잘린' 게 아니라
-   '놓여 있는' 것으로 읽힌다. 높이를 고정해 세 카드의 사진 크기도 맞춘다. */
-.dev-media{display:block;width:calc(100% + 32px);height:112px;margin:12px -16px 0;border-radius:0 0 7px 7px;overflow:hidden}
-.dev-name{display:block;font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
-.dev-desc{display:block;margin:3px 0 auto;font-size:12.5px;font-weight:500;color:var(--ink-3);line-height:1.55;word-break:keep-all}
-/* 고른 카드는 배경이 옅은 파랑으로 바뀌어 --ink-3 이면 4.2:1 로 떨어진다 */
-.dev-card.is-on .dev-desc{color:var(--ink-2)}
-/* 사진 위 우측 하단에 띄운다 — 골라도 카드 높이가 변하지 않는다.
-   사진은 오른쪽 아래 모서리를 비워두는 편이 좋다(README 참고) */
-.dev-qty{display:none;position:absolute;bottom:10px;right:10px;z-index:2}
-.dev-card.is-on .dev-qty{display:block}
-/* 수량 스테퍼 — 대부분 몇 대 수준이라 전체 폭 입력칸 대신 눌러서 맞추는 컨트롤 */
-.stepper{display:inline-flex;align-items:center;height:32px;background:var(--main-white);border:1px solid var(--line);border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(12,13,15,.12);transition:border-color .15s}
-
-/* ── 2. 수량 스테퍼 ────────────────────────────────────────── */
-
-.stepper:focus-within{border-color:var(--field-ink)}
-.stepper button{width:28px;height:100%;display:flex;align-items:center;justify-content:center;padding:0;border:0;background:none;color:var(--ink-2);font-size:15px;line-height:1;cursor:pointer;transition:background .15s,color .15s}
-.stepper button:hover:not(:disabled){background:var(--fill);color:var(--ink)}
-.stepper button:disabled{color:#CDD2D8;cursor:default}
-.stepper button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.stepper input{width:36px;height:100%;padding:0;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);background:none;outline:0;font:inherit;font-size:14px;font-weight:700;color:var(--field-ink);text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
-.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-/* 1열로 접히는 구간에서는 세로 카드가 화면을 너무 먹는다(3장에 800px 가까이).
-   사진을 왼쪽 썸네일로 돌려 가로형으로 눕힌다. 마크업은 그대로 두고 grid 영역으로만
-   재배치 — .dev-pick 안의 체크박스는 absolute라 배치에 끼어들지 않는다. */
-@media(max-width:860px){
-  .dev-grid{grid-template-columns:1fr;gap:8px}
-  /* 사진을 키운 만큼 스테퍼를 줄이고 칸 사이를 좁혀 설명 폭을 되찾는다.
-     390/375/360px에서 카드 높이는 사진이 좁던 때와 같다. */
-  /* 사진은 카드 왼쪽·위·아래에 붙이고, 글자만 안쪽 여백을 갖는다 */
-  /* 사진은 글자와 같은 격자에 두지 않고 왼쪽에 띄운다. 격자에 넣으면
-     사진 높이가 글자 줄 수에 끌려다녀 카드마다 크기가 달라진다.
-     띄워 두면 카드 높이를 그대로 채우고, 글자는 제 높이만큼만 차지한다. */
-  .dev-pick{position:relative;display:flex;flex-direction:column;justify-content:center;padding:12px 80px 12px 134px}
-  .dev-media{position:absolute;left:0;top:0;bottom:0;width:124px;height:auto;margin:0;border-radius:7px 0 0 7px}
-  .dev-desc{margin:3px 0 0}
-  .dev-qty{top:50%;bottom:auto;right:8px;transform:translateY(-50%)}
-  .stepper{height:28px}
-  .stepper button{width:22px}
-  .stepper input{width:26px}
-}
-.q-sum-mid-body .q-sum-line{font-size:13px}
-
-/* ── 3. 금액 요약 안의 줄 ────────────────────────────────────────── */
-
-.q-sum-mid-body .q-sum-line .nm{font-weight:500;color:var(--ink-2)}
-/* 칸이 아닌 덩어리(단말기 목록)의 메시지 */
-.f-msg.block{margin-top:10px}</style>
 </head>
 <body class="quote-page">
 <script>if(window.self!==window.top)document.body.classList.add('is-embedded');</script>

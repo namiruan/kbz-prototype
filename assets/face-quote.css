@@ -1,0 +1,128 @@
+/* ================================================================
+   face-quote.css — 안면인식 출퇴근관리 단말기 견적 화면(face-quote.html) 전용.
+
+   그 화면이 불러 오는 순서 — 아래로 갈수록 이긴다:
+     base.css          토큰 · 리셋 · 타이포   (네 화면 공통)
+     quote-common.css  견적 두 화면의 공통 스타일 — 규칙의 대부분이 거기 있다
+     face-quote.css    ← 이 파일
+     kbd.css           화면 키보드         (프로토타입 전용 장치)
+
+   목차
+      1. 말풍선 안내 · 단말기 카드
+      2. 현장 단위 반복 칸 — 더하고 지운다
+      3. 김반장 이용사 여부(라디오)
+      4. 금액 요약 안의 줄
+   ================================================================ */
+
+
+/* ── 1. 말풍선 안내 · 단말기 카드 ────────────────────────────────────────── */
+
+@media(max-width:640px){
+  .q-step.has-add{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"hint hint" "title add";gap:12px}
+  .q-step.has-add h2{grid-area:title;align-self:center}
+  .q-step.has-add .f-hint{grid-area:hint;justify-self:start}
+  .q-step.has-add .f-hint::before{left:18px;top:auto;bottom:-3px;margin-top:0}
+  .q-step.has-add .site-add{grid-area:add;margin-left:0;align-self:center}
+}
+.f-item{position:relative;display:flex;flex-direction:column;gap:5px;min-width:0}
+/* 상시 말풍선 — 열고 닫는 툴팁이 아니라 늘 떠 있는 안내.
+   흐름에서 빼내 라벨 줄 오른쪽에 띄운다. 그래야 이 칸만 키가 커지지 않고
+   입력칸끼리의 위아래 간격이 다른 칸과 똑같이 유지된다.
+   꼬리는 아래를 향해 바로 밑의 입력칸을 가리킨다. */
+.f-hint{position:absolute;right:0;top:11px;transform:translateY(-50%);z-index:2;max-width:calc(100% - 86px);padding:9px 10px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.55;letter-spacing:-.01em;word-break:keep-all}
+.f-hint::before{content:"";position:absolute;right:16px;bottom:-3px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
+/* 섹션 제목 옆에 둘 때는 띄우지 않는다. 현장마다 같은 말이라 블록마다
+   되풀이할 이유가 없다. 꼬리는 왼쪽을 향해 제목을 가리킨다. */
+.q-step .f-hint{position:relative;right:auto;top:auto;transform:none;max-width:100%;margin:0}
+.q-step .f-hint::before{right:auto;bottom:auto;left:-3px;top:50%;margin-top:-4px}
+/* 라벨 옆에 한 줄로 들어갈 자리가 없으면 입력칸 아래로 내린다.
+   3열로 놓이는 넓은 화면(641px~)에서는 칸이 가로로 나란하므로 아래로 흘러도
+   간격이 흐트러지지 않고, 360px 미만에서는 겹치는 것보다 낫다. */
+@media(min-width:641px),(max-width:359px){
+  .f-hint{position:relative;right:auto;top:auto;transform:none;max-width:100%;margin-top:-3px;padding:9px 12px;align-self:start}
+  .f-hint::before{right:auto;left:14px;bottom:auto;top:-3px}
+}
+
+
+/* ===== 단말기 카드 (1종) =====
+   기종이 Ubio X Face Pro 하나뿐이라 고르는 UI가 아니라 소개 카드다.
+   수량은 현장마다 다르므로 아래 현장 블록에서 받는다.
+   사진은 왼쪽에 띄워 카드 높이를 그대로 채우고, 글자는 제 높이만큼만. */
+/* 퇴직공제 페이지의 "선택된 카드"와 같은 처리 — 옅은 틴트 + 1px 파란 테두리 */
+.dev-card{position:relative;display:flex;min-height:150px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-tint)}
+.dev-pick{position:relative;display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;padding:18px 24px 18px 200px;cursor:default}
+.dev-media{position:absolute;left:0;top:0;bottom:0;width:184px;overflow:hidden;border-radius:7px 0 0 7px}
+.dev-tag{display:block;margin-bottom:8px;font-size:12px;font-weight:700;letter-spacing:-.02em;color:var(--accent);line-height:1.3}
+.dev-name{display:block;font-size:17px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.3}
+/* 배너는 늘 옅은 파랑 틴트라 --ink-3 이면 4.2:1 로 모자란다 */
+.dev-desc{display:block;margin-top:6px;font-size:13px;font-weight:500;color:var(--ink-2);line-height:1.6;word-break:keep-all}
+@media(max-width:640px){
+  .dev-card{min-height:0}
+  .dev-pick{padding:12px 16px 12px 118px}
+  .dev-media{width:104px}
+  .dev-tag{margin-bottom:5px;font-size:11.5px}
+  .dev-name{font-size:15px}
+  .dev-desc{margin-top:3px;font-size:12.5px;line-height:1.55}
+}
+
+/* ── 2. 현장 단위 반복 칸 — 더하고 지운다 ────────────────────────────────────────── */
+
+
+/* ===== 현장 블록 =====
+   현장마다 기간·수량·지역·시기가 다르다. 한 덩어리씩 테두리로 묶어
+   어디까지가 한 현장인지 눈으로 끊기게 한다. */
+.site{position:relative;padding:22px;border:0;border-radius:8px;background:var(--fill)}
+.site + .site{margin-top:12px}
+.site-head{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.site-no{font-family:var(--font-body);font-size:15px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.site-del{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:4px;padding:5px 9px;border:1px solid #C6CBD1;border-radius:4px;background:var(--main-white);font:inherit;font-size:12px;font-weight:600;color:var(--ink-2);cursor:pointer;transition:.15s}
+.site-del svg{width:13px;height:13px}
+.site-del:hover{border-color:var(--danger);color:var(--danger);background:rgba(var(--danger-rgb),.04)}
+.site-del:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* 현장이 하나뿐이면 지울 것이 없다 */
+#siteList.one .site-del{display:none}
+/* 제목 줄 오른쪽 끝에 둔다 — 현장 목록이 길어져도 늘 같은 자리에 있다 */
+.site-add{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:5px;padding:8px 13px;border:1px dashed #C6CBD1;border-radius:4px;background:none;font:inherit;font-size:13px;font-weight:700;color:var(--ink-2);letter-spacing:-.02em;cursor:pointer;transition:.15s}
+.site-add svg{width:14px;height:14px}
+.site-add:hover{border-color:var(--accent);border-style:solid;color:var(--accent);background:var(--accent-tint)}
+.site-add:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* 현장 안은 2열 — 기간·수량이 한 줄, 지역·시기가 한 줄 */
+.site .f-grid{gap:22px 12px}
+.site .f-item.grow{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
+@media(max-width:640px){
+  .site{padding:18px 16px}
+  .site .f-item.grow{flex-basis:100%;max-width:100%}
+}
+
+/* ── 3. 김반장 이용사 여부(라디오) ────────────────────────────────────────── */
+
+
+/* ===== 김반장 이용 여부 — 라디오 =====
+   동의 체크박스(.q-check)와 같은 방식으로 원만 직접 그린다. */
+/* 질문은 왼쪽 끝, 답은 오른쪽 끝 — 위 입력칸들과 좌우 폭을 맞춘다.
+   좁아지면 자연스럽게 두 줄로 접힌다. */
+.f-item.kbz{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 14px}
+.f-radios{align-self:flex-start;display:flex;align-items:center;gap:22px;min-height:30px}
+.f-radios label{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:var(--field-ink);letter-spacing:-.01em;white-space:nowrap;cursor:pointer}
+.f-radios input{position:absolute;opacity:0;width:0;height:0}
+.f-radios .dot{flex:none;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;border:1.5px solid #C6CBD1;background:var(--main-white);transition:border-color .15s}
+.f-radios .dot::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);transform:scale(0);transition:transform .15s}
+.f-radios label:hover .dot{border-color:var(--ink-3)}
+.f-radios input:checked + .dot{border-color:var(--accent)}
+.f-radios input:checked + .dot::after{transform:scale(1)}
+.f-radios input:checked ~ .tx{font-weight:700;color:var(--ink)}
+.f-radios input:focus-visible + .dot{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
+
+/* ── 4. 금액 요약 안의 줄 ────────────────────────────────────────── */
+
+/* 내역 한 줄 = 이름 + 금액, 계산식은 그 아래 줄로. 340px 패널에
+   '130,000원 × 12대 × 12개월'까지 한 줄에 넣으면 이름이 접힌다. */
+.q-sum-mid-body .q-sum-line{flex-wrap:wrap;row-gap:2px;font-size:13px}
+.q-sum-mid-body .q-sum-line .nm{white-space:nowrap;font-weight:500;color:var(--ink-2)}
+.q-sum-mid-body .q-sum-line .qty{order:3;flex-basis:100%;color:var(--ink-3)}
+.q-sum-mid-body .q-sum-line .amt.free{color:var(--accent)}
+/* 현장이 여럿일 때 어느 현장 몫인지 끊어주는 머리글 */
+.q-sum-sub{margin:12px 0 2px;font-size:11.5px;font-weight:700;letter-spacing:-.01em;color:var(--ink-3)}
+.q-sum-sub:first-child{margin-top:0}
+/* display:block 이 UA의 [hidden]{display:none} 을 덮는다 — 다시 눌러준다 */
+.q-sum-total .lb small[hidden]{display:none}
