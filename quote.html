@@ -1142,5 +1142,184 @@ if (/(^|[?&])(done|hold)=1(&|$)/.test(location.search)) (function(){
   document.getElementById('btnSubmit').click();
 })();
 </script>
+<!-- ────────────────────────────────────────────────────────────────
+     화면 키보드 흉내 — 모바일 폭에서 칸을 누르면 올라오는 진짜 키보드가
+     화면을 얼마나 먹는지 보려고 둔다. **프로토타입 전용 장치다.**
+     진짜 키보드가 있는 기기(pointer:coarse)에서는 켜지 않는다 — 두 개가 겹친다.
+     주소 스위치: ?kbd=1 켬 · ?kbd=320 그 높이로 켬 · 없거나 ?kbd=0 이면 꺼져 있다
+     ──────────────────────────────────────────────────────────────── -->
+<style>
+:root{--kbd:0px}
+body.kbd-on{padding-bottom:var(--kbd)}
+/* 안드로이드·최신 iOS(interactive-widget=resizes-content)처럼 **키보드가 화면을 줄인다**.
+   바닥에 붙은 것들은 키보드 위로 올라앉고, 가운데 세우는 것들은 남은 칸 가운데에 선다 */
+body.kbd-on .rw-float{bottom:var(--kbd)}
+body.kbd-on .rw-modal,body.kbd-on .lg-modal{bottom:var(--kbd)}
+.kbd{position:fixed;left:0;right:0;bottom:0;z-index:90;height:var(--kbd);
+  display:flex;flex-direction:column;background:#d1d4d9;
+  font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+  box-shadow:0 -1px 0 rgba(0,0,0,.14);user-select:none;-webkit-user-select:none}
+.kbd[hidden]{display:none}
+/* 재는 자 — 진짜 키보드에는 없는 줄이다. 흉내라는 걸 알아보게 어둡게 둔다 */
+.kbd-bar{flex:0 0 28px;display:flex;align-items:center;justify-content:space-between;
+  gap:8px;padding:0 10px;background:#3a3f47;color:#fff;font-size:11px;letter-spacing:-.2px}
+.kbd-bar b{font-weight:700}
+.kbd-down{border:0;background:rgba(255,255,255,.18);color:#fff;font-size:11px;
+  padding:3px 9px;border-radius:999px;cursor:pointer;font-family:inherit}
+.kbd-down:hover{background:rgba(255,255,255,.3)}
+.kbd-keys{flex:1 1 auto;display:flex;flex-direction:column;gap:6px;padding:6px 3px 8px}
+.kbd-row{flex:1 1 0;display:flex;gap:5px;justify-content:center;padding:0 3px}
+.kbd-k{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;
+  background:#fff;border-radius:5px;box-shadow:0 1px 0 rgba(0,0,0,.28);
+  font-size:20px;color:#000;line-height:1}
+.kbd-k.fn{background:#adb3bd;font-size:13px;color:#111}
+.kbd-k.sp{flex:4 1 0}
+.kbd-k.w15{flex:1.5 1 0}
+.kbd-k.blank{background:transparent;box-shadow:none}
+.kbd-k .sub{display:block;font-size:9px;letter-spacing:1px;color:#8a8f98;margin-top:2px}
+.kbd-num .kbd-k{flex-direction:column;font-size:24px;font-weight:400}
+</style>
+<div class="kbd" id="kbd" hidden>
+  <div class="kbd-bar">
+    <span>화면 키보드 <b id="kbdH">0</b>px · 남은 화면 <b id="kbdRest">0</b>px</span>
+    <button type="button" class="kbd-down" id="kbdDown">내리기</button>
+  </div>
+  <div class="kbd-keys" id="kbdKeys" aria-hidden="true"></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  /* 주소가 부르지 않으면 켜지 않는다 — 시나리오 브라우저(prototype.html)가 붙여 준다.
+     화면을 직접 열어 보는 사람은 ?kbd=1 을 붙이면 된다 */
+  var p=new URLSearchParams(location.search).get('kbd');
+  var on=parseInt(p,10); if(!(on>0)) return;
+  /* 진짜 키보드가 올라오는 기기에서는 켜지 않는다 — 두 개가 겹친다 */
+  if(window.matchMedia && window.matchMedia('(pointer:coarse)').matches) return;
+
+  var kbd=document.getElementById('kbd'), keys=document.getElementById('kbdKeys'),
+      hOut=document.getElementById('kbdH'), restOut=document.getElementById('kbdRest');
+  var BAR=28;
+  /* 아이폰 세로 기준 실측값에 맞춘다 — 글자판은 자동완성 줄까지, 숫자판은 그보다 낮다 */
+  var H={ko:319, num:254};
+  if(on>1) H={ko:on, num:on};   /* ?kbd=<px> — 높이를 직접 준다 */
+
+  var KO=[['ㅂ','ㅈ','ㄷ','ㄱ','ㅅ','ㅛ','ㅕ','ㅑ','ㅐ','ㅔ'],
+          ['ㅁ','ㄴ','ㅇ','ㄹ','ㅎ','ㅗ','ㅓ','ㅏ','ㅣ'],
+          ['⇧','ㅋ','ㅌ','ㅊ','ㅍ','ㅠ','ㅜ','ㅡ','⌫'],
+          ['!#1','한/영','space','.','완료']];
+  var NUM=[['1','2','3'],['4','5','6'],['7','8','9'],['','0','⌫']];
+
+  function keyEl(t,kind){
+    var b=document.createElement('span'), fn=/^(⇧|⌫|!#1|한\/영|완료|space)$/.test(t);
+    b.className='kbd-k'+(fn?' fn':'')+(t==='space'?' sp':'')+(t===''?' blank':'')
+      +((kind==='ko'&&(t==='⇧'||t==='⌫'))?' w15':'');
+    b.textContent = t==='space' ? '' : t;
+    return b;
+  }
+  function draw(kind){
+    keys.className='kbd-keys'+(kind==='num'?' kbd-num':'');
+    keys.textContent='';
+    (kind==='num'?NUM:KO).forEach(function(r){
+      var row=document.createElement('div'); row.className='kbd-row';
+      r.forEach(function(t){ row.appendChild(keyEl(t,kind)); });
+      keys.appendChild(row);
+    });
+  }
+
+  var shown=false, kind='';
+  function kindOf(el){
+    var t=(el.getAttribute('type')||'').toLowerCase(),
+        m=(el.getAttribute('inputmode')||'').toLowerCase();
+    return (t==='tel'||t==='number'||m==='numeric'||m==='tel'||m==='decimal') ? 'num' : 'ko';
+  }
+  function typable(el){
+    if(!el||el.disabled||el.readOnly) return false;
+    if(el.tagName==='TEXTAREA') return true;
+    if(el.tagName!=='INPUT') return false;
+    return !/^(checkbox|radio|button|submit|reset|hidden|file|range|color)$/i
+      .test(el.getAttribute('type')||'text');
+  }
+  function inModal(el){
+    var m=el.closest('.rw-modal,.lg-modal');
+    return !!(m && !m.hidden);
+  }
+  /* 키보드에 가린 자리에 칸이 있으면 남은 화면 안으로 끌어올린다.
+     모달은 스스로 남은 칸 가운데로 다시 서므로 건드리지 않는다 */
+  /* 칸 하나가 아니라 **그 줄 전체**를 드러낸다 — 옆에 붙은 「확인」 버튼과
+     아래 안내 줄까지 보여야 그 자리에서 다음 손이 이어진다 */
+  function rowOf(el){
+    var w=el.closest('.rw-withbtn')||el.closest('.f-in')||el;
+    var p=w.parentNode, m=p&&p.querySelector('.f-msg');
+    return (m && m.compareDocumentPosition(w)&Node.DOCUMENT_POSITION_PRECEDING) ? m : w;
+  }
+  function reveal(el){
+    if(inModal(el)) return;
+    var vis=window.innerHeight-parseInt(getComputedStyle(document.documentElement)
+              .getPropertyValue('--kbd'),10);
+    var bar=document.querySelector('.rw-float');
+    var floatH=(bar && getComputedStyle(bar).display!=='none' &&
+                document.body.classList.contains('rw-ok')) ? bar.offsetHeight : 0;
+    var r=rowOf(el).getBoundingClientRect(), top=16, bot=vis-16-floatH;
+    if(r.bottom>bot) window.scrollBy(0, r.bottom-bot);
+    else if(r.top<top) window.scrollBy(0, r.top-top);
+  }
+  /* 칸에 들어설 때 브라우저가 스스로 화면을 굴린다(html{scroll-behavior:smooth}).
+     키보드가 올라오며 문서 높이가 바뀌는 순간과 겹치면 엉뚱한 데까지 흘러가므로,
+     잠깐 자리를 붙들어 그 미끄러짐을 끊고 **우리가 정한 자리로만** 옮긴다 */
+  function settleAt(y, el){
+    var html=document.documentElement, prev=html.style.scrollBehavior;
+    html.style.scrollBehavior='auto';
+    var t=Date.now();
+    (function step(){
+      if(Math.round(window.scrollY)!==y) window.scrollTo(0,y);
+      if(Date.now()-t<260) return requestAnimationFrame(step);
+      reveal(el);
+      /* 브라우저가 뒤늦게 한 번 더 굴리는 일이 있어 한 번 더 맞춘다 */
+      setTimeout(function(){ if(shown && document.activeElement===el) reveal(el); }, 450);
+      html.style.scrollBehavior=prev;
+    })();
+  }
+  function show(el){
+    var k=kindOf(el);
+    var h=Math.min(H[k], Math.round(window.innerHeight*0.6));
+    if(!shown || k!==kind){ kind=k; draw(k); }
+    document.documentElement.style.setProperty('--kbd', h+'px');
+    hOut.textContent=h; restOut.textContent=window.innerHeight-h;
+    kbd.hidden=false; document.body.classList.add('kbd-on'); shown=true;
+    settleAt(Math.round(window.scrollY), el);
+  }
+  function hide(){
+    if(!shown) return;
+    shown=false; kbd.hidden=true;
+    document.body.classList.remove('kbd-on');
+    document.documentElement.style.setProperty('--kbd','0px');
+  }
+
+  /* 넓은 화면에서는 켜지 않는다 — 진짜 키보드가 화면을 먹는 건 모바일 폭의 일이다 */
+  function mobile(){ return window.innerWidth<=500; }
+
+  document.addEventListener('focusin', function(e){
+    if(!mobile() || !typable(e.target)) { hide(); return; }
+    show(e.target);
+  });
+  document.addEventListener('focusout', function(){
+    setTimeout(function(){
+      var a=document.activeElement;
+      if(!mobile() || !typable(a)) hide();
+    }, 0);
+  });
+  /* 키보드를 눌러도 칸의 포커스가 풀리지 않게 한다 — 풀리면 제가 저를 내린다 */
+  kbd.addEventListener('mousedown', function(e){ e.preventDefault(); });
+  document.getElementById('kbdDown').addEventListener('click', function(){
+    if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    hide();
+  });
+  window.addEventListener('resize', function(){
+    if(!shown) return;
+    if(!mobile()) return hide();
+    show(document.activeElement);
+  });
+})();
+</script>
 </body>
 </html>

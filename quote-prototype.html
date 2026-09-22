@@ -294,7 +294,8 @@
       if(now && now.dataset.scenario!==name) return;
       try{ s.act(f.contentDocument); }catch(e){}
     };
-    f.src=s.url+(s.url.indexOf('?')<0?'?':'&')+'_t='+Date.now();
+    /* kbd=1 — 모바일 폭에서 칸을 누르면 화면 키보드를 흉내 낸 판이 올라온다 */
+    f.src=s.url+(s.url.indexOf('?')<0?'?':'&')+'kbd=1&_t='+Date.now();
   }
 
   /* 크롬이 틀 안에서 ?scenario= 를 읽어 해당 버튼을 눌러 준다 — 그 누름을 여기서 받는다.
