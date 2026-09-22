@@ -654,7 +654,11 @@ a.lg-promo-inner:hover .go{transform:translateX(3px)}
      ──────────────────────────────────────────────────────────────── -->
 <style>
 :root{--kbd:0px}
-body.kbd-on{padding-bottom:var(--kbd)}
+/* 맨 아래 칸도 맨 위까지 올라갈 수 있게 문서 끝에 자리를 비워 둔다 — 굴릴 데가
+   없으면 「맨 위로」 가 성립하지 않는다. 키보드가 올라와 있는 동안만이고,
+   내용 아래라 눈에 띄지 않는다 */
+body.kbd-on{padding-bottom:calc(var(--kbd) + 70vh)}
+body.kbd-real{padding-bottom:70vh}
 /* 안드로이드·최신 iOS(interactive-widget=resizes-content)처럼 **키보드가 화면을 줄인다**.
    바닥에 붙은 것들은 키보드 위로 올라앉고, 가운데 세우는 것들은 남은 칸 가운데에 선다 */
 /* 플로팅 막대는 키보드가 올라오면 내린다 — 남은 자리를 그만큼 더 쓸 수 있고,
@@ -694,6 +698,24 @@ button.kbd-k{border:0;padding:0;font-family:inherit;cursor:pointer}
       .test(el.getAttribute('type')||'text');
   }
 
+  function inModal(el){
+    var m=el.closest('.rw-modal,.lg-modal');
+    return !!(m && !m.hidden);
+  }
+  /* 누른 칸을 **맨 위로** 올린다 — 키보드가 아래를 먹으니 남는 자리를 전부 위에 준다.
+     칸 하나가 아니라 라벨·버튼·안내 줄이 함께 있는 덩어리째 올린다: 무슨 칸인지,
+     다음에 누를 것이 무엇인지가 같이 보여야 그 자리에서 손이 이어진다.
+     모달은 스스로 남은 칸 가운데로 다시 서므로 건드리지 않는다 */
+  function blockOf(el){
+    var w=el.closest('.rw-withbtn')||el.closest('.f-in')||el, p=w.parentElement;
+    return (p && p.querySelector('.rw-lb, label')) ? p : w;
+  }
+  function toTop(el){
+    if(!el || inModal(el)) return;
+    var d=Math.round(blockOf(el).getBoundingClientRect().top-12);
+    if(d) window.scrollBy(0, d);
+  }
+
   /* ── (1) 진짜 키보드 ──
      iOS·안드로이드는 키보드가 올라오면 visualViewport 를 그만큼 줄인다.
      가려진 높이가 손가락 하나보다 크고 칸에 들어있으면 키보드다.
@@ -717,9 +739,20 @@ button.kbd-k{border:0;padding:0;font-family:inherit;cursor:pointer}
         up = vv.scale<=1.01 && hid>120;
       }
       document.body.classList.toggle('kbd-real', up);
+      return up;
+    }
+    /* 키보드가 자리를 잡고 브라우저가 제 몫을 굴린 뒤라야 우리가 정한 자리가
+       마지막으로 남는다. 이미 올라와 있을 때(칸에서 칸으로)는 기다릴 것이 없다 */
+    function lift(el, wait){
+      setTimeout(function(){
+        if(document.activeElement===el && document.body.classList.contains('kbd-real')) toTop(el);
+      }, wait);
     }
     if(vv){ vv.addEventListener('resize', look); vv.addEventListener('scroll', look); }
-    document.addEventListener('focusin', look);
+    document.addEventListener('focusin', function(e){
+      var was=document.body.classList.contains('kbd-real');
+      if(look() && editable(e.target)) lift(e.target, was?120:320);
+    });
     document.addEventListener('focusout', function(){ setTimeout(look, 80); });
   })();
 
@@ -769,30 +802,6 @@ button.kbd-k{border:0;padding:0;font-family:inherit;cursor:pointer}
     return (t==='tel'||t==='number'||m==='numeric'||m==='tel'||m==='decimal') ? 'num' : 'ko';
   }
   var typable=editable;
-  function inModal(el){
-    var m=el.closest('.rw-modal,.lg-modal');
-    return !!(m && !m.hidden);
-  }
-  /* 키보드에 가린 자리에 칸이 있으면 남은 화면 안으로 끌어올린다.
-     모달은 스스로 남은 칸 가운데로 다시 서므로 건드리지 않는다 */
-  /* 칸 하나가 아니라 **그 줄 전체**를 드러낸다 — 옆에 붙은 「확인」 버튼과
-     아래 안내 줄까지 보여야 그 자리에서 다음 손이 이어진다 */
-  function rowOf(el){
-    var w=el.closest('.rw-withbtn')||el.closest('.f-in')||el;
-    var p=w.parentNode, m=p&&p.querySelector('.f-msg');
-    return (m && m.compareDocumentPosition(w)&Node.DOCUMENT_POSITION_PRECEDING) ? m : w;
-  }
-  function reveal(el){
-    if(inModal(el)) return;
-    var vis=window.innerHeight-parseInt(getComputedStyle(document.documentElement)
-              .getPropertyValue('--kbd'),10);
-    var bar=document.querySelector('.rw-float');
-    var floatH=(bar && getComputedStyle(bar).display!=='none' &&
-                document.body.classList.contains('rw-ok')) ? bar.offsetHeight : 0;
-    var r=rowOf(el).getBoundingClientRect(), top=16, bot=vis-16-floatH;
-    if(r.bottom>bot) window.scrollBy(0, r.bottom-bot);
-    else if(r.top<top) window.scrollBy(0, r.top-top);
-  }
   /* 칸에 들어설 때 브라우저가 스스로 화면을 굴린다(html{scroll-behavior:smooth}).
      키보드가 올라오며 문서 높이가 바뀌는 순간과 겹치면 엉뚱한 데까지 흘러가므로,
      잠깐 자리를 붙들어 그 미끄러짐을 끊고 **우리가 정한 자리로만** 옮긴다 */
@@ -803,9 +812,9 @@ button.kbd-k{border:0;padding:0;font-family:inherit;cursor:pointer}
     (function step(){
       if(Math.round(window.scrollY)!==y) window.scrollTo(0,y);
       if(Date.now()-t<260) return requestAnimationFrame(step);
-      reveal(el);
+      toTop(el);
       /* 브라우저가 뒤늦게 한 번 더 굴리는 일이 있어 한 번 더 맞춘다 */
-      setTimeout(function(){ if(shown && document.activeElement===el) reveal(el); }, 450);
+      setTimeout(function(){ if(shown && document.activeElement===el) toTop(el); }, 450);
       html.style.scrollBehavior=prev;
     })();
   }
