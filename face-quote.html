@@ -8,107 +8,11 @@
 <!-- 라이브(kbz.co.kr) 폰트: 본문/CTA=Wanted Sans, 타이틀=SUITE -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUITE/fonts/variable/woff2/SUITEVariable.css">
-<!-- 네 화면이 함께 쓰는 바탕: 토큰 · 리셋 · 타이포. 화면 고유 스타일은 아래 <style> 안에 있다 -->
+<!-- 네 화면이 함께 쓰는 바탕: 토큰 · 리셋 · 타이포. 화면 고유 스타일은 아래 스타일 블록에 있다 -->
 <link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/quote.css">
 <link rel="stylesheet" href="assets/kbd.css">
 <style>
-
-/* iOS Safari 텍스트 자동확대(boosting) 차단: 블록 폭에 따라 폰트를 임의로 키워 figline 등 간격이 벌어지던 문제 방지 */
-/* 이 화면의 바탕만 여기서 정한다 — 글꼴·글자색·줄높이는 assets/base.css */
-body{background:#FBFBFB;cursor:default}
-h1,h2,h3,h4{font-family:var(--font-title);line-height:1.24;letter-spacing:-0.03em;font-weight:800}
-.tnum{font-variant-numeric:tabular-nums}
-.inner{max-width:1120px;margin:0 auto;padding:0 30px;width:100%}
-
-
-/* ===== 라이브 버튼 · 공통 타이포 (index.html과 동일 토큰) ===== */
-.acts{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:30px}
-
-/* ===== 공통 타이포 ===== */
-.title-lg{font-family:var(--font-title);font-size:38px;color:var(--main-black);letter-spacing:-.035em}
-.title-md{font-family:var(--font-title);font-size:30px;color:var(--main-black);letter-spacing:-.03em}
-.center{text-align:center}
-
-
-
-
-/* =========================================================
-   견적신청 페이지 전용
-   ---------------------------------------------------------
-   여백과 타이포로 구조를 만들고, 색은 '선택된 것'과 CTA에만 쓴다.
-   박스·그림자·그라디언트·알약 버튼을 걷어내고 헤어라인과 위계로 대체.
-   ========================================================= */
-/* 완료 화면에만 깔리는 하늘색 바닥. 문서가 아니라 화면 바닥에 고정해
-   모달처럼 위쪽만 보이는 자리에서도 보이게 한다.
-   초점은 우측 하단 모서리. 모서리에 걸리면 타원의 1/4 만 보이므로
-   --grad-radi-sky-bottom 보다 크게 잡아야 같은 만큼 번진다. */
-body.quote-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(78% 108% at 100% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%) no-repeat}
-/* 같은 모서리에 둥둥 떠 있는 견적서 아이콘. 장식이므로 글자 뒤에 두고,
-   파일이 없으면 배경이 비어 아무것도 그리지 않는다(화면은 그대로). */
-body.quote-page.is-done::after{content:"";position:fixed;
-  /* 그림 파일 자체가 우 14.2% · 하 12.4% 를 투명 여백으로 갖고 있다.
-     그만큼 상자를 모서리 밖으로 빼야 그림이 실제로 모서리에 붙는다. */
-  --doc:clamp(150px,min(44vw,58vh),320px);
-  right:calc(14px - var(--doc) * .142);
-  bottom:calc(16px - var(--doc) * .124);
-  width:var(--doc);height:var(--doc);z-index:-1;pointer-events:none;
-  background:url("images/done/quote-doc.png") center/contain no-repeat;
-  opacity:.45;
-  animation:docFloat 5.5s ease-in-out infinite}
-@keyframes docFloat{
-  0%,100%{transform:translate3d(0,0,0) rotate(0deg)}
-  50%    {transform:translate3d(0,-15px,0) rotate(-3.5deg)}
-}
-@media(prefers-reduced-motion:reduce){
-  body.quote-page.is-done::after{animation:none}
-}
-body.quote-page{
-  --ink:#0C0D0F;          /* 본문 */
-  --ink-2:#5C636C;        /* 보조 */
-  --ink-3:#6F767E;        /* 라벨·설명 (흰 배경 대비 4.6:1) */
-  --ink-4:#A7ADB4;        /* 장식용 — 플레이스홀더·아이콘·구분자 */
-  --line:#E8EAED;         /* 헤어라인 */
-  --line-soft:#F0F1F3;    /* 더 옅은 구분선 */
-  --fill:#F7F8F9;         /* 영수증 패널 */
-  --accent:var(--main-blue);
-  --accent-tint:rgba(var(--color-blue-rgb),.06);
-  --field-line:#6D7882;   /* 라이브 폼 테두리 */
-  --field-ink:#33363D;    /* 라이브 폼 입력 텍스트 */
-  --field-label:#131416;  /* 라이브 폼 라벨 (= 3.0 --ds-text-body) */
-  background:var(--main-white);
-  color:var(--ink);
-  letter-spacing:-.012em;
-}
-.quote-page .inner{max-width:1060px}
-
-/* ===== 페이지 머리 ===== */
-.q-hero{padding:44px 0 34px;border-bottom:1px solid var(--line)}
-.q-hero .inner{display:block}                     /* 브로슈어 인물 컷을 빼고 타이포로 연다 */
-.q-hero h1{line-height:1.14;word-break:keep-all}
-#heroLine.sent{color:var(--accent)}
-/* 모달 안에서는 제목 오른쪽 위에 부모의 닫기 버튼이 뜬다. 버튼이 걸치는 것은
-   첫 줄의 오른쪽 끝뿐인데 padding 으로 막으면 아래 줄까지 폭을 잃어 제목이
-   쓸데없이 더 접힌다. 띄운 상자는 제가 닿는 줄만 밀어낸다. */
-.is-embedded .q-hero h1::before{content:"";float:right;width:26px;height:1px}
-/* 좁은 폭에선 데스크톱용 줄바꿈이 '단말기'만 남는 고아 줄을 만든다 → 자연스럽게 흐르게 */
-/* 좁은 폭에서도 '…단말기' 다음에서 줄을 바꾼다. 크기를 고정하면 첫 줄이
-   한 번 더 접혀 '단말기'만 남는 줄이 생기므로, 폭에 따라 줄어들게 한다. */
-/* 7vw 는 '예상 견적서가 전송됐어요!' 한 줄보다 3% 남짓 커서 늘 두 줄로 쪼개졌다 */
-@media(max-width:640px){.q-hero{padding:30px 0 24px}.q-hero h1{font-size:clamp(18px,6vw,31px)}}
-
-/* ===== 본문 2단 ===== */
-.q-main{padding:56px 0 128px}
-body.is-done .q-main{padding-bottom:72px}
-.q-main .inner{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:26px 64px;align-items:start}
-@media(max-width:1024px){.q-main .inner{grid-template-columns:minmax(0,1fr)}.q-main{padding:40px 0 72px}}
-
-/* ===== 섹션 (박스 없음 · 여백으로 구분) ===== */
-#quoteForm,.q-sum{min-width:0}
-.q-card{min-width:0;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
-.q-card + .q-card{margin-top:60px}
-.q-step{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;margin-bottom:22px}
-.q-step h2{font-family:var(--font-body);font-size:19px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
 @media(max-width:640px){
   .q-step.has-add{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"hint hint" "title add";gap:12px}
   .q-step.has-add h2{grid-area:title;align-self:center}
@@ -116,28 +20,7 @@ body.is-done .q-main{padding-bottom:72px}
   .q-step.has-add .f-hint::before{left:18px;top:auto;bottom:-3px;margin-top:0}
   .q-step.has-add .site-add{grid-area:add;margin-left:0;align-self:center}
 }
-
-/* =========================================================
-   입력 필드 — kbz.co.kr 라이브 폼 규격 (라이브 사이트 계산값)
-   필드 : 높이 54 · radius 4 · 테두리 1px #6D7882 · 본문 16px/400 #33363D
-   라벨 : 필드 위 · 16px/400 · #131416 · line-height 1.4 · 자간 -0.36px
-   간격 : 라벨 ↔ 입력칸 5px
-   필수 : 빨간 별표가 아니라 파란 (필수). 안내는 placeholder로.
-   ========================================================= */
-.f-grid{display:flex;flex-wrap:wrap;gap:28px 12px}
 .f-item{position:relative;display:flex;flex-direction:column;gap:5px;min-width:0}
-.f-item.grow{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
-@media(max-width:640px){.f-item.grow{flex-basis:100%;max-width:100%}}
-/* 신청자 정보 — 윗줄 2칸(사업자등록번호·사업장명), 아랫줄 3칸 */
-.f-item.half{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
-.f-item.third{flex:1 1 calc(33.333% - 8px);max-width:calc(33.333% - 8px)}
-@media(max-width:640px){.f-item.half,.f-item.third{flex-basis:100%;max-width:100%}}
-/* 견적 조건은 가로 3열 (좁은 화면에서는 세로 1열) */
-.f-grid.cols3 .f-item{flex:1 1 0;min-width:0;max-width:none}
-@media(max-width:640px){.f-grid.cols3{flex-wrap:wrap}.f-grid.cols3 .f-item{flex-basis:100%}}
-.f-item.full{width:100%}
-.f-label{display:flex;align-items:baseline;gap:4px;font-size:16px;font-weight:400;color:var(--field-label);letter-spacing:-.36px;line-height:1.4}
-.f-req{color:var(--main-blue);font-weight:400;line-height:inherit}
 /* 상시 말풍선 — 열고 닫는 툴팁이 아니라 늘 떠 있는 안내.
    흐름에서 빼내 라벨 줄 오른쪽에 띄운다. 그래야 이 칸만 키가 커지지 않고
    입력칸끼리의 위아래 간격이 다른 칸과 똑같이 유지된다.
@@ -155,22 +38,6 @@ body.is-done .q-main{padding-bottom:72px}
   .f-hint{position:relative;right:auto;top:auto;transform:none;max-width:100%;margin-top:-3px;padding:9px 12px;align-self:start}
   .f-hint::before{right:auto;left:14px;bottom:auto;top:-3px}
 }
-.field{display:flex;align-items:center;gap:8px;height:54px;padding:0 12px;background:var(--main-white);border:1px solid var(--field-line);border-radius:4px;transition:border-color .15s,box-shadow .15s}
-.field:hover{border-color:#525C66}
-/* 라이브 폼은 포커스 시 아무 변화가 없다. 키보드 사용자가 위치를 잃지 않도록
-   같은 색 계열에서 테두리만 진하게 + 옅은 링을 더했다. */
-.field:focus-within{border-color:var(--field-ink);box-shadow:0 0 0 3px rgba(51,54,61,.09)}
-.field.is-err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(var(--danger-rgb),.09)}
-.field input,.field select{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;font-weight:400;color:var(--field-ink);letter-spacing:-.01em}
-.field input,.field select{height:100%}
-.field select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:2px}
-.field select.is-empty{color:var(--field-line)}
-.f-caret{flex:none;display:flex;align-items:center;color:var(--ink-3);pointer-events:none}
-.f-caret svg{width:15px;height:15px;display:block}
-.field input::placeholder{color:var(--field-line)}
-.field input[type=number]{text-align:right;-moz-appearance:textfield;font-variant-numeric:tabular-nums}
-.field input[type=number]::-webkit-outer-spin-button,.field input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.f-unit{flex:none;font-size:15px;font-weight:400;color:var(--field-ink)}
 
 
 /* ===== 단말기 카드 (1종) =====
@@ -181,9 +48,6 @@ body.is-done .q-main{padding-bottom:72px}
 .dev-card{position:relative;display:flex;min-height:150px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-tint)}
 .dev-pick{position:relative;display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;padding:18px 24px 18px 200px;cursor:default}
 .dev-media{position:absolute;left:0;top:0;bottom:0;width:184px;overflow:hidden;border-radius:7px 0 0 7px}
-/* 제품컷은 흔히 아래가 잘린 채로 온다. 바닥에 붙여야 '잘린' 게 아니라
-   '놓여 있는' 것으로 읽힌다. */
-.dev-media img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block}
 .dev-tag{display:block;margin-bottom:8px;font-size:12px;font-weight:700;letter-spacing:-.02em;color:var(--accent);line-height:1.3}
 .dev-name{display:block;font-size:17px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.3}
 /* 배너는 늘 옅은 파랑 틴트라 --ink-3 이면 4.2:1 로 모자란다 */
@@ -238,143 +102,17 @@ body.is-done .q-main{padding-bottom:72px}
 .f-radios input:checked + .dot::after{transform:scale(1)}
 .f-radios input:checked ~ .tx{font-weight:700;color:var(--ink)}
 .f-radios input:focus-visible + .dot{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
-
-/* ===== 안내 사항 ===== */
-/* 견적 카드에 딸린 깨알글씨다. 카드 바로 밑에 붙여 함께 따라다니게 한다. */
-.q-notes{margin-top:16px;padding:0 2px}
-.q-notes h3{margin-bottom:9px;font-family:var(--font-body);font-size:13px;font-weight:800;letter-spacing:-.03em;color:var(--ink-2)}
-.q-notes ul{display:flex;flex-direction:column;gap:6px;list-style:none}
-.q-notes li{position:relative;padding-left:12px;font-size:12.5px;font-weight:500;color:var(--ink-2);line-height:1.6;word-break:keep-all}
-.q-notes li::before{content:"";position:absolute;left:2px;top:8px;width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
-
-/* ===== 견적 요약 (영수증) ===== */
-/* 요약 패널은 스크롤되는 조상(모달 본문이든 페이지든)에 붙어 따라온다.
-   기본값은 모달 기준 20px. 고정 헤더 아래에 넣을 때는 삽입하는 쪽에서
-   --q-sticky-top을 헤더 높이 + 여백으로 덮어쓰면 된다. */
-.q-sum{position:sticky;top:var(--q-sticky-top,20px)}
-.q-sum-card{background:var(--fill);border:1px solid var(--line);border-radius:8px;padding:22px 20px;color:var(--ink);box-shadow:none}
-/* 단가·소계는 계산 내역 안에 둔다. 무엇을 몇 대 골랐는지는 단말기 카드가 보여준다 */
-#sumItems{padding-top:2px}
-#sumItems .nm{font-weight:600;color:var(--ink)}
-.q-sum-line{display:flex;align-items:baseline;gap:8px;font-size:13.5px;padding:5px 0;color:var(--ink-2)}
-.q-sum-line .nm{font-weight:600;color:var(--ink)}
-.q-sum-line .qty{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
-.q-sum-line .amt{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
-/* 총액 줄이 곧 토글이다. 펼치면 그 금액이 어떻게 나왔는지 아래에 붙는다.
-   (할인 전 줄에 달지 않은 이유: 펼쳐지는 월 합계·공급가액·부가세는 할인 후
-    금액이라 '할인 전' 아래에 놓이면 합이 맞지 않는다) */
-.q-sum-fold > summary{list-style:none;cursor:pointer;user-select:none}
-.q-sum-fold > summary::-webkit-details-marker{display:none}
-.q-sum-fold > summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
-.q-sum-total .lb-t{display:inline-flex;align-items:center;gap:3px}
-.q-sum-fold .caret{flex:none;width:14px;height:14px;color:var(--ink-3);transition:transform .15s,color .15s}
-.q-sum-fold > summary:hover .caret{color:var(--ink)}
-.q-sum-fold[open] .caret{transform:rotate(180deg);color:var(--ink)}
-/* 고른 단말기가 없으면 펼칠 내용이 없으므로 토글을 끈다 */
-.q-sum-fold.no-detail > summary{cursor:default;pointer-events:none}
-.q-sum-fold.no-detail .caret,.q-sum-fold.no-detail .basis{display:none}
-.q-sum-mid-body{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 /* 내역 한 줄 = 이름 + 금액, 계산식은 그 아래 줄로. 340px 패널에
    '130,000원 × 12대 × 12개월'까지 한 줄에 넣으면 이름이 접힌다. */
 .q-sum-mid-body .q-sum-line{flex-wrap:wrap;row-gap:2px;font-size:13px}
 .q-sum-mid-body .q-sum-line .nm{white-space:nowrap;font-weight:500;color:var(--ink-2)}
-.q-sum-mid-body .q-sum-line .amt{font-weight:600;color:var(--ink-2)}
 .q-sum-mid-body .q-sum-line .qty{order:3;flex-basis:100%;color:var(--ink-3)}
 .q-sum-mid-body .q-sum-line .amt.free{color:var(--accent)}
 /* 현장이 여럿일 때 어느 현장 몫인지 끊어주는 머리글 */
 .q-sum-sub{margin:12px 0 2px;font-size:11.5px;font-weight:700;letter-spacing:-.01em;color:var(--ink-3)}
 .q-sum-sub:first-child{margin-top:0}
-/* 수량 할인 — 할인율을 크게, 할인 전 금액은 취소선으로 그 아래 */
-.q-sum-disc{display:none;margin-top:0;padding-top:0;border-top:0}
-.q-sum-disc.on{display:block}
-.q-sum-disc .was{padding:4px 0 0;font-size:12.5px}
-.q-sum-disc .was .nm{font-weight:500;color:var(--ink-3)}
-.q-sum-disc .was .amt{font-weight:500;color:var(--ink-3);text-decoration:line-through}
-.q-sum-rate{display:flex;align-items:center;gap:10px}
-.q-sum-rate .nm{font-size:13.5px;font-weight:700;color:var(--accent);letter-spacing:-.02em}
-.q-sum-rate .pct{margin-left:auto;font-family:var(--font-title);font-size:27px;font-weight:800;letter-spacing:-.045em;line-height:1;color:var(--accent)}
-.q-sum-disc.on + .q-sum-fold > .q-sum-total{margin-top:12px}
-.q-sum-total{display:flex;align-items:flex-end;gap:10px}
-.q-sum-total .lb{font-size:13px;font-weight:600;color:var(--ink-2);line-height:1.4}
-.q-sum-total .lb small{display:block;font-size:11.5px;font-weight:500;color:var(--ink-3)}
 /* display:block 이 UA의 [hidden]{display:none} 을 덮는다 — 다시 눌러준다 */
-.q-sum-total .lb small[hidden]{display:none}
-.q-sum-total .vv{margin-left:auto;font-family:var(--font-title);font-size:31px;font-weight:800;letter-spacing:-.05em;line-height:1.05;color:var(--ink);white-space:nowrap}
-/* 할인 블록 — 기간이 1개월을 넘어 실제 할인이 붙을 때만 나온다 */
-/* 할인이 보일 때는 할인 전 → 할인율 → 총액이 한 덩어리로 읽히도록 사이 구분선을 뺀다.
-   할인이 없을 때는 총액이 부가세 줄에 바로 붙지 않도록 원래 구분선을 그대로 쓴다. */
-/* 할인 블록이 보일 때만 총액을 그만큼 띄운다 */
-.q-sum-submit{margin-top:16px}
-@media(max-width:1024px){.q-sum{position:static}.q-sum-card{margin-top:0}}
-
-/* ===== 버튼 (알약 → 사각 · 그림자 없음) ===== */
-.quote-page .banner-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:4px;font-size:15px;font-weight:700;letter-spacing:-.02em;background:var(--ink);color:#fff;border:0;box-shadow:none;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
-.quote-page .banner-btn:hover{background:#2A2D33}
-.quote-page .banner-btn.sec{background:var(--main-white);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
-.quote-page .banner-btn.sec:hover{background:var(--main-white);box-shadow:inset 0 0 0 1px #CDD2D8}
-.quote-page .banner-btn.ghost{background:none;color:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line)}
-.quote-page .banner-btn.ghost:hover{background:var(--fill);color:var(--ink)}
-#btnSubmit{width:100%;padding:15px 20px;font-size:16px;background:var(--accent)}
-#btnSubmit:hover{background:#0E4CAA}
-#btnSubmit[disabled]{background:#E4E7EA;color:var(--ink-3);cursor:not-allowed}
-
-/* ===== 동의 ===== */
-.q-agree{margin-top:18px;padding:16px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:none}
-.q-check{display:flex;align-items:flex-start;gap:9px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.5;word-break:keep-all}
-.q-check input{position:absolute;opacity:0;width:0;height:0}
-.q-check .box{flex:none;margin-top:0;width:16px;height:16px;border-radius:3px;border:1.5px solid #C6CBD1;background:#fff;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
-.q-check .box svg{width:11px;height:11px;color:#fff;opacity:0;transition:.15s}
-.q-check input:checked + .box{background:var(--accent);border-color:var(--accent)}
-.q-check input:checked + .box svg{opacity:1}
-.q-check input:focus-visible + .box{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
-.q-agree-row{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
-.q-agree-link{flex:none;margin-left:auto;padding:0;border:0;background:none;font:inherit;font-size:12px;font-weight:600;color:var(--ink-3);text-decoration:underline;text-underline-offset:2px;cursor:pointer;white-space:nowrap}
-.q-agree-link:hover{color:var(--ink)}
-.q-agree-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
-/* 동의만 빠진 채 제출했을 때 눈에 들어오도록 */
-.q-agree.is-err .box{border-color:var(--danger);box-shadow:0 0 0 3px rgba(var(--danger-rgb),.12)}
-.q-agree.is-err .q-check{color:var(--danger-text)}
-
-/* ===== 안내 모달 =====
-   native <dialog>: 포커스 가둠·Esc 닫기가 기본이고 최상위 레이어에 그려져
-   홈페이지에 삽입됐을 때 조상 요소의 overflow/transform에 잘리지 않는다 */
-.q-modal{margin:auto;width:min(520px,calc(100vw - 32px));max-height:min(80vh,620px);padding:0;border:0;border-radius:8px;background:var(--main-white);color:var(--ink);box-shadow:0 24px 64px -24px rgba(12,13,15,.45);overflow:hidden}
-/* 모바일 브라우저는 주소창이 접히면 vh가 실제 화면보다 커진다 */
-@supports(height:100dvh){.q-modal{max-height:min(80dvh,620px)}}
-.q-modal[open]{display:flex;flex-direction:column}
-.q-modal::backdrop{background:rgba(12,13,15,.45)}
-.q-modal-head{flex:none;display:flex;align-items:center;gap:12px;padding:20px 22px 15px;border-bottom:1px solid var(--line)}
-.q-modal-head h2{font-family:var(--font-body);font-size:17px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
-.q-modal-x{margin-left:auto;flex:none;width:30px;height:30px;display:flex;align-items:center;justify-content:center;padding:0;border:0;border-radius:4px;background:none;color:var(--ink-3);cursor:pointer;transition:.15s}
-.q-modal-x svg{width:17px;height:17px}
-.q-modal-x:hover{background:var(--fill);color:var(--ink)}
-.q-modal-body{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 22px 22px}
-.q-modal-body dl{display:flex;flex-direction:column;gap:15px}
-.q-modal-body dt{font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink-3);margin-bottom:4px}
-.q-modal-body dd{font-size:14px;color:var(--ink);line-height:1.65;word-break:keep-all}
-.q-modal-note{margin-top:18px;padding-top:15px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);line-height:1.7;word-break:keep-all}
-.q-modal-foot{flex:none;display:flex;justify-content:flex-end;gap:8px;padding:14px 22px;border-top:1px solid var(--line);background:var(--fill)}
-.q-modal-foot .banner-btn{padding:11px 18px;font-size:14px}
-@media(max-width:532px){.q-modal-foot .banner-btn{flex:1}}
-.q-agree .det b{color:var(--ink-2);font-weight:700}
-
-/* ===== 완료 화면 ===== */
-/* 결과는 이미 페이지 제목이 말한다. 카드는 제목 없이 내용만, 폼과 같은
-   왼쪽 기준선에 맞춰 놓는다. */
-.q-done{display:none;padding:0}
-.q-done.on{display:block;grid-column:1 / -1;width:100%;max-width:520px;margin:0;padding:8px 0 0}
-.q-done p{font-size:16px;color:var(--ink-2);line-height:1.7;margin:0;word-break:keep-all}
-.q-done p b{color:var(--ink);font-weight:700}
-.q-done .acts{display:flex;gap:8px;margin-top:28px;flex-wrap:wrap}
-
-/* 에러 */
-/* 무엇이 잘못됐는지는 그 칸 바로 아래에서 말한다.
-   .f-item 은 gap:12px 이므로 음수 여백으로 8px 남짓까지 당긴다. */
-.f-msg{margin-top:1px;font-size:12px;font-weight:600;color:var(--danger-text);line-height:1.5;word-break:keep-all}
-/* 남은 배너는 전송 실패 같은 폼 전체의 문제에만 쓴다 */
-.q-err{display:none;margin-top:14px;padding:11px 13px;border-radius:4px;background:rgba(var(--danger-rgb),.05);border:1px solid rgba(var(--danger-rgb),.22);font-size:12.5px;font-weight:600;color:var(--danger-text);line-height:1.55;word-break:keep-all}
-.q-err.on{display:block}
-</style>
+.q-sum-total .lb small[hidden]{display:none}</style>
 </head>
 <body class="quote-page">
 <script>if(window.self!==window.top)document.body.classList.add('is-embedded');</script>
