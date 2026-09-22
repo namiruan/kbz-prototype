@@ -316,7 +316,8 @@ body.is-done .q-main{padding-bottom:72px}
 /* 에러 */
 /* 무엇이 잘못됐는지는 그 칸 바로 아래에서 말한다.
    .f-item 은 gap:12px 이므로 음수 여백으로 8px 남짓까지 당긴다. */
-.f-msg{margin-top:1px;font-size:12px;font-weight:600;color:var(--danger-text);line-height:1.5;word-break:keep-all}
+.f-msg{margin-top:1px}
+.f-msg .note{font-size:12px;font-weight:600;color:var(--danger-text);line-height:1.5;word-break:keep-all}
 /* 남은 배너는 전송 실패 같은 폼 전체의 문제에만 쓴다 */
 .q-err{display:none;margin-top:14px;padding:11px 13px;border-radius:4px;background:rgba(var(--danger-rgb),.05);border:1px solid rgba(var(--danger-rgb),.22);font-size:12.5px;font-weight:600;color:var(--danger-text);line-height:1.55;word-break:keep-all}
 .q-err.on{display:block}

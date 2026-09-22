@@ -509,12 +509,18 @@ function clearErrs(){
 var errSeq = 0;                          /* 문구를 칸과 이으려면 id 가 있어야 한다 */
 function say(anchor, msg, block){
   if (!anchor) return null;
+  /* 이용후기 화면과 같은 부품이다 — .f-msg 는 칸 아래 '줄'(상자)이고 그 안의
+     .note 가 글자다. 상자를 따로 두면 한 줄에 안내와 글자수를 나란히 놓을 수
+     있고, 톤은 글자 쪽 클래스(.danger · .ok)가 정한다 */
+  var box = document.createElement('div');
+  box.className = 'f-msg' + (block ? ' block' : '');
   var p = document.createElement('p');
-  p.className = 'f-msg' + (block ? ' block' : '');
+  p.className = 'note danger';
   p.id = 'ferr-' + (++errSeq);
   p.textContent = msg;
-  anchor.insertAdjacentElement('afterend', p);
-  return p;
+  box.appendChild(p);
+  anchor.insertAdjacentElement('afterend', box);
+  return p;                 /* 칸과 이어 주는(aria-describedby) 것은 글자 쪽 id 다 */
 }
 /* 붉은 테두리는 눈으로 보는 사람에게만 닿는다. 칸이 잘못됐다는 사실과
    그 까닭을 보조기술에도 넘긴다 — 없으면 초점만 옮겨 오고 왜인지는 모른다. */
