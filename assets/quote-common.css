@@ -321,3 +321,18 @@ body.is-done .q-main{padding-bottom:72px}
 /* 남은 배너는 전송 실패 같은 폼 전체의 문제에만 쓴다 */
 .q-err{display:none;margin-top:14px;padding:11px 13px;border-radius:4px;background:rgba(var(--danger-rgb),.05);border:1px solid rgba(var(--danger-rgb),.22);font-size:12.5px;font-weight:600;color:var(--danger-text);line-height:1.55;word-break:keep-all}
 .q-err.on{display:block}
+
+/* ── 12. 폼 글꼴 ────────────────────────────────────────── */
+/* 라이브(kbz.co.kr) 규격은 「본문·제목 = Wanted Sans, **폼 = Pretendard**」다.
+   이용후기 화면은 처음부터 그렇게 했는데 견적만 전부 Wanted Sans 였다 —
+   두 제품의 폼이 같은 글씨를 쓰도록 맞춘다.
+   제목과 금액 숫자(타이틀 폰트)는 그대로 둔다 — 그쪽은 폼이 아니다.
+   단말기 카드(.dev-name · .dev-desc)도 두었다 — 그림과 짝지어 읽히는 소개글이다 */
+.f-label,.f-req,
+.field input,.field select,.f-unit,
+.stepper input,
+.f-msg .note,
+.q-check,
+.q-notes h3,.q-notes li,
+.f-hint,
+.f-radios label{font-family:var(--font-pretendard)}
