@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="assets/quote-common.css">
 <link rel="stylesheet" href="assets/quote.css">
 <link rel="stylesheet" href="assets/kbd.css">
+<script src="assets/format.js"></script>
 <script src="assets/select.js"></script>
 </head>
 <body class="quote-page">
@@ -132,7 +133,7 @@
         <div class="f-grid">
           <div class="f-item half">
             <label class="f-label" for="q-biz">사업자등록번호<span class="f-req">(필수)</span></label>
-            <div class="field"><input id="q-biz" type="text" name="biz_no" required inputmode="numeric" maxlength="12" autocomplete="off" placeholder="000 - 00 - 00000"></div>
+            <div class="field"><input id="q-biz" type="text" name="biz_no" required inputmode="numeric" maxlength="16" autocomplete="off" placeholder="000 - 00 - 00000"></div>
           </div>
           <div class="f-item half">
             <label class="f-label" for="q-company">사업장명<span class="f-req">(필수)</span></label>
@@ -298,10 +299,12 @@ function won(n){ return Number(n||0).toLocaleString('ko-KR') + '원'; }
 function digits(v){ return String(v == null ? '' : v).replace(/[^0-9]/g, ''); }
 
 /* 사업자등록번호 000-00-00000 꼴로 정리 */
+/* 자리표시자('000 - 00 - 00000')와 이용후기 화면이 쓰는 표기에 맞춘다 —
+   같은 화면의 연락처도 ' - ' 로 띄우므로 셋이 한 규격이 된다 */
 function formatBizNo(v){
   var d = digits(v).slice(0, 10);
-  if (d.length > 5) return d.slice(0, 3) + '-' + d.slice(3, 5) + '-' + d.slice(5);
-  if (d.length > 3) return d.slice(0, 3) + '-' + d.slice(3);
+  if (d.length > 5) return d.slice(0, 3) + ' - ' + d.slice(3, 5) + ' - ' + d.slice(5);
+  if (d.length > 3) return d.slice(0, 3) + ' - ' + d.slice(3);
   return d;
 }
 /* 국세청 검증식 — 앞 9자리에 가중치 1,3,7,1,3,7,1,3,5 를 곱해 더하고
@@ -685,18 +688,9 @@ document.getElementById('agree').addEventListener('change', function(){
 });
 
 /* 사업자등록번호는 치는 대로 하이픈을 붙인다 — 사람이 직접 넣지 않게 */
-(function(){
-  var el = document.getElementById('q-biz');
-  if (!el) return;
-  el.addEventListener('input', function(){
-    var atEnd = el.selectionStart === el.value.length;
-    var v = formatBizNo(el.value);
-    if (v === el.value) return;
-    el.value = v;
-    /* 끝에서 치던 중이면 커서를 끝에 붙여 둔다. 중간을 고치는 중이면 건드리지 않는다 */
-    if (atEnd) el.setSelectionRange(v.length, v.length);
-  });
-})();
+/* 번호 칸은 숫자만 받고 하이픈을 저절로 넣는다 — assets/format.js */
+kbzFormat.bind(document.getElementById('q-biz'), formatBizNo);
+kbzFormat.bind(document.getElementById('q-phone'), kbzFormat.phone);
 
 /* 입력 변화 → 즉시 재계산 */
 form.addEventListener('input',  render);
@@ -770,7 +764,7 @@ if (/(^|[?&])(done|hold)=1(&|$)/.test(location.search)) (function(){
   tick('[name="use_W400"]');
   set('[name="qty_W400"]', '3');
   set('#months', '12');
-  set('#q-biz', '220-81-62517');
+  set('#q-biz', '220 - 81 - 62517');
   set('#q-company', '한강현장 신축공사');
   set('#q-manager', '김현장');
   set('#q-phone', '010-1234-5678');
