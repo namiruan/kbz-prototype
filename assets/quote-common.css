@@ -188,7 +188,10 @@ body.is-done .q-main{padding-bottom:72px}
    .field 는 align-items:center 라 글자의 기준선이 아니라 상자를 가운데 맞춘다.
    크기가 다르면(15 vs 16) 각자 가운데에 서느라 기준선이 1px 남짓 어긋나,
    숫자와 한글이 나란히 선 자리에서 그게 보인다 */
-.f-unit{flex:none;font-size:16px;line-height:25.92px;font-weight:400;color:var(--field-ink)}
+.f-unit{flex:none;font-size:16px;line-height:25.92px;font-weight:400;color:var(--field-ink);
+  /* 칸의 gap 8px 은 칸과 화살표 같은 다른 물건 사이의 간격이다.
+     숫자와 단위는 「12 개월」 로 한 덩어리게 읽혀야 하므로 낙말 사이만큼만 띄운다 */
+  margin-left:-4px}
 .dev-media img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block}
 
 /* ── 6. 금액 요약 ─────────────────────────────────────── */
