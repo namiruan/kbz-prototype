@@ -238,6 +238,11 @@ body.rw-ok .rw-gate{display:none}
 /* 라벨 (피그마 '회사명' 프레임) */
 .rw-lb{display:flex;align-items:center;gap:5px;min-height:19px;margin-bottom:5px}
 .rw-lb span{color:var(--ds-text-label);font-family:var(--font-pretendard);font-size:14px;font-weight:400;line-height:18px;letter-spacing:-.08px}
+/* 라벨을 <label>로 감싼 칸과 그냥 <span>인 칸이 섞여 있다 — 계약 현장은 고르는 것이
+   <button>이라 <label for>를 걸 수 없어 span + aria-labelledby 다.
+   <label>에 규칙이 없으면 안쪽 글자가 14px 이어도 제 줄상자는 본문 16px 로 잡혀
+   그 줄만 3px 높아지고, 나란히 선 칸들의 시작선이 어긋난다. 안의 글자에 맞춘다 */
+.rw-lb label{font-size:14px;line-height:18px}
 .rw-lb em{font-style:normal;color:var(--main-blue);font-family:var(--font-pretendard);font-size:14px;font-weight:400}
 
 /* =========================================================
