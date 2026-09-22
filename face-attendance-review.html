@@ -2176,6 +2176,40 @@ body.rw-done .rw-main{padding-block:0}
     $('#r-phone').value=fmtPhone(VD); markPhoneDone();
     showDone();
   }
+
+  /* ── 글이 길어지면 칸이 따라 자란다 ──
+     칸을 늘리는 손잡이(resize)는 **데스크톱 브라우저에만 있다** — iOS 사파리와
+     안드로이드 크롬은 그리지 않는다. 그래서 폰에서는 96px 에 갇혀 네 줄을 넘기면
+     칸 안에서 다시 굴려야 했다 — 200자를 청하는 문항이다.
+     마음껏 자라게 둔 것은 아니다: 너무 키우면 아래의 글자수 줄이 키보드 밑으로
+     밀려나므로 화면 45% 에서 멈춘다 */
+  (function(){
+    var BASE=96;
+    function cap(){ return Math.max(BASE, Math.round(window.innerHeight*0.45)); }
+    function grow(t){
+      var keep=parseFloat(t.dataset.drag)||0;
+      t.style.height='auto';
+      t.style.height=Math.max(BASE, keep, Math.min(t.scrollHeight, cap()))+'px';
+      t.dataset.mine=t.offsetHeight;
+    }
+    function growAll(){ $$('#rwForm textarea').forEach(grow); }
+    document.addEventListener('input', function(e){
+      if(e.target.tagName==='TEXTAREA') grow(e.target);
+    });
+    window.addEventListener('resize', growAll);
+    /* 손잡이로 끌어 늘린 높이는 기억한다 — 다음 글자에 도로 줄어들면 끌 뜻이 없다.
+       우리가 정한 높이(mine)와 다르게 변했으면 사람이 끌은 것이다 */
+    if(window.ResizeObserver){
+      var ro=new ResizeObserver(function(rs){
+        rs.forEach(function(r){
+          var t=r.target, h=t.offsetHeight, mine=parseFloat(t.dataset.mine)||0;
+          if(mine && Math.abs(h-mine)>1){ t.dataset.drag=h; t.dataset.mine=h; }
+        });
+      });
+      $$('#rwForm textarea').forEach(function(t){ ro.observe(t); });
+    }
+    growAll();
+  })();
 })();
 </script>
 <!-- ────────────────────────────────────────────────────────────────
