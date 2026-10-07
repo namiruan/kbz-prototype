@@ -79,9 +79,19 @@
    짜임은 quote.html 과 같다(.q-sum-disc · .q-sum-fold · .q-sum-total).
    여기 있는 것은 그 부품에 모자란 것뿐이다 */
 
+/* 할인 줄이 둘이 될 때 — 3.0 할인은 프리미엄이면 늘 붙는 것이라, 이번 선택으로
+   생긴 연납 할인보다 한 단계 눌러 둔다. 27px 두 개가 나란히 서면 어느 쪽이
+   방금 고른 것 때문인지 읽히지 않는다 */
+.pq-rate-sub .nm{font-weight:600;color:var(--ink-2)}
+.pq-rate-sub .pct{font-size:19px;color:var(--ink-2)}
+.pq-rate-sub:not([hidden]) + .q-sum-rate{margin-top:5px}
+
 /* 라벨이 '총 예상 견적'(6자)보다 길어, 31px 그대로 두면 라벨이
    '최소 예상 금 / 액'으로 갈린다. 숫자를 한 단계 줄이고 라벨은 안 꺾는다 */
 .q-sum-total .lb-t{white-space:nowrap}
+/* 기준 줄은 글자 사이가 아니라 낱말 사이에서 꺾여야 한다 — 기본값으로 두면
+   '김반장 3.0 이용료 포 / 함' 처럼 낱말 한가운데가 갈린다 */
+.q-sum-total .basis{word-break:keep-all}
 .q-sum-total .vv{font-size:26px}
 /* 끝의 물결을 빼지 않는다 — 바닥만 보이는 숫자라는 표시다. 말이 아니라 기호라
    숫자에 바싹 붙이고, 글꼴도 굵기도 색도 숫자의 것을 그대로 물려받는다.

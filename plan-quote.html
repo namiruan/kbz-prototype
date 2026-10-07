@@ -168,8 +168,14 @@
              실제 청구에는 계약 조건과 그때의 정책이 더 붙어, 여기서 끝까지 계산해
              버리면 받아 본 견적서와 어긋난다. -->
         <div class="q-sum-disc" id="sumDisc">
-          <div class="q-sum-rate"><span class="nm">연납 할인</span><span class="pct tnum">5%</span></div>
-          <div class="q-sum-line was"><span class="nm">할인 전</span><span class="amt tnum" id="sumWas">0원</span></div>
+          <!-- 깎이는 것이 둘이고 결이 다르다. 3.0 할인은 무엇을 고르든 프리미엄이면
+               붙는 것이고, 연납 할인은 주기를 바꿔야 붙는 것이다. 그래서 주기를
+               따라 움직이는 연납 줄에 '할인 전'을 붙여 두고, 3.0 줄은 그 위에
+               한 단계 작게 둔다 — 큰 숫자 둘이 나란히 서면 어느 쪽이 이번
+               선택으로 생긴 것인지 안 보인다 -->
+          <div class="q-sum-rate pq-rate-sub" id="sumPrem" hidden><span class="nm">김반장 3.0 할인</span><span class="pct tnum">100%</span></div>
+          <div class="q-sum-rate" id="sumYear" hidden><span class="nm">연납 할인</span><span class="pct tnum">5%</span></div>
+          <div class="q-sum-line was" id="sumWasRow" hidden><span class="nm">할인 전</span><span class="amt tnum" id="sumWas">0원</span></div>
         </div>
 
         <details class="q-sum-fold no-detail" id="sumMid">
@@ -202,8 +208,6 @@
         <h3>안내</h3>
         <ul>
           <li>오른쪽 금액은 매출 규모로 잡은 <b>최소 예상</b>입니다. 실제 청구액은 계약 조건과 그때의 정책에 따라 달라지므로, 넣으신 값으로 담당자가 산정해 견적서를 보내 드립니다.</li>
-          <li>김반장 프리미엄은 김반장 3.0 전 기능을 포함합니다. 3.0 이용료가 따로 붙지 않습니다.</li>
-          <li>단말기(퇴직공제 전자카드·안면인식기)는 현장 단위 임대 계약으로 따로 산정됩니다.</li>
           <li>모든 금액은 VAT 별도입니다.</li>
         </ul>
       </div>

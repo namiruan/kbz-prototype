@@ -139,17 +139,25 @@
       total.innerHTML = (year ? '연 ' + money(yearly(t.month)) : '월 ' + money(t.month))
                       + '<small>~</small>';
       /* 몇 구간인지는 적지 않는다. 구간 번호도 매출 범위도 안에서 쓰는 가름이지,
-         고르는 사람이 알아야 할 것은 '얼마부터'다. 프리미엄만 이 금액이 무엇의
-         금액인지 밝혀야 해서 한 줄이 남는다 */
-      basis.textContent = prem ? '김반장 3.0 요금 기준' : '';
+         고르는 사람이 알아야 할 것은 '얼마부터'다. 프리미엄만 한 줄이 남는데,
+         바로 위에 '3.0 할인 100%'가 서 있어 '3.0 요금 기준'이라고 적으면
+         깎인다던 것이 기준이 되는 꼴이다. 그래서 기준 대신 포함을 적는다 */
+      basis.textContent = prem ? '김반장 3.0 이용료 포함' : '';
     }
 
-    /* ② 할인 블록 — 연납을 골랐을 때만. 할인이 붙지 않는데 '할인 전'을 띄우면
-       깎인 것처럼 읽힌다. 프리미엄에도 띄우는 까닭은 여기 선 숫자가 3.0 요금이고,
-       그 5% 는 3.0 요금표에 적힌 것이기 때문이다 */
-    var showDisc = t && t !== 'over' && year;
-    disc.classList.toggle('on', !!showDisc);
-    if(showDisc){
+    /* ② 할인 블록 — 깎이는 것이 둘이고 뜨는 조건이 다르다.
+       3.0 할인은 프리미엄을 고르면 붙는다. 프리미엄은 3.0 전 기능을 그대로
+       쓰면서 3.0 이용료를 따로 내지 않으니, 그 몫이 100% 깎인 셈이다.
+       연납 할인은 주기를 바꿔야 붙는다 — 월납인데 '할인 전'을 띄우면 깎이지도
+       않은 금액이 깎인 것처럼 읽힌다. '할인 전'은 그래서 연납 줄에만 따라붙는다 */
+    var okAmt    = t && t !== 'over';
+    var showPrem = okAmt && prem;
+    var showYear = okAmt && year;
+    $('#sumPrem').hidden    = !showPrem;
+    $('#sumYear').hidden    = !showYear;
+    $('#sumWasRow').hidden  = !showYear;
+    disc.classList.toggle('on', !!(showPrem || showYear));
+    if(showYear){
       $('#sumWas').textContent = money(t.month * 12);
     }
 
@@ -168,7 +176,7 @@
       /* 고르지 않은 쪽도 함께 적는다 — 바꿔 보지 않고도 얼마가 차이 나는지 보이게 */
       body += line('월정액', money(t.month));
       body += line('연납 <small>5% 할인</small>', money(yearly(t.month)));
-      if(prem) body += '<p class="pq-add">프리미엄은 이 금액을 포함하고, 신고 대행 범위(현장 수 · 인원 수 · 대행 항목)에 따라 더해집니다.</p>';
+      if(prem) body += '<p class="pq-add">김반장 3.0 이용료는 프리미엄에 포함되어 따로 붙지 않습니다. 여기에 신고 대행 범위(현장 수 · 인원 수 · 대행 항목)에 따라 더해집니다.</p>';
     }
 
     items.innerHTML = body;
