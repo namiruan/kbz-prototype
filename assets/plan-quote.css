@@ -38,16 +38,20 @@
 /* ── 납부 주기 ───────────────────────────────────────────────────
    금액을 어떻게 볼 것이냐를 묻는 손잡이라 금액 바로 위에 둔다. 두 보기가 서로를
    밀어내는 한 덩이로 보여야 해서, 라디오 줄이 아니라 세그먼트로 만든다 */
-.pq-cycle{display:flex;gap:3px;padding:3px;margin-bottom:16px;border-radius:1000px;
-  background:var(--main-white);border:1px solid var(--line)}
+/* 트랙을 카드보다 한 단계 눌러 앉힌다. 흰 트랙은 카드 바탕(--fill, #F7F8F9)과
+   거의 같은 색이라, 세그먼트가 아니라 글자 둘이 나란히 놓인 것처럼 읽혔다 */
+.pq-cycle{display:flex;gap:2px;padding:3px;margin-bottom:16px;border-radius:1000px;
+  background:#E7EAEE}
 .pq-cycle label{flex:1;display:flex;align-items:center;justify-content:center;gap:3px;
-  padding:7px 10px;border-radius:1000px;cursor:pointer;white-space:nowrap;
+  padding:8px 10px;border-radius:1000px;cursor:pointer;white-space:nowrap;
   font-size:13px;font-weight:700;color:var(--ink-3);transition:.16s}
 .pq-cycle label:hover{color:var(--ink)}
 .pq-cycle input{position:absolute;opacity:0;width:0;height:0}
 .pq-cycle small{font-size:11.5px;font-weight:700}
-/* 고른 쪽만 채운다 — 글자색만 바꾸면 둘 중 어느 것이 켜졌는지 훑어서는 안 보인다 */
-.pq-cycle label:has(input:checked){background:var(--accent);color:var(--main-white)}
+/* 고른 쪽은 눌린 트랙 위로 떠오른다 — 글자색만 바꾸면 훑어서는 어느 것이
+   켜졌는지 안 보인다 */
+.pq-cycle label:has(input:checked){background:var(--accent);color:var(--main-white);
+  box-shadow:0 1px 3px rgba(14,59,99,.28)}
 .pq-cycle label:has(input:checked) small{color:rgba(255,255,255,.75)}
 .pq-cycle label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
 
