@@ -86,12 +86,6 @@
       /* 좁은 폭에서 탭 줄은 가로로 밀어 보는 띠가 된다. ?type=C 로 바로 들어오면
          고른 탭이 화면 밖에 있어 '지금 어느 탭인지'가 보이지 않으므로, 가운데로
          당겨 온다. 띠가 넘치지 않는 넓은 폭에서는 아무 일도 일어나지 않는다 */
-      /* 바닥 CTA 는 탭마다 갈 곳이 다르다. A 에서는 아직 없는 견적신청 폼을
-         모달로 띄워야 하고(자리표), B·C 에서는 그 폼이 이미 이 페이지 안에 있어
-         그리로 올려 보내면 된다 — 같은 버튼이 한쪽에서 죽어 있지 않게 */
-      var cta = $('#ctaMain');
-      if(cta) cta.setAttribute('href', type === 'A' ? '#' : '#panel-' + type);
-
       var row = $('.es-tabs-row'), cur = $('.es-tab.is-active');
       if(row && cur && row.scrollWidth > row.clientWidth){
         row.scrollLeft = cur.offsetLeft - (row.clientWidth - cur.offsetWidth) / 2;
