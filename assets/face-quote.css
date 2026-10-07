@@ -14,7 +14,6 @@
       4. 금액 요약 안의 줄
    ================================================================ */
 
-
 /* ── 1. 말풍선 안내 · 단말기 카드 ────────────────────────────────────────── */
 
 @media(max-width:640px){
@@ -46,7 +45,6 @@
   .f-hint::before{right:auto;left:14px;bottom:auto;top:-3px}
 }
 
-
 /* ===== 단말기 카드 (1종) =====
    기종이 Ubio X Face Pro 하나뿐이라 고르는 UI가 아니라 소개 카드다.
    수량은 현장마다 다르므로 아래 현장 블록에서 받는다.
@@ -69,7 +67,6 @@
 }
 
 /* ── 2. 현장 단위 반복 칸 — 더하고 지운다 ────────────────────────────────────────── */
-
 
 /* ===== 현장 블록 =====
    현장마다 기간·수량·지역·시기가 다르다. 한 덩어리씩 테두리로 묶어
@@ -99,24 +96,12 @@
 
 /* ── 3. 김반장 이용사 여부(라디오) ────────────────────────────────────────── */
 
-
 /* ===== 김반장 이용 여부 — 라디오 =====
    동의 체크박스(.q-check)와 같은 방식으로 원만 직접 그린다. */
 /* 질문은 왼쪽 끝, 답은 오른쪽 끝 — 위 입력칸들과 좌우 폭을 맞춘다.
    좁아지면 자연스럽게 두 줄로 접힌다. */
 .f-item.kbz{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 14px}
 /* 이용사 여부 라디오는 이 화면만 쓴다 — 부품이 통째로 여기 있다 */
-.f-radios label{font-family:var(--font-pretendard)}
-.f-radios{align-self:flex-start;display:flex;align-items:center;gap:22px;min-height:30px}
-.f-radios label{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:var(--field-ink);letter-spacing:-.01em;white-space:nowrap;cursor:pointer}
-.f-radios input{position:absolute;opacity:0;width:0;height:0}
-.f-radios .dot{flex:none;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;border:1.5px solid #C6CBD1;background:var(--main-white);transition:border-color .15s}
-.f-radios .dot::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);transform:scale(0);transition:transform .15s}
-.f-radios label:hover .dot{border-color:var(--ink-3)}
-.f-radios input:checked + .dot{border-color:var(--accent)}
-.f-radios input:checked + .dot::after{transform:scale(1)}
-.f-radios input:checked ~ .tx{font-weight:700;color:var(--ink)}
-.f-radios input:focus-visible + .dot{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
 
 /* ── 4. 금액 요약 안의 줄 ────────────────────────────────────────── */
 

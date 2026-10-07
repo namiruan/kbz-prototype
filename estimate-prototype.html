@@ -79,6 +79,24 @@
         data-steps="서비스 블록에서 한 줄을 골랐다가 다시 풉니다(0개로 되돌립니다)"
         data-look="답 자리가 네이비로 바뀌고 '김반장 3.0 추천'이 섭니다|추천 띠가 3.0 카드 쪽으로 옮겨 붙습니다 — 프리미엄 쪽 띠는 사라집니다|프리미엄 카드는 그대로 남습니다 — 추천이 아닐 뿐 고를 수 없는 것은 아닙니다">3.0 이 나오는 자리</button>
 
+      <span class="proto-nav-group-label">A · 견적신청 폼</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-3.0"
+        data-why="고르고 견주었으면 신청입니다. 단말기 두 탭과 같은 방식으로 plan-quote.html 을 끼웠습니다 — 다만 그 둘과 달리 금액이 서지 않습니다. 사업장 규모로 갈리는 산식이 화면에 없어, 요약 자리가 숫자 대신 넣은 값을 되비칩니다."
+        data-steps="페이지를 열고 A 탭 맨 아래 신청 폼으로 내려갑니다(아무것도 고르지 않은 상태)"
+        data-look="계약 유형이 '김반장 3.0' 입니다 — 체크리스트를 건드리지 않으면 이쪽이 기본입니다|묻는 칸이 연 매출액 하나뿐입니다 — 3.0 금액에 쓰이지 않는 값은 아예 묻지 않습니다|요약 자리에 금액이 없습니다. 단말기 두 탭과 다른 유일한 점입니다|'메인으로' 버튼이 숨겨집니다 — 탭 안에는 닫을 것이 없습니다">3.0 으로 열린 폼</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-프리미엄"
+        data-why="체크리스트의 답이 폼의 계약 유형까지 돌립니다. 고른 사람이 같은 것을 두 번 고르게 두지 않는 자리입니다 — 위에서 프리미엄이 나왔는데 아래 폼이 3.0 으로 서 있으면 고른 것이 무위가 됩니다."
+        data-steps="체크리스트에서 '4대보험·퇴직공제 신고를 맡기고 싶습니다'를 고릅니다|A 탭 맨 아래 신청 폼으로 내려갑니다"
+        data-look="계약 유형이 '김반장 프리미엄'으로 옮겨 가 있습니다|묻는 칸이 다섯 개 늘어납니다 — 노무비·연 현장 수·월평균 현장 수·현장당 인원, 그리고 종합면허·키스콘·상용근로자 세 줄|틀도 그만큼 길어집니다(1,044 → 1,233px)|'연 현장 수'에만 (필수)가 붙습니다 — 프리미엄 금액을 가르는 값이기 때문입니다">체크리스트가 돌린 폼</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-막힘"
+        data-why="숨어 있는 칸은 묻지 않습니다. 3.0 으로 두고 빈 채 제출하면 프리미엄 전용 칸은 막는 말에 끼지 않습니다 — 보이지도 않는 칸 때문에 막히면 고칠 데를 찾을 수 없습니다."
+        data-steps="계약 유형을 '김반장 3.0' 으로 둔 채 아무것도 채우지 않고 견적신청하기를 누릅니다"
+        data-look="막는 말이 여섯 줄입니다 — 연 매출액과 신청자 정보 다섯|'연 현장 수'는 끼지 않습니다. 프리미엄으로 바꾸면 그때 일곱 줄이 됩니다|칸 아래에 한 줄씩 답니다 — 단말기 견적 두 화면과 같은 부품입니다|화면이 첫 빈 칸으로 내려갑니다">숨은 칸은 묻지 않는다</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-완료"
+        data-why="보낸 뒤. 단말기 견적과 같은 완료 화면이고, 틀도 그만큼 줄어듭니다."
+        data-steps="?plan=prem&done=1 로 폼을 엽니다(채우고 누르는 길은 그 화면이 이미 압니다)"
+        data-look="폼과 요약이 사라지고 안내 두 줄만 남습니다|제목 둘째 줄이 '예상 견적서가 전송됐어요!'로 바뀌고 브랜드 색이 됩니다|틀이 내용에 맞게 확 줄어듭니다|'다시 신청하기'를 누르면 폼으로 되돌아가고 틀도 도로 커집니다">완료</button>
+
       <span class="proto-nav-group-label">A · 기능 비교표</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ft-전체"
         data-why="A 탭에만 있는 표입니다. 노션 「서비스별 기능 상세」의 33개 기능을 그대로 옮겼습니다. 열은 둘뿐입니다 — '김반장 도입 전'은 견적을 낼 대상이 아니라 메인에서 할 말이라, 여기서는 고를 수 있는 둘만 세웁니다."
@@ -207,6 +225,25 @@
 
     /* 머리줄이 붙는 것은 표 한가운데로 들어가야 보인다 — 네 번째 카테고리에 세운다 */
     'ft-머리줄':{url:ES, act:function(d){ jump(d,'.es-cat:nth-of-type(4)', 8); }},
+
+    /* A 탭 — 끼워 둔 견적신청 폼. 체크리스트가 그 토글을 돌린다 */
+    'ap-3.0'    :{url:ES, act:async function(d){
+      await inner(d,'#panel-A .es-frame'); jump(d,'#apply',8); }},
+    'ap-프리미엄':{url:ES, act:async function(d){
+      await inner(d,'#panel-A .es-frame');
+      hit(d.querySelectorAll('.es-pick-item input')[0]); await wait(300);
+      jump(d,'#apply',8); }},
+    'ap-막힘'   :{url:ES, act:async function(d){
+      var q=await inner(d,'#panel-A .es-frame'); if(!q) return;
+      hit(q.querySelector('#agree')); await wait(100);
+      hit(q.querySelector('#btnSubmit')); await wait(400);
+      jump(d,'#apply',8); }},
+    'ap-완료'   :{url:ES, act:async function(d){
+      var fr=d.querySelector('#panel-A .es-frame'); if(!fr) return;
+      await inner(d,'#panel-A .es-frame');
+      fr.setAttribute('src','plan-quote.html?plan=prem&done=1');
+      await inner(d,'#panel-A .es-frame', function(q){ return q.body.classList.contains('is-done'); });
+      await wait(400); jump(d,'#apply',8); }},
 
     /* 탭 밖 — 어느 탭에서나 같은 자리 */
     'fq-열림'  :{url:ES, act:async function(d){

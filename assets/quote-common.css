@@ -170,6 +170,22 @@ body.is-done .q-main{padding-bottom:72px}
 .q-notes li{position:relative;padding-left:12px;font-size:12.5px;font-weight:500;color:var(--ink-2);line-height:1.6;word-break:keep-all}
 .q-notes li::before{content:"";position:absolute;left:2px;top:8px;width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
 
+/* ── 라디오 줄 ─────────────────────────────────────────────────
+   face-quote.css 에 있던 것을 옮겨 왔다. 안면인식 견적의 「김반장 이용
+   중이신가요?」만 쓰던 부품인데, 프로그램 견적(plan-quote.html)의 종합면허·
+   키스콘·상용근로자 세 줄도 같은 것을 쓴다 — 두 화면이 나눠 쓰면 이 파일이다 */
+.f-radios label{font-family:var(--font-pretendard)}
+.f-radios{align-self:flex-start;display:flex;align-items:center;gap:22px;min-height:30px}
+.f-radios label{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:var(--field-ink);letter-spacing:-.01em;white-space:nowrap;cursor:pointer}
+.f-radios input{position:absolute;opacity:0;width:0;height:0}
+.f-radios .dot{flex:none;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;border:1.5px solid #C6CBD1;background:var(--main-white);transition:border-color .15s}
+.f-radios .dot::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);transform:scale(0);transition:transform .15s}
+.f-radios label:hover .dot{border-color:var(--ink-3)}
+.f-radios input:checked + .dot{border-color:var(--accent)}
+.f-radios input:checked + .dot::after{transform:scale(1)}
+.f-radios input:checked ~ .tx{font-weight:700;color:var(--ink)}
+.f-radios input:focus-visible + .dot{box-shadow:0 0 0 3px rgba(var(--color-blue-rgb),.18)}
+
 /* ── 5. 입력 칸 ─────────────────────────────────────── */
 
 .field{display:flex;align-items:center;gap:8px;height:54px;padding:0 12px;background:var(--main-white);border:1px solid var(--field-line);border-radius:4px;transition:border-color .15s,box-shadow .15s}

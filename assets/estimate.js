@@ -51,6 +51,21 @@
       }catch(e){}
     }
 
+    /* 체크리스트와 신청 버튼이 고른 유형을, 끼운 폼의 토글에 그대로 옮긴다.
+       폼이 아직 안 떴으면 값만 들고 있다가 뜨는 길에 적용한다(applyPlan) */
+    var wantPlan = null;
+    function applyPlan(){
+      if(!wantPlan) return;
+      var fr = $('#panel-A .es-frame');
+      if(!fr) return;
+      try{
+        var d = fr.contentDocument;
+        var r = d && d.querySelector('input[name=plan][value="' + wantPlan + '"]');
+        if(r && !r.checked){ r.checked = true; r.dispatchEvent(new Event('change', { bubbles:true })); }
+      }catch(e){}
+    }
+    window.esSetPlan = function(v){ wantPlan = v; applyPlan(); };
+
     function mount(type){
       var fr = $('#panel-' + type + ' .es-frame');
       if(!fr || !fr.dataset.src || fr.getAttribute('src')) return;   /* 한 번만 끼운다 */
@@ -61,6 +76,11 @@
         /* 그 화면은 틀 안이면 is-embedded 를 스스로 단다 — 모달의 닫기 버튼을
            비켜 주려는 표시다. 여기는 닫기 버튼이 없는 자리라 그 사실을 알린다 */
         if(d.body) d.body.classList.add('is-panel');
+        /* '메인으로/닫기'는 모달에서 온 버튼이다 — 탭 안에서는 닫을 것이 없다 */
+        var home = d.getElementById && d.getElementById('btnHome');
+        if(home) home.hidden = true;
+        /* A 탭 폼은 계약 유형을 밖에서 정해 준다 — 뜨자마자 그 자리로 맞춘다 */
+        if(type === 'A') applyPlan();
         fit(fr);
         /* 지켜보는 것도 documentElement 가 아니라 body 다 — 같은 까닭으로
            documentElement 는 틀 크기를 따라가 내용이 줄어도 꿈쩍하지 않는다 */
@@ -129,6 +149,12 @@
       t.addEventListener('click', function(){ show(t.dataset.type, true); });
     });
 
+    /* 신청 버튼은 앵커로 내려가는 일만 브라우저에 맡기고, 유형은 여기서 맞춘다 —
+       고른 것을 폼에서 또 고르게 두지 않는다 */
+    $$('a[data-plan]').forEach(function(a){
+      a.addEventListener('click', function(){ window.esSetPlan(a.dataset.plan); });
+    });
+
     show((new URLSearchParams(location.search)).get('type') || 'A', false);
   })();
 
@@ -160,6 +186,10 @@
         rec.textContent = '김반장 3.0 추천';
         why.innerHTML = '맡길 일이 없으시군요. 출역만 넣으면 급여·임금명세서·신고서까지 <b>3.0이 자동으로</b> 만들어 줍니다.';
       }
+
+      /* 답은 아래 끼워 둔 견적신청 폼의 계약 유형까지 돌린다 —
+         고른 사람이 같은 것을 두 번 고르지 않게 */
+      if(window.esSetPlan) window.esSetPlan(mode);
 
       /* 띠는 추천받은 쪽에만 붙는다 */
       Object.keys(cards).forEach(function(k){

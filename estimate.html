@@ -122,11 +122,9 @@
         </div>
         <p class="plan-note">15일 무료 체험 · 카드 등록 없이 시작 · VAT 별도</p>
         <p class="plan-point">출역만 넣으면 급여·임금명세서·신고서까지 자동으로 섭니다. 신고는 직접 하십니다.</p>
-        <!-- 누르면 견적신청 폼이 모달로 뜬다(index.html 의 단말기 견적과 같은 방식:
-             #quoteModal 의 iframe 에 페이지를 끼우고 PAGES 배열로 가로챈다).
-             3.0·프리미엄 견적 폼이 아직 없어 href 는 자리표로 둔다 — 폼이 생기면
-             여기 주소를 넣고 index.html 과 같은 모달 코드를 붙이면 된다 -->
-        <div class="plan-cta"><a class="banner-btn" href="#">견적 신청하기</a></div>
+        <!-- 누르면 이 탭 아래 끼워 둔 견적신청 폼으로 내려간다.
+             data-plan 이 그 폼의 계약 유형까지 맞춰 준다 — 고른 것을 또 고르게 두지 않는다 -->
+        <div class="plan-cta"><a class="banner-btn" href="#apply" data-plan="c30">견적 신청하기</a></div>
       </article>
 
       <!-- 김반장 프리미엄 -->
@@ -142,7 +140,7 @@
         </div>
         <p class="plan-note">김반장 3.0 이용료가 따로 붙지 않습니다 · VAT 별도</p>
         <p class="plan-point"><b>김반장 3.0 전 기능을 그대로</b> 쓰면서, 위에 고르신 일은 전담팀이 대신합니다.</p>
-        <div class="plan-cta"><a class="banner-btn" href="#">견적 신청하기</a></div>
+        <div class="plan-cta"><a class="banner-btn" href="#apply" data-plan="prem">견적 신청하기</a></div>
       </article>
     </div>
   </div>
@@ -456,11 +454,17 @@
 
     <div class="es-cmp-foot">
       <div class="c task"></div>
-      <div class="c c30"><a class="banner-btn" href="#">견적 신청하기</a></div>
-      <div class="c prem"><a class="banner-btn" href="#">견적 신청하기</a></div>
+      <div class="c c30"><a class="banner-btn" href="#apply" data-plan="c30">견적 신청하기</a></div>
+      <div class="c prem"><a class="banner-btn" href="#apply" data-plan="prem">견적 신청하기</a></div>
     </div>
   </div>
 </section>
+
+<!-- 고르고 견주었으면 신청이다. 단말기 두 탭과 같은 방식으로 끼운다 —
+     plan-quote.html 의 계약 유형 토글은 위 체크리스트가 돌려 준다 -->
+<div class="es-apply" id="apply">
+  <iframe class="es-frame" data-src="plan-quote.html" title="김반장 3.0 · 프리미엄 견적신청"></iframe>
+</div>
 </section>
 
 

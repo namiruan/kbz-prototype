@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>김반장 3.0 · 프리미엄 견적신청 · 김반장</title>
+<meta name="description" content="김반장 3.0과 김반장 프리미엄 중에 고르고 사업장 규모만 넣으면, 맞춤 견적서를 이메일로 받아보실 수 있습니다.">
+<!-- 라이브(kbz.co.kr) 폰트: 본문/CTA=Wanted Sans, 타이틀=SUITE, 폼=Pretendard -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUITE/fonts/variable/woff2/SUITEVariable.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<!-- 단말기 견적 두 화면과 같은 뼈대를 쓴다. 이 화면 고유의 것만 plan-quote.css 에 있다 -->
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/select.css">
+<link rel="stylesheet" href="assets/quote-common.css">
+<link rel="stylesheet" href="assets/plan-quote.css">
+<link rel="stylesheet" href="assets/kbd.css">
+<script src="assets/format.js"></script>
+<script src="assets/select.js"></script>
+</head>
+<body class="quote-page">
+<script>if(window.self!==window.top)document.body.classList.add('is-embedded');</script>
+
+<!-- ===== 히어로 ===== -->
+<section class="q-hero">
+  <div class="inner">
+    <h1 class="title-lg">김반장 3.0 · 프리미엄 <br><span id="heroLine">맞춤 견적을 받아보세요</span></h1>
+  </div>
+</section>
+
+<!-- ===== 본문 : 폼 + 신청 요약 ===== -->
+<main class="q-main">
+  <div class="inner">
+
+    <form id="quoteForm" novalidate>
+
+      <!-- STEP 1 : 계약 유형 — 고르는 즉시 아래 묻는 칸이 달라진다 -->
+      <div class="q-card">
+        <div class="q-step">
+          <h2>계약 유형</h2>
+          <p class="f-hint">신고를 직접 하실지, 전담팀에 맡기실지</p>
+        </div>
+        <div class="pq-types" role="radiogroup" aria-label="계약 유형">
+          <label class="pq-type">
+            <input type="radio" name="plan" value="c30" checked>
+            <span class="nm">김반장 3.0</span>
+            <span class="ds">출역만 넣으면 급여·명세서·신고서까지 자동으로 섭니다. 신고는 직접 하십니다.</span>
+          </label>
+          <label class="pq-type">
+            <input type="radio" name="plan" value="prem">
+            <span class="nm">김반장 프리미엄</span>
+            <span class="ds">김반장 3.0 전 기능을 그대로 쓰면서, 4대보험·퇴직공제 신고는 전담팀이 대신합니다.</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- STEP 2 : 사업장 규모 — 금액이 갈리는 자리 -->
+      <div class="q-card">
+        <div class="q-step">
+          <h2>사업장 규모</h2>
+          <p class="f-hint" id="scaleHint">규모에 따라 금액이 달라집니다</p>
+        </div>
+        <!-- 다섯 칸을 cols3 로 묶으면 한 줄에 끼어 라벨이 '연 매출 / 액'으로 갈린다.
+             third 로 흘려 3 + 2 로 앉힌다 -->
+        <div class="f-grid">
+          <div class="f-item third">
+            <label class="f-label" for="q-sales">연 매출액<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-sales" type="text" name="sales" required inputmode="numeric" placeholder="0" aria-describedby="scaleHint"><span class="f-unit">원</span></div>
+          </div>
+          <!-- 아래 셋은 프리미엄에서만 묻는다 — 3.0 금액에는 쓰이지 않는 값이다 -->
+          <div class="f-item third prem-only">
+            <label class="f-label" for="q-labor">연 노무비</label>
+            <div class="field"><input id="q-labor" type="text" name="labor_cost" inputmode="numeric" placeholder="0"><span class="f-unit">원</span></div>
+          </div>
+          <div class="f-item third prem-only">
+            <label class="f-label" for="q-sites-y">연 현장 수<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-sites-y" type="number" name="sites_year" min="1" max="999" step="1" inputmode="numeric" placeholder="0"><span class="f-unit">곳</span></div>
+          </div>
+          <div class="f-item third prem-only">
+            <label class="f-label" for="q-sites-m">월평균 현장 수</label>
+            <div class="field"><input id="q-sites-m" type="number" name="sites_month" min="0" max="999" step="1" inputmode="numeric" placeholder="0"><span class="f-unit">곳</span></div>
+          </div>
+          <div class="f-item third prem-only">
+            <label class="f-label" for="q-head">현장당 인원 수</label>
+            <div class="field"><input id="q-head" type="number" name="headcount" min="0" max="9999" step="1" inputmode="numeric" placeholder="0"><span class="f-unit">명</span></div>
+          </div>
+        </div>
+
+        <!-- 쓰는지 안 쓰는지가 금액을 가르는 세 가지. 프리미엄에서만 묻는다 -->
+        <div class="f-grid prem-only" id="useGrid">
+          <div class="f-item third">
+            <span class="f-label" id="lbLicense">종합면허 사용</span>
+            <div class="f-radios" role="radiogroup" aria-labelledby="lbLicense">
+              <label><input type="radio" name="use_license" value="Y"><span class="dot" aria-hidden="true"></span><span class="tx">사용</span></label>
+              <label><input type="radio" name="use_license" value="N" checked><span class="dot" aria-hidden="true"></span><span class="tx">미사용</span></label>
+            </div>
+          </div>
+          <div class="f-item third">
+            <span class="f-label" id="lbKiscon">키스콘 사용</span>
+            <div class="f-radios" role="radiogroup" aria-labelledby="lbKiscon">
+              <label><input type="radio" name="use_kiscon" value="Y"><span class="dot" aria-hidden="true"></span><span class="tx">사용</span></label>
+              <label><input type="radio" name="use_kiscon" value="N" checked><span class="dot" aria-hidden="true"></span><span class="tx">미사용</span></label>
+            </div>
+          </div>
+          <div class="f-item third">
+            <span class="f-label" id="lbRegular">상용근로자 관리</span>
+            <div class="f-radios" role="radiogroup" aria-labelledby="lbRegular">
+              <label><input type="radio" name="use_regular" value="Y"><span class="dot" aria-hidden="true"></span><span class="tx">사용</span></label>
+              <label><input type="radio" name="use_regular" value="N" checked><span class="dot" aria-hidden="true"></span><span class="tx">미사용</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 : 신청자 정보 — 단말기 견적 두 화면과 글자까지 같다 -->
+      <div class="q-card">
+        <div class="q-step"><h2>신청자 정보</h2></div>
+        <div class="f-grid">
+          <div class="f-item half">
+            <label class="f-label" for="q-biz">사업자등록번호<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-biz" type="text" name="biz_no" required inputmode="numeric" maxlength="16" autocomplete="off" placeholder="000 - 00 - 00000"></div>
+          </div>
+          <div class="f-item half">
+            <label class="f-label" for="q-company">사업장명<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-company" type="text" name="company" required placeholder="사업장명을 입력하세요"></div>
+          </div>
+          <div class="f-item third">
+            <label class="f-label" for="q-manager">담당자명<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-manager" type="text" name="manager" required placeholder="이름을 입력하세요"></div>
+          </div>
+          <div class="f-item third">
+            <label class="f-label" for="q-phone">연락처<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-phone" type="tel" name="phone" required inputmode="tel" placeholder="010 - **** - ****"></div>
+          </div>
+          <div class="f-item third">
+            <label class="f-label" for="q-email">이메일<span class="f-req">(필수)</span></label>
+            <div class="field"><input id="q-email" type="email" name="email" required inputmode="email" placeholder="이메일을 입력하세요"></div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+    <!-- 완료 화면 -->
+    <div class="q-card q-done" id="doneCard" role="status">
+      <p><b id="doneEmail">—</b> 으로 견적서를 발송했습니다.<br>메일이 보이지 않으면 스팸함을 확인해 주세요.</p>
+      <div class="acts">
+        <button type="button" class="banner-btn" id="btnAgain">다시 신청하기</button>
+        <a class="banner-btn sec" href="index.html" id="btnHome">메인으로</a>
+      </div>
+    </div>
+
+    <!-- 우측 : 신청 요약.
+         단말기 두 화면은 여기에 금액이 선다. 이 화면은 금액을 적지 않는다 —
+         사업장 규모로 갈리는 산식을 이 자리에서 돌릴 수 없기 때문이다.
+         대신 '무엇으로 계산될 것인지'를 넣은 값 그대로 되비쳐 준다. -->
+    <aside class="q-sum" id="sumPane">
+      <div class="q-sum-card">
+        <div class="pq-plan"><span class="k">고르신 유형</span><span class="v" id="sumPlan">김반장 3.0</span></div>
+
+        <div class="pq-recap">
+          <div class="pq-recap-h">넣으신 값</div>
+          <dl id="sumRecap"></dl>
+        </div>
+
+        <div class="q-agree">
+          <div class="q-agree-row">
+            <label class="q-check">
+              <input type="checkbox" name="agree" id="agree" form="quoteForm">
+              <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
+              <span>개인정보 수집·이용에 동의합니다 <span class="f-req">(필수)</span></span>
+            </label>
+            <button type="button" class="q-agree-link" id="privacyOpen" aria-haspopup="dialog">내용 보기</button>
+          </div>
+        </div>
+
+        <div class="q-sum-submit">
+          <button type="submit" form="quoteForm" class="banner-btn" id="btnSubmit">견적신청하기</button>
+        </div>
+      </div>
+
+      <div class="q-notes">
+        <h3>안내</h3>
+        <ul>
+          <li>금액은 사업장 규모와 신고 범위에 따라 달라져 화면에서 바로 계산되지 않습니다. 넣으신 값으로 담당자가 산정해 견적서를 보내 드립니다.</li>
+          <li>김반장 프리미엄은 김반장 3.0 전 기능을 포함합니다. 3.0 이용료가 따로 붙지 않습니다.</li>
+          <li>단말기(퇴직공제 전자카드·안면인식기)는 현장 단위 임대 계약으로 따로 산정됩니다.</li>
+          <li>모든 금액은 VAT 별도입니다.</li>
+        </ul>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<!-- 개인정보 수집·이용 안내 모달 — 단말기 견적과 같고 이용 목적 줄만 다르다 -->
+<dialog class="q-modal" id="privacyModal" aria-labelledby="privacyTitle">
+  <div class="q-modal-head">
+    <h2 id="privacyTitle">개인정보 수집·이용 동의</h2>
+    <button type="button" class="q-modal-x" data-close aria-label="닫기">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="q-modal-body">
+    <dl>
+      <div><dt>수집 항목</dt><dd>사업자등록번호, 사업장명, 담당자명, 연락처, 이메일, 사업장 규모(매출액·노무비·현장 수·인원 수)</dd></div>
+      <div><dt>이용 목적</dt><dd>김반장 3.0 · 김반장 프리미엄 맞춤 견적서 발송 및 도입 상담</dd></div>
+      <div><dt>보유·이용 기간</dt><dd>상담 종료 후 1년. 기간이 지나면 지체 없이 파기합니다.</dd></div>
+    </dl>
+    <p class="q-modal-note">동의를 거부하실 수 있습니다. 다만 견적서는 입력하신 이메일로 발송되므로, 거부하시면 견적서 발송과 상담 안내가 어렵습니다.</p>
+  </div>
+  <div class="q-modal-foot">
+    <button type="button" class="banner-btn sec" data-close>닫기</button>
+    <button type="button" class="banner-btn" id="agreeFromModal">동의하고 닫기</button>
+  </div>
+</dialog>
+
+<script src="assets/kbd.js"></script>
+<script src="assets/plan-quote.js"></script>
+</body>
+</html>

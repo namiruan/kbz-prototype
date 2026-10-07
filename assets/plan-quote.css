@@ -1,0 +1,51 @@
+/* ================================================================
+   plan-quote.css — 김반장 3.0 · 프리미엄 견적신청 화면 전용.
+
+   뼈대는 단말기 견적 두 화면과 같다(assets/quote-common.css). 여기 있는 것은
+   그 둘에 없는 셋뿐이다.
+     · 계약 유형 두 장 (.pq-type) — 고르는 즉시 아래 묻는 칸이 달라진다
+     · 유형에 따라 나타났다 사라지는 칸 (.prem-only)
+     · 금액 대신 넣은 값을 되비치는 요약 (.pq-plan · .pq-recap)
+
+   ⚠ 금액을 적지 않는다. 단말기 두 화면은 요율표가 있어 그 자리에서 계산하지만,
+      3.0·프리미엄은 사업장 규모로 갈리는 산식이 이 화면에 없다. 그래서 요약
+      자리에 숫자 대신 '무엇으로 계산될 것인지'를 세운다. 산식이 들어오면
+      .pq-recap 을 금액 줄로 바꾸면 되고, 나머지는 그대로다.
+   ================================================================ */
+
+/* ── 계약 유형 두 장 ───────────────────────────────────────────── */
+.pq-types{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pq-type{position:relative;display:flex;flex-direction:column;gap:7px;
+  padding:20px 22px;border-radius:14px;cursor:pointer;
+  background:var(--main-white);box-shadow:inset 0 0 0 1px var(--line);transition:.16s}
+.pq-type:hover{box-shadow:inset 0 0 0 1px var(--ink-4)}
+.pq-type input{position:absolute;opacity:0;width:0;height:0}
+.pq-type .nm{font-size:17px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.pq-type .ds{font-size:13.5px;line-height:1.6;color:var(--ink-3);word-break:keep-all}
+/* 고른 장은 테두리가 두꺼워지고 바탕이 옅게 찬다 — 글자색만으로는 훑을 때 안 보인다 */
+.pq-type:has(input:checked){box-shadow:inset 0 0 0 2px var(--accent);background:var(--accent-tint)}
+.pq-type:has(input:checked) .nm{color:var(--accent)}
+.pq-type:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+@media(max-width:640px){.pq-types{grid-template-columns:1fr}}
+
+/* ── 유형에 따라 나타났다 사라지는 칸 ───────────────────────────
+   숨길 때 hidden 속성을 쓴다(base.css 가 [hidden] 에 못을 박아 두었다).
+   display 로만 숨기면 보조기술에는 남아, 묻지도 않는 칸을 읽어 준다 */
+#useGrid{margin-top:22px}
+
+/* ── 요약 — 금액 대신 되비치는 자리 ────────────────────────────── */
+.pq-plan{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  padding-bottom:16px;border-bottom:1px solid var(--line)}
+.pq-plan .k{font-size:13px;font-weight:700;color:var(--ink-3)}
+.pq-plan .v{font-family:var(--font-title);font-size:19px;font-weight:800;
+  letter-spacing:-.03em;color:var(--accent)}
+
+.pq-recap{padding:16px 0 4px}
+.pq-recap-h{font-size:12.5px;font-weight:800;color:var(--ink-3);letter-spacing:.01em}
+.pq-recap dl{margin-top:10px;display:flex;flex-direction:column;gap:7px}
+.pq-recap dl > div{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.pq-recap dt{font-size:13.5px;color:var(--ink-3);white-space:nowrap}
+.pq-recap dd{font-size:13.5px;font-weight:700;color:var(--ink);text-align:right;
+  font-variant-numeric:tabular-nums}
+/* 아직 아무것도 안 넣었을 때 — 빈 상자를 그냥 두면 고장난 것처럼 보인다 */
+.pq-recap .none{font-size:13.5px;line-height:1.6;color:var(--ink-4)}

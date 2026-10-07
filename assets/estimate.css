@@ -106,6 +106,9 @@ body.estimate-page{--tabbar-h:72px}
    B·C 탭은 제 내용을 따로 갖지 않는다. 이미 완성된 견적 화면(quote.html ·
    face-quote.html)을 그대로 끼우고, 부모는 높이만 맞춰 준다.
    높이를 안 맞추면 틀 안에 스크롤바가 하나 더 생겨 바깥 스크롤과 싸운다 */
+/* A 탭의 신청 폼은 비교표 바로 뒤에 온다. 버튼이 앵커로 뛰어들 때 탭 줄이
+   첫 줄을 덮지 않도록 그만큼 자리를 비켜 둔다 */
+.es-apply{scroll-margin-top:calc(var(--tabbar-h) + 8px)}
 .es-frame{display:block;width:100%;border:0;background:var(--main-white);
   /* 끼우기 전·재기 전에만 쓰는 자리잡기다. 한 번 재고 나면 estimate.js 가
      이 바닥을 0으로 내린다 — 안 그러면 완료 화면이 70vh 아래로 못 줄어든다 */
