@@ -106,9 +106,14 @@ body.estimate-page{--tabbar-h:72px}
    B·C 탭은 제 내용을 따로 갖지 않는다. 이미 완성된 견적 화면(quote.html ·
    face-quote.html)을 그대로 끼우고, 부모는 높이만 맞춰 준다.
    높이를 안 맞추면 틀 안에 스크롤바가 하나 더 생겨 바깥 스크롤과 싸운다 */
-/* A 탭의 신청 폼은 비교표 바로 뒤에 온다. 버튼이 앵커로 뛰어들 때 탭 줄이
-   첫 줄을 덮지 않도록 그만큼 자리를 비켜 둔다 */
-.es-apply{scroll-margin-top:calc(var(--tabbar-h) + 8px)}
+/* A 탭의 신청 폼은 체크리스트 바로 아래에 온다 — 답이 나오자마자 신청하는 자리다.
+   위아래가 흰 바탕이라 그냥 두면 어디부터 폼인지 구분이 서지 않는다. 끼운 화면이
+   제 바탕으로 쓰는 색(#FBFBFB)을 띠처럼 깔고 선으로 가른다.
+   scroll-margin-top 은 아래 카드·표의 신청 버튼이 앵커로 뛰어올 때 탭 줄이 첫 줄을
+   덮지 않게 비켜 두는 자리다 */
+.es-apply{margin:40px 0 8px;padding-bottom:4px;background:#FBFBFB;
+  border-top:1px solid var(--main-gray);border-bottom:1px solid var(--main-gray);
+  scroll-margin-top:calc(var(--tabbar-h) + 8px)}
 .es-frame{display:block;width:100%;border:0;background:var(--main-white);
   /* 끼우기 전·재기 전에만 쓰는 자리잡기다. 한 번 재고 나면 estimate.js 가
      이 바닥을 0으로 내린다 — 안 그러면 완료 화면이 70vh 아래로 못 줄어든다 */
@@ -116,6 +121,8 @@ body.estimate-page{--tabbar-h:72px}
 
 /* ── 3. 서비스 두 장 ──────────────────────────────────────────── */
 .es-plans{position:relative;padding:92px 0;background:var(--main-white)}
+/* 폼 뒤에 오는 두 장은 '더 보기'에 가까워졌다 — 앞 블록과 사이를 둔다 */
+.es-apply + .inner .plan-grid{margin-top:44px}
 .plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:52px;text-align:left;align-items:stretch}
 .plan-card{position:relative;display:flex;flex-direction:column;background:var(--main-white);
   border:1px solid var(--main-gray);border-radius:20px;padding:30px 28px}
