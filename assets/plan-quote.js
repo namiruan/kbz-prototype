@@ -110,9 +110,14 @@
      조건과 그때의 정책이 더 붙어, 여기서 끝까지 계산해 버리면 받아 본 견적서와
      어긋난다 — 그 어긋남이 신뢰를 깎는다. */
   function money(v){ return Number(v).toLocaleString('ko-KR') + '원'; }
-  function line(nm, amt){
+  /* 단말기 두 견적과 같은 세 칸이다 — 무엇(nm) · 어떻게 나온 금액인지(qty) ·
+     얼마(amt). 면제된 줄은 지우지 않고 '무료'로 남긴다. 원래 얼마짜리인지
+     옆에 서 있어야 아낀 것이 보인다 — 안면인식 견적의 설치비가 쓰는 방식이다 */
+  function line(nm, how, amt, free){
     return '<div class="q-sum-line"><span class="nm">' + nm + '</span>'
-         + '<span class="amt">' + amt + '</span></div>';
+         + '<span class="qty">' + (how || '') + '</span>'
+         + '<span class="amt' + (free ? ' free' : '') + '">'
+         + (free ? '무료' : amt) + '</span></div>';
   }
 
   function render(){
@@ -173,10 +178,20 @@
     /* ③ 펼친 내역 — 금액이 어떻게 나왔는지 */
     var body = '';
     if(t && t !== 'over'){
-      /* 고르지 않은 쪽도 함께 적는다 — 바꿔 보지 않고도 얼마가 차이 나는지 보이게 */
-      body += line('월정액', money(t.month));
-      body += line('연납 <small>5% 할인</small>', money(yearly(t.month)));
-      if(prem) body += '<p class="pq-add">김반장 3.0 이용료는 프리미엄에 포함되어 따로 붙지 않습니다. 여기에 신고 대행 범위(현장 수 · 인원 수 · 대행 항목)에 따라 더해집니다.</p>';
+      /* 줄은 주기와 무관하게 월정액으로 적는다 — 단말기 견적도 소계는 월 단위로
+         적고 총액만 계약 기간치다. 깎는 몫도 여기 적지 않는다. 바로 위 할인
+         블록이 '연납 할인 5% · 할인 전'으로 이미 말하고 있어, 같은 뺄셈을 두 번
+         적게 된다 */
+      var mo = money(t.month);
+      if(prem){
+        body += line('프리미엄 이용료', '월정액', mo);
+        /* 프리미엄을 골라도 3.0 줄을 지우지 않는다. 따로 계약했다면 얼마였는지가
+           옆에 서 있어야 '포함'이 말이 아니라 돈으로 읽힌다 */
+        body += line('김반장 3.0 이용료', '월 ' + mo, '', true);
+        body += '<p class="pq-add">신고 대행 범위(현장 수 · 인원 수 · 대행 항목)에 따라 더해집니다.</p>';
+      }else{
+        body += line('김반장 3.0 이용료', '월정액', mo);
+      }
     }
 
     items.innerHTML = body;
