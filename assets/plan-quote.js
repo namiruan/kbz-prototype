@@ -55,10 +55,6 @@
     for(var i = 0; i < TIERS.length; i++) if(eok < TIERS[i].max) return TIERS[i];
     return 'over';                          /* 4000억 이상 — 표 밖이다 */
   }
-  function tierLabel(t){
-    var lo = t.n === 1 ? 0 : TIERS[t.n - 2].max;
-    return t.n + '구간 · ' + (t.n === 1 ? t.max + '억 미만' : lo + '억 이상 ~ ' + t.max + '억 미만');
-  }
   function yearly(month){ return Math.round(month * 12 * (1 - YEAR_OFF)); }
 
 
@@ -149,7 +145,10 @@
       basis.textContent = '4000억 이상은 요금표에 없습니다';
     }else{
       total.innerHTML = '월 ' + money(t.month) + '<small>부터</small>';
-      basis.textContent = tierLabel(t) + (prem ? ' · 김반장 3.0 요금 기준' : '');
+      /* 몇 구간인지는 적지 않는다. 구간 번호도 매출 범위도 안에서 쓰는 가름이지,
+         고르는 사람이 알아야 할 것은 '얼마부터'다. 프리미엄만 이 금액이 무엇의
+         금액인지 밝혀야 해서 한 줄이 남는다 */
+      basis.textContent = prem ? '김반장 3.0 요금 기준' : '';
     }
 
     /* ② 할인 블록 — 연납 5% 는 3.0 요금표의 것이다. 프리미엄 요금표는 받은 것이
