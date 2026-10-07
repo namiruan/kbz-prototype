@@ -82,6 +82,12 @@
   background:var(--ink);transform:rotate(45deg)}
 .pq-cycle label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
 
+/* 넣은 수를 사람이 말하는 단위로 되읽는 줄. 칸이 만 원 단위라, 원 단위로 치던
+   사람이 자릿수를 잘못 넣어도 폼은 받아 준다 — 받아 주고 틀린 구간을 내놓는
+   것보다 넣는 동안 '70억 원' 이라고 되읽어 주는 편이 낫다 */
+.f-echo{margin:6px 0 0;font-size:12.5px;font-weight:600;color:var(--accent);
+  letter-spacing:-.01em}
+
 /* ── 요약 ────────────────────────────────────────────────────────
    짜임은 quote.html 과 같다(.q-sum-disc · .q-sum-fold · .q-sum-total).
    여기 있는 것은 그 부품에 모자란 것뿐이다 */

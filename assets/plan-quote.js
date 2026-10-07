@@ -33,7 +33,8 @@
         것으로 보여 월정액을 원본으로 삼아 계산한다 — 구간끼리 어긋나지 않게.
         표가 맞다면 TIERS 의 4구간에 year 를 따로 박으면 된다.
      ⚠ 10구간(4000억) 위로는 표가 없다. 지어내지 않고 '담당자가 산정'으로 넘긴다. */
-  var EOK = 100000000;                      /* 1억 */
+  var EOK = 100000000;                      /* 1억 (원) */
+  var MAN = 10000;                          /* 칸이 받는 단위 — 만 원 */
   var TIERS = [
     { n: 1,  max:   15, month:  50000 },
     { n: 2,  max:   30, month:  80000 },
@@ -110,6 +111,15 @@
      조건과 그때의 정책이 더 붙어, 여기서 끝까지 계산해 버리면 받아 본 견적서와
      어긋난다 — 그 어긋남이 신뢰를 깎는다. */
   function money(v){ return Number(v).toLocaleString('ko-KR') + '원'; }
+  /* 만 단위로 넣은 수를 사람이 말하는 단위로 되읽는다 — 700000 → '70억 원',
+     12345 → '1억 2,345만 원'. 자릿수를 세지 않고도 맞게 넣었는지 보이게 */
+  function readMan(man){
+    if(!(man > 0)) return '';
+    var eok = Math.floor(man / 10000), rest = man % 10000, s = '';
+    if(eok)  s += eok.toLocaleString('ko-KR') + '억';
+    if(rest) s += (s ? ' ' : '') + rest.toLocaleString('ko-KR') + '만';
+    return s + ' 원';
+  }
   /* 단말기 두 견적과 같은 세 칸이다 — 무엇(nm) · 어떻게 나온 금액인지(qty) ·
      얼마(amt). 면제된 줄은 지우지 않고 '무료'로 남긴다. 원래 얼마짜리인지
      옆에 서 있어야 아낀 것이 보인다 — 안면인식 견적의 설치비가 쓰는 방식이다 */
@@ -122,7 +132,8 @@
 
   function render(){
     var prem  = plan() === 'prem';
-    var sales = Number(String($('#q-sales').value||'').replace(/[^0-9]/g,''));
+    /* 칸은 만 원으로 받고, 구간은 원으로 가른다 — 요금표가 억 단위라 바꿔 둔다 */
+    var sales = Number(String($('#q-sales').value||'').replace(/[^0-9]/g,'')) * MAN;
     var t     = tierFor(sales);
     var disc  = $('#sumDisc'), fold = $('#sumMid'), save = $('#sumSave');
     var total = $('#sumTotal'), basis = $('#sumBasis'), items = $('#sumItems');
@@ -325,6 +336,7 @@
     $('#heroLine').textContent = '맞춤 견적을 받아보세요';
     $('#heroLine').classList.remove('sent');
     form.reset();
+    moneySyncs.forEach(function(f){ f(); });
     clearErrs();
     syncPlan();
     window.scrollTo({ top:0, behavior:'smooth' });
@@ -354,12 +366,23 @@
   form.addEventListener('input', render);
   form.addEventListener('change', render);
   /* 금액 칸은 치는 대로 세 자리마다 쉼표가 붙는다 — 0이 몇 개인지 세지 않게 */
-  ['#q-sales','#q-labor'].forEach(function(sel){
-    var el = $(sel);
-    if(el) el.addEventListener('input', function(){
+  /* reset() 은 input 을 쏘지 않아 되읽는 줄이 남는다 — 다시 신청할 때 같이 턴다 */
+  var moneySyncs = [];
+  [['#q-sales','#salesEcho'], ['#q-labor','#laborEcho']].forEach(function(pair){
+    var el = $(pair[0]), echo = $(pair[1]);
+    if(!el) return;
+    var sync = function(){
       var n = el.value.replace(/[^0-9]/g,'');
       el.value = n ? Number(n).toLocaleString('ko-KR') : '';
-    });
+      if(echo){
+        var tx = readMan(Number(n));
+        echo.textContent = tx;
+        echo.hidden = !tx;
+      }
+    };
+    el.addEventListener('input', sync);
+    moneySyncs.push(sync);
+    sync();
   });
   /* 번호 칸은 숫자만 받고 하이픈을 저절로 넣는다 — assets/format.js */
   kbzFormat.bind($('#q-biz'), formatBizNo);
@@ -382,8 +405,8 @@
       el.dispatchEvent(new Event('input',{bubbles:true}));
       el.dispatchEvent(new Event('change',{bubbles:true}));
     };
-    set('#q-sales','3,000,000,000');
-    if(plan() === 'prem'){ set('#q-labor','900,000,000'); set('#q-sites-y','12'); set('#q-sites-m','4'); set('#q-head','18'); }
+    set('#q-sales','300,000');
+    if(plan() === 'prem'){ set('#q-labor','90,000'); set('#q-sites-y','12'); set('#q-sites-m','4'); set('#q-head','18'); }
     set('#q-biz','220 - 81 - 62517');
     set('#q-company','한강건설(주)');
     set('#q-manager','김현장');

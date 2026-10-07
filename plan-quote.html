@@ -57,14 +57,20 @@
         <!-- 다섯 칸을 cols3 로 묶으면 한 줄에 끼어 라벨이 '연 매출 / 액'으로 갈린다.
              third 로 흘려 3 + 2 로 앉힌다 -->
         <div class="f-grid">
+          <!-- 만 원 단위로 받는다. 원 단위면 70억을 넣는 데 열한 자리를 쳐야 하고,
+               그 길이는 치는 수고보다 '0을 몇 개 넣었나'를 세게 만드는 것이 더
+               나쁘다. 대신 넣는 동안 아래에 '70억 원'으로 되읽어 준다 — 단위를
+               바꾼 칸은 되읽어 주지 않으면 원 단위로 치던 사람이 그대로 친다 -->
           <div class="f-item third">
             <label class="f-label" for="q-sales">연 매출액<span class="f-req">(필수)</span></label>
-            <div class="field"><input id="q-sales" type="text" name="sales" required inputmode="numeric" placeholder="0"><span class="f-unit">원</span></div>
+            <div class="field"><input id="q-sales" type="text" name="sales" required inputmode="numeric" placeholder="0"><span class="f-unit">만원</span></div>
+            <p class="f-echo" id="salesEcho" hidden></p>
           </div>
           <!-- 아래 셋은 프리미엄에서만 묻는다 — 3.0 금액에는 쓰이지 않는 값이다 -->
           <div class="f-item third prem-only">
             <label class="f-label" for="q-labor">연 노무비</label>
-            <div class="field"><input id="q-labor" type="text" name="labor_cost" inputmode="numeric" placeholder="0"><span class="f-unit">원</span></div>
+            <div class="field"><input id="q-labor" type="text" name="labor_cost" inputmode="numeric" placeholder="0"><span class="f-unit">만원</span></div>
+            <p class="f-echo" id="laborEcho" hidden></p>
           </div>
           <div class="f-item third prem-only">
             <label class="f-label" for="q-sites-y">연 현장 수<span class="f-req">(필수)</span></label>
