@@ -103,15 +103,6 @@
     render();
   }
 
-  /* ── 요약 — 넣은 값을 되비친다 ───────────────────────────────── */
-  function won(v){
-    var n = String(v||'').replace(/[^0-9]/g,'');
-    return n ? Number(n).toLocaleString('ko-KR') + '원' : '';
-  }
-  function num(v, unit){
-    var n = String(v||'').replace(/[^0-9]/g,'');
-    return n ? Number(n).toLocaleString('ko-KR') + unit : '';
-  }
   /* ── 요약 ──────────────────────────────────────────────────────
      퇴직공제 전자카드 견적과 같은 짜임이다 — 할인 블록 → 접히는 총액 →
      펼치면 계산 내역. 다른 것은 총액 자리에 서는 숫자뿐: 저쪽은 확정 금액이고
@@ -119,10 +110,6 @@
      조건과 그때의 정책이 더 붙어, 여기서 끝까지 계산해 버리면 받아 본 견적서와
      어긋난다 — 그 어긋남이 신뢰를 깎는다. */
   function money(v){ return Number(v).toLocaleString('ko-KR') + '원'; }
-  function num(v, unit){
-    var n = String(v||'').replace(/[^0-9]/g,'');
-    return n ? Number(n).toLocaleString('ko-KR') + unit : '';
-  }
   function line(nm, amt){
     return '<div class="q-sum-line"><span class="nm">' + nm + '</span>'
          + '<span class="amt">' + amt + '</span></div>';
@@ -162,21 +149,18 @@
     disc.classList.toggle('on', !!showDisc);
     if(showDisc){
       $('#sumWas').textContent = money(t.month * 12);
-      /* 비율만 적으면 얼마가 깎인 건지 가늠해야 한다 — 돈으로도 적는다 */
-      $('#sumRate').innerHTML = '연납 할인 <span class="won">' + money(t.month * 12 - yearly(t.month)) + ' 아낌</span>';
     }
 
-    /* ②-b 월납을 고른 사람에게만 — 바꾸면 얼마가 남는지. 고른 뒤에 알려 봐야 늦다 */
+    /* ②-b 월납을 고른 사람에게만 — 바꾸면 얼마가 남는지. 고른 뒤에 알려 봐야 늦다.
+       할인 블록에는 비율만 남겼으니, 돈으로 옮긴 말은 여기 한 곳에서만 한다 */
     var showSave = t && t !== 'over' && !year;
     save.hidden = !showSave;
     if(showSave){
-      save.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" '
-        + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-        + '<path d="M20 12H4M13 5l7 7-7 7"/></svg>'
-        + '연납으로 바꾸면 한 해에 <b>' + money(t.month * 12 - yearly(t.month)) + '</b> 아낍니다';
+      save.innerHTML = '연납으로 바꾸면 한 해에 <b>'
+        + money(t.month * 12 - yearly(t.month)) + '</b> 아낍니다';
     }
 
-    /* ③ 펼친 내역 — 금액이 어떻게 나왔는지, 그리고 넣으신 값 */
+    /* ③ 펼친 내역 — 금액이 어떻게 나왔는지 */
     var body = '';
     if(t && t !== 'over'){
       /* 고르지 않은 쪽도 함께 적는다 — 바꿔 보지 않고도 얼마가 차이 나는지 보이게 */
@@ -185,26 +169,11 @@
       if(prem) body += '<p class="pq-add">프리미엄은 이 금액을 포함하고, 신고 대행 범위(현장 수 · 인원 수 · 대행 항목)에 따라 더해집니다.</p>';
     }
 
-    var rows = [['연 매출액', sales ? money(sales) : '']];
-    if(prem){
-      rows.push(['연 노무비',      num($('#q-labor').value, '원')]);
-      rows.push(['연 현장 수',     num($('#q-sites-y').value, '곳')]);
-      rows.push(['월평균 현장 수', num($('#q-sites-m').value, '곳')]);
-      rows.push(['현장당 인원',    num($('#q-head').value, '명')]);
-      ['use_license','use_kiscon','use_regular'].forEach(function(n,i){
-        var on = $('input[name='+n+']:checked');
-        if(on && on.value === 'Y') rows.push([['종합면허','키스콘','상용근로자 관리'][i], '사용']);
-      });
-    }
-    rows = rows.filter(function(r){ return r[1]; });
-    body += '<div class="pq-recap-h">넣으신 값</div>';
-    body += rows.length
-      ? rows.map(function(r){ return line(r[0], r[1]); }).join('')
-      : '<p class="pq-none">사업장 규모를 넣으시면 여기에 다시 보여 드립니다.</p>';
-
     items.innerHTML = body;
-    /* 펼칠 것이 '넣으신 값' 안내 한 줄뿐이면 토글을 끈다 — 눌러도 허탕이다 */
-    fold.classList.toggle('no-detail', !t || t === 'over' ? !rows.length : false);
+    /* 넣은 값은 되비치지 않는다 — 바로 왼쪽 폼에 그대로 적혀 있어, 옮겨 적으면
+       같은 말을 두 번 하는 셈이다. 그래서 펼칠 것은 금액이 어떻게 나왔는지뿐이고,
+       금액이 서지 않았으면 펼칠 것도 없으니 토글을 끈다 — 눌러도 허탕이다 */
+    fold.classList.toggle('no-detail', !(t && t !== 'over'));
   }
 
   /* ── 오류 표시 — 단말기 견적과 같은 부품이다 ─────────────────── */

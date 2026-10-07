@@ -150,6 +150,10 @@
          대신 '무엇으로 계산될 것인지'를 넣은 값 그대로 되비쳐 준다. -->
     <aside class="q-sum" id="sumPane">
       <div class="q-sum-card">
+        <!-- 월납을 고른 사람에게만 뜬다 — 바꾸면 얼마가 남는지 숫자로 보여야
+             '5%' 라는 비율이 돈으로 읽힌다. 세그먼트 위에서 연납 쪽을 내려
+             가리키는 말풍선이라, 읽고 나면 눈이 그대로 그 보기에 닿는다 -->
+        <p class="pq-save" id="sumSave" hidden></p>
         <!-- 납부 주기는 '무엇을 계약하느냐'가 아니라 '금액을 어떻게 볼 것이냐'다.
              그래서 폼이 아니라 금액 바로 위에 둔다. 상자 밖이라 form 속성으로 폼에
              매단다 — 동의 체크가 쓰는 방식과 같다 -->
@@ -157,9 +161,6 @@
           <label><input type="radio" name="pay_cycle" value="month" form="quoteForm" checked><span class="tx">월납</span></label>
           <label><input type="radio" name="pay_cycle" value="year" form="quoteForm"><span class="tx">연납 <b class="off">5% 할인</b></span></label>
         </div>
-        <!-- 월납을 고른 사람에게만 뜬다 — 바꾸면 얼마가 남는지 숫자로 보여야
-             '5%' 라는 비율이 돈으로 읽힌다 -->
-        <p class="pq-save" id="sumSave" hidden></p>
 
         <!-- 퇴직공제 전자카드 견적(quote.html)과 같은 짜임이다 — 할인 블록 →
              접히는 총액 → 펼치면 계산 내역. 다른 것은 총액 자리에 서는 숫자뿐:
@@ -167,7 +168,7 @@
              실제 청구에는 계약 조건과 그때의 정책이 더 붙어, 여기서 끝까지 계산해
              버리면 받아 본 견적서와 어긋난다. -->
         <div class="q-sum-disc" id="sumDisc">
-          <div class="q-sum-rate"><span class="nm" id="sumRate">연납 할인</span><span class="pct tnum">5%</span></div>
+          <div class="q-sum-rate"><span class="nm">연납 할인</span><span class="pct tnum">5%</span></div>
           <div class="q-sum-line was"><span class="nm">할인 전</span><span class="amt tnum" id="sumWas">0원</span></div>
         </div>
 
