@@ -33,33 +33,30 @@
    display 로만 숨기면 보조기술에는 남아, 묻지도 않는 칸을 읽어 준다 */
 #useGrid{margin-top:22px}
 
-/* ── 요약 — 금액 대신 되비치는 자리 ────────────────────────────── */
+/* ── 요약 ────────────────────────────────────────────────────────
+   짜임은 quote.html 과 같다(.q-sum-disc · .q-sum-fold · .q-sum-total).
+   여기 있는 것은 그 부품에 모자란 둘뿐이다 — 맨 위 '고르신 유형' 줄과,
+   총액 뒤에 붙는 '부터' */
 .pq-plan{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
-  padding-bottom:16px;border-bottom:1px solid var(--line)}
+  padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--line)}
 .pq-plan .k{font-size:13px;font-weight:700;color:var(--ink-3)}
 .pq-plan .v{font-family:var(--font-title);font-size:19px;font-weight:800;
   letter-spacing:-.03em;color:var(--accent)}
 
-.pq-recap{padding:16px 0 4px}
-.pq-recap-h{font-size:12.5px;font-weight:800;color:var(--ink-3);letter-spacing:.01em}
-.pq-recap dl{margin-top:10px;display:flex;flex-direction:column;gap:7px}
-.pq-recap dl > div{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
-.pq-recap dt{font-size:13.5px;color:var(--ink-3);white-space:nowrap}
-.pq-recap dd{font-size:13.5px;font-weight:700;color:var(--ink);text-align:right;
-  font-variant-numeric:tabular-nums}
+/* 라벨이 '총 예상 견적'(6자)보다 길고 숫자에 '부터'까지 붙어, 31px 그대로 두면
+   라벨이 '최소 예상 금 / 액'으로 갈린다. 숫자를 한 단계 줄이고 라벨은 안 꺾는다 */
+.q-sum-total .lb-t{white-space:nowrap}
+.q-sum-total .vv{font-size:26px}
+/* '부터'를 빼지 않는다 — 바닥만 보이는 숫자라는 표시다 */
+.q-sum-total .vv small{margin-left:4px;font-family:var(--font-body);font-size:13px;
+  font-weight:700;letter-spacing:-.01em;color:var(--ink-3)}
+/* 구간 밖이라 숫자를 적을 수 없는 자리 — 큰 글씨를 그대로 쓰면 금액처럼 읽힌다 */
+.q-sum-total .vv.none{font-size:19px;color:var(--ink-3);letter-spacing:-.03em}
+
+/* 펼친 내역 안의 '넣으신 값' 머리 */
+.pq-recap-h{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);
+  font-size:12px;font-weight:800;color:var(--ink-3);letter-spacing:.01em}
 /* 아직 아무것도 안 넣었을 때 — 빈 상자를 그냥 두면 고장난 것처럼 보인다 */
-.pq-recap .none{font-size:13.5px;line-height:1.6;color:var(--ink-4)}
-
-/* ── 최소 예상 금액 ──────────────────────────────────────────────
-   구간 요금은 정해져 있지만 실제 청구에는 정책과 계약 조건이 더 붙는다.
-   여기서 끝까지 계산해 버리면 받아 본 견적서와 어긋나고, 그 어긋남은 신뢰를
-   깎는다. 그래서 '최소 얼마부터'만 적는다 — 바닥은 틀리지 않는 숫자다 */
-.pq-est{padding:18px 0 16px;border-bottom:1px solid var(--line)}
-.pq-est-h{font-size:12.5px;font-weight:800;color:var(--ink-3);letter-spacing:.01em}
-.pq-est-v{display:flex;align-items:baseline;gap:6px;margin-top:7px}
-.pq-est-v .num{font-family:var(--font-title);font-size:29px;font-weight:800;
-  letter-spacing:-.05em;line-height:1.05;color:var(--accent)}
-.pq-est-v .from{font-size:14px;font-weight:700;color:var(--ink-3)}
-.pq-est-sub{margin-top:8px;font-size:12.5px;line-height:1.6;color:var(--ink-3);word-break:keep-all}
-.pq-est-sub b{color:var(--ink-2);font-weight:700}
-
+.pq-none{padding:6px 0 0;font-size:13px;line-height:1.6;color:var(--ink-4)}
+/* 프리미엄은 요금표가 없다. 바닥 위에 무엇이 더 붙는지 말로 적는 자리 */
+.pq-add{padding:8px 0 0;font-size:12.5px;line-height:1.6;color:var(--ink-3);word-break:keep-all}

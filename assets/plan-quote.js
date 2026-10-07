@@ -59,7 +59,6 @@
     var lo = t.n === 1 ? 0 : TIERS[t.n - 2].max;
     return t.n + '구간 · ' + (t.n === 1 ? t.max + '억 미만' : lo + '억 이상 ~ ' + t.max + '억 미만');
   }
-  function money(v){ return Number(v).toLocaleString('ko-KR') + '원'; }
   function yearly(month){ return Math.round(month * 12 * (1 - YEAR_OFF)); }
 
 
@@ -104,8 +103,7 @@
     var sitesY = $('#q-sites-y');
     if(sitesY) prem ? sitesY.setAttribute('required','') : sitesY.removeAttribute('required');
     $('#sumPlan').textContent = planName[plan()];
-    estimate();
-    recap();
+    render();
   }
 
   /* ── 요약 — 넣은 값을 되비친다 ───────────────────────────────── */
@@ -117,41 +115,61 @@
     var n = String(v||'').replace(/[^0-9]/g,'');
     return n ? Number(n).toLocaleString('ko-KR') + unit : '';
   }
-  /* 금액은 '최소 얼마부터'로만 적는다. 구간 요금은 정해져 있지만 실제 청구에는
-     정책과 계약 조건이 더 붙는다. 이 화면에서 끝까지 계산해 버리면 받아 본 견적서와
-     어긋나고, 그 어긋남은 신뢰를 깎는다 — 바닥만 보이고 나머지는 담당자가 맡는다 */
-  function estimate(){
-    var sales = Number(String($('#q-sales').value||'').replace(/[^0-9]/g,''));
-    var t = tierFor(sales);
-    var prem = plan() === 'prem';
-    var v = $('#estMonthly'), from = $('#estFrom'), sub = $('#estSub');
-
-    if(!t){
-      v.textContent = '—'; from.hidden = true;
-      sub.textContent = '연 매출액을 넣으시면 보여 드립니다.';
-      return;
-    }
-    if(t === 'over'){
-      v.textContent = '구간 밖'; from.hidden = true;
-      sub.textContent = '4000억 이상은 요금표에 없습니다. 담당자가 따로 산정해 드립니다.';
-      return;
-    }
-    v.textContent = '월 ' + money(t.month);
-    from.hidden = false;
-    sub.innerHTML = prem
-      /* 프리미엄 요금표는 받은 것이 없다. 다만 3.0 전 기능을 포함하므로 그 금액이
-         바닥인 것은 사실이다 — 지어내지 않고 사실인 바닥만 적는다 */
-      ? '<b>' + tierLabel(t) + '</b>의 김반장 3.0 요금입니다. 프리미엄은 이 금액을 포함하고 신고 대행 범위(현장 수 · 인원 수 · 대행 항목)에 따라 더해집니다.'
-      : '<b>' + tierLabel(t) + '</b> · 연납하시면 ' + money(yearly(t.month)) + ' (5% 할인)';
+  /* ── 요약 ──────────────────────────────────────────────────────
+     퇴직공제 전자카드 견적과 같은 짜임이다 — 할인 블록 → 접히는 총액 →
+     펼치면 계산 내역. 다른 것은 총액 자리에 서는 숫자뿐: 저쪽은 확정 금액이고
+     이쪽은 '최소 얼마부터'다. 구간 요금은 정해져 있지만 실제 청구에는 계약
+     조건과 그때의 정책이 더 붙어, 여기서 끝까지 계산해 버리면 받아 본 견적서와
+     어긋난다 — 그 어긋남이 신뢰를 깎는다. */
+  function money(v){ return Number(v).toLocaleString('ko-KR') + '원'; }
+  function num(v, unit){
+    var n = String(v||'').replace(/[^0-9]/g,'');
+    return n ? Number(n).toLocaleString('ko-KR') + unit : '';
+  }
+  function line(nm, amt){
+    return '<div class="q-sum-line"><span class="nm">' + nm + '</span>'
+         + '<span class="amt">' + amt + '</span></div>';
   }
 
-  function recap(){
-    var box = $('#sumRecap');
-    if(!box) return;
-    var prem = plan() === 'prem';
-    var rows = [['연 매출액', won($('#q-sales').value)]];
+  function render(){
+    var prem  = plan() === 'prem';
+    var sales = Number(String($('#q-sales').value||'').replace(/[^0-9]/g,''));
+    var t     = tierFor(sales);
+    var disc  = $('#sumDisc'), fold = $('#sumMid');
+    var total = $('#sumTotal'), basis = $('#sumBasis'), items = $('#sumItems');
+
+    /* ① 총액 자리 */
+    total.classList.remove('none');
+    if(!t){
+      total.textContent = '—';
+      basis.textContent = '연 매출액을 넣으시면 보여 드립니다';
+    }else if(t === 'over'){
+      total.textContent = '담당자 산정';
+      total.classList.add('none');
+      basis.textContent = '4000억 이상은 요금표에 없습니다';
+    }else{
+      total.innerHTML = '월 ' + money(t.month) + '<small>부터</small>';
+      basis.textContent = tierLabel(t) + (prem ? ' · 김반장 3.0 요금 기준' : '');
+    }
+
+    /* ② 할인 블록 — 연납 5% 는 3.0 요금표의 것이다. 프리미엄 요금표는 받은 것이
+       없어, 거기에도 같은 할인이 붙는다고 장담하지 않는다 */
+    var showDisc = t && t !== 'over' && !prem;
+    disc.classList.toggle('on', !!showDisc);
+    if(showDisc) $('#sumWas').textContent = money(t.month * 12);
+
+    /* ③ 펼친 내역 — 금액이 어떻게 나왔는지, 그리고 넣으신 값 */
+    var body = '';
+    if(t && t !== 'over'){
+      body += line('월정액', money(t.month));
+      body += prem
+        ? '<p class="pq-add">프리미엄은 이 금액을 포함하고, 신고 대행 범위(현장 수 · 인원 수 · 대행 항목)에 따라 더해집니다.</p>'
+        : line('연납 <small>5% 할인</small>', money(yearly(t.month)));
+    }
+
+    var rows = [['연 매출액', sales ? money(sales) : '']];
     if(prem){
-      rows.push(['연 노무비',      won($('#q-labor').value)]);
+      rows.push(['연 노무비',      num($('#q-labor').value, '원')]);
       rows.push(['연 현장 수',     num($('#q-sites-y').value, '곳')]);
       rows.push(['월평균 현장 수', num($('#q-sites-m').value, '곳')]);
       rows.push(['현장당 인원',    num($('#q-head').value, '명')]);
@@ -161,9 +179,14 @@
       });
     }
     rows = rows.filter(function(r){ return r[1]; });
-    box.innerHTML = rows.length
-      ? rows.map(function(r){ return '<div><dt>'+r[0]+'</dt><dd>'+r[1]+'</dd></div>'; }).join('')
-      : '<p class="none">사업장 규모를 넣으시면 여기에 다시 보여 드립니다.</p>';
+    body += '<div class="pq-recap-h">넣으신 값</div>';
+    body += rows.length
+      ? rows.map(function(r){ return line(r[0], r[1]); }).join('')
+      : '<p class="pq-none">사업장 규모를 넣으시면 여기에 다시 보여 드립니다.</p>';
+
+    items.innerHTML = body;
+    /* 펼칠 것이 '넣으신 값' 안내 한 줄뿐이면 토글을 끈다 — 눌러도 허탕이다 */
+    fold.classList.toggle('no-detail', !t || t === 'over' ? !rows.length : false);
   }
 
   /* ── 오류 표시 — 단말기 견적과 같은 부품이다 ─────────────────── */
@@ -315,8 +338,8 @@
 
   /* ── 손잡이 ──────────────────────────────────────────────────── */
   $$('input[name=plan]').forEach(function(r){ r.addEventListener('change', syncPlan); });
-  form.addEventListener('input', function(){ recap(); estimate(); });
-  form.addEventListener('change', function(){ recap(); estimate(); });
+  form.addEventListener('input', render);
+  form.addEventListener('change', render);
   /* 금액 칸은 치는 대로 세 자리마다 쉼표가 붙는다 — 0이 몇 개인지 세지 않게 */
   ['#q-sales','#q-labor'].forEach(function(sel){
     var el = $(sel);
