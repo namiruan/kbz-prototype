@@ -1,7 +1,7 @@
 /* ================================================================
    estimate.js — 견적받기 화면이 하는 일은 셋뿐이다.
 
-     1) 상단 3탭을 갈아 끼운다 (?type=A·B·C)
+     1) 상단 3탭을 갈아 끼우고, 단말기 두 탭에 견적 화면을 끼운다 (?type=A·B·C)
      2) 거르개(고용형태 · 차이만 보기)를 걸고 남은 줄을 센다
      3) 그 상태를 주소로도 받는다 (?type= · ?emp= · ?only=)
 
@@ -29,6 +29,47 @@
     var panels = $$('.es-panel');
     if(!tabs.length) return;
 
+    /* ── 끼운 견적 화면 ────────────────────────────────────────
+       B·C 탭은 제 내용이 없고 quote.html · face-quote.html 을 그대로 끼운다.
+       같은 출처라 안쪽 문서를 직접 잴 수 있다 — 높이를 맞춰 주지 않으면 틀 안에
+       스크롤바가 하나 더 생겨 바깥 스크롤과 싸운다.
+       현장을 더하거나 오류 줄이 서거나 완료 화면으로 바뀌면 안쪽 높이가 변하므로,
+       한 번 재고 마는 것이 아니라 ResizeObserver 로 계속 따라간다 */
+    /* ⚠ documentElement.scrollHeight 로 재면 안 된다. 틀을 1834px 로 늘려 두면
+       안쪽 문서의 뷰포트도 1834px 라, 내용이 줄어도 그 값이 아래로 내려가지
+       않는다(되먹임 고리 — 완료 화면이 436px 인데 1834px 로 읽힌다).
+       body 의 상자는 내용만큼만 크므로 그쪽을 잰다 */
+    function fit(fr){
+      try{
+        var d = fr.contentDocument;
+        if(!d || !d.body) return;
+        /* CSS 의 min-height 는 '아직 재기 전'을 위한 자리잡기다. 한 번 재고 나면
+           그것이 내려갈 높이의 바닥이 되어 완료 화면(436px)을 70vh 로 붙든다 */
+        fr.style.minHeight = '0';
+        fr.style.height = Math.ceil(d.body.getBoundingClientRect().height) + 'px';
+      }catch(e){}
+    }
+
+    function mount(type){
+      var fr = $('#panel-' + type + ' .es-frame');
+      if(!fr || !fr.dataset.src || fr.getAttribute('src')) return;   /* 한 번만 끼운다 */
+      fr.addEventListener('load', function(){
+        var d;
+        try{ d = fr.contentDocument; }catch(e){ return; }
+        if(!d) return;
+        /* 그 화면은 틀 안이면 is-embedded 를 스스로 단다 — 모달의 닫기 버튼을
+           비켜 주려는 표시다. 여기는 닫기 버튼이 없는 자리라 그 사실을 알린다 */
+        if(d.body) d.body.classList.add('is-panel');
+        fit(fr);
+        /* 지켜보는 것도 documentElement 가 아니라 body 다 — 같은 까닭으로
+           documentElement 는 틀 크기를 따라가 내용이 줄어도 꿈쩍하지 않는다 */
+        if(window.ResizeObserver){
+          new ResizeObserver(function(){ fit(fr); }).observe(d.body);
+        }
+      });
+      fr.setAttribute('src', fr.dataset.src);
+    }
+
     function show(type, push){
       var hit = tabs.some(function(t){ return t.dataset.type === type; });
       /* 모르는 값이면 A 로 돌리되 주소도 같이 고친다 — ?type=Z 가 주소에 남아
@@ -40,10 +81,17 @@
         t.setAttribute('aria-selected', String(on));
       });
       panels.forEach(function(pn){ pn.hidden = (pn.id !== 'panel-' + type); });
+      mount(type);
 
       /* 좁은 폭에서 탭 줄은 가로로 밀어 보는 띠가 된다. ?type=C 로 바로 들어오면
          고른 탭이 화면 밖에 있어 '지금 어느 탭인지'가 보이지 않으므로, 가운데로
          당겨 온다. 띠가 넘치지 않는 넓은 폭에서는 아무 일도 일어나지 않는다 */
+      /* 바닥 CTA 는 탭마다 갈 곳이 다르다. A 에서는 아직 없는 견적신청 폼을
+         모달로 띄워야 하고(자리표), B·C 에서는 그 폼이 이미 이 페이지 안에 있어
+         그리로 올려 보내면 된다 — 같은 버튼이 한쪽에서 죽어 있지 않게 */
+      var cta = $('#ctaMain');
+      if(cta) cta.setAttribute('href', type === 'A' ? '#' : '#panel-' + type);
+
       var row = $('.es-tabs-row'), cur = $('.es-tab.is-active');
       if(row && cur && row.scrollWidth > row.clientWidth){
         row.scrollLeft = cur.offsetLeft - (row.clientWidth - cur.offsetWidth) / 2;

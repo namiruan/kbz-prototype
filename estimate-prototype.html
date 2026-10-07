@@ -44,13 +44,22 @@
         data-steps="페이지를 엽니다 — 그 뒤로는 아무것도 누르지 않습니다"
         data-look="탭 셋이 머리글 바로 아래 섭니다|고른 탭만 파란 글씨와 밑줄을 갖습니다 — 밑줄 하나로는 흑백에서 구분이 약합니다|탭마다 작은 줄로 무엇인지 덧붙입니다(노무관리 프로그램 · 벽부형·이동형·휴대형 · Ubio X Face Pro)|주소에 ?type= 이 없으면 A 입니다">첫 진입 (A · 프로그램)</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="tb-전자카드"
-        data-why="퇴직공제 단말기 탭. 금액이 이 탭에만 적힙니다 — quote.html 의 요율표에서 그대로 가져온 값이라, 프로그램 쪽처럼 '맞춤 견적'이라 쓸 까닭이 없습니다."
+        data-why="퇴직공제 단말기 탭은 제 내용을 따로 갖지 않습니다. 이미 완성된 견적 화면(quote.html)을 그대로 끼웁니다 — 기기 소개도 금액 계산도 그 화면이 하고 있어, 여기서 요약을 또 적으면 같은 말을 두 벌로 기르게 됩니다."
         data-steps="주소에 ?type=B 를 붙여 엽니다(탭을 눌러도 같습니다)"
-        data-look="기기 셋이 나란히 서고 저마다 다른 금액을 답니다(74,000 · 69,000 · 83,000원)|지워진 금액이 1개월 기준가입니다 — 기간이 길수록 싸진다는 말이 숫자로 보입니다|'13개월 이상'은 요율이 12개월에서 멈춘다고 밝힙니다|견적받기를 누르면 quote.html 로 넘어가 그 자리에서 계산됩니다">B · 퇴직공제 전자카드</button>
+        data-look="탭 아래가 통째로 견적 화면입니다 — 고르고 수량을 넣으면 그 자리에서 금액이 섭니다|스크롤바가 하나뿐입니다 — 부모가 안쪽 높이를 재서 틀을 늘려 둡니다|끼운 화면의 제목이 곧 이 탭의 머리글 노릇을 합니다|탭을 처음 열 때 받아 옵니다 — A 로 들어오면 B·C 는 아직 받지 않습니다">B · 퇴직공제 전자카드</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="tb-안면인식"
-        data-why="안면인식 탭. 기기가 한 종뿐이라 카드를 고를 일이 없어, 대신 수량 구간표가 그 자리를 받습니다. 금액은 face-quote.html 의 상수를 그대로 옮긴 값입니다."
+        data-why="B 와 같은 방식으로 face-quote.html 을 끼웁니다. 두 화면은 흐름이 같고 묻는 칸만 달라, 탭을 오가며 견주어 보기 좋은 자리입니다."
         data-steps="주소에 ?type=C 를 붙여 엽니다(탭을 눌러도 같습니다)"
-        data-look="기기가 하나라 카드가 가로로 눕습니다 — 셋일 때와 짜임이 다릅니다|수량 구간 넷이 같은 크기로 서서 '구간'으로 읽힙니다|구간은 현장별이 아니라 신청 전체를 합산해 정해진다고 표 아래에 적습니다|설치비·연동비는 금액이 아니라 조건이라 카드가 아니라 줄로 답니다">C · 안면인식 출퇴근관리</button>
+        data-look="현장별로 기간·수량을 받는 칸이 섭니다 — 퇴직공제는 기기별로 받던 자리입니다|'김반장 이용 중이신가요?'는 이 화면에만 있습니다|여기도 스크롤바는 하나뿐입니다">C · 안면인식 출퇴근관리</button>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">끼운 틀이 움직이는 자리</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="tb-늘어남"
+        data-why="끼운 화면은 가만히 있지 않습니다. 현장을 더하면 안쪽이 길어지는데, 틀을 한 번 재고 말면 아래가 잘리거나 틀 안에 스크롤바가 하나 더 생깁니다. 부모가 안쪽을 계속 지켜보는지 보는 자리입니다."
+        data-steps="?type=C 로 열고 '현장 추가'를 두 번 누릅니다"
+        data-look="현장이 늘어난 만큼 틀도 같이 길어집니다|틀 안에 스크롤바가 생기지 않습니다 — 페이지 스크롤 하나로 끝까지 내려갑니다|요약의 부제가 '단말기 N대 · 현장 3곳'으로 바뀝니다">현장을 더하면</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="tb-완료"
+        data-why="늘어나는 것만큼 줄어드는 것도 맞아야 합니다. 완료 화면은 안내 두 줄뿐이라, 틀이 그대로면 아래가 텅 빈 상자로 남습니다."
+        data-steps="?type=C 로 열고, 끼운 화면을 완료 상태(?done=1)로 바꿉니다"
+        data-look="틀이 내용에 맞게 확 줄어듭니다|탭 줄과 FAQ 사이에 빈 자리가 남지 않습니다|'메인으로' 버튼은 끼운 화면의 것이라 탭을 벗어납니다 — 이 자리에서는 어울리지 않는 버튼입니다">완료 화면이 되면</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="tb-바꾸기"
         data-why="비교표를 한참 내려다 탭을 바꾸는 자리. 스크롤 위치를 그대로 두면 새 탭의 한가운데로 떨어져, 무엇이 바뀐 건지 알 수 없습니다. 탭 줄까지 되감아 그 상품의 처음부터 보여 줍니다."
         data-steps="A 탭에서 기능 비교표 한가운데까지 내려갑니다|탭 줄의 '안면인식 출퇴근관리'를 누릅니다"
@@ -122,11 +131,25 @@
 
   /* 화면 전체에 scroll-behavior:smooth 가 걸려 있다. 그대로 두면 열 때마다
      한참 미끄러져 내려가므로, 옮기는 동안만 끄고 되돌린다 */
+  function hit(el){ if(el) el.click(); }
+
+  /* 끼운 화면이 다 뜰 때까지 기다린다 — 고정 시간으로 짐작하면 느린 날에 빈손이다.
+     ok 를 주면 그 조건까지 기다린다(완료 화면은 전송 흉내를 거쳐 2초쯤 걸린다) */
+  async function inner(d,sel,ok){
+    for(var i=0;i<60;i++){
+      var fr=d.querySelector(sel), q=fr && fr.contentDocument;
+      if(q && q.readyState==='complete' && q.body && q.body.children.length && (!ok || ok(q))) return q;
+      await wait(100);
+    }
+    return null;
+  }
+
   function jump(d,sel,off){
     var e=d.querySelector(sel); if(!e) return;
+    var w=d.defaultView; if(!w) return;   /* 그새 틀이 갈려 나갔으면 잴 것이 없다 */
     var root=d.documentElement, prev=root.style.scrollBehavior;
     root.style.scrollBehavior='auto';
-    d.defaultView.scrollTo(0, e.getBoundingClientRect().top + d.defaultView.scrollY - (off||0));
+    w.scrollTo(0, e.getBoundingClientRect().top + w.scrollY - (off||0));
     root.style.scrollBehavior=prev;
   }
 
@@ -135,6 +158,22 @@
     'tb-첫진입'  :{url:ES},
     'tb-전자카드':{url:ES+'?type=B'},
     'tb-안면인식':{url:ES+'?type=C'},
+
+    /* 끼운 틀이 안쪽을 따라 움직이는지 — 이 구조에서 제일 깨지기 쉬운 자리다 */
+    'tb-늘어남'  :{url:ES+'?type=C', act:async function(d){
+      var q=await inner(d,'#panel-C .es-frame'); if(!q) return;
+      hit(q.querySelector('#btnAddSite')); await wait(150);
+      hit(q.querySelector('#btnAddSite')); await wait(400);
+      jump(d,'#panel-C'); }},
+    'tb-완료'    :{url:ES+'?type=C', act:async function(d){
+      var fr=d.querySelector('#panel-C .es-frame'); if(!fr) return;
+      await inner(d,'#panel-C .es-frame');
+      /* 폼을 끝까지 채워 보내는 길은 견적 프로토타입이 이미 보여 준다.
+         여기서 볼 것은 '틀이 줄어드는가' 하나라, 그 화면이 아는 지름길을 쓴다 */
+      fr.setAttribute('src','face-quote.html?done=1');
+      /* 완료 화면은 전송 흉내를 거쳐 뜬다 — 그 자리까지 기다려야 틀이 줄어든 꼴을 본다 */
+      await inner(d,'#panel-C .es-frame', function(q){ return q.body.classList.contains('is-done'); });
+      await wait(300); jump(d,'#panel-C'); }},
     'tb-바꾸기'  :{url:ES, act:async function(d){
       jump(d,'.es-cat:nth-of-type(4)', 8); await wait(200);
       var c=d.querySelector('#tab-C'); if(c) c.click(); }},
