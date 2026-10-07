@@ -81,13 +81,17 @@
 
       <span class="proto-nav-group-label">A · 견적신청 폼</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-3.0"
-        data-why="답이 나왔으면 바로 신청입니다. 체크리스트 바로 아래에 plan-quote.html 을 단말기 두 탭과 같은 방식으로 끼웠습니다 — 두 장 카드와 기능 33개 표는 그 뒤로 물러나 '더 보려면' 자리가 됩니다 — 다만 그 둘과 달리 금액이 서지 않습니다. 사업장 규모로 갈리는 산식이 화면에 없어, 요약 자리가 숫자 대신 넣은 값을 되비칩니다."
+        data-why="답이 나왔으면 바로 신청입니다. 체크리스트 바로 아래에 plan-quote.html 을 단말기 두 탭과 같은 방식으로 끼웠습니다 — 두 장 카드와 기능 33개 표는 그 뒤로 물러나 '더 보려면' 자리가 됩니다 금액은 '최소 얼마부터'로만 적습니다 — 구간 요금은 정해져 있지만 실제 청구에는 계약 조건과 그때의 정책이 더 붙어, 여기서 끝까지 계산해 버리면 받아 본 견적서와 어긋나기 때문입니다."
         data-steps="페이지를 열고 체크리스트 바로 아래 신청 폼으로 내려갑니다(아무것도 고르지 않은 상태)"
-        data-look="계약 유형이 '김반장 3.0' 입니다 — 체크리스트를 건드리지 않으면 이쪽이 기본입니다|묻는 칸이 연 매출액 하나뿐입니다 — 3.0 금액에 쓰이지 않는 값은 아예 묻지 않습니다|요약 자리에 금액이 없습니다. 단말기 두 탭과 다른 유일한 점입니다|'메인으로' 버튼이 숨겨집니다 — 탭 안에는 닫을 것이 없습니다">3.0 으로 열린 폼</button>
+        data-look="계약 유형이 '김반장 3.0' 입니다 — 체크리스트를 건드리지 않으면 이쪽이 기본입니다|묻는 칸이 연 매출액 하나뿐입니다 — 3.0 금액에 쓰이지 않는 값은 아예 묻지 않습니다|요약 자리에 '최소 예상 금액'이 섭니다 — 매출액을 넣기 전에는 '—' 입니다|'메인으로' 버튼이 숨겨집니다 — 탭 안에는 닫을 것이 없습니다">3.0 으로 열린 폼</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-프리미엄"
         data-why="체크리스트의 답이 폼의 계약 유형까지 돌립니다. 고른 사람이 같은 것을 두 번 고르게 두지 않는 자리입니다 — 위에서 프리미엄이 나왔는데 아래 폼이 3.0 으로 서 있으면 고른 것이 무위가 됩니다."
         data-steps="체크리스트에서 '4대보험·퇴직공제 신고를 맡기고 싶습니다'를 고릅니다|바로 아래 신청 폼을 봅니다"
         data-look="계약 유형이 '김반장 프리미엄'으로 옮겨 가 있습니다|묻는 칸이 다섯 개 늘어납니다 — 노무비·연 현장 수·월평균 현장 수·현장당 인원, 그리고 종합면허·키스콘·상용근로자 세 줄|틀도 그만큼 길어집니다(1,044 → 1,233px)|고른 자리와 폼이 한 화면에 같이 들어와, 체크가 토글을 돌리는 것이 눈에 보입니다|'연 현장 수'에만 (필수)가 붙습니다 — 프리미엄 금액을 가르는 값이기 때문입니다">체크리스트가 돌린 폼</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-금액"
+        data-why="매출액 한 칸이 구간을 정하고 구간이 금액을 정합니다. 끝까지 계산하지 않고 바닥만 적는 까닭은 실제 청구에 계약 조건과 그때의 정책이 더 붙기 때문입니다 — 화면이 장담한 숫자와 받아 본 견적서가 어긋나면 그 어긋남이 신뢰를 깎습니다."
+        data-steps="연 매출액에 70억을 넣습니다|오른쪽 '김반장 3.0 구간별 요금표'를 펴 봅니다"
+        data-look="'월 150,000원 부터'가 섭니다 — '부터'를 빼지 않습니다|아래 줄이 어느 구간인지(4구간 · 50억 이상 ~ 100억 미만)와 연납 할인가를 함께 적습니다|요금표를 펴면 지금 걸린 줄만 파랗게 표시됩니다 — 열 줄에서 제 줄을 눈으로 찾게 두지 않습니다|4000억을 넘기면 '구간 밖'이 되고 담당자에게 넘깁니다|프리미엄으로 바꾸면 같은 금액이 '3.0 요금이고 여기에 대행 범위가 더해진다'는 말로 바뀝니다 — 프리미엄 요금표는 받은 것이 없어 사실인 바닥만 적습니다|⚠ 받은 요금표의 4구간 할인가(117만원)는 다른 아홉 구간이 따르는 규칙으로는 171만원입니다 — 월정액을 원본으로 삼아 계산했습니다">최소 예상 금액</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-막힘"
         data-why="숨어 있는 칸은 묻지 않습니다. 3.0 으로 두고 빈 채 제출하면 프리미엄 전용 칸은 막는 말에 끼지 않습니다 — 보이지도 않는 칸 때문에 막히면 고칠 데를 찾을 수 없습니다."
         data-steps="계약 유형을 '김반장 3.0' 으로 둔 채 아무것도 채우지 않고 견적신청하기를 누릅니다"
@@ -158,6 +162,9 @@
   /* 화면 전체에 scroll-behavior:smooth 가 걸려 있다. 그대로 두면 열 때마다
      한참 미끄러져 내려가므로, 옮기는 동안만 끄고 되돌린다 */
   function hit(el){ if(el) el.click(); }
+  function put(el,v){ if(!el) return; el.value=v;
+    el.dispatchEvent(new Event('input',{bubbles:true}));
+    el.dispatchEvent(new Event('change',{bubbles:true})); }
 
   /* 끼운 화면이 다 뜰 때까지 기다린다 — 고정 시간으로 짐작하면 느린 날에 빈손이다.
      ok 를 주면 그 조건까지 기다린다(완료 화면은 전송 흉내를 거쳐 2초쯤 걸린다) */
@@ -232,6 +239,11 @@
     'ap-프리미엄':{url:ES, act:async function(d){
       await inner(d,'#panel-A .es-frame');
       hit(d.querySelectorAll('.es-pick-item input')[0]); await wait(300);
+      jump(d,'#apply',8); }},
+    'ap-금액'   :{url:ES, act:async function(d){
+      var q=await inner(d,'#panel-A .es-frame'); if(!q) return;
+      put(q.querySelector('#q-sales'), '7000000000'); await wait(200);
+      var t=q.querySelector('.pq-table'); if(t) t.open=true; await wait(150);
       jump(d,'#apply',8); }},
     'ap-막힘'   :{url:ES, act:async function(d){
       var q=await inner(d,'#panel-A .es-frame'); if(!q) return;

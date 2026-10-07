@@ -25,6 +25,55 @@
   var btnSubmit = $('#btnSubmit');
   var planName  = { c30:'김반장 3.0', prem:'김반장 프리미엄' };
 
+  /* ── 김반장 3.0 구간별 요금 ───────────────────────────────────
+     건설공사실적(또는 매출액)이 구간을 정하고, 구간이 월정액을 정한다.
+     연납은 월정액 × 12 에서 5% 를 뺀다.
+
+     ⚠ 받은 요금표의 4구간 할인가가 117만원으로 적혀 있는데, 다른 아홉 구간이
+        모두 따르는 규칙(월정액 × 12 × 0.95)으로는 171만원이다. 자릿수가 뒤집힌
+        것으로 보여 월정액을 원본으로 삼아 계산한다 — 구간끼리 어긋나지 않게.
+        표가 맞다면 TIERS 의 4구간에 year 를 따로 박으면 된다.
+     ⚠ 10구간(4000억) 위로는 표가 없다. 지어내지 않고 '담당자가 산정'으로 넘긴다. */
+  var EOK = 100000000;                      /* 1억 */
+  var TIERS = [
+    { n: 1,  max:   15, month:  50000 },
+    { n: 2,  max:   30, month:  80000 },
+    { n: 3,  max:   50, month: 100000 },
+    { n: 4,  max:  100, month: 150000 },
+    { n: 5,  max:  300, month: 200000 },
+    { n: 6,  max:  600, month: 300000 },
+    { n: 7,  max:  900, month: 400000 },
+    { n: 8,  max: 1200, month: 500000 },
+    { n: 9,  max: 2000, month: 600000 },
+    { n: 10, max: 4000, month: 800000 }
+  ];
+  var YEAR_OFF = 0.05;                      /* 연납 할인 */
+
+  function tierFor(sales){
+    if(!(sales > 0)) return null;
+    var eok = sales / EOK;
+    for(var i = 0; i < TIERS.length; i++) if(eok < TIERS[i].max) return TIERS[i];
+    return 'over';                          /* 4000억 이상 — 표 밖이다 */
+  }
+  function tierLabel(t){
+    var lo = t.n === 1 ? 0 : TIERS[t.n - 2].max;
+    return t.n + '구간 · ' + (t.n === 1 ? t.max + '억 미만' : lo + '억 이상 ~ ' + t.max + '억 미만');
+  }
+  function money(v){ return Number(v).toLocaleString('ko-KR') + '원'; }
+  function yearly(month){ return Math.round(month * 12 * (1 - YEAR_OFF)); }
+
+  /* 요금표를 안내 쪽에 펼쳐 둔다 — 요약의 숫자가 어디서 나왔는지 짚어 볼 수 있게 */
+  (function(){
+    var tb = $('#rateRows');
+    if(!tb) return;
+    tb.innerHTML = TIERS.map(function(t){
+      var lo = t.n === 1 ? 0 : TIERS[t.n - 2].max;
+      var range = t.n === 1 ? t.max + '억 미만' : lo + '억 이상 ~ ' + t.max + '억 미만';
+      return '<tr data-tier="' + t.n + '"><td>' + range + '</td><td class="tnum">' + money(t.month)
+           + '</td><td class="tnum">' + money(yearly(t.month)) + '</td></tr>';
+    }).join('');
+  })();
+
   /* ── 번호 ────────────────────────────────────────────────────
      ⚠ 아래 셋은 quote.html 안에 있는 것과 글자까지 같다. 저 화면들이 제 <script>
         안에 들고 있어 가져다 쓸 수 없어 옮겨 적었다. 셋 다 고칠 일이 생기면
@@ -66,6 +115,7 @@
     var sitesY = $('#q-sites-y');
     if(sitesY) prem ? sitesY.setAttribute('required','') : sitesY.removeAttribute('required');
     $('#sumPlan').textContent = planName[plan()];
+    estimate();
     $('#scaleHint').textContent = prem
       ? '매출액·현장 수·인원 수가 금액을 가릅니다'
       : '매출액이 금액을 가릅니다';
@@ -81,6 +131,37 @@
     var n = String(v||'').replace(/[^0-9]/g,'');
     return n ? Number(n).toLocaleString('ko-KR') + unit : '';
   }
+  /* 금액은 '최소 얼마부터'로만 적는다. 구간 요금은 정해져 있지만 실제 청구에는
+     정책과 계약 조건이 더 붙는다. 이 화면에서 끝까지 계산해 버리면 받아 본 견적서와
+     어긋나고, 그 어긋남은 신뢰를 깎는다 — 바닥만 보이고 나머지는 담당자가 맡는다 */
+  function estimate(){
+    var sales = Number(String($('#q-sales').value||'').replace(/[^0-9]/g,''));
+    var t = tierFor(sales);
+    var prem = plan() === 'prem';
+    var v = $('#estMonthly'), from = $('#estFrom'), sub = $('#estSub');
+    var hit = $('#rateRows') ? $$('#rateRows tr') : [];
+    hit.forEach(function(tr){ tr.classList.remove('on'); });
+
+    if(!t){
+      v.textContent = '—'; from.hidden = true;
+      sub.textContent = '연 매출액을 넣으시면 보여 드립니다.';
+      return;
+    }
+    if(t === 'over'){
+      v.textContent = '구간 밖'; from.hidden = true;
+      sub.textContent = '4000억 이상은 요금표에 없습니다. 담당자가 따로 산정해 드립니다.';
+      return;
+    }
+    hit.forEach(function(tr){ if(Number(tr.dataset.tier) === t.n) tr.classList.add('on'); });
+    v.textContent = '월 ' + money(t.month);
+    from.hidden = false;
+    sub.innerHTML = prem
+      /* 프리미엄 요금표는 받은 것이 없다. 다만 3.0 전 기능을 포함하므로 그 금액이
+         바닥인 것은 사실이다 — 지어내지 않고 사실인 바닥만 적는다 */
+      ? '<b>' + tierLabel(t) + '</b>의 김반장 3.0 요금입니다. 프리미엄은 이 금액을 포함하고 신고 대행 범위(현장 수 · 인원 수 · 대행 항목)에 따라 더해집니다.'
+      : '<b>' + tierLabel(t) + '</b> · 연납하시면 ' + money(yearly(t.month)) + ' (5% 할인)';
+  }
+
   function recap(){
     var box = $('#sumRecap');
     if(!box) return;
@@ -251,8 +332,8 @@
 
   /* ── 손잡이 ──────────────────────────────────────────────────── */
   $$('input[name=plan]').forEach(function(r){ r.addEventListener('change', syncPlan); });
-  form.addEventListener('input', recap);
-  form.addEventListener('change', recap);
+  form.addEventListener('input', function(){ recap(); estimate(); });
+  form.addEventListener('change', function(){ recap(); estimate(); });
   /* 금액 칸은 치는 대로 세 자리마다 쉼표가 붙는다 — 0이 몇 개인지 세지 않게 */
   ['#q-sales','#q-labor'].forEach(function(sel){
     var el = $(sel);
