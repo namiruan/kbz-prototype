@@ -171,8 +171,8 @@
     var showSave = t && t !== 'over' && !year;
     save.hidden = !showSave;
     if(showSave){
-      save.innerHTML = '연납으로 바꾸면 한 해에 <b>'
-        + money(t.month * 12 - yearly(t.month)) + '</b> 아낍니다';
+      save.innerHTML = '연납 시 <b>'
+        + money(t.month * 12 - yearly(t.month)) + '</b> 절약!';
     }
 
     /* ③ 펼친 내역 — 금액이 어떻게 나왔는지 */
