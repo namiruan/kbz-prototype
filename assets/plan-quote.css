@@ -47,18 +47,19 @@
   font-size:13px;font-weight:700;color:var(--ink-3);transition:.16s}
 .pq-cycle label:hover{color:var(--ink)}
 .pq-cycle input{position:absolute;opacity:0;width:0;height:0}
-/* 5% 는 고르기 전에 눈에 띄어야 하는 말이다 — 고른 뒤에 알려 봐야 늦다.
-   그래서 꺼져 있을 때 오히려 색을 쓴다(알약 + 아래 화살표) */
-.pq-cycle .off{display:inline-flex;align-items:center;gap:1px;padding:2px 7px 2px 6px;
+/* 할인은 켜졌든 꺼졌든 똑같이 보여야 한다 — 고르기 전에는 고를 까닭이고,
+   고른 뒤에는 고른 보람이다. 그래서 두 상태 모두 '채운 알약'으로 두고 바탕에
+   맞춰 색만 뒤집는다. 반투명으로 깔면 고른 순간 오히려 흐려진다 */
+.pq-cycle .off{display:inline-flex;align-items:center;padding:3px 8px;
   border-radius:1000px;background:var(--accent);color:var(--main-white);
-  font-size:11px;font-weight:800;letter-spacing:-.02em;transition:.16s}
-.pq-cycle .off svg{width:10px;height:10px}
+  font-size:11.5px;font-weight:800;letter-spacing:-.03em;line-height:1.2;transition:.16s}
 /* 고른 쪽은 눌린 트랙 위로 떠오른다 — 글자색만 바꾸면 훑어서는 어느 것이
    켜졌는지 안 보인다 */
 .pq-cycle label:has(input:checked){background:var(--accent);color:var(--main-white);
   box-shadow:0 1px 3px rgba(14,59,99,.28)}
-/* 고른 뒤에는 그 알약이 파란 바탕 위에 올라앉으므로 색을 뒤집는다 */
-.pq-cycle label:has(input:checked) .off{background:rgba(255,255,255,.22);color:var(--main-white)}
+/* 고른 뒤에는 파란 바탕 위에 올라앉으므로 흰 알약에 파란 글씨로 뒤집는다 —
+   꺼졌을 때(회색 트랙 위 파란 알약)와 같은 세기로 보인다 */
+.pq-cycle label:has(input:checked) .off{background:var(--main-white);color:var(--accent)}
 
 /* 바꾸면 얼마가 남는지 — 비율을 돈으로 옮겨 적는 자리 */
 .pq-save{display:flex;align-items:center;gap:6px;margin:-8px 0 16px;padding:9px 12px;
