@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>요금안내 · 김반장</title>
+<meta name="description" content="김반장 3.0과 김반장 프리미엄이 무엇을 어디까지 해주는지, 기능 33개를 한 표에서 견주어 보고 현장에 맞는 요금제를 고르세요.">
+<!-- 라이브(kbz.co.kr) 폰트: 본문/CTA=Wanted Sans, 타이틀=SUITE -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUITE/fonts/variable/woff2/SUITEVariable.css">
+<!-- 스타일은 전부 assets/ 에 있다. 이름 규칙: HTML 과 같은 이름 = 이 화면 전용,
+     다른 이름 = 여러 화면이 나눠 쓰는 것 (견적 화면들과 같은 규칙) -->
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/pricing.css">
+</head>
+<body class="pricing-page" data-price="ask">
+
+<!-- ===== 머리 ===== -->
+<section class="pr-hero">
+  <span class="sec-no">요금안내</span>
+  <div class="inner">
+    <div class="eyebrow">현장에 필요한 만큼만</div>
+    <h1 class="title-lg">계산은 김반장 3.0,<br>신고까지는 김반장 프리미엄</h1>
+    <p class="lead">출역만 입력하면 급여·명세서·신고서가 자동으로 섭니다. 신고서를 직접 낼지, 전담팀에 맡길지만 고르세요.</p>
+    <div class="pr-jump">
+      <a href="#plans">요금제 두 가지</a>
+      <a href="#features">기능 33개 비교</a>
+      <a href="#devices">단말기 요금</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 요금제 두 장 ===== -->
+<section class="pr-plans center" id="plans">
+  <div class="inner">
+    <div class="title-container">
+      <div class="eyebrow">무엇이 다른가</div>
+      <h2 class="title-md">프로그램은 같고, 신고를 누가 하느냐가 다릅니다</h2>
+    </div>
+
+    <div class="plan-grid">
+      <!-- 김반장 3.0 -->
+      <article class="plan-card c30">
+        <header class="plan-h">
+          <span class="plan-name">김반장 3.0</span>
+          <span class="plan-sub">자동 계산·서식으로 직접 신고</span>
+        </header>
+        <!-- 금액은 두 안이 같은 자리에 포개져 있다. body[data-price] 가 하나만 켠다.
+             ⚠ 공개형 숫자는 아직 가안이다 — 확정 요금이 나오면 이 두 줄만 고치면 된다 -->
+        <div class="plan-price">
+          <span class="plan-open"><span class="num tnum">월 55,000원</span><span class="unit">부터 · 사업장 1곳</span></span>
+          <span class="plan-ask"><span class="num">맞춤 견적</span><span class="unit">현장 수·근로자 수에 맞춰</span></span>
+        </div>
+        <p class="plan-note">15일 무료 체험 · 카드 등록 없이 시작 · VAT 별도</p>
+        <ul class="plan-list">
+          <li>공사대장·근로자·출역을 한 곳에서 관리합니다</li>
+          <li>출역만 넣으면 급여·임금명세서·이체파일까지 자동입니다</li>
+          <li>4대보험·퇴직공제 신고서를 자동으로 작성해 드립니다</li>
+          <li>법이 바뀌어도 서식·요율이 늘 최신으로 반영됩니다</li>
+          <li>현장소장 앱·근로자 앱을 함께 씁니다</li>
+        </ul>
+        <div class="plan-cta"><a class="banner-btn" href="#">15일 무료로 시작하기</a></div>
+      </article>
+
+      <!-- 김반장 프리미엄 -->
+      <article class="plan-card prem">
+        <span class="plan-badge">추천</span>
+        <header class="plan-h">
+          <span class="plan-name">김반장 프리미엄</span>
+          <span class="plan-sub">27년 전담팀이 신고까지 대신합니다</span>
+        </header>
+        <div class="plan-price">
+          <span class="plan-open"><span class="num tnum">월 165,000원</span><span class="unit">부터 · 사업장 1곳</span></span>
+          <span class="plan-ask"><span class="num">맞춤 견적</span><span class="unit">신고 건수·현장 수에 맞춰</span></span>
+        </div>
+        <p class="plan-note">김반장 3.0 이용료가 따로 붙지 않습니다 · VAT 별도</p>
+        <ul class="plan-list">
+          <li class="carry">김반장 3.0 전 기능을 추가 비용 없이 그대로 씁니다</li>
+          <li>4대보험·퇴직공제 신고를 전담팀이 대행합니다</li>
+          <li>건설공사 성립·변경·준공, 하수급인 승인·명세까지 맡습니다</li>
+          <li>증명원은 365일 24시간 자동으로 발급됩니다</li>
+          <li>보험료·부금 고지서를 대신 검증해 드립니다</li>
+          <li>업무톡으로 요청하고 처리 상태를 바로 확인합니다</li>
+        </ul>
+        <div class="plan-cta"><a class="banner-btn" href="#">프리미엄 상담받기</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 기능 비교표 ===== -->
+<section class="pr-compare center" id="features">
+  <div class="inner">
+    <div class="title-container">
+      <div class="eyebrow">기능 33개</div>
+      <h2 class="title-md">우리 현장에 쓰이는 것만 골라 보세요</h2>
+      <p class="lead">일용직 현장과 상용직 사업장은 쓰는 기능이 다릅니다. 고용형태로 거르면 해당하지 않는 줄은 접힙니다.</p>
+    </div>
+
+    <!-- 거르개 -->
+    <div class="pr-filters">
+      <div class="pr-filter">
+        <span class="pr-filter-label" id="empLabel">고용형태</span>
+        <div class="pr-seg" data-filter="emp" role="group" aria-labelledby="empLabel">
+          <button type="button" data-emp="all" aria-pressed="true">전체</button>
+          <button type="button" data-emp="daily" aria-pressed="false">일용직 현장</button>
+          <button type="button" data-emp="regular" aria-pressed="false">상용직 중심</button>
+        </div>
+      </div>
+      <label class="pr-only">
+        <input type="checkbox" id="prOnlyPrem">
+        <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>
+        <span>프리미엄에만 있는 것만 보기</span>
+      </label>
+    </div>
+
+    <p class="pr-legend">
+      <span><i class="mk" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></i>프로그램 제공</span>
+      <span><i class="mk prem" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></i>프리미엄 전용</span>
+      <span><i class="mk no" aria-hidden="true">—</i>해당 요금제에 없음</span>
+      <span><i class="tag" aria-hidden="true">일용</i>일용직 한정</span>
+      <span><i class="tag" aria-hidden="true">상용</i>상용직 한정</span>
+    </p>
+
+    <p class="pr-count" id="prCount" role="status" aria-live="polite"></p>
+
+    <div class="pr-cmp" id="prCmp">
+      <!-- 머리줄은 스크롤을 따라붙는다 -->
+      <div class="pr-cmp-head">
+        <div class="c task">기능</div>
+        <div class="c c30">김반장 3.0<small>직접 신고</small></div>
+        <div class="c prem">김반장 프리미엄<small>신고 대행</small></div>
+      </div>
+
+      <section class="pr-cat" aria-label="공사 및 계약 관리">
+        <h3 class="pr-cat-h">공사 및 계약 관리<span class="n">7개</span></h3>
+        <p class="pr-cat-same"></p>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>공사대장</b><small>원·하도급 등록, 발주처·계약정보 관리, 공사자료·작업일보 기록</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>공사 데이터 일괄 관리</b><small>현장별 리스트 필터링 및 설정, 공사대장 서식·공사목록·성립신고서 다운로드 지원</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>건설기계·운전원 관리</b><small>일·월 투입 기록, 장비·운전원 현황, 기계장비 집계, 노무제공자(운전원) 고용·산재 신고</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>외주·기성 관리 (예정)</b><small>하도급 공종별 외주 현황·계약사항 기록, 공종별 기성금 청구·지급 관리, 자금 흐름 일원화</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="prem">
+          <div class="task"><b>공사 정보 가져오기</b><small>김반장 4대보험 신고 데이터에서 공사정보 자동 연동 (입력 불필요)</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark off" aria-hidden="true"></span><span class="sr-only">김반장 3.0 미제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="prem">
+          <div class="task"><b>건설공사 신고 대행</b><small>4대보험(사업장 개시·변경·준공, 하수급인 승인·명세, 건강·연금 적용·소멸), 퇴직공제(성립·변경·소멸, 전자카드 현장등록), 키스콘 공사대장 전자통보</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark off" aria-hidden="true"></span><span class="sr-only">김반장 3.0 미제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="prem">
+          <div class="task"><b>하도급사 통보 대행</b><small>고용·산재·퇴직공제 하수급인 승인·명세 통지, 근로내역 확정 안내</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark off" aria-hidden="true"></span><span class="sr-only">김반장 3.0 미제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pr-cat" aria-label="근로자 등록·관리">
+        <h3 class="pr-cat-h">근로자 등록·관리<span class="n">7개</span></h3>
+        <p class="pr-cat-same"></p>
+        <div class="pr-row" data-tier="30" data-emp="regular">
+          <div class="task"><b>근로자 정보 관리<span class="pr-tag regular">상용</span></b><small>인적사항, 입·퇴사 이력, 가족·학력·자격·경력, 조직도 등록</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30" data-emp="daily">
+          <div class="task"><b>근로자 현황·팀관리<span class="pr-tag daily">일용</span></b><small>현장별·기간별 투입 현황, 팀(반·조) 그룹, 재직·퇴직 구분</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30" data-emp="daily">
+          <div class="task"><b>외국인 관리<span class="pr-tag daily">일용</span></b><small>비자(H2·F4 등) 만료일 사전 알림, 불법 고용 리스크 차단</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30" data-emp="daily">
+          <div class="task"><b>자격/교육 이수 관리<span class="pr-tag daily">일용</span></b><small>기초안전보건교육 이수증, 건설기계 조종 면허 등 증빙 관리</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>데이터 일괄·첨부서류 관리</b><small>엑셀 업로드로 대규모 데이터 일괄 처리, 신분증·통장·계약서 등 서류 디지털 보관</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="prem" data-emp="regular">
+          <div class="task"><b>고용보험 기준 일괄 등록<span class="pr-tag regular">상용</span></b><small>고용보험 가입 기준으로 상용근로자 일괄 등록</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark off" aria-hidden="true"></span><span class="sr-only">김반장 3.0 미제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="prem">
+          <div class="task"><b>근로자 신고 대행</b><small>일용 근로내용 확인 신고, 상용 취득·변경·상실, 건강·연금 일용·상용 전입·전출, 단기노무제공 확인 신고, 퇴직공제 일용근로자 집계·확정·신고</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark off" aria-hidden="true"></span><span class="sr-only">김반장 3.0 미제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pr-cat" aria-label="근태·출퇴근 관리">
+        <h3 class="pr-cat-h">근태·출퇴근 관리<span class="n">4개</span></h3>
+        <p class="pr-cat-same"></p>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>출퇴근 관리</b><small>모바일 GPS 출퇴근, 안면인식 출입관제 연동, 허위·대리 출퇴근 차단</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30" data-emp="daily">
+          <div class="task"><b>일·월 출역 관리<span class="pr-tag daily">일용</span></b><small>일출역·월출역 입력, 엑셀 일괄 업로드, 전자카드제 데이터 대조, 지급 이력 관리, 공수·임금 자동 계산, 4대보험 대상자 즉시 산출</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30" data-emp="regular">
+          <div class="task"><b>연차·휴가 관리<span class="pr-tag regular">상용</span></b><small>사규·근무 유형별 근태 자동 등록, 캘린더·리스트 보기, 연차·휴가 부여·현황</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30" data-emp="daily">
+          <div class="task"><b>집계·마감 관리<span class="pr-tag daily">일용</span></b><small>공수·임금·근태 집계 및 통계, 월 단위 마감·마감취소</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pr-cat" aria-label="근로계약·급여·명세서">
+        <h3 class="pr-cat-h">근로계약·급여·명세서<span class="n">7개</span></h3>
+        <p class="pr-cat-same"></p>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>근로계약서 작성·관리</b><small>공인노무사 검토 양식, 전자서명, 클라우드 영구 보관, 클릭 한 번 일괄 체결, 카카오톡 알림톡 발송</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>원클릭 급여관리</b><small>일·주·월 정산 주기 선택, 급여 자동 정산, 이체파일 생성 (은행 양식 호환)</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>임금명세서</b><small>자동 생성·발급, 카카오톡 알림톡 대량 발송</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>계좌이체명세서/지급명세서 관리</b><small>계좌이체 내역과 지급명세서를 생성·관리하여 급여 증빙 업무 간소화</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30" data-emp="daily">
+          <div class="task"><b>퇴직금 관리<span class="pr-tag daily">일용</span></b><small>퇴직금 자동 계산, 예상 퇴직금 산출, 입·퇴사 기록으로 지급 대상 자동 판별</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>문서서식 관리</b><small>회사별 문서 양식 등록·관리</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30" data-emp="regular">
+          <div class="task"><b>급여 스케줄 관리<span class="pr-tag regular">상용</span></b><small>사업장별 급여 지급 주기·지급일 설정, 원천세 신고 데이터 자동 생성</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pr-cat" aria-label="회사 기본 설정">
+        <h3 class="pr-cat-h">회사 기본 설정<span class="n">6개</span></h3>
+        <p class="pr-cat-same"></p>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>회사·사용자 관리</b><small>회사정보, 사용자 계정·권한, 건설면허, 거래처, 기초코드 관리</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30" data-emp="regular">
+          <div class="task"><b>상용 사규관리<span class="pr-tag regular">상용</span></b><small>사업장 맞춤 근태규정, 근무 유형별 자동 등록</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="prem">
+          <div class="task"><b>김반장 업무톡</b><small>신규공사 성립·변경·하수급·준공 요청, 증명원·상담 요청, 카카오톡으로 처리 상태 실시간 확인</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark off" aria-hidden="true"></span><span class="sr-only">김반장 3.0 미제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="prem">
+          <div class="task"><b>고지서 검증</b><small>고용·산재·건강·연금 보험료 고지서, 퇴직공제부금 고지서</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark off" aria-hidden="true"></span><span class="sr-only">김반장 3.0 미제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="prem">
+          <div class="task"><b>증명원 365·24 자동 발급</b><small>4대보험 가입·완납증명원, 가입자명부, 납부확인서, 퇴직공제 가입자증·납부확인서·단말기 비용 확인서·근로일수 납부신고내역</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark off" aria-hidden="true"></span><span class="sr-only">김반장 3.0 미제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="prem">
+          <div class="task"><b>전문 상담</b><small>확정정산·지도점검·가입자 대상안내 상담, 4개 공단(근로복지·건강·연금·건설근로자공제회) 원스톱 상담</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark off" aria-hidden="true"></span><span class="sr-only">김반장 3.0 미제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pr-cat" aria-label="모바일 앱">
+        <h3 class="pr-cat-h">모바일 앱<span class="n">2개</span></h3>
+        <p class="pr-cat-same"></p>
+        <div class="pr-row" data-tier="30">
+          <div class="task"><b>현장소장 앱</b><small>출역 입력, 현황 조회</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+        <div class="pr-row" data-tier="30" data-emp="daily">
+          <div class="task"><b>근로자 앱<span class="pr-tag daily">일용</span></b><small>GPS 출퇴근, 근로계약서·임금명세서 수령</small></div>
+          <div class="pr-marks">
+            <div class="mk c30" data-col="3.0"><span class="pr-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 3.0 제공</span></div>
+            <div class="mk prem" data-col="프리미엄"><span class="pr-mark on-prem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="sr-only">김반장 프리미엄 제공</span></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="pr-cmp-foot">
+      <div class="c task"></div>
+      <div class="c c30"><a class="banner-btn" href="#">3.0 무료 체험하기</a></div>
+      <div class="c prem"><a class="banner-btn" href="#">프리미엄 상담받기</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 단말기 요금 (index.html partition-9 과 같은 카드) ===== -->
+<section class="pr-devices center" id="devices">
+  <div class="inner">
+    <div class="title-container">
+      <div class="eyebrow">현장에서 찍는 기기</div>
+      <h2 class="title-md">묶을수록 가벼워지는 현장 관리</h2>
+      <p class="lead combo-lead">현장에서 찍은 출역이 급여·4대보험·퇴직공제 신고까지 김반장으로 이어집니다. 필요한 기기만 골라 묶을수록 요금도, 손도 가벼워집니다.</p>
+    </div>
+    <div class="combo-grid">
+      <div class="combo-card">
+        <div class="combo-media"><img class="dev" src="images/device/A-01.png" alt="안면인식 출퇴근관리 단말기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span class="mcap">안면인식 단말기 누끼컷</span><span class="msub">투명 PNG · 프레임 위로 튀어나오게</span></div>
+        <span class="combo-tag">출퇴근·공수 관리</span>
+        <div class="combo-name">안면인식 출퇴근관리</div>
+        <p class="combo-desc">QR로 얼굴을 최초 1회만 등록하면, 1초 안면인식으로 출퇴근이 찍히고 근로자별 공수가 자동으로 산출됩니다.</p>
+        <div class="combo-price"><span class="num tnum">월 150,000원</span><span class="unit">/ 대</span></div>
+        <p class="combo-note">12개월 이상 계약 시 설치비 무료 · 계약 수량에 따라 할인 · VAT 별도</p>
+        <div class="combo-cta"><a class="banner-btn" href="face-quote.html">안면인식 단말기 견적받기</a></div>
+      </div>
+      <div class="combo-card">
+        <div class="combo-media"><img class="dev" src="images/device/A-02.png" alt="퇴직공제 전자카드 단말기 3종"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span class="mcap">전자카드 단말기 3종 누끼컷</span><span class="msub">벽부형 · 이동형 · 휴대형</span></div>
+        <div class="combo-tagrow"><span class="combo-tag">퇴직공제 신고</span><span class="combo-perk">프리미엄 결합 시 추가 할인</span></div>
+        <div class="combo-name">퇴직공제 전자카드 단말기</div>
+        <p class="combo-desc">벽부형·이동형·휴대형 중 현장 방식에 맞춰 선택하세요. 전자카드로 찍은 출역이 퇴직공제 신고로 그대로 이어집니다.</p>
+        <div class="combo-price"><span class="was tnum">월 180,000원</span><span class="num tnum">월 83,000원</span></div>
+        <p class="combo-note">휴대형 기준 · 12개월 계약 시 · 장기계약에 따른 추가할인 제공 · VAT 별도</p>
+        <div class="combo-cta"><a class="banner-btn" href="quote.html">전자카드 단말기 견적받기</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="pr-faq center">
+  <div class="inner">
+    <div class="title-container">
+      <div class="eyebrow">요금 관련 자주 묻는 질문</div>
+      <h2 class="title-md">결제 전에 먼저 확인하세요</h2>
+    </div>
+    <div class="faq">
+      <details open><summary>Q1. 요금은 무엇을 기준으로 정해지나요?</summary><div class="ans">사업장 수와 관리하는 근로자 규모, 그리고 신고를 직접 하실지 대행을 맡기실지에 따라 달라집니다. 현장 상황을 알려주시면 그에 맞춘 금액을 안내해 드립니다.</div></details>
+      <details><summary>Q2. 프리미엄을 쓰면 김반장 3.0 이용료가 따로 붙나요?</summary><div class="ans">아닙니다. 김반장 프리미엄은 3.0의 전 기능을 그대로 포함합니다. 근태·급여·서류 관리는 추가 비용 없이 쓰시고, 4대보험·퇴직공제 신고만 전담팀이 대신 처리합니다.</div></details>
+      <details><summary>Q3. 무료 체험은 어떻게 시작하고, 어디까지 쓸 수 있나요?</summary><div class="ans">먼저 간단한 상담으로 현장 상황에 맞는 이용 방법을 안내해드리고, 체험용 계정(아이디·비밀번호)을 만들어 드립니다. 체험 기간에는 김반장 3.0의 근태·급여·근로계약서 등 핵심 기능을 제한 없이 직접 써보실 수 있습니다.</div></details>
+      <details><summary>Q4. 단말기 요금은 프로그램 요금과 별개인가요?</summary><div class="ans">네, 단말기는 임대 계약으로 따로 산정됩니다. 기간과 수량에 따라 대당 단가가 달라지므로 견적신청에서 조건을 넣으면 금액이 바로 계산됩니다. 퇴직공제 전자카드 단말기는 프리미엄과 함께 쓰실 때 추가 할인이 있습니다.</div></details>
+      <details><summary>Q5. 쓰다가 요금제를 바꿀 수 있나요?</summary><div class="ans">네. 3.0으로 시작하셨다가 신고가 부담되면 프리미엄으로 올리실 수 있고, 그동안 쌓인 공사·근로자·출역 데이터는 그대로 이어집니다. 전환 시점의 남은 기간은 정산해 드립니다.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 마지막 CTA ===== -->
+<section class="pr-cta">
+  <div class="inner">
+    <h2>어느 쪽이 맞을지 모르겠다면,<br>현장 이야기부터 들려주세요</h2>
+    <p class="sub">상담 한 번이면 우리 현장에 맞는 요금제와 금액을 안내해 드립니다.</p>
+    <div class="acts" style="justify-content:center">
+      <a class="banner-btn" href="#">15일 무료로 시작하기</a>
+      <a class="banner-btn sec" href="#">도입 상담받기</a>
+    </div>
+  </div>
+</section>
+
+<script src="assets/pricing.js"></script>
+</body>
+</html>
