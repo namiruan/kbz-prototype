@@ -31,6 +31,10 @@
   --color-p-cyan-rgb:183,225,245; /* #B7E1F5 */
   --color-sky-rgb:220,238,255;    /* #DCEEFF */
   --color-lake-rgb:138,218,255;   /* #8ADAFF */
+  /* 이 디자인의 첫 따뜻한 색이다. 여기 쓰는 색 91개가 모두 파랑·무채색이거나
+     오류용 빨강·완료용 초록이라, 어두운 바탕에서 숫자 하나를 띄우려 해도
+     흰 본문과 밝기가 비슷해져 묻혔다. 색조가 다른 값이 하나는 있어야 했다 */
+  --color-sun-rgb:255,212,59;     /* #FFD43B */
 
   --main-white:rgba(var(--color-white-rgb),1);
   --main-gray:rgba(var(--color-gray-rgb),1);
@@ -50,6 +54,7 @@
   --pastel-cyan:rgba(var(--color-p-cyan-rgb),1);
   --sky:rgba(var(--color-sky-rgb),1);
   --lake:rgba(var(--color-lake-rgb),1);
+  --sun:rgba(var(--color-sun-rgb),1);
 
   /* 라이브 폰트 스택: 본문/CTA=Wanted Sans, 타이틀=SUITE, 폴백=Apple SD Gothic Neo */
   --font-body:"Wanted Sans Variable","Wanted Sans","Apple SD Gothic Neo",sans-serif;

@@ -70,14 +70,12 @@
 .pq-save{position:relative;width:fit-content;margin:0 0 12px auto;padding:9px 12px;
   border-radius:8px;background:var(--ink);color:var(--main-white);
   font-size:12.5px;font-weight:600;line-height:1.5;word-break:keep-all}
-/* 금액은 튀어야 한다 — 말풍선에서 읽을 것은 이 숫자 하나뿐이다. 글자색만
-   바꿔서는 모자랐다. 이 팔레트에 파랑·하늘 말고 다른 색조가 없어, 먹색 위에서
-   밝은 색을 올리면 흰 본문과 밝기가 비슷해져 굵기만 다른 같은 글자로 읽힌다.
-   그래서 색이 아니라 면으로 올린다 — 바로 아래 세그먼트의 '5% 할인'이 쓰는
-   것과 같은 채운 알약이다. 이 화면이 이미 쓰는 강조 방식이라 새로 배울 것이
-   없고, 글자 하나가 아니라 덩어리가 서서 훑어도 걸린다 (알약 위 글자 12.55:1) */
-.pq-save b{display:inline-block;margin:0 1px;padding:2px 7px;border-radius:5px;
-  background:var(--lake);color:var(--ink);font-weight:800;letter-spacing:-.01em}
+/* 금액은 튀어야 한다 — 말풍선에서 읽을 것은 이 숫자 하나뿐이다. 하늘색(--lake)
+   으로는 묻혔다. 대비는 12.55:1 로 넉넉했지만 대비는 밝기 차이지 눈에 띄는
+   정도가 아니고, 흰 본문과 밝기가 비슷하면 아무리 대비가 높아도 서로 묻는다.
+   색조가 다른 값이 필요해 --sun 을 들였다 — 이 디자인의 첫 따뜻한 색이다.
+   알약을 두르지 않아도 노랑은 저 혼자 선다 (먹색 위 13.57:1) */
+.pq-save b{font-weight:800;color:var(--sun)}
 /* 말풍선이 글자만큼만 넓어져 오른쪽에 붙으니, 꼬리는 비율이 아니라 오른쪽에서
    잰 거리로 세운다 — 세그먼트 오른 칸의 한가운데가 늘 그 자리다 */
 .pq-save::after{content:"";position:absolute;right:70px;bottom:-3px;width:8px;height:8px;
