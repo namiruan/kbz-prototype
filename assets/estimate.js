@@ -120,6 +120,16 @@
       }
     }
 
+    /* 비교표 머리줄도 따라붙는다. 둘이 겹치지 않으려면 탭바 높이를 알아야 하는데,
+       글꼴이 뜨고 폭이 바뀔 때마다 달라지므로 CSS 에 박지 않고 재서 넣는다 */
+    function measure(){
+      var bar = $('.es-tabs');
+      if(bar) document.body.style.setProperty('--tabbar-h', bar.offsetHeight + 'px');
+    }
+    measure();
+    window.addEventListener('resize', measure);
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+
     tabs.forEach(function(t){
       t.addEventListener('click', function(){ show(t.dataset.type, true); });
     });

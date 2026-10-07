@@ -49,7 +49,6 @@ h1,h2,h3,h4{font-family:var(--font-title);line-height:1.24;letter-spacing:-.03em
 .center{text-align:center}
 .center .lead{margin:0 auto}
 .title-container{display:flex;flex-direction:column;align-items:center;gap:10px}
-.sec-no{position:absolute;top:26px;left:30px;font-size:11px;font-weight:800;color:var(--sub-d-gray);opacity:.5;letter-spacing:.1em}
 
 /* 서비스 블록이 쓰는 띠 색. index.html 의 partition-8 이 쓰던 것과 같은 값이다 */
 body.estimate-page{--frame-tint:#EDF3FC;--frame-border:rgba(14,59,99,.20)}
@@ -71,6 +70,8 @@ body.estimate-page{--frame-tint:#EDF3FC;--frame-border:rgba(14,59,99,.20)}
    탭은 보기를 갈아 끼우는 장치가 아니라 '무엇을 팔고 있는지'를 바꾼다.
    그래서 주소(?type=A·B·C)가 곧 탭이고, 링크로 그 상품을 바로 열 수 있다.
    스크롤을 따라붙는다 — 비교표가 길어 탭으로 돌아오려면 한참 올라가야 했다 */
+/* 비교표 머리줄이 탭바 바로 아래에 붙도록 쓰는 값. 글꼴이 뜨면 높이가
+   달라지므로 estimate.js 가 실제로 재서 덮어쓴다 — 여기 값은 그 전까지의 어림이다 */
 body.estimate-page{--tabbar-h:72px}
 .es-tabs{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--main-gray)}
@@ -82,19 +83,22 @@ body.estimate-page{--tabbar-h:72px}
 .es-tab .t{font-size:15px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
 .es-tab .s{font-size:11.5px;font-weight:600;opacity:.8;white-space:nowrap}
 .es-tab:hover{color:var(--main-navy);background:var(--sub-w-gray)}
+/* 작은 줄(.s)은 '무엇인가'가 아니라 '언제 필요한가'를 적는다. 무엇인지는
+   바로 위 제목이 이미 말했고, 고르는 사람에게 필요한 것은 제 상황과의 대조다 */
 /* 고른 탭만 색과 밑줄을 갖는다 — 밑줄 하나로는 흑백에서 구분이 약하다 */
 .es-tab.is-active{color:var(--main-blue);border-bottom-color:var(--main-blue)}
 .es-tab.is-active:hover{background:none}
 .es-tab:focus-visible{outline:2px solid var(--main-blue);outline-offset:-3px}
 /* 좁은 폭에서는 세 탭이 한 줄에 못 선다 — 가로로 밀어 보게 하고 설명 줄은 접는다 */
 @media(max-width:720px){
-  body.estimate-page{--tabbar-h:50px}
   .es-tabs .inner{padding:0 12px}
   .es-tabs-row{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .es-tabs-row::-webkit-scrollbar{display:none}
-  .es-tab{flex:0 0 auto;padding:13px 14px 11px}
+  .es-tab{flex:0 0 auto;padding:11px 14px 10px}
   .es-tab .t{font-size:14px}
-  .es-tab .s{display:none}
+  /* 작은 줄을 여기서도 남긴다 — 띠가 가로로 밀리므로 자리는 모자라지 않고,
+     '언제 필요한가'가 고르는 데 제일 보탬이 되는 줄이다 */
+  .es-tab .s{font-size:11px}
 }
 
 /* ── 2.6 단말기 탭 — 견적 화면을 끼우는 틀 ─────────────────────
