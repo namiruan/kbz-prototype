@@ -62,17 +62,6 @@
   function money(v){ return Number(v).toLocaleString('ko-KR') + '원'; }
   function yearly(month){ return Math.round(month * 12 * (1 - YEAR_OFF)); }
 
-  /* 요금표를 안내 쪽에 펼쳐 둔다 — 요약의 숫자가 어디서 나왔는지 짚어 볼 수 있게 */
-  (function(){
-    var tb = $('#rateRows');
-    if(!tb) return;
-    tb.innerHTML = TIERS.map(function(t){
-      var lo = t.n === 1 ? 0 : TIERS[t.n - 2].max;
-      var range = t.n === 1 ? t.max + '억 미만' : lo + '억 이상 ~ ' + t.max + '억 미만';
-      return '<tr data-tier="' + t.n + '"><td>' + range + '</td><td class="tnum">' + money(t.month)
-           + '</td><td class="tnum">' + money(yearly(t.month)) + '</td></tr>';
-    }).join('');
-  })();
 
   /* ── 번호 ────────────────────────────────────────────────────
      ⚠ 아래 셋은 quote.html 안에 있는 것과 글자까지 같다. 저 화면들이 제 <script>
@@ -136,8 +125,6 @@
     var t = tierFor(sales);
     var prem = plan() === 'prem';
     var v = $('#estMonthly'), from = $('#estFrom'), sub = $('#estSub');
-    var hit = $('#rateRows') ? $$('#rateRows tr') : [];
-    hit.forEach(function(tr){ tr.classList.remove('on'); });
 
     if(!t){
       v.textContent = '—'; from.hidden = true;
@@ -149,7 +136,6 @@
       sub.textContent = '4000억 이상은 요금표에 없습니다. 담당자가 따로 산정해 드립니다.';
       return;
     }
-    hit.forEach(function(tr){ if(Number(tr.dataset.tier) === t.n) tr.classList.add('on'); });
     v.textContent = '월 ' + money(t.month);
     from.hidden = false;
     sub.innerHTML = prem
