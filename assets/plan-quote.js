@@ -23,7 +23,6 @@
 
   var form      = $('#quoteForm');
   var btnSubmit = $('#btnSubmit');
-  var planName  = { c30:'김반장 3.0', prem:'김반장 프리미엄' };
 
   /* ── 김반장 3.0 구간별 요금 ───────────────────────────────────
      건설공사실적(또는 매출액)이 구간을 정하고, 구간이 월정액을 정한다.
@@ -89,6 +88,9 @@
     var on = $('input[name=plan]:checked');
     return on ? on.value : 'c30';
   }
+  /* 고른 주기가 총액의 단위를 정한다. 둘을 한 화면에 같이 띄워 두면 어느 쪽이
+     내 금액인지 흐려지므로, 한 번에 하나만 세운다 */
+  function yearly5(){ return $('input[name=pay_cycle]:checked').value === 'year'; }
 
   /* 프리미엄에서만 묻는 칸을 여닫는다. hidden 을 쓰는 까닭은 보조기술에도
      '없는 것'으로 넘어가야 하기 때문이다 — 묻지도 않는 칸을 읽어 주면 안 된다.
@@ -98,7 +100,6 @@
     $$('.prem-only').forEach(function(el){ el.hidden = !prem; });
     var sitesY = $('#q-sites-y');
     if(sitesY) prem ? sitesY.setAttribute('required','') : sitesY.removeAttribute('required');
-    $('#sumPlan').textContent = planName[plan()];
     render();
   }
 
@@ -134,7 +135,9 @@
     var disc  = $('#sumDisc'), fold = $('#sumMid');
     var total = $('#sumTotal'), basis = $('#sumBasis'), items = $('#sumItems');
 
-    /* ① 총액 자리 */
+    var year = yearly5();
+
+    /* ① 총액 자리 — 고른 주기의 단위로 적는다 */
     total.classList.remove('none');
     if(!t){
       total.textContent = '—';
@@ -144,26 +147,28 @@
       total.classList.add('none');
       basis.textContent = '4000억 이상은 요금표에 없습니다';
     }else{
-      total.innerHTML = '월 ' + money(t.month) + '<small>부터</small>';
+      total.innerHTML = (year ? '연 ' + money(yearly(t.month)) : '월 ' + money(t.month))
+                      + '<small>부터</small>';
       /* 몇 구간인지는 적지 않는다. 구간 번호도 매출 범위도 안에서 쓰는 가름이지,
          고르는 사람이 알아야 할 것은 '얼마부터'다. 프리미엄만 이 금액이 무엇의
          금액인지 밝혀야 해서 한 줄이 남는다 */
       basis.textContent = prem ? '김반장 3.0 요금 기준' : '';
     }
 
-    /* ② 할인 블록 — 연납 5% 는 3.0 요금표의 것이다. 프리미엄 요금표는 받은 것이
-       없어, 거기에도 같은 할인이 붙는다고 장담하지 않는다 */
-    var showDisc = t && t !== 'over' && !prem;
+    /* ② 할인 블록 — 연납을 골랐을 때만. 할인이 붙지 않는데 '할인 전'을 띄우면
+       깎인 것처럼 읽힌다. 프리미엄에도 띄우는 까닭은 여기 선 숫자가 3.0 요금이고,
+       그 5% 는 3.0 요금표에 적힌 것이기 때문이다 */
+    var showDisc = t && t !== 'over' && year;
     disc.classList.toggle('on', !!showDisc);
     if(showDisc) $('#sumWas').textContent = money(t.month * 12);
 
     /* ③ 펼친 내역 — 금액이 어떻게 나왔는지, 그리고 넣으신 값 */
     var body = '';
     if(t && t !== 'over'){
+      /* 고르지 않은 쪽도 함께 적는다 — 바꿔 보지 않고도 얼마가 차이 나는지 보이게 */
       body += line('월정액', money(t.month));
-      body += prem
-        ? '<p class="pq-add">프리미엄은 이 금액을 포함하고, 신고 대행 범위(현장 수 · 인원 수 · 대행 항목)에 따라 더해집니다.</p>'
-        : line('연납 <small>5% 할인</small>', money(yearly(t.month)));
+      body += line('연납 <small>5% 할인</small>', money(yearly(t.month)));
+      if(prem) body += '<p class="pq-add">프리미엄은 이 금액을 포함하고, 신고 대행 범위(현장 수 · 인원 수 · 대행 항목)에 따라 더해집니다.</p>';
     }
 
     var rows = [['연 매출액', sales ? money(sales) : '']];
@@ -337,6 +342,7 @@
 
   /* ── 손잡이 ──────────────────────────────────────────────────── */
   $$('input[name=plan]').forEach(function(r){ r.addEventListener('change', syncPlan); });
+  $$('input[name=pay_cycle]').forEach(function(r){ r.addEventListener('change', render); });
   form.addEventListener('input', render);
   form.addEventListener('change', render);
   /* 금액 칸은 치는 대로 세 자리마다 쉼표가 붙는다 — 0이 몇 개인지 세지 않게 */
