@@ -155,8 +155,11 @@
              매단다 — 동의 체크가 쓰는 방식과 같다 -->
         <div class="pq-cycle" role="radiogroup" aria-label="납부 주기">
           <label><input type="radio" name="pay_cycle" value="month" form="quoteForm" checked><span class="tx">월납</span></label>
-          <label><input type="radio" name="pay_cycle" value="year" form="quoteForm"><span class="tx">연납 <small>5%</small></span></label>
+          <label><input type="radio" name="pay_cycle" value="year" form="quoteForm"><span class="tx">연납 <b class="off">5%<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg></b></span></label>
         </div>
+        <!-- 월납을 고른 사람에게만 뜬다 — 바꾸면 얼마가 남는지 숫자로 보여야
+             '5%' 라는 비율이 돈으로 읽힌다 -->
+        <p class="pq-save" id="sumSave" hidden></p>
 
         <!-- 퇴직공제 전자카드 견적(quote.html)과 같은 짜임이다 — 할인 블록 →
              접히는 총액 → 펼치면 계산 내역. 다른 것은 총액 자리에 서는 숫자뿐:
@@ -164,7 +167,7 @@
              실제 청구에는 계약 조건과 그때의 정책이 더 붙어, 여기서 끝까지 계산해
              버리면 받아 본 견적서와 어긋난다. -->
         <div class="q-sum-disc" id="sumDisc">
-          <div class="q-sum-rate"><span class="nm">연납 할인</span><span class="pct tnum">5%</span></div>
+          <div class="q-sum-rate"><span class="nm" id="sumRate">연납 할인</span><span class="pct tnum">5%</span></div>
           <div class="q-sum-line was"><span class="nm">할인 전</span><span class="amt tnum" id="sumWas">0원</span></div>
         </div>
 

@@ -132,7 +132,7 @@
     var prem  = plan() === 'prem';
     var sales = Number(String($('#q-sales').value||'').replace(/[^0-9]/g,''));
     var t     = tierFor(sales);
-    var disc  = $('#sumDisc'), fold = $('#sumMid');
+    var disc  = $('#sumDisc'), fold = $('#sumMid'), save = $('#sumSave');
     var total = $('#sumTotal'), basis = $('#sumBasis'), items = $('#sumItems');
 
     var year = yearly5();
@@ -160,7 +160,21 @@
        그 5% 는 3.0 요금표에 적힌 것이기 때문이다 */
     var showDisc = t && t !== 'over' && year;
     disc.classList.toggle('on', !!showDisc);
-    if(showDisc) $('#sumWas').textContent = money(t.month * 12);
+    if(showDisc){
+      $('#sumWas').textContent = money(t.month * 12);
+      /* 비율만 적으면 얼마가 깎인 건지 가늠해야 한다 — 돈으로도 적는다 */
+      $('#sumRate').innerHTML = '연납 할인 <span class="won">' + money(t.month * 12 - yearly(t.month)) + ' 아낌</span>';
+    }
+
+    /* ②-b 월납을 고른 사람에게만 — 바꾸면 얼마가 남는지. 고른 뒤에 알려 봐야 늦다 */
+    var showSave = t && t !== 'over' && !year;
+    save.hidden = !showSave;
+    if(showSave){
+      save.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" '
+        + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+        + '<path d="M20 12H4M13 5l7 7-7 7"/></svg>'
+        + '연납으로 바꾸면 한 해에 <b>' + money(t.month * 12 - yearly(t.month)) + '</b> 아낍니다';
+    }
 
     /* ③ 펼친 내역 — 금액이 어떻게 나왔는지, 그리고 넣으신 값 */
     var body = '';
