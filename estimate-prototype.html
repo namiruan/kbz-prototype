@@ -66,10 +66,18 @@
         data-look="누르는 순간 탭 줄이 화면 맨 위로 되감깁니다|주소의 ?type= 이 C 로 바뀝니다 — 뒤로가기가 쌓이지는 않습니다(replaceState)|탭 줄은 스크롤을 따라붙어, 한참 내려가도 돌아올 수 있습니다">탭을 바꾸면</button>
 
       <span class="proto-nav-group-label">A · 서비스 두 장</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="pl-서비스"
-        data-why="고를 것 둘을 나란히 세운 자리입니다. 금액은 사업장 수·근로자 규모·신고 건수로 갈려 한 숫자로 적으면 어느 현장에도 맞지 않으므로, 숫자 대신 '무엇으로 정해지는지'만 적고 견적신청으로 넘깁니다."
-        data-steps="페이지를 열고 서비스 블록으로 내려갑니다"
-        data-look="금액 자리에 '사업장 맞춤 견적'과 무엇으로 정해지는지 한 줄이 섭니다|두 카드가 같은 두 줄을 쓰므로 높이가 저절로 맞습니다|두 장의 버튼이 모두 '견적 신청하기' 입니다 — 지금은 어느 쪽을 골라도 다음 걸음이 같습니다|프리미엄 카드만 바탕·테두리·버튼 색이 달라, 추천 띠 하나에 기대지 않습니다|⚠ 누르면 견적신청 폼이 모달로 떠야 하는 자리입니다 — 3.0·프리미엄 폼이 아직 없어 href 는 자리표(#)입니다">서비스 두 장</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="pl-고르기전"
+        data-why="줄글 두 벌을 견주게 하지 않고 고르게 합니다. 여섯 줄은 전부 노션 「서비스별 기능 상세」의 🟡(프리미엄 전용) 기능을 쓰는 사람의 말로 옮긴 것이라, '하나라도 고르면 프리미엄'은 점수를 매겨 정한 셈법이 아니라 사실입니다 — 고른 일을 3.0 은 아예 하지 않습니다."
+        data-steps="페이지를 열고 서비스 블록으로 내려갑니다 — 아무것도 고르지 않습니다"
+        data-look="답 자리가 회색이고 '해당하는 것을 골라 보세요'라고만 합니다|두 장 어디에도 추천 띠가 없습니다 — 묻기도 전에 답하지 않습니다|'아무것도 해당 없음'과 '아직 안 봤음'은 다른 상태라, 한 번이라도 손을 대야 답이 섭니다">고르기 전</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="pl-프리미엄"
+        data-why="하나라도 고르면 프리미엄입니다. 왜 그런지를 답 줄이 바로 밝힙니다 — 고른 것의 기능 이름을 그대로 불러 주므로, 추천이 어디서 나온 말인지 되짚을 수 있습니다."
+        data-steps="서비스 블록에서 '4대보험·퇴직공제 신고를 맡기고 싶습니다'와 '보험료·퇴직공제부금 고지서가 맞는지 확인받고 싶습니다' 둘을 고릅니다"
+        data-look="고른 줄은 테두리·바탕·체크가 함께 바뀝니다 — 체크 하나로는 훑을 때 눈에 안 띕니다|답 자리가 파랗게 차고 '김반장 프리미엄 추천'이 섭니다|'고르신 2가지는 모두…' 뒤에 기능 이름(근로자 신고 대행 · 고지서 검증)이 그대로 붙습니다|추천 띠가 아래 프리미엄 카드로 옮겨 붙고 테두리가 두꺼워집니다">프리미엄이 나오는 자리</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="pl-30"
+        data-why="맡길 일이 하나도 없으면 3.0 입니다. 아무것도 안 고른 첫 화면과 글자는 비슷해 보여도 상태가 다릅니다 — 이쪽은 답이 선 것이라 띠가 3.0 카드에 붙습니다."
+        data-steps="서비스 블록에서 한 줄을 골랐다가 다시 풉니다(0개로 되돌립니다)"
+        data-look="답 자리가 네이비로 바뀌고 '김반장 3.0 추천'이 섭니다|추천 띠가 3.0 카드 쪽으로 옮겨 붙습니다 — 프리미엄 쪽 띠는 사라집니다|프리미엄 카드는 그대로 남습니다 — 추천이 아닐 뿐 고를 수 없는 것은 아닙니다">3.0 이 나오는 자리</button>
 
       <span class="proto-nav-group-label">A · 기능 비교표</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ft-전체"
@@ -178,8 +186,17 @@
       jump(d,'.es-cat:nth-of-type(4)', 8); await wait(200);
       var c=d.querySelector('#tab-C'); if(c) c.click(); }},
 
-    /* A 탭 — 서비스 두 장. 금액은 적지 않고 견적신청으로 넘긴다 */
-    'pl-서비스':{url:ES, act:function(d){ jump(d,'#plans'); }},
+    /* A 탭 — 고르면 답이 나오는 체크리스트. 금액은 적지 않고 견적신청으로 넘긴다 */
+    'pl-고르기전':{url:ES, act:function(d){ jump(d,'#plans'); }},
+    'pl-프리미엄':{url:ES, act:async function(d){
+      var box=d.querySelectorAll('.es-pick-item input');
+      hit(box[0]); hit(box[3]); await wait(200);
+      jump(d,'#plans'); }},
+    'pl-30'    :{url:ES, act:async function(d){
+      /* 골랐다 푸는 길로 간다 — 그래야 '아직 안 봤음'이 아니라 '해당 없음'이 된다 */
+      var box=d.querySelectorAll('.es-pick-item input');
+      hit(box[0]); await wait(150); hit(box[0]); await wait(200);
+      jump(d,'#plans'); }},
 
     /* A 탭 — 기능 비교표. 거르개는 주소가 건다 */
     'ft-전체'  :{url:ES,                          act:function(d){ jump(d,'#features'); }},

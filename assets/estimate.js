@@ -2,10 +2,11 @@
    estimate.js — 견적받기 화면이 하는 일은 셋뿐이다.
 
      1) 상단 3탭을 갈아 끼우고, 단말기 두 탭에 견적 화면을 끼운다 (?type=A·B·C)
-     2) 거르개(고용형태 · 차이만 보기)를 걸고 남은 줄을 센다
-     3) 그 상태를 주소로도 받는다 (?type= · ?emp= · ?only=)
+     2) 체크리스트를 받아 어느 서비스가 맞는지 답한다
+     3) 거르개(고용형태 · 차이만 보기)를 걸고 남은 줄을 센다
+     4) 그 상태를 주소로도 받는다 (?type= · ?emp= · ?only=)
 
-   3) 이 있는 까닭: 프로토타입 뷰어가 화면을 그 상태로 바로 열어야 하기 때문이다.
+   4) 가 있는 까닭: 프로토타입 뷰어가 화면을 그 상태로 바로 열어야 하기 때문이다.
    견적 화면이 ?done=1 · ?hold=1 을 받던 것과 같은 자리다 — 사람이 매번
    같은 버튼을 눌러 준비하게 두지 않는다.
 
@@ -129,6 +130,48 @@
     });
 
     show((new URLSearchParams(location.search)).get('type') || 'A', false);
+  })();
+
+  /* ── 어느 쪽이 맞는지 고르기 ─────────────────────────────────
+     여섯 줄은 전부 노션 「서비스별 기능 상세」의 🟡(프리미엄 전용) 기능이다.
+     그래서 '하나라도 고르면 프리미엄'은 점수를 매겨 정한 셈법이 아니라 사실이다
+     — 고른 일을 김반장 3.0 은 아예 하지 않는다.
+
+     묻기도 전에는 어느 쪽도 추천하지 않는다(data-rec="none"). 한 번이라도
+     손을 대야 답이 선다 — '아무것도 해당 없음'과 '아직 안 봤음'은 다른 상태다 */
+  (function(){
+    var pick = $('#esPick');
+    if(!pick) return;
+    var boxes = $$('.es-pick-item input', pick);
+    var rec = $('#esPickRec'), why = $('#esPickWhy');
+    var cards = { c30: $('#card-c30'), prem: $('#card-prem') };
+
+    function paint(){
+      var on = boxes.filter(function(b){ return b.checked; });
+      var mode = on.length ? 'prem' : 'c30';
+      pick.dataset.rec = mode;
+
+      if(mode === 'prem'){
+        rec.textContent = '김반장 프리미엄 추천';
+        why.innerHTML = '고르신 <b>' + on.length + '가지</b>는 모두 프리미엄에만 있습니다 — '
+          + on.map(function(b){ return b.dataset.feat; }).join(' · ')
+          + '. 김반장 3.0 전 기능은 추가 비용 없이 그대로 포함됩니다.';
+      }else{
+        rec.textContent = '김반장 3.0 추천';
+        why.innerHTML = '맡길 일이 없으시군요. 출역만 넣으면 급여·임금명세서·신고서까지 <b>3.0이 자동으로</b> 만들어 줍니다.';
+      }
+
+      /* 띠는 추천받은 쪽에만 붙는다 */
+      Object.keys(cards).forEach(function(k){
+        var c = cards[k]; if(!c) return;
+        var isRec = (k === mode);
+        c.classList.toggle('is-rec', isRec);
+        var badge = $('.plan-badge', c);
+        if(badge) badge.hidden = !isRec;
+      });
+    }
+
+    boxes.forEach(function(b){ b.addEventListener('change', paint); });
   })();
 
   var cmp = $('#esCmp');
