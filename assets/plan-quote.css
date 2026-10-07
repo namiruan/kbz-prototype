@@ -57,9 +57,10 @@
    켜졌는지 안 보인다 */
 .pq-cycle label:has(input:checked){background:var(--accent);color:var(--main-white);
   box-shadow:0 1px 3px rgba(14,59,99,.28)}
-/* 고른 뒤에는 파란 바탕 위에 올라앉으므로 흰 알약에 파란 글씨로 뒤집는다 —
-   꺼졌을 때(회색 트랙 위 파란 알약)와 같은 세기로 보인다 */
-.pq-cycle label:has(input:checked) .off{background:var(--main-white);color:var(--accent)}
+/* 고른 뒤에는 파란 바탕 위에 올라앉는다. 흰색은 알약이 아니라 글자가 파인
+   자국처럼 보여, 연한 하늘색을 깔아 알약으로 읽히게 한다
+   (알약이 떠 보이는 정도 5.37:1 · 글자 7.47:1) */
+.pq-cycle label:has(input:checked) .off{background:var(--sky);color:var(--sub-d-blue)}
 
 /* 바꾸면 얼마가 남는지 — 비율을 돈으로 옮겨 적는 자리 */
 .pq-save{display:flex;align-items:center;gap:6px;margin:-8px 0 16px;padding:9px 12px;
