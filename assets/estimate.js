@@ -51,6 +51,17 @@
       }catch(e){}
     }
 
+    /* 프로토타입 뷰어는 바깥 화면을 ?_t=... 로 열어 캐시를 지나친다. 그런데 그
+       안에 끼우는 화면은 그냥 주소라, 바깥만 새것이고 안쪽은 브라우저가 들고 있던
+       옛 파일이 나온다 — 고친 것이 안 고쳐진 것처럼 보인다.
+       바깥이 _t 를 달고 열렸으면 안쪽에도 같은 값을 물려준다. 라이브에서는 _t 가
+       없으므로 주소가 깨끗한 채로 남는다 */
+    function fresh(src){
+      var t = (new URLSearchParams(location.search)).get('_t');
+      if(!t) return src;
+      return src + (src.indexOf('?') < 0 ? '?' : '&') + '_t=' + t;
+    }
+
     /* 체크리스트와 신청 버튼이 고른 유형을, 끼운 폼의 토글에 그대로 옮긴다.
        폼이 아직 안 떴으면 값만 들고 있다가 뜨는 길에 적용한다(applyPlan) */
     var wantPlan = null;
@@ -88,7 +99,7 @@
           new ResizeObserver(function(){ fit(fr); }).observe(d.body);
         }
       });
-      fr.setAttribute('src', fr.dataset.src);
+      fr.setAttribute('src', fresh(fr.dataset.src));
     }
 
     function show(type, push){
