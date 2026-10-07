@@ -134,8 +134,10 @@
       total.classList.add('none');
       basis.textContent = '4000억 이상은 요금표에 없습니다';
     }else{
+      /* 끝의 물결은 '여기서부터 올라간다'는 표시다. 말로 적으면 금액 뒤에 설명이
+         한 덩이 더 붙은 꼴이라, 기호 하나로 줄여 숫자에 붙인다 */
       total.innerHTML = (year ? '연 ' + money(yearly(t.month)) : '월 ' + money(t.month))
-                      + '<small>부터</small>';
+                      + '<small>~</small>';
       /* 몇 구간인지는 적지 않는다. 구간 번호도 매출 범위도 안에서 쓰는 가름이지,
          고르는 사람이 알아야 할 것은 '얼마부터'다. 프리미엄만 이 금액이 무엇의
          금액인지 밝혀야 해서 한 줄이 남는다 */
