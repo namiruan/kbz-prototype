@@ -1,12 +1,12 @@
 <!-- design-system: v1.0.0 -->
-<!-- prototype: 요금안내 — 조건별 화면 모아보기 -->
+<!-- prototype: 견적받기 — 조건별 화면 모아보기 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>요금안내 프로토타입</title>
-<meta name="description" content="거르개와 금액 표기에 따라 달라지는 요금안내 화면을 시나리오별로 모아 본다.">
+<title>견적받기 프로토타입</title>
+<meta name="description" content="거르개에 따라 달라지는 견적받기 화면을 시나리오별로 모아 본다.">
 <!-- 김반장 3.0 디자인 시스템. 크롬(사이드바·설명·폭·비교)은 components.js 의
      initProtoChrome 이 맡는다 — 이 파일이 따로 만들지 않는다.
      주소가 절대경로인 것은 시스템 규약이다(견적신청 프로토타입과 같다) -->
@@ -38,28 +38,28 @@
 
     <nav class="proto-nav" aria-label="시나리오 선택">
 
-      <span class="proto-nav-group-label">요금제 두 장</span>
+      <span class="proto-nav-group-label">서비스 두 장</span>
       <button class="proto-nav-btn proto-nav-sub is-active" type="button" data-scenario="pl-첫진입"
-        data-why="페이지를 열면 맨 위입니다. 요금안내인데 금액이 바로 보이지 않고 '계산은 3.0, 신고까지는 프리미엄'이라는 갈림부터 말합니다 — 고를 것이 금액이 아니라 신고를 누가 하느냐이기 때문입니다."
+        data-why="페이지를 열면 맨 위입니다. 견적받기인데 금액이 바로 보이지 않고 '어떤 구성을 고를 것인가'부터 말합니다 — 금액은 고른 구성과 현장 규모가 정하므로, 고르는 일이 먼저입니다."
         data-steps="페이지를 엽니다 — 그 뒤로는 아무것도 누르지 않습니다"
-        data-look="제목이 두 요금제의 차이를 한 줄로 말합니다|머리 아래 바로가기 셋이 긴 페이지의 길을 가릅니다|금액은 어디에도 적히지 않습니다 — 머리글 마지막 문장이 그 사실을 먼저 밝힙니다">첫 진입</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="pl-요금제"
-        data-why="요금안내인데 금액이 없는 자리입니다. 요금이 사업장 수·근로자 규모·신고 건수로 갈려 한 숫자로 적으면 어느 현장에도 맞지 않고, 지금은 그 자리에서 계산해 줄 것도 없습니다. 그래서 숫자 대신 '무엇으로 정해지는지'만 적고 상담신청하기로 넘깁니다."
-        data-steps="페이지를 열고 요금제 블록으로 내려갑니다"
-        data-look="금액 자리에 '상담 후 맞춤 견적'과 무엇으로 정해지는지 한 줄이 섭니다|두 카드가 같은 두 줄을 쓰므로 높이가 저절로 맞습니다|두 장의 버튼이 모두 '상담신청하기' 입니다 — 지금은 어느 쪽을 골라도 다음 걸음이 같습니다|프리미엄 카드만 바탕·테두리·버튼 색이 달라, 추천 띠 하나에 기대지 않습니다|⚠ 버튼의 링크 주소는 아직 자리표(#)입니다">요금제 두 장</button>
+        data-look="제목이 '고르고 → 받는다'는 두 걸음을 한 줄로 말합니다|머리 아래 바로가기 셋이 긴 페이지의 길을 가릅니다|금액은 어디에도 적히지 않습니다 — 머리글 마지막 문장이 견적서로 보내 준다고 먼저 밝힙니다">첫 진입</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="pl-서비스"
+        data-why="고를 것 둘을 나란히 세운 자리입니다. 금액은 사업장 수·근로자 규모·신고 건수로 갈려 한 숫자로 적으면 어느 현장에도 맞지 않으므로, 숫자 대신 '무엇으로 정해지는지'만 적고 견적신청으로 넘깁니다."
+        data-steps="페이지를 열고 서비스 블록으로 내려갑니다"
+        data-look="금액 자리에 '현장 맞춤 견적'과 무엇으로 정해지는지 한 줄이 섭니다|두 카드가 같은 두 줄을 쓰므로 높이가 저절로 맞습니다|두 장의 버튼이 모두 '견적 신청하기' 입니다 — 지금은 어느 쪽을 골라도 다음 걸음이 같습니다|프리미엄 카드만 바탕·테두리·버튼 색이 달라, 추천 띠 하나에 기대지 않습니다|⚠ 누르면 견적신청 폼이 모달로 떠야 하는 자리입니다 — 3.0·프리미엄 폼이 아직 없어 href 는 자리표(#)입니다">서비스 두 장</button>
 
       <span class="proto-nav-group-label">기능 비교표</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ft-전체"
-        data-why="노션 「서비스별 기능 상세」의 33개 기능을 그대로 옮긴 표입니다. 열은 둘뿐입니다 — '김반장 도입 전'은 요금안내에서 팔 것이 아니라 메인에서 할 말이라, 여기서는 고를 수 있는 둘만 세웁니다."
+        data-why="노션 「서비스별 기능 상세」의 33개 기능을 그대로 옮긴 표입니다. 열은 둘뿐입니다 — '김반장 도입 전'은 견적을 낼 대상이 아니라 메인에서 할 말이라, 여기서는 고를 수 있는 둘만 세웁니다."
         data-steps="페이지를 열고 기능 비교표로 내려갑니다 — 거르개는 건드리지 않습니다"
-        data-look="6개 카테고리에 33줄, 카테고리마다 몇 개인지 적힙니다|프리미엄 열만 바탕이 들어가 띠처럼 세로로 이어집니다|프리미엄 전용 줄은 3.0 칸이 '—' 입니다|폭을 sm 으로 줄이면 열이 사라지고 줄마다 '3.0 ✓ / 프리미엄 ✓' 알약이 붙습니다|표 아래 버튼 둘도 열을 따라 서서, 어느 쪽을 보다 눌렀는지가 남습니다">전체 보기</button>
+        data-look="6개 카테고리에 33줄, 카테고리마다 몇 개인지 적힙니다|프리미엄 열만 바탕이 들어가 띠처럼 세로로 이어집니다|프리미엄 전용 줄은 3.0 칸이 '—' 입니다|폭을 sm 으로 줄이면 열이 사라지고 줄마다 '3.0 ✓ / 프리미엄 ✓' 알약이 붙습니다|표 아래 '견적 신청하기' 둘도 열을 따라 서서, 어느 쪽을 보다 눌렀는지가 남습니다">전체 보기</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">거르개를 걸면</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ft-일용"
         data-why="일용직 현장은 연차·사규·급여 스케줄 같은 상용 기능을 쓰지 않습니다. 쓰지 않을 줄까지 읽게 두면 33줄이 모두 남의 이야기처럼 보입니다 — 고용형태로 거르는 까닭입니다."
         data-steps="주소에 ?emp=daily 를 붙여 엽니다|기능 비교표로 내려갑니다"
         data-look="[상용] 줄 5개가 접혀 28줄이 남습니다|표 위 한 줄이 '일용직 현장 — 전체 33개 중 28개'로 바뀝니다|카테고리 머리의 개수도 함께 줄어듭니다|[일용] 꼬리표는 그대로 남습니다 — 거르개가 무엇을 보고 걸렀는지 눈으로도 보이게">일용직 현장</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ft-상용"
-        data-why="상용직 중심 사업장. 일용 쪽이 접히면 「근태·출퇴근 관리」에 연차·휴가 한 줄만 남아, 이 요금제가 상용에 무엇을 해주는지가 오히려 또렷해집니다."
+        data-why="상용직 중심 사업장. 일용 쪽이 접히면 「근태·출퇴근 관리」에 연차·휴가 한 줄만 남아, 이 서비스가 상용에 무엇을 해주는지가 오히려 또렷해집니다."
         data-steps="주소에 ?emp=regular 를 붙여 엽니다|기능 비교표로 내려갑니다"
         data-look="[일용] 줄 7개가 접혀 26줄이 남습니다|「모바일 앱」은 근로자 앱이 빠져 현장소장 앱 한 줄만 남습니다|일용 쪽과 달리 접히는 수가 더 많습니다 — 김반장이 일용 현장에 더 두텁다는 사실이 표에 그대로 드러납니다">상용직 중심</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ft-차이"
@@ -78,17 +78,17 @@
 
       <span class="proto-nav-group-label">아래쪽</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="dv-단말기"
-        data-why="프로그램 요금과 기기 임대료는 셈이 다릅니다. 같은 표에 섞으면 '월 얼마'가 두 뜻으로 읽히므로 블록을 갈라 두고, 금액은 견적 화면이 계산하도록 넘깁니다."
-        data-steps="페이지를 열고 단말기 요금 블록으로 내려갑니다"
-        data-look="메인(index.html)과 같은 카드 두 장입니다 — 글자까지 같습니다|'견적받기'를 누르면 각각 face-quote.html · quote.html 로 넘어갑니다|퇴직공제 쪽에만 '프리미엄 결합 시 추가 할인' 배지가 붙습니다|여기 적힌 금액은 기준가일 뿐, 실제 금액은 견적 화면이 기간·수량으로 계산합니다">단말기 요금</button>
+        data-why="프로그램 견적과 기기 임대료는 셈이 다릅니다. 같은 표에 섞으면 '월 얼마'가 두 뜻으로 읽히므로 블록을 갈라 두고, 금액은 견적 화면이 계산하도록 넘깁니다."
+        data-steps="페이지를 열고 단말기 견적 블록으로 내려갑니다"
+        data-look="메인(index.html)과 같은 카드 두 장입니다 — 글자까지 같습니다|'견적받기'를 누르면 각각 face-quote.html · quote.html 로 넘어갑니다|퇴직공제 쪽에만 '프리미엄 결합 시 추가 할인' 배지가 붙습니다|이 블록에만 금액이 적힙니다 — 단말기는 견적 화면이 기간·수량으로 그 자리에서 계산해 주기 때문입니다">단말기 견적</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fq-열림"
-        data-why="요금 페이지에서 가장 많이 눌리는 자리입니다. 질문 다섯 중 둘(프리미엄에 3.0 이용료가 또 붙는지, 단말기가 별도인지)은 이 페이지를 보다 생기는 오해를 바로 잡는 질문이라 여기에 둡니다."
+        data-why="신청 직전에 가장 많이 눌리는 자리입니다. 이 페이지를 보다 생기는 오해를 바로잡는 셋만 남겼습니다 — 근거 문서가 없어 지어낸 답이 되던 둘(요금 산정 기준·요금제 전환 정산)은 덜어냈습니다."
         data-steps="페이지를 열고 FAQ 로 내려갑니다|두 번째 질문을 눌러 폅니다"
-        data-look="첫 질문은 처음부터 펴져 있습니다|두 번째 질문을 펴면 첫 질문은 닫히지 않습니다 — 견주어 읽을 수 있게|화살표가 아래에서 위로 돕니다">FAQ · 두 번째 질문</button>
+        data-look="질문은 셋뿐입니다|첫 질문은 처음부터 펴져 있습니다|두 번째 질문을 펴면 첫 질문은 닫히지 않습니다 — 견주어 읽을 수 있게|화살표가 아래에서 위로 돕니다">FAQ · 두 번째 질문</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="cta-마지막"
-        data-why="끝까지 읽고도 못 고른 사람에게 남기는 자리. 페이지 어디에도 금액이 없으므로 여기서는 '현장 이야기부터 들려 달라'고만 하고, 기다리기 싫은 사람을 위해 전화 한 줄을 나란히 둡니다."
+        data-why="끝까지 읽고도 못 고른 사람에게 남기는 자리. 페이지 어디에도 금액이 없으므로 '현장 이야기부터 들려 달라'고만 하고, 폼을 채우기 싫은 사람을 위해 전화 한 줄을 나란히 둡니다."
         data-steps="페이지를 열고 맨 아래까지 내려갑니다"
-        data-look="네이비 바닥에 버튼 둘 — 상담신청과 전화|전화 버튼만 자리표가 아닌 실제 번호(tel:1588-3818)라 모바일에서 바로 걸립니다|메인(index.html)의 마지막 CTA 와 같은 꼴이되 영상은 없습니다|좁은 폭에서는 버튼이 세로로 쌓입니다">마지막 CTA</button>
+        data-look="네이비 바닥에 버튼 둘 — 견적 신청과 전화|전화 버튼만 자리표가 아닌 실제 번호(tel:1588-3818)라 모바일에서 바로 걸립니다|메인(index.html)의 마지막 CTA 와 같은 꼴이되 영상은 없습니다|좁은 폭에서는 버튼이 세로로 쌓입니다">마지막 CTA</button>
 
     </nav>
   </aside>
@@ -102,12 +102,12 @@
 (function(){
   'use strict';
   var $=function(s,r){return (r||document).querySelector(s);};
-  var PR='pricing.html';
+  var ES='estimate.html';
 
   /* 시나리오 이름이 가리키는 자리를 열자마자 보여 준다. 내려가는 길을 적어 두고
      직접 밟게 하면, 그 자리를 보러 온 사람이 매번 같은 스크롤을 되풀이하게 된다.
      거르개 상태는 화면이 ?emp= · ?only= · ?price= 로 이미 받으므로 주소로 넘기고,
-     여기서는 '어디를 보여 줄지'만 정한다 — 요금 화면에는 손대지 않는다 */
+     여기서는 '어디를 보여 줄지'만 정한다 — 견적 화면에는 손대지 않는다 */
   function wait(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
 
   /* 화면 전체에 scroll-behavior:smooth 가 걸려 있다. 그대로 두면 열 때마다
@@ -121,27 +121,27 @@
   }
 
   var S={
-    /* 요금제 — 금액은 적지 않고 상담으로 넘긴다 */
-    'pl-첫진입':{url:PR},
-    'pl-요금제':{url:PR, act:function(d){ jump(d,'#plans'); }},
+    /* 서비스 두 장 — 금액은 적지 않고 견적신청으로 넘긴다 */
+    'pl-첫진입':{url:ES},
+    'pl-서비스':{url:ES, act:function(d){ jump(d,'#plans'); }},
 
     /* 기능 비교표 — 거르개는 주소가 건다 */
-    'ft-전체'  :{url:PR,                          act:function(d){ jump(d,'#features'); }},
-    'ft-일용'  :{url:PR+'?emp=daily',             act:function(d){ jump(d,'#features'); }},
-    'ft-상용'  :{url:PR+'?emp=regular',           act:function(d){ jump(d,'#features'); }},
-    'ft-차이'  :{url:PR+'?only=1',                act:function(d){ jump(d,'#features'); }},
-    'ft-겹침'  :{url:PR+'?emp=regular&only=1',    act:function(d){ jump(d,'#features'); }},
+    'ft-전체'  :{url:ES,                          act:function(d){ jump(d,'#features'); }},
+    'ft-일용'  :{url:ES+'?emp=daily',             act:function(d){ jump(d,'#features'); }},
+    'ft-상용'  :{url:ES+'?emp=regular',           act:function(d){ jump(d,'#features'); }},
+    'ft-차이'  :{url:ES+'?only=1',                act:function(d){ jump(d,'#features'); }},
+    'ft-겹침'  :{url:ES+'?emp=regular&only=1',    act:function(d){ jump(d,'#features'); }},
 
     /* 머리줄이 붙는 것은 표 한가운데로 들어가야 보인다 — 네 번째 카테고리에 세운다 */
-    'ft-머리줄':{url:PR, act:function(d){ jump(d,'.pr-cat:nth-of-type(4)', 8); }},
+    'ft-머리줄':{url:ES, act:function(d){ jump(d,'.es-cat:nth-of-type(4)', 8); }},
 
     /* 아래쪽 블록들 */
-    'dv-단말기':{url:PR, act:function(d){ jump(d,'#devices'); }},
-    'fq-열림'  :{url:PR, act:async function(d){
-      jump(d,'.pr-faq'); await wait(60);
+    'dv-단말기':{url:ES, act:function(d){ jump(d,'#devices'); }},
+    'fq-열림'  :{url:ES, act:async function(d){
+      jump(d,'.es-faq'); await wait(60);
       var all=d.querySelectorAll('.faq details');
       if(all[1]){ all[1].open=true; } }},
-    'cta-마지막':{url:PR, act:function(d){ jump(d,'.pr-cta'); }}
+    'cta-마지막':{url:ES, act:function(d){ jump(d,'.es-cta'); }}
   };
 
   function open(name){

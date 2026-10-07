@@ -1,5 +1,5 @@
 /* ================================================================
-   pricing.js — 요금안내 화면이 하는 일은 둘뿐이다.
+   estimate.js — 견적받기 화면이 하는 일은 둘뿐이다.
 
      1) 거르개(고용형태 · 차이만 보기)를 걸고 남은 줄을 센다
      2) 거르개 상태를 주소로도 받는다 (?emp= · ?only=)
@@ -18,14 +18,14 @@
   var $  = function(s,r){ return (r||document).querySelector(s); };
   var $$ = function(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
 
-  var cmp = $('#prCmp');
+  var cmp = $('#esCmp');
   if(!cmp) return;
 
-  var rows = $$('.pr-row', cmp);
-  var cats = $$('.pr-cat', cmp);
-  var countEl = $('#prCount');
-  var onlyEl  = $('#prOnlyPrem');
-  var segBtns = $$('.pr-seg[data-filter="emp"] button');
+  var rows = $$('.es-row', cmp);
+  var cats = $$('.es-cat', cmp);
+  var countEl = $('#esCount');
+  var onlyEl  = $('#esOnlyPrem');
+  var segBtns = $$('.es-seg[data-filter="emp"] button');
 
   var state = { emp:'all', only:false };
 
@@ -45,15 +45,15 @@
 
     /* 카테고리가 통째로 비면 지우지 않고 '같다'고 적는다 — 왜 비었는지는 거르개가 정한다 */
     cats.forEach(function(cat){
-      var live = $$('.pr-row', cat).filter(function(r){ return !r.hidden; }).length;
+      var live = $$('.es-row', cat).filter(function(r){ return !r.hidden; }).length;
       cat.classList.toggle('is-empty', live === 0);
-      var same = $('.pr-cat-same', cat);
+      var same = $('.es-cat-same', cat);
       if(same){
         same.textContent = state.only
           ? '이 영역은 김반장 3.0과 프리미엄이 똑같습니다.'
           : '이 고용형태에 해당하는 기능이 없습니다.';
       }
-      var n = $('.pr-cat-h .n', cat);
+      var n = $('.es-cat-h .n', cat);
       if(n) n.textContent = live + '개';
     });
 
