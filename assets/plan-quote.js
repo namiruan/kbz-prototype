@@ -116,9 +116,6 @@
     if(sitesY) prem ? sitesY.setAttribute('required','') : sitesY.removeAttribute('required');
     $('#sumPlan').textContent = planName[plan()];
     estimate();
-    $('#scaleHint').textContent = prem
-      ? '매출액·현장 수·인원 수가 금액을 가릅니다'
-      : '매출액이 금액을 가릅니다';
     recap();
   }
 

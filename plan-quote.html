@@ -36,10 +36,7 @@
 
       <!-- STEP 1 : 계약 유형 — 고르는 즉시 아래 묻는 칸이 달라진다 -->
       <div class="q-card">
-        <div class="q-step">
-          <h2>계약 유형</h2>
-          <p class="f-hint">신고를 직접 하실지, 전담팀에 맡기실지</p>
-        </div>
+        <div class="q-step"><h2>계약 유형</h2></div>
         <div class="pq-types" role="radiogroup" aria-label="계약 유형">
           <label class="pq-type">
             <input type="radio" name="plan" value="c30" checked>
@@ -56,16 +53,13 @@
 
       <!-- STEP 2 : 사업장 규모 — 금액이 갈리는 자리 -->
       <div class="q-card">
-        <div class="q-step">
-          <h2>사업장 규모</h2>
-          <p class="f-hint" id="scaleHint">규모에 따라 금액이 달라집니다</p>
-        </div>
+        <div class="q-step"><h2>사업장 규모</h2></div>
         <!-- 다섯 칸을 cols3 로 묶으면 한 줄에 끼어 라벨이 '연 매출 / 액'으로 갈린다.
              third 로 흘려 3 + 2 로 앉힌다 -->
         <div class="f-grid">
           <div class="f-item third">
             <label class="f-label" for="q-sales">연 매출액<span class="f-req">(필수)</span></label>
-            <div class="field"><input id="q-sales" type="text" name="sales" required inputmode="numeric" placeholder="0" aria-describedby="scaleHint"><span class="f-unit">원</span></div>
+            <div class="field"><input id="q-sales" type="text" name="sales" required inputmode="numeric" placeholder="0"><span class="f-unit">원</span></div>
           </div>
           <!-- 아래 셋은 프리미엄에서만 묻는다 — 3.0 금액에는 쓰이지 않는 값이다 -->
           <div class="f-item third prem-only">
