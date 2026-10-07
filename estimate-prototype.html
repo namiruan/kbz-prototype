@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>견적받기 프로토타입</title>
-<meta name="description" content="거르개에 따라 달라지는 견적받기 화면을 시나리오별로 모아 본다.">
+<meta name="description" content="탭과 거르개에 따라 달라지는 견적받기 화면을 시나리오별로 모아 본다.">
 <!-- 김반장 3.0 디자인 시스템. 크롬(사이드바·설명·폭·비교)은 components.js 의
      initProtoChrome 이 맡는다 — 이 파일이 따로 만들지 않는다.
      주소가 절대경로인 것은 시스템 규약이다(견적신청 프로토타입과 같다) -->
@@ -38,19 +38,33 @@
 
     <nav class="proto-nav" aria-label="시나리오 선택">
 
-      <span class="proto-nav-group-label">서비스 두 장</span>
-      <button class="proto-nav-btn proto-nav-sub is-active" type="button" data-scenario="pl-첫진입"
-        data-why="페이지를 열면 맨 위입니다. 머리글이 두 줄뿐입니다 — 질문과 답. 설명을 붙이면 아래 세 블록이 할 말을 머리에서 미리 해 버리게 되어, 서브카피를 두지 않았습니다."
+      <span class="proto-nav-group-label">탭 세 가지</span>
+      <button class="proto-nav-btn proto-nav-sub is-active" type="button" data-scenario="tb-첫진입"
+        data-why="페이지를 열면 첫 탭입니다. 파는 것이 셋인데 셈법이 저마다 달라(프로그램은 사업장 단위, 단말기 둘은 현장 단위) 한 화면에 늘어놓으면 '월 얼마'가 세 뜻으로 읽힙니다. 탭이 그 셋을 가릅니다."
         data-steps="페이지를 엽니다 — 그 뒤로는 아무것도 누르지 않습니다"
-        data-look="작은 글씨가 질문('우리 사업장은 얼마나 들까요?')이고 제목이 그 답입니다 — 머리글은 그 둘뿐입니다|설명 없이 바로가기 셋이 와서, 읽을 것을 주는 대신 갈 곳을 가릅니다|금액은 어디에도 적히지 않습니다 — 제목의 '합리적인 가격으로'가 그 자리를 대신 받습니다|계약 단위가 사업장이라 머리글은 '사업장'으로 말합니다 — '현장'이라 적는 곳은 현장 단위로 계약할 수 있는 단말기뿐입니다">첫 진입</button>
+        data-look="탭 셋이 머리글 바로 아래 섭니다|고른 탭만 파란 글씨와 밑줄을 갖습니다 — 밑줄 하나로는 흑백에서 구분이 약합니다|탭마다 작은 줄로 무엇인지 덧붙입니다(노무관리 프로그램 · 벽부형·이동형·휴대형 · Ubio X Face Pro)|주소에 ?type= 이 없으면 A 입니다">첫 진입 (A · 프로그램)</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="tb-전자카드"
+        data-why="퇴직공제 단말기 탭. 금액이 이 탭에만 적힙니다 — quote.html 의 요율표에서 그대로 가져온 값이라, 프로그램 쪽처럼 '맞춤 견적'이라 쓸 까닭이 없습니다."
+        data-steps="주소에 ?type=B 를 붙여 엽니다(탭을 눌러도 같습니다)"
+        data-look="기기 셋이 나란히 서고 저마다 다른 금액을 답니다(74,000 · 69,000 · 83,000원)|지워진 금액이 1개월 기준가입니다 — 기간이 길수록 싸진다는 말이 숫자로 보입니다|'13개월 이상'은 요율이 12개월에서 멈춘다고 밝힙니다|견적받기를 누르면 quote.html 로 넘어가 그 자리에서 계산됩니다">B · 퇴직공제 전자카드</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="tb-안면인식"
+        data-why="안면인식 탭. 기기가 한 종뿐이라 카드를 고를 일이 없어, 대신 수량 구간표가 그 자리를 받습니다. 금액은 face-quote.html 의 상수를 그대로 옮긴 값입니다."
+        data-steps="주소에 ?type=C 를 붙여 엽니다(탭을 눌러도 같습니다)"
+        data-look="기기가 하나라 카드가 가로로 눕습니다 — 셋일 때와 짜임이 다릅니다|수량 구간 넷이 같은 크기로 서서 '구간'으로 읽힙니다|구간은 현장별이 아니라 신청 전체를 합산해 정해진다고 표 아래에 적습니다|설치비·연동비는 금액이 아니라 조건이라 카드가 아니라 줄로 답니다">C · 안면인식 출퇴근관리</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="tb-바꾸기"
+        data-why="비교표를 한참 내려다 탭을 바꾸는 자리. 스크롤 위치를 그대로 두면 새 탭의 한가운데로 떨어져, 무엇이 바뀐 건지 알 수 없습니다. 탭 줄까지 되감아 그 상품의 처음부터 보여 줍니다."
+        data-steps="A 탭에서 기능 비교표 한가운데까지 내려갑니다|탭 줄의 '안면인식 출퇴근관리'를 누릅니다"
+        data-look="누르는 순간 탭 줄이 화면 맨 위로 되감깁니다|주소의 ?type= 이 C 로 바뀝니다 — 뒤로가기가 쌓이지는 않습니다(replaceState)|탭 줄은 스크롤을 따라붙어, 한참 내려가도 돌아올 수 있습니다">탭을 바꾸면</button>
+
+      <span class="proto-nav-group-label">A · 서비스 두 장</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="pl-서비스"
         data-why="고를 것 둘을 나란히 세운 자리입니다. 금액은 사업장 수·근로자 규모·신고 건수로 갈려 한 숫자로 적으면 어느 현장에도 맞지 않으므로, 숫자 대신 '무엇으로 정해지는지'만 적고 견적신청으로 넘깁니다."
         data-steps="페이지를 열고 서비스 블록으로 내려갑니다"
         data-look="금액 자리에 '사업장 맞춤 견적'과 무엇으로 정해지는지 한 줄이 섭니다|두 카드가 같은 두 줄을 쓰므로 높이가 저절로 맞습니다|두 장의 버튼이 모두 '견적 신청하기' 입니다 — 지금은 어느 쪽을 골라도 다음 걸음이 같습니다|프리미엄 카드만 바탕·테두리·버튼 색이 달라, 추천 띠 하나에 기대지 않습니다|⚠ 누르면 견적신청 폼이 모달로 떠야 하는 자리입니다 — 3.0·프리미엄 폼이 아직 없어 href 는 자리표(#)입니다">서비스 두 장</button>
 
-      <span class="proto-nav-group-label">기능 비교표</span>
+      <span class="proto-nav-group-label">A · 기능 비교표</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ft-전체"
-        data-why="노션 「서비스별 기능 상세」의 33개 기능을 그대로 옮긴 표입니다. 열은 둘뿐입니다 — '김반장 도입 전'은 견적을 낼 대상이 아니라 메인에서 할 말이라, 여기서는 고를 수 있는 둘만 세웁니다."
+        data-why="A 탭에만 있는 표입니다. 노션 「서비스별 기능 상세」의 33개 기능을 그대로 옮겼습니다. 열은 둘뿐입니다 — '김반장 도입 전'은 견적을 낼 대상이 아니라 메인에서 할 말이라, 여기서는 고를 수 있는 둘만 세웁니다."
         data-steps="페이지를 열고 기능 비교표로 내려갑니다 — 거르개는 건드리지 않습니다"
         data-look="6개 카테고리에 33줄, 카테고리마다 몇 개인지 적힙니다|프리미엄 열만 바탕이 들어가 띠처럼 세로로 이어집니다|프리미엄 전용 줄은 3.0 칸이 '—' 입니다|폭을 sm 으로 줄이면 열이 사라지고 줄마다 '3.0 ✓ / 프리미엄 ✓' 알약이 붙습니다|표 아래 '견적 신청하기' 둘도 열을 따라 서서, 어느 쪽을 보다 눌렀는지가 남습니다">전체 보기</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">거르개를 걸면</span>
@@ -74,13 +88,9 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ft-머리줄"
         data-why="33줄은 한 화면에 들어오지 않습니다. 머리줄이 같이 흘러가 버리면 지금 보는 ✓ 가 3.0 것인지 프리미엄 것인지 알 수 없어, 머리줄만 화면 위에 붙여 둡니다."
         data-steps="페이지를 열고 표 한가운데(「근로계약·급여·명세서」 언저리)까지 내려갑니다"
-        data-look="열 이름 두 개가 화면 맨 위에 붙어 따라옵니다|머리줄 아래 짙은 선이 표와 나머지를 가릅니다|프리미엄 쪽은 머리줄에서도 바탕이 이어져 띠가 끊기지 않습니다|좁은 폭(sm)에서는 머리줄이 통째로 사라집니다 — 대신 줄마다 이름표가 붙기 때문입니다">표 머리가 따라붙는 자리</button>
+        data-look="열 이름 두 개가 화면 맨 위에 붙어 따라옵니다|머리줄 아래 짙은 선이 표와 나머지를 가릅니다|프리미엄 쪽은 머리줄에서도 바탕이 이어져 띠가 끊기지 않습니다|탭 줄 바로 아래에 붙습니다 — 둘 다 따라붙는 것이라 겹치지 않게 머리줄이 탭 높이만큼 내려가 섭니다|좁은 폭(sm)에서는 머리줄이 통째로 사라집니다 — 대신 줄마다 이름표가 붙기 때문입니다">표 머리가 따라붙는 자리</button>
 
-      <span class="proto-nav-group-label">아래쪽</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="dv-단말기"
-        data-why="프로그램 견적과 기기 임대료는 셈이 다릅니다. 같은 표에 섞으면 '월 얼마'가 두 뜻으로 읽히므로 블록을 갈라 두고, 금액은 견적 화면이 계산하도록 넘깁니다."
-        data-steps="페이지를 열고 단말기 견적 블록으로 내려갑니다"
-        data-look="메인(index.html)과 같은 카드 두 장입니다 — 글자까지 같습니다|'견적받기'를 누르면 각각 face-quote.html · quote.html 로 넘어갑니다|퇴직공제 쪽에만 '프리미엄 결합 시 추가 할인' 배지가 붙습니다|이 블록에만 금액이 적힙니다 — 단말기는 견적 화면이 기간·수량으로 그 자리에서 계산해 주기 때문입니다">단말기 견적</button>
+      <span class="proto-nav-group-label">탭 밖 · 공통</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fq-열림"
         data-why="신청 직전에 가장 많이 눌리는 자리입니다. 이 페이지를 보다 생기는 오해를 바로잡는 셋만 남겼습니다 — 근거 문서가 없어 지어낸 답이 되던 둘(요금 산정 기준·요금제 전환 정산)은 덜어냈습니다."
         data-steps="페이지를 열고 FAQ 로 내려갑니다|두 번째 질문을 눌러 폅니다"
@@ -121,11 +131,18 @@
   }
 
   var S={
-    /* 서비스 두 장 — 금액은 적지 않고 견적신청으로 넘긴다 */
-    'pl-첫진입':{url:ES},
+    /* 탭 — 주소의 ?type= 이 곧 탭이다 */
+    'tb-첫진입'  :{url:ES},
+    'tb-전자카드':{url:ES+'?type=B'},
+    'tb-안면인식':{url:ES+'?type=C'},
+    'tb-바꾸기'  :{url:ES, act:async function(d){
+      jump(d,'.es-cat:nth-of-type(4)', 8); await wait(200);
+      var c=d.querySelector('#tab-C'); if(c) c.click(); }},
+
+    /* A 탭 — 서비스 두 장. 금액은 적지 않고 견적신청으로 넘긴다 */
     'pl-서비스':{url:ES, act:function(d){ jump(d,'#plans'); }},
 
-    /* 기능 비교표 — 거르개는 주소가 건다 */
+    /* A 탭 — 기능 비교표. 거르개는 주소가 건다 */
     'ft-전체'  :{url:ES,                          act:function(d){ jump(d,'#features'); }},
     'ft-일용'  :{url:ES+'?emp=daily',             act:function(d){ jump(d,'#features'); }},
     'ft-상용'  :{url:ES+'?emp=regular',           act:function(d){ jump(d,'#features'); }},
@@ -135,8 +152,7 @@
     /* 머리줄이 붙는 것은 표 한가운데로 들어가야 보인다 — 네 번째 카테고리에 세운다 */
     'ft-머리줄':{url:ES, act:function(d){ jump(d,'.es-cat:nth-of-type(4)', 8); }},
 
-    /* 아래쪽 블록들 */
-    'dv-단말기':{url:ES, act:function(d){ jump(d,'#devices'); }},
+    /* 탭 밖 — 어느 탭에서나 같은 자리 */
     'fq-열림'  :{url:ES, act:async function(d){
       jump(d,'.es-faq'); await wait(60);
       var all=d.querySelectorAll('.faq details');

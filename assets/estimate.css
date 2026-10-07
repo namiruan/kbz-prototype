@@ -5,7 +5,8 @@
    그대로 쓰고, 생김새가 이미 있는 것(버튼·머리글·단말기 카드·FAQ)은
    index.html 의 규칙을 글자까지 옮겨 왔다 — 두 화면이 달라 보이면 안 된다.
 
-   ⚠ 여기 새로 만든 것은 둘뿐이다: 서비스 두 장(.plan-*)과 기능 비교표(.es-*).
+   ⚠ 여기 새로 만든 것은 셋이다: 서비스 두 장(.plan-*), 기능 비교표(.es-cmp 외),
+      그리고 상단 3탭과 단말기 탭의 상품 카드(.es-tab* · .es-prod*).
       둘 다 index.html 의 .ccard / .cmp 와 같은 어휘를 쓴다
       (c30 = 김반장 3.0, prem = 김반장 프리미엄, task = 왼쪽 기능 이름 칸).
    ⚠ 표는 <table> 이 아니라 grid 다. 좁은 폭에서 열이 카드로 접히는데,
@@ -15,6 +16,8 @@
    목차
      1. 바탕 · 공통 타이포 (index.html 과 같은 값)
      2. 페이지 머리
+     2.5 상단 3탭 · 탭 패널
+     2.6 단말기 탭의 상품 카드 · 요금 구간 · 약관 줄
      3. 서비스 두 장
      4. 기능 비교표 — 거르개
      5. 기능 비교표 — 표
@@ -63,6 +66,101 @@ body.estimate-page{--frame-tint:#EDF3FC;--frame-border:rgba(14,59,99,.20)}
 /* 8vw 로는 360~430px 에서 제목 첫 줄이 한 번 더 접혀 '고르고' 두 글자만 남는 줄이 생겼다.
    7vw 면 흔한 폰 폭에서 두 줄로 선다(320px 만 세 줄 — 거기선 더 줄여도 같다) */
 @media(max-width:640px){.es-hero{padding:48px 0 40px}.es-hero h1{font-size:clamp(24px,7vw,38px)}}
+
+/* ── 2.5 상단 3탭 · 탭 패널 ────────────────────────────────────
+   탭은 보기를 갈아 끼우는 장치가 아니라 '무엇을 팔고 있는지'를 바꾼다.
+   그래서 주소(?type=A·B·C)가 곧 탭이고, 링크로 그 상품을 바로 열 수 있다.
+   스크롤을 따라붙는다 — 비교표가 길어 탭으로 돌아오려면 한참 올라가야 했다 */
+body.estimate-page{--tabbar-h:72px}
+.es-tabs{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--main-gray)}
+.es-tabs-row{display:flex;gap:4px}
+.es-tab{appearance:none;border:0;background:none;font:inherit;cursor:pointer;
+  flex:1;min-width:0;padding:14px 12px 13px;border-bottom:3px solid transparent;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  color:var(--sub-d-gray);transition:.18s}
+.es-tab .t{font-size:15px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.es-tab .s{font-size:11.5px;font-weight:600;opacity:.8;white-space:nowrap}
+.es-tab:hover{color:var(--main-navy);background:var(--sub-w-gray)}
+/* 고른 탭만 색과 밑줄을 갖는다 — 밑줄 하나로는 흑백에서 구분이 약하다 */
+.es-tab.is-active{color:var(--main-blue);border-bottom-color:var(--main-blue)}
+.es-tab.is-active:hover{background:none}
+.es-tab:focus-visible{outline:2px solid var(--main-blue);outline-offset:-3px}
+/* 좁은 폭에서는 세 탭이 한 줄에 못 선다 — 가로로 밀어 보게 하고 설명 줄은 접는다 */
+@media(max-width:720px){
+  body.estimate-page{--tabbar-h:50px}
+  .es-tabs .inner{padding:0 12px}
+  .es-tabs-row{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .es-tabs-row::-webkit-scrollbar{display:none}
+  .es-tab{flex:0 0 auto;padding:13px 14px 11px}
+  .es-tab .t{font-size:14px}
+  .es-tab .s{display:none}
+}
+
+/* ── 2.6 단말기 탭 — 상품 카드 · 요금 구간 · 약관 줄 ──────────── */
+/* 아래 여백이 작은 까닭: 바로 뒤에 오는 FAQ 가 제 위쪽 여백을 갖고 있다 */
+.es-prod-head{padding:76px 0 36px;background:var(--grad-radi-sky-top),var(--main-white);background-color:var(--main-white)}
+.es-prod-head .lead{max-width:600px;margin:14px auto 0;word-break:keep-all}
+.es-prod-grid{display:grid;gap:20px;margin-top:52px;text-align:left}
+.es-prod-grid.cols3{grid-template-columns:repeat(3,1fr)}
+.es-prod-grid.solo{grid-template-columns:minmax(0,760px);justify-content:center}
+.es-prod{display:flex;flex-direction:column;background:var(--main-white);
+  border:1px solid var(--main-gray);border-radius:20px;overflow:hidden}
+/* 그림은 하늘색 바닥 위에 통째로 들어간다. index.html 의 .combo-media 와 달리
+   카드 밖으로 넘기지 않는다 — 셋이 나란히 서면 서로의 자리를 먹는다 */
+.es-prod-media{height:188px;background:var(--sky);display:grid;place-items:center;
+  border-bottom:1px solid var(--main-gray)}
+.es-prod-media img{max-width:62%;max-height:78%;object-fit:contain;
+  filter:drop-shadow(0 12px 18px rgba(14,59,99,.22))}
+.es-prod-body{display:flex;flex-direction:column;flex:1;padding:22px 24px 24px}
+.es-prod-tag{display:inline-flex;align-self:flex-start;margin-bottom:10px;padding:5px 12px;
+  border-radius:1000px;background:var(--pastel-blue);color:var(--main-blue);font-size:12px;font-weight:700}
+.es-prod-name{font-family:var(--font-title);font-size:21px;font-weight:800;letter-spacing:-.03em;color:var(--main-black)}
+.es-prod-desc{margin-top:9px;font-size:15px;line-height:1.65;color:var(--sub-d-gray);word-break:keep-all}
+.es-prod-price{margin-top:auto;padding-top:18px;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px}
+.es-prod-price .was{font-size:14px;font-weight:600;color:var(--sub-d-gray);text-decoration:line-through}
+.es-prod-price .num{font-family:var(--font-title);font-size:26px;font-weight:800;color:var(--main-navy);letter-spacing:-.03em}
+.es-prod-price .unit{font-size:14px;font-weight:600;color:var(--sub-d-gray)}
+.es-prod-note{margin-top:6px;font-size:12.5px;color:var(--sub-d-gray);line-height:1.55}
+/* 한 장짜리(안면인식)는 그림을 왼쪽에 세운다 — 셋일 때와 달리 자리가 남는다 */
+.es-prod.wide{flex-direction:row}
+.es-prod.wide .es-prod-media{flex:0 0 300px;height:auto;border-bottom:0;border-right:1px solid var(--main-gray)}
+.es-prod.wide .es-prod-media img{max-height:260px}
+.es-prod.wide .es-prod-body{padding:28px 30px}
+
+/* 수량 구간 표 — 네 칸이 같은 크기로 서야 '구간'으로 읽힌다 */
+.es-rate{margin-top:40px;text-align:left;background:var(--main-white);
+  border:1px solid var(--main-gray);border-radius:20px;padding:26px 28px}
+.es-rate-h{font-family:var(--font-body);font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--main-navy)}
+.es-rate-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.es-rate-c{display:flex;flex-direction:column;gap:4px;padding:16px 14px;border-radius:14px;background:var(--sub-w-gray)}
+.es-rate-c .k{font-size:13px;font-weight:700;color:var(--sub-d-gray)}
+.es-rate-c .v{font-family:var(--font-title);font-size:21px;font-weight:800;letter-spacing:-.03em;color:var(--main-navy)}
+.es-rate-note{margin-top:14px;font-size:13.5px;line-height:1.65;color:var(--sub-d-gray);word-break:keep-all}
+.es-rate-note b{color:var(--main-navy);font-weight:800}
+
+/* 조건 줄 — 라벨이 왼쪽에 고정폭으로 서야 여러 줄이 표처럼 읽힌다 */
+.es-terms{list-style:none;margin:34px 0 0;text-align:left;
+  border-top:1px solid var(--main-gray);display:flex;flex-direction:column}
+.es-terms li{display:grid;grid-template-columns:104px minmax(0,1fr);gap:16px;
+  padding:16px 2px;border-bottom:1px solid var(--main-gray);
+  font-size:14.5px;line-height:1.65;color:var(--sub-d-gray);word-break:keep-all}
+.es-terms b{font-size:13.5px;font-weight:800;color:var(--main-navy)}
+
+.es-panel-cta{margin-top:40px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.es-panel-cta .banner-btn{min-width:280px}
+.es-panel-cta-note{font-size:13px;color:var(--sub-d-gray)}
+
+@media(max-width:860px){
+  .es-prod-head{padding:56px 0 24px}
+  .es-prod-grid.cols3{grid-template-columns:1fr}
+  .es-prod-grid{margin-top:36px}
+  .es-prod.wide{flex-direction:column}
+  .es-prod.wide .es-prod-media{flex:none;height:200px;border-right:0;border-bottom:1px solid var(--main-gray)}
+  .es-rate-grid{grid-template-columns:repeat(2,1fr)}
+  .es-terms li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .es-panel-cta .banner-btn{min-width:0;width:100%}
+}
 
 /* ── 3. 서비스 두 장 ──────────────────────────────────────────── */
 .es-plans{position:relative;padding:92px 0;background:var(--main-white)}
@@ -157,7 +255,7 @@ body.estimate-page{--frame-tint:#EDF3FC;--frame-border:rgba(14,59,99,.20)}
 .es-compare{--cols:minmax(0,1.5fr) 168px 168px}
 .es-cmp{margin-top:26px;text-align:left}
 /* 머리줄은 스크롤을 따라붙는다. 표가 길어 어느 열을 보고 있는지 놓치기 쉬운 자리다 */
-.es-cmp-head{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:var(--cols);
+.es-cmp-head{position:sticky;top:var(--tabbar-h);z-index:5;display:grid;grid-template-columns:var(--cols);
   background:var(--sub-w-gray);border-bottom:1.5px solid var(--main-navy)}
 .es-cmp-head .c{padding:16px 16px 13px;font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--main-navy)}
 .es-cmp-head .c.c30,.es-cmp-head .c.prem{text-align:center}

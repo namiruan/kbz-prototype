@@ -21,13 +21,35 @@
   <div class="inner">
     <div class="eyebrow">우리 사업장은 얼마나 들까요?</div>
     <h1 class="title-lg">사업장에 맞는 구성을<br>합리적인 가격으로</h1>
-    <div class="es-jump">
-      <a href="#plans">서비스 두 가지</a>
-      <a href="#features">기능 33개 비교</a>
-      <a href="#devices">단말기 견적</a>
-    </div>
   </div>
 </section>
+
+<!-- ===== 상단 3탭 =====
+     주소의 ?type= 가 곧 탭이다(A·B·C). 탭은 화면만 갈아 끼우는 것이 아니라
+     '무엇을 팔고 있는지'를 바꾸므로, 링크로 바로 그 상품을 열 수 있어야 한다.
+     스크롤을 따라붙는다 — 비교표가 길어 탭으로 돌아오려면 한참 올라가야 했다 -->
+<nav class="es-tabs" aria-label="서비스 선택">
+  <div class="inner">
+    <div class="es-tabs-row" role="tablist">
+      <button class="es-tab is-active" type="button" role="tab" data-type="A" id="tab-A" aria-selected="true" aria-controls="panel-A">
+        <span class="t">김반장 · 김반장 프리미엄</span>
+        <span class="s">노무관리 프로그램</span>
+      </button>
+      <button class="es-tab" type="button" role="tab" data-type="B" id="tab-B" aria-selected="false" aria-controls="panel-B">
+        <span class="t">퇴직공제 전자카드 단말기</span>
+        <span class="s">벽부형 · 이동형 · 휴대형</span>
+      </button>
+      <button class="es-tab" type="button" role="tab" data-type="C" id="tab-C" aria-selected="false" aria-controls="panel-C">
+        <span class="t">안면인식 출퇴근관리</span>
+        <span class="s">Ubio X Face Pro</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ===== 탭 A : 김반장 · 김반장 프리미엄 ===== -->
+<section class="es-panel" id="panel-A" role="tabpanel" aria-labelledby="tab-A">
 
 <!-- ===== 서비스 두 장 ===== -->
 <section class="es-plans center" id="plans">
@@ -406,37 +428,118 @@
     </div>
   </div>
 </section>
+</section>
 
-<!-- ===== 단말기 견적 (index.html partition-9 과 같은 카드) ===== -->
-<section class="es-devices center" id="devices">
-  <div class="inner">
-    <div class="title-container">
-      <div class="eyebrow">현장에서 찍는 기기</div>
-      <h2 class="title-md">묶을수록 가벼워지는 현장 관리</h2>
-      <p class="lead combo-lead">현장에서 찍은 출역이 급여·4대보험·퇴직공제 신고까지 김반장으로 이어집니다. 필요한 기기만 골라 묶을수록 요금도, 손도 가벼워집니다.</p>
-    </div>
-    <div class="combo-grid">
-      <div class="combo-card">
-        <div class="combo-media"><img class="dev" src="images/device/A-01.png" alt="안면인식 출퇴근관리 단말기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span class="mcap">안면인식 단말기 누끼컷</span><span class="msub">투명 PNG · 프레임 위로 튀어나오게</span></div>
-        <span class="combo-tag">출퇴근·공수 관리</span>
-        <div class="combo-name">안면인식 출퇴근관리</div>
-        <p class="combo-desc">QR로 얼굴을 최초 1회만 등록하면, 1초 안면인식으로 출퇴근이 찍히고 근로자별 공수가 자동으로 산출됩니다.</p>
-        <div class="combo-price"><span class="num tnum">월 150,000원</span><span class="unit">/ 대</span></div>
-        <p class="combo-note">12개월 이상 계약 시 설치비 무료 · 계약 수량에 따라 할인 · VAT 별도</p>
-        <div class="combo-cta"><a class="banner-btn" href="face-quote.html">안면인식 단말기 견적받기</a></div>
+
+<!-- ===== 탭 B : 퇴직공제 전자카드 단말기 =====
+     금액은 assets 가 아니라 quote.html 의 요율표(RATE)에서 그대로 가져왔다.
+     지워진 값(1개월)과 적힌 값(12개월)이 한 줄에 같이 서야 '기간이 길수록
+     싸진다'가 말이 아니라 숫자로 보인다 -->
+<section class="es-panel" id="panel-B" role="tabpanel" aria-labelledby="tab-B" hidden>
+
+  <div class="es-prod-head center">
+    <div class="inner">
+      <div class="title-container">
+        <div class="eyebrow">현장 단위로 계약합니다</div>
+        <h2 class="title-md">전자카드로 찍은 출역이<br>퇴직공제 신고로 그대로 이어집니다</h2>
+        <p class="lead">현장 방식에 맞춰 세 가지 중에 고르세요. 기간이 길수록 대당 단가가 내려갑니다.</p>
       </div>
-      <div class="combo-card">
-        <div class="combo-media"><img class="dev" src="images/device/A-02.png" alt="퇴직공제 전자카드 단말기 3종"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span class="mcap">전자카드 단말기 3종 누끼컷</span><span class="msub">벽부형 · 이동형 · 휴대형</span></div>
-        <div class="combo-tagrow"><span class="combo-tag">퇴직공제 신고</span><span class="combo-perk">프리미엄 결합 시 추가 할인</span></div>
-        <div class="combo-name">퇴직공제 전자카드 단말기</div>
-        <p class="combo-desc">벽부형·이동형·휴대형 중 현장 방식에 맞춰 선택하세요. 전자카드로 찍은 출역이 퇴직공제 신고로 그대로 이어집니다.</p>
-        <div class="combo-price"><span class="was tnum">월 180,000원</span><span class="num tnum">월 83,000원</span></div>
-        <p class="combo-note">휴대형 기준 · 12개월 계약 시 · 장기계약에 따른 추가할인 제공 · VAT 별도</p>
-        <div class="combo-cta"><a class="banner-btn" href="quote.html">전자카드 단말기 견적받기</a></div>
+
+      <div class="es-prod-grid cols3">
+        <article class="es-prod">
+          <div class="es-prod-media"><img src="images/card-reader/wall.png" alt="벽부형 퇴직공제 전자카드 단말기" loading="lazy"></div>
+          <div class="es-prod-body">
+            <h3 class="es-prod-name">벽부형</h3>
+            <p class="es-prod-desc">출입구에 고정 설치합니다. 드나드는 사람을 상시 통제하는 현장에 맞습니다.</p>
+            <div class="es-prod-price"><span class="was tnum">월 205,000원</span><span class="num tnum">월 74,000원</span><span class="unit">/ 대</span></div>
+            <p class="es-prod-note">12개월 계약 기준 · VAT 별도</p>
+          </div>
+        </article>
+        <article class="es-prod">
+          <div class="es-prod-media"><img src="images/card-reader/portable.png" alt="이동형 퇴직공제 전자카드 단말기" loading="lazy"></div>
+          <div class="es-prod-body">
+            <h3 class="es-prod-name">이동형</h3>
+            <p class="es-prod-desc">케이스형입니다. 출입구가 자주 바뀌거나 이동이 잦은 현장에 맞습니다.</p>
+            <div class="es-prod-price"><span class="was tnum">월 170,000원</span><span class="num tnum">월 69,000원</span><span class="unit">/ 대</span></div>
+            <p class="es-prod-note">12개월 계약 기준 · VAT 별도</p>
+          </div>
+        </article>
+        <article class="es-prod">
+          <div class="es-prod-media"><img src="images/card-reader/mobile.png" alt="휴대형 퇴직공제 전자카드 단말기" loading="lazy"></div>
+          <div class="es-prod-body">
+            <h3 class="es-prod-name">휴대형</h3>
+            <p class="es-prod-desc">들고 다니며 태그합니다. 작업 구역이 여러 곳으로 흩어진 현장에 맞습니다.</p>
+            <div class="es-prod-price"><span class="was tnum">월 180,000원</span><span class="num tnum">월 83,000원</span><span class="unit">/ 대</span></div>
+            <p class="es-prod-note">12개월 계약 기준 · VAT 별도</p>
+          </div>
+        </article>
+      </div>
+
+      <ul class="es-terms">
+        <li><b>기간</b>1개월부터 계약할 수 있고, 길수록 대당 단가가 내려갑니다. 지워진 금액이 1개월 기준가입니다.</li>
+        <li><b>13개월 이상</b>요율은 12개월에서 멈춥니다. 더 길게 계약해도 대당 단가는 12개월과 같습니다.</li>
+        <li><b>결합</b>김반장 프리미엄과 함께 쓰시면 추가 할인이 있습니다.</li>
+      </ul>
+
+      <div class="es-panel-cta">
+        <a class="banner-btn" href="quote.html">전자카드 단말기 견적받기</a>
+        <p class="es-panel-cta-note">기간과 수량을 넣으면 금액이 그 자리에서 계산됩니다.</p>
       </div>
     </div>
   </div>
 </section>
+
+
+<!-- ===== 탭 C : 안면인식 출퇴근관리 =====
+     금액은 face-quote.html 의 상수(BASE_UNIT·VOLUME·INSTALL_FEE·LINK_FEE)를 그대로
+     옮겼다. 수량 할인은 현장별이 아니라 신청 전체를 합산해 정해지므로 표에 적어 둔다 -->
+<section class="es-panel" id="panel-C" role="tabpanel" aria-labelledby="tab-C" hidden>
+
+  <div class="es-prod-head center">
+    <div class="inner">
+      <div class="title-container">
+        <div class="eyebrow">현장 단위로 계약합니다</div>
+        <h2 class="title-md">얼굴은 한 번만 등록하면<br>출퇴근은 1초면 찍힙니다</h2>
+        <p class="lead">QR로 얼굴을 최초 1회만 등록하면 근로자별 공수가 자동으로 산출됩니다. 허위·대리 출퇴근이 막힙니다.</p>
+      </div>
+
+      <div class="es-prod-grid solo">
+        <article class="es-prod wide">
+          <div class="es-prod-media"><img src="images/face-reader/ubio-x-face-pro.png" alt="Ubio X Face Pro 안면인식 출퇴근관리 단말기" loading="lazy"></div>
+          <div class="es-prod-body">
+            <span class="es-prod-tag">단말기</span>
+            <h3 class="es-prod-name">Ubio X Face Pro</h3>
+            <p class="es-prod-desc">마스크를 써도, 어두워도 인식합니다. 찍힌 출퇴근이 그대로 공수·급여·4대보험으로 이어집니다.</p>
+            <div class="es-prod-price"><span class="num tnum">월 150,000원</span><span class="unit">/ 대부터</span></div>
+            <p class="es-prod-note">1~5대 기준 · 수량이 늘수록 내려갑니다 · VAT 별도</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="es-rate">
+        <h3 class="es-rate-h">계약 대수에 따른 대당 월 요금</h3>
+        <div class="es-rate-grid">
+          <div class="es-rate-c"><span class="k">1~5대</span><span class="v tnum">150,000원</span></div>
+          <div class="es-rate-c"><span class="k">6~10대</span><span class="v tnum">140,000원</span></div>
+          <div class="es-rate-c"><span class="k">11~19대</span><span class="v tnum">130,000원</span></div>
+          <div class="es-rate-c"><span class="k">20대 이상</span><span class="v tnum">120,000원</span></div>
+        </div>
+        <p class="es-rate-note">현장이 여럿이면 현장별로 나누지 않고 <b>신청 전체를 합산</b>해 구간을 정합니다. 현장마다 4대씩 세 곳이면 12대 구간입니다.</p>
+      </div>
+
+      <ul class="es-terms">
+        <li><b>설치비</b>12개월 이상 계약하면 무료입니다. 12개월 미만이면 대당 150,000원이 첫 달에 함께 청구됩니다.</li>
+        <li><b>연동비</b>김반장을 이미 쓰고 계시면 붙지 않습니다. 아니면 현장당 월 20,000원입니다.</li>
+      </ul>
+
+      <div class="es-panel-cta">
+        <a class="banner-btn" href="face-quote.html">안면인식 단말기 견적받기</a>
+        <p class="es-panel-cta-note">현장과 수량을 넣으면 금액이 그 자리에서 계산됩니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <!-- ===== FAQ ===== -->
 <section class="es-faq center">
