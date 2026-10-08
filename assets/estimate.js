@@ -238,7 +238,18 @@
     if(!pick) return;
     var boxes = $$('.es-pick-item input', pick);
     var rec = $('#esPickRec'), why = $('#esPickWhy');
-    var note = $('#esPickNote'), go = $('#esPickGo');
+    var act = $('#esPickAct'), go = $('#esPickGo'), mark = $('#esPickMark');
+
+    /* 기능 이름 뒤에 붙는 조사는 받침이 가른다 — '…검증은', '…관리는' */
+    function eun(w){
+      var c = w.charCodeAt(w.length - 1);
+      if(c < 0xAC00 || c > 0xD7A3) return '은';
+      return (c - 0xAC00) % 28 ? '은' : '는';
+    }
+    function nameList(on){
+      var names = on.map(function(b){ return b.dataset.feat; });
+      return '<b>' + names.join(' · ') + '</b>' + eun(names[names.length - 1]);
+    }
 
     function paint(){
       var on   = boxes.filter(function(b){ return b.checked; });
@@ -254,15 +265,13 @@
         rec.textContent = '김반장 프리미엄 추천';
         /* 고른 것은 겪는 일이고, 여기서 그 일을 맡는 기능 이름으로 바꿔 부른다 —
            추천이 어디서 나온 말인지 되짚을 수 있어야 한다. 3.0 줄도 함께 골랐다면
-           그쪽은 세지 않는다. 답을 가른 것은 프리미엄 줄이기 때문이다 */
-        why.innerHTML = '고르신 것 가운데 <b>' + prem.length + '가지</b>는 프리미엄이 대신 맡는 일입니다 — '
-          + prem.map(function(b){ return b.dataset.feat; }).join(' · ')
-          + '. 김반장 3.0이 하는 일도 그대로 포함됩니다.';
+           이름을 부르지 않는다. 답을 가른 것은 프리미엄 줄이기 때문이다.
+           ⚠ 몇 가지인지는 세지 않는다. '고르신 1가지는 모두…' 처럼 하나를 두고
+              '모두'라고 하면 말이 어긋나고, 세어 봐야 바로 옆에 이름이 적혀 있다 */
+        why.innerHTML = nameList(prem) + ' 프리미엄이 대신 맡습니다. 김반장 3.0이 하는 일도 그대로 포함됩니다.';
       }else if(on.length){
         rec.textContent = '김반장 3.0 추천';
-        why.innerHTML = '고르신 <b>' + on.length + '가지</b>는 모두 3.0이 하는 일입니다 — '
-          + on.map(function(b){ return b.dataset.feat; }).join(' · ')
-          + '. 신고만 직접 하시면 됩니다.';
+        why.innerHTML = nameList(on) + ' 김반장 3.0이 합니다. 신고만 직접 하시면 됩니다.';
       }else{
         rec.textContent = '김반장 3.0 추천';
         why.innerHTML = '맡길 일이 없으시군요. 출역만 입력하면 근태·급여 계산과 신고서 작성까지 <b>3.0이 자동으로</b> 끝냅니다.';
@@ -275,9 +284,15 @@
       /* 폼이 위로 올라갔으니 돌아갈 길을 답 옆에 둔다. 묻기도 전에는 내지
          않는다 — 아직 아무것도 고르지 않은 자리에서 '이 구성으로'는 빈 말이다 */
       var asked = pick.dataset.rec === 'c30' || pick.dataset.rec === 'prem';
-      if(note) note.hidden = !asked;
+      /* ⚠ hidden 은 HTMLElement 의 속성이라 SVG 에는 프로퍼티로 먹지 않는다.
+         svg.hidden = false 는 JS 값만 바꿀 뿐 [hidden] 특성은 그대로 남아,
+         [hidden]{display:none!important} 가 계속 이긴다 — 특성으로 다룬다 */
+      if(mark){
+        if(asked) mark.removeAttribute('hidden');
+        else mark.setAttribute('hidden', '');
+      }
+      if(act) act.hidden = !asked;
       if(go){
-        go.hidden = !asked;
         go.dataset.plan = mode;
         go.textContent = (mode === 'prem' ? '김반장 프리미엄' : '김반장 3.0') + '으로 견적 받기';
       }

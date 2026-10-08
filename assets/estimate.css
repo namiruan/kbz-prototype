@@ -160,21 +160,37 @@ body.estimate-page{--tabbar-h:52px}
 .es-pick-out{display:flex;align-items:center;flex-wrap:wrap;gap:10px 20px;
   margin-top:18px;padding:18px 22px;border-radius:16px;
   background:var(--sub-w-gray);border:1px solid var(--main-gray);transition:.18s}
-.es-pick-out .rec{flex:none;display:inline-flex;align-items:center;gap:6px;
-  padding:7px 16px;border-radius:1000px;font-size:14px;font-weight:800;letter-spacing:-.01em;
-  background:var(--main-gray);color:var(--sub-d-gray);transition:.18s}
-.es-pick-out .why{flex:1;min-width:260px;font-size:14px;line-height:1.6;color:var(--sub-d-gray);word-break:keep-all}
+/* 답은 알약이 아니라 글이다. 채운 알약으로 두었더니 바로 옆 '견적 받기'와 같은
+   모양이라 눌리는 것으로 보였다 — 한 줄에 알약이 둘이면 둘 다 버튼으로 읽힌다.
+   바탕을 걷고 제목 글꼴로 키워 머리글 노릇을 시키고, 답이 섰다는 표시는 앞의
+   체크 하나가 든다 */
+.es-pick-out .ans{flex:none;display:inline-flex;align-items:center;gap:7px}
+.es-pick-out .ck{flex:none;width:17px;height:17px}
+.es-pick-out .rec{font-family:var(--font-title);font-size:18px;font-weight:800;
+  letter-spacing:-.03em;color:var(--sub-d-gray);transition:.18s}
+/* 최소 폭은 줄이 접힐지를 가르는 값이다 — 접힘은 늘어나기 전, 이 값으로 셈한다.
+   260px 이면 190 + 260 + 528 + 여백 40 = 1018 로 안쪽(1014)을 4px 넘겨 버튼
+   덩이가 다음 줄로 떨어졌다 */
+.es-pick-out .why{flex:1;min-width:200px;font-size:14px;line-height:1.6;color:var(--sub-d-gray);word-break:keep-all}
 .es-pick-out .why b{color:var(--main-navy);font-weight:800}
 /* 아직 고르기 전에는 어느 쪽도 추천하지 않는다 — 묻기도 전에 답하지 않는다 */
 .es-pick[data-rec="c30"]  .es-pick-out{background:var(--main-white);border-color:var(--main-navy)}
-.es-pick[data-rec="c30"]  .es-pick-out .rec{background:var(--main-navy);color:var(--main-white)}
+.es-pick[data-rec="c30"]  .es-pick-out .ans{color:var(--main-navy)}
+.es-pick[data-rec="c30"]  .es-pick-out .rec{color:var(--main-navy)}
 .es-pick[data-rec="prem"] .es-pick-out{background:var(--frame-tint);border-color:var(--main-blue)}
-.es-pick[data-rec="prem"] .es-pick-out .rec{background:var(--main-blue);color:var(--main-white)}
+.es-pick[data-rec="prem"] .es-pick-out .ans{color:var(--main-blue)}
+.es-pick[data-rec="prem"] .es-pick-out .rec{color:var(--main-blue)}
 
 /* 두 장 카드가 들고 있던 것 둘을 답 카드가 물려받았다 — 무료 체험 한 줄과
    '견적 받기'. 묻기도 전에는 둘 다 숨어 있다 */
-/* 무료 체험 줄과 버튼은 오른쪽으로 민다 — 왼쪽은 답, 오른쪽은 다음 걸음이다 */
-.es-pick-out .note{flex:none;margin-left:auto;font-size:12.5px;line-height:1.55;color:var(--sub-d-gray);word-break:keep-all}
+/* 무료 체험 줄과 버튼은 한 덩이로 오른쪽에 선다 — 왼쪽은 답, 오른쪽은 다음 걸음.
+   ⚠ 묶지 않으면 안 된다. 가운데 글(.why)이 flex:1 로 남은 자리를 다 먹어, 뒤의
+      버튼이 갈 데가 없어 다음 줄로 떨어진다(글 517 + 둘 511 > 안쪽 1014).
+      묶어 두면 그 덩이가 제 폭을 먼저 차지하고 글이 나머지를 쓴다.
+      auto 여백으로 미는 길도 안 된다 — 접히는 상자에서 auto 여백은 그 줄에 남은
+      자리를 통째로 먹어 같은 일이 벌어진다 */
+.es-pick-out .act{flex:none;display:inline-flex;align-items:center;gap:18px}
+.es-pick-out .note{font-size:12.5px;line-height:1.55;color:var(--sub-d-gray);word-break:keep-all}
 .es-pick-out .go{flex:none;font-size:15px;padding:11px 18px}
 /* 버튼 색이 추천을 따라간다 — 두 장 카드가 쓰던 구분 그대로다. 3.0 은 테두리만,
    프리미엄은 채운 파랑. 알약과 같은 색이라 '이 추천으로 간다'가 한눈에 붙는다 */
@@ -188,7 +204,6 @@ body.estimate-page{--tabbar-h:52px}
   .es-pick-list{grid-template-columns:1fr}
   /* 한 줄에 다 못 서면 접힌다 — 그때는 오른쪽으로 밀 까닭도 없다 */
   .es-pick-out{padding:16px 18px}
-  .es-pick-out .note{margin-left:0}
 }
 
 /* ── 4. 기능 비교표 — 거르개 ──────────────────────────────────── */
