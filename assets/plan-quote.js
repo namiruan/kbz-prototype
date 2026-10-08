@@ -161,18 +161,13 @@
       basis.textContent = prem ? '김반장 3.0 이용료 포함' : '';
     }
 
-    /* ② 할인 블록 — 깎이는 것이 둘이고 뜨는 조건이 다르다.
-       3.0 할인은 프리미엄을 고르면 붙는다. 프리미엄은 3.0 전 기능을 그대로
-       쓰면서 3.0 이용료를 따로 내지 않으니, 그 몫이 100% 깎인 셈이다.
-       연납 할인은 주기를 바꿔야 붙는다 — 월납인데 '할인 전'을 띄우면 깎이지도
-       않은 금액이 깎인 것처럼 읽힌다. '할인 전'은 그래서 연납 줄에만 따라붙는다 */
-    var okAmt    = t && t !== 'over';
-    var showPrem = okAmt && prem;
-    var showYear = okAmt && year;
-    $('#sumPrem').hidden    = !showPrem;
-    $('#sumYear').hidden    = !showYear;
-    $('#sumWasRow').hidden  = !showYear;
-    disc.classList.toggle('on', !!(showPrem || showYear));
+    /* ② 할인 블록 — 연납을 골랐을 때만. 월납인데 '할인 전'을 띄우면 깎이지도
+       않은 금액이 깎인 것처럼 읽힌다. 3.0 이용료가 안 붙는다는 말은 펼친 내역의
+       '무료' 줄이 하니 여기서 또 하지 않는다 — 깎이는 것이 둘인 것처럼 읽힌다 */
+    var showYear = t && t !== 'over' && year;
+    $('#sumYear').hidden   = !showYear;
+    $('#sumWasRow').hidden = !showYear;
+    disc.classList.toggle('on', !!showYear);
     if(showYear){
       $('#sumWas').textContent = money(t.month * 12);
     }
@@ -199,7 +194,6 @@
         /* 프리미엄을 골라도 3.0 줄을 지우지 않는다. 따로 계약했다면 얼마였는지가
            옆에 서 있어야 '포함'이 말이 아니라 돈으로 읽힌다 */
         body += line('김반장 3.0 이용료', '월 ' + mo, '', true);
-        body += '<p class="pq-add">신고 대행 범위(현장 수 · 인원 수 · 대행 항목)에 따라 더해집니다.</p>';
       }else{
         body += line('김반장 3.0 이용료', '월정액', mo);
       }

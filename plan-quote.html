@@ -174,12 +174,9 @@
              실제 청구에는 계약 조건과 그때의 정책이 더 붙어, 여기서 끝까지 계산해
              버리면 받아 본 견적서와 어긋난다. -->
         <div class="q-sum-disc" id="sumDisc">
-          <!-- 깎이는 것이 둘이고 뜨는 조건이 다르다. 3.0 할인은 프리미엄이면 붙고,
-               연납 할인은 주기를 바꿔야 붙는다. 그래서 '할인 전'은 주기를 따라
-               움직이는 연납 줄에만 따라붙는다. 두 줄의 생김새는 같다 — 단말기 두
-               견적의 할인 줄이 하나뿐이라고 해서 둘째 줄을 작게 만들면, 거기엔
-               없는 모양을 이 화면이 혼자 만들어 쓰는 꼴이 된다 -->
-          <div class="q-sum-rate" id="sumPrem" hidden><span class="nm">김반장 3.0 할인</span><span class="pct tnum">100%</span></div>
+          <!-- 할인 줄은 연납 하나다. 3.0 이용료가 안 붙는다는 말은 펼친 내역의
+               '무료' 줄이 이미 하고 있어, 여기 '100%' 를 또 세우면 깎이는 것이
+               둘인 것처럼 읽힌다 -->
           <div class="q-sum-rate" id="sumYear" hidden><span class="nm">연납 할인</span><span class="pct tnum">5%</span></div>
           <div class="q-sum-line was" id="sumWasRow" hidden><span class="nm">할인 전</span><span class="amt tnum" id="sumWas">0원</span></div>
         </div>
