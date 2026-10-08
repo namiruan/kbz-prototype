@@ -57,23 +57,43 @@
        아예 없기 때문이다 — sticky 는 넘치는 창이 있어야 붙을 자리가 생긴다.
        그래서 바깥 스크롤을 보고 부모가 직접 밀어 준다. 미는 것은 transform 이라
        안쪽 레이아웃을 건드리지 않고, 따라서 높이를 다시 재게 만들지도 않는다 */
-    var follows = [];
-    function follow(){
-      var stick = (parseFloat(getComputedStyle(document.body).getPropertyValue('--tabbar-h')) || 0) + 20;
+    /* 재는 일과 미는 일을 갈라 둔다. 스크롤 한 프레임마다 안쪽 문서의
+       getComputedStyle·offsetTop·getBoundingClientRect 를 읽으면, 그때마다 두
+       문서가 레이아웃을 다시 셈한다 — 미는 값은 맞는데 손이 떨린다.
+       잴 것은 스크롤로 달라지지 않으니(틀의 문서상 위치, 카드의 제자리, 갈 수
+       있는 거리) 미리 재어 두고, 프레임마다는 뺄셈만 한다 */
+    var follows = [], stickTop = 0;
+    function remeasure(){
+      var sy = window.scrollY || window.pageYOffset || 0;
+      stickTop = (parseFloat(getComputedStyle(document.body).getPropertyValue('--tabbar-h')) || 0) + 20;
       follows.forEach(function(o){
         var w;
-        try{ w = o.fr.contentDocument && o.fr.contentDocument.defaultView; }catch(e){ return; }
-        if(!w) return;
-        /* 숨은 탭은 잴 것이 없다 */
-        if(o.fr.offsetParent === null) return;
-        /* 한 단으로 포개지는 폭에서는 카드가 폼 아래에 그냥 눕는다(position:static) */
-        if(w.getComputedStyle(o.pane).position !== 'sticky'){ o.pane.style.transform = ''; return; }
-        var top0 = o.pane.offsetTop;
+        try{ w = o.fr.contentDocument && o.fr.contentDocument.defaultView; }catch(e){ w = null; }
+        /* 숨은 탭은 잴 것이 없고, 한 단으로 포개지는 폭에서는 카드가 폼 아래에
+           그냥 눕는다(position:static) — 안쪽 CSS 가 정해 둔 값을 그대로 따른다 */
+        o.on = !!w && o.fr.offsetParent !== null
+            && w.getComputedStyle(o.pane).position === 'sticky';
+        if(!o.on){ o.pane.style.transform = ''; o.pane.style.willChange = ''; o.at = 0; return; }
+        o.frTop = o.fr.getBoundingClientRect().top + sy;   /* 문서 기준 */
+        o.top0  = o.pane.offsetTop;
         /* 제 파티션이 끝나면 멈춘다 — 폼 기둥의 바닥을 넘어가지 않는다 */
-        var limit = Math.max(0, o.form.offsetTop + o.form.offsetHeight - top0 - o.pane.offsetHeight);
-        var want  = Math.min(limit, Math.max(0, stick - o.fr.getBoundingClientRect().top - top0));
-        o.pane.style.transform = want ? 'translateY(' + Math.round(want) + 'px)' : '';
+        o.limit = Math.max(0, o.form.offsetTop + o.form.offsetHeight - o.top0 - o.pane.offsetHeight);
+        /* 제 겹을 갖게 해 둔다 — 밀 때마다 다시 그리지 않고 합성기가 옮긴다 */
+        o.pane.style.willChange = 'transform';
       });
+      follow();
+    }
+    function follow(){
+      var sy = window.scrollY || window.pageYOffset || 0;
+      for(var i = 0; i < follows.length; i++){
+        var o = follows[i];
+        if(!o.on) continue;
+        var want = Math.round(Math.min(o.limit, Math.max(0, stickTop + sy - o.frTop - o.top0)));
+        if(want === o.at) continue;           /* 바뀐 것이 없으면 건드리지 않는다 */
+        o.at = want;
+        /* translate3d 로 적는다 — 합성기에 맡겨 글자가 다시 그려지지 않게 */
+        o.pane.style.transform = want ? 'translate3d(0,' + want + 'px,0)' : '';
+      }
     }
     var ticking = false;
     function onScroll(){
@@ -82,7 +102,7 @@
       requestAnimationFrame(function(){ ticking = false; follow(); });
     }
     window.addEventListener('scroll', onScroll, { passive:true });
-    window.addEventListener('resize', onScroll);
+    window.addEventListener('resize', remeasure);
 
     /* 프로토타입 뷰어는 바깥 화면을 ?_t=... 로 열어 캐시를 지나친다. 그런데 그
        안에 끼우는 화면은 그냥 주소라, 바깥만 새것이고 안쪽은 브라우저가 들고 있던
@@ -127,12 +147,12 @@
         if(type === 'A') applyPlan();
         fit(fr);
         var pane = d.getElementById('sumPane'), form = d.getElementById('quoteForm');
-        if(pane && form){ follows.push({ fr:fr, pane:pane, form:form }); }
-        follow();
+        if(pane && form){ follows.push({ fr:fr, pane:pane, form:form, on:false, at:0 }); }
+        remeasure();
         /* 지켜보는 것도 documentElement 가 아니라 body 다 — 같은 까닭으로
            documentElement 는 틀 크기를 따라가 내용이 줄어도 꿈쩍하지 않는다 */
         if(window.ResizeObserver){
-          new ResizeObserver(function(){ fit(fr); follow(); }).observe(d.body);
+          new ResizeObserver(function(){ fit(fr); remeasure(); }).observe(d.body);
         }
       });
       fr.setAttribute('src', fresh(fr.dataset.src));
@@ -150,7 +170,7 @@
       });
       panels.forEach(function(pn){ pn.hidden = (pn.id !== 'panel-' + type); });
       mount(type);
-      follow();            /* 막 보이게 된 틀의 카드도 제자리를 잡는다 */
+      remeasure();         /* 막 보이게 된 틀의 카드도 제자리를 잡는다 */
 
       /* 좁은 폭에서 탭 줄은 가로로 밀어 보는 띠가 된다. ?type=C 로 바로 들어오면
          고른 탭이 화면 밖에 있어 '지금 어느 탭인지'가 보이지 않으므로, 가운데로
