@@ -317,7 +317,9 @@
       if(go){
         go.hidden = !asked;
         go.dataset.plan = mode;
-        go.textContent = (mode === 'prem' ? '김반장 프리미엄' : '김반장 3.0') + '으로 견적 받기';
+        /* 화살표에는 글자가 없다. 보이는 이름 대신 읽히는 이름을 갈아 끼운다 */
+        go.setAttribute('aria-label',
+          (mode === 'prem' ? '김반장 프리미엄' : '김반장 3.0') + '으로 견적 받기');
       }
     }
 

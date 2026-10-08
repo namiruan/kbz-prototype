@@ -156,7 +156,11 @@
           <p class="rec" id="esPickRec">해당하는 것을 골라 보세요</p>
           <p class="why" id="esPickWhy">하나도 해당하지 않으면 김반장 3.0으로 충분합니다.</p>
         </div>
-        <a class="banner-btn go" id="esPickGo" href="#apply" data-plan="c30" hidden>이 구성으로 견적 받기</a>
+        <!-- 글자를 걷고 화살표만 남겼다. 어디로 가는지는 바로 왼쪽 두 줄이 이미
+             말하고 있어, 그 말을 알약에 한 번 더 적으면 같은 문장이 둘이 된다.
+             ⚠ 글자가 사라졌으니 이름은 aria-label 이 든다 — 화살표 하나만 읽히면
+                어디로 가는 길인지 들을 수 없다. 그 이름은 paint() 가 고쳐 단다 -->
+        <a class="go" id="esPickGo" href="#apply" data-plan="c30" hidden aria-label="김반장 3.0으로 견적 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h12.5M11.5 5.5L18 12l-6.5 6.5"/></svg></a>
       </div>
     </div>
   </div>
