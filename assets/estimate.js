@@ -181,7 +181,7 @@
     if(!pick) return;
     var boxes = $$('.es-pick-item input', pick);
     var rec = $('#esPickRec'), why = $('#esPickWhy');
-    var cards = { c30: $('#card-c30'), prem: $('#card-prem') };
+    var note = $('#esPickNote'), go = $('#esPickGo');
 
     function paint(){
       var on = boxes.filter(function(b){ return b.checked; });
@@ -198,18 +198,19 @@
         why.innerHTML = '맡길 일이 없으시군요. 출역만 넣으면 급여·임금명세서·신고서까지 <b>3.0이 자동으로</b> 만들어 줍니다.';
       }
 
-      /* 답은 아래 끼워 둔 견적신청 폼의 계약 유형까지 돌린다 —
+      /* 답은 위에 끼워 둔 견적신청 폼의 계약 유형까지 돌린다 —
          고른 사람이 같은 것을 두 번 고르지 않게 */
       if(window.esSetPlan) window.esSetPlan(mode);
 
-      /* 띠는 추천받은 쪽에만 붙는다 */
-      Object.keys(cards).forEach(function(k){
-        var c = cards[k]; if(!c) return;
-        var isRec = (k === mode);
-        c.classList.toggle('is-rec', isRec);
-        var badge = $('.plan-badge', c);
-        if(badge) badge.hidden = !isRec;
-      });
+      /* 폼이 위로 올라갔으니 돌아갈 길을 답 옆에 둔다. 묻기도 전에는 내지
+         않는다 — 아직 아무것도 고르지 않은 자리에서 '이 구성으로'는 빈 말이다 */
+      var asked = pick.dataset.rec === 'c30' || pick.dataset.rec === 'prem';
+      if(note) note.hidden = !asked;
+      if(go){
+        go.hidden = !asked;
+        go.dataset.plan = mode;
+        go.textContent = (mode === 'prem' ? '김반장 프리미엄' : '김반장 3.0') + '으로 견적 받기';
+      }
     }
 
     boxes.forEach(function(b){ b.addEventListener('change', paint); });

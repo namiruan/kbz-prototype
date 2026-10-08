@@ -47,7 +47,16 @@
 <!-- ===== 탭 A : 김반장 3.0 · 김반장 프리미엄 ===== -->
 <section class="es-panel" id="panel-A" role="tabpanel" aria-labelledby="tab-A">
 
-<!-- ===== 서비스 두 장 — 고르면 답이 나오는 체크리스트 ===== -->
+<!-- 들어오자마자 신청 화면이다 — 단말기 두 탭과 같은 차례다. 저쪽은 탭을 누르면
+     바로 폼인데 여기만 체크리스트를 먼저 세우면, 같은 띠 아래 세 탭이 서로 다른
+     약속을 하는 꼴이 된다.
+     .inner 밖에 두는 까닭: 끼운 화면이 제 .inner 를 들고 있어, 여기서 한 번 더
+     가두면 폭이 두 번 좁아진다 -->
+<div class="es-apply es-apply-top" id="apply">
+  <iframe class="es-frame" data-src="plan-quote.html" title="김반장 3.0 · 프리미엄 견적신청"></iframe>
+</div>
+
+<!-- ===== 어느 쪽이 맞을까 — 고르면 답이 나오는 체크리스트 ===== -->
 <section class="es-plans center" id="plans">
   <div class="inner">
     <div class="title-container">
@@ -94,64 +103,20 @@
         </label></li>
       </ul>
 
-      <!-- 답은 고른 즉시 바뀐다. 보조기술에도 그 변화가 닿아야 하므로 aria-live 를 둔다 -->
+      <!-- 답은 고른 즉시 바뀐다. 보조기술에도 그 변화가 닿아야 하므로 aria-live 를 둔다.
+           두 장 카드가 들고 있던 것 둘을 여기로 옮겼다 — 무료 체험 한 줄과
+           '견적 신청하기'. 체크리스트가 위가 아니라 아래로 내려오면서, 답이
+           선 뒤에 폼으로 돌아갈 길이 있어야 한다. data-plan 이 그 폼의 계약
+           유형까지 맞춰 준다 — 고른 것을 또 고르게 두지 않는다 -->
       <div class="es-pick-out" role="status" aria-live="polite">
         <span class="rec" id="esPickRec">해당하는 것을 골라 보세요</span>
         <p class="why" id="esPickWhy">하나도 없으면 김반장 3.0으로 충분합니다.</p>
+        <p class="note" id="esPickNote" hidden>15일 무료 체험 · 카드 등록 없이 시작 · VAT 별도</p>
+        <a class="banner-btn go" id="esPickGo" href="#apply" data-plan="c30" hidden>이 구성으로 견적 받기</a>
       </div>
     </div>
   </div>
 
-<!-- 답이 나왔으면 바로 신청이다. 단말기 두 탭과 같은 방식으로 끼운다 —
-     plan-quote.html 의 계약 유형 토글은 바로 위 체크리스트가 돌려 준다.
-     .inner 밖에 두는 까닭: 끼운 화면이 제 .inner 를 들고 있어, 여기서 한 번 더
-     가두면 폭이 두 번 좁아진다 -->
-<div class="es-apply" id="apply">
-  <iframe class="es-frame" data-src="plan-quote.html" title="김반장 3.0 · 프리미엄 견적신청"></iframe>
-</div>
-
-  <div class="inner">
-
-    <div class="plan-grid">
-      <!-- 김반장 3.0 -->
-      <article class="plan-card c30" id="card-c30">
-        <span class="plan-badge" hidden>추천</span>
-        <header class="plan-h">
-          <span class="plan-name">김반장 3.0</span>
-          <span class="plan-sub">자동 계산·서식으로 직접 신고</span>
-        </header>
-        <!-- 금액을 적지 않는다. 사업장 수·근로자 규모로 갈려 한 숫자로는 어느 사업장에도
-             맞지 않는 자리라, 무엇으로 정해지는지만 적고 견적신청으로 넘긴다.
-             ⚠ 계약 단위는 사업장이다. '현장'으로 적어도 되는 곳은 단말기뿐이다
-             (퇴직공제 전자카드·안면인식기만 현장 단위로 계약할 수 있다) -->
-        <div class="plan-price">
-          <span class="ask">사업장 맞춤 견적</span>
-          <span class="by">사업장 수 · 근로자 규모에 따라 산정합니다</span>
-        </div>
-        <p class="plan-note">15일 무료 체험 · 카드 등록 없이 시작 · VAT 별도</p>
-        <p class="plan-point">출역만 넣으면 급여·임금명세서·신고서까지 자동으로 섭니다. 신고는 직접 하십니다.</p>
-        <!-- 누르면 이 탭 아래 끼워 둔 견적신청 폼으로 내려간다.
-             data-plan 이 그 폼의 계약 유형까지 맞춰 준다 — 고른 것을 또 고르게 두지 않는다 -->
-        <div class="plan-cta"><a class="banner-btn" href="#apply" data-plan="c30">견적 신청하기</a></div>
-      </article>
-
-      <!-- 김반장 프리미엄 -->
-      <article class="plan-card prem" id="card-prem">
-        <span class="plan-badge" hidden>추천</span>
-        <header class="plan-h">
-          <span class="plan-name">김반장 프리미엄</span>
-          <span class="plan-sub">27년 전담팀이 신고까지 대신합니다</span>
-        </header>
-        <div class="plan-price">
-          <span class="ask">사업장 맞춤 견적</span>
-          <span class="by">사업장 규모와 신고 범위에 따라 산정합니다</span>
-        </div>
-        <p class="plan-note">김반장 3.0 이용료가 따로 붙지 않습니다 · VAT 별도</p>
-        <p class="plan-point"><b>김반장 3.0 전 기능을 그대로</b> 쓰면서, 위에 고르신 일은 전담팀이 대신합니다.</p>
-        <div class="plan-cta"><a class="banner-btn" href="#apply" data-plan="prem">견적 신청하기</a></div>
-      </article>
-    </div>
-  </div>
 </section>
 
 <!-- ===== 기능 비교표 ===== -->
