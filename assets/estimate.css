@@ -365,33 +365,44 @@ body.estimate-page{--tabbar-h:52px}
 .es-cmp-foot .c.prem .banner-btn{background:var(--main-blue)}
 .es-cmp-foot .c.prem .banner-btn:hover{background:var(--sub-d-blue)}
 
-/* ── 6. 기능 비교표 — 좁은 폭에서 카드로 ──────────────────────────
-   열을 그대로 좁히면 ✓ 두 개가 글자보다 넓은 자리를 차지한다.
-   기능 하나를 한 덩이로 세우고, 제공 여부를 글자 알약으로 바꿔 단다 */
+/* ── 6. 기능 비교표 — 좁은 폭에서도 표 ────────────────────────
+   한때는 좁아지면 줄을 카드로 세우고 ✓ 를 글자 알약으로 바꿔 달았다. 열이
+   사라지니 칸마다 '3.0'·'프리미엄'을 적어 어느 쪽인지 스스로 밝혀야 했고,
+   같은 말이 서른세 번 되풀이됐다. 세로로 이어지던 파랑 띠와 회색 띠도 알약
+   조각으로 흩어져, 어느 쪽이 더 채워져 있는지가 보이지 않았다 — 이 표가 할
+   말이 바로 그것인데.
+   그래서 좁은 폭에서도 표를 그대로 둔다. 줄이는 것은 열 너비와 글자뿐이다.
+   390px 에서 두 표시 열이 116px, 기능 열에 214px 가 남는다 */
 @media(max-width:760px){
   .es-compare{padding:64px 0}
-  .es-compare{--cols:minmax(0,1fr)}
-  .es-cmp-head{display:none}
+  /* ⚠ 58px 은 '프리미엄' 네 글자가 11.5px 로 한 줄에 서는 폭이다. 48px 로
+     두었더니 머리줄에서 '프리미 / 엄'으로 접혀 머리줄이 61px 로 늘어났다 */
+  .es-compare{--cols:minmax(0,1fr) 58px 58px}
+
+  /* 머리줄은 좁은 폭에서도 따라붙는다. 열이 좁아 '김반장'은 떼고 이름만 세운다 */
+  .es-cmp-head .c{padding:11px 4px 10px;font-size:11.5px;white-space:nowrap}
+  .es-cmp-head .c.task{padding-left:10px;font-size:13px}
+  .es-cmp-head .c .pre{display:none}
+  /* ⚠ 48px 칸에 알약이 들어갈 자리는 없다. 신청은 표 꼬리가 받는다 */
+  .es-cmp-head .banner-btn{display:none}
+
   .es-cmp-foot{grid-template-columns:1fr;gap:10px}
   .es-cmp-foot .c{padding:0}
   .es-cmp-foot .c.task{display:none}
   .es-cmp-foot .banner-btn{font-size:15px;padding:12px 20px;white-space:normal}
   .es-cmp-foot .c.prem{padding:0;background:none}
-  .es-cat-h{padding:24px 2px 8px}
-  .es-row{display:block;background:var(--main-white);border:1px solid var(--main-gray);
-    border-radius:14px;padding:14px 16px;margin-top:10px}
-  .es-row .task{padding:0}
-  .es-marks{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
-  .es-row .mk{display:inline-flex;align-items:center;gap:5px;padding:4px 10px 4px 9px;
-    border-radius:1000px;background:var(--sub-w-gray);color:var(--sub-d-gray)}
-  .es-row .mk.prem{background:var(--frame-tint);color:var(--sub-d-blue)}
-  /* 알약 안에 열 이름을 적는다 — 머리줄이 없으니 어느 쪽 ✓ 인지 칸이 스스로 밝혀야 한다 */
-  .es-row .mk::before{display:inline;content:attr(data-col);font-size:11.5px;font-weight:800;letter-spacing:-.01em}
-  .es-row .mk:has(.es-mark.off){opacity:.55}
-  .es-mark{width:16px;height:16px}
-  .es-mark svg{width:10px;height:10px}
-  .es-mark.off{font-size:11px}
+
+  .es-cat-h{padding:28px 2px 10px;font-size:15.5px}
+  .es-row .task{padding:12px 10px 12px 2px}
+  .es-row .task b{font-size:13.5px}
+  .es-row .task small{margin-top:3px;font-size:11.5px;line-height:1.55}
+  .es-row .mk{padding:12px 4px}
+  .es-mark{width:19px;height:19px}
+  .es-mark svg{width:11px;height:11px}
+  .es-mark.off{font-size:12px}
+  .es-tag{margin-left:4px;padding:1px 5px;font-size:9.5px}
 }
+
 /* ── 7. 단말기 견적 (index.html partition-9 과 같은 값) ─────────── */
 .es-devices{position:relative;padding:96px 0;background:var(--grad-radi-sky-top),var(--main-white);background-color:var(--main-white)}
 .combo-lead{max-width:600px;margin:14px auto 0}
