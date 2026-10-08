@@ -320,91 +320,10 @@
     boxes.forEach(function(b){ b.addEventListener('change', paint); });
   })();
 
-  var cmp = $('#esCmp');
-  if(!cmp) return;
-
-  var rows = $$('.es-row', cmp);
-  var cats = $$('.es-cat', cmp);
-  var countEl = $('#esCount');
-  var onlyEl  = $('#esOnlyPrem');
-  var segBtns = $$('.es-seg[data-filter="emp"] button');
-
-  var state = { emp:'all', only:false };
-
-  /* ── 거르개 한 번 돌리기 ───────────────────────────────────── */
-  function apply(){
-    var shown = 0;
-
-    rows.forEach(function(row){
-      var emp  = row.dataset.emp || '';          /* '' 이면 일용·상용 둘 다 */
-      var tier = row.dataset.tier || '30';       /* '30' = 둘 다 제공 · 'prem' = 프리미엄 전용 */
-      var okEmp  = state.emp === 'all' || !emp || emp === state.emp;
-      var okTier = !state.only || tier === 'prem';
-      var show = okEmp && okTier;
-      row.hidden = !show;
-      if(show) shown++;
-    });
-
-    /* 카테고리가 통째로 비면 지우지 않고 '같다'고 적는다 — 왜 비었는지는 거르개가 정한다 */
-    cats.forEach(function(cat){
-      var live = $$('.es-row', cat).filter(function(r){ return !r.hidden; }).length;
-      cat.classList.toggle('is-empty', live === 0);
-      var same = $('.es-cat-same', cat);
-      if(same){
-        same.textContent = state.only
-          ? '이 영역은 김반장 3.0과 프리미엄이 똑같습니다.'
-          : '이 고용형태에 해당하는 기능이 없습니다.';
-      }
-      var n = $('.es-cat-h .n', cat);
-      if(n) n.textContent = live + '개';
-    });
-
-    say(shown);
-  }
-
-  /* ── 몇 개가 남았는지 ──────────────────────────────────────── */
-  function say(shown){
-    if(!countEl) return;
-    var total = rows.length;
-    if(state.emp === 'all' && !state.only){
-      countEl.innerHTML = '김반장이 제공하는 기능 <b>' + total + '개</b>를 모두 보고 있습니다.';
-      return;
-    }
-    var how = [];
-    if(state.emp === 'daily')   how.push('일용직 현장');
-    if(state.emp === 'regular') how.push('상용직 중심');
-    if(state.only)              how.push('프리미엄 전용');
-    countEl.innerHTML = how.join(' · ') + ' — 전체 ' + total + '개 중 <b>' + shown + '개</b>';
-  }
-
-  /* ── 손잡이 ───────────────────────────────────────────────── */
-  segBtns.forEach(function(b){
-    b.addEventListener('click', function(){
-      state.emp = b.dataset.emp;
-      segBtns.forEach(function(o){ o.setAttribute('aria-pressed', String(o === b)); });
-      apply();
-    });
-  });
-
-  if(onlyEl){
-    onlyEl.addEventListener('change', function(){
-      state.only = onlyEl.checked;
-      apply();
-    });
-  }
-
-  /* ── 주소로 받은 상태 ─────────────────────────────────────────
-     뷰어가 ?type=B 나 ?emp=daily&only=1 처럼 붙여 열면 그 자리에서 시작한다 */
-  var qs = new URLSearchParams(location.search);
-
-  var emp = qs.get('emp');
-  if(emp === 'daily' || emp === 'regular' || emp === 'all'){
-    state.emp = emp;
-    segBtns.forEach(function(o){ o.setAttribute('aria-pressed', String(o.dataset.emp === emp)); });
-  }
-  if(qs.get('only') === '1' && onlyEl){
-    state.only = true;
-    onlyEl.checked = true;
-  }
-  apply();
+  /* ⚠ 여기 있던 거르개(고용형태 세그먼트 · 프리미엄만 보기)는 걷었다.
+        함께 사라진 것들 — 남은 수를 세던 줄(.es-count), 묶음이 통째로 비었을 때
+        대신 적던 '똑같습니다' 줄(.es-cat-same), 그리고 ?emp= · ?only= 주소 상태.
+        거를 수 없으면 줄이 숨지 않고, 숨지 않으면 셀 것도 빌 것도 없다.
+        줄의 [일용]·[상용] 꼬리표와 범례는 남겨 두었다. 거르는 손잡이가 아니라
+        그 줄이 어느 현장 것인지 적어 두는 표시이기 때문이다 */
 })();

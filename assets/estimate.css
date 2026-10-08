@@ -250,31 +250,6 @@ body.estimate-page{--tabbar-h:52px}
 /* 메인(partition-8)이 같은 표를 흰 바탕 위에 세운다. 이 구역도 그쪽을 따른다 —
    위 체크리스트가 연한 파랑이라 흰 바탕만으로도 구역은 갈린다 */
 .es-compare{position:relative;padding:92px 0;background:var(--main-white)}
-.es-filters{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 20px;margin-top:38px}
-.es-filter{display:flex;align-items:center;gap:9px}
-.es-filter-label{font-size:13px;font-weight:700;color:var(--sub-d-gray);white-space:nowrap}
-/* 한 줄 선택 — 로그인·프로토타입 크롬의 분절 버튼과 같은 꼴 */
-/* ⚠ 받침이 흰색이면 안 된다. 구역 바탕이 흰색이 되면서 흰 알약에 #E6E8EA
-      테두리는 1.17:1 이 되어 윤곽이 사라졌다 — 바탕이 회색이던 때 쓰던 흰색을
-      그대로 두면 거르개가 거기 있는 줄 모른다. 회색을 받침으로 돌린다 */
-.es-seg{display:inline-flex;gap:3px;padding:3px;border-radius:1000px;background:var(--sub-w-gray);border:1px solid var(--main-gray)}
-.es-seg button{appearance:none;border:0;background:none;font:inherit;cursor:pointer;
-  padding:7px 16px;border-radius:1000px;font-size:13px;font-weight:700;color:var(--sub-d-gray);transition:.18s}
-.es-seg button:hover{color:var(--main-navy)}
-.es-seg button[aria-pressed="true"]{background:var(--main-navy);color:var(--main-white)}
-/* 체크 하나 — '차이만 보기'. 켜지면 알약이 파랗게 찬다 */
-.es-only{display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none;
-  padding:7px 16px 7px 12px;border-radius:1000px;background:var(--sub-w-gray);border:1px solid var(--main-gray);
-  font-size:13px;font-weight:700;color:var(--sub-d-gray);transition:.18s}
-.es-only input{position:absolute;opacity:0;width:0;height:0}
-.es-only .box{width:17px;height:17px;border-radius:5px;border:1.6px solid var(--sub-d-gray);
-  display:grid;place-items:center;background:var(--main-white);transition:.18s;flex:0 0 auto}
-.es-only .box svg{width:11px;height:11px;color:var(--main-white);opacity:0;transition:.18s}
-.es-only:has(input:checked){background:var(--main-blue);border-color:var(--main-blue);color:var(--main-white)}
-.es-only:has(input:checked) .box{background:var(--main-blue);border-color:var(--main-white)}
-.es-only:has(input:checked) .box svg{opacity:1}
-.es-only:has(input:focus-visible){outline:2px solid var(--main-blue);outline-offset:2px}
-
 /* 범례 — 표의 ✓ 와 ★ 가 무슨 뜻인지 한 줄로 */
 .es-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin-top:16px;
   font-size:12.5px;font-weight:600;color:var(--sub-d-gray)}
@@ -286,10 +261,6 @@ body.estimate-page{--tabbar-h:52px}
 .es-legend .mk.no{background:var(--main-gray);color:var(--sub-d-gray);font-size:11px;font-weight:800}
 .es-legend .tag{display:inline-flex;padding:2px 8px;border-radius:1000px;background:var(--main-gray);
   color:var(--sub-d-gray);font-size:11px;font-weight:800}
-
-/* 몇 개가 남았는지 — 거르개를 걸었을 때만 말한다 */
-.es-count{margin-top:18px;font-size:13px;font-weight:600;color:var(--sub-d-gray);min-height:20px}
-.es-count b{color:var(--main-navy);font-weight:800}
 
 /* ── 5. 기능 비교표 — 표 ──────────────────────────────────────── */
 /* 열 너비는 표와 그 아래 CTA 줄이 같이 봐야 한다 — 둘의 부모에 둔다 */
@@ -314,8 +285,17 @@ body.estimate-page{--tabbar-h:52px}
    남으면 기둥이 아니라 탭바에 걸어 둔 알약 한 장으로 보인다 — 위에 1~2px
    흰 틈까지 생겨 띄워 놓은 것처럼 읽힌다. 붙은 동안에는 모서리를 편다 */
 .es-cmp-head.is-stuck .c.prem{border-radius:0}
-.es-cmp-head .c small{display:block;margin-top:3px;font-size:11.5px;font-weight:600;color:var(--sub-d-gray);letter-spacing:0}
-.es-cmp-head .c.prem small{color:var(--sub-d-blue)}
+/* 작은 글씨('직접 신고'·'신고 대행') 자리에 신청 버튼이 선다. 표가 서른세 줄이라
+   읽다가 마음이 섰을 때 꼬리까지 내려가야 신청할 수 있었다 — 머리줄은 따라붙으니
+   그 자리에 두면 어디서 읽고 있든 바로 누를 수 있다.
+   꼬리의 버튼과 같은 구분을 쓴다 — 3.0 은 테두리만, 프리미엄은 채운 파랑 */
+.es-cmp-head .banner-btn{display:flex;justify-content:center;margin-top:8px;
+  font-size:12.5px;padding:7px 10px;white-space:nowrap}
+.es-cmp-head .c.c30 .banner-btn{background:transparent;color:var(--main-navy);
+  box-shadow:inset 0 0 0 1.5px rgba(var(--color-navy-rgb),.45)}
+.es-cmp-head .c.c30 .banner-btn:hover{background:var(--sub-w-gray)}
+.es-cmp-head .c.prem .banner-btn{background:var(--main-blue)}
+.es-cmp-head .c.prem .banner-btn:hover{background:var(--sub-d-blue)}
 
 .es-cat{margin:0}
 /* 묶음 제목이 제 묶음 위에 서지 못했다. 15px/800 인데 바로 아래 기능 이름이
@@ -355,8 +335,13 @@ body.estimate-page{--tabbar-h:52px}
    칸을 통째로 칠하면 세로로 회색 띠가 끊겼다 이어지며 '3.0 이 못 하는 자리'가
    모양으로 보인다 — 바로 옆 파랑 띠는 그만큼 가득 차 보인다.
    줄 전체를 흐리지는 않는다. 흐려야 할 것은 3.0 의 빈칸이지, 프리미엄이 하는
-   일의 이름이 아니다. ⚠ 구역에서 물러난 그 회색(--sub-w-gray)을 그대로 쓴다 */
-.es-row[data-tier="prem"] .mk.c30{background:var(--sub-w-gray)}
+   일의 이름이 아니다.
+   ⚠ 회색은 --main-gray(#E6E8EA) 다. 처음에 쓴 --sub-w-gray(#F4F5F6)는 바로
+      옆 틴트(#EDF3FC)와 밝기가 1.02:1 이었다 — 둘 다 96% 밝기라 색조만 다르고,
+      나란히 붙여 놓으면 어디까지가 빈칸이고 어디부터가 파랑인지 갈리지 않는다.
+      한 단계 짙은 회색은 1.10:1 로 갈린다. 더 짙게(#DFE2E5) 가면 이번에는 빈칸이
+      눈을 끌어 거꾸로가 된다 — 물러나야 하는 쪽은 빈칸이다 */
+.es-row[data-tier="prem"] .mk.c30{background:var(--main-gray)}
 .es-cat:last-child .es-row:last-child .mk.prem{border-radius:0 0 12px 12px}
 .es-mark{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;
   background:var(--pastel-blue);color:var(--main-blue)}
@@ -365,21 +350,13 @@ body.estimate-page{--tabbar-h:52px}
 .es-mark.off{background:transparent;color:var(--sub-d-gray);font-size:14px;font-weight:800}
 .es-mark.off::after{content:"—"}
 
-/* 거르개가 다 걸러낸 카테고리 — 지우지 않고 '같다'고 적는다.
-   사라지면 그 영역을 못 본 것인지 없는 것인지 알 수 없다 */
-.es-cat-same{display:none;padding:14px 16px;border-bottom:1px solid var(--main-gray);
-  font-size:13.5px;font-weight:600;color:var(--sub-d-gray)}
-.es-cat.is-empty .es-cat-same{display:block}
-.es-row[hidden]{display:none}
-.es-cat[hidden]{display:none}
-
 .es-cmp-foot{display:grid;grid-template-columns:var(--cols);margin-top:4px}
 .es-cmp-foot .c{padding:20px 12px}
 .es-cmp-foot .c.prem{background:var(--frame-tint);border-radius:0 0 12px 12px;padding:20px 16px}
 /* 열 폭 안에 한 줄로 서야 한다 — 접히면 '프리미엄 상 / 담신청하기' 처럼 낱말이 갈린다 */
 .es-cmp-foot .banner-btn{display:flex;width:100%;font-size:14px;padding:11px 10px;white-space:nowrap}
 .es-cmp-foot .c.c30 .banner-btn{background:transparent;color:var(--main-navy);box-shadow:inset 0 0 0 1.5px rgba(var(--color-navy-rgb),.45)}
-.es-cmp-foot .c.c30 .banner-btn:hover{background:var(--main-white)}
+.es-cmp-foot .c.c30 .banner-btn:hover{background:var(--sub-w-gray)}
 .es-cmp-foot .c.prem .banner-btn{background:var(--main-blue)}
 .es-cmp-foot .c.prem .banner-btn:hover{background:var(--sub-d-blue)}
 
@@ -409,8 +386,6 @@ body.estimate-page{--tabbar-h:52px}
   .es-mark{width:16px;height:16px}
   .es-mark svg{width:10px;height:10px}
   .es-mark.off{font-size:11px}
-  .es-filters{gap:10px 14px}
-  .es-filter{flex-direction:column;align-items:flex-start;gap:5px}
 }
 /* ── 7. 단말기 견적 (index.html partition-9 과 같은 값) ─────────── */
 .es-devices{position:relative;padding:96px 0;background:var(--grad-radi-sky-top),var(--main-white);background-color:var(--main-white)}
