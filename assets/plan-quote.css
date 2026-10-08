@@ -22,13 +22,48 @@
   background:var(--main-white);box-shadow:inset 0 0 0 1px var(--line);transition:.16s}
 .pq-type:hover{box-shadow:inset 0 0 0 1px var(--ink-4)}
 .pq-type input{position:absolute;opacity:0;width:0;height:0}
-.pq-type .nm{font-size:17px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
-.pq-type .ds{font-size:13.5px;line-height:1.6;color:var(--ink-3);word-break:keep-all}
+.pq-type .nm{display:inline-flex;align-items:center;gap:5px;
+  font-size:17px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+/* 물음표는 이름 옆에 붙는다. 평소에는 흐리게 있다가 카드에 손이 닿으면 또렷해진다 */
+.pq-help{display:grid;place-items:center;width:16px;height:16px;flex:none;
+  color:var(--ink-4);transition:color .14s;cursor:help}
+.pq-help svg{width:100%;height:100%}
+.pq-type:hover .pq-help{color:var(--ink-3)}
+.pq-help:hover{color:var(--accent)}
+
+/* 설명은 물음표에 얹은 말풍선이다.
+   ⚠ 치우지 않고 자리만 옮긴다. display:none 이나 visibility 로 접으면 눈으로
+      못 읽는 사람에게는 설명이 통째로 사라진다 — 말풍선은 보이는 쪽의 사정이지
+      읽히는 쪽의 사정이 아니다. 투명도와 pointer-events 로만 숨긴다.
+   ⚠ 키보드로 오는 사람에게는 물음표에 닿을 길이 없다(label 안이라 단추를 넣을
+      수 없다). 그래서 라디오에 초점이 서면 같이 뜬다 */
+.pq-type .ds{position:absolute;left:16px;right:16px;top:calc(100% - 10px);z-index:5;
+  padding:11px 13px;border-radius:10px;
+  background:var(--ink);color:#fff;
+  font-size:12.5px;line-height:1.55;font-weight:500;word-break:keep-all;
+  box-shadow:0 6px 18px rgba(14,59,99,.22);
+  opacity:0;transform:translateY(-4px);pointer-events:none;transition:.16s}
+/* ⚠ 꼬리는 달지 않는다. 가리킬 곳은 물음표인데 그 자리가 이름 길이를 따라
+      움직인다('김반장 3.0'과 '김반장 프리미엄'이 다르다). 고정 오프셋으로는
+      둘 다 맞출 수 없어, 한쪽은 늘 빈자리를 가리키게 된다 */
+.pq-type:hover .ds,
+.pq-type:has(input:focus-visible) .ds{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){.pq-type .ds{transition:none}}
 /* 고른 장은 테두리가 두꺼워지고 바탕이 옅게 찬다 — 글자색만으로는 훑을 때 안 보인다 */
 .pq-type:has(input:checked){box-shadow:inset 0 0 0 2px var(--accent);background:var(--accent-tint)}
 .pq-type:has(input:checked) .nm{color:var(--accent)}
 .pq-type:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
-@media(max-width:640px){.pq-types{grid-template-columns:1fr}}
+/* 좁은 폭에서는 말풍선을 쓰지 않는다. 두 가지가 겹친다 — 손가락에는 hover 가
+   없어 띄울 길이 없고, 두 장이 위아래로 서므로 띄워도 다른 한 장을 통째로 덮는다.
+   물음표는 거두고 글을 도로 편다. 어차피 한 장이 폭을 다 쓰는 자리라, 옆으로
+   나란히 설 때만큼 자리를 다투지도 않는다 */
+@media(max-width:640px){
+  .pq-types{grid-template-columns:1fr}
+  .pq-help{display:none}
+  .pq-type .ds{position:static;padding:0;border-radius:0;background:none;
+    color:var(--ink-3);font-size:13.5px;line-height:1.6;box-shadow:none;
+    opacity:1;transform:none;pointer-events:auto}
+}
 
 /* ── 유형에 따라 나타났다 사라지는 칸 ───────────────────────────
    숨길 때 hidden 속성을 쓴다(base.css 가 [hidden] 에 못을 박아 두었다).
