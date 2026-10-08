@@ -332,13 +332,41 @@
           접히는 깜빡임이 난다 — 비교표 여섯 묶음과 같은 이유다 */
     var toggle = $('#esPickToggle');
     if(toggle){
+      /* 열고 닫는 길이는 자바스크립트가 재서 넣는다.
+         CSS 의 max-height 한 값으로는 두 쪽이 다 어긋난다. 펼친 높이를 모르니
+         넉넉한 값(20000px)을 적어 두게 되는데, 그러면 열 때는 132 → 317 이 60ms
+         만에 끝나고 남은 490ms 를 317 → 20000 사이에서 보이지 않게 굴린다.
+         닫을 때는 거꾸로 500ms 를 멈춰 있다가 끝에서 탁 닫힌다. 그동안 margin 만
+         0.55초를 미끄러지니 한 동작이 둘로 갈라진다.
+         실제 높이를 집어넣으면 두 값이 같은 길이를 같은 속도로 간다.
+         ⚠ 다 열고 나면 inline 값을 거둔다. 남겨 두면 안에서 글이 한 줄 늘거나
+            폭이 바뀌어 높이가 달라질 때 그 자리에서 잘린다.
+         ⚠ 닫을 때는 지금 높이를 먼저 박고 한 번 재게 한 뒤에 거둔다. 바로
+            거두면 auto 에서 132 로 뛰는 셈이라 전환이 걸리지 않는다 */
       toggle.addEventListener('click', function(){
         var open = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!open));
-        /* ⚠ 속성으로 여닫는다. inert 는 IDL 프로퍼티이기도 해서 둘을 섞으면
-              어느 쪽이 참인지 헷갈린다 — CSS 가 보는 것은 속성이다 */
-        if(open) pick.setAttribute('inert','');
-        else     pick.removeAttribute('inert');
+        if(open){
+          pick.style.maxHeight = pick.scrollHeight + 'px';
+          void pick.offsetHeight;
+          /* ⚠ 속성으로 여닫는다. inert 는 IDL 프로퍼티이기도 해서 둘을 섞으면
+                어느 쪽이 참인지 헷갈린다 — CSS 가 보는 것은 속성이다 */
+          pick.setAttribute('inert','');
+          pick.style.maxHeight = '';
+        }else{
+          /* ⚠ 지금 높이를 먼저 박고 inert 를 뗀다. 떼는 것이 먼저면 CSS 가
+                132px 에서 none 으로 풀려 그 자리에서 다 열려 버린다 */
+          pick.style.maxHeight = pick.getBoundingClientRect().height + 'px';
+          void pick.offsetHeight;
+          pick.removeAttribute('inert');
+          pick.style.maxHeight = pick.scrollHeight + 'px';
+          var done = function(e){
+            if(e.target !== pick || e.propertyName !== 'max-height') return;
+            pick.style.maxHeight = '';
+            pick.removeEventListener('transitionend', done);
+          };
+          pick.addEventListener('transitionend', done);
+        }
       });
     }
   })();

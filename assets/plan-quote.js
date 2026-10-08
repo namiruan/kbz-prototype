@@ -146,7 +146,11 @@
     /* ① 총액 자리 — 고른 주기의 단위로 적는다 */
     total.classList.remove('none');
     if(!t){
-      total.textContent = '—';
+      /* 넣은 것이 없을 때는 0원이다 — 단말기 두 화면이 쓰는 표기 그대로다.
+         '—'는 '값이 없다'는 말이고 0원은 '아직 더해진 것이 없다'는 말인데,
+         아래 '연 매출액을 넣으시면 보여 드립니다'가 이미 왜 비었는지 말하고
+         있어, 같은 자리에서 둘이 같은 말을 할 까닭이 없다 */
+      total.textContent = '0원';
       basis.textContent = '연 매출액을 넣으시면 보여 드립니다';
     }else if(t === 'over'){
       total.textContent = '담당자 산정';
