@@ -130,6 +130,7 @@
          + (free ? '무료' : amt) + '</span></div>';
   }
 
+  var openedOnce = false;        /* 내역을 스스로 펼쳐 준 적이 있는가 */
   function render(){
     var prem  = plan() === 'prem';
     /* 칸은 만 원으로 받고, 구간은 원으로 가른다 — 요금표가 억 단위라 바꿔 둔다 */
@@ -203,7 +204,14 @@
     /* 넣은 값은 되비치지 않는다 — 바로 왼쪽 폼에 그대로 적혀 있어, 옮겨 적으면
        같은 말을 두 번 하는 셈이다. 그래서 펼칠 것은 금액이 어떻게 나왔는지뿐이고,
        금액이 서지 않았으면 펼칠 것도 없으니 토글을 끈다 — 눌러도 허탕이다 */
-    fold.classList.toggle('no-detail', !(t && t !== 'over'));
+    var hasDetail = !!(t && t !== 'over');
+    fold.classList.toggle('no-detail', !hasDetail);
+    /* 금액이 서면 펼쳐 둔다. 단말기 두 견적은 접어 두지만 저쪽은 현장마다 줄이
+       늘어 접는 값이 있고, 여기는 한두 줄뿐이라 접어서 아끼는 자리보다 못 찾는
+       손해가 크다. 접는 손잡이는 남겨 두고, 한 번 접은 뒤에는 다시 펴지 않는다 —
+       고른 것을 숫자가 바뀔 때마다 되돌리면 손잡이를 쥔 쪽이 화면이 된다 */
+    if(!hasDetail){ fold.open = false; openedOnce = false; }
+    else if(!openedOnce){ fold.open = true; openedOnce = true; }
   }
 
   /* ── 오류 표시 — 단말기 견적과 같은 부품이다 ─────────────────── */
