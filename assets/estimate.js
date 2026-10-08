@@ -184,17 +184,28 @@
     var note = $('#esPickNote'), go = $('#esPickGo');
 
     function paint(){
-      var on = boxes.filter(function(b){ return b.checked; });
-      var mode = on.length ? 'prem' : 'c30';
+      var on   = boxes.filter(function(b){ return b.checked; });
+      /* 여섯 줄이 전부 프리미엄 전용이던 때는 '하나라도 고르면 프리미엄'이 곧
+         답이었다 — 사실상 '대행 쓰실래요?' 한 문항을 여섯 번 물은 셈이다.
+         3.0 이 하는 일도 섞었으니 가름은 개수가 아니라 줄의 소속이다.
+         프리미엄 줄이 하나라도 끼면 프리미엄, 3.0 줄만 골랐으면 3.0 */
+      var prem = on.filter(function(b){ return b.dataset.tier === 'prem'; });
+      var mode = prem.length ? 'prem' : 'c30';
       pick.dataset.rec = mode;
 
       if(mode === 'prem'){
         rec.textContent = '김반장 프리미엄 추천';
         /* 고른 것은 겪는 일이고, 여기서 그 일을 맡는 기능 이름으로 바꿔 부른다 —
-           추천이 어디서 나온 말인지 되짚을 수 있어야 한다 */
-        why.innerHTML = '고르신 <b>' + on.length + '가지</b>는 모두 프리미엄이 대신 맡는 일입니다 — '
-          + on.map(function(b){ return b.dataset.feat; }).join(' · ')
+           추천이 어디서 나온 말인지 되짚을 수 있어야 한다. 3.0 줄도 함께 골랐다면
+           그쪽은 세지 않는다. 답을 가른 것은 프리미엄 줄이기 때문이다 */
+        why.innerHTML = '고르신 것 가운데 <b>' + prem.length + '가지</b>는 프리미엄이 대신 맡는 일입니다 — '
+          + prem.map(function(b){ return b.dataset.feat; }).join(' · ')
           + '. 김반장 3.0이 하는 일도 그대로 포함됩니다.';
+      }else if(on.length){
+        rec.textContent = '김반장 3.0 추천';
+        why.innerHTML = '고르신 <b>' + on.length + '가지</b>는 모두 3.0이 하는 일입니다 — '
+          + on.map(function(b){ return b.dataset.feat; }).join(' · ')
+          + '. 신고만 직접 하시면 됩니다.';
       }else{
         rec.textContent = '김반장 3.0 추천';
         why.innerHTML = '맡길 일이 없으시군요. 출역만 입력하면 근태·급여 계산과 신고서 작성까지 <b>3.0이 자동으로</b> 끝냅니다.';
