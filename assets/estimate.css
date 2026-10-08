@@ -288,9 +288,14 @@ body.estimate-page{--tabbar-h:52px}
 /* 작은 글씨('직접 신고'·'신고 대행') 자리에 신청 버튼이 선다. 표가 서른세 줄이라
    읽다가 마음이 섰을 때 꼬리까지 내려가야 신청할 수 있었다 — 머리줄은 따라붙으니
    그 자리에 두면 어디서 읽고 있든 바로 누를 수 있다.
-   꼬리의 버튼과 같은 구분을 쓴다 — 3.0 은 테두리만, 프리미엄은 채운 파랑 */
-.es-cmp-head .banner-btn{display:flex;justify-content:center;margin-top:8px;
-  font-size:12.5px;padding:7px 10px;white-space:nowrap}
+   꼬리의 버튼과 같은 구분을 쓴다 — 3.0 은 테두리만, 프리미엄은 채운 파랑.
+   ⚠ 이 자리의 버튼은 작다. 올라가기 귀찮은 사람에게 길을 하나 더 내 주는
+      것이지 여기서 결심을 받아 내는 자리가 아니다 — 결심은 꼬리의 큰 버튼이
+      받는다. display:flex 를 걸면 칸 폭을 통째로 먹어 꼬리 버튼과 같은 무게가
+      되므로 걸지 않는다. 바탕 .banner-btn 이 이미 inline-flex 고, 칸은
+      text-align:center 라 가운데로 선다 */
+.es-cmp-head .banner-btn{margin-top:7px;font-size:11.5px;font-weight:700;
+  padding:5px 12px;white-space:nowrap}
 .es-cmp-head .c.c30 .banner-btn{background:transparent;color:var(--main-navy);
   box-shadow:inset 0 0 0 1.5px rgba(var(--color-navy-rgb),.45)}
 .es-cmp-head .c.c30 .banner-btn:hover{background:var(--sub-w-gray)}
