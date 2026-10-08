@@ -299,6 +299,12 @@ body.estimate-page{--tabbar-h:52px}
 .es-cmp-head{position:sticky;top:var(--tabbar-h);z-index:5;display:grid;grid-template-columns:var(--cols);
   background:var(--main-white);border-bottom:1.5px solid var(--main-navy)}
 .es-cmp-head .c{padding:16px 16px 13px;font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--main-navy)}
+/* '기능'은 한 줄, 옆 두 칸은 이름 아래 작은 줄까지 두 줄이다. 칸은 모두 같은
+   높이로 늘어나는데 글은 윗여백에 붙어 서 있어서, 혼자 9px 위에 떠 있었다.
+   메인(index.html 의 .cmp-c.task)은 같은 칸을 이미 가운데로 세운다.
+   ⚠ 위아래 여백은 0 이다. 16/13 을 남기면 그만큼 가운데가 1.5px 어긋난다 —
+      줄 높이는 어차피 옆의 두 줄짜리 칸이 정한다 */
+.es-cmp-head .c.task{display:flex;align-items:center;padding-top:0;padding-bottom:0}
 .es-cmp-head .c.c30,.es-cmp-head .c.prem{text-align:center}
 .es-cmp-head .c.prem{color:var(--main-blue);background:var(--frame-tint);border-radius:12px 12px 0 0}
 /* 눈금은 자리를 먹지 않는다 */
