@@ -155,8 +155,8 @@ body.estimate-page{--tabbar-h:52px}
 .es-pick-item:has(input:checked) .box svg{opacity:1}
 .es-pick-item:has(input:focus-visible){outline:2px solid var(--main-blue);outline-offset:2px}
 
-/* 답 — 고른 즉시 바뀐다. 마지막 줄 바로 아래에 가로로 눕는다: 추천 알약 ·
-   왜 그런지 · 무료 체험 · 견적 받기 넷이 한 줄에 선다 */
+/* 답 — 고른 즉시 바뀐다. 마지막 줄 바로 아래에 가로로 눕는다: 추천 · 왜 그런지 ·
+   견적 받기 셋이 한 줄에 선다 */
 .es-pick-out{display:flex;align-items:center;flex-wrap:wrap;gap:10px 20px;
   margin-top:18px;padding:18px 22px;border-radius:16px;
   background:var(--sub-w-gray);border:1px solid var(--main-gray);transition:.18s}
@@ -168,9 +168,7 @@ body.estimate-page{--tabbar-h:52px}
 .es-pick-out .ck{flex:none;width:17px;height:17px}
 .es-pick-out .rec{font-family:var(--font-title);font-size:18px;font-weight:800;
   letter-spacing:-.03em;color:var(--sub-d-gray);transition:.18s}
-/* 최소 폭은 줄이 접힐지를 가르는 값이다 — 접힘은 늘어나기 전, 이 값으로 셈한다.
-   260px 이면 190 + 260 + 528 + 여백 40 = 1018 로 안쪽(1014)을 4px 넘겨 버튼
-   덩이가 다음 줄로 떨어졌다 */
+/* 최소 폭은 줄이 접힐지를 가르는 값이다 — 접힘은 늘어나기 전, 이 값으로 셈한다 */
 .es-pick-out .why{flex:1;min-width:200px;font-size:14px;line-height:1.6;color:var(--sub-d-gray);word-break:keep-all}
 .es-pick-out .why b{color:var(--main-navy);font-weight:800}
 /* 아직 고르기 전에는 어느 쪽도 추천하지 않는다 — 묻기도 전에 답하지 않는다 */
@@ -181,16 +179,12 @@ body.estimate-page{--tabbar-h:52px}
 .es-pick[data-rec="prem"] .es-pick-out .ans{color:var(--main-blue)}
 .es-pick[data-rec="prem"] .es-pick-out .rec{color:var(--main-blue)}
 
-/* 두 장 카드가 들고 있던 것 둘을 답 카드가 물려받았다 — 무료 체험 한 줄과
-   '견적 받기'. 묻기도 전에는 둘 다 숨어 있다 */
-/* 무료 체험 줄과 버튼은 한 덩이로 오른쪽에 선다 — 왼쪽은 답, 오른쪽은 다음 걸음.
-   ⚠ 묶지 않으면 안 된다. 가운데 글(.why)이 flex:1 로 남은 자리를 다 먹어, 뒤의
-      버튼이 갈 데가 없어 다음 줄로 떨어진다(글 517 + 둘 511 > 안쪽 1014).
-      묶어 두면 그 덩이가 제 폭을 먼저 차지하고 글이 나머지를 쓴다.
-      auto 여백으로 미는 길도 안 된다 — 접히는 상자에서 auto 여백은 그 줄에 남은
-      자리를 통째로 먹어 같은 일이 벌어진다 */
-.es-pick-out .act{flex:none;display:inline-flex;align-items:center;gap:18px}
-.es-pick-out .note{font-size:12.5px;line-height:1.55;color:var(--sub-d-gray);word-break:keep-all}
+/* 두 장 카드가 들고 있던 '견적 받기'를 답 바가 물려받았다. 묻기도 전에는 숨어
+   있다 — 아무것도 고르지 않은 자리에서 '이 구성으로'는 빈 말이다 */
+/* 버튼은 오른쪽 끝에 선다 — 왼쪽은 답, 오른쪽은 다음 걸음.
+   ⚠ auto 여백으로 밀면 안 된다. 접히는 상자에서 auto 여백은 그 줄에 남은 자리를
+      통째로 먹어, 뒤따르는 것이 갈 데가 없어진다. 미는 일은 가운데 글(.why)의
+      flex:1 이 한다 */
 .es-pick-out .go{flex:none;font-size:15px;padding:11px 18px}
 /* 버튼 색이 추천을 따라간다 — 두 장 카드가 쓰던 구분 그대로다. 3.0 은 테두리만,
    프리미엄은 채운 파랑. 알약과 같은 색이라 '이 추천으로 간다'가 한눈에 붙는다 */

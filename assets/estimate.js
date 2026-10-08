@@ -238,7 +238,7 @@
     if(!pick) return;
     var boxes = $$('.es-pick-item input', pick);
     var rec = $('#esPickRec'), why = $('#esPickWhy');
-    var act = $('#esPickAct'), go = $('#esPickGo'), mark = $('#esPickMark');
+    var go = $('#esPickGo'), mark = $('#esPickMark');
 
     /* 기능 이름 뒤에 붙는 조사는 받침이 가른다 — '…검증은', '…관리는' */
     function eun(w){
@@ -291,8 +291,8 @@
         if(asked) mark.removeAttribute('hidden');
         else mark.setAttribute('hidden', '');
       }
-      if(act) act.hidden = !asked;
       if(go){
+        go.hidden = !asked;
         go.dataset.plan = mode;
         go.textContent = (mode === 'prem' ? '김반장 프리미엄' : '김반장 3.0') + '으로 견적 받기';
       }
