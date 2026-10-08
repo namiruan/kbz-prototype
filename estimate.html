@@ -27,22 +27,26 @@
      주소의 ?type= 가 곧 탭이다(A·B·C). 탭은 화면만 갈아 끼우는 것이 아니라
      '무엇을 팔고 있는지'를 바꾸므로, 링크로 바로 그 상품을 열 수 있어야 한다.
      스크롤을 따라붙는다 — 비교표가 길어 탭으로 돌아오려면 한참 올라가야 했다 -->
+<!-- 띠가 화면 위에 붙었는지 알려 줄 보초. sticky 요소는 제 위치를 물어도
+     붙은 뒤에는 늘 0 을 돌려주므로, 붙기 직전 자리에 1px 를 세워 두고 그것이
+     화면 밖으로 나갔는지를 본다 -->
+<div class="es-tabs-top" aria-hidden="true"></div>
 <nav class="es-tabs" aria-label="서비스 선택">
   <div class="inner">
     <div class="es-tabs-row" role="tablist">
       <button class="es-tab is-active" type="button" role="tab" data-type="A" id="tab-A" aria-selected="true" aria-controls="panel-A">
         <span class="t">김반장 3.0 · 김반장 프리미엄</span>
-        <span class="s">근태·급여·신고를 자동화할 때</span>
       </button>
       <button class="es-tab" type="button" role="tab" data-type="B" id="tab-B" aria-selected="false" aria-controls="panel-B">
         <span class="t">퇴직공제 전자카드 단말기</span>
-        <span class="s">전자카드제 현장을 맡았을 때</span>
       </button>
       <button class="es-tab" type="button" role="tab" data-type="C" id="tab-C" aria-selected="false" aria-controls="panel-C">
         <span class="t">안면인식 출퇴근관리</span>
-        <span class="s">대리 출퇴근을 막아야 할 때</span>
       </button>
     </div>
+    <!-- 붙은 동안에만 뜬다. 안 붙었을 때는 신청 폼이 바로 아래에 있어 버튼이
+         할 일이 없고, 내려가 버린 뒤에야 '거기로 돌아가는 길'이 된다 -->
+    <button class="es-tabs-cta" type="button" id="tabCta" hidden>견적받기</button>
   </div>
 </nav>
 

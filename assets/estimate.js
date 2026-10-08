@@ -160,6 +160,28 @@
       t.addEventListener('click', function(){ show(t.dataset.type, true); });
     });
 
+    /* ── 띠가 붙었을 때만 뜨는 '견적받기' ───────────────────────────
+       안 붙었을 때는 신청 폼이 바로 아래에 있어 버튼이 할 일이 없다. 내려가서
+       폼이 화면 밖으로 나간 뒤에야 '거기로 돌아가는 길'이 된다.
+       ⚠ sticky 요소에 붙었는지 물을 길이 없다 — 붙은 동안에도 position 은 그대로
+          sticky 이고 getBoundingClientRect().top 은 늘 0 이다. 그래서 붙기 직전
+          자리에 1px 보초를 세워 두고, 그것이 화면 위로 사라졌는지를 본다 */
+    var cta = $('#tabCta'), sentinel = $('.es-tabs-top');
+    if(cta && sentinel && window.IntersectionObserver){
+      new IntersectionObserver(function(e){
+        cta.hidden = e[0].isIntersecting;
+        measure();                 /* 버튼이 들고 나면 띠 높이가 달라질 수 있다 */
+      }).observe(sentinel);
+    }
+    if(cta) cta.addEventListener('click', function(){
+      /* A 탭은 신청 폼이 체크리스트 아래 한 칸이고, 단말기 두 탭은 파티션이
+         통째로 신청 폼이다 — 데려갈 자리가 다르다 */
+      var cur  = $('.es-tab.is-active');
+      var type = cur ? cur.dataset.type : 'A';
+      var el   = type === 'A' ? $('#apply') : $('#panel-' + type);
+      if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+
     /* 신청 버튼은 앵커로 내려가는 일만 브라우저에 맡기고, 유형은 여기서 맞춘다 —
        고른 것을 폼에서 또 고르게 두지 않는다 */
     $$('a[data-plan]').forEach(function(a){
