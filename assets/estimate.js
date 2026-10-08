@@ -51,6 +51,39 @@
       }catch(e){}
     }
 
+    /* ── 요약 카드가 따라 내려오게 ─────────────────────────────────
+       끼운 화면 안의 '총 예상 견적' 카드는 position:sticky 를 달고 있어도
+       꿈쩍하지 않는다. 틀을 내용 높이만큼 늘려 두어 안쪽에는 스크롤되는 창이
+       아예 없기 때문이다 — sticky 는 넘치는 창이 있어야 붙을 자리가 생긴다.
+       그래서 바깥 스크롤을 보고 부모가 직접 밀어 준다. 미는 것은 transform 이라
+       안쪽 레이아웃을 건드리지 않고, 따라서 높이를 다시 재게 만들지도 않는다 */
+    var follows = [];
+    function follow(){
+      var stick = (parseFloat(getComputedStyle(document.body).getPropertyValue('--tabbar-h')) || 0) + 20;
+      follows.forEach(function(o){
+        var w;
+        try{ w = o.fr.contentDocument && o.fr.contentDocument.defaultView; }catch(e){ return; }
+        if(!w) return;
+        /* 숨은 탭은 잴 것이 없다 */
+        if(o.fr.offsetParent === null) return;
+        /* 한 단으로 포개지는 폭에서는 카드가 폼 아래에 그냥 눕는다(position:static) */
+        if(w.getComputedStyle(o.pane).position !== 'sticky'){ o.pane.style.transform = ''; return; }
+        var top0 = o.pane.offsetTop;
+        /* 제 파티션이 끝나면 멈춘다 — 폼 기둥의 바닥을 넘어가지 않는다 */
+        var limit = Math.max(0, o.form.offsetTop + o.form.offsetHeight - top0 - o.pane.offsetHeight);
+        var want  = Math.min(limit, Math.max(0, stick - o.fr.getBoundingClientRect().top - top0));
+        o.pane.style.transform = want ? 'translateY(' + Math.round(want) + 'px)' : '';
+      });
+    }
+    var ticking = false;
+    function onScroll(){
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(function(){ ticking = false; follow(); });
+    }
+    window.addEventListener('scroll', onScroll, { passive:true });
+    window.addEventListener('resize', onScroll);
+
     /* 프로토타입 뷰어는 바깥 화면을 ?_t=... 로 열어 캐시를 지나친다. 그런데 그
        안에 끼우는 화면은 그냥 주소라, 바깥만 새것이고 안쪽은 브라우저가 들고 있던
        옛 파일이 나온다 — 고친 것이 안 고쳐진 것처럼 보인다.
@@ -93,10 +126,13 @@
         /* A 탭 폼은 계약 유형을 밖에서 정해 준다 — 뜨자마자 그 자리로 맞춘다 */
         if(type === 'A') applyPlan();
         fit(fr);
+        var pane = d.getElementById('sumPane'), form = d.getElementById('quoteForm');
+        if(pane && form){ follows.push({ fr:fr, pane:pane, form:form }); }
+        follow();
         /* 지켜보는 것도 documentElement 가 아니라 body 다 — 같은 까닭으로
            documentElement 는 틀 크기를 따라가 내용이 줄어도 꿈쩍하지 않는다 */
         if(window.ResizeObserver){
-          new ResizeObserver(function(){ fit(fr); }).observe(d.body);
+          new ResizeObserver(function(){ fit(fr); follow(); }).observe(d.body);
         }
       });
       fr.setAttribute('src', fresh(fr.dataset.src));
@@ -114,6 +150,7 @@
       });
       panels.forEach(function(pn){ pn.hidden = (pn.id !== 'panel-' + type); });
       mount(type);
+      follow();            /* 막 보이게 된 틀의 카드도 제자리를 잡는다 */
 
       /* 좁은 폭에서 탭 줄은 가로로 밀어 보는 띠가 된다. ?type=C 로 바로 들어오면
          고른 탭이 화면 밖에 있어 '지금 어느 탭인지'가 보이지 않으므로, 가운데로
