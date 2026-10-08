@@ -160,7 +160,13 @@ body.estimate-page{--tabbar-h:52px}
    임의로 정한 셈법이 아니다 — 고른 일을 3.0 은 아예 하지 않는다 */
 /* keep-all: 흘려 두면 '…있는 일 / 이라' 처럼 낱말 가운데가 갈린다 */
 .es-plans .lead{max-width:640px;word-break:keep-all}
-.es-pick{margin-top:38px;text-align:left}
+/* 고르는 자리와 그 답을 좌우로 놓는다. 격자는 바로 아래 신청 폼이 쓰는 것과
+   같다(minmax(0,1fr) + 340px, 1024px 에서 포갠다) — 한 페이지가 같은 등뼈를
+   두 번 쓰면 '왼쪽은 넣는 자리, 오른쪽은 답'이 규칙으로 읽힌다.
+   세로로 쌓아 두었을 때는 답이 아래로 밀려, 좁은 화면에서는 고르고도 무엇이
+   나왔는지 보려면 내려가야 했다 */
+.es-pick{margin-top:38px;text-align:left;display:grid;
+  grid-template-columns:minmax(0,1fr) 340px;gap:26px 64px;align-items:start}
 .es-pick-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .es-pick-item{display:flex;align-items:flex-start;gap:12px;height:100%;
   padding:16px 18px;border-radius:14px;background:var(--main-white);
@@ -179,14 +185,16 @@ body.estimate-page{--tabbar-h:52px}
 .es-pick-item:has(input:checked) .box svg{opacity:1}
 .es-pick-item:has(input:focus-visible){outline:2px solid var(--main-blue);outline-offset:2px}
 
-/* 답 — 고른 즉시 바뀐다 */
-.es-pick-out{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;
-  margin-top:14px;padding:18px 22px;border-radius:16px;
+/* 답 — 고른 즉시 바뀐다. 오른쪽 칸에서 따라붙어, 여섯 줄 어디를 고르고 있든
+   답이 늘 같은 자리에 선다. 신청 폼의 요약 카드가 쓰는 방식과 같다 */
+.es-pick-out{position:sticky;top:calc(var(--tabbar-h) + 16px);
+  display:flex;flex-direction:column;align-items:flex-start;gap:12px;
+  padding:20px 22px;border-radius:16px;
   background:var(--sub-w-gray);border:1px solid var(--main-gray);transition:.18s}
-.es-pick-out .rec{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
+.es-pick-out .rec{flex:none;display:inline-flex;align-items:center;gap:6px;
   padding:7px 16px;border-radius:1000px;font-size:14px;font-weight:800;letter-spacing:-.01em;
   background:var(--main-gray);color:var(--sub-d-gray);transition:.18s}
-.es-pick-out .why{flex:1;min-width:220px;font-size:14px;line-height:1.6;color:var(--sub-d-gray);word-break:keep-all}
+.es-pick-out .why{flex:none;min-width:0;font-size:14px;line-height:1.6;color:var(--sub-d-gray);word-break:keep-all}
 .es-pick-out .why b{color:var(--main-navy);font-weight:800}
 /* 아직 고르기 전에는 어느 쪽도 추천하지 않는다 — 묻기도 전에 답하지 않는다 */
 .es-pick[data-rec="c30"]  .es-pick-out{background:var(--main-white);border-color:var(--main-navy)}
@@ -201,6 +209,14 @@ body.estimate-page{--tabbar-h:52px}
 .plan-point{margin-top:16px;font-size:14.5px;line-height:1.65;color:var(--sub-d-gray);word-break:keep-all}
 .plan-point b{color:var(--sub-d-blue);font-weight:800}
 
+/* 좌우로 놓을 폭이 안 되면 포갠다 — 신청 폼이 포개지는 폭과 같다. 포개진
+   뒤에는 폭이 남으므로 알약과 설명을 다시 한 줄로 눕힌다 — 세로로 쌓으면
+   가로가 비는 채로 높이만 먹는다 */
+@media(max-width:1024px){
+  .es-pick{grid-template-columns:minmax(0,1fr);gap:16px}
+  .es-pick-out{position:static;flex-direction:row;align-items:center;flex-wrap:wrap;gap:8px 16px}
+  .es-pick-out .why{flex:1;min-width:220px}
+}
 @media(max-width:820px){
   .es-pick-list{grid-template-columns:1fr}
   .es-pick-out{padding:16px 18px}
