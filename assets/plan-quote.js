@@ -23,6 +23,9 @@
 
   var form      = $('#quoteForm');
   var btnSubmit = $('#btnSubmit');
+  /* 보내는 동안에는 버튼 글자를 건드리지 않는다. 주기 세그먼트는 그동안에도
+     눌리고, 그 한 번이 render() 를 돌려 '전송 중…'을 지워 버린다 */
+  var sending = false;
 
   /* ── 김반장 3.0 구간별 요금 ───────────────────────────────────
      건설공사실적(또는 매출액)이 구간을 정하고, 구간이 월정액을 정한다.
@@ -208,6 +211,23 @@
     /* 접힘이 기본이다 — 단말기 두 견적과 같다. 펼 것이 없어지면 닫기까지 한다.
        손잡이만 끄고 열린 채로 두면 빈 상자가 선 자리에 구분선만 남는다 */
     if(!hasDetail) fold.open = false;
+
+    /* ④ 신청 버튼 — 금액이 서지 않으면 신청도 서지 않는다. 단말기 두 화면이
+       '단말기를 선택해 주세요'·'기간을 입력해 주세요'로 막아 두는 그 자리다.
+       여기서 금액을 세우는 칸은 연 매출액 하나뿐이다 — 구간을 가르는 것이
+       그것이고, 나머지 칸은 담당자가 산정할 때 보는 값이라 비어 있어도 견적은
+       선다. 비어 있는 채로 눌러 봐야 '연 매출액을 입력해 주세요' 오류를 받고
+       같은 칸으로 되돌아올 뿐이라, 누르기 전에 막는 편이 한 걸음 짧다.
+       ⚠ 4000억 이상('담당자 산정')은 막지 않는다. 금액이 '—'인 것과 '요금표
+          밖'인 것은 다르다 — 뒤쪽은 넣을 것을 다 넣은 상태다 */
+    /* ⚠ 전송 중에는 버튼을 통째로 두고 본다. 글자만 지키고 disabled 를 밖에
+          두었더니, 보내는 사이 주기를 한 번 누르면 render() 가 돌며 버튼이
+          되살아났다 — 같은 신청을 두 번 보낼 수 있는 자리다 */
+    if(!sending){
+      btnSubmit.disabled = !t;
+      /* 버튼이 왜 막혀 있는지를 버튼 자신이 알려준다 */
+      btnSubmit.textContent = t ? '견적신청하기' : '연 매출액을 입력해 주세요';
+    }
   }
 
   /* ── 오류 표시 — 단말기 견적과 같은 부품이다 ─────────────────── */
@@ -296,8 +316,8 @@
     $('#doneCard').classList.add('on');
     $('#heroLine').textContent = '예상 견적서가 전송됐어요!';
     $('#heroLine').classList.add('sent');
-    btnSubmit.disabled = false;
-    btnSubmit.textContent = '견적신청하기';
+    sending = false;
+    render();
   }
 
   form.addEventListener('submit', function(e){
@@ -313,6 +333,7 @@
     var payload = { receipt_no:receiptNo(), requested_at:new Date().toISOString(), plan:plan() };
     fd.forEach(function(v,k){ payload[k] = v; });
 
+    sending = true;
     btnSubmit.disabled = true;
     btnSubmit.textContent = '전송 중…';
     if(!QUOTE_API){
@@ -322,7 +343,7 @@
     }
     fetch(QUOTE_API, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) })
       .then(done)
-      .catch(function(){ btnSubmit.disabled = false; btnSubmit.textContent = '견적신청하기'; });
+      .catch(function(){ sending = false; render(); });
   });
 
   /* ── 다시 신청하기 ───────────────────────────────────────────── */
