@@ -324,6 +324,18 @@
     }
 
     boxes.forEach(function(b){ b.addEventListener('change', paint); });
+
+    /* 열 줄은 접은 채로 선다. 여는 손잡이는 제목 아래 알약 하나다.
+       ⚠ 접힘은 마크업이 들고 있다(hidden). 자바스크립트로 접으면 열렸다가
+          접히는 깜빡임이 난다 — 비교표 여섯 묶음과 같은 이유다 */
+    var toggle = $('#esPickToggle');
+    if(toggle){
+      toggle.addEventListener('click', function(){
+        var open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        pick.hidden = open;
+      });
+    }
   })();
 
   /* ── 묶음 여닫기 ───────────────────────────────────────────── */

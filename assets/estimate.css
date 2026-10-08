@@ -138,6 +138,24 @@ body.estimate-page{--tabbar-h:52px}
    모두 두 줄로 접혔다. 답을 아래 가로 바로 내리면 그 폭이 리스트로 돌아온다 —
    칸이 530px 가 되어 아홉 줄이 한 줄에 서고, 블록 높이는 337 → 335px 로 같다.
    답은 마지막 줄 바로 아래라 고르는 자리에서 눈에 들어온다 */
+/* 열 줄을 여는 손잡이. 제목 아래 가운데에 알약 하나로 선다 — 구역 바탕이
+   연한 파랑이라 흰 알약이 그 위에 또렷이 뜬다.
+   ⚠ 묶음 제목처럼 제목 줄 자체를 손잡이로 삼지 않았다. 저쪽은 왼쪽으로 붙는
+      표의 한 줄이지만 이 제목은 가운데 선 큰 글이라, 통째로 눌리는 띠가 되면
+      구역 머리가 손잡이처럼 보인다 */
+.es-pick-toggle{appearance:none;font:inherit;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;margin-top:6px;
+  padding:11px 20px;border-radius:1000px;background:var(--main-white);
+  border:1px solid var(--main-gray);font-size:14px;font-weight:700;
+  color:var(--main-navy);transition:.16s}
+.es-pick-toggle:hover{border-color:var(--main-navy)}
+.es-pick-toggle:focus-visible{outline:2px solid var(--main-blue);outline-offset:2px}
+.es-pick-toggle .chev{display:grid;place-items:center;width:16px;height:16px;
+  color:var(--sub-d-gray);transition:transform .2s}
+.es-pick-toggle .chev svg{width:12px;height:12px}
+/* 접힌 동안 꺾쇠가 아래를 보며 '펼 수 있다'를 가리킨다 */
+.es-pick-toggle[aria-expanded="false"] .chev{transform:rotate(180deg)}
+
 .es-pick{margin-top:38px;text-align:left}
 /* 여섯 줄을 카드로 세우지 않는다. 고르는 카드가 아니라 해당하는 것에 체크하는
    줄이고, 테두리와 흰 바탕을 두르면 그 둘레의 여백까지 자리를 먹는다. 줄 사이를

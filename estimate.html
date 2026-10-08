@@ -69,6 +69,12 @@
            나온다고 약속하고, 열 줄이 체크할 것을 편다 -->
       <div class="eyebrow">내 상황엔 어떤 서비스가 맞을까?</div>
       <h2 class="title-md">필요한 항목을 체크하면 딱 맞는 서비스를 추천해 드립니다!</h2>
+      <!-- 열 줄은 접은 채로 둔다. 체크리스트와 아래 비교표를 모두 펴 두면 이
+           페이지에서 정작 해야 할 일(위 견적 폼)보다 읽을거리가 먼저 길어진다.
+           제목이 이미 '체크하면 추천해 드립니다'라고 약속했으니, 그 약속을
+           받을 사람만 열면 된다 -->
+      <button type="button" class="es-pick-toggle" id="esPickToggle"
+              aria-expanded="false" aria-controls="esPick">항목 체크하기<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button>
     </div>
 
     <!-- 열 줄은 노션 「서비스별 기능 상세」의 기능을 '지금 겪는 일, 그래서 무엇이
@@ -88,7 +94,7 @@
 
          그래도 가름은 점수가 아니다. 프리미엄 줄이 하나라도 끼면 프리미엄인데,
          고른 그 일을 3.0 은 아예 하지 않기 때문이다 -->
-    <div class="es-pick" id="esPick" data-rec="none">
+    <div class="es-pick" id="esPick" data-rec="none" hidden>
       <ul class="es-pick-list">
         <li><label class="es-pick-item">
           <input type="checkbox" data-tier="c30" data-feat="원클릭 급여관리">
