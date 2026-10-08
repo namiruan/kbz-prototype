@@ -250,18 +250,6 @@ body.estimate-page{--tabbar-h:52px}
 /* 메인(partition-8)이 같은 표를 흰 바탕 위에 세운다. 이 구역도 그쪽을 따른다 —
    위 체크리스트가 연한 파랑이라 흰 바탕만으로도 구역은 갈린다 */
 .es-compare{position:relative;padding:92px 0;background:var(--main-white)}
-/* 범례 — 표의 ✓ 와 ★ 가 무슨 뜻인지 한 줄로 */
-.es-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin-top:16px;
-  font-size:12.5px;font-weight:600;color:var(--sub-d-gray)}
-.es-legend span{display:inline-flex;align-items:center;gap:6px}
-.es-legend .mk{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;
-  background:var(--pastel-blue);color:var(--main-blue)}
-.es-legend .mk svg{width:11px;height:11px}
-.es-legend .mk.prem{background:var(--main-blue);color:var(--main-white)}
-.es-legend .mk.no{background:var(--main-gray);color:var(--sub-d-gray);font-size:11px;font-weight:800}
-.es-legend .tag{display:inline-flex;padding:2px 8px;border-radius:1000px;background:var(--main-gray);
-  color:var(--sub-d-gray);font-size:11px;font-weight:800}
-
 /* ── 5. 기능 비교표 — 표 ──────────────────────────────────────── */
 /* 열 너비는 표와 그 아래 CTA 줄이 같이 봐야 한다 — 둘의 부모에 둔다 */
 .es-compare{--cols:minmax(0,1.5fr) 168px 168px}
@@ -296,8 +284,10 @@ body.estimate-page{--tabbar-h:52px}
       text-align:center 라 가운데로 선다 */
 .es-cmp-head .banner-btn{margin-top:7px;font-size:11.5px;font-weight:700;
   padding:5px 12px;white-space:nowrap}
+/* ⚠ 테두리는 1px 이다. 꼬리의 큰 버튼과 같은 1.5px 을 그대로 쓰니, 29px 짜리
+      알약에서는 선이 키의 5% 를 먹어 글자보다 테두리가 먼저 보였다 */
 .es-cmp-head .c.c30 .banner-btn{background:transparent;color:var(--main-navy);
-  box-shadow:inset 0 0 0 1.5px rgba(var(--color-navy-rgb),.45)}
+  box-shadow:inset 0 0 0 1px rgba(var(--color-navy-rgb),.38)}
 .es-cmp-head .c.c30 .banner-btn:hover{background:var(--sub-w-gray)}
 .es-cmp-head .c.prem .banner-btn{background:var(--main-blue)}
 .es-cmp-head .c.prem .banner-btn:hover{background:var(--sub-d-blue)}
@@ -381,7 +371,7 @@ body.estimate-page{--tabbar-h:52px}
 
   /* 머리줄은 좁은 폭에서도 따라붙는다. 열이 좁아 '김반장'은 떼고 이름만 세운다 */
   .es-cmp-head .c{padding:11px 4px 10px;font-size:11.5px;white-space:nowrap}
-  .es-cmp-head .c.task{padding-left:10px;font-size:13px}
+  .es-cmp-head .c.task{padding-left:16px;font-size:13px}
   .es-cmp-head .c .pre{display:none}
   /* ⚠ 48px 칸에 알약이 들어갈 자리는 없다. 신청은 표 꼬리가 받는다 */
   .es-cmp-head .banner-btn{display:none}
@@ -392,10 +382,21 @@ body.estimate-page{--tabbar-h:52px}
   .es-cmp-foot .banner-btn{font-size:15px;padding:12px 20px;white-space:normal}
   .es-cmp-foot .c.prem{padding:0;background:none}
 
-  .es-cat-h{padding:28px 2px 10px;font-size:15.5px}
-  .es-row .task{padding:12px 10px 12px 2px}
+  /* 표만 안쪽 여백(30px 둘)을 벗어 화면 끝까지 닿는다 — 기능 열이 390px 에서
+     214 → 274px 가 된다. .es-cmp-foot 은 .es-cmp 의 형제라 그대로 남아,
+     버튼은 여전히 여백 안에 선다 */
+  .es-cmp{margin-left:-30px;margin-right:-30px}
+  /* ⚠ 화면 끝까지 닿는 띠에 둥근 모서리를 두면 잘려 나간 것처럼 보인다 */
+  .es-cmp-head .c.prem{border-radius:0}
+  .es-cat:last-child .es-row:last-child .mk.prem{border-radius:0}
+
+  .es-cat-h{padding:28px 16px 10px;font-size:15.5px}
+  .es-row .task{padding:12px 10px 12px 16px}
   .es-row .task b{font-size:13.5px}
-  .es-row .task small{margin-top:3px;font-size:11.5px;line-height:1.55}
+  /* 설명은 좁은 폭에서 걷는다. 넓은 폭에서는 기능 이름 옆 한 줄이지만 274px
+     칸에서는 서너 줄이 되고, 서른세 줄이 모두 그러면 표가 아니라 읽을거리가
+     된다. 이름만 남겨 훑게 하고, 무엇을 뜻하는지는 상담이 받는다 */
+  .es-row .task small{display:none}
   .es-row .mk{padding:12px 4px}
   .es-mark{width:19px;height:19px}
   .es-mark svg{width:11px;height:11px}
