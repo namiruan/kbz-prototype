@@ -479,7 +479,7 @@
 </section>
 
 <!-- ===== FAQ ===== -->
-<section class="es-faq center">
+<section class="es-faq center" id="faq">
   <div class="inner">
     <div class="title-container">
       <div class="eyebrow">견적 전 자주 묻는 질문</div>
@@ -493,19 +493,44 @@
   </div>
 </section>
 
-<!-- ===== 마지막 CTA ===== -->
-<section class="es-cta">
+<!-- ===== 마지막 CTA : 도움이 필요하신가요 =====
+     버튼 하나(전화)만 두던 자리다. 끝까지 읽고도 못 고른 사람이 할 수 있는 일이
+     전화 한 가지뿐이면, 아직 사람에게 묻고 싶지 않은 사람은 갈 데가 없다.
+     묻는 방법을 셋으로 벌려 둔다 — 사람에게, 글로, 먼저 나온 물음으로.
+     ⚠ 여기에 견적신청 버튼은 두지 않는다. 신청하는 자리는 위에 이미 있다 —
+        단말기 두 탭은 폼이 이 페이지 안에 있고, 프로그램 탭은 폼이 탭 머리에
+        있고 비교표 머리줄에도 알약이 따라붙는다. 바닥에서 또 부르면 같은 걸음을
+        세 번 권하는 꼴이다.
+     ⚠ 설명 줄은 탭을 따라 바뀐다. 셋 다 같은 말을 하면 '각 탭에 맞는'이 아니라
+        한 벌을 세 번 쓰는 것이다 — 그 말은 estimate.js 의 HELP 가 든다 -->
+<section class="es-cta" id="help">
   <div class="inner">
-    <h2>어느 쪽이 맞을지 모르겠다면,<br>현장 이야기부터 들려주세요</h2>
-    <p class="sub">통화 한 번이면 우리 사업장에 맞는 구성을 짚어 드립니다.</p>
-    <div class="acts" style="justify-content:center">
-      <!-- 여기에 견적신청 버튼은 두지 않는다. 신청하는 자리는 위에 이미 있다 —
-           단말기 두 탭은 폼이 이 페이지 안에 있고, 프로그램 탭은 폼이 탭 머리에
-           있고 비교표 머리줄에도 알약이 따라붙는다. 바닥에서 또 부르면 같은 걸음을
-           세 번 권하는 꼴이다.
-           끝까지 읽고도 못 고른 사람에게 남길 것은 사람에게 묻는 길 하나다.
-           전화는 자리표가 아니라 실제 번호다(푸터의 프리미엄 문의와 같다) -->
-      <a class="banner-btn" href="tel:15883818">전화로 문의 1588-3818</a>
+    <h2>도움이 필요하신가요?</h2>
+    <p class="sub">김반장 전문가가 도와드립니다.</p>
+    <div class="es-help">
+      <!-- 전화는 자리표가 아니라 실제 번호다(푸터의 프리미엄 문의와 같다) -->
+      <a class="es-help-card" href="tel:15883818">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 16 0"/><rect x="2.5" y="12" width="4" height="6" rx="1.6"/><rect x="17.5" y="12" width="4" height="6" rx="1.6"/><path d="M19.5 18v1.2a2.3 2.3 0 0 1-2.3 2.3H13"/></svg></span>
+        <p class="ds" id="helpTelDs">전문 컨설턴트가 우리 현장에 맞는 구성을 짚어 드려요.</p>
+        <b class="nm">1588-3818</b>
+        <span class="go">상담하기<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+      </a>
+      <!-- ⚠ 소개서 주소는 아직 없다. 받으면 이 href 한 곳만 갈아 끼우면 된다.
+             그때까지는 제자리(#help)를 가리켜 둔다 — '#' 로 두면 누를 때마다
+             페이지 꼭대기로 튄다 -->
+      <a class="es-help-card" href="#help" id="helpDoc">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 3.5h13v17l-6.5-3.6-6.5 3.6z"/></svg></span>
+        <p class="ds" id="helpDocDs">무엇을 어디까지 해주는지 글로 먼저 보세요.</p>
+        <b class="nm">서비스 소개서</b>
+        <span class="go">소개서 신청하기<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+      </a>
+      <!-- 이 페이지가 이미 들고 있는 물음으로 올려 보낸다 — 밖으로 내보낼 까닭이 없다 -->
+      <a class="es-help-card" href="#faq">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2-2.4 3.4"/><path d="M12 17.1h.01"/></svg></span>
+        <p class="ds" id="helpFaqDs">신청 전에 많이 묻는 것을 모아 두었어요.</p>
+        <b class="nm">자주하는 질문</b>
+        <span class="go">질문 확인하기<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+      </a>
     </div>
   </div>
 </section>

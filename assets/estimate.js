@@ -168,6 +168,7 @@
         t.setAttribute('aria-selected', String(on));
       });
       panels.forEach(function(pn){ pn.hidden = (pn.id !== 'panel-' + type); });
+      help(type);          /* 바닥의 묻는 방법 셋도 이 탭의 말로 바꾼다 */
       mount(type);
       remeasure();         /* 막 보이게 된 틀의 카드도 제자리를 잡는다 */
 
@@ -200,6 +201,27 @@
           root.style.scrollBehavior = prev;
         }
       }
+    }
+
+    /* ── 바닥의 '도움이 필요하신가요' — 탭을 따라 말이 바뀐다 ──────
+       셋 다 같은 말을 하면 '각 탭에 맞는'이 아니라 한 벌을 세 번 쓰는 것이다.
+       바뀌는 것은 설명 줄뿐이고, 이름(1588-3818 · 서비스 소개서 · 자주하는 질문)과
+       가는 곳은 셋이 같다 — 번호도 소개서도 물음도 회사가 하나씩만 들고 있다.
+       ⚠ 자주하는 질문만 탭을 타지 않는다. 이 페이지가 들고 있는 물음 셋이
+          탭으로 갈리지 않기 때문이다 — 갈리지 않는 것을 갈린 척 적지 않는다 */
+    var HELP = {
+      A:{ tel:'김반장 3.0과 프리미엄 중 어느 쪽이 맞을지 짚어 드려요.',
+          doc:'두 서비스가 무엇을 어디까지 해주는지 글로 보세요.' },
+      B:{ tel:'현장 수와 계약 기간에 맞는 단말기 구성을 짚어 드려요.',
+          doc:'퇴직공제 전자카드 단말기를 글로 먼저 보세요.' },
+      C:{ tel:'출입구 수와 근로자 수에 맞는 설치 구성을 짚어 드려요.',
+          doc:'안면인식 출퇴근관리를 글로 먼저 보세요.' }
+    };
+    function help(type){
+      var h = HELP[type]; if(!h) return;
+      var t = $('#helpTelDs'), d = $('#helpDocDs');
+      if(t) t.textContent = h.tel;
+      if(d) d.textContent = h.doc;
     }
 
     /* 비교표 머리줄도 따라붙는다. 둘이 겹치지 않으려면 탭바 높이를 알아야 하는데,

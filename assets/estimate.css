@@ -131,6 +131,9 @@ body.estimate-page{--tabbar-h:52px}
    (#FBFBFB)와 네 단계밖에 차이가 나지 않아 두 구역이 한 덩이로 흘렀다.
    아래 비교표는 회색(#F4F5F6)이라, 폼 → 테스트 → 표 가 색으로 끊긴다 */
 .es-plans{position:relative;padding:92px 0;background:var(--frame-tint)}
+/* 접힌 동안에는 아래를 당겨 올린다. 흐린 줄의 아래쪽은 그라디언트가 거의 다
+   지워 놓은 자리라, 거기에 구역 여백 92px 까지 붙으면 빈 파랑이 한 뼘 남는다 */
+.es-plans:has(.es-pick[inert]){padding-bottom:52px}
 @media(max-width:820px){.es-plans{padding:64px 0}}
 
 /* ── 3.5 고르면 답이 나오는 체크리스트 ────────────────────────────
@@ -188,9 +191,9 @@ body.estimate-page{--tabbar-h:52px}
 /* ⚠ 끌어올린 만큼 손잡이 아래로 줄이 파고든다. 손잡이가 흐린 첫 줄 위에
       얹히는 자리가 여기서 난다 — 겹침은 손잡이가 움직여서가 아니라 줄이
       올라와서 생긴다 */
-.es-pick[inert]{max-height:132px;margin-top:-26px;padding-inline:12px;margin-inline:-12px;
+.es-pick[inert]{max-height:110px;margin-top:-26px;padding-inline:12px;margin-inline:-12px;
   opacity:.7;filter:blur(3px);pointer-events:none;user-select:none}
-.es-pick[inert]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:110px;
+.es-pick[inert]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:86px;
   pointer-events:none;
   background:linear-gradient(180deg,rgba(var(--frame-tint-rgb),0) 0%,rgba(var(--frame-tint-rgb),1) 82%)}
 @media(prefers-reduced-motion:reduce){.es-pick{transition:none}}
@@ -548,5 +551,33 @@ body.estimate-page{--tabbar-h:52px}
 .es-cta .banner-btn:hover{background:rgba(255,255,255,.86)}
 .es-cta .banner-btn.sec{background:rgba(255,255,255,.08);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.32)}
 .es-cta .banner-btn.sec:hover{background:rgba(255,255,255,.16)}
+/* 묻는 방법 셋. 받은 캡처는 흰 바탕에 연한 파랑 카드인데, 이 구역은 네이비라
+   카드를 흰색 몇 퍼센트로 띄운다 — 바탕을 흰색으로 돌리면 바로 위 FAQ(흰색)와
+   한 덩이로 흘러 마지막 자리가 서지 않는다 */
+.es-help{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:38px;text-align:left}
+.es-help-card{display:flex;flex-direction:column;align-items:flex-start;
+  padding:26px 24px 22px;border-radius:16px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
+  color:#fff;transition:.18s}
+.es-help-card:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.3)}
+.es-help-card:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.es-help-card .ic{display:grid;place-items:center;width:34px;height:34px;
+  color:rgba(255,255,255,.72);margin-bottom:26px}
+.es-help-card .ic svg{width:100%;height:100%}
+/* 설명이 먼저, 이름이 그다음이다 — 받은 캡처가 그 차례다. 무엇을 얻는지 읽고
+   나서 그것의 이름을 보게 된다 */
+.es-help-card .ds{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.68);
+  word-break:keep-all;min-height:43px}
+.es-help-card .nm{margin-top:8px;font-family:var(--font-title);font-size:21px;
+  font-weight:800;letter-spacing:-.03em}
+.es-help-card .go{display:inline-flex;align-items:center;gap:3px;margin-top:12px;
+  font-size:13.5px;font-weight:700;color:var(--lake)}
+.es-help-card .go svg{width:12px;height:12px;transition:transform .18s}
+.es-help-card:hover .go svg{transform:translate(2px,-2px)}
+
+@media(max-width:860px){.es-help{grid-template-columns:1fr;gap:10px}
+  .es-help-card{padding:20px 20px 18px}
+  .es-help-card .ic{margin-bottom:14px}
+  .es-help-card .ds{min-height:0}}
 @media(max-width:640px){.es-cta{padding:64px 0}.es-cta h2{font-size:27px}.es-cta .sub{font-size:16px}
   .banner-btn{font-size:18px}}
