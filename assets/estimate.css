@@ -162,21 +162,17 @@ body.estimate-page{--tabbar-h:52px}
   background:var(--sub-w-gray);border:1px solid var(--main-gray);transition:.18s}
 /* 답은 알약이 아니라 글이다. 채운 알약으로 두었더니 바로 옆 '견적 받기'와 같은
    모양이라 눌리는 것으로 보였다 — 한 줄에 알약이 둘이면 둘 다 버튼으로 읽힌다.
-   바탕을 걷고 제목 글꼴로 키워 머리글 노릇을 시키고, 답이 섰다는 표시는 앞의
-   체크 하나가 든다 */
-.es-pick-out .ans{flex:none;display:inline-flex;align-items:center;gap:7px}
-.es-pick-out .ck{flex:none;width:17px;height:17px}
+   제목과 까닭은 위아래로 가른다. 한 줄에 나란히 두면 어디까지가 답이고 어디부터가
+   까닭인지 경계가 서지 않는다 */
+.es-pick-out .txt{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px}
 .es-pick-out .rec{font-family:var(--font-title);font-size:18px;font-weight:800;
   letter-spacing:-.03em;color:var(--sub-d-gray);transition:.18s}
-/* 최소 폭은 줄이 접힐지를 가르는 값이다 — 접힘은 늘어나기 전, 이 값으로 셈한다 */
-.es-pick-out .why{flex:1;min-width:200px;font-size:14px;line-height:1.6;color:var(--sub-d-gray);word-break:keep-all}
+.es-pick-out .why{font-size:14px;line-height:1.6;color:var(--sub-d-gray);word-break:keep-all}
 .es-pick-out .why b{color:var(--main-navy);font-weight:800}
 /* 아직 고르기 전에는 어느 쪽도 추천하지 않는다 — 묻기도 전에 답하지 않는다 */
 .es-pick[data-rec="c30"]  .es-pick-out{background:var(--main-white);border-color:var(--main-navy)}
-.es-pick[data-rec="c30"]  .es-pick-out .ans{color:var(--main-navy)}
 .es-pick[data-rec="c30"]  .es-pick-out .rec{color:var(--main-navy)}
 .es-pick[data-rec="prem"] .es-pick-out{background:var(--frame-tint);border-color:var(--main-blue)}
-.es-pick[data-rec="prem"] .es-pick-out .ans{color:var(--main-blue)}
 .es-pick[data-rec="prem"] .es-pick-out .rec{color:var(--main-blue)}
 
 /* 두 장 카드가 들고 있던 '견적 받기'를 답 바가 물려받았다. 묻기도 전에는 숨어
@@ -199,6 +195,30 @@ body.estimate-page{--tabbar-h:52px}
   /* 한 줄에 다 못 서면 접힌다 — 그때는 오른쪽으로 밀 까닭도 없다 */
   .es-pick-out{padding:16px 18px}
 }
+
+/* ── 추천 도장 ─────────────────────────────────────────────────
+   메인(partition-8)의 '추천!' 도장을 그대로 옮겨 왔다. 저쪽은 비교표 머리에
+   비스듬히 붙여 두는 절대 위치인데, 여기서는 답 바의 첫 칸에 그냥 서면 되므로
+   자리잡기만 걷고 나머지(오려 낸 별 모양 · 홀로그램 · 지나가는 빛 · 통통 뛰기)는
+   건드리지 않았다. 크기는 86 → 58px */
+.es-pick-out .rec-sticker{--seal-clip:polygon(50.00% 1.50%,51.09% 1.56%,52.17% 1.75%,53.23% 2.07%,54.27% 2.52%,55.28% 3.10%,56.25% 3.85%,57.16% 4.76%,58.01% 5.89%,58.75% 7.29%,59.32% 9.16%,60.65% 7.72%,61.93% 6.78%,63.17% 6.13%,64.39% 5.71%,65.59% 5.46%,66.75% 5.36%,67.89% 5.41%,68.98% 5.59%,70.04% 5.89%,71.04% 6.30%,72.00% 6.83%,72.89% 7.47%,73.71% 8.22%,74.45% 9.07%,75.11% 10.04%,75.66% 11.13%,76.08% 12.35%,76.35% 13.73%,76.41% 15.31%,76.12% 17.25%,77.94% 16.53%,79.50% 16.24%,80.90% 16.19%,82.19% 16.34%,83.37% 16.63%,84.46% 17.05%,85.46% 17.59%,86.37% 18.22%,87.19% 18.95%,87.92% 19.76%,88.55% 20.65%,89.07% 21.61%,89.49% 22.64%,89.79% 23.74%,89.96% 24.89%,89.98% 26.11%,89.84% 27.40%,89.48% 28.75%,88.85% 30.21%,87.74% 31.83%,89.69% 31.97%,91.23% 32.38%,92.51% 32.95%,93.60% 33.63%,94.54% 34.41%,95.34% 35.27%,96.01% 36.18%,96.56% 37.15%,96.98% 38.16%,97.28% 39.21%,97.47% 40.28%,97.52% 41.38%,97.45% 42.48%,97.24% 43.60%,96.90% 44.72%,96.39% 45.83%,95.70% 46.92%,94.79% 47.99%,93.59% 49.02%,91.89% 50.00%,93.59% 50.98%,94.79% 52.01%,95.70% 53.08%,96.39% 54.17%,96.90% 55.28%,97.24% 56.40%,97.45% 57.52%,97.52% 58.62%,97.47% 59.72%,97.28% 60.79%,96.98% 61.84%,96.56% 62.85%,96.01% 63.82%,95.34% 64.73%,94.54% 65.59%,93.60% 66.37%,92.51% 67.05%,91.23% 67.62%,89.69% 68.03%,87.74% 68.17%,88.85% 69.79%,89.48% 71.25%,89.84% 72.60%,89.98% 73.89%,89.96% 75.11%,89.79% 76.26%,89.49% 77.36%,89.07% 78.39%,88.55% 79.35%,87.92% 80.24%,87.19% 81.05%,86.37% 81.78%,85.46% 82.41%,84.46% 82.95%,83.37% 83.37%,82.19% 83.66%,80.90% 83.81%,79.50% 83.76%,77.94% 83.47%,76.12% 82.75%,76.41% 84.69%,76.35% 86.27%,76.08% 87.65%,75.66% 88.87%,75.11% 89.96%,74.45% 90.93%,73.71% 91.78%,72.89% 92.53%,72.00% 93.17%,71.04% 93.70%,70.04% 94.11%,68.98% 94.41%,67.89% 94.59%,66.75% 94.64%,65.59% 94.54%,64.39% 94.29%,63.17% 93.87%,61.93% 93.22%,60.65% 92.28%,59.32% 90.84%,58.75% 92.71%,58.01% 94.11%,57.16% 95.24%,56.25% 96.15%,55.28% 96.90%,54.27% 97.48%,53.23% 97.93%,52.17% 98.25%,51.09% 98.44%,50.00% 98.50%,48.91% 98.44%,47.83% 98.25%,46.77% 97.93%,45.73% 97.48%,44.72% 96.90%,43.75% 96.15%,42.84% 95.24%,41.99% 94.11%,41.25% 92.71%,40.68% 90.84%,39.35% 92.28%,38.07% 93.22%,36.83% 93.87%,35.61% 94.29%,34.41% 94.54%,33.25% 94.64%,32.11% 94.59%,31.02% 94.41%,29.96% 94.11%,28.96% 93.70%,28.00% 93.17%,27.11% 92.53%,26.29% 91.78%,25.55% 90.93%,24.89% 89.96%,24.34% 88.87%,23.92% 87.65%,23.65% 86.27%,23.59% 84.69%,23.88% 82.75%,22.06% 83.47%,20.50% 83.76%,19.10% 83.81%,17.81% 83.66%,16.63% 83.37%,15.54% 82.95%,14.54% 82.41%,13.63% 81.78%,12.81% 81.05%,12.08% 80.24%,11.45% 79.35%,10.93% 78.39%,10.51% 77.36%,10.21% 76.26%,10.04% 75.11%,10.02% 73.89%,10.16% 72.60%,10.52% 71.25%,11.15% 69.79%,12.26% 68.17%,10.31% 68.03%,8.77% 67.62%,7.49% 67.05%,6.40% 66.37%,5.46% 65.59%,4.66% 64.73%,3.99% 63.82%,3.44% 62.85%,3.02% 61.84%,2.72% 60.79%,2.53% 59.72%,2.48% 58.62%,2.55% 57.52%,2.76% 56.40%,3.10% 55.28%,3.61% 54.17%,4.30% 53.08%,5.21% 52.01%,6.41% 50.98%,8.11% 50.00%,6.41% 49.02%,5.21% 47.99%,4.30% 46.92%,3.61% 45.83%,3.10% 44.72%,2.76% 43.60%,2.55% 42.48%,2.48% 41.38%,2.53% 40.28%,2.72% 39.21%,3.02% 38.16%,3.44% 37.15%,3.99% 36.18%,4.66% 35.27%,5.46% 34.41%,6.40% 33.63%,7.49% 32.95%,8.77% 32.38%,10.31% 31.97%,12.26% 31.83%,11.15% 30.21%,10.52% 28.75%,10.16% 27.40%,10.02% 26.11%,10.04% 24.89%,10.21% 23.74%,10.51% 22.64%,10.93% 21.61%,11.45% 20.65%,12.08% 19.76%,12.81% 18.95%,13.63% 18.22%,14.54% 17.59%,15.54% 17.05%,16.63% 16.63%,17.81% 16.34%,19.10% 16.19%,20.50% 16.24%,22.06% 16.53%,23.88% 17.25%,23.59% 15.31%,23.65% 13.73%,23.92% 12.35%,24.34% 11.13%,24.89% 10.04%,25.55% 9.07%,26.29% 8.22%,27.11% 7.47%,28.00% 6.83%,28.96% 6.30%,29.96% 5.89%,31.02% 5.59%,32.11% 5.41%,33.25% 5.36%,34.41% 5.46%,35.61% 5.71%,36.83% 6.13%,38.07% 6.78%,39.35% 7.72%,40.68% 9.16%,41.25% 7.29%,41.99% 5.89%,42.84% 4.76%,43.75% 3.85%,44.72% 3.10%,45.73% 2.52%,46.77% 2.07%,47.83% 1.75%,48.91% 1.56%);
+  position:relative;flex:none;width:58px;height:58px;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  transform:rotate(-8deg);filter:drop-shadow(0 2px 1px rgba(14,59,99,.42));
+  will-change:transform;animation:recbounce 1.6s ease-in-out infinite}
+.es-pick-out .rec-sticker::before{content:"";position:absolute;inset:-1.5px;clip-path:var(--seal-clip);background:linear-gradient(135deg,var(--main-white),var(--pastel-blue));z-index:0}
+.es-pick-out .rec-seal{position:absolute;inset:0;clip-path:var(--seal-clip);overflow:hidden;isolation:isolate;z-index:1;background:radial-gradient(circle at 50% 34%,var(--main-blue) 0%,var(--sub-d-blue) 58%,var(--sub-d-blue) 100%)}
+.es-pick-out .rec-holo{position:absolute;inset:-30%;background:conic-gradient(from 25deg at 50% 50%,var(--lake),var(--sub-cyan),var(--btn-blue),var(--main-blue),var(--lake),var(--main-white),var(--sub-cyan),var(--btn-blue),var(--lake));mix-blend-mode:screen;opacity:.55}
+.es-pick-out .rec-seal::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(var(--color-white-rgb),.5) 0%,rgba(var(--color-white-rgb),0) 22%),conic-gradient(from 200deg at 50% 50%,rgba(var(--color-lake-rgb),.42),rgba(var(--color-cyan-rgb),.45),rgba(var(--color-blue-rgb),.4),rgba(var(--color-lake-rgb),.42),rgba(var(--color-cyan-rgb),.42));background-blend-mode:screen;mix-blend-mode:screen;z-index:2}
+.es-pick-out .rec-seal .rec-shine{position:absolute;inset:0;z-index:3;background:linear-gradient(112deg,transparent 34%,rgba(var(--color-lake-rgb),.34) 43%,rgba(var(--color-white-rgb),.62) 50%,rgba(var(--color-lake-rgb),.34) 57%,transparent 66%);mix-blend-mode:screen;pointer-events:none;will-change:transform;animation:holoshine 3s linear infinite}
+.es-pick-out .rec-txt{position:relative;z-index:4;font-family:var(--font-title);font-weight:900;line-height:1;color:var(--main-white);letter-spacing:-.02em;-webkit-text-stroke:.7px rgba(var(--color-navy-rgb),.42);text-stroke:.7px rgba(var(--color-navy-rgb),.42);font-size:17px}
+/* 움직임을 줄여 달라고 해 둔 사람에게는 서 있기만 한다 */
+@media(prefers-reduced-motion:reduce){
+  .es-pick-out .rec-sticker{animation:none}
+  .es-pick-out .rec-seal .rec-shine{animation:none}
+}
+@keyframes holoshine{0%{transform:translateX(-125%)}100%{transform:translateX(125%)}}
+@keyframes recbounce{0%{transform:rotate(-8deg) translateY(0);animation-timing-function:cubic-bezier(.33,0,.28,1)}30%{transform:rotate(-8deg) translateY(-9px);animation-timing-function:cubic-bezier(.66,0,.7,.2)}58%{transform:rotate(-8deg) translateY(0)}100%{transform:rotate(-8deg) translateY(0)}}
 
 /* ── 4. 기능 비교표 — 거르개 ──────────────────────────────────── */
 .es-compare{position:relative;padding:92px 0;background:var(--sub-w-gray)}

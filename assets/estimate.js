@@ -238,7 +238,7 @@
     if(!pick) return;
     var boxes = $$('.es-pick-item input', pick);
     var rec = $('#esPickRec'), why = $('#esPickWhy');
-    var go = $('#esPickGo'), mark = $('#esPickMark');
+    var go = $('#esPickGo'), seal = $('#esPickSeal');
 
     /* 기능 이름 뒤에 붙는 조사는 받침이 가른다 — '…검증은', '…관리는' */
     function eun(w){
@@ -284,13 +284,7 @@
       /* 폼이 위로 올라갔으니 돌아갈 길을 답 옆에 둔다. 묻기도 전에는 내지
          않는다 — 아직 아무것도 고르지 않은 자리에서 '이 구성으로'는 빈 말이다 */
       var asked = pick.dataset.rec === 'c30' || pick.dataset.rec === 'prem';
-      /* ⚠ hidden 은 HTMLElement 의 속성이라 SVG 에는 프로퍼티로 먹지 않는다.
-         svg.hidden = false 는 JS 값만 바꿀 뿐 [hidden] 특성은 그대로 남아,
-         [hidden]{display:none!important} 가 계속 이긴다 — 특성으로 다룬다 */
-      if(mark){
-        if(asked) mark.removeAttribute('hidden');
-        else mark.setAttribute('hidden', '');
-      }
+      if(seal) seal.hidden = !asked;
       if(go){
         go.hidden = !asked;
         go.dataset.plan = mode;
