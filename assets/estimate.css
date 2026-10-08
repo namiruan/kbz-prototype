@@ -327,7 +327,10 @@ body.estimate-page{--tabbar-h:52px}
 .es-cat-t{appearance:none;border:0;background:none;font:inherit;cursor:pointer;
   display:flex;align-items:baseline;gap:9px;width:100%;padding:34px 16px 12px;text-align:left;
   font-family:var(--font-body);font-size:19px;font-weight:800;color:var(--main-navy);
-  letter-spacing:-.02em;border-radius:10px;transition:background .14s}
+  letter-spacing:-.02em;transition:background .14s}
+/* ⚠ hover 띠에 둥근 모서리를 두지 않는다. 띠는 줄 폭을 통째로 덮는데, 그
+      네 귀퉁이만 둥글면 네모 격자 안에서 띠 하나가 떠 보인다 — 마지막 줄
+      틴트가 그랬던 것과 같은 어긋남이다. 줄을 가르는 선과 같은 네모로 둔다 */
 .es-cat-t:hover{background:rgba(var(--color-navy-rgb),.04)}
 .es-cat-t:focus-visible{outline:2px solid var(--main-blue);outline-offset:-3px}
 /* 꺾쇠는 제목 바로 옆에 둔다. 오른쪽 끝으로 밀면 두 요금제 열 위에 서서, 어느
