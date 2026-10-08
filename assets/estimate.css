@@ -365,16 +365,6 @@ body.estimate-page{--tabbar-h:52px}
 .es-mark.off{background:transparent;color:var(--sub-d-gray);font-size:14px;font-weight:800}
 .es-mark.off::after{content:"—"}
 
-.es-cmp-foot{display:grid;grid-template-columns:var(--cols);margin-top:4px}
-.es-cmp-foot .c{padding:20px 12px}
-.es-cmp-foot .c.prem{background:var(--frame-tint);border-radius:0 0 12px 12px;padding:20px 16px}
-/* 열 폭 안에 한 줄로 서야 한다 — 접히면 '프리미엄 상 / 담신청하기' 처럼 낱말이 갈린다 */
-.es-cmp-foot .banner-btn{display:flex;width:100%;font-size:14px;padding:11px 10px;white-space:nowrap}
-.es-cmp-foot .c.c30 .banner-btn{background:transparent;color:var(--main-navy);box-shadow:inset 0 0 0 1.5px rgba(var(--color-navy-rgb),.45)}
-.es-cmp-foot .c.c30 .banner-btn:hover{background:var(--sub-w-gray)}
-.es-cmp-foot .c.prem .banner-btn{background:var(--main-blue)}
-.es-cmp-foot .c.prem .banner-btn:hover{background:var(--sub-d-blue)}
-
 /* ── 6. 기능 비교표 — 좁은 폭에서도 표 ────────────────────────
    한때는 좁아지면 줄을 카드로 세우고 ✓ 를 글자 알약으로 바꿔 달았다. 열이
    사라지니 칸마다 '3.0'·'프리미엄'을 적어 어느 쪽인지 스스로 밝혀야 했고,
@@ -396,15 +386,8 @@ body.estimate-page{--tabbar-h:52px}
   /* ⚠ 48px 칸에 알약이 들어갈 자리는 없다. 신청은 표 꼬리가 받는다 */
   .es-cmp-head .banner-btn{display:none}
 
-  .es-cmp-foot{grid-template-columns:1fr;gap:10px}
-  .es-cmp-foot .c{padding:0}
-  .es-cmp-foot .c.task{display:none}
-  .es-cmp-foot .banner-btn{font-size:15px;padding:12px 20px;white-space:normal}
-  .es-cmp-foot .c.prem{padding:0;background:none}
-
   /* 표만 안쪽 여백(30px 둘)을 벗어 화면 끝까지 닿는다 — 기능 열이 390px 에서
-     214 → 274px 가 된다. .es-cmp-foot 은 .es-cmp 의 형제라 그대로 남아,
-     버튼은 여전히 여백 안에 선다 */
+     214 → 274px 가 된다 */
   .es-cmp{margin-left:-30px;margin-right:-30px}
   /* ⚠ 화면 끝까지 닿는 띠에 둥근 모서리를 두면 잘려 나간 것처럼 보인다 */
   .es-cmp-head .c.prem{border-radius:0}
