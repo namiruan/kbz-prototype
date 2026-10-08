@@ -312,10 +312,22 @@ body.estimate-page{--tabbar-h:52px}
 .es-cmp-head .c.prem small{color:var(--sub-d-blue)}
 
 .es-cat{margin:0}
-.es-cat-h{display:flex;align-items:baseline;gap:9px;padding:26px 16px 10px;
-  font-family:var(--font-body);font-size:15px;font-weight:800;color:var(--main-navy);letter-spacing:-.02em}
+/* 묶음 제목이 제 묶음 위에 서지 못했다. 15px/800 인데 바로 아래 기능 이름이
+   15px/700 이라 한 단계 차이가 굵기 하나뿐이었고, 줄을 가르는 선이 줄 윗변에
+   그어져 있어 제목과 제 첫 줄 사이에 선이 지나갔다 — 제목이 아래 묶음이 아니라
+   위 묶음 꼬리에 붙어 보인 까닭이다.
+   셋을 함께 고친다. 크기로 서열을 주고(17px), 앞에 네이비 막대를 세워 줄 이름과
+   한눈에 갈라 놓고, 가르는 선은 줄 아랫변으로 옮긴다. 선이 아래로 가면 한 묶음의
+   마지막 줄이 그은 선이 그대로 다음 제목의 윗선이 되고, 제목과 제 첫 줄 사이는
+   비워진다 — 제목은 제 묶음 쪽으로 붙는다.
+   ⚠ 거르개가 줄을 숨기면 :first-child 같은 것으로는 못 잡는다. 아랫변으로 옮기면
+      숨은 줄의 선도 함께 사라져 따로 셀 일이 없다 */
+.es-cat-h{display:flex;align-items:baseline;gap:9px;padding:34px 16px 12px;
+  font-family:var(--font-body);font-size:17px;font-weight:800;color:var(--main-navy);letter-spacing:-.02em}
+.es-cat-h::before{content:"";align-self:center;width:3px;height:15px;border-radius:2px;
+  background:var(--main-navy);margin-right:1px}
 .es-cat-h .n{font-size:12px;font-weight:700;color:var(--sub-d-gray)}
-.es-row{display:grid;grid-template-columns:var(--cols);align-items:stretch;border-top:1px solid var(--main-gray)}
+.es-row{display:grid;grid-template-columns:var(--cols);align-items:stretch;border-bottom:1px solid var(--main-gray)}
 .es-row .task{padding:15px 16px;min-width:0}
 .es-row .task b{display:block;font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--main-black)}
 .es-row .task small{display:block;margin-top:4px;font-size:13px;line-height:1.6;color:var(--sub-d-gray);word-break:keep-all}
@@ -349,7 +361,7 @@ body.estimate-page{--tabbar-h:52px}
 
 /* 거르개가 다 걸러낸 카테고리 — 지우지 않고 '같다'고 적는다.
    사라지면 그 영역을 못 본 것인지 없는 것인지 알 수 없다 */
-.es-cat-same{display:none;padding:14px 16px;border-top:1px solid var(--main-gray);
+.es-cat-same{display:none;padding:14px 16px;border-bottom:1px solid var(--main-gray);
   font-size:13.5px;font-weight:600;color:var(--sub-d-gray)}
 .es-cat.is-empty .es-cat-same{display:block}
 .es-row[hidden]{display:none}
@@ -378,7 +390,7 @@ body.estimate-page{--tabbar-h:52px}
   .es-cmp-foot .banner-btn{font-size:15px;padding:12px 20px;white-space:normal}
   .es-cmp-foot .c.prem{padding:0;background:none}
   .es-cat-h{padding:24px 2px 8px}
-  .es-row{display:block;border-top:0;background:var(--main-white);border:1px solid var(--main-gray);
+  .es-row{display:block;background:var(--main-white);border:1px solid var(--main-gray);
     border-radius:14px;padding:14px 16px;margin-top:10px}
   .es-row .task{padding:0}
   .es-marks{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
