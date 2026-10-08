@@ -73,8 +73,6 @@
            페이지에서 정작 해야 할 일(위 견적 폼)보다 읽을거리가 먼저 길어진다.
            제목이 이미 '체크하면 추천해 드립니다'라고 약속했으니, 그 약속을
            받을 사람만 열면 된다 -->
-      <button type="button" class="es-pick-toggle" id="esPickToggle"
-              aria-expanded="false" aria-controls="esPick">항목 체크하기<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button>
     </div>
 
     <!-- 열 줄은 노션 「서비스별 기능 상세」의 기능을 '지금 겪는 일, 그래서 무엇이
@@ -94,7 +92,14 @@
 
          그래도 가름은 점수가 아니다. 프리미엄 줄이 하나라도 끼면 프리미엄인데,
          고른 그 일을 3.0 은 아예 하지 않기 때문이다 -->
-    <div class="es-pick" id="esPick" data-rec="none" inert>
+    <!-- 손잡이와 열 줄을 한 상자에 담는다. 접힌 동안 손잡이가 흐린 줄 위에
+         겹쳐 서야 하는데, 겹치려면 자리를 잡아 줄 부모가 하나 있어야 한다.
+         ⚠ 손잡이를 .es-pick 안에 넣을 수는 없다. 그 안은 접힌 동안 통째로
+            흐려지고 inert 가 걸려, 저를 열 손잡이까지 못 누르게 된다 -->
+    <div class="es-pick-wrap">
+      <button type="button" class="es-pick-toggle" id="esPickToggle"
+              aria-expanded="false" aria-controls="esPick">항목 체크하기<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button>
+      <div class="es-pick" id="esPick" data-rec="none" inert>
       <ul class="es-pick-list">
         <li><label class="es-pick-item">
           <input type="checkbox" data-tier="c30" data-feat="원클릭 급여관리">
@@ -167,6 +172,7 @@
              ⚠ 글자가 사라졌으니 이름은 aria-label 이 든다 — 화살표 하나만 읽히면
                 어디로 가는 길인지 들을 수 없다. 그 이름은 paint() 가 고쳐 단다 -->
         <a class="go" id="esPickGo" href="#apply" data-plan="c30" hidden aria-label="김반장 3.0으로 견적 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h12.5M11.5 5.5L18 12l-6.5 6.5"/></svg></a>
+        </div>
       </div>
     </div>
   </div>

@@ -147,8 +147,15 @@ body.estimate-page{--tabbar-h:52px}
    ⚠ 묶음 제목처럼 제목 줄 자체를 손잡이로 삼지 않았다. 저쪽은 왼쪽으로 붙는
       표의 한 줄이지만 이 제목은 가운데 선 큰 글이라, 통째로 눌리는 띠가 되면
       구역 머리가 손잡이처럼 보인다 */
+.es-pick-wrap{position:relative}
+/* 접힌 동안 손잡이는 흐린 줄 한가운데에 겹쳐 선다 — 덮고 있는 것이 무엇인지
+   눈이 바로 잇는다. 그림자를 얕게 깔아 흐린 바닥에서 한 겹 떠 있게 한다.
+   펴면 자리로 돌아가 줄 위에 선다 */
+.es-pick-toggle[aria-expanded="false"]{position:absolute;z-index:2;
+  top:50%;left:50%;transform:translate(-50%,-50%);margin:0;
+  box-shadow:0 4px 16px rgba(var(--color-navy-rgb),.12)}
 .es-pick-toggle{appearance:none;font:inherit;cursor:pointer;
-  display:inline-flex;align-items:center;gap:8px;margin-top:6px;
+  display:inline-flex;align-items:center;gap:8px;margin-top:22px;
   padding:11px 20px;border-radius:1000px;background:var(--main-white);
   border:1px solid var(--main-gray);font-size:14px;font-weight:700;
   color:var(--main-navy);transition:.16s}
