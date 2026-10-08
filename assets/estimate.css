@@ -130,20 +130,24 @@ body.estimate-page{--tabbar-h:52px}
    나왔는지 보려면 내려가야 했다 */
 .es-pick{margin-top:38px;text-align:left;display:grid;
   grid-template-columns:minmax(0,1fr) 340px;gap:26px 64px;align-items:start}
-.es-pick-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.es-pick-item{display:flex;align-items:flex-start;gap:12px;height:100%;
-  padding:16px 18px;border-radius:14px;background:var(--main-white);
-  border:1px solid var(--main-gray);cursor:pointer;transition:.16s}
-.es-pick-item:hover{border-color:var(--sub-d-gray);background:var(--sub-w-gray)}
+/* 여섯 줄을 카드로 세우지 않는다. 고르는 카드가 아니라 해당하는 것에 체크하는
+   줄이고, 테두리와 흰 바탕을 두르면 그 둘레의 여백까지 자리를 먹는다. 줄 사이를
+   붙이고 둘레를 걷어내니 254 → 184px — 셋 중 하나가 줄었다.
+   클릭은 그대로 줄 전체다(label), 눌릴 자리임은 hover 로 알린다 */
+.es-pick-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:2px 20px}
+.es-pick-item{display:flex;align-items:flex-start;gap:11px;
+  padding:9px 10px;border-radius:9px;cursor:pointer;transition:.14s}
+.es-pick-item:hover{background:var(--sub-w-gray)}
 .es-pick-item input{position:absolute;opacity:0;width:0;height:0}
-.es-pick-item .box{flex:0 0 auto;width:21px;height:21px;margin-top:1px;border-radius:6px;
+.es-pick-item .box{flex:0 0 auto;width:20px;height:20px;margin-top:1px;border-radius:6px;
   border:1.8px solid var(--sub-d-gray);background:var(--main-white);
   display:grid;place-items:center;transition:.16s}
 .es-pick-item .box svg{width:12px;height:12px;color:var(--main-white);opacity:0;transition:.16s}
-.es-pick-item .tx{font-size:15px;line-height:1.55;color:var(--main-black);word-break:keep-all}
+.es-pick-item .tx{font-size:14.5px;line-height:1.5;color:var(--main-black);word-break:keep-all}
 .es-pick-item .tx b{font-weight:800}
-/* 고른 줄은 테두리·바탕·체크 셋이 함께 바뀐다 — 체크 하나로는 훑을 때 눈에 안 띈다 */
-.es-pick-item:has(input:checked){border-color:var(--main-blue);background:var(--frame-tint)}
+/* 테두리가 없어진 만큼 고른 줄은 바탕과 체크 둘로 선다 — 체크 하나로는 훑을 때
+   눈에 안 띈다 */
+.es-pick-item:has(input:checked){background:var(--frame-tint)}
 .es-pick-item:has(input:checked) .box{background:var(--main-blue);border-color:var(--main-blue)}
 .es-pick-item:has(input:checked) .box svg{opacity:1}
 .es-pick-item:has(input:focus-visible){outline:2px solid var(--main-blue);outline-offset:2px}
