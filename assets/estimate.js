@@ -102,7 +102,7 @@
       fr.setAttribute('src', fresh(fr.dataset.src));
     }
 
-    function show(type, push){
+    function show(type, push, keepScroll){
       var hit = tabs.some(function(t){ return t.dataset.type === type; });
       /* 모르는 값이면 A 로 돌리되 주소도 같이 고친다 — ?type=Z 가 주소에 남아
          있으면 공유된 링크가 계속 엉뚱한 값을 실어 나른다 */
@@ -128,6 +128,9 @@
           u.searchParams.set('type', type);
           history.replaceState(null, '', u);
         }catch(e){}
+        /* '견적받기'로 온 길은 되감지 않는다 — 어차피 제가 데려갈 자리를
+           알고 있어, 맨 위로 올렸다가 다시 내리면 화면이 두 번 튄다 */
+        if(keepScroll) return;
         /* 탭을 바꾸면 그 상품의 맨 위부터 보여 준다 — 앞 탭에서 내려온 만큼
            그대로 두면 새 탭의 한가운데로 떨어진다.
            첫 진입(scrollY 0)에는 움직일 것이 없다 */
@@ -160,26 +163,29 @@
       t.addEventListener('click', function(){ show(t.dataset.type, true); });
     });
 
-    /* ── 띠가 붙었을 때만 뜨는 '견적받기' ───────────────────────────
+    /* ── 띠가 붙었을 때만 뜨는 탭별 '견적받기' ──────────────────────
        안 붙었을 때는 신청 폼이 바로 아래에 있어 버튼이 할 일이 없다. 내려가서
-       폼이 화면 밖으로 나간 뒤에야 '거기로 돌아가는 길'이 된다.
+       폼이 화면 밖으로 나간 뒤에야 '거기로 가는 길'이 된다.
        ⚠ sticky 요소에 붙었는지 물을 길이 없다 — 붙은 동안에도 position 은 그대로
           sticky 이고 getBoundingClientRect().top 은 늘 0 이다. 그래서 붙기 직전
           자리에 1px 보초를 세워 두고, 그것이 화면 위로 사라졌는지를 본다 */
-    var cta = $('#tabCta'), sentinel = $('.es-tabs-top');
-    if(cta && sentinel && window.IntersectionObserver){
+    var ctas = $$('.es-tab-cta'), sentinel = $('.es-tabs-top');
+    if(ctas.length && sentinel && window.IntersectionObserver){
       new IntersectionObserver(function(e){
-        cta.hidden = e[0].isIntersecting;
+        var stuck = !e[0].isIntersecting;
+        ctas.forEach(function(c){ c.hidden = !stuck; });
         measure();                 /* 버튼이 들고 나면 띠 높이가 달라질 수 있다 */
       }).observe(sentinel);
     }
-    if(cta) cta.addEventListener('click', function(){
-      /* A 탭은 신청 폼이 체크리스트 아래 한 칸이고, 단말기 두 탭은 파티션이
-         통째로 신청 폼이다 — 데려갈 자리가 다르다 */
-      var cur  = $('.es-tab.is-active');
-      var type = cur ? cur.dataset.type : 'A';
-      var el   = type === 'A' ? $('#apply') : $('#panel-' + type);
-      if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+    ctas.forEach(function(c){
+      c.addEventListener('click', function(){
+        /* 제 탭으로 옮겨 가 그 상품의 신청 자리까지 데려간다. A 탭은 신청 폼이
+           체크리스트 아래 한 칸이고, 단말기 두 탭은 파티션이 통째로 신청 폼이다 */
+        var type = c.dataset.go;
+        show(type, true, true);
+        var el = type === 'A' ? $('#apply') : $('#panel-' + type);
+        if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+      });
     });
 
     /* 신청 버튼은 앵커로 내려가는 일만 브라우저에 맡기고, 유형은 여기서 맞춘다 —

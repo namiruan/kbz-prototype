@@ -33,20 +33,32 @@
 <div class="es-tabs-top" aria-hidden="true"></div>
 <nav class="es-tabs" aria-label="서비스 선택">
   <div class="inner">
+    <!-- 탭마다 '견적받기'가 하나씩 붙는다. 띠가 화면 위에 붙은 동안에만 뜨고,
+         누르면 그 탭으로 옮겨 가 그 상품의 신청 자리까지 데려간다 — 지금 보던
+         탭이든 아니든, 한 번 눌러 바로 그 폼 앞에 선다.
+         ⚠ 탭은 그 자체가 <button> 이라 안에 버튼을 또 넣을 수 없다. 둘을
+            칸(.es-tab-cell)으로 묶고, 칸에는 role="none" 을 주어 tablist 가
+            보기에는 여전히 탭 셋만 있는 것으로 둔다 -->
     <div class="es-tabs-row" role="tablist">
-      <button class="es-tab is-active" type="button" role="tab" data-type="A" id="tab-A" aria-selected="true" aria-controls="panel-A">
-        <span class="t">김반장 3.0 · 김반장 프리미엄</span>
-      </button>
-      <button class="es-tab" type="button" role="tab" data-type="B" id="tab-B" aria-selected="false" aria-controls="panel-B">
-        <span class="t">퇴직공제 전자카드 단말기</span>
-      </button>
-      <button class="es-tab" type="button" role="tab" data-type="C" id="tab-C" aria-selected="false" aria-controls="panel-C">
-        <span class="t">안면인식 출퇴근관리</span>
-      </button>
+      <div class="es-tab-cell" role="none">
+        <button class="es-tab is-active" type="button" role="tab" data-type="A" id="tab-A" aria-selected="true" aria-controls="panel-A">
+          <span class="t">김반장 3.0 · 김반장 프리미엄</span>
+        </button>
+        <button class="es-tab-cta" type="button" data-go="A" hidden>견적받기</button>
+      </div>
+      <div class="es-tab-cell" role="none">
+        <button class="es-tab" type="button" role="tab" data-type="B" id="tab-B" aria-selected="false" aria-controls="panel-B">
+          <span class="t">퇴직공제 전자카드 단말기</span>
+        </button>
+        <button class="es-tab-cta" type="button" data-go="B" hidden>견적받기</button>
+      </div>
+      <div class="es-tab-cell" role="none">
+        <button class="es-tab" type="button" role="tab" data-type="C" id="tab-C" aria-selected="false" aria-controls="panel-C">
+          <span class="t">안면인식 출퇴근관리</span>
+        </button>
+        <button class="es-tab-cta" type="button" data-go="C" hidden>견적받기</button>
+      </div>
     </div>
-    <!-- 붙은 동안에만 뜬다. 안 붙었을 때는 신청 폼이 바로 아래에 있어 버튼이
-         할 일이 없고, 내려가 버린 뒤에야 '거기로 돌아가는 길'이 된다 -->
-    <button class="es-tabs-cta" type="button" id="tabCta" hidden>견적받기</button>
   </div>
 </nav>
 

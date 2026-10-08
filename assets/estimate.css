@@ -77,16 +77,20 @@ body.estimate-page{--tabbar-h:52px}
 .es-tabs-top{height:1px}
 .es-tabs{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--main-gray)}
-.es-tabs .inner{display:flex;align-items:stretch;gap:12px}
-.es-tabs-row{flex:1;min-width:0;display:flex;gap:4px}
+.es-tabs-row{display:flex;gap:4px}
+/* 탭과 그 '견적받기'를 묶는 칸. 밑줄은 탭이 아니라 칸이 갖는다 — 버튼이 뜨면
+   탭만 밑줄을 그어서는 선이 이름 밑에서 끊긴다 */
+.es-tab-cell{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;
+  gap:8px;border-bottom:3px solid transparent;transition:.18s}
+.es-tab-cell:has(.es-tab.is-active){border-bottom-color:var(--main-blue)}
 .es-tab{appearance:none;border:0;background:none;font:inherit;cursor:pointer;
-  flex:1;min-width:0;padding:14px 12px 13px;border-bottom:3px solid transparent;
+  min-width:0;padding:14px 12px 13px;
   display:flex;flex-direction:column;align-items:center;gap:2px;
   color:var(--sub-d-gray);transition:.18s}
 .es-tab .t{font-size:15px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
 .es-tab:hover{color:var(--main-navy);background:var(--sub-w-gray)}
 /* 고른 탭만 색과 밑줄을 갖는다 — 밑줄 하나로는 흑백에서 구분이 약하다 */
-.es-tab.is-active{color:var(--main-blue);border-bottom-color:var(--main-blue)}
+.es-tab.is-active{color:var(--main-blue)}
 .es-tab.is-active:hover{background:none}
 .es-tab:focus-visible{outline:2px solid var(--main-blue);outline-offset:-3px}
 /* 좁은 폭에서는 세 탭이 한 줄에 못 선다 — 가로로 밀어 보게 하고 설명 줄은 접는다 */
@@ -94,29 +98,24 @@ body.estimate-page{--tabbar-h:52px}
   .es-tabs .inner{padding:0 12px}
   .es-tabs-row{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .es-tabs-row::-webkit-scrollbar{display:none}
-  .es-tab{flex:0 0 auto;padding:11px 14px 10px}
+  .es-tab-cell{flex:0 0 auto;gap:6px}
+  .es-tab{padding:11px 10px 10px}
   .es-tab .t{font-size:14px}
-  .es-tabs .inner{gap:8px}
-  .es-tabs-cta{padding:0 11px;height:30px;font-size:12px}
-  /* 좁은 폭에서 탭 줄은 가로로 미는 띠다. 버튼이 그 끝을 가리면 잘린 탭이
-     고장난 것처럼 보이므로, 버튼 왼쪽에 흰 그라데이션을 깔아 '여기서 더 밀어
-     볼 수 있다'로 읽히게 한다 */
-  .es-tabs-cta::before{content:"";position:absolute;right:100%;top:-12px;bottom:-12px;
-    width:22px;pointer-events:none;
-    background:linear-gradient(to right,rgba(255,255,255,0),rgba(255,255,255,.96))}
+  .es-tab-cta{padding:0 10px;height:27px;font-size:11.5px}
 }
 
-/* 띠에 붙어 사는 작은 CTA. 아래 파티션의 '견적신청하기'와 같은 파랑이라
-   같은 일을 하는 버튼으로 읽히고, 띠 높이에 맞춰 둥근 알약으로 눕는다.
-   hidden 으로 넣고 빼므로 띠가 붙는 순간 탭 셋의 폭이 한 번 줄어든다 —
-   붙는 순간은 띠 자체가 모양을 바꾸는 때라 그 움직임에 묻힌다 */
-.es-tabs-cta{position:relative;flex:none;align-self:center;appearance:none;border:0;cursor:pointer;
-  padding:0 14px;height:34px;border-radius:1000px;
-  background:var(--main-blue);color:var(--main-white);
-  font-family:inherit;font-size:13px;font-weight:800;letter-spacing:-.02em;
+/* 탭에 붙어 사는 작은 CTA. 아래 파티션의 '견적신청하기'와 같은 파랑이라 같은
+   일을 하는 버튼으로 읽히고, 띠 높이에 맞춰 둥근 알약으로 눕는다. 고르지 않은
+   탭의 것은 한 톤 눌러 둔다 — 셋이 다 같은 세기로 서면 어느 탭을 보고 있는지가
+   밑줄 하나에만 남는다 */
+.es-tab-cta{flex:none;appearance:none;border:0;cursor:pointer;
+  padding:0 12px;height:30px;border-radius:1000px;
+  background:var(--pastel-blue);color:var(--sub-d-blue);
+  font-family:inherit;font-size:12.5px;font-weight:800;letter-spacing:-.02em;
   white-space:nowrap;transition:.16s}
-.es-tabs-cta:hover{background:var(--sub-d-blue)}
-.es-tabs-cta:focus-visible{outline:2px solid var(--main-blue);outline-offset:2px}
+.es-tab-cell:has(.es-tab.is-active) .es-tab-cta{background:var(--main-blue);color:var(--main-white)}
+.es-tab-cta:hover{background:var(--sub-d-blue);color:var(--main-white)}
+.es-tab-cta:focus-visible{outline:2px solid var(--main-blue);outline-offset:2px}
 
 /* ── 2.6 단말기 탭 — 견적 화면을 끼우는 틀 ─────────────────────
    B·C 탭은 제 내용을 따로 갖지 않는다. 이미 완성된 견적 화면(quote.html ·
