@@ -308,15 +308,16 @@ body.estimate-page{--tabbar-h:52px}
    접고 펴는 것은 .es-cat 의 is-shut 한 글자가 가른다. 줄을 감쌀 상자를 따로
    두지 않는다 — 상자를 끼우면 표의 격자가 한 단 끊긴다 */
 .es-cat-h{margin:0}
+/* 위계는 크기와 굵기가 세운다 — 묶음 제목 19px/800, 줄 이름 15px/600.
+   한때는 제목 앞에 네이비 막대를 세웠는데, 크기 차이가 두 단으로 벌어지고 나니
+   막대가 할 일이 없어졌다. 막대가 빠지면서 제목 글머리가 아래 줄 이름과 같은
+   16px 자리에 떨어져 왼쪽 선이 하나로 선다 */
 .es-cat-t{appearance:none;border:0;background:none;font:inherit;cursor:pointer;
   display:flex;align-items:baseline;gap:9px;width:100%;padding:34px 16px 12px;text-align:left;
-  font-family:var(--font-body);font-size:17px;font-weight:800;color:var(--main-navy);
+  font-family:var(--font-body);font-size:19px;font-weight:800;color:var(--main-navy);
   letter-spacing:-.02em;border-radius:10px;transition:background .14s}
-.es-cat-t::before{content:"";align-self:center;width:3px;height:15px;border-radius:2px;
-  background:var(--main-navy);margin-right:1px}
 .es-cat-t:hover{background:rgba(var(--color-navy-rgb),.04)}
 .es-cat-t:focus-visible{outline:2px solid var(--main-blue);outline-offset:-3px}
-.es-cat-t .n{font-size:12px;font-weight:700;color:var(--sub-d-gray)}
 /* 꺾쇠는 제목 바로 옆에 둔다. 오른쪽 끝으로 밀면 두 요금제 열 위에 서서, 어느
    열을 가리키는 표시처럼 읽힌다 */
 .es-cat-t .chev{align-self:center;display:grid;place-items:center;width:18px;height:18px;
@@ -329,7 +330,7 @@ body.estimate-page{--tabbar-h:52px}
 .es-cat.is-shut{border-bottom:1px solid var(--main-gray)}
 .es-row{display:grid;grid-template-columns:var(--cols);align-items:stretch;border-bottom:1px solid var(--main-gray)}
 .es-row .task{padding:15px 16px;min-width:0}
-.es-row .task b{display:block;font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--main-black)}
+.es-row .task b{display:block;font-size:15px;font-weight:600;letter-spacing:-.02em;color:var(--main-black)}
 .es-row .task small{display:block;margin-top:4px;font-size:13px;line-height:1.6;color:var(--sub-d-gray);word-break:keep-all}
 /* [일용]·[상용] 꼬리표 — 거르개가 무엇을 보고 거르는지 눈으로도 보이게 */
 .es-tag{display:inline-flex;margin-left:6px;padding:1px 7px;border-radius:1000px;
@@ -409,7 +410,7 @@ body.estimate-page{--tabbar-h:52px}
   .es-cmp-head .c.prem{border-radius:0}
   .es-cat:last-child .es-row:last-child .mk.prem{border-radius:0}
 
-  .es-cat-t{padding:28px 16px 10px;font-size:15.5px}
+  .es-cat-t{padding:28px 16px 10px;font-size:17px}
   .es-row .task{padding:12px 10px 12px 16px}
   .es-row .task b{font-size:13.5px}
   /* 설명은 좁은 폭에서 걷는다. 넓은 폭에서는 기능 이름 옆 한 줄이지만 274px
