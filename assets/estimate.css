@@ -45,8 +45,11 @@ h1,h2,h3,h4{font-family:var(--font-title);line-height:1.24;letter-spacing:-.03em
 
 .eyebrow{font-size:14px;font-weight:700;color:var(--main-blue);margin-bottom:8px}
 .title-lg{font-family:var(--font-title);font-size:38px;color:var(--main-black);letter-spacing:-.035em}
-.title-md{font-family:var(--font-title);font-size:30px;color:var(--main-black);letter-spacing:-.03em}
-.lead{font-size:18px;color:var(--sub-d-gray);line-height:1.72;max-width:560px;font-weight:500}
+.title-md{font-family:var(--font-title);font-size:30px;color:var(--main-black);letter-spacing:-.03em;
+  word-break:keep-all}
+/* ⚠ keep-all 이 없으면 한글이 낱말 가운데서 끊긴다 — '고용형태로 거 / 르면' */
+.lead{font-size:18px;color:var(--sub-d-gray);line-height:1.72;max-width:560px;font-weight:500;
+  word-break:keep-all}
 .center{text-align:center}
 .center .lead{margin:0 auto}
 .title-container{display:flex;flex-direction:column;align-items:center;gap:10px}
@@ -244,19 +247,24 @@ body.estimate-page{--tabbar-h:52px}
 @keyframes recbounce{0%{transform:rotate(-8deg) translateY(0);animation-timing-function:cubic-bezier(.33,0,.28,1)}30%{transform:rotate(-8deg) translateY(-9px);animation-timing-function:cubic-bezier(.66,0,.7,.2)}58%{transform:rotate(-8deg) translateY(0)}100%{transform:rotate(-8deg) translateY(0)}}
 
 /* ── 4. 기능 비교표 — 거르개 ──────────────────────────────────── */
-.es-compare{position:relative;padding:92px 0;background:var(--sub-w-gray)}
+/* 메인(partition-8)이 같은 표를 흰 바탕 위에 세운다. 이 구역도 그쪽을 따른다 —
+   위 체크리스트가 연한 파랑이라 흰 바탕만으로도 구역은 갈린다 */
+.es-compare{position:relative;padding:92px 0;background:var(--main-white)}
 .es-filters{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 20px;margin-top:38px}
 .es-filter{display:flex;align-items:center;gap:9px}
 .es-filter-label{font-size:13px;font-weight:700;color:var(--sub-d-gray);white-space:nowrap}
 /* 한 줄 선택 — 로그인·프로토타입 크롬의 분절 버튼과 같은 꼴 */
-.es-seg{display:inline-flex;gap:3px;padding:3px;border-radius:1000px;background:var(--main-white);border:1px solid var(--main-gray)}
+/* ⚠ 받침이 흰색이면 안 된다. 구역 바탕이 흰색이 되면서 흰 알약에 #E6E8EA
+      테두리는 1.17:1 이 되어 윤곽이 사라졌다 — 바탕이 회색이던 때 쓰던 흰색을
+      그대로 두면 거르개가 거기 있는 줄 모른다. 회색을 받침으로 돌린다 */
+.es-seg{display:inline-flex;gap:3px;padding:3px;border-radius:1000px;background:var(--sub-w-gray);border:1px solid var(--main-gray)}
 .es-seg button{appearance:none;border:0;background:none;font:inherit;cursor:pointer;
   padding:7px 16px;border-radius:1000px;font-size:13px;font-weight:700;color:var(--sub-d-gray);transition:.18s}
 .es-seg button:hover{color:var(--main-navy)}
 .es-seg button[aria-pressed="true"]{background:var(--main-navy);color:var(--main-white)}
 /* 체크 하나 — '차이만 보기'. 켜지면 알약이 파랗게 찬다 */
 .es-only{display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none;
-  padding:7px 16px 7px 12px;border-radius:1000px;background:var(--main-white);border:1px solid var(--main-gray);
+  padding:7px 16px 7px 12px;border-radius:1000px;background:var(--sub-w-gray);border:1px solid var(--main-gray);
   font-size:13px;font-weight:700;color:var(--sub-d-gray);transition:.18s}
 .es-only input{position:absolute;opacity:0;width:0;height:0}
 .es-only .box{width:17px;height:17px;border-radius:5px;border:1.6px solid var(--sub-d-gray);
@@ -289,7 +297,7 @@ body.estimate-page{--tabbar-h:52px}
 .es-cmp{margin-top:26px;text-align:left}
 /* 머리줄은 스크롤을 따라붙는다. 표가 길어 어느 열을 보고 있는지 놓치기 쉬운 자리다 */
 .es-cmp-head{position:sticky;top:var(--tabbar-h);z-index:5;display:grid;grid-template-columns:var(--cols);
-  background:var(--sub-w-gray);border-bottom:1.5px solid var(--main-navy)}
+  background:var(--main-white);border-bottom:1.5px solid var(--main-navy)}
 .es-cmp-head .c{padding:16px 16px 13px;font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--main-navy)}
 .es-cmp-head .c.c30,.es-cmp-head .c.prem{text-align:center}
 .es-cmp-head .c.prem{color:var(--main-blue);background:var(--frame-tint);border-radius:12px 12px 0 0}
@@ -317,6 +325,13 @@ body.estimate-page{--tabbar-h:52px}
 /* 열 이름표는 머리줄이 사라지는 좁은 폭에서만 쓴다 */
 .es-row .mk::before{display:none}
 .es-row .mk.prem{background:var(--frame-tint)}
+/* 프리미엄만 하는 줄에서는 3.0 칸을 회색으로 비운다. 표시가 '— 와 ✓' 둘뿐일
+   때는 스물몇 줄을 훑는 동안 어느 줄이 프리미엄 전용인지 눈이 세어야 했다.
+   칸을 통째로 칠하면 세로로 회색 띠가 끊겼다 이어지며 '3.0 이 못 하는 자리'가
+   모양으로 보인다 — 바로 옆 파랑 띠는 그만큼 가득 차 보인다.
+   줄 전체를 흐리지는 않는다. 흐려야 할 것은 3.0 의 빈칸이지, 프리미엄이 하는
+   일의 이름이 아니다. ⚠ 구역에서 물러난 그 회색(--sub-w-gray)을 그대로 쓴다 */
+.es-row[data-tier="prem"] .mk.c30{background:var(--sub-w-gray)}
 .es-cat:last-child .es-row:last-child .mk.prem{border-radius:0 0 12px 12px}
 .es-mark{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;
   background:var(--pastel-blue);color:var(--main-blue)}
