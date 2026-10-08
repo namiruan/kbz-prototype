@@ -204,6 +204,9 @@
     <p class="es-count" id="esCount" role="status" aria-live="polite"></p>
 
     <div class="es-cmp" id="esCmp">
+      <!-- 머리줄이 떠 있는지 보는 눈금. 높이 0 이라 자리를 먹지 않고, 이것이
+           탭바 아래로 지나간 순간이 곧 머리줄이 붙은 순간이다 -->
+      <div class="es-cmp-sentinel" aria-hidden="true"></div>
       <!-- 머리줄은 스크롤을 따라붙는다 -->
       <div class="es-cmp-head">
         <div class="c task">기능</div>

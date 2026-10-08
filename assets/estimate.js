@@ -208,7 +208,29 @@
     function measure(){
       var bar = $('.es-tabs');
       if(bar) document.body.style.setProperty('--tabbar-h', bar.offsetHeight + 'px');
+      watchHead();
     }
+
+    /* 머리줄이 제자리인지 붙었는지는 CSS 혼자 알지 못한다 — sticky 에는 '붙었음'
+       상태가 없다. 머리줄 바로 위에 높이 0 짜리 눈금을 두고, 그것이 탭바 아래로
+       사라지는 순간을 붙은 순간으로 삼는다. 스크롤마다 재지 않으므로 공짜다.
+       ⚠ 탭바 높이는 글꼴이 뜨거나 폭이 바뀔 때마다 달라진다. 여백에 그 값을
+          박아 두니 값이 바뀌면 보는 눈도 다시 만들어야 한다 */
+    var head = $('.es-cmp-head'), sentinel = $('.es-cmp-sentinel'), headIO = null;
+    function watchHead(){
+      if(!head || !sentinel || !window.IntersectionObserver) return;
+      if(headIO) headIO.disconnect();
+      var h = parseFloat(getComputedStyle(document.body).getPropertyValue('--tabbar-h')) || 0;
+      headIO = new IntersectionObserver(function(es){
+        /* ⚠ 눈금은 위로 지나갈 때도, 아직 화면 아래에 있을 때도 똑같이 '안
+           보임'이다. 지나간 쪽만 붙은 것이므로 어느 쪽인지 가려야 한다 */
+        var e = es[0], rb = e.rootBounds;
+        head.classList.toggle('is-stuck',
+          !e.isIntersecting && !!rb && e.boundingClientRect.top <= rb.top);
+      }, { rootMargin: '-' + (h + 1) + 'px 0px 0px 0px', threshold: 0 });
+      headIO.observe(sentinel);
+    }
+
     measure();
     window.addEventListener('resize', measure);
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
