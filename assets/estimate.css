@@ -544,40 +544,41 @@ body.estimate-page{--tabbar-h:52px}
 .faq .ans{padding:0 4px 25px;font-size:18px;color:var(--sub-d-gray);line-height:1.75}
 
 /* ── 9. 마지막 CTA ────────────────────────────────────────────── */
-.es-cta{position:relative;padding:92px 0;background:var(--main-navy);color:#fff;text-align:center}
-.es-cta h2{font-size:36px;letter-spacing:-.035em;margin-bottom:12px;word-break:keep-all}
-.es-cta .sub{color:rgba(255,255,255,.66);font-size:18px;margin-bottom:34px}
-.es-cta .banner-btn{background:#fff;color:var(--main-navy)}
-.es-cta .banner-btn:hover{background:rgba(255,255,255,.86)}
-.es-cta .banner-btn.sec{background:rgba(255,255,255,.08);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.32)}
-.es-cta .banner-btn.sec:hover{background:rgba(255,255,255,.16)}
+/* 네이비로 꽉 채우던 자리다. 바닥에 버튼 하나만 둘 때는 그 한 덩어리가 마지막
+   말이 되어 맞았는데, 카드 셋을 올리고 나니 어두운 판 위에 흰 상자 셋이 떠 있는
+   꼴이라 이 페이지의 다른 구역들과 말투가 달랐다. 체크리스트 구역이 쓰는 연한
+   파랑에 흰 카드 — 이 페이지가 이미 쓰는 짝이다 */
+.es-cta{position:relative;padding:92px 0;background:var(--frame-tint);text-align:center}
+.es-cta h2{font-size:36px;letter-spacing:-.035em;color:var(--main-black);word-break:keep-all}
 /* 묻는 방법 셋. 받은 캡처는 흰 바탕에 연한 파랑 카드인데, 이 구역은 네이비라
    카드를 흰색 몇 퍼센트로 띄운다 — 바탕을 흰색으로 돌리면 바로 위 FAQ(흰색)와
    한 덩이로 흘러 마지막 자리가 서지 않는다 */
 .es-help{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:38px;text-align:left}
 .es-help-card{display:flex;flex-direction:column;align-items:flex-start;
   padding:26px 24px 22px;border-radius:16px;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
-  color:#fff;transition:.18s}
-.es-help-card:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.3)}
-.es-help-card:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  background:var(--main-white);border:1px solid var(--main-gray);
+  color:var(--main-black);transition:.18s}
+a.es-help-card:hover{border-color:var(--main-navy)}
+.es-help-card:focus-visible{outline:2px solid var(--main-blue);outline-offset:3px}
+/* 소개서 칸만 통째로 눌리지 않는다 — 받을 것이 둘이면 상자 하나를 누르게 둘 수
+   없다. 대신 줄마다 저를 누른다. 상자가 안 눌리므로 상자 hover 도 걷는다 */
+.es-help-card .dls{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin-top:12px}
+.es-help-card .dls .go{margin-top:0;padding:3px 0}
+.es-help-card .dls .go:hover{color:var(--sub-d-blue)}
+.es-help-card .dls .go:focus-visible{outline:2px solid var(--main-blue);outline-offset:3px;border-radius:4px}
+.es-help-card .dls .go:hover svg{transform:translateY(2px)}
 .es-help-card .ic{display:grid;place-items:center;width:34px;height:34px;
-  color:rgba(255,255,255,.72);margin-bottom:26px}
+  color:var(--sub-d-gray);margin-bottom:22px}
 .es-help-card .ic svg{width:100%;height:100%}
-/* 설명이 먼저, 이름이 그다음이다 — 받은 캡처가 그 차례다. 무엇을 얻는지 읽고
-   나서 그것의 이름을 보게 된다 */
-.es-help-card .ds{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.68);
-  word-break:keep-all;min-height:43px}
-.es-help-card .nm{margin-top:8px;font-family:var(--font-title);font-size:21px;
-  font-weight:800;letter-spacing:-.03em}
+.es-help-card .nm{font-family:var(--font-title);font-size:21px;
+  font-weight:800;letter-spacing:-.03em;color:var(--main-navy)}
 .es-help-card .go{display:inline-flex;align-items:center;gap:3px;margin-top:12px;
-  font-size:13.5px;font-weight:700;color:var(--lake)}
+  font-size:13.5px;font-weight:700;color:var(--main-blue)}
 .es-help-card .go svg{width:12px;height:12px;transition:transform .18s}
-.es-help-card:hover .go svg{transform:translate(2px,-2px)}
+a.es-help-card:hover .go svg{transform:translate(2px,-2px)}
 
 @media(max-width:860px){.es-help{grid-template-columns:1fr;gap:10px}
   .es-help-card{padding:20px 20px 18px}
-  .es-help-card .ic{margin-bottom:14px}
-  .es-help-card .ds{min-height:0}}
-@media(max-width:640px){.es-cta{padding:64px 0}.es-cta h2{font-size:27px}.es-cta .sub{font-size:16px}
+  .es-help-card .ic{margin-bottom:14px}}
+@media(max-width:640px){.es-cta{padding:64px 0}.es-cta h2{font-size:27px}
   .banner-btn{font-size:18px}}

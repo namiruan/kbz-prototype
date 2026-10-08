@@ -209,19 +209,25 @@
        가는 곳은 셋이 같다 — 번호도 소개서도 물음도 회사가 하나씩만 들고 있다.
        ⚠ 자주하는 질문만 탭을 타지 않는다. 이 페이지가 들고 있는 물음 셋이
           탭으로 갈리지 않기 때문이다 — 갈리지 않는 것을 갈린 척 적지 않는다 */
-    var HELP = {
-      A:{ tel:'김반장 3.0과 프리미엄 중 어느 쪽이 맞을지 짚어 드려요.',
-          doc:'두 서비스가 무엇을 어디까지 해주는지 글로 보세요.' },
-      B:{ tel:'현장 수와 계약 기간에 맞는 단말기 구성을 짚어 드려요.',
-          doc:'퇴직공제 전자카드 단말기를 글로 먼저 보세요.' },
-      C:{ tel:'출입구 수와 근로자 수에 맞는 설치 구성을 짚어 드려요.',
-          doc:'안면인식 출퇴근관리를 글로 먼저 보세요.' }
+    /* ⚠ href 가 받는 주소다. 아직 없어 제자리(#help)를 가리켜 둔다 —
+          받으면 이 표에 꽂는 것으로 끝난다.
+       소개서는 신청하는 것이 아니라 바로 받는 것이고, 탭마다 받을 것이 다르다.
+       3.0 과 프리미엄은 쓰는 사람이 고를 수 있어야 하므로 둘로 나눠 세운다 */
+    var DOCS = {
+      A:[ ['김반장 3.0 소개서 다운로드',   '#help'],
+          ['김반장 프리미엄 소개서 다운로드','#help'] ],
+      B:[ ['퇴직공제 전자카드 단말기 소개서 다운로드','#help'] ],
+      C:[ ['안면인식 출퇴근관리 소개서 다운로드','#help'] ]
     };
+    var DL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"'
+           + ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+           + '<path d="M12 4v10M8 10.5l4 4 4-4M5 19h14"/></svg>';
     function help(type){
-      var h = HELP[type]; if(!h) return;
-      var t = $('#helpTelDs'), d = $('#helpDocDs');
-      if(t) t.textContent = h.tel;
-      if(d) d.textContent = h.doc;
+      var list = DOCS[type], box = $('#helpDocs');
+      if(!list || !box) return;
+      box.innerHTML = list.map(function(x){
+        return '<a class="go" href="' + x[1] + '" download>' + x[0] + DL + '</a>';
+      }).join('');
     }
 
     /* 비교표 머리줄도 따라붙는다. 둘이 겹치지 않으려면 탭바 높이를 알아야 하는데,
