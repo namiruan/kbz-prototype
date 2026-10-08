@@ -326,14 +326,19 @@
     boxes.forEach(function(b){ b.addEventListener('change', paint); });
 
     /* 열 줄은 접은 채로 선다. 여는 손잡이는 제목 아래 알약 하나다.
-       ⚠ 접힘은 마크업이 들고 있다(hidden). 자바스크립트로 접으면 열렸다가
+       접어 두어도 치우지는 않는다 — 흐리게 깔려 무엇을 묻는지 보이고, 아래로
+       스르륵 지워진다. 그 모양은 CSS 가 [inert] 를 보고 그린다.
+       ⚠ 접힘은 마크업이 들고 있다(inert). 자바스크립트로 접으면 열렸다가
           접히는 깜빡임이 난다 — 비교표 여섯 묶음과 같은 이유다 */
     var toggle = $('#esPickToggle');
     if(toggle){
       toggle.addEventListener('click', function(){
         var open = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!open));
-        pick.hidden = open;
+        /* ⚠ 속성으로 여닫는다. inert 는 IDL 프로퍼티이기도 해서 둘을 섞으면
+              어느 쪽이 참인지 헷갈린다 — CSS 가 보는 것은 속성이다 */
+        if(open) pick.setAttribute('inert','');
+        else     pick.removeAttribute('inert');
       });
     }
   })();

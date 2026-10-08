@@ -55,7 +55,11 @@ h1,h2,h3,h4{font-family:var(--font-title);line-height:1.24;letter-spacing:-.03em
 .title-container{display:flex;flex-direction:column;align-items:center;gap:10px}
 
 /* 서비스 블록이 쓰는 띠 색. index.html 의 partition-8 이 쓰던 것과 같은 값이다 */
-body.estimate-page{--frame-tint:#EDF3FC;--frame-border:rgba(14,59,99,.20)}
+/* ⚠ 틴트는 rgb 성분도 함께 둔다. 접힌 체크리스트를 바닥으로 지우는 그라디언트가
+      '같은 색의 투명'에서 출발해야 하기 때문이다 — transparent 로 적으면 엔진에
+      따라 투명한 검정을 지나며 회색이 번진다 */
+body.estimate-page{--frame-tint-rgb:237,243,252;--frame-tint:rgb(var(--frame-tint-rgb));
+  --frame-border:rgba(14,59,99,.20)}
 
 /* ── 2. 페이지 머리 ───────────────────────────────────────────── */
 .es-hero{position:relative;padding:76px 0 60px;background:var(--grad-radi-sky-top),var(--main-white);background-color:var(--main-white);text-align:center}
@@ -156,7 +160,25 @@ body.estimate-page{--tabbar-h:52px}
 /* 접힌 동안 꺾쇠가 아래를 보며 '펼 수 있다'를 가리킨다 */
 .es-pick-toggle[aria-expanded="false"] .chev{transform:rotate(180deg)}
 
-.es-pick{margin-top:38px;text-align:left}
+/* 접힌 동안 열 줄을 치우지 않는다. 흐리게 깔아 두면 무엇을 묻는지 미리
+   훑어볼 수 있고, 아래로 스르륵 지워지니 분량은 짐작되되 부담은 없다 —
+   이용후기 화면이 인증 전에 쓰는 방식(.rw-veil · .rw-lockable) 그대로다.
+   ⚠ 잘라 두는 선이 글자를 지나므로, 블러가 번질 자리를 좌우로 만들고 같은
+      만큼 당겨 자리는 그대로 둔다. 안 그러면 번진 만큼이 잘려 왼쪽 글자가
+      칼로 자른 듯 보인다.
+   ⚠ max-height 를 none 으로 두면 전환이 돌지 않아, 펼 때는 충분히 큰 값을 쓴다.
+   ⚠ 접힘은 inert 한 글자가 든다 — 눈에 보이되 탭으로 닿지도, 보조기술에
+      읽히지도, 눌리지도 않아야 한다. pointer-events 는 inert 를 모르는
+      브라우저를 위한 받침이다 */
+.es-pick{position:relative;margin-top:38px;text-align:left;
+  max-height:20000px;overflow:hidden;
+  transition:max-height .55s ease,opacity .3s,filter .3s}
+.es-pick[inert]{max-height:132px;padding-inline:12px;margin-inline:-12px;
+  opacity:.7;filter:blur(3px);pointer-events:none;user-select:none}
+.es-pick[inert]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:110px;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(var(--frame-tint-rgb),0) 0%,rgba(var(--frame-tint-rgb),1) 82%)}
+@media(prefers-reduced-motion:reduce){.es-pick{transition:none}}
 /* 여섯 줄을 카드로 세우지 않는다. 고르는 카드가 아니라 해당하는 것에 체크하는
    줄이고, 테두리와 흰 바탕을 두르면 그 둘레의 여백까지 자리를 먹는다. 줄 사이를
    붙이고 둘레를 걷어내니 254 → 184px — 셋 중 하나가 줄었다.

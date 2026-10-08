@@ -94,7 +94,7 @@
 
          그래도 가름은 점수가 아니다. 프리미엄 줄이 하나라도 끼면 프리미엄인데,
          고른 그 일을 3.0 은 아예 하지 않기 때문이다 -->
-    <div class="es-pick" id="esPick" data-rec="none" hidden>
+    <div class="es-pick" id="esPick" data-rec="none" inert>
       <ul class="es-pick-list">
         <li><label class="es-pick-item">
           <input type="checkbox" data-tier="c30" data-feat="원클릭 급여관리">
@@ -180,12 +180,12 @@
       <h2 class="title-md">상세 기능 살펴보기</h2>
     </div>
 
-    <!-- 여섯 묶음은 접힌 채로 선다. 서른세 줄을 펴 두면 그 아래 FAQ 도 바닥
-         CTA 도 보이지 않고, 다 읽을 사람은 드물다 — 대개는 제 영역 하나를
-         보러 온다. 접어 두면 여섯 줄짜리 목차가 되고, 거기서 제 영역만 펴면
-         된다(표 3235 → 515px).
-         ⚠ 접힘은 표시(class)와 읽히는 상태(aria-expanded) 둘 다에 적는다.
-            하나만 두면 눈이나 귀 한쪽이 거짓을 듣는다 -->
+    <!-- 여섯 묶음은 펴진 채로 선다. 접는 것은 위 체크리스트가 맡는다 — 둘 다
+         접어 두면 이 구역에 읽을 것이 제목 여섯 줄뿐이라, 서른세 줄이 있다는
+         것조차 보이지 않는다. 여기서는 표가 표로 보여야 하고, 다 읽을 마음이
+         없는 사람은 제 영역만 남기고 접으면 된다(묶음 하나 접을 때마다 약 580px).
+         ⚠ 여닫이 상태는 표시(class="is-shut")와 읽히는 상태(aria-expanded)
+            둘 다에 적는다. 하나만 두면 눈이나 귀 한쪽이 거짓을 듣는다 -->
     <div class="es-cmp" id="esCmp">
       <!-- 머리줄이 떠 있는지 보는 눈금. 높이 0 이라 자리를 먹지 않고, 이것이
            탭바 아래로 지나간 순간이 곧 머리줄이 붙은 순간이다 -->
@@ -197,8 +197,8 @@
         <div class="c prem"><span class="pre">김반장 </span>프리미엄<a class="banner-btn" href="#apply" data-plan="prem">견적 신청하기</a></div>
       </div>
 
-      <section class="es-cat is-shut" aria-label="공사 및 계약 관리">
-        <h3 class="es-cat-h"><button type="button" class="es-cat-t" aria-expanded="false">공사 및 계약 관리<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button></h3>
+      <section class="es-cat" aria-label="공사 및 계약 관리">
+        <h3 class="es-cat-h"><button type="button" class="es-cat-t" aria-expanded="true">공사 및 계약 관리<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button></h3>
         <div class="es-row" data-tier="30">
           <div class="task"><b>공사대장</b><small>원·하도급 등록, 발주처·계약정보 관리, 공사자료·작업일보 기록</small></div>
           <div class="es-marks">
@@ -250,8 +250,8 @@
         </div>
       </section>
 
-      <section class="es-cat is-shut" aria-label="근로자 등록·관리">
-        <h3 class="es-cat-h"><button type="button" class="es-cat-t" aria-expanded="false">근로자 등록·관리<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button></h3>
+      <section class="es-cat" aria-label="근로자 등록·관리">
+        <h3 class="es-cat-h"><button type="button" class="es-cat-t" aria-expanded="true">근로자 등록·관리<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button></h3>
         <div class="es-row" data-tier="30" data-emp="regular">
           <div class="task"><b>근로자 정보 관리<span class="es-tag regular">상용</span></b><small>인적사항, 입·퇴사 이력, 가족·학력·자격·경력, 조직도 등록</small></div>
           <div class="es-marks">
@@ -303,8 +303,8 @@
         </div>
       </section>
 
-      <section class="es-cat is-shut" aria-label="근태·출퇴근 관리">
-        <h3 class="es-cat-h"><button type="button" class="es-cat-t" aria-expanded="false">근태·출퇴근 관리<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button></h3>
+      <section class="es-cat" aria-label="근태·출퇴근 관리">
+        <h3 class="es-cat-h"><button type="button" class="es-cat-t" aria-expanded="true">근태·출퇴근 관리<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button></h3>
         <div class="es-row" data-tier="30">
           <div class="task"><b>출퇴근 관리</b><small>모바일 GPS 출퇴근, 안면인식 출입관제 연동, 허위·대리 출퇴근 차단</small></div>
           <div class="es-marks">
@@ -335,8 +335,8 @@
         </div>
       </section>
 
-      <section class="es-cat is-shut" aria-label="근로계약·급여·명세서">
-        <h3 class="es-cat-h"><button type="button" class="es-cat-t" aria-expanded="false">근로계약·급여·명세서<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button></h3>
+      <section class="es-cat" aria-label="근로계약·급여·명세서">
+        <h3 class="es-cat-h"><button type="button" class="es-cat-t" aria-expanded="true">근로계약·급여·명세서<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button></h3>
         <div class="es-row" data-tier="30">
           <div class="task"><b>근로계약서 작성·관리</b><small>공인노무사 검토 양식, 전자서명, 클라우드 영구 보관, 클릭 한 번 일괄 체결, 카카오톡 알림톡 발송</small></div>
           <div class="es-marks">
@@ -388,8 +388,8 @@
         </div>
       </section>
 
-      <section class="es-cat is-shut" aria-label="회사 기본 설정">
-        <h3 class="es-cat-h"><button type="button" class="es-cat-t" aria-expanded="false">회사 기본 설정<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button></h3>
+      <section class="es-cat" aria-label="회사 기본 설정">
+        <h3 class="es-cat-h"><button type="button" class="es-cat-t" aria-expanded="true">회사 기본 설정<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button></h3>
         <div class="es-row" data-tier="30">
           <div class="task"><b>회사·사용자 관리</b><small>회사정보, 사용자 계정·권한, 건설면허, 거래처, 기초코드 관리</small></div>
           <div class="es-marks">
@@ -434,8 +434,8 @@
         </div>
       </section>
 
-      <section class="es-cat is-shut" aria-label="모바일 앱">
-        <h3 class="es-cat-h"><button type="button" class="es-cat-t" aria-expanded="false">모바일 앱<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button></h3>
+      <section class="es-cat" aria-label="모바일 앱">
+        <h3 class="es-cat-h"><button type="button" class="es-cat-t" aria-expanded="true">모바일 앱<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button></h3>
         <div class="es-row" data-tier="30">
           <div class="task"><b>현장소장 앱</b><small>출역 입력, 현황 조회</small></div>
           <div class="es-marks">
