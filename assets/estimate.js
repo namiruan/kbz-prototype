@@ -236,7 +236,19 @@
       var bar = $('.es-tabs');
       if(bar) document.body.style.setProperty('--tabbar-h', bar.offsetHeight + 'px');
       watchHead();
+      edges();
     }
+
+    /* 좁은 폭에서 탭 줄은 가로로 밀린다. 잘린 탭은 잘려 보이기만 할 뿐 밀라고
+       말해 주지 않으므로, 남은 쪽 끝에만 띠와 화살표를 세운다 */
+    var tabsBarEl = $('.es-tabs'), tabsRow = $('.es-tabs-row');
+    function edges(){
+      if(!tabsBarEl || !tabsRow) return;
+      var over = tabsRow.scrollWidth - tabsRow.clientWidth;
+      tabsBarEl.classList.toggle('can-l', over > 1 && tabsRow.scrollLeft > 1);
+      tabsBarEl.classList.toggle('can-r', over > 1 && tabsRow.scrollLeft < over - 1);
+    }
+    if(tabsRow) tabsRow.addEventListener('scroll', edges, { passive: true });
 
     /* 머리줄이 제자리인지 붙었는지는 CSS 혼자 알지 못한다 — sticky 에는 '붙었음'
        상태가 없다. 머리줄 바로 위에 높이 0 짜리 눈금을 두고, 그것이 탭바 아래로
@@ -293,6 +305,17 @@
       t.addEventListener('click', function(){ show(t.dataset.type, true); });
     });
 
+    /* ?type=C 로 들어오면 고른 탭이 화면 밖에 잘려 있을 수 있다 — 끌어다 보여 준다 */
+    function revealActive(){
+      var on = $('.es-tab.is-active');
+      if(on && tabsRow && tabsRow.scrollWidth > tabsRow.clientWidth + 1){
+        var l = on.offsetLeft, r = l + on.offsetWidth;
+        if(l < tabsRow.scrollLeft) tabsRow.scrollLeft = Math.max(0, l - 12);
+        else if(r > tabsRow.scrollLeft + tabsRow.clientWidth) tabsRow.scrollLeft = r - tabsRow.clientWidth + 12;
+      }
+      edges();
+    }
+
     /* 신청 버튼은 앵커로 내려가는 일만 브라우저에 맡기고, 유형은 여기서 맞춘다 —
        고른 것을 폼에서 또 고르게 두지 않는다 */
     $$('a[data-plan]').forEach(function(a){
@@ -300,6 +323,7 @@
     });
 
     show((new URLSearchParams(location.search)).get('type') || 'A', false);
+    revealActive();
   })();
 
   /* ── 어느 쪽이 맞는지 고르기 ─────────────────────────────────

@@ -102,10 +102,20 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
 .es-tab.is-active:hover{background:none}
 .es-tab:focus-visible{outline:2px solid var(--main-blue);outline-offset:-3px}
 /* 좁은 폭에서는 세 탭이 한 줄에 못 선다 — 가로로 밀어 보게 하고 설명 줄은 접는다 */
+.es-tabs-edge{display:none}
 @media(max-width:720px){
-  .es-tabs .inner{padding:0 12px}
+  .es-tabs .inner{padding:0 12px;position:relative}
   .es-tabs-row{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .es-tabs-row::-webkit-scrollbar{display:none}
+  /* 밀 데가 남은 쪽에만 띠와 화살표가 선다. 손가락을 막지 않도록 눌리지는 않는다 */
+  .es-tabs-edge{position:absolute;top:0;bottom:0;width:38px;z-index:2;
+    align-items:center;pointer-events:none;color:var(--main-navy)}
+  .es-tabs-edge svg{width:17px;height:17px}
+  .es-tabs-edge.l{left:0;justify-content:flex-start;
+    background:linear-gradient(90deg,rgba(255,255,255,.98) 46%,rgba(255,255,255,0))}
+  .es-tabs-edge.r{right:0;justify-content:flex-end;
+    background:linear-gradient(270deg,rgba(255,255,255,.98) 46%,rgba(255,255,255,0))}
+  .es-tabs.can-l .es-tabs-edge.l,.es-tabs.can-r .es-tabs-edge.r{display:flex}
   .es-tab{flex:0 0 auto;padding:11px 14px 10px}
   .es-tab .t{font-size:14px}
 }
