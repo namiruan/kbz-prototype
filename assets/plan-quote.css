@@ -17,13 +17,18 @@
 
 /* ── 계약 유형 두 장 ───────────────────────────────────────────── */
 .pq-types{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* 틀은 단말기 폼의 .dev-card 와 같은 말을 쓴다 — 같은 견적 흐름 안에서 탭만
+   바뀌는데 모서리와 테두리가 달라지면 다른 제품의 화면처럼 보인다.
+   모서리 8px, 테두리 한 겹 1px, 고르면 테두리가 강조색으로 바뀌고 바탕이
+   옅게 찬다. 두 겹으로 겹치지 않는 것도 그쪽의 결정을 따른다 */
 .pq-type{position:relative;display:flex;flex-direction:column;gap:7px;
-  padding:20px 22px;border-radius:14px;cursor:pointer;
-  background:var(--main-white);box-shadow:inset 0 0 0 1px var(--line);transition:.16s}
-.pq-type:hover{box-shadow:inset 0 0 0 1px var(--ink-4)}
+  padding:14px 16px;border-radius:8px;cursor:pointer;
+  background:var(--main-white);border:1px solid var(--line);
+  transition:border-color .15s,background .15s}
+.pq-type:hover{border-color:#C6CBD1}
 .pq-type input{position:absolute;opacity:0;width:0;height:0}
 .pq-type .nm{display:inline-flex;align-items:center;gap:5px;
-  font-size:17px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+  font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
 /* 물음표는 이름 옆에 붙는다. 평소에는 흐리게 있다가 카드에 손이 닿으면 또렷해진다 */
 .pq-help{appearance:none;border:0;background:none;padding:0;
   display:grid;place-items:center;width:16px;height:16px;flex:none;
@@ -52,7 +57,7 @@
 .pq-type.is-tip .ds{opacity:1;transform:translateY(0);pointer-events:auto}
 @media(prefers-reduced-motion:reduce){.pq-type .ds{transition:none}}
 /* 고른 장은 테두리가 두꺼워지고 바탕이 옅게 찬다 — 글자색만으로는 훑을 때 안 보인다 */
-.pq-type:has(input:checked){box-shadow:inset 0 0 0 2px var(--accent);background:var(--accent-tint)}
+.pq-type:has(input:checked){border-color:var(--accent);background:var(--accent-tint)}
 .pq-type:has(input:checked) .nm{color:var(--accent)}
 .pq-type:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
 /* 좁은 폭에서도 말풍선을 쓴다. 손가락에는 hover 가 없으므로 물음표를 눌러
