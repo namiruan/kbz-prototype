@@ -513,6 +513,29 @@
     }
   })();
 
+  /* ── 줄 설명 물음표 ────────────────────────────────────────
+     좁은 폭에서는 설명을 접고 이름만 세운다. 그래도 '이게 무슨 기능이냐'는
+     물음은 남으므로, 이름 옆 물음표로 그 줄만 펴 본다.
+     ⚠ 단추는 마크업이 아니라 여기서 만든다. 스물한 줄에 같은 조각을 손으로
+        넣어 두면 줄을 더하거나 뺄 때마다 빠뜨릴 자리가 늘어난다 */
+  var WHY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    + '<circle cx="12" cy="12" r="9.2"/><path d="M9.7 9.4a2.4 2.4 0 0 1 4.6.9c0 1.6-2.3 1.9-2.3 3.2"/><path d="M12 17h.01"/></svg>';
+  $$('.es-row .task').forEach(function(task){
+    var name = task.querySelector('b'), desc = task.querySelector('small');
+    if(!name || !desc) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'es-why';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', name.textContent.trim() + ' 설명 보기');
+    btn.innerHTML = WHY;
+    name.appendChild(btn);
+    btn.addEventListener('click', function(){
+      var on = task.classList.toggle('is-why');
+      btn.setAttribute('aria-expanded', String(on));
+    });
+  });
+
   /* ── 묶음 여닫기 ───────────────────────────────────────────── */
   /* 제목 줄을 누르면 그 묶음만 접힌다. 접는 자리는 .es-cat 하나이고, 줄은
      CSS 가 숨긴다 — 자바스크립트가 줄마다 손대면 서른한 번 건드리게 된다.

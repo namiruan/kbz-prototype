@@ -437,6 +437,8 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
 .es-cat.is-shut{border-bottom:1px solid var(--main-gray)}
 .es-row{display:grid;grid-template-columns:var(--cols);align-items:stretch;border-bottom:1px solid var(--main-gray)}
 .es-row .task{padding:15px 16px;min-width:0}
+/* 설명을 펴는 물음표는 좁은 폭에서만 쓴다 — 넓은 폭에서는 설명이 이미 적혀 있다 */
+.es-why{display:none}
 .es-row .task b{display:block;font-size:15px;font-weight:600;letter-spacing:-.02em;color:var(--main-black)}
 .es-row .task small{display:block;margin-top:4px;font-size:13px;line-height:1.6;color:var(--sub-d-gray);word-break:keep-all}
 /* [일용]·[상용] 꼬리표 — 거르개가 무엇을 보고 거르는지 눈으로도 보이게 */
@@ -501,7 +503,7 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
   /* ⚠ 열 폭은 '프리미엄' 네 글자가 한 줄에 서는 자리에서 정한다. 48px 에
      11.5px 로 두었더니 '프리미 / 엄'으로 접혀 머리줄이 61px 로 늘어났다.
      글자를 13px 로 올리면서 폭도 64px 로 함께 올렸다 */
-  .es-compare{--cols:minmax(0,1fr) 64px 64px}
+  .es-compare{--cols:minmax(0,1fr) 62px 62px}
 
   /* 머리줄은 좁은 폭에서도 따라붙는다. 열이 좁아 '김반장'은 떼고 이름만 세운다 */
   .es-cmp-head .c{padding:11px 4px 10px;font-size:13px;white-space:nowrap}
@@ -517,14 +519,26 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
   .es-cmp-head .c.prem{border-radius:0}
 
   .es-cat-t{padding:28px 16px 10px;font-size:17px}
-  .es-row .task{padding:12px 10px 12px 16px}
+  .es-row .task{padding:12px 6px 12px 16px}
   /* 설명을 걷어 낸 자리라 이름이 그 줄의 전부다 — 넓은 폭과 같은 15px 로
      읽는다. 13.5px 은 손에 들고 훑기에 작았다 */
   .es-row .task b{font-size:15px}
-  /* 설명은 좁은 폭에서 걷는다. 넓은 폭에서는 기능 이름 옆 한 줄이지만 274px
-     칸에서는 서너 줄이 되고, 서른한 줄이 모두 그러면 표가 아니라 읽을거리가
-     된다. 이름만 남겨 훑게 하고, 무엇을 뜻하는지는 상담이 받는다 */
-  .es-row .task small{display:none}
+  /* 설명은 좁은 폭에서 접는다. 넓은 폭에서는 기능 이름 옆 한 줄이지만 262px
+     칸에서는 서너 줄이 되고, 스물한 줄이 모두 그러면 표가 아니라 읽을거리가
+     된다. 평소에는 이름만 남겨 훑게 하고, 궁금한 줄만 물음표로 편다.
+     ⚠ display:none 으로 치우지 않는다 — 눈으로 못 읽는 사람에게는 설명이
+        통째로 사라진다. 높이와 투명도로만 접는다 */
+  .es-row .task small{max-height:0;margin-top:0;overflow:hidden;opacity:0;
+    transition:max-height .2s ease,margin-top .2s ease,opacity .16s}
+  .es-row .task.is-why small{max-height:260px;margin-top:5px;opacity:1}
+  .es-why{display:inline-grid;place-items:center;vertical-align:middle;
+    width:18px;height:18px;margin-left:4px;
+    appearance:none;border:0;padding:0;background:none;cursor:pointer;
+    color:var(--sub-d-gray);-webkit-tap-highlight-color:transparent;
+    transform:translateY(-1px)}
+  .es-why svg{width:100%;height:100%}
+  .es-why[aria-expanded="true"]{color:var(--main-blue)}
+  @media(prefers-reduced-motion:reduce){.es-row .task small{transition:none}}
   .es-row .mk{padding:12px 4px}
   .es-mark{width:19px;height:19px}
   .es-mark svg{width:11px;height:11px}
