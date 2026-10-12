@@ -80,9 +80,16 @@ body.estimate-page{--frame-tint-rgb:237,243,252;--frame-tint:rgb(var(--frame-tin
    스크롤을 따라붙는다 — 비교표가 길어 탭으로 돌아오려면 한참 올라가야 했다 */
 /* 비교표 머리줄이 탭바 바로 아래에 붙도록 쓰는 값. 글꼴이 뜨면 높이가
    달라지므로 estimate.js 가 실제로 재서 덮어쓴다 — 여기 값은 그 전까지의 어림이다 */
-body.estimate-page{--tabbar-h:52px}
+body.estimate-page{--tabbar-h:52px;--stick-top:var(--tabbar-h)}
 .es-tabs{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--main-gray)}
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--main-gray);
+  transition:transform .22s ease}
+/* 비교표 머리줄이 붙어 있는 동안에는 탭 줄이 길을 비킨다 — 둘이 같이 서면 화면
+   위쪽을 둘이 나눠 먹는다. 내려가면 숨고 올리면 돌아온다. 머리줄이 붙는 자리도
+   그만큼 올라가야 해서, 두 값을 따로 두지 않고 --stick-top 하나로 묶는다 */
+body.tabs-away{--stick-top:0px}
+body.tabs-away .es-tabs{transform:translateY(-100%)}
+@media(prefers-reduced-motion:reduce){.es-tabs,.es-cmp-head{transition:none}}
 .es-tabs-row{display:flex;gap:4px}
 .es-tab{appearance:none;border:0;background:none;font:inherit;cursor:pointer;
   flex:1;min-width:0;padding:14px 12px 13px;border-bottom:3px solid transparent;
@@ -335,7 +342,7 @@ body.estimate-page{--tabbar-h:52px}
 .es-compare{--cols:minmax(0,1.5fr) 168px 168px}
 .es-cmp{margin-top:26px;text-align:left}
 /* 머리줄은 스크롤을 따라붙는다. 표가 길어 어느 열을 보고 있는지 놓치기 쉬운 자리다 */
-.es-cmp-head{position:sticky;top:var(--tabbar-h);z-index:5;display:grid;grid-template-columns:var(--cols);
+.es-cmp-head{position:sticky;top:var(--stick-top);transition:top .22s ease;z-index:5;display:grid;grid-template-columns:var(--cols);
   background:var(--main-white);border-bottom:1.5px solid var(--main-navy)}
 .es-cmp-head .c{padding:16px 16px 13px;font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--main-navy)}
 /* '기능'은 한 줄, 옆 두 칸은 이름 아래 작은 줄까지 두 줄이다. 칸은 모두 같은

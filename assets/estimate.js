@@ -258,6 +258,33 @@
       headIO.observe(sentinel);
     }
 
+    /* 머리줄이 붙으면 화면 위쪽을 탭 줄과 둘이 나눠 쓴다. 비교표는 길어서 그
+       자리가 아깝다 — 내려갈 때는 탭 줄을 치우고, 올릴 때 돌려준다.
+       ⚠ 머리줄이 붙어 있지 않은 동안에는 건드리지 않는다. 표를 벗어난 곳에서
+          탭이 사라지면 어느 서비스를 보고 있는지 알 길이 없다 */
+    var lastY = window.pageYOffset || 0, waiting = false;
+    function tabsFollow(){
+      var y = window.pageYOffset || 0;
+      if(!head || !head.classList.contains('is-stuck')){
+        document.body.classList.remove('tabs-away');
+        lastY = y; return;
+      }
+      /* 몇 px 짜리 떨림으로 띠가 깜빡이지 않게 문턱을 둔다 */
+      if(Math.abs(y - lastY) < 8) return;
+      document.body.classList.toggle('tabs-away', y > lastY);
+      lastY = y;
+    }
+    window.addEventListener('scroll', function(){
+      if(waiting) return;
+      waiting = true;
+      window.requestAnimationFrame(function(){ waiting = false; tabsFollow(); });
+    }, { passive: true });
+    /* 키보드로 탭에 닿으면 숨은 채로 초점만 가 있는 일이 없게 돌려놓는다 */
+    var tabsBar = $('.es-tabs');
+    if(tabsBar) tabsBar.addEventListener('focusin', function(){
+      document.body.classList.remove('tabs-away');
+    });
+
     measure();
     window.addEventListener('resize', measure);
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
