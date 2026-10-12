@@ -107,9 +107,16 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
   .es-tabs .inner{padding:0 12px;position:relative}
   .es-tabs-row{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .es-tabs-row::-webkit-scrollbar{display:none}
-  /* 밀 데가 남은 쪽에만 띠와 화살표가 선다. 손가락을 막지 않도록 눌리지는 않는다 */
-  .es-tabs-edge{position:absolute;top:0;bottom:0;width:38px;z-index:2;
-    align-items:center;pointer-events:none;color:var(--main-navy)}
+  /* 밀 데가 남은 쪽에만 띠와 화살표가 선다. 누르면 다음 탭이 제자리에 와 선다.
+     ⚠ 띠가 끝 탭 위에 얹히므로 그만큼은 탭 대신 화살표가 눌린다 — 폭을 34px 로
+        줄여 탭 이름이 시작되는 자리는 건드리지 않게 했다.
+     ⚠ 키보드는 탭 자체로 옮겨 다니므로 초점 차례에서는 뺀다(tabindex=-1).
+        화살표는 손가락을 위한 것이지 초점을 위한 것이 아니다 */
+  .es-tabs-edge{position:absolute;top:0;bottom:0;width:34px;z-index:2;
+    appearance:none;border:0;padding:0;cursor:pointer;
+    align-items:center;color:var(--main-navy);
+    -webkit-tap-highlight-color:transparent}
+  .es-tabs-edge:active{color:var(--main-blue)}
   .es-tabs-edge svg{width:17px;height:17px}
   .es-tabs-edge.l{left:0;justify-content:flex-start;
     background:linear-gradient(90deg,rgba(255,255,255,.98) 46%,rgba(255,255,255,0))}

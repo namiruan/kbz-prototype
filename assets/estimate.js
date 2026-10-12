@@ -250,6 +250,40 @@
     }
     if(tabsRow) tabsRow.addEventListener('scroll', edges, { passive: true });
 
+    /* 화살표를 누르면 그 쪽으로 밀되, 아무 데나 멈추지 않고 다음 탭이 왼쪽
+       끝(또는 오른쪽 끝)에 와 서도록 끌어 준다 — 띠에 반쯤 걸친 채 멈추면
+       누르고도 여전히 잘려 보인다 */
+    /* ⚠ offsetLeft 는 offsetParent 기준이라 .inner 의 좌우 여백만큼 어긋난다 —
+       줄 안에서의 자리는 rect 로 재서 스크롤 좌표와 같은 자로 맞춘다 */
+    function spot(el){
+      var r = tabsRow.getBoundingClientRect(), t = el.getBoundingClientRect();
+      var l = t.left - r.left + tabsRow.scrollLeft;
+      return { l: l, r: l + t.width };
+    }
+    function glide(dir){
+      if(!tabsRow) return;
+      var pad = 12, view = tabsRow.clientWidth, at = tabsRow.scrollLeft, to = null;
+      var list = tabs.slice();
+      if(dir > 0){
+        for(var i = 0; i < list.length; i++){
+          var e = spot(list[i]);
+          if(e.r > at + view + 1){ to = e.r - view + pad; break; }
+        }
+        if(to === null) to = tabsRow.scrollWidth;
+      }else{
+        for(var j = list.length - 1; j >= 0; j--){
+          var b = spot(list[j]);
+          if(b.l < at - 1){ to = b.l - pad; break; }
+        }
+        if(to === null) to = 0;
+      }
+      var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      tabsRow.scrollTo({ left: Math.max(0, to), behavior: still ? 'auto' : 'smooth' });
+    }
+    $$('.es-tabs-edge').forEach(function(btn){
+      btn.addEventListener('click', function(){ glide(btn.classList.contains('r') ? 1 : -1); });
+    });
+
     /* 머리줄이 제자리인지 붙었는지는 CSS 혼자 알지 못한다 — sticky 에는 '붙었음'
        상태가 없다. 머리줄 바로 위에 높이 0 짜리 눈금을 두고, 그것이 탭바 아래로
        사라지는 순간을 붙은 순간으로 삼는다. 스크롤마다 재지 않으므로 공짜다.
@@ -309,9 +343,9 @@
     function revealActive(){
       var on = $('.es-tab.is-active');
       if(on && tabsRow && tabsRow.scrollWidth > tabsRow.clientWidth + 1){
-        var l = on.offsetLeft, r = l + on.offsetWidth;
-        if(l < tabsRow.scrollLeft) tabsRow.scrollLeft = Math.max(0, l - 12);
-        else if(r > tabsRow.scrollLeft + tabsRow.clientWidth) tabsRow.scrollLeft = r - tabsRow.clientWidth + 12;
+        var e = spot(on);
+        if(e.l < tabsRow.scrollLeft) tabsRow.scrollLeft = Math.max(0, e.l - 12);
+        else if(e.r > tabsRow.scrollLeft + tabsRow.clientWidth) tabsRow.scrollLeft = e.r - tabsRow.clientWidth + 12;
       }
       edges();
     }
