@@ -420,6 +420,31 @@
   }
   syncPlan();
 
+  /* ── 물음표 말풍선 ──────────────────────────────────────────
+     데스크톱은 hover 로 뜨지만 손가락에는 hover 가 없다. 물음표를 눌러 여닫되,
+     label 안에 있는 단추라 그대로 두면 누르는 순간 그 유형이 골라진다 — 막는다 */
+  var helps = Array.prototype.slice.call(document.querySelectorAll('.pq-help'));
+  function closeTips(except){
+    document.querySelectorAll('.pq-type.is-tip').forEach(function(t){
+      if(t === except) return;
+      t.classList.remove('is-tip');
+      var h = t.querySelector('.pq-help');
+      if(h) h.setAttribute('aria-expanded','false');
+    });
+  }
+  helps.forEach(function(h){
+    h.addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      var card = h.closest('.pq-type');
+      var on = card.classList.toggle('is-tip');
+      h.setAttribute('aria-expanded', String(on));
+      closeTips(on ? card : null);
+    });
+  });
+  /* 바깥을 누르거나 Esc 를 누르면 닫는다 */
+  document.addEventListener('click', function(){ closeTips(null); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeTips(null); });
+
   /* ── 프로토타입 미리보기 — 실제 연동 시 이 블록을 지운다 ───────── */
   if(/(^|[?&])(done|hold)=1(&|$)/.test(location.search)){
     var set = function(sel,v){

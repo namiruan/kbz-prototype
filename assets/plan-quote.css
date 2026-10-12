@@ -25,7 +25,8 @@
 .pq-type .nm{display:inline-flex;align-items:center;gap:5px;
   font-size:17px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
 /* 물음표는 이름 옆에 붙는다. 평소에는 흐리게 있다가 카드에 손이 닿으면 또렷해진다 */
-.pq-help{display:grid;place-items:center;width:16px;height:16px;flex:none;
+.pq-help{appearance:none;border:0;background:none;padding:0;
+  display:grid;place-items:center;width:16px;height:16px;flex:none;
   color:var(--ink-4);transition:color .14s;cursor:help}
 .pq-help svg{width:100%;height:100%}
 .pq-type:hover .pq-help{color:var(--ink-3)}
@@ -47,22 +48,33 @@
       움직인다('김반장 3.0'과 '김반장 프리미엄'이 다르다). 고정 오프셋으로는
       둘 다 맞출 수 없어, 한쪽은 늘 빈자리를 가리키게 된다 */
 .pq-type:hover .ds,
-.pq-type:has(input:focus-visible) .ds{opacity:1;transform:translateY(0)}
+.pq-type:has(input:focus-visible) .ds,
+.pq-type.is-tip .ds{opacity:1;transform:translateY(0);pointer-events:auto}
 @media(prefers-reduced-motion:reduce){.pq-type .ds{transition:none}}
 /* 고른 장은 테두리가 두꺼워지고 바탕이 옅게 찬다 — 글자색만으로는 훑을 때 안 보인다 */
 .pq-type:has(input:checked){box-shadow:inset 0 0 0 2px var(--accent);background:var(--accent-tint)}
 .pq-type:has(input:checked) .nm{color:var(--accent)}
 .pq-type:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
-/* 좁은 폭에서는 말풍선을 쓰지 않는다. 두 가지가 겹친다 — 손가락에는 hover 가
-   없어 띄울 길이 없고, 두 장이 위아래로 서므로 띄워도 다른 한 장을 통째로 덮는다.
-   물음표는 거두고 글을 도로 편다. 어차피 한 장이 폭을 다 쓰는 자리라, 옆으로
-   나란히 설 때만큼 자리를 다투지도 않는다 */
+/* 좁은 폭에서도 말풍선을 쓴다. 손가락에는 hover 가 없으므로 물음표를 눌러
+   여닫는다 — 그래서 물음표는 span 이 아니라 button 이다. 누르면 라디오가 함께
+   골라지지 않도록 스크립트가 막는다. 과녁은 손가락에 맞춰 키운다 */
 @media(max-width:640px){
   .pq-types{grid-template-columns:1fr}
-  .pq-help{display:none}
-  .pq-type .ds{position:static;padding:0;border-radius:0;background:none;
-    color:var(--ink-3);font-size:13.5px;line-height:1.6;box-shadow:none;
-    opacity:1;transform:none;pointer-events:auto}
+  .pq-help{width:22px;height:22px;margin-left:1px;cursor:pointer}
+  /* 두 장이 위아래로 서므로 말풍선을 띄우면 아래 장을 통째로 덮는다 — 아래 장의
+     물음표까지 가려 누를 수가 없다. 그래서 띄우지 않고 제자리에서 펴진다.
+     ⚠ 접을 때도 치우지 않는다. display 나 visibility 로 접으면 눈으로 못 읽는
+        사람에게는 설명이 사라진다 — 높이와 투명도로만 접는다 */
+  .pq-type .ds{position:static;display:block;font-size:13px;
+    max-height:0;padding:0 13px;margin-top:0;overflow:hidden;
+    opacity:0;transform:none;pointer-events:none;
+    transition:max-height .2s ease,padding .2s ease,margin-top .2s ease,opacity .16s}
+  .pq-type:hover .ds,
+  .pq-type:has(input:focus-visible) .ds{max-height:0;padding-block:0;margin-top:0;opacity:0}
+  .pq-type.is-tip .ds,
+  .pq-type.is-tip:hover .ds{max-height:240px;padding:11px 13px;margin-top:9px;
+    opacity:1;pointer-events:auto}
+  @media(prefers-reduced-motion:reduce){.pq-type .ds{transition:none}}
 }
 
 /* ── 유형에 따라 나타났다 사라지는 칸 ───────────────────────────
