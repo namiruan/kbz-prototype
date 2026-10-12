@@ -434,6 +434,10 @@
         go.setAttribute('aria-label',
           (mode === 'prem' ? '김반장 프리미엄' : '김반장 3.0') + '으로 견적 받기');
       }
+
+      /* 체크하면 답 배너가 생기거나 글이 길어져 목록이 자란다. 여는 상자가
+         인라인 max-height 를 들고 있는 동안에는 그만큼 잘리므로 알려 준다 */
+      if(window.esPickGrew) window.esPickGrew();
     }
 
     boxes.forEach(function(b){ b.addEventListener('change', paint); });
@@ -456,6 +460,25 @@
             폭이 바뀌어 높이가 달라질 때 그 자리에서 잘린다.
          ⚠ 닫을 때는 지금 높이를 먼저 박고 한 번 재게 한 뒤에 거둔다. 바로
             거두면 auto 에서 132 로 뛰는 셈이라 전환이 걸리지 않는다 */
+      /* 여는 동안에만 인라인 max-height 가 살아 있다. 그 사이에 내용이 바뀌면
+         (체크 → 추천 배너) 목표 높이도 따라 바꿔야 한다 — paint() 가 부른다 */
+      var opening = false, openTimer = null;
+      function unlock(){
+        opening = false;
+        clearTimeout(openTimer);
+        pick.style.maxHeight = '';
+        pick.removeEventListener('transitionend', done);
+        pick.removeEventListener('transitioncancel', done);
+      }
+      function done(e){
+        if(e.target !== pick || e.propertyName !== 'max-height') return;
+        unlock();
+      }
+      window.esPickGrew = function(){
+        if(toggle.getAttribute('aria-expanded') !== 'true') return;
+        if(opening) pick.style.maxHeight = pick.scrollHeight + 'px';
+        else if(pick.style.maxHeight) pick.style.maxHeight = '';
+      };
       toggle.addEventListener('click', function(){
         var open = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!open));
@@ -466,19 +489,25 @@
                 어느 쪽이 참인지 헷갈린다 — CSS 가 보는 것은 속성이다 */
           pick.setAttribute('inert','');
           pick.style.maxHeight = '';
+          opening = false;
+          clearTimeout(openTimer);
         }else{
           /* ⚠ 지금 높이를 먼저 박고 inert 를 뗀다. 떼는 것이 먼저면 CSS 가
                 132px 에서 none 으로 풀려 그 자리에서 다 열려 버린다 */
           pick.style.maxHeight = pick.getBoundingClientRect().height + 'px';
           void pick.offsetHeight;
           pick.removeAttribute('inert');
+          opening = true;
           pick.style.maxHeight = pick.scrollHeight + 'px';
-          var done = function(e){
-            if(e.target !== pick || e.propertyName !== 'max-height') return;
-            pick.style.maxHeight = '';
-            pick.removeEventListener('transitionend', done);
-          };
+          /* ⚠ 열고 나면 반드시 인라인 값을 거둔다. 이 상자는 overflow:hidden 이라,
+                남아 있는 max-height 는 그 뒤에 자라는 것(체크하면 나타나는 추천
+                배너)을 통째로 잘라 버린다. 전환이 끝났다는 소식은 믿을 게 못 된다 —
+                중간에 취소되거나(transitioncancel), 화면 밖이거나 탭이 가려져
+                아예 오지 않을 수 있다. 그래서 세 갈래로 거둔다:
+                끝나면, 취소되면, 그리고 아무 소식 없어도 전환 시간이 지나면 */
+          openTimer = setTimeout(unlock, 700);
           pick.addEventListener('transitionend', done);
+          pick.addEventListener('transitioncancel', done);
         }
       });
     }
