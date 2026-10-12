@@ -498,13 +498,14 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
    390px 에서 두 표시 열이 116px, 기능 열에 214px 가 남는다 */
 @media(max-width:760px){
   .es-compare{padding:64px 0}
-  /* ⚠ 58px 은 '프리미엄' 네 글자가 11.5px 로 한 줄에 서는 폭이다. 48px 로
-     두었더니 머리줄에서 '프리미 / 엄'으로 접혀 머리줄이 61px 로 늘어났다 */
-  .es-compare{--cols:minmax(0,1fr) 58px 58px}
+  /* ⚠ 열 폭은 '프리미엄' 네 글자가 한 줄에 서는 자리에서 정한다. 48px 에
+     11.5px 로 두었더니 '프리미 / 엄'으로 접혀 머리줄이 61px 로 늘어났다.
+     글자를 13px 로 올리면서 폭도 64px 로 함께 올렸다 */
+  .es-compare{--cols:minmax(0,1fr) 64px 64px}
 
   /* 머리줄은 좁은 폭에서도 따라붙는다. 열이 좁아 '김반장'은 떼고 이름만 세운다 */
-  .es-cmp-head .c{padding:11px 4px 10px;font-size:11.5px;white-space:nowrap}
-  .es-cmp-head .c.task{padding-left:16px;font-size:13px}
+  .es-cmp-head .c{padding:11px 4px 10px;font-size:13px;white-space:nowrap}
+  .es-cmp-head .c.task{padding-left:16px;font-size:14px}
   .es-cmp-head .c .pre{display:none}
   /* ⚠ 48px 칸에 알약이 들어갈 자리는 없다. 신청은 표 꼬리가 받는다 */
   .es-cmp-head .banner-btn{display:none}
@@ -517,7 +518,9 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
 
   .es-cat-t{padding:28px 16px 10px;font-size:17px}
   .es-row .task{padding:12px 10px 12px 16px}
-  .es-row .task b{font-size:13.5px}
+  /* 설명을 걷어 낸 자리라 이름이 그 줄의 전부다 — 넓은 폭과 같은 15px 로
+     읽는다. 13.5px 은 손에 들고 훑기에 작았다 */
+  .es-row .task b{font-size:15px}
   /* 설명은 좁은 폭에서 걷는다. 넓은 폭에서는 기능 이름 옆 한 줄이지만 274px
      칸에서는 서너 줄이 되고, 서른한 줄이 모두 그러면 표가 아니라 읽을거리가
      된다. 이름만 남겨 훑게 하고, 무엇을 뜻하는지는 상담이 받는다 */
@@ -526,7 +529,7 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
   .es-mark{width:19px;height:19px}
   .es-mark svg{width:11px;height:11px}
   .es-mark.off{font-size:12px}
-  .es-tag{margin-left:4px;padding:2px 7px;font-size:11px}
+  .es-tag{margin-left:5px;padding:2px 7px;font-size:11.5px}
 }
 
 /* ── 7. 단말기 견적 (index.html partition-9 과 같은 값) ─────────── */
