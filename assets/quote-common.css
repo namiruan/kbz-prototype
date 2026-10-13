@@ -132,14 +132,6 @@ body.quote-page{
 /* ===== 본문 2단 ===== */
 .q-main{padding:56px 0 128px}
 body.is-done .q-main{padding-bottom:72px}
-/* 완료 화면에서는 고랑을 좁힌다. 폼이 사라지고 나면 남는 것은 두 줄짜리 글과
-   버튼 둘뿐인데, 1060px 짜리 틀에 그대로 두면 글은 왼쪽 끝에 붙고 그림은
-   화면 오른쪽 아래 모서리에 붙어 그 사이 620px 이 빈다 — 한 화면에 둘뿐인데
-   서로 남처럼 떨어져 선다.
-   ⚠ .q-main 의 inner 만 줄이면 안 된다. 머리글은 제 틀에 남아 왼쪽 끝에
-      서 있으므로, 본문만 가운데로 와서 둘이 어긋난다(재어 보면 머리글 140,
-      본문 390). 틀을 통째로 줄여 머리글과 본문이 같이 옮겨 가게 한다 */
-body.quote-page.is-done .inner{max-width:560px}
 .q-main .inner{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:26px 64px;align-items:start}
 @media(max-width:1024px){.q-main .inner{grid-template-columns:minmax(0,1fr)}.q-main{padding:40px 0 72px}}
 
