@@ -85,13 +85,20 @@ body.quote-page.is-done{--doc:clamp(140px,30vw,210px)}
       높이를 만들고 그 높이가 다시 그림을 키우는 되먹임 고리가 된다. */
 .q-done.on::after{content:"";display:block;
   width:var(--doc);height:var(--doc);
-  /* 아래 12.4% 가 투명 여백이라 그만큼 되당겨야 그림 밑이 제자리에 선다 */
-  margin:24px auto calc(var(--doc) * -0.124);
-  /* 오른쪽 14.2% 가 투명이라 auto 여백으로 상자를 가운데에 두면 보이는 그림은
-     왼쪽으로 치우친다 — 그림의 가운데가 상자 가운데보다 0.071·doc 만큼 왼쪽에
-     있기 때문이다. 그만큼 **오른쪽으로** 밀어 보이는 쪽의 가운데를 맞춘다.
-     ⚠ transform 이 아니라 left 로 민다 — transform 은 떠 있는 애니메이션이 쓴다 */
-  position:relative;left:calc(var(--doc) * 0.071);
+  /* ⚠ 여기 적혀 있던 '우 14.2% · 하 12.4%' 는 **반쪽짜리 사실**이었다. 파일을
+     열어 알파를 재 보면 네 면이 모두 투명하다 — 좌 12.6% · 우 14.2% ·
+     상 10.2% · 하 12.4% (459×453). 모서리에 붙일 때는 오른쪽·아래만 알면
+     됐으니 그 둘만 적혀 있었고, 가운데를 맞추는 일로 넘어오면서 그 반쪽이
+     30px 짜리 어긋남이 되었다.
+     좌우가 12.6 대 14.2 로 거의 같으니 보이는 그림의 가로 가운데는 상자
+     가운데에서 0.0076·doc 만큼만 왼쪽에 있다 — 210px 에서 1.6px 이다.
+     밀었던 0.071 은 왼쪽 여백을 0 으로 본 값이라 아홉 배 과했다.
+     1.6px 은 눈에 띄지 않지만 공짜이므로 마저 맞춘다. */
+  position:relative;left:calc(var(--doc) * 0.0076);
+  /* 세로는 다르다. contain 으로 그려지는 그림이 459×453 이라 상자 안에서
+     위아래로 0.65% 씩 letterbox 되고, 그 아래 12.4% 가 투명이다 — 합쳐
+     0.129·doc 을 되당겨야 그림 밑이 제자리에 선다 */
+  margin:24px auto calc(var(--doc) * -0.129);
   background:url("../images/done/quote-doc.png") center/contain no-repeat;
   opacity:.45;pointer-events:none;
   animation:docFloat 5.5s ease-in-out infinite}
