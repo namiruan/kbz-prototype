@@ -66,7 +66,7 @@ h1,h2,h3,h4{font-family:var(--font-title);line-height:1.24;letter-spacing:-0.03e
       같은 값으로도 더 넓게 번지니, 세기를 올릴 일이 아니다. */
 body.quote-page.is-done::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:radial-gradient(78% 108% at 50% 100%, rgba(var(--color-sky-rgb),.8) 0%, rgba(var(--color-sky-rgb),0) 100%) no-repeat}
-/* 둥둥 떠 있는 견적서 아이콘. 장식이므로 글자 뒤에 두고,
+/* 견적서 아이콘. 장식이므로 글자 뒤에 두고,
    파일이 없으면 배경이 비어 아무것도 그리지 않는다(화면은 그대로).
    글 · 버튼 · 그림이 한 줄기로 서게 **버튼 아래 가운데**에 띄운다. 바닥빛도
    아래 가운데라 셋이 같은 축을 쓴다.
@@ -100,15 +100,7 @@ body.quote-page.is-done{--doc:clamp(140px,30vw,210px)}
      0.129·doc 을 되당겨야 그림 밑이 제자리에 선다 */
   margin:24px auto calc(var(--doc) * -0.129);
   background:url("../images/done/quote-doc.png") center/contain no-repeat;
-  opacity:.45;pointer-events:none;
-  animation:docFloat 5.5s ease-in-out infinite}
-@keyframes docFloat{
-  0%,100%{transform:translate3d(0,0,0) rotate(0deg)}
-  50%    {transform:translate3d(0,-15px,0) rotate(-3.5deg)}
-}
-@media(prefers-reduced-motion:reduce){
-  .q-done.on::after{animation:none}
-}
+  opacity:.45;pointer-events:none}
 body.quote-page{
   --ink:#0C0D0F;          /* 본문 */
   --ink-2:#5C636C;        /* 보조 */
