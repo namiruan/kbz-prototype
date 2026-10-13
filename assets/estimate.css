@@ -462,7 +462,14 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
 /* ✓ 와 — 이 서는 칸. 프리미엄 열은 바탕으로 띠를 이어 받는다 */
 /* 넓은 폭에서는 두 칸이 그대로 표의 열이 된다 — 묶음은 자리를 차지하지 않는다 */
 .es-marks{display:contents}
-.es-row .mk{display:grid;place-items:center;padding:15px 10px}
+.es-row .mk{display:grid;place-items:center;row-gap:5px;padding:15px 10px}
+/* 별도 요금으로 받는 줄 — ✓ 아래에 적는다. 이 열이 답하는 물음은 '하느냐'이고
+   답은 '하되 요금은 따로'라, 그 단서가 붙을 자리는 이름 옆이 아니라 이 칸이다.
+   ⚠ 이름 옆 꼬리표로 두었을 때는 일용직·상용직과 같은 줄에 섰다. 한쪽은 어느
+      현장 것인지를, 다른 한쪽은 요금이 따로인지를 말하는데 자리가 같으니
+      '별도 요금'이 세 번째 고용형태처럼 읽혔다 */
+.es-fee{font-size:11px;font-weight:700;letter-spacing:-.03em;line-height:1;
+  color:var(--sub-d-gray);white-space:nowrap}
 /* 열 이름표는 머리줄이 사라지는 좁은 폭에서만 쓴다 */
 .es-row .mk::before{display:none}
 .es-row .mk.prem{background:var(--frame-tint)}
