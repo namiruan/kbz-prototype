@@ -29,12 +29,16 @@
 .pq-type input{position:absolute;opacity:0;width:0;height:0}
 .pq-type .nm{display:inline-flex;align-items:center;gap:5px;
   font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
-/* 물음표는 이름 옆에 붙는다. 평소에는 흐리게 있다가 카드에 손이 닿으면 또렷해진다 */
+/* 물음표는 이름 옆에 붙는다. 평소에는 흐리게 있다가 카드에 손이 닿으면 또렷해진다 —
+   선 아이콘이던 때는 그 '흐림'을 --ink-4 로 냈는데, 면으로 채운 배지에서는 그 값을
+   쓸 수 없다. 흰 물음표가 #A7ADB4 원 위에서 2.26:1 이라 읽히지 않는다.
+   그래서 흐림을 한 단 올리고(--ink-3, 4.60:1), 또렷해지는 쪽은 회색에서 파랑으로
+   간다 — 면에서는 짙기보다 색이 바뀌는 쪽이 눈에 먼저 든다 */
 .pq-help{appearance:none;border:0;background:none;padding:0;
   display:grid;place-items:center;width:16px;height:16px;flex:none;
-  color:var(--ink-4);transition:color .14s;cursor:help}
+  color:var(--ink-3);transition:color .14s;cursor:help}
 .pq-help svg{width:100%;height:100%}
-.pq-type:hover .pq-help{color:var(--ink-3)}
+.pq-type:hover .pq-help{color:var(--accent)}
 .pq-help:hover{color:var(--accent)}
 
 /* 설명은 물음표에 얹은 말풍선이다.
@@ -59,6 +63,9 @@
 /* 고른 장은 테두리가 두꺼워지고 바탕이 옅게 찬다 — 글자색만으로는 훑을 때 안 보인다 */
 .pq-type:has(input:checked){border-color:var(--accent);background:var(--accent-tint)}
 .pq-type:has(input:checked) .nm{color:var(--accent)}
+/* 고른 장에서는 배지도 이름을 따라간다 — 이름이 파랑으로 섰는데 그 옆 면이 회색으로
+   남으면, 고르기 전에는 안 보이던 어긋남이 면을 채우고 나서 눈에 든다 */
+.pq-type:has(input:checked) .pq-help{color:var(--accent)}
 .pq-type:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
 /* 좁은 폭에서도 말풍선을 쓴다. 손가락에는 hover 가 없으므로 물음표를 눌러
    여닫는다 — 그래서 물음표는 span 이 아니라 button 이다. 누르면 라디오가 함께
