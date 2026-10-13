@@ -409,6 +409,14 @@ body.is-done .q-main{padding-bottom:72px}
   .q-step h2{font-size:17px}
   .f-grid{gap:18px 10px}
   .f-item{gap:4px}
+  /* 라디오 칸만 좌우로 세운다. 폭이 100% 로 펴지는 자리라, 라벨 아래 '사용 ·
+     미사용' 두 개만 놓이면 오른쪽이 통째로 빈다 — 한 줄에 24px 쓸 일을 두 줄에
+     쓰는 셈이다. 글자 칸은 오른쪽 끝까지 값을 받으니 그대로 위아래로 둔다.
+     좁아서 둘이 한 줄에 못 서면 wrap 이 받아 원래대로 위아래로 돌아간다 —
+     안면인식 화면의 .f-item.kbz 가 이미 쓰는 꼴이라 값을 그대로 맞춘다 */
+  .f-item:has(.f-radios){flex-direction:row;align-items:center;
+    justify-content:space-between;flex-wrap:wrap;gap:10px 14px}
+  .f-item:has(.f-radios) .f-radios{align-self:center;min-height:0}
   .f-label{font-size:14px}
   .field{height:48px;padding:0 11px;gap:6px}
   .f-unit{font-size:14px;line-height:1.4}
