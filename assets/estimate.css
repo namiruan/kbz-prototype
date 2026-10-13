@@ -494,6 +494,14 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
   background:var(--pastel-blue);color:var(--main-blue)}
 .es-mark svg{width:14px;height:14px}
 .es-mark.on-prem{background:var(--main-blue);color:var(--main-white)}
+/* 별도 요금으로 받는 줄 — 채우지 않고 테두리만 남긴다. 제공한다는 말은 같으니
+   모양도 ✓ 그대로 두되, 요금에 든 줄들이 만드는 꽉 찬 파랑 띠에는 끼지 않는다.
+   이 페이지가 이미 쓰는 가름이다 — 일용직은 채운 네이비, 상용직은 테두리만.
+   ⚠ 색조로 가르지 않는다. 파랑을 흐리게만 두면 '제공이 덜한 것'처럼 보이는데,
+      덜 하는 것이 아니라 값을 따로 받는 것이다. 채움과 비움은 양이 아니라
+      종류의 차이로 읽힌다 */
+.es-mark.on-fee{background:transparent;color:var(--main-blue);
+  box-shadow:inset 0 0 0 1.5px rgba(var(--color-blue-rgb),.7)}
 .es-mark.off{background:transparent;color:var(--sub-d-gray);font-size:14px;font-weight:800}
 .es-mark.off::after{content:"—"}
 
