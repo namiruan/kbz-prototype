@@ -168,7 +168,8 @@
         t.setAttribute('aria-selected', String(on));
       });
       panels.forEach(function(pn){ pn.hidden = (pn.id !== 'panel-' + type); });
-      help(type);          /* 바닥의 묻는 방법 셋도 이 탭의 말로 바꾼다 */
+      faq(type);           /* 이 탭에서 걸리는 물음만 세운다 */
+      help(type);          /* 바닥의 묻는 방법도 이 탭의 말로 바꾼다 */
       mount(type);
       remeasure();         /* 막 보이게 된 틀의 카드도 제자리를 잡는다 */
 
@@ -226,6 +227,26 @@
       box.innerHTML = list.map(function(x){
         return '<a class="go" href="' + x[1] + '" download>' + x[0] + DL + '</a>';
       }).join('');
+    }
+
+    /* ── FAQ — 이 탭에서 걸리는 물음만 세운다 ─────────────────────
+       구역은 탭 밖에 있어 세 탭에 그대로 보이지만, 묻는 사람은 탭마다 다르다.
+       줄마다 적어 둔 data-tab 으로 거른다.
+       ⚠ display 가 아니라 hidden 이다. 다른 탭의 물음은 '접어 둔 것'이 아니라
+          이 탭에 해당하지 않는 것이라, 눈으로 읽지 않는 사람에게도 없어야 한다.
+       ⚠ 처음 펴 둘 줄도 탭마다 다시 고른다. 첫 줄에 open 을 박아 두면 그 줄이
+          숨는 탭에서는 다섯 줄이 모두 닫힌 채로 서서, 답이 있는지조차 안 보인다.
+          이미 펴 본 줄이 그 탭에 남아 있으면 그대로 둔다 — 탭을 다녀왔다고
+          읽던 자리를 접지 않는다 */
+    var faqRows = $$('.faq details');
+    function faq(type){
+      var seen = [];
+      faqRows.forEach(function(d){
+        var on = (d.dataset.tab || '').indexOf(type) > -1;
+        d.hidden = !on;
+        if(on) seen.push(d); else d.open = false;
+      });
+      if(seen.length && !seen.some(function(d){ return d.open; })) seen[0].open = true;
     }
 
     /* 비교표 머리줄도 따라붙는다. 둘이 겹치지 않으려면 탭바 높이를 알아야 하는데,
