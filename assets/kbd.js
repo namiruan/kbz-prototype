@@ -40,9 +40,22 @@
        그래서 이 기기에서는 가려진 높이를 묻지 않고 **칸에 들어갔는지**만 본다 */
     var coarse=window.matchMedia && window.matchMedia('(pointer:coarse)').matches;
     if(!coarse && !vv) return;
+    /* **패널로 끼워졌을 때는 이 가지를 통째로 접는다.**
+       estimate.html 은 틀(iframe)을 안쪽 내용 높이만큼 늘려 둔다 — 그래서 안쪽
+       문서에는 굴릴 창이 아예 없고, 굴리는 쪽은 바깥 페이지다. 그 안에서 이 가지가
+       하는 두 가지가 다 제 뜻과 어긋난다.
+         · kbd-real 의 padding-bottom:70vh 에서 vh 는 화면이 아니라 **틀의 높이**다.
+           1859px 짜리 틀이면 1301px 이 붙어, 없던 안쪽 스크롤이 생겨난다.
+         · toTop 의 window.scrollBy 는 바깥 페이지가 아니라 **그 안쪽 창**을 굴린다.
+       둘이 겹치면 브라우저가 바깥을 굴리는 사이 안쪽도 따로 굴러, 누른 칸이 화면
+       위로 밀려 나가고 그 아래 칸이 보인다.
+       키보드를 피해 자리를 잡는 일은 바깥 창이 이미 한다 — 여기서는 비켜선다.
+       시나리오 브라우저(prototype.html)의 틀은 제 창이 따로 굴러가므로 해당 없다 */
+    function inPanel(){ return document.body.classList.contains('is-panel'); }
     function look(){
       /* 흉내 낸 판이 켜져 있으면 그쪽이 말한다 */
       if(document.body.classList.contains('kbd-on')) return;
+      if(inPanel()){ document.body.classList.remove('kbd-real'); return false; }
       var up=editable(document.activeElement);
       if(up && !coarse){
         /* 마우스로 쓰는 기기에서는 화면이 실제로 줄어든 것만 키보드로 본다 */
