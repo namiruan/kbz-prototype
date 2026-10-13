@@ -236,6 +236,9 @@
       help(type);          /* 바닥의 묻는 방법도 이 탭의 말로 바꾼다 */
       mount(type);
       remeasure();         /* 막 보이게 된 틀의 카드도 제자리를 잡는다 */
+      /* 비교표가 없는 탭으로 옮겼으면 탭 줄이 비켜 있을 까닭도 사라진다 —
+         보는 눈이 다시 말해 줄 때까지 기다리지 않고 그 자리에서 돌려놓는다 */
+      tabsFollow();
 
       /* 좁은 폭에서 탭 줄은 가로로 밀어 보는 띠가 된다. ?type=C 로 바로 들어오면
          고른 탭이 화면 밖에 있어 '지금 어느 탭인지'가 보이지 않으므로, 가운데로
@@ -373,6 +376,13 @@
        ⚠ 탭바 높이는 글꼴이 뜨거나 폭이 바뀔 때마다 달라진다. 여백에 그 값을
           박아 두니 값이 바뀌면 보는 눈도 다시 만들어야 한다 */
     var head = $('.es-cmp-head'), sentinel = $('.es-cmp-sentinel'), headIO = null;
+    /* ⚠ 눈금과 비교표는 A 패널 안에 있다. B·C 탭에서 그 패널이 hidden 이면 눈금의
+       상자가 0,0,0,0 으로 접히는데, 아래 판정이 '위로 지나갔다'를 top <= rootBounds.top
+       으로 보므로 0 <= 53 이 늘 참이 된다 — 보는 눈이 '머리줄이 붙었다'고 말하고,
+       탭 줄은 그 말을 믿고 길을 비킨다. 비교표가 아예 없는 탭에서 조금만 내려도
+       탭 줄이 제목 위로 47px 올라앉던 것이 이것이다(실측: 사이 40px → -8px).
+       그려지고 있지 않으면 물을 것도 없다 */
+    function headLive(){ return !!(sentinel && sentinel.offsetParent); }
     function watchHead(){
       if(!head || !sentinel || !window.IntersectionObserver) return;
       if(headIO) headIO.disconnect();
@@ -382,7 +392,7 @@
            보임'이다. 지나간 쪽만 붙은 것이므로 어느 쪽인지 가려야 한다 */
         var e = es[0], rb = e.rootBounds;
         head.classList.toggle('is-stuck',
-          !e.isIntersecting && !!rb && e.boundingClientRect.top <= rb.top);
+          headLive() && !e.isIntersecting && !!rb && e.boundingClientRect.top <= rb.top);
         nowCat();
       }, { rootMargin: '-' + (h + 1) + 'px 0px 0px 0px', threshold: 0 });
       headIO.observe(sentinel);
@@ -399,7 +409,7 @@
     function nowCat(){
       if(!head || !nowEl) return;
       var name = '';
-      if(head.classList.contains('is-stuck')){
+      if(headLive() && head.classList.contains('is-stuck')){
         var line = head.getBoundingClientRect().bottom + 1;
         for(var i = 0; i < cats.length; i++){
           var r = cats[i].getBoundingClientRect();
@@ -419,8 +429,13 @@
     function tabsFollow(){
       var y = window.pageYOffset || 0;
       if(typing){ document.body.classList.remove('tabs-away'); lastY = y; return; }
-      if(!head || !head.classList.contains('is-stuck')){
+      /* 보는 눈이 꺼져 있는 동안(탭을 막 옮겨 A 패널이 숨은 직후)에는 is-stuck 이
+         지난 탭의 값으로 남아 있을 수 있다 — 여기서도 한 번 더 묻는다 */
+      if(!head || !headLive() || !head.classList.contains('is-stuck')){
         document.body.classList.remove('tabs-away');
+        /* 그려지지 않는 동안 is-stuck 이 지난 탭의 값으로 남으면, 클래스가
+           사실과 다른 말을 하게 된다 — 읽는 쪽이 늘어날수록 비싸지는 거짓말이다 */
+        if(head && !headLive()){ head.classList.remove('is-stuck'); nowCat(); }
         lastY = y; return;
       }
       /* 몇 px 짜리 떨림으로 띠가 깜빡이지 않게 문턱을 둔다 */
