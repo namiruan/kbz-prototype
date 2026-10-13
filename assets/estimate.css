@@ -72,30 +72,30 @@ body.estimate-page{--frame-tint-rgb:237,243,252;--frame-tint:rgb(var(--frame-tin
 .es-jump a:hover{background:var(--sub-w-gray);box-shadow:inset 0 0 0 1px var(--sub-d-gray)}
 /* 8vw 로는 360~430px 에서 제목 첫 줄이 한 번 더 접혀 '고르고' 두 글자만 남는 줄이 생겼다.
    7vw 면 흔한 폰 폭에서 두 줄로 선다(320px 만 세 줄 — 거기선 더 줄여도 같다) */
-/* ⚠ 전화기 폭에서 제목 층위가 뒤집혀 있었다. 히어로는 7vw 로 줄어드는데 구역
-   제목(.title-md)은 30px 로 붙박이라, 390px 에서 히어로 27.3px · 구역 제목 30px —
-   페이지 제목이 그 아래 머리글보다 작았다. 428px 아래의 모든 폰이 그랬다.
-   메인(index.html)이 같은 자리에서 쓰는 규칙을 그대로 가져온다: 폰에서는 히어로와
-   구역 제목과 마지막 CTA 가 **한 치수를 나눠 쓴다**(저쪽 주석: '모바일 섹션 제목
-   크기 통일 — 히어로 h1 · 섹션 title-lg · CTA h2가 모두 같은 32px를 공유').
-   여기서는 이 페이지가 이미 쓰는 30px 이 그 치수다 — 구역 제목은 그대로 두고
-   히어로와 CTA 가 올라와 맞춘다. 좁은 폭에서 두 단을 두되, 두 단 모두 셋이 같다 */
-/* ⚠ 선택자에 body.estimate-page 를 얹는다. 이 묶음이 파일 앞쪽에 있는데 뒤에
+/* ⚠ 전화기 폭에서 제목 층위가 뒤집혀 있었다. 히어로는 clamp(24px,7vw,38px) 로
+   줄어드는데 구역 제목(.title-md)은 30px 붙박이라, 7vw 가 30 을 밑도는 폭 —
+   428px 아래의 모든 폰에서 페이지 제목이 그 아래 머리글보다 작았다(390px 에서
+   히어로 27.3px · 구역 제목 30px).
+
+   잘못은 유동 치수에 있지 않았다. **바닥이 구역 제목보다 낮았던 것**이 잘못이다.
+   그래서 유동은 그대로 두고 둘을 같은 비율로 묶는다 — 히어로 8.5vw, 구역 제목과
+   마지막 CTA 7.5vw. 비율이 다르면 어느 폭에서도 앞뒤가 바뀌지 않는다(한 치수로
+   통일해 두면 뒤집히지는 않아도 페이지 제목이 머리글과 같아져, 무엇이 이 화면의
+   제목인지가 사라진다).
+
+   8.5vw 는 그냥 고른 값이 아니다. 제목은 <br> 로 두 줄을 적어 두었고 첫 줄
+   '사업장에 맞는 구성을'이 열 글자다. 폭을 바꿔 가며 재 보면 한 줄에 들어가는
+   한계가 대략 폭의 8.8% 라(340↔30px · 360↔32px · 390↔34px), 거기서 한 뼘
+   물러선 자리다. 그 아래로 바닥 26px 을 두어 320px 에서도 두 줄이 선다.
+
+   ⚠ 선택자에 body.estimate-page 를 얹는다. 이 묶음이 파일 앞쪽에 있는데 뒤에
       .es-cta h2{font-size:36px} 가 또 있어, 같은 특정도면 나중 것이 이긴다.
       치수를 세 군데에 흩어 적는 대신 선택자를 한 단 올려 한 자리에서 끝낸다 */
 @media(max-width:640px){
   .es-hero{padding:48px 0 40px}
-  body.estimate-page .es-hero h1,
+  body.estimate-page .es-hero h1{font-size:clamp(26px,8.5vw,38px)}
   body.estimate-page .title-md,
-  body.estimate-page .es-cta h2{font-size:30px}
-}
-/* 30px 으로는 320px 에서 히어로 첫 줄('사업장에 맞는 구성을')이 한 번 더 접혀
-   세 줄이 된다 — <br> 로 두 줄을 적어 둔 제목이라 접히면 적은 대로 서지 않는다.
-   그 폭에서만 한 치수 내린다. 28px 이면 다시 두 줄이고, 셋은 여전히 같다 */
-@media(max-width:340px){
-  body.estimate-page .es-hero h1,
-  body.estimate-page .title-md,
-  body.estimate-page .es-cta h2{font-size:28px}
+  body.estimate-page .es-cta h2{font-size:clamp(24px,7.5vw,30px)}
 }
 
 /* ── 2.5 상단 3탭 · 탭 패널 ────────────────────────────────────
