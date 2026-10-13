@@ -319,8 +319,32 @@
         var e = es[0], rb = e.rootBounds;
         head.classList.toggle('is-stuck',
           !e.isIntersecting && !!rb && e.boundingClientRect.top <= rb.top);
+        nowCat();
       }, { rootMargin: '-' + (h + 1) + 'px 0px 0px 0px', threshold: 0 });
       headIO.observe(sentinel);
+    }
+
+    /* 붙어 있는 동안 머리줄이 '지금 어느 묶음인지'를 들고 있는다. 묶음 제목은
+       화면 위로 지나가 버리는데 표는 스물두 줄이라, 중간쯤에서 보고 있는 줄이
+       공사 이야기인지 급여 이야기인지 알 길이 없었다.
+       ⚠ 재는 자리는 머리줄의 아랫변이다. 그 선 바로 아래가 지금 읽는 첫 줄이라,
+          묶음이 바뀌는 순간과 이름이 바뀌는 순간이 맞는다.
+       ⚠ 묶음과 묶음 사이의 빈 자리에서는 지나온 이름을 들고 있는다. 비우면
+          묶음이 갈릴 때마다 이름이 한 번씩 깜빡인다 */
+    var cats = $$('.es-cat'), nowEl = $('.es-cmp-head .now');
+    function nowCat(){
+      if(!head || !nowEl) return;
+      var name = '';
+      if(head.classList.contains('is-stuck')){
+        var line = head.getBoundingClientRect().bottom + 1;
+        for(var i = 0; i < cats.length; i++){
+          var r = cats[i].getBoundingClientRect();
+          if(r.top > line) break;                 /* 아직 닿지 않은 묶음 */
+          name = cats[i].getAttribute('aria-label') || '';
+          if(r.bottom > line) break;              /* 이 묶음 안이다 */
+        }
+      }
+      if(nowEl.textContent !== name) nowEl.textContent = name;
     }
 
     /* 머리줄이 붙으면 화면 위쪽을 탭 줄과 둘이 나눠 쓴다. 비교표는 길어서 그
@@ -342,7 +366,7 @@
     window.addEventListener('scroll', function(){
       if(waiting) return;
       waiting = true;
-      window.requestAnimationFrame(function(){ waiting = false; tabsFollow(); });
+      window.requestAnimationFrame(function(){ waiting = false; tabsFollow(); nowCat(); });
     }, { passive: true });
     /* 키보드로 탭에 닿으면 숨은 채로 초점만 가 있는 일이 없게 돌려놓는다 */
     var tabsBar = $('.es-tabs');

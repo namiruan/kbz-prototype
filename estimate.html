@@ -202,7 +202,11 @@
       <div class="es-cmp-sentinel" aria-hidden="true"></div>
       <!-- 머리줄은 스크롤을 따라붙는다 -->
       <div class="es-cmp-head">
-        <div class="c task">기능</div>
+        <!-- 붙어 있는 동안에는 묶음 제목이 화면 위로 지나가 버린다. 지금 보는 줄이
+             어느 묶음의 것인지를 머리줄이 대신 들고 있는다 — 스크립트가 채운다.
+             ⚠ aria-hidden 이다. 묶음 제목은 h3 으로 이미 읽히는 자리에 있어,
+                스크롤마다 바뀌는 같은 말을 한 번 더 읽어 줄 까닭이 없다 -->
+        <div class="c task">기능<span class="now" aria-hidden="true"></span></div>
         <div class="c c30"><span class="pre">김반장 </span>3.0<a class="banner-btn" href="#apply" data-plan="c30">견적 신청하기</a></div>
         <div class="c prem"><span class="pre">김반장 </span>프리미엄<a class="banner-btn" href="#apply" data-plan="prem">견적 신청하기</a></div>
       </div>

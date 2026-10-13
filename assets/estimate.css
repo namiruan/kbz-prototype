@@ -368,6 +368,15 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
    ⚠ 위아래 여백은 0 이다. 16/13 을 남기면 그만큼 가운데가 1.5px 어긋난다 —
       줄 높이는 어차피 옆의 두 줄짜리 칸이 정한다 */
 .es-cmp-head .c.task{display:flex;align-items:center;padding-top:0;padding-bottom:0}
+/* 지금 보는 묶음 이름. 제자리에 있을 때는 바로 아래에 묶음 제목이 보이므로
+   띄우지 않는다 — 붙어서 그 제목이 화면 밖으로 나간 뒤에만 선다.
+   ⚠ '기능'보다 작고 흐리다. 이 칸의 이름은 '기능'이고 묶음 이름은 지금
+      어디쯤인지 알려 주는 곁말이라, 둘이 같은 무게로 서면 열 이름이 둘이 된다 */
+.es-cmp-head .c.task .now{display:none}
+.es-cmp-head.is-stuck .c.task .now:not(:empty){display:inline-block;
+  margin-left:10px;padding-left:11px;border-left:1px solid var(--main-gray);
+  font-size:14px;font-weight:700;letter-spacing:-.025em;color:var(--sub-d-gray);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .es-cmp-head .c.c30,.es-cmp-head .c.prem{text-align:center}
 .es-cmp-head .c.prem{color:var(--main-blue);background:var(--frame-tint);border-radius:12px 12px 0 0}
 /* 눈금은 자리를 먹지 않는다 */
@@ -523,6 +532,12 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
   /* 머리줄은 좁은 폭에서도 따라붙는다. 열이 좁아 '김반장'은 떼고 이름만 세운다 */
   .es-cmp-head .c{padding:11px 4px 10px;font-size:13px;white-space:nowrap}
   .es-cmp-head .c.task{padding-left:16px;font-size:14px}
+  /* 좁은 폭에서는 이 칸이 274px 뿐이라 둘이 나란히 설 자리가 없다. 열 이름을
+     접고 묶음 이름만 세운다 — 세 열 가운데 어느 것이 '기능' 열인지는 옆 두
+     칸이 '3.0'·'프리미엄'이라 저절로 갈린다 */
+  .es-cmp-head.is-stuck .c.task:has(.now:not(:empty)){font-size:0}
+  .es-cmp-head.is-stuck .c.task .now:not(:empty){margin-left:0;padding-left:0;
+    border-left:0;font-size:13.5px}
   .es-cmp-head .c .pre{display:none}
   /* ⚠ 48px 칸에 알약이 들어갈 자리는 없다. 신청은 표 꼬리가 받는다 */
   .es-cmp-head .banner-btn{display:none}
