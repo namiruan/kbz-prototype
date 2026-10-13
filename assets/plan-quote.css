@@ -30,10 +30,13 @@
 .pq-type .nm{display:inline-flex;align-items:center;gap:5px;
   font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
 /* 물음표는 이름 옆에 붙는다. 평소에는 흐리게 있다가 카드에 손이 닿으면 또렷해진다 —
-   선 아이콘이던 때는 그 '흐림'을 --ink-4 로 냈는데, 면으로 채운 배지에서는 그 값을
-   쓸 수 없다. 흰 물음표가 #A7ADB4 원 위에서 2.26:1 이라 읽히지 않는다.
-   그래서 흐림을 한 단 올리고(--ink-3, 4.60:1), 또렷해지는 쪽은 회색에서 파랑으로
-   간다 — 면에서는 짙기보다 색이 바뀌는 쪽이 눈에 먼저 든다 */
+   선 아이콘이던 때는 그 '흐림'을 --ink-4 로 냈는데, 배지가 된 뒤로는 그 값을 쓸 수
+   없다. 물음표가 #A7ADB4 로 흰 바탕에 서면 2.26:1 이라 읽히지 않는다. 그래서 흐림을
+   한 단 올리고(--ink-3, 4.60:1), 또렷해지는 쪽은 색으로 간다 — 배지에서는 짙기보다
+   색이 바뀌는 쪽이 눈에 먼저 든다.
+   ⚠ 원과 물음표가 한 color 를 나눠 쓴다. 원은 그 색의 20% 틴트이고 물음표는 제
+      색 그대로라, 색 하나만 바꾸면 둘이 같이 따라온다 — 두 값을 따로 들면 상태가
+      넷(쉼·hover·고름·펼침)이라 여덟 군데를 맞춰야 한다 */
 .pq-help{appearance:none;border:0;background:none;padding:0;
   display:grid;place-items:center;width:16px;height:16px;flex:none;
   color:var(--ink-3);transition:color .14s;cursor:help}
