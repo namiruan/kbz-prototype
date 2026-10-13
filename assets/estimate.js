@@ -129,6 +129,69 @@
     }
     window.esSetPlan = function(v){ wantPlan = v; applyPlan(); };
 
+    /* ── 누른 칸을 탭 줄 바로 아래로 ──────────────────────────────
+       끼운 폼의 kbd.js 는 패널 안에서 비켜선다(그쪽 머리말에 까닭이 있다) —
+       안쪽 창에는 굴릴 자리가 없고 70vh 의 vh 도 화면이 아니라 틀의 높이라,
+       제가 굴리면 누른 칸이 되레 화면 밖으로 밀려 나갔다.
+       그래서 올리는 일은 굴릴 창을 가진 쪽, 곧 여기가 맡는다.
+
+       브라우저는 '키보드에 안 가리면' 거기서 멈춘다. 그 자리는 대개 화면
+       아래쪽이고, 그 아래는 키보드가 먹고 있어 다음 칸도 오류 줄도 함께
+       보이지 않는다. 칸 하나가 아니라 라벨까지 한 덩어리(.f-item)로 잡아
+       탭 줄 바로 아래에 세우면, 무슨 칸인지와 다음에 누를 것이 같이 보인다.
+
+       손끝으로 쓰는 기기에서만 한다 — 마우스로 칸을 누를 때 화면이 움직이면
+       그건 거드는 것이 아니라 놀라게 하는 것이다 */
+    var coarse = window.matchMedia && window.matchMedia('(pointer:coarse)').matches;
+    /* 칸에 들어가 있는 동안은 탭 줄을 숨기지 않는다 — '탭 줄 바로 아래'에
+       세워 놓고 그 줄이 사라지면 칸 위에 빈 띠만 남는다. 글을 쓰는 중에
+       돌아갈 길을 치우는 것도 될 일이 아니다 */
+    var typing = false;
+    function typable(el){
+      if(!el || el.disabled || el.readOnly) return false;
+      if(el.tagName === 'TEXTAREA') return true;
+      if(el.tagName !== 'INPUT') return false;
+      return !/^(checkbox|radio|button|submit|reset|hidden|file|range|color)$/i
+        .test(el.getAttribute('type') || 'text');
+    }
+    function liftTo(fr, el){
+      var block = (el.closest && el.closest('.f-item')) || el;
+      var want = (parseFloat(getComputedStyle(document.body)
+                  .getPropertyValue('--tabbar-h')) || 0) + 10;
+      var now = fr.getBoundingClientRect().top + block.getBoundingClientRect().top;
+      var d = Math.round(now - want);
+      if(!d) return;
+      /* 탭 줄이 숨어 있으면 '탭 줄 아래'라는 자리가 성립하지 않는다 — 돌려놓는다 */
+      document.body.classList.remove('tabs-away');
+      var html = document.documentElement, prev = html.style.scrollBehavior;
+      html.style.scrollBehavior = 'auto';   /* 부드럽게 흐르면 키보드와 겹쳐 흔들린다 */
+      window.scrollBy(0, d);
+      html.style.scrollBehavior = prev;
+    }
+    function lifts(fr, d){
+      if(!coarse) return;
+      var up = false;
+      d.addEventListener('focusin', function(e){
+        var el = e.target;
+        if(!typable(el)) return;
+        var was = up; up = true; typing = true;
+        /* 키보드가 올라서고 브라우저가 제 몫을 굴린 뒤라야 우리 자리가 마지막으로
+           남는다. 칸에서 칸으로 옮길 때는 이미 올라와 있어 기다릴 것이 적다 */
+        setTimeout(function(){
+          if(d.activeElement === el) liftTo(fr, el);
+        }, was ? 140 : 340);
+        /* 브라우저가 뒤늦게 한 번 더 굴리는 일이 있어 한 번 더 맞춘다 */
+        setTimeout(function(){
+          if(d.activeElement === el) liftTo(fr, el);
+        }, was ? 420 : 620);
+      });
+      d.addEventListener('focusout', function(){
+        setTimeout(function(){
+          if(!typable(d.activeElement)){ up = false; typing = false; }
+        }, 80);
+      });
+    }
+
     function mount(type){
       var fr = $('#panel-' + type + ' .es-frame');
       if(!fr || !fr.dataset.src || fr.getAttribute('src')) return;   /* 한 번만 끼운다 */
@@ -148,6 +211,7 @@
         var pane = d.getElementById('sumPane'), form = d.getElementById('quoteForm');
         if(pane && form){ follows.push({ fr:fr, pane:pane, form:form, on:false, at:0 }); }
         remeasure();
+        lifts(fr, d);      /* 누른 칸을 탭 줄 바로 아래로 — 바깥이 굴린다 */
         /* 지켜보는 것도 documentElement 가 아니라 body 다 — 같은 까닭으로
            documentElement 는 틀 크기를 따라가 내용이 줄어도 꿈쩍하지 않는다 */
         if(window.ResizeObserver){
@@ -354,6 +418,7 @@
     var lastY = window.pageYOffset || 0, waiting = false;
     function tabsFollow(){
       var y = window.pageYOffset || 0;
+      if(typing){ document.body.classList.remove('tabs-away'); lastY = y; return; }
       if(!head || !head.classList.contains('is-stuck')){
         document.body.classList.remove('tabs-away');
         lastY = y; return;
