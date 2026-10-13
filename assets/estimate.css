@@ -325,6 +325,35 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
      넓은 폭에서는 .txt 의 flex:1 이 남는 자리를 이미 다 먹어 아무 일도 없다 */
   .es-pick-out .go{margin-left:auto}
 }
+/* 전화기 폭에서는 접기가 통하지 않는다. 도장(58) + 글(최소 200) + 화살표(44) 에
+   틈 둘을 더하면 342px 인데 카드 안쪽은 390 화면에서 292px 뿐이다 — 셋이 흩어진다.
+     430 이하 : 화살표만 제 줄로 떨어져 도장 아래가 통째로 빈다(카드 165px)
+     360 이하 : 글까지 떨어져 셋이 각자 한 줄씩 선다(233px)
+   접히는 상자 대신 세 칸 격자로 묶으면 폭이 얼마든 한 줄이 지켜진다. 남는 자리를
+   글이 받으므로(minmax(0,1fr)) 접기를 부르던 min-width 도 여기서는 풀어 준다.
+   도장과 화살표는 한 치수 내린다 — 글에 줄 자리를 만드는 것이기도 하고, 46px
+   도장은 전화기 화면에서 58px 못지않게 눈에 띈다. 390 에서 165 → 107px */
+@media(max-width:480px){
+  .es-pick-out{display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;column-gap:10px;row-gap:0;padding:14px}
+  .es-pick-out .txt{min-width:0}
+  .es-pick-out .rec-sticker{width:46px;height:46px}
+  .es-pick-out .rec-txt{font-size:13px}
+  .es-pick-out .go{margin-left:0;width:38px;height:38px}
+  .es-pick-out .go svg{width:17px;height:17px}
+}
+/* 더 좁은 자리에서는 한 치수를 더 내린다. 320 에서 글에 돌아가는 폭이 114px
+   밖에 안 되어 제목까지 두 줄로 꺾였다 — 제목이 꺾이면 '무엇을 추천하는지'가
+   한눈에 들어오지 않는다. 도장·화살표·틈을 조금씩 걷어 글에 30px 을 돌려준다.
+   320 에서 181 → 124px, 제목은 다시 한 줄이다 */
+@media(max-width:360px){
+  .es-pick-out{column-gap:8px;padding:13px 12px}
+  .es-pick-out .rec-sticker{width:40px;height:40px}
+  .es-pick-out .rec-txt{font-size:11px}
+  .es-pick-out .rec{font-size:16px}
+  .es-pick-out .go{width:34px;height:34px}
+  .es-pick-out .go svg{width:16px;height:16px}
+}
 
 /* ── 추천 도장 ─────────────────────────────────────────────────
    메인(partition-8)의 '추천!' 도장을 그대로 옮겨 왔다. 저쪽은 비교표 머리에
