@@ -609,7 +609,7 @@
           높이를 들고 있게 해 출렁이지 않게 한다. 높이는 띄운 뒤에 잰다 —
           붙은 바는 화면 폭을 쓰므로 제자리(330px)보다 넓고, 그만큼 글이
           덜 접혀 키가 다르다 */
-    var dock = $('#esPickDock'), out = $('.es-pick-out');
+    var dock = $('#esPickDock'), out = $('.es-pick-out'), list = $('.es-pick-list');
     var narrow = window.matchMedia ? window.matchMedia('(max-width:640px)') : null;
 
     function floatSync(){
@@ -619,13 +619,17 @@
             화면 아래가 아니라 접힌 띠 안쪽 바닥에 흐릿한 카드로 갇혀 섰다.
             목록을 아직 펴지도 않은 사람에게 '해당하는 것을 골라 보세요'를
             내미는 꼴이라, 손잡이를 누르기 전에는 없는 것이 맞다 */
-      if(!dock || !out || !narrow || !narrow.matches || pick.hasAttribute('inert')){
+      if(!dock || !out || !list || !narrow || !narrow.matches || pick.hasAttribute('inert')){
         document.body.classList.remove('es-pick-float');
         if(dock) dock.style.minHeight = '';
         return;
       }
-      var sec = pick.closest ? pick.closest('section') : null;
-      var sr = (sec || pick).getBoundingClientRect();
+      /* ⚠ 기준은 구역이 아니라 목록이다. 구역(.es-plans)에는 눈썹·제목·손잡이가
+            먼저 서 있어 머리만 400px 가까이 된다. 그 머리가 화면에 걸친 것만으로
+            붙이면, 열 줄은 아직 화면 아래에 있는데 답 카드가 제목 위에 떠 있는
+            꼴이 된다 — 보는 사람에게는 체크리스트가 나오기도 전에 뜬 것이다.
+            펴 둔 목록이 화면에 한 줄이라도 걸쳐 있을 때부터 붙인다 */
+      var sr = list.getBoundingClientRect();
       var dr = dock.getBoundingClientRect();
       var seen = sr.top < window.innerHeight && sr.bottom > 0;   /* 구역을 보고 있다 */
       /* ⚠ 제자리로 돌려놓는 때를 '빈 자리가 화면에 다 들어왔을 때'로 잡으면
