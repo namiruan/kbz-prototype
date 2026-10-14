@@ -189,6 +189,28 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
 /* 접힌 동안에는 아래를 당겨 올린다. 흐린 줄의 아래쪽은 그라디언트가 거의 다
    지워 놓은 자리라, 거기에 구역 여백 92px 까지 붙으면 빈 파랑이 한 뼘 남는다 */
 .es-plans:has(.es-pick[inert]){padding-bottom:52px}
+/* ── 좁은 폭에서 답은 화면 아래에 붙는다 ─────────────────────────
+   재 보면 이 구역은 390px 에서 1129~1241px 이고 화면은 844px 이다. 답 바는
+   열 줄 아래에 있으니, 어느 줄을 체크하든 답은 늘 화면 밖에 있었다. 고른
+   보람이 한 번도 눈에 닿지 않는다는 뜻이다.
+   그래서 이 구역을 보고 있는 동안만 답을 바닥에 붙여 둔다. 체크할 때마다
+   그 자리에서 글이 바뀌니, 무엇을 고르면 답이 어떻게 달라지는지가 손끝과
+   눈 사이에서 바로 이어진다.
+   ⚠ 바가 떠 버리면 흐름에서 빠져 목록이 그만큼 위로 당겨진다. 감싼 상자
+      (.es-pick-dock)가 그 높이를 들고 있어 출렁이지 않는다.
+   ⚠ 구역을 벗어나면 떼어 낸다. 폼·비교표·FAQ 위를 따라다니면 그 화면들이
+      할 말을 가린다 */
+.es-pick-dock{position:relative}
+
+@media(max-width:640px){
+  body.es-pick-float .es-pick-out{
+    position:fixed;left:12px;right:12px;bottom:12px;z-index:30;
+    max-width:none;margin:0;padding:13px 15px;
+    box-shadow:0 10px 30px rgba(var(--color-navy-rgb),.22)}
+  /* 떠 있는 동안에는 바탕이 비치면 안 된다 — 아래 목록 줄이 글에 겹쳐 읽힌다 */
+  body.es-pick-float .es-pick[data-rec="none"] .es-pick-out{background:var(--main-white)}
+}
+
 @media(max-width:820px){.es-plans{padding:64px 0}}
 
 /* ── 3.5 고르면 답이 나오는 체크리스트 ────────────────────────────

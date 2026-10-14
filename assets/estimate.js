@@ -595,7 +595,62 @@
       /* 체크하면 답 배너가 생기거나 글이 길어져 목록이 자란다. 여는 상자가
          인라인 max-height 를 들고 있는 동안에는 그만큼 잘리므로 알려 준다 */
       if(window.esPickGrew) window.esPickGrew();
+      floatSync();
     }
+
+    /* ── 좁은 폭에서 답을 바닥에 붙인다 ────────────────────────────
+       390px 에서 이 구역은 1129~1241px 이고 화면은 844px 이다. 답 바는 열 줄
+       아래에 있으니 어느 줄을 체크하든 답이 화면 밖이었다 — 고른 보람이 한
+       번도 눈에 닿지 않았다.
+       붙이는 조건은 둘이다. 이 구역을 보고 있을 것, 그리고 답이 제자리에
+       아직 보이지 않을 것. 아래로 내려가 제자리가 화면에 들어오면 떼어 낸다 —
+       같은 바가 둘로 보이거나, 빈 자리를 옆에 두고 떠 있는 꼴이 된다.
+       ⚠ 띄우면 흐름에서 빠져 목록이 그만큼 위로 당겨진다. 감싼 상자가 그
+          높이를 들고 있게 해 출렁이지 않게 한다. 높이는 띄운 뒤에 잰다 —
+          붙은 바는 화면 폭을 쓰므로 제자리(330px)보다 넓고, 그만큼 글이
+          덜 접혀 키가 다르다 */
+    var dock = $('#esPickDock'), out = $('.es-pick-out');
+    var narrow = window.matchMedia ? window.matchMedia('(max-width:640px)') : null;
+
+    function floatSync(){
+      if(!dock || !out || !narrow || !narrow.matches){
+        document.body.classList.remove('es-pick-float');
+        if(dock) dock.style.minHeight = '';
+        return;
+      }
+      var sec = pick.closest ? pick.closest('section') : null;
+      var sr = (sec || pick).getBoundingClientRect();
+      var dr = dock.getBoundingClientRect();
+      var seen = sr.top < window.innerHeight && sr.bottom > 0;   /* 구역을 보고 있다 */
+      /* ⚠ 제자리로 돌려놓는 때를 '빈 자리가 화면에 다 들어왔을 때'로 잡으면
+            한 걸음 늦다. 390px 에서 재 보면 빈 자리가 다 들어오는 순간에도
+            바는 아직 12px 위에 떠 있어, 제자리와 떠 있는 자리가 어긋난 채로
+            한 번 더 그려진다.
+            그래서 둘로 본다. 빈 자리의 윗변이 떠 있는 바의 윗변까지 올라왔거나,
+            빈 자리가 통째로 화면에 들어왔으면 내려놓는다.
+            그 자리에서 둘의 높이가 겹치므로, 보는 눈에는 떠 있던 바가 그대로
+            제자리에 내려앉은 것처럼 보이고 가리는 구간도 18px 로 줄어든다 */
+      var home = dr.top <= window.innerHeight - out.offsetHeight - 12
+              || dr.bottom <= window.innerHeight;
+      var on = seen && !home;
+      document.body.classList.toggle('es-pick-float', on);
+      dock.style.minHeight = on ? (out.offsetHeight + 'px') : '';
+    }
+
+    var floatWait = false;
+    function floatTick(){
+      if(floatWait) return;
+      floatWait = true;
+      window.requestAnimationFrame(function(){ floatWait = false; floatSync(); });
+    }
+    window.addEventListener('scroll', floatTick, { passive:true });
+    window.addEventListener('resize', floatTick);
+    if(narrow){
+      /* 폭이 바뀌면 붙일지 말지가 통째로 달라진다 */
+      if(narrow.addEventListener) narrow.addEventListener('change', floatSync);
+      else if(narrow.addListener) narrow.addListener(floatSync);
+    }
+    floatSync();
 
     boxes.forEach(function(b){ b.addEventListener('change', paint); });
 

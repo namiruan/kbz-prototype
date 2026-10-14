@@ -162,6 +162,9 @@
            위가 아니라 아래로 내려오면서, 답이 선 뒤에 폼으로 돌아갈 길이 있어야
            한다. data-plan 이 그 폼의 계약 유형까지 맞춰 준다 — 고른 것을 또
            고르게 두지 않는다 -->
+      <!-- 답을 담아 두는 자리. 좁은 폭에서 답 바가 화면 아래에 붙어 떠 있는
+           동안, 이 상자가 그 높이만큼 자리를 지켜 목록이 출렁이지 않게 한다 -->
+      <div class="es-pick-dock" id="esPickDock">
       <div class="es-pick-out" role="status" aria-live="polite">
         <!-- 답이 섰을 때만 뜬다. 메인의 '추천!' 도장 그대로다 -->
         <span class="rec-sticker" id="esPickSeal" aria-hidden="true" hidden><span class="rec-seal"><span class="rec-holo"></span><span class="rec-shine"></span></span><span class="rec-txt">추천!</span></span>
@@ -187,6 +190,7 @@
                 어디로 가는 길인지 들을 수 없다. 그 이름은 paint() 가 고쳐 단다 -->
         <a class="go" id="esPickGo" href="#apply" data-plan="c30" hidden aria-label="김반장 3.0으로 견적 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h12.5M11.5 5.5L18 12l-6.5 6.5"/></svg></a>
         </div>
+      </div>
       </div>
     </div>
   </div>
