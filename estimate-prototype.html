@@ -281,15 +281,27 @@
     'cta-마지막':{url:ES, act:function(d){ jump(d,'.es-cta'); }}
   };
 
+  /* 몇 번째로 연 시나리오인지 우리가 센다.
+     ⚠ 전에는 '.proto-nav-btn.is-active' 를 읽어 그새 다른 시나리오로 옮겨 갔는지
+        판정했다. 그 클래스는 우리만 쓰는 것이 아니다 — 크롬도 markNav() 로 같은
+        버튼들을 켜고 끈다. 우리가 틀을 싣고 load 를 기다리는 사이에 크롬이 한 번
+        더 손대면, 우리가 연 시나리오인데도 '다른 것으로 옮겨 갔다'로 읽혀 act 가
+        그대로 return 한다. 화면은 떴는데 눌러야 할 것을 아무도 누르지 않은 꼴이
+        되고, 콘솔에는 한 줄도 남지 않는다.
+        남의 DOM 을 읽어 판정하지 않는다. 우리가 센 번호가 아직 최신인지만 본다 */
+  var seq = 0;
+
   function open(name){
     var s=S[name]; if(!s) return;
     var f=$('#screen iframe'); if(!f) return;
+    var mine = ++seq;
     f.onload=function(){
+      if(mine !== seq) return;      /* 그새 다른 시나리오를 열었다 */
       if(!s.act) return;
-      /* 그새 다른 시나리오로 옮겨 갔으면 손대지 않는다 */
-      var now=document.querySelector('.proto-nav-btn.is-active');
-      if(now && now.dataset.scenario!==name) return;
-      try{ s.act(f.contentDocument); }catch(e){}
+      /* ⚠ 삼키지 않는다. 시나리오가 못 찾는 것이 생기면 조용히 아무 일도
+            일어나지 않아, 고장인지 원래 그런지조차 가릴 수 없었다 */
+      try{ s.act(f.contentDocument); }
+      catch(e){ console.error('[시나리오] ' + name + ' 를 그리다 멈췄습니다', e); }
     };
     f.src=s.url+(s.url.indexOf('?')<0?'?':'&')+'_t='+Date.now();
   }
