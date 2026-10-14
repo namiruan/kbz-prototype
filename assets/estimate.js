@@ -687,6 +687,7 @@
         pick.style.maxHeight = '';
         pick.removeEventListener('transitionend', done);
         pick.removeEventListener('transitioncancel', done);
+        floatSync();   /* 다 펴지고 나야 답 바의 제자리가 정해진다 */
       }
       function done(e){
         if(e.target !== pick || e.propertyName !== 'max-height') return;
@@ -727,6 +728,12 @@
           pick.addEventListener('transitionend', done);
           pick.addEventListener('transitioncancel', done);
         }
+        /* ⚠ 여닫자마자 한 번 본다. floatSync 는 스크롤·창 크기·체크에만
+              매달려 있었는데, 펼치는 일은 그 셋 가운데 어느 것도 아니다.
+              그래서 손잡이를 눌러 열 줄이 펴지고 답 바가 화면 아래로 밀려나도
+              붙지 않은 채로 있었다 — 스크롤을 한 번 건드려야 그제서야 붙었다.
+              여는 동안에는 높이가 변하므로 끝난 뒤(unlock)에 한 번 더 본다 */
+        floatSync();
       });
     }
   })();
