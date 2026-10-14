@@ -613,7 +613,13 @@
     var narrow = window.matchMedia ? window.matchMedia('(max-width:640px)') : null;
 
     function floatSync(){
-      if(!dock || !out || !narrow || !narrow.matches){
+      /* ⚠ 접혀 있는 동안에는 붙이지 않는다. 접힘 상자는 overflow:hidden 으로
+            답 바를 가려 두는데, position:fixed 는 그 클립을 빠져나간다.
+            게다가 그 상자에 걸린 filter:blur() 가 fixed 의 기준 상자가 되어,
+            화면 아래가 아니라 접힌 띠 안쪽 바닥에 흐릿한 카드로 갇혀 섰다.
+            목록을 아직 펴지도 않은 사람에게 '해당하는 것을 골라 보세요'를
+            내미는 꼴이라, 손잡이를 누르기 전에는 없는 것이 맞다 */
+      if(!dock || !out || !narrow || !narrow.matches || pick.hasAttribute('inert')){
         document.body.classList.remove('es-pick-float');
         if(dock) dock.style.minHeight = '';
         return;
