@@ -1,7 +1,7 @@
 /* ================================================================
    estimate.js — 견적받기 화면이 하는 일은 넷뿐이다.
 
-     1) 상단 3탭을 갈아 끼우고, 단말기 두 탭에 견적 화면을 끼운다 (?type=A·B·C)
+     1) 상단 3탭을 갈아 끼우고, 단말기 두 탭에 견적 화면을 끼운다 (?type=program·ecard·face)
      2) 끼운 화면 안의 요약 카드를 스크롤에 맞춰 따라 내리게 한다
      3) 체크리스트를 받아 어느 서비스가 맞는지 답한다
      4) 비교표의 묶음 여섯을 여닫는다
@@ -119,7 +119,7 @@
     var wantPlan = null;
     function applyPlan(){
       if(!wantPlan) return;
-      var fr = $('#panel-A .es-frame');
+      var fr = $('#panel-program .es-frame');
       if(!fr) return;
       try{
         var d = fr.contentDocument;
@@ -206,7 +206,7 @@
         var home = d.getElementById && d.getElementById('btnHome');
         if(home) home.hidden = true;
         /* A 탭 폼은 계약 유형을 밖에서 정해 준다 — 뜨자마자 그 자리로 맞춘다 */
-        if(type === 'A') applyPlan();
+        if(type === 'program') applyPlan();
         fit(fr);
         var pane = d.getElementById('sumPane'), form = d.getElementById('quoteForm');
         if(pane && form){ follows.push({ fr:fr, pane:pane, form:form, on:false, at:0 }); }
@@ -221,11 +221,19 @@
       fr.setAttribute('src', fresh(fr.dataset.src));
     }
 
+    /* 탭 이름은 주소에 그대로 실린다 — ?type=ecard 는 읽는 것만으로 어느
+       화면인지 알 수 있지만 ?type=B 는 이 코드를 읽어야 안다.
+       ⚠ A·B·C 로 나눠 쓰던 때의 링크가 이미 돌아다니므로 받아는 준다.
+          받되 주소는 새 이름으로 고쳐 둔다 — 그래야 다음에 복사되는 링크부터
+          제 이름을 달고 나간다 */
+    var WAS = { A:'program', B:'ecard', C:'face' };
+
     function show(type, push){
+      if(WAS[type]){ type = WAS[type]; push = true; }
       var hit = tabs.some(function(t){ return t.dataset.type === type; });
-      /* 모르는 값이면 A 로 돌리되 주소도 같이 고친다 — ?type=Z 가 주소에 남아
-         있으면 공유된 링크가 계속 엉뚱한 값을 실어 나른다 */
-      if(!hit){ type = 'A'; push = true; }
+      /* 모르는 값이면 첫 탭으로 돌리되 주소도 같이 고친다 — ?type=Z 가 주소에
+         남아 있으면 공유된 링크가 계속 엉뚱한 값을 실어 나른다 */
+      if(!hit){ type = 'program'; push = true; }
       tabs.forEach(function(t){
         var on = t.dataset.type === type;
         t.classList.toggle('is-active', on);
@@ -240,7 +248,7 @@
          보는 눈이 다시 말해 줄 때까지 기다리지 않고 그 자리에서 돌려놓는다 */
       tabsFollow();
 
-      /* 좁은 폭에서 탭 줄은 가로로 밀어 보는 띠가 된다. ?type=C 로 바로 들어오면
+      /* 좁은 폭에서 탭 줄은 가로로 밀어 보는 띠가 된다. ?type=face 로 바로 들어오면
          고른 탭이 화면 밖에 있어 '지금 어느 탭인지'가 보이지 않으므로, 가운데로
          당겨 온다. 띠가 넘치지 않는 넓은 폭에서는 아무 일도 일어나지 않는다 */
       var row = $('.es-tabs-row'), cur = $('.es-tab.is-active');
@@ -280,10 +288,10 @@
        소개서는 신청하는 것이 아니라 바로 받는 것이고, 탭마다 받을 것이 다르다.
        3.0 과 프리미엄은 쓰는 사람이 고를 수 있어야 하므로 둘로 나눠 세운다 */
     var DOCS = {
-      A:[ ['김반장 3.0 소개서 다운로드',   '#help'],
-          ['김반장 프리미엄 소개서 다운로드','#help'] ],
-      B:[ ['퇴직공제 전자카드 단말기 소개서 다운로드','#help'] ],
-      C:[ ['안면인식 출퇴근관리 소개서 다운로드','#help'] ]
+      program:[ ['김반장 3.0 소개서 다운로드',   '#help'],
+                ['김반장 프리미엄 소개서 다운로드','#help'] ],
+      ecard  :[ ['퇴직공제 전자카드 단말기 소개서 다운로드','#help'] ],
+      face   :[ ['안면인식 출퇴근관리 소개서 다운로드','#help'] ]
     };
     var DL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"'
            + ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
@@ -309,7 +317,10 @@
     function faq(type){
       var seen = [];
       faqRows.forEach(function(d){
-        var on = (d.dataset.tab || '').indexOf(type) > -1;
+        /* ⚠ indexOf 로 견주면 안 된다 — 한 글자(A·B·C)일 때는 맞았지만
+              이름이 길어지면 'card' 가 'ecard' 안에 들어 있어 엉뚱한 줄이 선다.
+              여러 탭에 걸치는 줄은 data-tab 에 빈칸으로 늘어놓는다 */
+        var on = (d.dataset.tab || '').split(/\s+/).indexOf(type) > -1;
         d.hidden = !on;
         if(on) seen.push(d); else d.open = false;
       });
@@ -462,7 +473,7 @@
       t.addEventListener('click', function(){ show(t.dataset.type, true); });
     });
 
-    /* ?type=C 로 들어오면 고른 탭이 화면 밖에 잘려 있을 수 있다 — 끌어다 보여 준다 */
+    /* ?type=face 로 들어오면 고른 탭이 화면 밖에 잘려 있을 수 있다 — 끌어다 보여 준다 */
     function revealActive(){
       var on = $('.es-tab.is-active');
       if(on && tabsRow && tabsRow.scrollWidth > tabsRow.clientWidth + 1){
@@ -479,7 +490,7 @@
       a.addEventListener('click', function(){ window.esSetPlan(a.dataset.plan); });
     });
 
-    show((new URLSearchParams(location.search)).get('type') || 'A', false);
+    show((new URLSearchParams(location.search)).get('type') || 'program', false);
     revealActive();
   })();
 
