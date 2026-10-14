@@ -610,7 +610,7 @@
           붙은 바는 화면 폭을 쓰므로 제자리(330px)보다 넓고, 그만큼 글이
           덜 접혀 키가 다르다 */
     var dock = $('#esPickDock'), out = $('.es-pick-out'), list = $('.es-pick-list');
-    var narrow = window.matchMedia ? window.matchMedia('(max-width:640px)') : null;
+    var narrow = window.matchMedia ? window.matchMedia('(max-width:820px)') : null;
 
     function floatSync(){
       /* ⚠ 접혀 있는 동안에는 붙이지 않는다. 접힘 상자는 overflow:hidden 으로
@@ -619,9 +619,15 @@
             화면 아래가 아니라 접힌 띠 안쪽 바닥에 흐릿한 카드로 갇혀 섰다.
             목록을 아직 펴지도 않은 사람에게 '해당하는 것을 골라 보세요'를
             내미는 꼴이라, 손잡이를 누르기 전에는 없는 것이 맞다 */
-      if(!dock || !out || !list || !narrow || !narrow.matches || pick.hasAttribute('inert')){
-        document.body.classList.remove('es-pick-float');
-        if(dock) dock.style.minHeight = '';
+      if(!dock || !out || !list || !narrow){
+        document.body.classList.remove('es-pick-float', 'es-pick-leaving');
+        return;
+      }
+      /* 접어서 떼는 것이면 아래로 미끄러뜨린다 — 목록이 접히며 사라지는 것과
+         같은 방향이다. 폭이 넓어져 떼는 것이면 움직임 없이 끈다 — 창을 끄는
+         손짓에 카드가 따라 미끄러지면 그것대로 군더더기다 */
+      if(!narrow.matches || pick.hasAttribute('inert')){
+        setFloat(false, narrow.matches);
         return;
       }
       /* ⚠ 기준은 구역이 아니라 목록이다. 구역(.es-plans)에는 눈썹·제목·손잡이가
@@ -642,9 +648,42 @@
             제자리에 내려앉은 것처럼 보이고 가리는 구간도 18px 로 줄어든다 */
       var home = dr.top <= window.innerHeight - out.offsetHeight - 12
               || dr.bottom <= window.innerHeight;
-      var on = seen && !home;
-      document.body.classList.toggle('es-pick-float', on);
-      dock.style.minHeight = on ? (out.offsetHeight + 'px') : '';
+      /* 떼는 까닭이 '제자리가 올라왔다'면 그 자리에 내려앉히고(미끄러뜨리지
+         않는다), '목록이 화면에서 벗어났다'면 아래로 미끄러뜨린다 */
+      setFloat(seen && !home, !home);
+    }
+
+    /* 붙이고 떼는 일을 한 군데로 모은다. 떼는 길이 둘이기 때문이다.
+       ⚠ 제자리(dock)가 올라와서 떼는 것이라면 그 자리에 그대로 내려앉혀야 한다 —
+          빈 자리와 떠 있는 바가 같은 높이에 겹쳐 있으므로, 클래스만 거두면
+          움직임 없이 자연스럽게 바뀐다. 여기서 아래로 미끄러뜨리면 내려갔다가
+          제자리에 다시 나타나는 꼴이 된다.
+       ⚠ 목록이 화면에서 벗어나거나 접혀서 떼는 것이라면 아래로 미끄러뜨린다.
+          그때는 돌아갈 제자리가 화면에 없으니 그냥 사라지는 편이 맞다 */
+    var floatOn = false, leaveTimer = null;
+    function setFloat(on, slideOut){
+      if(on === floatOn){
+        if(on) dock.style.minHeight = out.offsetHeight + 'px';
+        return;
+      }
+      floatOn = on;
+      clearTimeout(leaveTimer);
+      document.body.classList.remove('es-pick-leaving');
+      if(on){
+        document.body.classList.add('es-pick-float');
+        dock.style.minHeight = out.offsetHeight + 'px';
+        return;
+      }
+      if(!slideOut){
+        document.body.classList.remove('es-pick-float');
+        dock.style.minHeight = '';
+        return;
+      }
+      document.body.classList.add('es-pick-leaving');
+      leaveTimer = setTimeout(function(){
+        document.body.classList.remove('es-pick-float', 'es-pick-leaving');
+        dock.style.minHeight = '';
+      }, 200);
     }
 
     var floatWait = false;
