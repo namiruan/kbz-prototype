@@ -10,7 +10,7 @@
      주소가 절대경로인 것은 시스템 규약이다(kbz_3.0_ui_stytem 의 프로토타입 예시와 같다) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/tokens.css">
-<link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/components.css">
+<link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/proto-chrome.css">
 <style>
 /* 이 파일이 갖는 것은 '화면을 끼우는 자리' 하나뿐이다. 나머지 생김새는 전부 시스템이 낸다 */
 #screen{display:block;width:100%;height:100dvh}
@@ -410,7 +410,7 @@
   if(first) open(first.dataset.scenario);
 })();
 </script>
-<script src="https://namiruan.github.io/kbz_3.0_ui_stytem/components.js"></script>
+<script src="https://namiruan.github.io/kbz_3.0_ui_stytem/proto-chrome.js"></script>
 <script>
   /* 아이콘은 스프라이트를 주입해 쓴다 (시스템 규약: 원격 절대 URL) */
   fetch('https://namiruan.github.io/kbz_3.0_ui_stytem/icons/sprite.svg')
@@ -421,7 +421,7 @@
       d.innerHTML=svg;
       document.body.insertBefore(d, document.body.firstChild);
     }).catch(function(){});
-  /* components.js 는 초기화 함수를 등록만 한다 — 크롬은 여기서 켠다 */
+  /* proto-chrome.js 는 초기화 함수를 등록만 한다 — 크롬은 여기서 켠다 */
   if (typeof initProtoChrome === 'function') initProtoChrome(document);
 </script>
 <script>
