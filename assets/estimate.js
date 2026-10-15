@@ -217,6 +217,30 @@
         if(window.ResizeObserver){
           new ResizeObserver(function(){ fit(fr); remeasure(); }).observe(d.body);
         }
+        /* 신청을 보내고 나면 체크리스트를 걷는다. 이미 고르고 보낸 사람에게
+           '어느 쪽이 맞을까'를 다시 묻는 꼴이기도 하지만, 그보다 답 바가
+           데려갈 폼이 그 자리에 없다 — 눌러 봐야 완료 카드 앞에 선다.
+           체크리스트가 폼 아래에 있는 탓에 더 두드러진다: 폼이 완료 카드로
+           줄어들면서 그 자리가 위로 당겨 올라와, 보냈다는 말 바로 밑에
+           '체크하면 추천해 드립니다'가 붙는다.
+           ⚠ 바깥과 안쪽이 신호를 주고받게 만들지 않는다. 끼운 화면은 이미
+              제 body 에 is-done 을 달고('다시 신청하기'가 도로 벗긴다),
+              여기는 같은 출처라 그 클래스를 바로 읽을 수 있다 */
+        if(type === 'program' && window.MutationObserver){
+          var plans = $('#plans');
+          var syncPlans = function(){
+            if(!plans) return;
+            var over = d.body.classList.contains('is-done');
+            if(plans.hidden === over) return;
+            plans.hidden = over;
+            /* 걷힌 목록은 답 바가 따라다닐 자리도 아니다 */
+            if(window.esPickRecheck) window.esPickRecheck();
+            remeasure();
+          };
+          new MutationObserver(syncPlans)
+            .observe(d.body, { attributes:true, attributeFilter:['class'] });
+          syncPlans();   /* ?done=1 로 바로 열린 경우 */
+        }
       });
       fr.setAttribute('src', fresh(fr.dataset.src));
     }
@@ -736,6 +760,8 @@
         if(e.target !== pick || e.propertyName !== 'max-height') return;
         unlock();
       }
+      /* 바깥에서 목록을 통째로 걷었을 때 — 떠 있던 답 바를 내려놓아야 한다 */
+      window.esPickRecheck = floatSync;
       window.esPickGrew = function(){
         if(toggle.getAttribute('aria-expanded') !== 'true') return;
         if(opening) pick.style.maxHeight = pick.scrollHeight + 'px';
