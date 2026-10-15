@@ -37,9 +37,9 @@
     <nav class="proto-nav" aria-label="시나리오 선택">
       <span class="proto-nav-group-label">로그인</span>
       <button class="proto-nav-btn proto-nav-sub is-active" type="button" data-scenario="login-기본"
-        data-why="이용사가 들어오는 자리. 아래 띠는 미이용사가 바로 작성 화면으로 가는 길입니다."
+        data-why="이용사가 들어오는 자리. 아래 프로모션 링크는 미이용사가 바로 작성 화면으로 가는 길입니다."
         data-steps="로그인 화면을 연 상태 — 아이디·비밀번호를 넣고 이용후기 남기기를 누르면 작성 화면으로 넘어갑니다"
-        data-look="아래 띠를 누르면 미이용사 작성 화면으로 갑니다|로그인 박스 아래에는 비밀번호 찾기만 있습니다">기본</button>
+        data-look="아래 프로모션 링크를 누르면 미이용사 작성 화면으로 갑니다|로그인 박스 아래에는 비밀번호 찾기만 있습니다">기본</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="login-만석"
         data-why="이 계정의 계약 현장이 하나도 남지 않았을 때. 들어가도 새로 쓸 자리가 없어 로그인을 누른 자리에서 알립니다. 임시저장만 해둔 현장도 찬 것으로 봅니다. 현장 수는 계정마다 다르고, 이 시나리오에서는 네 곳으로 두었습니다."
         data-steps="아이디·비밀번호를 넣고 이용후기 남기기를 누른 상태입니다"
@@ -47,7 +47,7 @@
       <span class="proto-nav-group-label">이용사</span>
       <span class="proto-nav-group-label proto-nav-group-label--sub">새 후기 작성</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-인증전"
-        data-why="로그인한 이용사가 처음 들어온 자리. 회사명은 계정에서 오므로 머리글에만 있고 따로 묻지 않습니다."
+        data-why="로그인한 이용사가 처음 들어온 자리. 회사명은 계정에서 오므로 제목에만 있고 따로 묻지 않습니다."
         data-steps="아무것도 하지 않은 처음 상태입니다|핸드폰 번호에 하이픈 없이 숫자만 쳐 보세요|이름과 번호를 넣고 인증하면 다음 시나리오의 화면이 됩니다"
         data-look="@{.rw-gate} 아래가 흐리고 손이 닿지 않습니다 — 탭으로도 들어가지 않습니다|플로팅 바가 숨어 있습니다|단계 표시가 ① 작성자 인증에 있습니다|숫자만 쳐도 '010 - 1234 - 5678' 로 구분선이 저절로 들어갑니다">인증 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-인증후"
@@ -85,7 +85,7 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-인증전"
         data-why="로그인 없이 들어온 자리. 계약 목록이 없으니 회사명·사업자등록번호를 직접 밝힙니다. 이용사와 달리 문이 둘이라, 사업장을 먼저 밝혀야 작성자 필드가 열립니다."
         data-steps="아무것도 하지 않은 처음 상태입니다|사업자등록번호에 하이픈 없이 숫자만 쳐 보세요"
-        data-look="작성자 이름·번호 필드가 회색으로 잠겨 있습니다|@{.rw-head} 머리글이 '다시 만나서 반가워요!' — 아직 회사명을 모릅니다|@{.rw-head} 회사명을 적는 대로 머리글이 따라옵니다|숫자만 쳐도 '123 - 45 - 67890' 으로 구분선이 저절로 들어갑니다. 핸드폰 번호도 같습니다">인증 전</button>
+        data-look="작성자 이름·번호 필드가 회색으로 잠겨 있습니다|@{.rw-head} 제목이 '다시 만나서 반가워요!' — 아직 회사명을 모릅니다|@{.rw-head} 회사명을 적는 대로 제목이 따라옵니다|숫자만 쳐도 '123 - 45 - 67890' 으로 구분선이 저절로 들어갑니다. 핸드폰 번호도 같습니다">인증 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-사업자확인"
         data-why="사업자등록번호 확인을 마친 직후. 사업장이 밝혀져 작성자 필드가 열립니다."
         data-steps="회사명 대한건설, 사업자등록번호 555-66-77880 을 확인한 상태입니다"
@@ -106,16 +106,16 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-불러임시"
         data-why="아직 내지 않은 글입니다. 그래서 쓰던 자리로 그대로 돌려놓고, 다시 지울 수도 다시 저장할 수도 있게 둡니다."
         data-steps="010-7777-0002 로 본인 확인을 마치고 후기 불러오기를 누른 상태 — 저장해 둔 회사 정보·현장명·업종명·문항 답이 모두 들어 있습니다"
-        data-look="맨 위 띠 '임시저장하신 내용을 불러왔습니다.' 뒤에 저장 시각이 붙습니다|머리글 옆에 초기화가 있습니다 — 아직 낸 글이 아닙니다|@{.rw-float} 플로팅 바에 임시 저장과 제출하기가 함께 있습니다|필드는 모두 저장한 그대로입니다 — 회사 정보도 다시 인증하지 않습니다">임시저장분 불러온 뒤</button>
+        data-look="맨 위 배너 '임시저장하신 내용을 불러왔습니다.' 뒤에 저장 시각이 붙습니다|제목 옆에 초기화가 있습니다 — 아직 낸 글이 아닙니다|@{.rw-float} 플로팅 바에 임시 저장과 제출하기가 함께 있습니다|필드는 모두 저장한 그대로입니다 — 회사 정보도 다시 인증하지 않습니다">임시저장분 불러온 뒤</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-불러제출"
         data-why="이미 낸 글입니다. 지우는 길을 없애고, 누르는 단추도 새로 내는 말이 아니라 고쳐 내는 말로 바꿉니다 — 같은 화면이지만 하는 일이 다릅니다."
         data-steps="010-7777-0001 로 본인 확인을 마치고 후기 불러오기를 누른 상태"
-        data-look="맨 위 띠 '이미 제출하신 후기를 불러왔습니다.' 뒤에 제출 시각이 붙습니다|초기화가 없습니다 — 낸 글을 통째로 비우는 길은 두지 않습니다|임시 저장도 없습니다|단추가 '수정해서 제출' 입니다|필드는 낸 그대로이고 회사 정보도 다시 인증하지 않습니다">제출분 불러온 뒤</button>
+        data-look="맨 위 배너 '이미 제출하신 후기를 불러왔습니다.' 뒤에 제출 시각이 붙습니다|초기화가 없습니다 — 낸 글을 통째로 비우는 길은 두지 않습니다|임시 저장도 없습니다|단추가 '수정해서 제출' 입니다|필드는 낸 그대로이고 회사 정보도 다시 인증하지 않습니다">제출분 불러온 뒤</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">제출한 뒤</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-완료"
         data-why="미이용사도 적어 낸 회사명으로 부릅니다."
         data-steps="폼을 제출한 상태"
-        data-look="@{.rw-head} 머리글이 '대한건설 담당자님'|수정하기를 누르면 번호 인증 모달이 뜹니다 — 기댈 로그인이 없습니다|통과하면 회사 정보를 다시 받지 않고 쓰던 폼으로 돌아갑니다">제출 완료</button>
+        data-look="@{.rw-head} 제목이 '대한건설 담당자님'|수정하기를 누르면 번호 인증 모달이 뜹니다 — 기댈 로그인이 없습니다|통과하면 회사 정보를 다시 받지 않고 쓰던 폼으로 돌아갑니다">제출 완료</button>
       <span class="proto-nav-group-label">막히는 자리</span>
       <span class="proto-nav-group-label proto-nav-group-label--sub">로그인</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="err-로그인빈칸"
@@ -151,7 +151,7 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="err-사업자중복"
         data-why="한 사업장에 한 분입니다. 본인 확인을 취소하면 왜 막혔는지가 필드 아래에 남습니다."
         data-steps="이미 후기가 있는 사업자등록번호로 확인을 누르고, 뜬 모달에서 취소를 누른 상태입니다"
-        data-look="'이미 작성된 후기가 있는 사업자등록번호입니다.' — 방금 닫은 모달의 머리글과 같은 말입니다|제출분이든 임시저장분이든 같은 말입니다|같은 말을 배너로 한 번 더 하지 않습니다">취소한 뒤 남는 말</button>
+        data-look="'이미 작성된 후기가 있는 사업자등록번호입니다.' — 방금 닫은 모달의 제목과 같은 말입니다|제출분이든 임시저장분이든 같은 말입니다|같은 말을 배너로 한 번 더 하지 않습니다">취소한 뒤 남는 말</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">본인 확인</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="err-모달빈번호"
         data-why="인증을 거치지 않고 불러오기부터 누른 자리. 번호가 그 후기를 찾는 열쇠라 건너뛸 수 없습니다."
