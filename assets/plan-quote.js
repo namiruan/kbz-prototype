@@ -152,10 +152,12 @@
          있어, 같은 자리에서 둘이 같은 말을 할 까닭이 없다 */
       total.textContent = '0원';
       basis.textContent = '연 매출액을 넣으시면 보여 드립니다';
+      basis.classList.remove('dup-of-detail');
     }else if(t === 'over'){
       total.textContent = '담당자 산정';
       total.classList.add('none');
       basis.textContent = '4000억 이상은 요금표에 없습니다';
+      basis.classList.remove('dup-of-detail');
     }else{
       /* 끝의 물결은 '여기서부터 올라간다'는 표시다. 말로 적으면 금액 뒤에 설명이
          한 덩이 더 붙은 꼴이라, 기호 하나로 줄여 숫자에 붙인다 */
@@ -165,7 +167,11 @@
          고르는 사람이 알아야 할 것은 '얼마부터'다. 프리미엄만 한 줄이 남는데,
          바로 위에 '3.0 할인 100%'가 서 있어 '3.0 요금 기준'이라고 적으면
          깎인다던 것이 기준이 되는 꼴이다. 그래서 기준 대신 포함을 적는다 */
+      /* 펼친 내역의 '김반장 3.0 이용료 … 무료' 행이 같은 말을 금액까지 들고
+         하므로, 펼쳤을 때는 이 줄을 거둔다. 그 표를 여기서 단다 — 다른 두
+         문구는 되풀이가 아니라 거두면 안 된다 */
       basis.textContent = prem ? '김반장 3.0 이용료 포함' : '';
+      basis.classList.toggle('dup-of-detail', prem);
     }
 
     /* ② 할인 블록 — 연납을 골랐을 때만. 월납인데 '할인 전'을 띄우면 깎이지도
