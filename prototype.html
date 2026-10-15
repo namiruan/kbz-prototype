@@ -49,11 +49,11 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-인증전"
         data-why="로그인한 이용사가 처음 들어온 자리. 회사명은 계정에서 오므로 머리글에만 있고 따로 묻지 않습니다."
         data-steps="아무것도 하지 않은 처음 상태입니다|핸드폰 번호에 하이픈 없이 숫자만 쳐 보세요|이름과 번호를 넣고 인증하면 다음 시나리오의 화면이 됩니다"
-        data-look="@{.rw-gate} 아래가 흐리고 손이 닿지 않습니다 — 탭으로도 들어가지 않습니다|@{.rw-float} 플로팅 막대가 숨어 있습니다|단계 표시가 ① 작성자 인증에 있습니다|숫자만 쳐도 '010 - 1234 - 5678' 로 구분선이 저절로 들어갑니다">인증 전</button>
+        data-look="@{.rw-gate} 아래가 흐리고 손이 닿지 않습니다 — 탭으로도 들어가지 않습니다|@{.rw-float} 플로팅 바가 숨어 있습니다|단계 표시가 ① 작성자 인증에 있습니다|숫자만 쳐도 '010 - 1234 - 5678' 로 구분선이 저절로 들어갑니다">인증 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-인증후"
         data-why="번호 인증을 마친 직후. 쓴 적 없는 번호라 되찾을 기록이 없고, 빈 폼이 열립니다."
         data-steps="이름 최소장, 번호 010-9000-0001 로 인증을 마친 상태입니다"
-        data-look="인증 필드가 한 줄 요약으로 접히고 수정이 붙습니다|@{.rw-float} 흐림이 걷히고 플로팅 막대가 올라옵니다|필수값을 다 채우기 전 제출 버튼은 눌린 것처럼 보이지 않습니다">인증 후</button>
+        data-look="인증 필드가 한 줄 요약으로 접히고 수정이 붙습니다|@{.rw-float} 흐림이 걷히고 플로팅 바가 올라옵니다|필수값을 다 채우기 전 제출 버튼은 눌린 것처럼 보이지 않습니다">인증 후</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-만석현장"
         data-why="후기는 한 사람이 한 건만 남깁니다. 대신 맡은 현장은 여러 곳을 함께 골라 그 한 건에 담습니다. 한 현장에 후기도 하나뿐이어서, 다른 분이 먼저 고른 현장은 잠깁니다. 그분이 아직 제출하지 않고 임시저장만 해둔 상태여도 잠깁니다."
         data-steps="아직 후기를 쓰지 않은 번호로 인증하고 계약 현장 목록을 열어 둔 상태입니다|회색으로 눌린 항목에 마우스를 올려 보세요|잠기지 않은 두 곳을 함께 눌러 보세요"
@@ -74,7 +74,7 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-제출"
         data-why="이미 낸 후기를 고치러 온 자리. 검토 전이라 고쳐서 다시 낼 수 있습니다."
         data-steps="이름 이소장, 번호 010-5555-0002 로 인증을 마친 상태입니다"
-        data-look="제출 버튼이 '수정해서 제출'|@{.rw-float} 플로팅에 임시 저장이 없습니다 — 이미 보관된 글 위에 초안을 덮지 않습니다|초기화도 인증 수정도 없습니다">제출분 수정</button>
+        data-look="제출 버튼이 '수정해서 제출'|@{.rw-float} 플로팅 바에 임시 저장이 없습니다 — 이미 보관된 글 위에 초안을 덮지 않습니다|초기화도 인증 수정도 없습니다">제출분 수정</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">제출한 뒤</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-완료"
         data-why="제출한 직후 화면. 후기는 바로 실리지 않고 검토를 거칩니다."
@@ -93,7 +93,7 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-인증후"
         data-why="문 둘을 다 지난 상태. 사업장과 작성자가 한 줄로 접히고 폼이 열립니다."
         data-steps="사업자등록번호 확인에 이어 이름 김소장, 번호 010-9000-0002 로 인증까지 마친 상태입니다"
-        data-look="회사 정보와 작성자가 한 카드에서 함께 접힙니다|현장명을 직접 적습니다 — 계약 목록이 없기 때문입니다|@{.rw-float} 플로팅 막대가 올라옵니다">인증 후</button>
+        data-look="회사 정보와 작성자가 한 카드에서 함께 접힙니다|현장명을 직접 적습니다 — 계약 목록이 없기 때문입니다|@{.rw-float} 플로팅 바가 올라옵니다">인증 후</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-면허"
         data-why="기댈 로그인이 없으니 업종명을 직접 고릅니다. 인트라넷 계약 화면과 같은 스무 가지인데, 종합·전문으로 가르지 않고 가나다순 한 줄로 세웁니다 — 고르는 사람은 제 회사의 대표 업종 하나를 짚는 것이지 분류를 고르는 것이 아닙니다."
         data-steps="사업장 확인과 작성자 인증을 마치고 업종명 필드에 '조경' 을 친 상태입니다|지우면 스무 가지가 다시 보입니다"
@@ -106,7 +106,7 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-불러임시"
         data-why="아직 내지 않은 글입니다. 그래서 쓰던 자리로 그대로 돌려놓고, 다시 지울 수도 다시 저장할 수도 있게 둡니다."
         data-steps="010-7777-0002 로 본인 확인을 마치고 후기 불러오기를 누른 상태 — 저장해 둔 회사 정보·현장명·업종명·문항 답이 모두 들어 있습니다"
-        data-look="맨 위 띠 '임시저장하신 내용을 불러왔습니다.' 뒤에 저장 시각이 붙습니다|머리글 옆에 초기화가 있습니다 — 아직 낸 글이 아닙니다|@{.rw-float} 플로팅 막대에 임시 저장과 제출하기가 함께 있습니다|필드는 모두 저장한 그대로입니다 — 회사 정보도 다시 인증하지 않습니다">임시저장분 불러온 뒤</button>
+        data-look="맨 위 띠 '임시저장하신 내용을 불러왔습니다.' 뒤에 저장 시각이 붙습니다|머리글 옆에 초기화가 있습니다 — 아직 낸 글이 아닙니다|@{.rw-float} 플로팅 바에 임시 저장과 제출하기가 함께 있습니다|필드는 모두 저장한 그대로입니다 — 회사 정보도 다시 인증하지 않습니다">임시저장분 불러온 뒤</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-불러제출"
         data-why="이미 낸 글입니다. 지우는 길을 없애고, 누르는 단추도 새로 내는 말이 아니라 고쳐 내는 말로 바꿉니다 — 같은 화면이지만 하는 일이 다릅니다."
         data-steps="010-7777-0001 로 본인 확인을 마치고 후기 불러오기를 누른 뒤입니다|앞의 임시저장분 화면과 나란히 보면 다른 자리가 보입니다"
