@@ -289,16 +289,22 @@
   function open(name){
     var s=S[name]; if(!s) return;
     var f=$('#screen iframe'); if(!f) return;
-    var mine = ++seq;
+    var mine = ++seq, phase = 0;   /* phase 0 = 비우는 중 · 1 = 화면 */
     f.onload=function(){
       if(mine !== seq) return;      /* 그새 다른 시나리오를 열었다 */
+      if(phase === 0){ phase = 1; f.src = s.url; return; }
       if(!s.act) return;
       /* ⚠ 삼키지 않는다. 시나리오가 못 찾는 것이 생기면 조용히 아무 일도
             일어나지 않아, 고장인지 원래 그런지조차 가릴 수 없었다 */
       try{ s.act(f.contentDocument); }
       catch(e){ console.error('[시나리오] ' + name + ' 를 그리다 멈췄습니다', e); }
     };
-    f.src=s.url+(s.url.indexOf('?')<0?'?':'&')+'_t='+Date.now();
+    /* **비웠다가 넣는다.** 주소 끝에 `_t=` 를 붙여 매번 다르게 만들면 깨끗한 상태는
+       얻지만 브라우저가 캐시를 한 번도 쓰지 못해, 시나리오를 옮길 때마다 화면과 그
+       자산을 통째로 다시 받았다. about:blank 를 거치면 문서는 똑같이 새로 서면서
+       받아 둔 것은 그대로 쓴다. 빈 문서에서도 load 가 한 번 오므로 단계를 나눠 둔다 — */
+    if(f.src && f.src.indexOf('about:blank') < 0) f.src = 'about:blank';
+    else { phase = 1; f.src = s.url; }
   }
 
   /* 크롬이 틀 안에서 ?scenario= 를 읽어 해당 버튼을 눌러 준다 — 그 누름을 여기서 받는다.

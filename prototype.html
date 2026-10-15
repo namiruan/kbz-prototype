@@ -378,16 +378,23 @@
     var s=S[name]; if(!s) return;
     seed(s);
     var f=$('#screen iframe'); if(!f) return;
+    /* kbd=1 — 모바일 폭에서 필드를 클릭하면 화면 키보드를 흉내 낸 판이 올라온다 */
+    var URL = s.url+(s.url.indexOf('?')<0?'?':'&')+'kbd=1';
+    var phase = 0;   /* phase 0 = 비우는 중 · 1 = 화면 */
     f.onload=function(){
+      if(phase === 0){ phase = 1; f.src = URL; return; }
       if(!s.act) return;
       /* 그새 다른 시나리오로 옮겨 갔으면 손대지 않는다 */
       var now=document.querySelector('.proto-nav-btn.is-active');
       if(now && now.dataset.scenario!==name) return;
       try{ s.act(f.contentDocument); }catch(e){}
     };
-    /* kbd=1 — 모바일 폭에서 칸을 누르면 화면 키보드를 흉내 낸 판이 올라온다.
-       진짜 키보드가 먹는 자리를 여기서 재려고 켜는다 — 화면 파일은 주소가 부르지 않으면 켜지 않는다 */
-    f.src=s.url+(s.url.indexOf('?')<0?'?':'&')+'kbd=1&_t='+Date.now();
+    /* **비웠다가 넣는다.** 주소 끝에 `_t=` 를 붙여 매번 다르게 만들면 깨끗한 상태는
+       얻지만 브라우저가 캐시를 한 번도 쓰지 못해, 시나리오를 옮길 때마다 화면과 그
+       자산을 통째로 다시 받았다. about:blank 를 거치면 문서는 똑같이 새로 서면서
+       받아 둔 것은 그대로 쓴다. 빈 문서에서도 load 가 한 번 오므로 단계를 나눠 둔다 — */
+    if(f.src && f.src.indexOf('about:blank') < 0) f.src = 'about:blank';
+    else { phase = 1; f.src = URL; }
   }
 
   /* 크롬이 틀 안에서 ?scenario= 를 읽어 해당 버튼을 눌러 준다 — 그 누름을 여기서 받는다.
