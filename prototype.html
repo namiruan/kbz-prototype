@@ -10,12 +10,28 @@
      주소가 절대경로인 것은 시스템 규약이다(kbz_3.0_ui_stytem 의 프로토타입 예시와 같다) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/tokens.css">
-<link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/components.css">
+<link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/proto-chrome.css">
 <style>
 /* 이 파일이 갖는 것은 '화면을 끼우는 자리' 하나뿐이다. 나머지 생김새는 전부 시스템이 낸다 */
 #screen{display:block;width:100%;height:100dvh}
 #screen iframe{display:block;width:100%;height:100%;border:0;background:var(--color-bg-base,#fff)}
 </style>
+
+  <!-- **다음 겹을 미리 당겨 둔다.** 미리보기는 문서가 넷(바깥 → 틀 → 화면 → 끼운 화면)
+       겹으로 **차례차례** 선다 — 부모가 다 받고 JS 를 돌린 뒤에야 자식이 요청을 시작한다.
+       그 직렬 왕복이 흰 화면의 길이였다. 1겹에서 미리 받아 두면 3·4겹은 캐시에서 꺼낸다.
+       prefetch 라 지금 화면의 렌더를 막지 않는다. -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="prefetch" href="assets/base.css" as="style">
+  <link rel="prefetch" href="assets/form.css" as="style">
+  <link rel="prefetch" href="assets/select.css" as="style">
+  <link rel="prefetch" href="assets/face-attendance-review.css" as="style">
+  <link rel="prefetch" href="assets/kbd.css" as="style">
+  <link rel="prefetch" href="assets/select.js" as="script">
+  <link rel="prefetch" href="assets/kbd.js" as="script">
+  <link rel="prefetch" href="assets/login.css" as="style">
+  <link rel="prefetch" href="face-attendance-review.html" as="document">
+  <link rel="prefetch" href="login.html" as="document">
 </head>
 <body>
 
@@ -378,16 +394,23 @@
     var s=S[name]; if(!s) return;
     seed(s);
     var f=$('#screen iframe'); if(!f) return;
+    /* kbd=1 — 모바일 폭에서 필드를 클릭하면 화면 키보드를 흉내 낸 판이 올라온다 */
+    var URL = s.url+(s.url.indexOf('?')<0?'?':'&')+'kbd=1';
+    var phase = 0;   /* phase 0 = 비우는 중 · 1 = 화면 */
     f.onload=function(){
+      if(phase === 0){ phase = 1; f.src = URL; return; }
       if(!s.act) return;
       /* 그새 다른 시나리오로 옮겨 갔으면 손대지 않는다 */
       var now=document.querySelector('.proto-nav-btn.is-active');
       if(now && now.dataset.scenario!==name) return;
       try{ s.act(f.contentDocument); }catch(e){}
     };
-    /* kbd=1 — 모바일 폭에서 칸을 누르면 화면 키보드를 흉내 낸 판이 올라온다.
-       진짜 키보드가 먹는 자리를 여기서 재려고 켜는다 — 화면 파일은 주소가 부르지 않으면 켜지 않는다 */
-    f.src=s.url+(s.url.indexOf('?')<0?'?':'&')+'kbd=1&_t='+Date.now();
+    /* **비웠다가 넣는다.** 주소 끝에 `_t=` 를 붙여 매번 다르게 만들면 깨끗한 상태는
+       얻지만 브라우저가 캐시를 한 번도 쓰지 못해, 시나리오를 옮길 때마다 화면과 그
+       자산을 통째로 다시 받았다. about:blank 를 거치면 문서는 똑같이 새로 서면서
+       받아 둔 것은 그대로 쓴다. 빈 문서에서도 load 가 한 번 오므로 단계를 나눠 둔다 — */
+    if(f.src && f.src.indexOf('about:blank') < 0) f.src = 'about:blank';
+    else { phase = 1; f.src = URL; }
   }
 
   /* 크롬이 틀 안에서 ?scenario= 를 읽어 해당 버튼을 눌러 준다 — 그 누름을 여기서 받는다.
@@ -403,7 +426,7 @@
   if(first) open(first.dataset.scenario);
 })();
 </script>
-<script src="https://namiruan.github.io/kbz_3.0_ui_stytem/components.js"></script>
+<script src="https://namiruan.github.io/kbz_3.0_ui_stytem/proto-chrome.js"></script>
 <script>
   /* 아이콘은 스프라이트를 주입해 쓴다 (시스템 규약: 원격 절대 URL) */
   fetch('https://namiruan.github.io/kbz_3.0_ui_stytem/icons/sprite.svg')
@@ -414,7 +437,7 @@
       d.innerHTML=svg;
       document.body.insertBefore(d, document.body.firstChild);
     }).catch(function(){});
-  /* components.js 는 초기화 함수를 등록만 한다 — 크롬은 여기서 켠다 */
+  /* proto-chrome.js 는 초기화 함수를 등록만 한다 — 크롬은 여기서 켠다 */
   if (typeof initProtoChrome === 'function') initProtoChrome(document);
 </script>
 <script>
