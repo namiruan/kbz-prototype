@@ -18,6 +18,29 @@
 #screen{display:block;width:100%;height:100dvh}
 #screen iframe{display:block;width:100%;height:100%;border:0;background:var(--color-surface-base)}
 </style>
+
+  <!-- **다음 겹을 미리 당겨 둔다.** 미리보기는 문서가 넷(바깥 → 틀 → 화면 → 끼운 화면)
+       겹으로 **차례차례** 선다 — 부모가 다 받고 JS 를 돌린 뒤에야 자식이 요청을 시작한다.
+       그 직렬 왕복이 흰 화면의 길이였다. 1겹에서 미리 받아 두면 3·4겹은 캐시에서 꺼낸다.
+       prefetch 라 지금 화면의 렌더를 막지 않는다. -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="prefetch" href="assets/base.css" as="style">
+  <link rel="prefetch" href="assets/estimate.css" as="style">
+  <link rel="prefetch" href="assets/estimate.js" as="script">
+  <link rel="prefetch" href="assets/select.css" as="style">
+  <link rel="prefetch" href="assets/quote-common.css" as="style">
+  <link rel="prefetch" href="assets/plan-quote.css" as="style">
+  <link rel="prefetch" href="assets/kbd.css" as="style">
+  <link rel="prefetch" href="assets/format.js" as="script">
+  <link rel="prefetch" href="assets/select.js" as="script">
+  <link rel="prefetch" href="assets/kbd.js" as="script">
+  <link rel="prefetch" href="assets/plan-quote.js" as="script">
+  <link rel="prefetch" href="assets/quote.css" as="style">
+  <link rel="prefetch" href="assets/face-quote.css" as="style">
+  <link rel="prefetch" href="estimate.html" as="document">
+  <link rel="prefetch" href="plan-quote.html" as="document">
+  <link rel="prefetch" href="quote.html" as="document">
+  <link rel="prefetch" href="face-quote.html" as="document">
 </head>
 <body>
 
