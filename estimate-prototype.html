@@ -141,10 +141,10 @@
         data-look="@{.es-cmp-head} 열 이름이 탭 바 바로 아래에 붙어 따라옵니다|@{.es-cmp-head} 헤더가 붙은 뒤로는, 아래로 스크롤하는 동안 탭 바가 숨고 헤더가 그만큼 올라갑니다. 위로 스크롤하면 탭 바가 돌아옵니다|@{.es-cmp-head .now} 지금 보고 있는 섹션 이름이 뜹니다|@sm @{.es-cmp-head} '기능'을 접어 섹션 이름만 남기고, '김반장'을 떼어 '3.0'·'프리미엄'만 적습니다. '견적 신청하기'는 숨습니다">테이블 헤더 고정</button>
 
       <span class="proto-nav-group-label">탭 밖 · 공통</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fq-열림"
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="fq-탭별"
         data-why="이 페이지를 보다 생기는 오해를 바로잡는 물음만 남겼습니다. 섹션은 탭 밖에 있어 어느 탭에서나 같은 자리에 있지만, 묻는 사람은 탭마다 다릅니다 — 단말기 견적을 재러 온 사람에게 '프리미엄 계약 시 김반장 3.0이 무료인가요?'는 상관없는 물음입니다. 그래서 항목마다 어느 탭의 물음인지 적어 두고 그 탭에서만 보여 줍니다."
         data-steps="궁금한 점까지 내려와 두 번째 질문을 편 상태"
-        data-look="@{.faq} 처음 열면 그 탭의 첫 항목이 펴져 있습니다. 탭을 바꿔도 같되, 펴 둔 항목이 새 탭에도 있으면 그대로 둡니다|두 번째 질문을 펴도 첫 질문이 열린 채 남습니다">두 번째 질문을 펴면</button>
+        data-look="@{.faq} 처음 열면 그 탭의 첫 항목이 펴져 있습니다. 탭을 바꿔도 같되, 펴 둔 항목이 새 탭에도 있으면 그대로 둡니다|두 번째 질문을 펴도 첫 질문이 열린 채 남습니다">탭마다 다른 질문</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="cta-마지막"
         data-why="끝까지 읽고도 고르지 못한 사람에게 남깁니다. '전화 문의하기' 하나로는 지금 사람에게 말을 걸고 싶지 않은 사람이 할 수 있는 것이 없어, 내려받을 소개서를 나란히 두었습니다."
         data-steps="맨 아래까지 내려온 상태"
@@ -292,7 +292,7 @@
       await wait(400); jump(d,'#apply',8); }},
 
     /* 탭 밖 — 어느 탭에서나 같은 자리 */
-    'fq-열림'  :{url:ES, act:async function(d){
+    'fq-탭별'  :{url:ES, act:async function(d){
       jump(d,'.es-faq'); await wait(60);
       var all=d.querySelectorAll('.faq details');
       if(all[1]){ all[1].open=true; } }},
