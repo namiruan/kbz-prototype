@@ -90,6 +90,15 @@
      따라 밝아진다 */
   --ap-surface-lift:rgba(255,255,255,.75);
 
+  /* ── 현장 밑으로 들어가는 목록의 끝 ──
+     현장은 제자리에 서고 목록만 밀려 올라가므로, 목록은 현장 바로 밑에서
+     한 줄로 뚝 잘린다. 자르는 자리를 띠로 바꿔 옅어지며 사라지게 한다.
+     팔레트 색이 아니라 '보인다/안 보인다' 를 적는 값이라 검정·투명 그대로 둔다.
+     띠 높이는 현장과 목록 사이 틈과 같은 값 하나로 잡는다 — 멈춰 있을 때는
+     빈 틈만 덮어 아무것도 옅어지지 않고, 밀어 올릴 때만 그 틈에서 사라진다 */
+  --ap-fade-h:var(--ap-p8);
+  --ap-fade-top:linear-gradient(to bottom,transparent 0,#000 var(--ap-fade-h));
+
   /* ── 틈 — 시안 gap/3. 여백(padding/*)에는 8 이 없다 ── */
   --ap-gap3:8px;
   /* ── 시안이 못 박은 한 자리 — '현장 :' 과 '필터 :' 의 이름표 폭 ── */
@@ -175,7 +184,8 @@ ul,ol{list-style:none}
 .ctx{flex:none;display:flex;flex-direction:column;gap:var(--ap-gap3);
   margin:var(--ap-p5) var(--ap-p6) 0;padding:var(--ap-p4) var(--ap-p5);
   background:var(--ap-surface-lift);border-radius:var(--ap-r10)}
-.ctx + .body{padding-top:var(--ap-p5)}
+.ctx + .body{padding-top:var(--ap-fade-h);
+  -webkit-mask-image:var(--ap-fade-top);mask-image:var(--ap-fade-top)}
 
 .site{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3)}
 .site__k{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:none;width:var(--ap-label-w);color:var(--ap-primary)}
