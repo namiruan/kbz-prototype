@@ -6,8 +6,18 @@
 estimate-prototype.html · prototype.html · quote-prototype.html   시나리오 목록(크롬)
 estimate.html · plan-quote.html · quote.html · face-quote.html    끼워 보여 주는 화면
 login.html · face-attendance-review.html · index.html
+card-reader.html · face-attendance.html                            단말기 소개페이지
 assets/                                                            화면 쪽 CSS·JS
 ```
+
+소개페이지 두 장은 라이브(kbz.co.kr)의 서비스 소개페이지
+(`/service/kbz/kbz_social_insurances` · `/service/kbz/kbz_document`)와 같은 틀이다
+— `partition-1`~`partition-6` 과 바닥 고정 버튼. 그 틀은 두 화면이 나눠 쓰는
+`assets/service-intro.css` · `assets/service-intro.js` 에 있고, 라이브의
+`kbz_social_insurances.css` 를 옮긴 것이다. 사진은 `images/intro/README.md` 를 본다.
+
+**머리말·푸터는 넣지 않았다.** 라이브에서는 사이트 공통 크롬이 감싸고, 이 저장소의
+다른 끼움 화면들도 머리말 없이 내용만 들고 있다.
 
 ---
 

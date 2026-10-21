@@ -1,0 +1,297 @@
+/* ================================================================
+   service-intro.css — 서비스 소개페이지 두 장(card-reader · face-attendance)
+   이 쓰는 레이아웃.
+
+   라이브(kbz.co.kr)의 서비스 소개페이지가 쓰는
+   `/resources/css/kbz_social_insurances.css` · `kbz_document.css` 를 옮겼다.
+   그 두 파일은 롤링 띠(.rolling-frame) 하나만 빼면 같은 파일이라, 여기서는
+   한 벌로 합쳐 두 화면이 나눠 쓴다.
+
+   함께 옮긴 것: 라이브 `common.css` 의 타이포 클래스 가운데 이 두 화면이
+   쓰는 것만. 색 토큰은 `base.css` 에 이미 있어 옮기지 않았고, 이름이
+   엇갈리는 것(라이브 `--Pastel-blue` ↔ 여기 `--pastel-blue`)은 여기 이름을
+   따랐다.
+
+   ⚠ `.partition-conetents-head` 는 라이브의 오타다(contents → conetents).
+      고치지 않고 그대로 둔다 — 이 마크업이 라이브로 그대로 들어가야 한다.
+   ================================================================ */
+
+/* ── 타이포 (라이브 common.css) ───────────────────────────────── */
+.partition-headcopy{font-size:42px;font-weight:500;line-height:normal;letter-spacing:-2.1px}
+.partition-conetents-head{font-size:30px;font-weight:700;line-height:normal;letter-spacing:-1.5px}
+.contents-tab-on{font-size:26px;font-weight:700;line-height:normal}
+.contents-tab-off{font-size:26px;font-weight:400;line-height:normal}
+.CTA-button{font-size:24px;font-weight:700;line-height:normal}
+.contents-marque-header{font-size:24px;font-weight:700;line-height:normal;letter-spacing:-1.2px}
+.partition-contents{font-size:22px;font-weight:400;line-height:120%}
+.nav-button{font-size:20px;font-weight:600;line-height:normal}
+.partition-banner-contents{font-size:18px;font-weight:400;line-height:140%;letter-spacing:-.36px}
+.nav-sub-category{font-size:16px;font-weight:500;line-height:normal;letter-spacing:-.16px}
+.partition-contents-list{font-size:16px;font-weight:400;line-height:normal}
+.contents-marque{font-size:16px;font-weight:600;line-height:normal}
+.body-small{font-size:14px;font-weight:400;line-height:normal}
+
+@media (max-width:899px){
+  .partition-headcopy{font-size:38px}
+  .partition-conetents-head{font-size:26px}
+  .contents-marque-header{font-size:22px}
+  .partition-contents{font-size:20px}
+}
+@media (max-width:691px){
+  .contents-tab-on,.contents-tab-off{font-size:22px}
+  .contents-marque-header{font-size:18px}
+  .contents-marque{font-size:14px}
+  .body-small{font-size:13px}
+}
+@media (max-width:532px){
+  .partition-headcopy{font-size:30px}
+  .partition-conetents-head{font-size:24px}
+  .contents-tab-on,.contents-tab-off{font-size:18px}
+  .CTA-button{font-size:20px}
+  .partition-banner-contents{font-size:16px}
+}
+
+/* ── 바탕 ─────────────────────────────────────────────────────── */
+body.intro-page{background:#FBFBFB;cursor:default;overflow-x:hidden}
+
+.black{color:#272B2F}
+.white{color:#FFF}
+.blue700{color:#0045AA;text-align:center;font-weight:700}
+.white400{color:#FFF;text-align:center;font-weight:400}
+.white700{color:#FFF;text-align:center;font-weight:700}
+
+/* ── partition-1 · 히어로 ─────────────────────────────────────── */
+.partition-1{
+  display:flex;height:800px;padding:160px 0;flex-direction:column;align-items:center;
+  gap:20px;align-self:stretch;background:lightgray 50%/cover no-repeat
+}
+.intro-card-reader .partition-1{background-image:url("../images/intro/hero-card-reader.jpg")}
+.intro-face .partition-1{background-image:url("../images/intro/hero-face.jpg")}
+
+.partition-1-content{display:flex;padding:0 15px;flex-direction:column;align-items:center;gap:10px;align-self:stretch}
+.partition-1-sub-copy{display:flex;max-width:500px;justify-content:center;align-items:flex-start;align-content:flex-start;gap:2px;flex-wrap:wrap}
+.partition-1-sub-copy-txt{color:#0045AA;text-align:center}
+.partition-1-head-copy{display:flex;padding:0 20px;flex-direction:column;align-items:center;gap:40px;align-self:stretch}
+.partition-1-head-copy-txt{color:#272B2F;text-align:center}
+.partition-1-sub-e{display:flex;padding:0 10px;justify-content:center;align-items:center;align-self:stretch}
+.partition-1-sub-e-txt{color:#1F2A42;text-align:center}
+
+/* ── partition-2 · 기능 ───────────────────────────────────────── */
+.partition-2{display:flex;padding:50px 0;flex-direction:column;align-items:center;gap:50px;align-self:stretch;background:#FBFBFB}
+.partition-2-main-container,
+.partition-2-center{display:flex;max-width:800px;width:100%;margin:0 auto;flex-direction:column;align-items:center;gap:50px;align-self:stretch}
+.partition-2-group-1,
+.partition-2-group-2{display:flex;flex-direction:column;align-items:center;gap:50px;align-self:stretch}
+
+.group-1-1{display:flex;max-width:800px;align-items:center;align-content:center;gap:50px;align-self:stretch;flex-wrap:wrap}
+.group-1-1-left,
+.group-1-2-right{display:flex;min-width:300px;max-width:400px;padding:0 20px;flex-direction:column;align-items:flex-start;gap:10px;flex:1 0 0}
+.group-1-1-right,
+.group-1-2-left{display:flex;height:250px;min-width:300px;flex-direction:column;justify-content:center;align-items:center;flex:1 0 0}
+.group-1-1-right{border-radius:10px}
+
+.group-txt-main{display:flex;flex-direction:column;align-items:flex-start;gap:10px;align-self:stretch}
+.title-txt{align-self:stretch;color:#272B2F}
+.content-txt{align-self:stretch;color:var(--sub-d-gray)}
+
+.img-group{display:flex;height:250px;min-width:300px;flex-direction:column;justify-content:center;align-items:center;flex-shrink:0;align-self:stretch}
+.img-group2{display:flex;height:250px;min-width:300px;flex-direction:column;justify-content:flex-end;align-items:center;flex-shrink:0;align-self:stretch;background:var(--pastel-blue)}
+/* 사진은 틀 안에 통째로 들어간다 — 제품컷의 비율이 저마다 다르다 */
+.img-group img,
+.img-group2 img{max-width:100%;max-height:100%;width:auto;object-fit:contain}
+
+/* ── 롤링 띠 (face-attendance 만 쓴다) ────────────────────────── */
+.rolling-frame{display:flex;padding:10px 0;align-items:center;gap:30px;align-self:stretch;background:var(--pastel-blue);overflow:hidden;white-space:nowrap}
+.rolling-track{display:inline-flex;align-items:center;gap:30px;animation:rolling 20s linear infinite}
+.rolling-txt{color:var(--sub-d-blue);text-align:center}
+.rolling-img{width:26px;height:26px}
+@keyframes rolling{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── partition-3 · 세 칸 ──────────────────────────────────────── */
+.partition-3{display:flex;padding:50px 0;flex-direction:column;align-items:center;gap:50px;align-self:stretch;background:#FFF}
+.partition-3-center{display:flex;max-width:800px;flex-direction:column;align-items:center;gap:10px;justify-content:center;align-self:center;margin:0 auto}
+.partition-3-center .head-copy{display:flex;padding:0 20px;flex-direction:column;align-items:center;gap:40px;align-self:stretch}
+.partition-3-center .head-copy .head-line{max-width:800px;justify-content:center;align-items:center;align-content:center;gap:5px;align-self:stretch;flex-wrap:wrap}
+.partition-3-center .head-copy .sub-copy{display:flex;padding:0 15px;justify-content:center;align-items:center;align-self:stretch;margin-top:10px}
+.partition-3-center .head-copy .sub-copy .sub-copy-txt{flex:1 0 0;color:#1F2A42;text-align:center}
+
+.partition-3-contents-group{display:flex;max-width:800px;align-items:flex-start;align-self:stretch;margin:0 auto}
+.partition-3-panel{display:flex;flex:1 0 0;align-self:stretch;flex-direction:row;justify-content:space-between;align-items:flex-start;width:100%;height:356px}
+.partition-3-text-group{display:flex;flex-direction:column;align-items:center;align-self:stretch;padding:10px 20px 0;flex:1;text-align:center}
+.partition-3-text{display:flex;flex-direction:column;gap:10px;width:100%;align-items:center}
+.group-txt-sub{display:flex;padding:5px 8px;justify-content:center;align-items:center;border-radius:10px;background:#DCE8F9;width:fit-content}
+.sub-txt{color:var(--sub-d-blue);text-align:center;font-weight:400}
+.partition-3-title{align-self:stretch;color:var(--sub-d-blue);text-align:center}
+.partition-3-contents{align-self:stretch;width:100%;color:var(--sub-d-gray);text-align:left}
+
+.partition-3-img-wrap{position:relative;width:174px;height:166px;margin:auto auto 0}
+.partition-3-img-wrap img{position:relative;z-index:2;width:100%;height:auto;display:block}
+.partition-3-bg{
+  position:absolute;z-index:1;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:166px;height:130px;aspect-ratio:65/83;
+  background:radial-gradient(40.4% 49.87% at 50% 50%,#8ADAFF 0%,rgba(175,230,255,0) 100%)
+}
+
+/* ── partition-4 · 고객사 로고 띠 + 후기 ──────────────────────── */
+.partition-4{position:relative;display:flex;padding-top:140px;flex-direction:column;align-items:center;gap:20px;align-self:stretch;background:#EFF6FF}
+.slide-wrapper{width:100%;overflow:hidden;position:absolute;top:31.703px;left:50%;transform:translateX(-50%)}
+.slide-track{display:flex;width:max-content;animation:slide-move 40s linear infinite;opacity:.5;mix-blend-mode:multiply;background:#EFF6FF}
+.slide-img{width:171.2px;height:50.4px;margin-right:30px;object-fit:contain;opacity:.5;mix-blend-mode:multiply}
+@keyframes slide-move{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+.partition-4 .title-container{position:relative;width:100%;max-width:800px;margin:0 auto;height:auto;display:flex;flex-direction:column;align-items:center;gap:20px}
+.head-copy{width:100%;max-width:100%;height:auto;display:flex;flex-direction:column;gap:20px;align-items:center;justify-content:center}
+.head-copy .head-line{width:100%;text-align:center;margin-bottom:20px}
+.head-copy .sub-copy{display:block;text-align:center;margin-bottom:5px}
+.head-line .sub-copy+.main-copy{margin-top:10px}
+.main-copy{display:flex;flex-direction:column;align-items:center;white-space:normal;gap:5px}
+.main-copy-txt{height:50px;align-self:stretch;text-align:center;font-weight:700}
+
+.head-button{display:flex;padding:10px 20px;justify-content:center;align-items:center;gap:8px;border-radius:1000px;height:44px;cursor:pointer}
+.btn-navy{background:var(--main-navy)}
+.btn-blue{background:var(--main-blue)}
+.head-button:hover{background:var(--transparent-black-60)}
+
+.panel-group-arr{position:relative;display:flex;max-width:1080px;width:100%;flex-direction:column;justify-content:center;align-items:center;align-self:stretch;margin:50px auto}
+/* 라이브는 align-items:center 라 후기 글이 길어지면 460px 에서 잘린다.
+   여기서는 늘어나게 두고 네 장의 키를 맞춘다 */
+.panel-group{display:flex;max-width:1040px;width:100%;margin-left:20px;align-items:stretch;gap:20px;align-self:stretch;overflow:hidden;justify-content:flex-start}
+.panel-track{display:flex;gap:20px;transition:transform .3s ease}
+/* 라이브는 backdrop-filter 가 .panel-img 의 기준 상자를 만든다 —
+   그 흐림은 흰 카드 위에서 보이지 않으니 position 으로 같은 일만 시킨다 */
+.panel{
+  position:relative;flex-shrink:0;display:flex;width:320px;min-height:460px;
+  /* 라이브의 아래 여백은 150px 인데 사진은 166px 다 — 라이브에는 사진에 가릴
+     글이 없어 괜찮았지만, 여기는 고객사 이름이 그 자리에 선다 */
+  padding:20px 20px 182px;flex-direction:column;align-items:center;gap:15px;
+  border-radius:20px;background:var(--main-white);overflow:hidden
+}
+.panel-title{align-self:stretch;color:var(--main-black)}
+.panel-content{max-width:300px;align-self:stretch;color:var(--transparent-black-60)}
+/* 후기는 실제 고객사의 것이다 — 누구 말인지 적는다 */
+.panel-company{align-self:stretch;margin-top:auto;color:var(--sub-d-gray)}
+.panel-img{width:320px;height:166px;position:absolute;left:0;bottom:0}
+
+.arrow-btn-group{display:flex;justify-content:flex-end;align-items:flex-end;gap:10px;position:absolute;right:20px;bottom:-19.703px;z-index:3}
+.arrow-btn{display:flex;width:40px;height:40px;flex-direction:column;justify-content:center;align-items:center;border-radius:100px;border:1px solid var(--transparent-black-10);background:var(--main-white);box-shadow:0 0 4px 0 rgba(19,20,22,.1)}
+.arrow-btn:hover{border:1px solid rgba(var(--color-cyan-rgb),.3);background:var(--pastel-blue);cursor:pointer}
+.arrow-btn:hover svg path{stroke:#115AC6}
+
+/* ── partition-5 · 짙은 바탕 · FAQ · CTA ──────────────────────── */
+.partition-5{display:flex;padding:80px 0;flex-direction:column;align-items:center;gap:40px;align-self:stretch;background:var(--sub-d-blue)}
+.partition-5-center{display:flex;flex-direction:column;align-items:center;gap:10px;align-self:stretch}
+.partition-5-headcopy{width:100%;max-width:1280px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.partition-5-headcopy .head-line{display:flex;flex-direction:column;align-items:center;gap:2px;align-self:stretch;justify-content:center}
+.partition-5-center .main-copy{display:flex;justify-content:center;align-items:center;gap:5px;align-self:stretch;flex-wrap:wrap}
+.partition-5-img{display:flex;padding:5px 10px;flex-direction:column;align-items:center;gap:5px;align-self:stretch;justify-content:center}
+.partition-5-img-area{
+  display:flex;padding:20px;flex-direction:column;justify-content:center;align-items:center;align-self:stretch;
+  transform:scale(.9) translateY(20px);opacity:0;
+  transition:transform .6s ease-out,opacity .6s ease-out
+}
+.partition-5-img-area.active{transform:scale(1) translateY(0);opacity:1}
+.partition-5-img-area img{display:block;max-width:794px;width:100%;height:auto;object-fit:contain;margin:0 auto}
+/* 안면인식 쪽 제품컷은 원본이 618px 다 — 틀을 다 채우면 늘어나 흐려진다 */
+.intro-face .partition-5-img-area img{max-width:618px}
+
+.drop-faq-list{display:flex;padding:0 20px;flex-direction:column;align-items:center;align-self:stretch;width:100%;max-width:700px;margin:0 auto}
+.drop{display:flex;max-width:700px;padding:0 10px;flex-direction:column;align-items:flex-start;align-self:stretch;border-top:.5px solid #DCEEFF}
+.drop-title{display:flex;padding:10px 0;align-items:center;gap:20px;align-self:stretch;cursor:pointer}
+.drop-title-txt{display:flex;padding:13px 0;align-items:center;gap:10px;flex:1 0 0}
+.title-left{color:#FFF;font-weight:700;text-align:left}
+.svg-group{height:60px;display:flex;justify-content:center;align-items:center;margin-left:auto}
+.drop svg{transition:transform .3s cubic-bezier(.25,1,.5,1)}
+.drop-content{overflow:hidden;max-height:0;transition:max-height .4s ease,padding .4s ease;padding:0 20px}
+.drop-content.show{display:block;padding:0 20px 42px 30px;max-height:500px}
+.drop-txt{flex:1 0 0}
+/* 펼친 표시 — 라이브는 svg 두 장을 번갈아 보여 준다. 여기서는 한 장을 돌린다 */
+.drop[aria-expanded="true"] .svg-group svg{transform:rotate(180deg)}
+
+.partition-8-btns{display:flex;padding:0 20px;flex-direction:column;align-items:center;gap:10px;align-self:stretch;max-width:500px;width:100%;margin:50px auto 0}
+.partition-8-btn{
+  display:flex;max-width:500px;padding:30px;align-items:center;gap:40px;align-self:stretch;
+  border-radius:12px;justify-content:space-between;position:relative;overflow:hidden;z-index:1;cursor:pointer
+}
+.partition-8-btn svg{z-index:5}
+.partition-8-btn>div{z-index:5}
+.white-btn{background:var(--main-white)}
+.white-btn .CTA-button{color:var(--main-blue)}
+.black-btn{background:var(--main-black)}
+.black-btn .CTA-button{color:var(--main-white)}
+.partition-8-btn::after{
+  content:"";position:absolute;width:378px;height:378px;border-radius:50%;
+  right:-213px;top:-122px;transform:scale(0);opacity:0;
+  transition:transform .3s ease,opacity .3s ease;z-index:0
+}
+.white-btn::after{background:radial-gradient(49.14% 96.61% at 51.11% 100%,#C0EFFF 45%,rgba(220,238,255,0) 100%)}
+.black-btn::after{background:radial-gradient(49.14% 96.61% at 51.11% 100%,#0062C4 45%,rgba(0,67,134,0) 100%)}
+.partition-8-btn:hover::after{opacity:1;transform:scale(1);animation:bubbleEffect .4s ease-in-out 1}
+@keyframes bubbleEffect{0%{transform:scale(0);opacity:0}50%{transform:scale(1.2);opacity:1}100%{transform:scale(1);opacity:.8}}
+
+/* ── partition-6 · 프리미엄 ───────────────────────────────────── */
+.partition-6{
+  position:relative;display:flex;height:400px;padding:50px 0;flex-direction:column;
+  align-items:center;gap:50px;align-self:stretch;
+  background:url("../images/intro/premium-wide.jpg") lightgray 50%/cover no-repeat
+}
+.partition-6-title-container{position:absolute;left:50%;transform:translateX(-50%);display:flex;max-width:800px;width:100%;padding:0 30px;flex-direction:column;align-items:flex-start;gap:15px}
+.partition-6-head-line{display:flex;max-width:450px;flex-direction:column;justify-content:center;align-items:flex-start;align-self:stretch}
+.partition-6-txt2{color:var(--main-blue)}
+
+/* ── 바닥 고정 버튼 ───────────────────────────────────────────── */
+.floating-buttons{
+  position:fixed;bottom:0;display:flex;flex-direction:row;z-index:10;
+  justify-content:center;align-items:center;width:100%;max-width:100%;
+  padding:5px 10px 15px;align-content:center;flex-wrap:wrap;height:84px;border-radius:10px
+}
+.floating-buttons .button-group{
+  display:flex;max-width:900px;justify-content:space-between;align-items:center;flex:1 0 0;
+  height:100%;border-radius:10px;border:2px solid var(--main-white);
+  background:rgba(var(--color-d-blue-rgb),.9);box-shadow:0 0 4px 0 rgba(0,0,0,.05);
+  backdrop-filter:blur(20px)
+}
+.floating-button1,
+.floating-button2{display:flex;padding:10px 20px 16px;justify-content:center;align-items:center;gap:5px;flex:1 0 0;align-self:stretch;cursor:pointer}
+.floating-button1{border-right:1px dashed rgba(255,255,255,.7);background:linear-gradient(90deg,rgba(50,117,253,0) 0%,#3275FD 98.68%)}
+.floating-button2{background:linear-gradient(90deg,#3275FD 0%,rgba(50,117,253,0) 100%)}
+.floating-btn-txt{color:#FFF;text-align:center}
+.floating-btn-txt .word{display:inline-block;white-space:nowrap}
+
+/* ── 폭별 ─────────────────────────────────────────────────────── */
+@media (max-width:1080px){
+  .panel-group{margin-left:0}
+}
+@media (max-width:691px){
+  .partition-3-panel{flex-direction:column;gap:30px;height:auto}
+  .partition-3-text-group{flex-direction:row;align-items:flex-start;gap:15px;min-height:138px}
+  .partition-3-text{flex:1;text-align:left;align-items:flex-start}
+  .partition-3-title{text-align:left}
+  .partition-3-img-wrap{width:auto;height:auto}
+  .partition-3-img-wrap img{width:134px;height:auto}
+}
+@media (max-width:650px){
+  .group-1-1{gap:0}
+  .group-1-1-right,.group-1-2-left,.img-group,.img-group2{height:auto!important;min-width:0}
+  .group-1-1-left,.group-1-1-right,.group-1-2-left,.group-1-2-right{flex:1 1 0;min-width:0;overflow:visible}
+  .group-1-1 img{max-width:100%;height:auto;object-fit:contain;display:block}
+}
+@media (max-width:533px){
+  .group-1-1{display:flex;flex-direction:column!important;align-items:center;gap:20px}
+  .group-1-1-left,.group-1-2-right{order:1;width:100%}
+  .group-1-1-right,.group-1-2-left{order:2;width:100%;display:flex;justify-content:center}
+  /* 좁은 폭에서는 틀이 높이를 놓는다 — 세로로 긴 제품컷이 화면을 다 먹는다 */
+  .img-group img,.img-group2 img{max-width:100%;max-height:280px;width:auto;height:auto}
+  .panel-group{justify-content:flex-start}
+  .floating-btn-txt{max-width:150px}
+  .floating-buttons{max-height:78px;height:100%}
+  .partition-6{height:437px;background-image:url("../images/intro/premium-narrow.jpg")}
+  .partition-6-title-container{align-items:center;text-align:center;margin:0 auto}
+  .partition-6-head-line{align-items:center;text-align:center}
+}
+
+/* 움직임을 줄여 달라고 한 사람에게는 띠도 캐러셀도 멈춘다 */
+@media (prefers-reduced-motion:reduce){
+  .slide-track,.rolling-track{animation:none}
+  .panel-track{transition:none}
+  .partition-5-img-area{transform:none;opacity:1;transition:none}
+}
