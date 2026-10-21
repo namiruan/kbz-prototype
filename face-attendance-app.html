@@ -8,9 +8,13 @@
 
 <!-- 시안이 쓰는 글꼴은 Pretendard 하나다 (typo/font/type) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<!-- 스타일은 전부 assets/ 에 있다. 이 파일은 마크업만 든다 -->
-<link rel="stylesheet" href="assets/face-attendance-app.css">
-<script src="assets/face-attendance-app.js" defer></script>
+<!-- 스타일은 전부 assets/ 에 있다. 이 파일은 마크업만 든다.
+     ?v= 는 캐시를 가르는 판 번호다. GitHub Pages 는 10분을 캐시하는데,
+     그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
+     고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
+     함께 올린다.** -->
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=2">
+<script src="assets/face-attendance-app.js?v=2" defer></script>
 </head>
 
 <body>

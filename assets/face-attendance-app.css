@@ -236,6 +236,11 @@ ul,ol{list-style:none}
 .card--photo > .face{width:92px;height:auto;align-self:stretch;border-radius:0}
 /* 사진 자리가 넓어졌다 — 24px 짜리가 그 안에서 점처럼 남는다 */
 .card--photo > .face .ic{width:40px;height:40px}
+
+/* 얼굴 사진이 들어오면 자리를 그대로 채운다 — 자리마다 비율이 달라 가장자리를
+   잘라 쓴다. 넣는 법은 images/worker/README.md */
+.face img,.shot__box img,.photo img,.confirm__pic img{
+  display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
 .card--photo > .chk{position:absolute;left:8px;top:8px;z-index:1;
   box-shadow:0 1px 3px rgba(19,20,22,.25)}
 .card__bd{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px;
