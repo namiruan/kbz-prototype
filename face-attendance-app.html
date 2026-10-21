@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>안면 출퇴근 · 김반장</title>
+<meta name="description" content="안면 출퇴근 앱 화면 — 소장 앱(kpmManager)과 근로자 앱(kpmUser) 홈. 디자인은 [현장소장] 앱 디자인 리뉴얼 시안을 따른다.">
+
+<!-- 시안이 쓰는 글꼴은 Pretendard 하나다 (typo/font/type) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<!-- 스타일은 전부 assets/ 에 있다. 이 파일은 마크업만 든다 -->
+<link rel="stylesheet" href="assets/face-attendance-app.css">
+<script src="assets/face-attendance-app.js" defer></script>
+</head>
+
+<body>
+
+<!-- ================================================================
+     화면 열세 장이 한 문서에 있고, 주소의 ?screen= 이 가리키는 한 장만 켜진다.
+     켜는 일은 assets/face-attendance-app.js 가 한다.
+
+     앱 셸은 세 종류다.
+       ① 소장 앱 하위 화면 — 뒤로 가기가 있어 바닥 내비게이션이 없다
+          (시안 '현장근로자' 와 같다). 바닥은 버튼 바가 끝까지 쓴다
+       ② 앱 네이티브 카메라 — 앱이 직접 그리는 화면이라 셸이 없다
+       ③ 근로자 앱 주화면 — 바닥 내비게이션이 있다 (시안 '출퇴근관리')
+     ================================================================ -->
+
+
+<!-- ===== ① 소장 앱 · 근로자 관리 ===== -->
+<section class="scr" data-screen="m-workers" data-title="근로자 관리">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근</h1>
+    <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
+  </header>
+
+  <div class="hd">
+    <div class="site">
+      <span class="site__k">현장 :</span>
+      <span class="site__v">서울 마곡 A동 신축공사</span>
+      <button class="pill pill--line" type="button">변경</button>
+    </div>
+    <nav class="seg" aria-label="안면 출퇴근 탭">
+      <button class="seg__b" type="button">출근</button>
+      <button class="seg__b" type="button">퇴근</button>
+      <button class="seg__b" type="button">이력</button>
+      <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
+    </nav>
+    <div class="filter">
+      <span class="filter__k">필터 :</span>
+      <button class="sel" type="button">직종<svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+    </div>
+  </div>
+
+  <main class="body">
+    <div class="lbar">
+      <span class="lbar__l"><span class="chk"></span>전체 <b class="lbar__n">4</b></span>
+      <button class="pill pill--off" type="button">삭제</button>
+    </div>
+    <div class="list">
+      <!-- 얼굴이 등록된 근로자는 그 얼굴이 카드에 그대로 있다 —
+           등록 여부가 이 화면에서 갈리는 유일한 값이다 -->
+      <article class="card">
+        <div class="card__top">
+          <span class="chk"></span>
+          <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+          <span class="card__nm">홍길동</span>
+          <span class="card__sub">800101 - *******</span>
+          <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+        </div>
+        <div class="card__gr">
+          <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+          <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-1234-5678</span></span>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card__top">
+          <span class="chk"></span>
+          <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+          <span class="card__nm">김철수</span>
+          <span class="card__sub">750512 - *******</span>
+          <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+        </div>
+        <div class="card__gr">
+          <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
+          <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-2222-3333</span></span>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card__top">
+          <span class="chk"></span>
+          <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+          <span class="card__nm">이영희</span>
+          <span class="card__sub">880303 - *******</span>
+          <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+        </div>
+        <div class="card__gr">
+          <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
+          <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-4444-5555</span></span>
+        </div>
+      </article>
+      <!-- 외국인 근로자는 주민번호 자리에 여권번호가 온다 -->
+      <article class="card">
+        <div class="card__top">
+          <span class="chk"></span>
+          <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+          <span class="card__nm">NGUYEN VAN A</span>
+          <span class="card__sub">여권 C1234567</span>
+          <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+        </div>
+        <div class="card__gr">
+          <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
+          <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-7777-8888</span></span>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
+  <div class="act act--end">
+    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 추가</button>
+  </div>
+</section>
+
+
+<!-- ===== ② 소장 앱 · 근로자 등록 ===== -->
+<section class="scr" data-screen="m-worker-new" data-title="근로자 등록">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <h1 class="nav__t">얼굴 근로자 등록</h1>
+  </header>
+
+  <main class="body">
+    <div class="shot">
+      <button class="shot__box" type="button">
+        <svg class="ic ic--56" aria-hidden="true"><use href="#icon-camera"></use></svg>
+        얼굴 촬영
+      </button>
+      <span class="shot__hint">사진을 터치해 얼굴을 촬영해주세요.</span>
+    </div>
+
+    <form class="form">
+      <div class="fld">
+        <span class="fld__l">외국인 여부</span>
+        <span class="tog"><span>예</span><span class="is-on">아니오</span></span>
+      </div>
+      <div class="fld">
+        <label class="fld__l">이름 <b>(필수)</b></label>
+        <div class="inp inp--ph">이름</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">주민번호 <b>(필수)</b></label>
+        <div class="inp inp--ph">주민번호</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">연락처 <b>(필수)</b></label>
+        <div class="inp inp--ph">연락처</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">직종</label>
+        <div class="inp inp--ph">직종 선택</div>
+      </div>
+      <!-- 단가는 시안의 +·− 버튼을 그대로 쓴다 — 손으로 고치는 수가 아니라 올리고 내리는 수다 -->
+      <div class="fld">
+        <label class="fld__l">단가</label>
+        <div class="fld__row">
+          <div class="inp inp--num inp--ph">0 원</div>
+          <button class="step" type="button" aria-label="단가 내리기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-minus"></use></svg></button>
+          <button class="step" type="button" aria-label="단가 올리기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-plus"></use></svg></button>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <div class="act act--end">
+    <button class="act__b act__b--on" type="button">저장</button>
+  </div>
+</section>
+
+
+<!-- ===== ③ 소장 앱 · 등록 촬영 확인 (앱 네이티브) ===== -->
+<section class="scr" data-screen="m-shot" data-title="등록 촬영 확인">
+  <div class="cam">
+    <div class="confirm">
+      <div class="confirm__pic"><svg class="ic" aria-hidden="true"><use href="#icon-employee"></use></svg></div>
+      <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
+      <div class="confirm__bt"><span class="re">다시 촬영</span><span class="ok">이 사진으로 등록</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== ④ 소장 앱 · 근로자 상세 ===== -->
+<section class="scr" data-screen="m-worker" data-title="근로자 상세">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <h1 class="nav__t">얼굴 근로자</h1>
+  </header>
+
+  <main class="body">
+    <div class="shot">
+      <div class="shot__box shot__box--done"><svg class="ic ic--56" aria-hidden="true"><use href="#icon-employee"></use></svg></div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="row__k">이름</span><span class="row__v">홍길동</span></div>
+      <div class="row"><span class="row__k">주민번호</span><span class="row__v">800101-1******</span></div>
+      <div class="row"><span class="row__k">연락처</span><span class="row__v">010-1234-5678</span></div>
+      <div class="row"><span class="row__k">직종</span><span class="row__v">형틀목공</span></div>
+      <div class="row"><span class="row__k">등록일</span><span class="row__v">2026-10-02</span></div>
+    </div>
+  </main>
+
+  <!-- 시안의 버튼 색에 위험(빨강)이 없다. 되돌릴 수 없는 쪽을 검정으로 세우고
+       왼쪽 끝에 둔다 — 시안 '반려 · 승인' 과 같은 자리다 -->
+  <div class="act act--end">
+    <button class="act__b act__b--dark" type="button">삭제</button>
+    <button class="act__b act__b--on" type="button">수정</button>
+  </div>
+</section>
+
+
+<!-- ===== ⑤ 소장 앱 · 출근 인증 대기 ===== -->
+<section class="scr" data-screen="m-in" data-title="출근 인증 대기">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근</h1>
+  </header>
+
+  <div class="hd">
+    <div class="site">
+      <span class="site__k">현장 :</span>
+      <span class="site__v">서울 마곡 A동 신축공사</span>
+      <button class="pill pill--line" type="button">변경</button>
+    </div>
+    <!-- 보내지 못한 인증과 반영되지 않은 인증 — 소장이 손을 써야 하는 수다 -->
+    <div class="bds">
+      <span class="bd bd--negative">미전송 2</span>
+      <span class="bd bd--point">반영불가 1</span>
+    </div>
+    <nav class="seg" aria-label="안면 출퇴근 탭">
+      <button class="seg__b is-on" type="button" aria-current="page">출근</button>
+      <button class="seg__b" type="button">퇴근</button>
+      <button class="seg__b" type="button">이력</button>
+      <button class="seg__b" type="button">근로자 관리</button>
+    </nav>
+  </div>
+
+  <main class="body body--mid">
+    <div class="blank">
+      <span class="blank__ic"><svg class="ic ic--56" aria-hidden="true"><use href="#icon-camera"></use></svg></span>
+      <p class="blank__t">출근 인증 시작을 누르면 카메라가 열립니다.<br>한 번 열면 다음 사람까지 계속 인식합니다.</p>
+    </div>
+  </main>
+
+  <div class="act act--end">
+    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>출근 인증 시작</button>
+  </div>
+</section>
+
+
+<!-- ===== ⑥ 소장 앱 · 퇴근 인증 대기 ===== -->
+<section class="scr" data-screen="m-out" data-title="퇴근 인증 대기">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근</h1>
+  </header>
+
+  <div class="hd">
+    <div class="site">
+      <span class="site__k">현장 :</span>
+      <span class="site__v">서울 마곡 A동 신축공사</span>
+      <button class="pill pill--line" type="button">변경</button>
+    </div>
+    <nav class="seg" aria-label="안면 출퇴근 탭">
+      <button class="seg__b" type="button">출근</button>
+      <button class="seg__b is-on" type="button" aria-current="page">퇴근</button>
+      <button class="seg__b" type="button">이력</button>
+      <button class="seg__b" type="button">근로자 관리</button>
+    </nav>
+  </div>
+
+  <main class="body body--mid">
+    <div class="blank">
+      <span class="blank__ic"><svg class="ic ic--56" aria-hidden="true"><use href="#icon-camera"></use></svg></span>
+      <p class="blank__t">퇴근 인증 시작을 누르면 카메라가 열립니다.<br>한 번 열면 다음 사람까지 계속 인식합니다.</p>
+    </div>
+  </main>
+
+  <!-- 출근과 퇴근은 색으로 가른다. 시안에 주황이 없어 검정을 쓴다 —
+       시안이 강한 둘째 동작에 쓰는 색이다 -->
+  <div class="act act--end">
+    <button class="act__b act__b--dark" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>퇴근 인증 시작</button>
+  </div>
+</section>
+
+
+<!-- ===== ⑦ 소장 앱 · 카메라 인식 (앱 네이티브) ===== -->
+<section class="scr" data-screen="m-cam" data-title="카메라 인식">
+  <div class="cam">
+    <button class="cam__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    <div class="cam__box"></div>
+    <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
+    <span class="cam__mode">출근 인증</span>
+  </div>
+</section>
+
+
+<!-- ===== ⑧ 소장 앱 · 인식 결과 (앱 네이티브) ===== -->
+<section class="scr" data-screen="m-cam-ok" data-title="인식 결과">
+  <div class="cam">
+    <button class="cam__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    <div class="cam__box cam__box--ok"></div>
+    <p class="cam__t cam__t--ok">홍길동님 출근 처리되었습니다.</p>
+    <span class="cam__mode">출근 인증</span>
+  </div>
+</section>
+
+
+<!-- ===== ⑨ 소장 앱 · 이력 ===== -->
+<section class="scr" data-screen="m-log" data-title="이력">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근</h1>
+  </header>
+
+  <div class="hd">
+    <div class="site">
+      <span class="site__k">현장 :</span>
+      <span class="site__v">서울 마곡 A동 신축공사</span>
+      <button class="pill pill--line" type="button">변경</button>
+    </div>
+    <nav class="seg" aria-label="안면 출퇴근 탭">
+      <button class="seg__b" type="button">출근</button>
+      <button class="seg__b" type="button">퇴근</button>
+      <button class="seg__b is-on" type="button" aria-current="page">이력</button>
+      <button class="seg__b" type="button">근로자 관리</button>
+    </nav>
+
+    <!-- 날짜는 시안의 달력 카드를 그대로 쓴다. 숫자 칸을 직접 고치거나
+         주를 훑어 고르거나 '오늘' 로 돌아온다 -->
+    <div class="cal">
+      <div class="cal__top">
+        <div class="cal__date">
+          <span class="cal__num">2026</span><span class="cal__dot">.</span>
+          <span class="cal__num">10</span><span class="cal__dot">.</span>
+          <span class="cal__num">20</span>
+          <span class="cal__dow">화</span>
+        </div>
+        <div class="cal__side">
+          <button class="pill pill--dark" type="button">오늘</button>
+          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        </div>
+      </div>
+      <div class="cal__week">
+        <div class="cal__d"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></div>
+        <div class="cal__d"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></div>
+        <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b><i></i></div></div>
+        <div class="cal__d"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></div>
+        <div class="cal__d"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></div>
+        <div class="cal__d"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></div>
+        <div class="cal__d"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></div>
+      </div>
+    </div>
+  </div>
+
+  <main class="body">
+    <div class="lbar">
+      <span class="lbar__l">인증 <b class="lbar__n">5</b></span>
+    </div>
+    <div class="list">
+      <article class="log"><span class="log__t log__t--out">퇴근</span><span class="log__m"><span class="log__nm">홍길동</span><br><span class="log__tm">17:32:08</span></span><button class="pill pill--line" type="button">사진보기</button></article>
+      <article class="log"><span class="log__t log__t--out">퇴근</span><span class="log__m"><span class="log__nm">김철수</span><br><span class="log__tm">17:30:41</span></span><button class="pill pill--line" type="button">사진보기</button></article>
+      <article class="log"><span class="log__t log__t--in">출근</span><span class="log__m"><span class="log__nm">이영희</span><br><span class="log__tm">07:12:55</span></span><button class="pill pill--line" type="button">사진보기</button></article>
+      <article class="log"><span class="log__t log__t--in">출근</span><span class="log__m"><span class="log__nm">홍길동</span><br><span class="log__tm">07:05:19</span></span><button class="pill pill--line" type="button">사진보기</button></article>
+      <article class="log"><span class="log__t log__t--in">출근</span><span class="log__m"><span class="log__nm">김철수</span><br><span class="log__tm">06:58:02</span></span><button class="pill pill--line" type="button">사진보기</button></article>
+    </div>
+  </main>
+</section>
+
+
+<!-- ===== ⑩ 소장 앱 · 이력 사진보기 ===== -->
+<section class="scr" data-screen="m-log-photo" data-title="이력 사진보기">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="닫기"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    <h1 class="nav__t">이력 조회</h1>
+  </header>
+
+  <main class="body">
+    <div class="photo"><svg class="ic" aria-hidden="true"><use href="#icon-employee"></use></svg></div>
+    <div class="rows">
+      <div class="row"><span class="row__k">인증 유형</span><span class="row__v"><span class="bd bd--positive">출근</span></span></div>
+      <div class="row"><span class="row__k">인증 시간</span><span class="row__v">2026-10-20 07:05:19</span></div>
+      <div class="row"><span class="row__k">이름</span><span class="row__v">홍길동</span></div>
+      <div class="row"><span class="row__k">주민번호</span><span class="row__v">800101-1******</span></div>
+      <div class="row"><span class="row__k">연락처</span><span class="row__v">010-1234-5678</span></div>
+      <div class="row"><span class="row__k">직종</span><span class="row__v">형틀목공</span></div>
+    </div>
+  </main>
+</section>
+
+
+<!-- ===== ⑪ 근로자 앱 · 홈 (출근 전) ===== -->
+<section class="scr" data-screen="w-home" data-title="근로자 앱 홈 — 출근 전">
+  <header class="nav"><h1 class="nav__t">출퇴근 관리</h1></header>
+
+  <div class="hd">
+    <div class="cal">
+      <div class="cal__top">
+        <div class="cal__date">
+          <span class="cal__num">2026</span><span class="cal__dot">.</span>
+          <span class="cal__num">10</span><span class="cal__dot">.</span>
+          <span class="cal__num">20</span>
+          <span class="cal__dow">화</span>
+        </div>
+        <div class="cal__side">
+          <button class="pill pill--dark" type="button">오늘</button>
+          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        </div>
+      </div>
+      <div class="cal__week">
+        <div class="cal__d"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></div>
+        <div class="cal__d"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></div>
+        <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b></div></div>
+        <div class="cal__d"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></div>
+        <div class="cal__d"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></div>
+        <div class="cal__d"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></div>
+        <div class="cal__d"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></div>
+      </div>
+    </div>
+  </div>
+
+  <main class="body">
+    <div class="card">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장선택</button>
+      </div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
+      <div class="row"><span class="row__k">출근시간</span><span class="row__v">출근을 눌러 근무를 시작하세요.</span></div>
+    </div>
+    <p class="guide">출근시간 : 07:00</p>
+  </main>
+
+  <div class="act">
+    <button class="act__b act__b--on" type="button">07:03:12&nbsp;&nbsp;출근</button>
+  </div>
+
+  <nav class="tabbar" aria-label="주메뉴">
+    <!-- ⚠ QR 코드 아이콘이 스프라이트에 없다. 읽는 수단이 카메라라 icon-camera 로
+         자리만 잡아 두었다 — icons/categories.json 에 추가를 요청할 것 -->
+    <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
+    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>QR 코드</span>
+    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg>마이페이지</span>
+  </nav>
+</section>
+
+
+<!-- ===== ⑫ 근로자 앱 · 얼굴 등록 안내 ===== -->
+<section class="scr has-dim" data-screen="w-face" data-title="얼굴 등록 안내">
+  <header class="nav"><h1 class="nav__t">출퇴근 관리</h1></header>
+
+  <div class="hd">
+    <div class="cal">
+      <div class="cal__top">
+        <div class="cal__date">
+          <span class="cal__num">2026</span><span class="cal__dot">.</span>
+          <span class="cal__num">10</span><span class="cal__dot">.</span>
+          <span class="cal__num">20</span>
+          <span class="cal__dow">화</span>
+        </div>
+        <div class="cal__side">
+          <button class="pill pill--dark" type="button">오늘</button>
+          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        </div>
+      </div>
+      <div class="cal__week">
+        <div class="cal__d"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></div>
+        <div class="cal__d"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></div>
+        <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b></div></div>
+        <div class="cal__d"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></div>
+        <div class="cal__d"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></div>
+        <div class="cal__d"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></div>
+        <div class="cal__d"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></div>
+      </div>
+    </div>
+  </div>
+
+  <main class="body">
+    <div class="card">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장선택</button>
+      </div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
+      <div class="row"><span class="row__k">출근시간</span><span class="row__v">출근을 눌러 근무를 시작하세요.</span></div>
+    </div>
+    <p class="guide">출근시간 : 07:00</p>
+  </main>
+
+  <div class="act">
+    <button class="act__b act__b--on" type="button">07:03:12&nbsp;&nbsp;출근</button>
+  </div>
+
+  <nav class="tabbar" aria-label="주메뉴">
+    <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
+    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>QR 코드</span>
+    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg>마이페이지</span>
+  </nav>
+
+  <!-- 안면인식 현장인데 이 현장에 등록된 얼굴이 없을 때 출근을 누르면 뜬다 -->
+  <div class="dim">
+    <div class="alert" role="alertdialog" aria-labelledby="wFaceT">
+      <div class="alert__bd">
+        <p class="alert__t" id="wFaceT">얼굴 등록이<br>필요합니다</p>
+        <p class="alert__d">이 현장은 얼굴 인증으로 출근합니다. 얼굴을 한 번 등록하면 바로 출근할 수 있습니다.</p>
+      </div>
+      <div class="alert__bt"><span class="no">취소</span><span class="yes">얼굴 등록하고 출근</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== ⑬ 근로자 앱 · 홈 (출근 완료) ===== -->
+<section class="scr" data-screen="w-home-done" data-title="근로자 앱 홈 — 출근 완료">
+  <header class="nav"><h1 class="nav__t">출퇴근 관리</h1></header>
+
+  <div class="hd">
+    <div class="cal">
+      <div class="cal__top">
+        <div class="cal__date">
+          <span class="cal__num">2026</span><span class="cal__dot">.</span>
+          <span class="cal__num">10</span><span class="cal__dot">.</span>
+          <span class="cal__num">20</span>
+          <span class="cal__dow">화</span>
+        </div>
+        <div class="cal__side">
+          <button class="pill pill--dark" type="button">오늘</button>
+          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        </div>
+      </div>
+      <div class="cal__week">
+        <div class="cal__d"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></div>
+        <div class="cal__d"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></div>
+        <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b><i></i></div></div>
+        <div class="cal__d"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></div>
+        <div class="cal__d"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></div>
+        <div class="cal__d"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></div>
+        <div class="cal__d"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></div>
+      </div>
+    </div>
+  </div>
+
+  <main class="body">
+    <div class="card">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장선택</button>
+      </div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
+      <!-- 어느 길로 찍혔는지를 시간 옆에 붙인다 — 같은 날에 앱·단말기·소장앱이 섞인다 -->
+      <div class="row"><span class="row__k">출근시간</span><span class="row__v">07:03 <span class="bd bd--positive">앱 · 얼굴</span></span></div>
+      <div class="row"><span class="row__k">퇴근시간</span><span class="row__v">작업내용 입력 후 퇴근을 눌러주세요.</span></div>
+      <div class="row"><span class="row__k">작업내용</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-edit"></use></svg>작성하기</button></span></div>
+    </div>
+    <p class="guide">퇴근시간 : 17:00</p>
+  </main>
+
+  <div class="act">
+    <button class="act__b act__b--dark" type="button">17:31:40&nbsp;&nbsp;퇴근</button>
+  </div>
+
+  <nav class="tabbar" aria-label="주메뉴">
+    <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
+    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>QR 코드</span>
+    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg>마이페이지</span>
+  </nav>
+</section>
+
+</body>
+</html>

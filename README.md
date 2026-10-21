@@ -4,11 +4,29 @@
 
 ```
 estimate-prototype.html · prototype.html · quote-prototype.html   시나리오 목록(크롬)
+face-attendance-app-prototype.html                                 앱 화면 목록(크롬)
 estimate.html · plan-quote.html · quote.html · face-quote.html    끼워 보여 주는 화면
+face-attendance-app.html                                           앱 화면(소장 앱 · 근로자 앱 홈)
 login.html · face-attendance-review.html · index.html
 card-reader.html · face-attendance.html                            단말기 소개페이지
 assets/                                                            화면 쪽 CSS·JS
 ```
+
+## 앱 화면만은 디자인 시스템을 싣지 않는다
+
+`face-attendance-app.html` 은 웹이 아니라 앱(kpmManager · kpmUser) 화면이다.
+값의 출처는 디자인 시스템이 아니라 **Figma 「[현장소장] 앱 디자인 리뉴얼 시안」** 하나다.
+
+> <https://www.figma.com/design/YBZmOS5xQuNiQh7b1NaSBN>
+
+시안이 쓰는 값(`#33363d` · `#b1b8be` · `#113569`)은 `tokens.css` 에 없고, 글자 크기도
+iOS 스케일(17/22 · 22/28)이라 웹 토큰의 높이 체계와 맞지 않는다. 그래서 이 화면의
+토큰은 `assets/face-attendance-app.css` 맨 위에 **시안의 변수 이름 그대로** 따로 둔다 —
+시안이 바뀌면 고칠 자리가 그 한 곳이다.
+
+크롬(`face-attendance-app-prototype.html`)은 그대로 디자인 시스템 것을 쓴다. 다만
+**폭은 `sm`·`md` 뿐이다** — 앱이라 데스크톱에서 잴 것이 없다. 크롬 파일은 고치지 않고,
+크롬이 읽는 값(`ProtoChrome.COMPARE` · 처음 열리는 폭)만 켜기 전에 바꾼다.
 
 소개페이지 두 장은 라이브(kbz.co.kr)의 서비스 소개페이지
 (`/service/kbz/kbz_social_insurances` · `/service/kbz/kbz_document`)와 같은 틀이다
