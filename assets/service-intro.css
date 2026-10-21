@@ -151,7 +151,7 @@ body.intro-page{background:#FBFBFB;cursor:default;overflow-x:hidden;word-break:k
 .rolling-frame{display:flex;padding:10px 0;align-items:center;gap:30px;align-self:stretch;background:var(--pastel-blue);overflow:hidden;white-space:nowrap}
 .rolling-track{display:inline-flex;align-items:center;gap:30px;animation:rolling 20s linear infinite}
 .rolling-txt{color:var(--sub-d-blue);text-align:center}
-.rolling-img{width:26px;height:26px}
+.rolling-txt::after{content:"";display:inline-block;vertical-align:middle;margin-left:30px;width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.45}
 @keyframes rolling{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* ── partition-3 · 세 칸 ──────────────────────────────────────── */
@@ -183,6 +183,8 @@ body.intro-page{background:#FBFBFB;cursor:default;overflow-x:hidden;word-break:k
 
 /* ── partition-4 · 고객사 로고 띠 + 후기 ──────────────────────── */
 .partition-4{position:relative;display:flex;padding-top:140px;flex-direction:column;align-items:center;gap:20px;align-self:stretch;background:#EFF6FF}
+/* 아래 .slide-* 와 .panel-* 는 지금 쓰지 않는다. 라이브 틀의 일부라,
+   고객사 로고 띠나 후기 캐러셀을 되살릴 때 그대로 쓰려고 남겨 둔다 */
 .slide-wrapper{width:100%;overflow:hidden;position:absolute;top:31.703px;left:50%;transform:translateX(-50%)}
 .slide-track{display:flex;width:max-content;animation:slide-move 40s linear infinite;opacity:.5;mix-blend-mode:multiply;background:#EFF6FF}
 .slide-img{width:171.2px;height:50.4px;margin-right:30px;object-fit:contain;opacity:.5;mix-blend-mode:multiply}
@@ -204,7 +206,7 @@ body.intro-page{background:#FBFBFB;cursor:default;overflow-x:hidden;word-break:k
 /* 고객사 로고 띠만 남긴 얇은 구역. 라이브는 이 자리에 후기 캐러셀이 서는데,
    이 두 제품으로 남은 후기가 아직 없어 띠와 실적만 둔다. 후기가 쌓이면
    .is-proof 를 떼고 라이브 틀의 panel-group-arr 을 되살리면 된다 */
-.partition-4.is-proof{padding:100px 0 50px;gap:24px}
+.partition-4.is-proof{padding:50px 0;gap:24px}
 .proof-lead{color:var(--main-black);text-align:center;padding:0 20px}
 
 /* 수상·실적 — 콜드메일이 늘 달고 나가는 줄이다 */
