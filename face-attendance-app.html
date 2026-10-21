@@ -64,70 +64,80 @@
     <div class="list">
       <!-- 얼굴이 등록된 근로자는 그 얼굴이 카드에 그대로 있다 —
            등록 여부가 이 화면에서 갈리는 유일한 값이다 -->
-      <article class="card">
-        <div class="card__top">
-          <span class="chk"></span>
-          <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
-          <span class="card__nm">홍길동</span>
-          <span class="card__sub">800101 - *******</span>
-          <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-        </div>
-        <div class="card__gr">
-          <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-1234-5678</span></span>
-        </div>
-      </article>
-      <article class="card">
-        <div class="card__top">
-          <span class="chk"></span>
-          <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
-          <span class="card__nm">김철수</span>
-          <span class="card__sub">750512 - *******</span>
-          <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-        </div>
-        <div class="card__gr">
-          <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
-          <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-2222-3333</span></span>
+      <article class="card card--photo">
+        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="홍길동 선택"></button>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">홍길동</span>
+            <span class="card__sub">800101 - *******</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+            <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-1234-5678</span></span>
+          </div>
         </div>
       </article>
-      <article class="card">
-        <div class="card__top">
-          <span class="chk"></span>
-          <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
-          <span class="card__nm">이영희</span>
-          <span class="card__sub">880303 - *******</span>
-          <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-        </div>
-        <div class="card__gr">
-          <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
-          <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-4444-5555</span></span>
+      <article class="card card--photo">
+        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="김철수 선택"></button>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">김철수</span>
+            <span class="card__sub">750512 - *******</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
+            <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-2222-3333</span></span>
+          </div>
         </div>
       </article>
-      <article class="card">
-        <div class="card__top">
-          <span class="chk"></span>
-          <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
-          <span class="card__nm">박민수</span>
-          <span class="card__sub">920715 - *******</span>
-          <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+      <article class="card card--photo">
+        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">이영희</span>
+            <span class="card__sub">880303 - *******</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
+            <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-4444-5555</span></span>
+          </div>
         </div>
-        <div class="card__gr">
-          <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-3333-4444</span></span>
+      </article>
+      <article class="card card--photo">
+        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">박민수</span>
+            <span class="card__sub">920715 - *******</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+            <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-3333-4444</span></span>
+          </div>
         </div>
       </article>
       <!-- 외국인 근로자는 주민번호 자리에 여권번호가 온다 -->
-      <article class="card">
-        <div class="card__top">
-          <span class="chk"></span>
-          <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
-          <span class="card__nm">NGUYEN VAN A</span>
-          <span class="card__sub">여권 C1234567</span>
-          <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-        </div>
-        <div class="card__gr">
-          <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
-          <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-7777-8888</span></span>
+      <article class="card card--photo">
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">NGUYEN VAN A</span>
+            <span class="card__sub">여권 C1234567</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
+            <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-7777-8888</span></span>
+          </div>
         </div>
       </article>
     </div>
@@ -176,30 +186,34 @@
     </div>
     <div class="list">
       <!-- 고른 직종만 남는다. 머리줄의 수도 걸러진 뒤의 수다 -->
-      <article class="card">
-        <div class="card__top">
-          <span class="chk"></span>
-          <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
-          <span class="card__nm">홍길동</span>
-          <span class="card__sub">800101 - *******</span>
-          <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-        </div>
-        <div class="card__gr">
-          <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-1234-5678</span></span>
+      <article class="card card--photo">
+        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="홍길동 선택"></button>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">홍길동</span>
+            <span class="card__sub">800101 - *******</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+            <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-1234-5678</span></span>
+          </div>
         </div>
       </article>
-      <article class="card">
-        <div class="card__top">
-          <span class="chk"></span>
-          <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
-          <span class="card__nm">박민수</span>
-          <span class="card__sub">920715 - *******</span>
-          <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-        </div>
-        <div class="card__gr">
-          <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-3333-4444</span></span>
+      <article class="card card--photo">
+        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">박민수</span>
+            <span class="card__sub">920715 - *******</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+            <span class="card__kv"><span class="card__k">연락처</span><span class="card__v">010-3333-4444</span></span>
+          </div>
         </div>
       </article>
     </div>
