@@ -207,8 +207,11 @@ ul,ol{list-style:none}
 .lbar .pill{padding:6px 12px}
 .lbar__n{flex:none;white-space:nowrap;color:var(--ap-primary);
   font-size:17px;line-height:22px;letter-spacing:-.43px;font-weight:600}
-.chk{width:20px;height:20px;flex:none;display:block;padding:0;
-  border:1.5px solid var(--ap-g20);border-radius:var(--ap-r4);background:var(--ap-g0)}
+.chk{width:20px;height:20px;flex:none;display:flex;align-items:center;
+  justify-content:center;padding:0;border:1.5px solid var(--ap-g20);
+  border-radius:var(--ap-r4);background:var(--ap-g0);color:var(--ap-g0)}
+.chk--on{border-color:var(--ap-primary);background:var(--ap-primary)}
+.chk .ic{width:16px;height:16px}
 
 /* ── 카드 ── */
 .list{display:flex;flex-direction:column;gap:8px}
@@ -290,6 +293,10 @@ ul,ol{list-style:none}
 .act__b--dark{background:var(--ap-g95);color:var(--ap-g0)}
 .act__b--sub{background:var(--ap-g20);color:var(--ap-text-gray);border-top:1px solid var(--ap-line)}
 .act__b--off{background:var(--ap-g5);color:var(--ap-text-disabled);border-top:1px solid var(--ap-line)}
+/* 되돌릴 수 없는 쪽을 왼쪽 끝에 좁게 둔다 — 시안의 '출역등록 · 근로자 추가' 와
+   같은 비율이다. 폭이 같으면 어느 쪽이 이 화면의 주된 동작인지 말하지 않는다 */
+.act--split .act__b:first-child{flex:1}
+.act--split .act__b:last-child{flex:2}
 /* 아래 내비게이션이 없는 화면은 바가 홈 인디케이터 자리까지 내려간다 */
 .act--end .act__b{padding-bottom:var(--ap-p10)}
 
