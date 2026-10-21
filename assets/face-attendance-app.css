@@ -114,6 +114,14 @@ ul,ol{list-style:none}
   box-shadow:var(--ap-shadow-card);padding:var(--ap-p5) var(--ap-p6);
   display:flex;flex-direction:column;gap:8px}
 
+/* ── 머리 카드 밖 — 현장 · 필터 ──
+   탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말한다.
+   말하는 범위가 달라 흰 카드 안에 같이 두지 않는다 — 현장은 제가 가리키는
+   목록 바로 위, 페이지 바탕 위에 놓는다 */
+.ctx{flex:none;display:flex;flex-direction:column;gap:8px;
+  padding:var(--ap-p5) var(--ap-p6) 0}
+.ctx + .body{padding-top:8px}
+
 .site{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .site__k{flex:none;width:41px;color:var(--ap-primary);
   font-size:15px;line-height:20px;letter-spacing:-.23px}
@@ -409,6 +417,8 @@ ul,ol{list-style:none}
   /* 폼·상세는 늘리지 않고 가운데로 모은다 */
   .form,.rows,.note,.shot{width:100%;max-width:560px;margin-inline:auto}
   .body{padding:var(--ap-p8)}
+  /* 현장 줄은 제가 가리키는 목록과 세로 선이 맞아야 한다 */
+  .ctx{padding-inline:var(--ap-p8)}
   /* 필터는 한 칸이라 늘리지 않는다 — 폭을 다 쓰면 고를 것이 하나인데 줄만 길어진다 */
   .sel{flex:0 1 240px}
   /* 카드가 반 폭이 되면 값이 줄임표로 잘린다. 한 줄에 하나씩 둔다 */
