@@ -57,6 +57,8 @@
   --ap-g30:#b1b8be;                /* color/light/gray/30 */
   --ap-g90:#1e2124;                /* color/light/gray/90 */
   --ap-g95:#131416;                /* color/light/gray/95 · Color/Text/static */
+  --ap-bg-black:#33363d;           /* color/background/black — 토글 바탕. Text/basic 과 hex 는 같지만
+                                      시안이 면으로 따로 이름 붙인 값이라 따로 둔다 */
 
   --ap-text:#33363d;               /* Color/Text/basic */
   --ap-text-dark:#464c53;          /* Color/Text/dark-gray */
@@ -389,10 +391,11 @@ ul,ol{list-style:none}
   background:var(--ap-primary-5);border:1px solid var(--ap-primary);
   border-radius:var(--ap-r8);color:var(--ap-primary)}
 
-/* 예 · 아니오 — 시안의 토글 */
-.tog{display:inline-flex;align-items:center;align-self:flex-start;
-  background:var(--ap-g95);border-radius:var(--ap-r-pill);padding:3px}
-.tog span{font:var(--t-sub-em);letter-spacing:var(--ls-sub);padding:5px 14px;border-radius:var(--ap-r-pill);color:var(--ap-g0)}
+/* 예 · 아니오 — 시안 Toggle(600:3777) 그대로.
+   바탕 #33363d · 안쪽 여백 4 · 알 사이 4 · 알은 위아래 4 좌우 10 */
+.tog{display:inline-flex;align-items:center;align-self:flex-start;gap:var(--ap-p2);
+  background:var(--ap-bg-black);border-radius:var(--ap-r-pill);padding:var(--ap-p2)}
+.tog span{font:var(--t-sub-em);letter-spacing:var(--ls-sub);padding:var(--ap-p2) var(--ap-p4);border-radius:var(--ap-r-pill);color:var(--ap-g0)}
 .tog span.is-on{background:var(--ap-g0);color:var(--ap-g95)}
 
 /* 얼굴 촬영 자리 */
