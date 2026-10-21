@@ -154,6 +154,10 @@ body.intro-page{background:#FBFBFB;cursor:default;overflow-x:hidden}
 .btn-blue{background:var(--main-blue)}
 .head-button:hover{background:var(--transparent-black-60)}
 
+/* 수상·실적 — 후기 바로 위. 라이브 틀에는 없지만 콜드메일이 늘 달고 나가는 줄이다 */
+.proof-badges{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;padding:0 20px}
+.proof-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:1000px;background:var(--main-white);color:var(--sub-d-blue);white-space:nowrap}
+
 .panel-group-arr{position:relative;display:flex;max-width:1080px;width:100%;flex-direction:column;justify-content:center;align-items:center;align-self:stretch;margin:50px auto}
 /* 라이브는 align-items:center 라 후기 글이 길어지면 460px 에서 잘린다.
    여기서는 늘어나게 두고 네 장의 키를 맞춘다 */
@@ -229,6 +233,13 @@ body.intro-page{background:#FBFBFB;cursor:default;overflow-x:hidden}
 .black-btn::after{background:radial-gradient(49.14% 96.61% at 51.11% 100%,#0062C4 45%,rgba(0,67,134,0) 100%)}
 .partition-8-btn:hover::after{opacity:1;transform:scale(1);animation:bubbleEffect .4s ease-in-out 1}
 @keyframes bubbleEffect{0%{transform:scale(0);opacity:0}50%{transform:scale(1.2);opacity:1}100%{transform:scale(1);opacity:.8}}
+
+/* 전화 한 줄 — 콜드메일은 늘 '소개서 보기'와 '전화 상담' 두 갈래를 준다.
+   버튼 두 개는 라이브 틀이 정해 놓았으니 전화는 그 아래 한 줄로 둔다 */
+.partition-5-tel{display:flex;justify-content:center;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:20px;padding:0 20px}
+.partition-5-tel .tel-label{color:rgba(var(--color-white-rgb),.7)}
+.partition-5-tel a{color:var(--main-white);text-decoration:none}
+.partition-5-tel a:hover{text-decoration:underline}
 
 /* ── partition-6 · 프리미엄 ───────────────────────────────────── */
 .partition-6{
