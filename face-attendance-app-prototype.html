@@ -66,9 +66,13 @@
 
       <span class="proto-nav-group-label">소장 앱 · 근로자</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers"
-        data-why="얼굴을 등록한 근로자를 현장별로 봅니다. 카드에 사진을 함께 두는 것은 이 목록에서 얼굴 등록 여부가 갈리기 때문입니다. 근로자를 더하는 버튼은 바닥 바에 둡니다 — 시안은 떠다니는 둥근 버튼을 쓰지 않습니다."
+        data-why="얼굴을 등록한 근로자를 현장별로 봅니다. 카드에 사진을 함께 두는 것은 이 목록에서 얼굴 등록 여부가 갈리기 때문입니다. 거를 것이 직종 하나뿐이라 필터 줄을 따로 두지 않고, 목록 머리줄의 '전체' 가 그 필터를 겸합니다. 근로자를 더하는 버튼은 바닥 바에 둡니다 — 시안은 떠다니는 둥근 버튼을 쓰지 않습니다."
         data-steps="근로자 관리 탭을 연 상태"
-        data-look="@{.face--none} 얼굴이 없는 근로자는 사진 자리가 회색입니다|@{.card__sub} 외국인은 주민번호 자리에 여권번호가 옵니다|@md @{.list} 태블릿에서는 카드가 두 단으로 놓입니다">근로자 관리</button>
+        data-look="@{.face--none} 얼굴이 없는 근로자는 사진 자리가 회색입니다|@{.pill--off} 삭제는 고른 근로자가 없으면 꺼져 있습니다|@{.card__sub} 외국인은 주민번호 자리에 여권번호가 옵니다|@md @{.list} 태블릿에서는 카드가 두 단으로 놓입니다">근로자 관리</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-job"
+        data-why="거른 값을 필터에 그대로 적습니다. 거를 것이 직종 하나라 무엇으로 걸렀는지 따로 물을 자리가 없고, 머리줄만 읽어도 지금 무엇을 보고 있는지 알 수 있습니다."
+        data-steps="근로자 관리에서 직종을 '형틀목공' 으로 고른 상태"
+        data-look="@{.sel--inline} 필터에는 고른 직종이 적힙니다. 고르기 전에는 전체입니다|@{.lbar__n} 수도 걸러진 뒤의 수로 바뀝니다">직종을 고르면</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new"
         data-why="얼굴 한 장과 기본 정보를 한 화면에서 받습니다. 사진이 맨 위인 것은 이 등록의 목적이 얼굴이기 때문입니다."
         data-steps="근로자 추가를 눌러 등록 화면이 열린 상태 — 아직 아무것도 채우지 않았습니다"
