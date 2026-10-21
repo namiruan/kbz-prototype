@@ -12,9 +12,24 @@ assets/                                                            화면 쪽 CS
 
 소개페이지 두 장은 라이브(kbz.co.kr)의 서비스 소개페이지
 (`/service/kbz/kbz_social_insurances` · `/service/kbz/kbz_document`)와 같은 틀이다
-— `partition-1`~`partition-6` 과 바닥 고정 버튼. 그 틀은 두 화면이 나눠 쓰는
-`assets/service-intro.css` · `assets/service-intro.js` 에 있고, 라이브의
-`kbz_social_insurances.css` 를 옮긴 것이다. 사진은 `images/intro/README.md` 를 본다.
+— `partition-1`~`partition-6` 과 바닥 고정 버튼.
+
+**그 틀의 CSS 는 베끼지 않고 라이브에서 그대로 부른다.** 라이브가 바뀌면 여기도
+따라 바뀐다. 실리는 순서가 곧 승패다.
+
+| | |
+|---|---|
+| `assets/base.css` | 리셋·토큰 |
+| `kbz.co.kr/resources/css/common.css` | 타이포·`button{border:none}` 같은 공통 |
+| `…/kbz_social_insurances.css` 또는 `…/kbz_document.css` | 그 화면이 쓰는 구역 CSS (롤링 띠는 `document` 쪽에만 있다) |
+| `assets/service-intro.css` | **우리가 일부러 다르게 둔 것만** — 사진 스켈레톤, 전화 한 줄, `keep-all`, 라이브가 `height` 로 박아 둔 것 풀기 |
+
+폰트만은 못 당겨 온다 — kbz.co.kr 의 woff2 응답에 `Access-Control-Allow-Origin`
+이 없어 교차 출처 `@font-face` 가 막힌다. 그래서 같은 글꼴을 jsdelivr 에서 부른다.
+
+동작(FAQ·캐러셀·바닥 버튼)은 `assets/service-intro.js` 다 — 라이브는 jQuery 로
+쓰는데 이 저장소는 jQuery 를 들이지 않아 다시 썼다. 사진은
+`images/intro/README.md` 를 본다.
 
 **머리말·푸터는 넣지 않았다.** 라이브에서는 사이트 공통 크롬이 감싸고, 이 저장소의
 다른 끼움 화면들도 머리말 없이 내용만 들고 있다.
