@@ -368,6 +368,11 @@ ul,ol{list-style:none}
 /* ── 폼 ── */
 .form{display:flex;flex-direction:column;gap:var(--ap-p6)}
 .fld{display:flex;flex-direction:column;gap:var(--ap-p3)}
+/* 값이 둘뿐이라 고르는 자리가 좁다 — 이름과 한 줄에 둔다. 시안의
+   '고용안정직업능력 · 고용보험공제' 줄과 같은 꼴이다 */
+.fld--row{flex-direction:row;align-items:center;justify-content:space-between;
+  gap:var(--ap-p5)}
+.fld--row .tog{align-self:auto}
 .fld__l{font:var(--t-sub-em);letter-spacing:var(--ls-sub);color:var(--ap-text)}
 .fld__l b{color:var(--ap-danger);font-weight:600}
 .inp{font:var(--t-body);letter-spacing:var(--ls-body);display:flex;align-items:center;height:56px;padding:0 var(--ap-p6);background:var(--ap-g0);border:1px solid var(--ap-g20);border-radius:var(--ap-r8);color:var(--ap-text)}
