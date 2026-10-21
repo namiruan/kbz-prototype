@@ -137,7 +137,11 @@ ul,ol{list-style:none}
    (face-attendance-app.js). 숨기는 쪽을 display:none 으로 두면
    안 보이는 화면의 레이아웃 계산이 통째로 빠진다 */
 .scr{display:none}
-.scr.is-on{display:flex;flex-direction:column;min-height:100dvh}
+/* **앱 셸이다.** 화면 하나가 기기 높이에 딱 맞고, 그 안에서 굴러가는 것은
+   본문뿐이다. min-height 로 두면 목록이 길어질 때 바닥 바가 문서 아래로
+   밀려나 화면 밖으로 나간다 — 웹 페이지라면 맞지만 앱에서는 바가 늘
+   엄지 밑에 있어야 한다 */
+.scr.is-on{display:flex;flex-direction:column;height:100dvh;overflow:hidden}
 
 /* ── 내비게이션 바 ──
    흰 바탕 · 위 56(상태바 자리) · 아래 10 · 좌우 16.
@@ -241,7 +245,11 @@ ul,ol{list-style:none}
   color:var(--ap-primary);font-weight:600}
 
 /* ── 본문 ── */
-.body{flex:1;display:flex;flex-direction:column;padding:var(--ap-p6);gap:var(--ap-gap3)}
+.body{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;
+  padding:var(--ap-p6);gap:var(--ap-gap3)}
+/* 굴림대는 감춘다 — 기기에서는 손이 닿을 때만 떴다 사라진다 */
+.body{scrollbar-width:none}
+.body::-webkit-scrollbar{display:none}
 .body--flat{padding:0}
 .body--mid{align-items:center;justify-content:center;gap:20px;text-align:center}
 
