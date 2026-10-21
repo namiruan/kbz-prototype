@@ -1,0 +1,429 @@
+/* ================================================================
+   face-attendance-app.css — 안면 출퇴근 앱 화면(소장 앱 · 근로자 앱 홈).
+
+   값의 출처는 Figma [현장소장] 앱 디자인 리뉴얼 시안 하나다.
+   https://www.figma.com/design/YBZmOS5xQuNiQh7b1NaSBN
+   토큰 이름은 시안의 변수 이름을 그대로 옮겼다 — 시안에서 바뀐 값을
+   여기로 가져올 때 어느 줄인지 찾을 수 있어야 한다.
+
+   ⚠ 이 화면들은 앱이다. 웹 디자인 시스템(tokens.css)을 싣지 않는다 —
+     시안이 쓰는 값(#33363d · #b1b8be · #113569 따위)은 웹 토큰에 없고,
+     웹 토큰의 여백·높이 체계는 iOS 타입 스케일을 쓰는 이 시안과 다르다.
+   ⚠ 폭은 모바일(sm)과 태블릿(md) 둘뿐이다. 중단점은 768px 하나다.
+   ================================================================ */
+
+:root{
+  color-scheme:light;
+
+  /* ── 색 — 시안 변수 이름 그대로 ── */
+  --ap-primary:#115ac6;            /* color/light/primary/60 */
+  --ap-primary-70:#114797;         /* color/light/primary/70 — 현장명 */
+  --ap-primary-90:#113569;         /* Color/Text/primary-dark — 켜진 내비 */
+  --ap-primary-5:#eef4fc;          /* color/light/primary/5 — 화면 바탕 */
+  --ap-badge-positive:#dce8f9;     /* Color/badge/positive */
+  --ap-point:#e74900;              /* Color/Text/point · badge/point */
+  --ap-point-bg:rgba(231,73,0,.1); /* Color/badge/negative */
+  --ap-badge-normal:#e6e8ea;       /* Color/badge/normal */
+
+  --ap-g0:#ffffff;                 /* color/light/gray/0 */
+  --ap-g5:#f4f5f6;                 /* color/light/gray/5 */
+  --ap-g20:#cdd1d5;                /* color/light/gray/20 · border/gray-subtler */
+  --ap-g30:#b1b8be;                /* color/light/gray/30 */
+  --ap-g90:#1e2124;                /* color/light/gray/90 */
+  --ap-g95:#131416;                /* color/light/gray/95 · Color/Text/static */
+
+  --ap-text:#33363d;               /* Color/Text/basic */
+  --ap-text-dark:#464c53;          /* Color/Text/dark-gray */
+  --ap-text-gray:#6d7882;          /* Color/Text/gray */
+  --ap-text-disabled:#8a949e;      /* Color/Text/disabled */
+  --ap-danger:#b82e2e;             /* Color/Text/danger */
+
+  --ap-line:rgba(19,20,22,.15);    /* Color/action/gray-pressed */
+  --ap-shadow-card:0 4px 2px rgba(17,53,105,.05);
+  --ap-shadow-float:0 0 10px rgba(19,20,22,.08);  /* shadow-02 */
+
+  /* ── 모서리 ── */
+  --ap-r4:4px;                     /* radius/small1 */
+  --ap-r8:8px;
+  --ap-r10:10px;                   /* radius/large1 */
+  --ap-r15:15px;
+  --ap-r-pill:100px;
+
+  /* ── 여백 — padding/n ── */
+  --ap-p1:2px; --ap-p2:4px; --ap-p4:10px; --ap-p5:12px;
+  --ap-p6:16px; --ap-p8:24px; --ap-p9:32px; --ap-p10:40px; --ap-p12:56px;
+
+  /* ── 카메라 화면 전용 ──
+     앱(Flutter) 네이티브 화면이라 시안에 없다. 인식 결과를 색 하나로
+     가르는 자리라 쓰던 값을 그대로 둔다 */
+  --ap-cam-bg-1:#4a4f55; --ap-cam-bg-2:#22262a;
+  --ap-cam-ok:#7be38b; --ap-cam-fail:#f26d6a;
+  --ap-photo-1:#c9b8a6; --ap-photo-2:#8c7562;
+}
+
+/* ── 타이포 — 시안의 iOS 스케일 ──
+   Title1 28/34 · Title2 22/28 · Title3 20/25 · Headline·Body 17/22 ·
+   Subheadline 15/20 · Footnote 13/18 */
+.t-title2{font-size:22px;line-height:28px;letter-spacing:-.26px;font-weight:600}
+.t-title3{font-size:20px;line-height:25px;letter-spacing:-.45px}
+.t-head{font-size:17px;line-height:22px;letter-spacing:-.43px;font-weight:600}
+.t-body{font-size:17px;line-height:22px;letter-spacing:-.43px}
+.t-sub{font-size:15px;line-height:20px;letter-spacing:-.23px}
+.t-foot{font-size:13px;line-height:18px;letter-spacing:-.08px}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",sans-serif;
+  color:var(--ap-text);background:var(--ap-primary-5);
+  -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+ul,ol{list-style:none}
+
+/* 아이콘 — 스프라이트 심볼은 fill:currentColor 다 */
+.ic{width:20px;height:20px;flex:none;fill:currentColor}
+.ic--16{width:16px;height:16px}
+.ic--24{width:24px;height:24px}
+.ic--30{width:30px;height:30px}
+.ic--56{width:56px;height:56px}
+
+/* ── 화면 한 장 ──────────────────────────────────────────────
+   한 문서에 모든 화면을 담고 ?screen= 이 가리키는 한 장만 보여 준다
+   (face-attendance-app.js). 숨기는 쪽을 display:none 으로 두면
+   안 보이는 화면의 레이아웃 계산이 통째로 빠진다 */
+.scr{display:none}
+.scr.is-on{display:flex;flex-direction:column;min-height:100dvh}
+
+/* ── 내비게이션 바 ──
+   흰 바탕 · 위 56(상태바 자리) · 아래 10 · 좌우 16.
+   제목은 가운데, 아이콘은 양 끝에 겹쳐 둔다 — 제목이 길어도 가운데를 지킨다 */
+.nav{flex:none;position:relative;display:flex;align-items:flex-end;
+  padding:var(--ap-p12) var(--ap-p6) var(--ap-p4);background:var(--ap-g0)}
+.nav__t{flex:1;min-width:0;text-align:center;color:var(--ap-text);
+  font-size:17px;line-height:22px;letter-spacing:-.43px;font-weight:600;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav__ic{position:absolute;bottom:var(--ap-p4);display:flex;align-items:center;
+  justify-content:center;width:20px;height:22px;color:var(--ap-g90)}
+.nav__ic--l{left:var(--ap-p6)}
+.nav__ic--r{right:var(--ap-p6)}
+
+/* ── 머리 카드 — 현장 · 필터 · 날짜가 들어가는 흰 판 ──
+   아래 모서리만 둥글다. 내비게이션 바와 한 덩어리로 보인다 */
+.hd{flex:none;background:var(--ap-g0);border-radius:0 0 var(--ap-r15) var(--ap-r15);
+  box-shadow:var(--ap-shadow-card);padding:var(--ap-p5) var(--ap-p6);
+  display:flex;flex-direction:column;gap:8px}
+
+/* ── 머리 카드 밖 — 현장 · 필터 ──
+   탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말한다.
+   말하는 범위가 달라 흰 카드 안에 같이 두지 않는다 — 현장은 제가 가리키는
+   목록 바로 위, 페이지 바탕 위에 놓는다 */
+.ctx{flex:none;display:flex;flex-direction:column;gap:8px;
+  padding:var(--ap-p5) var(--ap-p6) 0}
+.ctx + .body{padding-top:8px}
+
+.site{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.site__k{flex:none;width:41px;color:var(--ap-primary);
+  font-size:15px;line-height:20px;letter-spacing:-.23px}
+.site__v{flex:1;min-width:0;color:var(--ap-primary-70);
+  font-size:17px;line-height:22px;letter-spacing:-.43px;font-weight:600;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.filter{display:flex;align-items:center;gap:8px}
+.filter__k{flex:none;width:41px;color:var(--ap-text);
+  font-size:15px;line-height:20px;letter-spacing:-.23px}
+.sel{flex:1;min-width:0;display:flex;align-items:center;justify-content:space-between;
+  gap:4px;padding:6px 10px;background:var(--ap-g0);border:1px solid var(--ap-g20);
+  border-radius:var(--ap-r4);color:var(--ap-text-dark);
+  font-size:15px;line-height:20px;letter-spacing:-.23px}
+.sel .ic{color:var(--ap-g90)}
+
+/* ── 알약 버튼 — 변경 · 오늘 · 삭제 ── */
+.pill{flex:none;display:inline-flex;align-items:center;gap:4px;
+  padding:4px 10px;border-radius:var(--ap-r-pill);
+  font-size:15px;line-height:20px;letter-spacing:-.23px;font-weight:600}
+.pill--line{background:var(--ap-g0);border:1px solid var(--ap-primary);color:var(--ap-primary)}
+.pill--dark{border:1px solid var(--ap-g90);color:var(--ap-g95)}
+.pill--off{background:var(--ap-badge-normal);color:var(--ap-text-disabled)}
+
+/* ── 날짜 — 시안의 달력 카드 ── */
+.cal{display:flex;flex-direction:column;gap:4px}
+.cal__top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0}
+.cal__date{display:flex;align-items:center;gap:4px}
+.cal__num{display:flex;align-items:center;justify-content:center;padding:2px 6px;
+  background:var(--ap-g0);border:1px solid var(--ap-g20);border-radius:var(--ap-r8);
+  color:var(--ap-g95);font-size:22px;line-height:28px;letter-spacing:-.26px;font-weight:600}
+.cal__dot{color:var(--ap-g95);font-size:20px;line-height:25px;letter-spacing:-.45px}
+.cal__dow{padding:5px 9px;color:var(--ap-g95);
+  font-size:17px;line-height:22px;letter-spacing:-.43px;font-weight:600}
+.cal__side{display:flex;align-items:center;gap:8px}
+.cal__more{display:flex;align-items:center;justify-content:center;color:var(--ap-g90)}
+.cal__week{display:flex;align-items:flex-start}
+.cal__d{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;
+  padding:4px;border-radius:var(--ap-r10)}
+.cal__w{height:20px;text-align:center;color:var(--ap-text);
+  font-size:15px;line-height:20px;letter-spacing:-.23px}
+.cal__w--sun{color:var(--ap-danger)}
+.cal__w--sat{color:var(--ap-primary)}
+.cal__n{position:relative;display:flex;flex-direction:column;align-items:center;
+  gap:10px;padding:4px 0;text-align:center;color:var(--ap-text);
+  font-size:17px;line-height:22px;letter-spacing:-.43px}
+.cal__n b{position:relative;z-index:1;font-weight:400}
+.cal__n i{width:6px;height:6px;border-radius:50%;background:var(--ap-primary)}
+.cal__n--on::before,.cal__n--today::before{content:"";position:absolute;top:-1px;
+  left:50%;transform:translateX(-50%);width:33px;height:33px;border-radius:50%}
+.cal__n--on::before{background:var(--ap-primary)}
+.cal__n--on b{color:var(--ap-g0);font-weight:600}
+.cal__n--on i{background:var(--ap-g0)}
+.cal__n--today::before{border:1px dashed var(--ap-g20)}
+
+/* ── 탭 — 시안 '신규 근로자 추가' 의 분절 탭 ── */
+.seg{display:flex;gap:4px}
+.seg__b{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;
+  height:40px;border-radius:var(--ap-r8);color:var(--ap-text);
+  font-size:15px;line-height:20px;letter-spacing:-.23px;text-align:center}
+.seg__b.is-on{background:var(--ap-primary-5);border:1px solid var(--ap-primary);
+  color:var(--ap-primary);font-weight:600}
+
+/* ── 본문 ── */
+.body{flex:1;display:flex;flex-direction:column;padding:var(--ap-p6);gap:8px}
+.body--flat{padding:0}
+.body--mid{align-items:center;justify-content:center;gap:20px;text-align:center}
+
+/* 목록 머리줄 — 전체 선택 · 건수 · 삭제 */
+.lbar{flex:none;display:flex;align-items:center;justify-content:space-between;
+  gap:8px;padding:4px 0}
+.lbar__l{display:flex;align-items:center;gap:5px;
+  font-size:15px;line-height:20px;letter-spacing:-.23px}
+.lbar__n{color:var(--ap-primary);font-weight:600}
+.chk{width:20px;height:20px;flex:none;border:1.5px solid var(--ap-g20);
+  border-radius:var(--ap-r4);background:var(--ap-g0)}
+
+/* ── 카드 ── */
+.list{display:flex;flex-direction:column;gap:8px}
+.card{display:flex;flex-direction:column;gap:10px;padding:var(--ap-p6);
+  background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
+.card__top{display:flex;align-items:center;gap:8px}
+.card__nm{flex:1;min-width:0;color:var(--ap-text);
+  font-size:20px;line-height:25px;letter-spacing:-.45px;font-weight:600;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card__sub{flex:none;color:var(--ap-text-gray);
+  font-size:15px;line-height:20px;letter-spacing:-.23px}
+.card__gr{display:flex;flex-wrap:wrap;gap:4px 16px}
+.card__kv{flex:1 0 0;min-width:115px;display:flex;align-items:center;gap:6px}
+.card__k{flex:none;color:var(--ap-text-gray);
+  font-size:13px;line-height:18px;letter-spacing:-.08px}
+.card__v{flex:1;min-width:0;text-align:right;color:var(--ap-text);
+  font-size:17px;line-height:22px;letter-spacing:-.43px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* 얼굴 사진 — 등록된 얼굴이 있는 근로자 */
+.face{width:44px;height:44px;flex:none;border-radius:var(--ap-r8);
+  background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
+  display:flex;align-items:center;justify-content:center}
+.face--none{background:var(--ap-g5)}
+
+/* 사람 아이콘(icon-employee)은 스프라이트에서 색이 세 겹으로 박힌 메뉴 아이콘이다.
+   그 세 겹이 각각 변수를 보고 있어, 사진 자리에서는 흰 실루엣으로 바꿔 끼운다 —
+   갈색 사진 바탕 위에서 파란 사람이 그려지면 사진이 아니라 아이콘으로 읽힌다 */
+.face,.photo,.confirm__pic{
+  --icon-menu-deep:rgba(255,255,255,.55);
+  --icon-menu-vivid:rgba(255,255,255,.82);
+  --icon-menu-light:rgba(255,255,255,.3)}
+.face--none{
+  --icon-menu-deep:var(--ap-text-disabled);
+  --icon-menu-vivid:var(--ap-g30);
+  --icon-menu-light:var(--ap-g0)}
+.shot__box--done{
+  --icon-menu-deep:rgba(255,255,255,.55);
+  --icon-menu-vivid:rgba(255,255,255,.82);
+  --icon-menu-light:rgba(255,255,255,.3)}
+/* 내비게이션에서는 켜짐·꺼짐 색을 따라야 한다 */
+.tabbar__b{--icon-menu-deep:currentColor;--icon-menu-vivid:currentColor;--icon-menu-light:var(--ap-g0)}
+
+/* ── 뱃지 ── */
+.bd{display:inline-flex;align-items:center;padding:2px 4px;border-radius:var(--ap-r4);
+  font-size:13px;line-height:18px;letter-spacing:-.08px}
+.bd--normal{background:var(--ap-badge-normal);color:var(--ap-text)}
+.bd--positive{background:var(--ap-badge-positive);color:var(--ap-primary)}
+.bd--negative{background:var(--ap-point-bg);color:var(--ap-point)}
+.bd--point{background:var(--ap-point);color:var(--ap-g0)}
+.bds{display:flex;flex-wrap:wrap;gap:4px}
+
+/* ── 바닥 버튼 바 ──
+   화면 폭을 다 쓴다. 모서리도 여백도 없다 — 시안이 그렇다 */
+.act{flex:none;display:flex;width:100%}
+.act__b{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;
+  gap:4px;padding:var(--ap-p6) var(--ap-p8);
+  font-size:22px;line-height:28px;letter-spacing:-.26px;font-weight:600}
+.act__b--on{background:var(--ap-primary);color:var(--ap-g0)}
+.act__b--dark{background:var(--ap-g95);color:var(--ap-g0)}
+.act__b--sub{background:var(--ap-g20);color:var(--ap-text-gray);border-top:1px solid var(--ap-line)}
+.act__b--off{background:var(--ap-g5);color:var(--ap-text-disabled);border-top:1px solid var(--ap-line)}
+/* 아래 내비게이션이 없는 화면은 바가 홈 인디케이터 자리까지 내려간다 */
+.act--end .act__b{padding-bottom:var(--ap-p10)}
+
+/* ── 아래 내비게이션 — 주화면에만 ── */
+.tabbar{flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:var(--ap-p6) var(--ap-p8) var(--ap-p9);
+  background:var(--ap-g0);border-top:1px solid var(--ap-g20)}
+.tabbar__b{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:4px;padding:0 4px;border-radius:var(--ap-r10);
+  color:var(--ap-text);font-size:15px;line-height:20px;letter-spacing:-.23px;
+  text-align:center;white-space:nowrap}
+.tabbar__b.is-on{color:var(--ap-primary-90);font-weight:600}
+
+/* ── 빈 화면 · 안내 ── */
+.blank{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+.blank__t{color:var(--ap-primary);font-size:17px;line-height:22px;letter-spacing:-.43px}
+.blank__ic{color:var(--ap-primary);opacity:.45}
+.big{display:inline-flex;align-items:center;gap:15px;padding:var(--ap-p6) var(--ap-p8);
+  background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0);
+  font-size:22px;line-height:28px;letter-spacing:-.26px;font-weight:600}
+.big--dark{background:var(--ap-g95)}
+
+/* ── 폼 ── */
+.form{display:flex;flex-direction:column;gap:var(--ap-p6)}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld__l{color:var(--ap-text);font-size:15px;line-height:20px;letter-spacing:-.23px;font-weight:600}
+.fld__l b{color:var(--ap-danger);font-weight:600}
+.inp{display:flex;align-items:center;height:56px;padding:0 var(--ap-p6);
+  background:var(--ap-g0);border:1px solid var(--ap-g20);border-radius:var(--ap-r8);
+  color:var(--ap-text);font-size:17px;line-height:22px;letter-spacing:-.43px}
+.inp--ph{color:var(--ap-text-disabled)}
+.inp--num{justify-content:flex-end}
+.fld__row{display:flex;align-items:center;gap:8px}
+.fld__row .inp{flex:1;min-width:0}
+.step{width:56px;height:56px;flex:none;display:flex;align-items:center;justify-content:center;
+  background:var(--ap-primary-5);border:1px solid var(--ap-primary);
+  border-radius:var(--ap-r8);color:var(--ap-primary)}
+
+/* 예 · 아니오 — 시안의 토글 */
+.tog{display:inline-flex;align-items:center;align-self:flex-start;
+  background:var(--ap-g95);border-radius:var(--ap-r-pill);padding:3px}
+.tog span{padding:5px 14px;border-radius:var(--ap-r-pill);color:var(--ap-g0);
+  font-size:15px;line-height:20px;letter-spacing:-.23px;font-weight:600}
+.tog span.is-on{background:var(--ap-g0);color:var(--ap-g95)}
+
+/* 얼굴 촬영 자리 */
+.shot{display:flex;flex-direction:column;align-items:center;gap:8px}
+.shot__box{width:200px;height:200px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;
+  background:var(--ap-g5);border:1px dashed var(--ap-g20);border-radius:var(--ap-r10);
+  color:var(--ap-text-gray);font-size:15px;line-height:20px;letter-spacing:-.23px;font-weight:600}
+.shot__box--done{border:0;background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
+  color:rgba(255,255,255,.85)}
+.shot__hint{color:var(--ap-text-gray);font-size:13px;line-height:18px;letter-spacing:-.08px}
+
+/* ── 읽기 전용 정보 줄 ── */
+.rows{display:flex;flex-direction:column;background:var(--ap-g0);
+  border-radius:var(--ap-r10);padding:0 var(--ap-p6);box-shadow:var(--ap-shadow-card)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px 0;border-bottom:1px solid var(--ap-g5)}
+.row:last-child{border-bottom:0}
+.row__k{flex:none;color:var(--ap-text-gray);
+  font-size:15px;line-height:20px;letter-spacing:-.23px}
+.row__v{flex:1;min-width:0;display:flex;align-items:center;justify-content:flex-end;
+  flex-wrap:wrap;gap:6px;text-align:right;color:var(--ap-text);word-break:keep-all;
+  font-size:17px;line-height:22px;letter-spacing:-.43px}
+
+/* 사진 한 장 */
+.photo{width:100%;max-width:320px;height:300px;margin:0 auto;border-radius:var(--ap-r10);
+  background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
+  display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.8)}
+.photo .ic{width:72px;height:72px}
+
+/* ── 이력 줄 ── */
+.log{display:flex;align-items:center;gap:10px;padding:12px var(--ap-p6);
+  background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
+.log__t{flex:none;min-width:48px;padding:2px 4px;border-radius:var(--ap-r4);text-align:center;
+  font-size:13px;line-height:18px;letter-spacing:-.08px;font-weight:600}
+.log__t--in{background:var(--ap-badge-positive);color:var(--ap-primary)}
+.log__t--out{background:var(--ap-badge-normal);color:var(--ap-text)}
+.log__m{flex:1;min-width:0}
+.log__nm{color:var(--ap-text);font-size:17px;line-height:22px;letter-spacing:-.43px;font-weight:600}
+.log__tm{color:var(--ap-text-gray);font-size:13px;line-height:18px;letter-spacing:-.08px;
+  font-variant-numeric:tabular-nums}
+
+/* ── 안내 글 ── */
+.note{padding:12px var(--ap-p6);background:var(--ap-primary-5);border-radius:var(--ap-r10);
+  color:var(--ap-primary-70);font-size:15px;line-height:22px;letter-spacing:-.23px}
+.guide{margin-top:auto;color:var(--ap-text-gray);
+  font-size:15px;line-height:22px;letter-spacing:-.23px;text-align:center}
+
+/* ── 카메라 — 앱 네이티브 화면 ── */
+.cam{flex:1;position:relative;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 50% 40%,var(--ap-cam-bg-1) 0%,var(--ap-cam-bg-2) 70%);
+  overflow:hidden}
+.cam__x{position:absolute;top:56px;right:var(--ap-p6);color:var(--ap-g0)}
+.cam__who{position:absolute;top:56px;left:var(--ap-p6);padding:4px 10px;
+  border-radius:var(--ap-r-pill);background:rgba(19,20,22,.5);color:var(--ap-g0);
+  font-size:15px;line-height:20px;letter-spacing:-.23px;font-weight:600}
+.cam__box{position:absolute;left:14%;right:14%;top:24%;height:42%;
+  border:3px solid var(--ap-g0);border-radius:28px;box-shadow:0 0 0 999px rgba(0,0,0,.55)}
+.cam__box--ok{border-color:var(--ap-cam-ok)}
+.cam__box--fail{border-color:var(--ap-cam-fail)}
+.cam__t{position:absolute;left:0;right:0;top:calc(24% + 42% + 24px);padding:0 var(--ap-p6);
+  text-align:center;color:var(--ap-g0);text-shadow:0 0 10px rgba(0,0,0,.9);
+  font-size:22px;line-height:28px;letter-spacing:-.26px;font-weight:600}
+.cam__t--ok{color:var(--ap-cam-ok)}
+.cam__t--fail{color:var(--ap-cam-fail)}
+.cam__mode{position:absolute;left:50%;bottom:var(--ap-p10);transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;padding:12px 22px;border-radius:var(--ap-r-pill);
+  background:var(--ap-primary);color:var(--ap-g0);white-space:nowrap;
+  font-size:22px;line-height:28px;letter-spacing:-.26px;font-weight:600}
+.cam__mode--out{background:var(--ap-g95)}
+
+/* 촬영 확인 — 찍은 얼굴을 덮어 놓고 묻는다 */
+.confirm{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:22px;padding:var(--ap-p8);background:rgba(0,0,0,.88)}
+.confirm__pic{width:220px;height:220px;border-radius:var(--ap-r10);
+  background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
+  display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.8)}
+.confirm__pic .ic{width:96px;height:96px}
+.confirm__t{color:var(--ap-g0);font-size:22px;line-height:28px;letter-spacing:-.26px;font-weight:600}
+.confirm__bt{display:flex;gap:8px;width:100%;max-width:400px}
+.confirm__bt span{flex:1;display:flex;align-items:center;justify-content:center;height:56px;
+  border-radius:var(--ap-r10);font-size:17px;line-height:22px;letter-spacing:-.43px;font-weight:600}
+.confirm__bt .re{border:1px solid rgba(255,255,255,.38);color:var(--ap-g0)}
+.confirm__bt .ok{background:var(--ap-primary);color:var(--ap-g0)}
+
+/* ── 알림창 — 시안 modal_alert ── */
+.dim{position:absolute;inset:0;background:rgba(19,20,22,.45);
+  display:flex;align-items:center;justify-content:center;padding:var(--ap-p8)}
+.alert{width:300px;max-width:100%;overflow:hidden;background:var(--ap-g0);
+  border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-float)}
+.alert__bd{display:flex;flex-direction:column;align-items:center;gap:var(--ap-p5);
+  padding:var(--ap-p8) var(--ap-p6);text-align:center}
+.alert__t{color:var(--ap-g95);font-size:22px;line-height:28px;letter-spacing:-.26px;font-weight:600}
+.alert__d{color:var(--ap-text-dark);font-size:17px;line-height:22px;letter-spacing:-.43px}
+.alert__bt{display:flex;border-top:1px solid var(--ap-line)}
+.alert__bt span{flex:1;display:flex;align-items:center;justify-content:center;
+  padding:var(--ap-p6) var(--ap-p8);
+  font-size:17px;line-height:22px;letter-spacing:-.43px;font-weight:600}
+.alert__bt .no{flex:0 0 96px;background:var(--ap-g0);color:var(--ap-text-dark)}
+.alert__bt .yes{background:var(--ap-primary);color:var(--ap-g0)}
+
+/* 알림창이 뜬 화면의 뒤쪽 */
+.scr.is-on.has-dim{position:relative}
+
+/* ── 태블릿(md) — 768px 부터 ────────────────────────────────
+   앱이라 폭은 둘뿐이다. 데스크톱 중단점은 두지 않는다.
+   한 손으로 쥐는 폭이 아니게 되면 바뀌는 것만 적는다 */
+@media (min-width:768px){
+  /* 목록은 두 단으로 — 한 단으로 두면 카드가 가로로 늘어나 이름과 값 사이가 비어 버린다 */
+  .list{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start}
+  .list--one{grid-template-columns:1fr}
+  /* 폼·상세는 늘리지 않고 가운데로 모은다 */
+  .form,.rows,.note,.shot{width:100%;max-width:560px;margin-inline:auto}
+  .body{padding:var(--ap-p8)}
+  /* 현장 줄은 제가 가리키는 목록과 세로 선이 맞아야 한다 */
+  .ctx{padding-inline:var(--ap-p8)}
+  /* 필터는 한 칸이라 늘리지 않는다 — 폭을 다 쓰면 고를 것이 하나인데 줄만 길어진다 */
+  .sel{flex:0 1 240px}
+  /* 카드가 반 폭이 되면 값이 줄임표로 잘린다. 한 줄에 하나씩 둔다 */
+  .card__kv{flex:1 0 100%}
+  /* 바닥 바의 글자는 그대로 두고 바만 넓어진다 */
+  .cam__box{left:26%;right:26%}
+  .photo{max-width:420px;height:400px}
+}

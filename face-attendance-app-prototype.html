@@ -1,0 +1,172 @@
+<!-- design-system: v1.0.0 -->
+<!-- prototype: 안면 출퇴근 앱 — 화면별 모아보기 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>안면 출퇴근 앱 프로토타입</title>
+<meta name="description" content="안면 출퇴근 앱 화면을 시나리오별로 모아 본다. 소장 앱 전체와 근로자 앱 홈이다.">
+<!-- 김반장 3.0 디자인 시스템. 크롬(사이드바·설명·폭·비교·링크 복사·원본 링크)은
+     proto-chrome.js 의 initProtoChrome 이 맡는다 — 이 파일이 따로 만들지 않는다.
+     주소가 절대경로인 것은 시스템 규약이다 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/tokens.css">
+<link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/proto-chrome.css">
+<style>
+/* 이 파일이 갖는 것은 '화면을 끼우는 자리' 하나뿐이다. 나머지 생김새는 전부 시스템이 낸다 */
+#screen{display:block;width:100%;height:100dvh}
+#screen iframe{display:block;width:100%;height:100%;border:0;background:var(--color-surface-base)}
+</style>
+
+  <!-- 다음 겹을 미리 당겨 둔다 — 틀 안은 문서가 겹겹이 차례로 선다 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="prefetch" href="assets/face-attendance-app.css" as="style">
+  <link rel="prefetch" href="assets/face-attendance-app.js" as="script">
+  <link rel="prefetch" href="face-attendance-app.html" as="document">
+</head>
+<body>
+
+<div class="proto-layout" data-proto-sub="안면 출퇴근 앱 — 화면별 모아보기">
+  <aside class="proto-sidebar">
+    <!-- 접기 손잡이와 폭 컨트롤은 여기 적지만, 크롬이 툴바(화면 바로 위)로 옮긴다 -->
+    <button class="proto-nav-toggle" type="button" aria-expanded="true" aria-label="시나리오 목록 접기">
+      <svg aria-hidden="true"><use href="#icon-sidebar-collapse"></use></svg>
+    </button>
+    <!-- ⚠ 폭은 둘뿐이다 — 이 화면들은 앱이라 데스크톱이 없다.
+         lg 버튼을 지우는 것만으로는 모자라 아래 스크립트에서 비교 모드의 폭 목록과
+         처음 열리는 폭도 함께 내려 잡는다 -->
+    <div class="proto-viewport" role="group" aria-label="화면 폭">
+      <button class="proto-viewport__btn" type="button" data-viewport="md" aria-pressed="false">md</button>
+      <button class="proto-viewport__btn is-active" type="button" data-viewport="sm" aria-pressed="true">sm</button>
+      <button class="proto-viewport__btn" type="button" data-viewport="compare" aria-pressed="false">비교</button>
+    </div>
+
+    <div class="proto-nav-divider"></div>
+
+    <nav class="proto-nav" aria-label="시나리오 선택">
+
+      <span class="proto-nav-group-label">소장 앱 · 인증</span>
+      <button class="proto-nav-btn proto-nav-sub is-active" type="button" data-scenario="m-in"
+        data-why="얼굴을 찍기 전의 화면입니다. 인증을 여는 버튼은 바닥 바에 둡니다 — 시안은 한 화면의 주된 동작을 폭을 다 쓰는 바닥 바 하나로 받습니다. 탭은 흰 머리 카드에, 현장은 그 아래 목록 바로 위에 둡니다 — 탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말합니다."
+        data-steps="안면 출퇴근 메뉴에 들어와 출근 탭이 열린 상태 — 보내지 못한 인증이 있습니다"
+        data-look="@{.bds} 미전송·반영불가는 현장 이름 아래에 붙습니다|@md @{.body} 태블릿에서는 좌우 여백만 넓어지고 안내 글은 가운데에 그대로 있습니다">출근 인증 대기</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-out"
+        data-why="출근과 퇴근은 색으로 가릅니다. 시안의 버튼 색에 주황이 없어, 둘째로 강한 색인 검정을 퇴근에 줍니다. 찍는 사람도 보는 자리도 출근과 같아 구성은 그대로 둡니다."
+        data-steps="퇴근 탭을 연 상태 — 보내지 못한 인증은 없습니다"
+        data-look="@{.act__b--dark} 퇴근 인증 시작은 검정입니다. 출근은 파랑입니다|@{.ctx} 보내지 못한 인증이 없으면 현장 이름 아래 뱃지 줄이 통째로 빠집니다">퇴근 인증 대기</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-cam"
+        data-why="앱(Flutter)이 직접 그리는 화면입니다. 웹 화면이 아니라 시안의 머리·바닥 셸을 쓰지 않고, 얼굴을 맞출 자리와 지금 무엇을 찍는지만 남깁니다."
+        data-steps="출근 인증 시작을 눌러 카메라가 열린 상태"
+        data-look="@{.cam__t} 안내는 '얼굴을 사각형 안에 맞춰주세요.' 입니다|@{.cam__mode} 지금 찍는 것이 출근인지 퇴근인지는 아래 알약이 답합니다|@md @{.cam__box} 태블릿에서는 가이드 사각형이 좌우로 더 들어옵니다">카메라 인식</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-cam-ok"
+        data-why="결과를 잠깐 띄우고 다음 사람으로 넘어갑니다. 한 번 열면 줄 선 사람을 이어서 찍기 때문에, 결과를 클릭해 닫게 하면 줄이 그때마다 멈춥니다."
+        data-steps="홍길동의 얼굴이 인식된 상태"
+        data-look="@{.cam__box--ok} 가이드 사각형이 초록으로 바뀌고, 결과 문구도 같은 초록입니다|@{.cam__t--ok} 문구에 인식된 사람의 이름이 들어갑니다 — '홍길동님 출근 처리되었습니다.'">인식 결과</button>
+
+      <span class="proto-nav-group-label">소장 앱 · 근로자</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers"
+        data-why="얼굴을 등록한 근로자를 현장별로 봅니다. 카드에 사진을 함께 두는 것은 이 목록에서 얼굴 등록 여부가 갈리기 때문입니다. 근로자를 더하는 버튼은 바닥 바에 둡니다 — 시안은 떠다니는 둥근 버튼을 쓰지 않습니다."
+        data-steps="근로자 관리 탭을 연 상태"
+        data-look="@{.face--none} 얼굴이 없는 근로자는 사진 자리가 회색입니다|@{.card__sub} 외국인은 주민번호 자리에 여권번호가 옵니다|@md @{.list} 태블릿에서는 카드가 두 단으로 놓입니다">근로자 관리</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new"
+        data-why="얼굴 한 장과 기본 정보를 한 화면에서 받습니다. 사진이 맨 위인 것은 이 등록의 목적이 얼굴이기 때문입니다."
+        data-steps="근로자 추가를 눌러 등록 화면이 열린 상태 — 아직 아무것도 채우지 않았습니다"
+        data-look="@{.tog} 외국인 여부는 예·아니오 토글입니다|@{.step} 단가는 칸에 적는 대신 ＋·－ 로 올리고 내립니다|@{.fld__l} 필수 항목은 이름 옆에 '(필수)' 가 붙습니다|@md @{.form} 태블릿에서는 폼이 늘어나지 않고 가운데로 모입니다">근로자 등록</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-shot"
+        data-why="찍은 얼굴로 등록할지 묻고 나서 저장합니다. 흐린 사진 한 장이 그 뒤의 출근 인증을 내내 막기 때문에, 다시 찍을 기회를 이 자리에서 줍니다."
+        data-steps="얼굴 촬영을 눌러 한 장 찍은 상태"
+        data-look="@{.confirm} 찍은 사진 위에 어두운 막이 덮이고 그 위에서 묻습니다|@{.confirm__bt .ok} '이 사진으로 등록' 이 오른쪽이고, 되돌리는 '다시 촬영' 이 왼쪽입니다">등록 촬영 확인</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker"
+        data-why="등록해 둔 얼굴이 누구 것인지 확인하는 자리입니다. 사진을 맨 위에 크게 두는 것은 이름보다 사진이 먼저 확인되어야 하기 때문입니다."
+        data-steps="근로자 관리에서 홍길동을 연 상태"
+        data-look="@{.rows} 값은 읽기만 하는 줄입니다. 고치려면 수정을 클릭합니다|@{.act__b--dark} 삭제는 검정이고 왼쪽 끝입니다 — 시안의 버튼 색에 위험을 뜻하는 빨강이 없습니다">근로자 상세</button>
+
+      <span class="proto-nav-group-label">소장 앱 · 이력</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-log"
+        data-why="날짜 하나를 잡고 그날 찍힌 인증을 봅니다. 날짜는 시안의 달력 카드를 그대로 씁니다 — 숫자 칸을 고치거나, 주를 훑어 고르거나, '오늘' 로 돌아올 수 있습니다."
+        data-steps="이력 탭에서 2026.10.20 을 고른 상태"
+        data-look="@{.cal__n--on} 고른 날은 파란 동그라미입니다|@{.cal__n i} 인증이 있는 날은 숫자 아래에 점이 붙습니다|@{.log__t--in} 출근은 옅은 파랑, 퇴근은 회색으로 가릅니다|@md @{.list} 태블릿에서는 이력 줄도 두 단으로 놓입니다">날짜별 인증</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-log-photo"
+        data-why="그때 찍힌 사진과 그 사람의 정보를 함께 봅니다. 인증이 맞게 들어갔는지는 사진을 봐야 가려집니다."
+        data-steps="이력에서 홍길동 07:05:19 줄의 사진보기를 클릭한 상태"
+        data-look="@{.bd--positive} 인증 유형은 뱃지로 적습니다|@md @{.photo} 태블릿에서는 사진이 커집니다">이력 사진보기</button>
+
+      <span class="proto-nav-group-label">근로자 앱 · 홈</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home"
+        data-why="근로자 앱의 첫 화면입니다. 안면인식 현장이어도 이 화면은 달라지지 않습니다 — 근로자는 그대로 출근을 클릭하고, 그 현장이 안면인식 현장이면 카메라가 뒤이어 열립니다."
+        data-steps="근로자 앱을 열고 오늘(2026.10.20)을 보는 상태 — 아직 출근하지 않았습니다"
+        data-look="@{.act__b--on} 출근 버튼에 지금 시각이 함께 적힙니다|@{.tabbar} 아래 내비게이션은 주화면에만 있습니다. 뒤로 가기가 있는 소장 앱 화면에는 없습니다">홈 — 출근 전</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-face"
+        data-why="안면인식이 켜진 현장인데 이 현장에 등록된 얼굴이 없으면 출근이 바로 되지 않습니다. 막는 말로 끝내지 않고 등록으로 데려가는 것은, 근로자가 그 자리에서 할 수 있는 일이 등록뿐이기 때문입니다."
+        data-steps="출근을 클릭한 상태 — 이 현장에 등록된 얼굴이 없습니다"
+        data-look="@{.alert} 알림창은 시안의 modal_alert 입니다 — 버튼이 창 아래 끝까지 붙습니다|@{.alert__bt .yes} 오른쪽이 '얼굴 등록하고 출근' 입니다|@{.dim} 뒤 화면은 어두워지고 조작할 수 없습니다">얼굴 등록 안내</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-done"
+        data-why="출근이 끝난 뒤의 홈입니다. 출근시간 옆에 어느 길로 찍혔는지를 함께 적는 것은, 같은 날 기록이 앱·단말기·소장 앱으로 섞여 들어오기 때문입니다."
+        data-steps="얼굴 인증으로 출근 처리가 끝나 홈으로 돌아온 상태"
+        data-look="@{.bd--positive} 출근시간 옆 '앱 · 얼굴' 이 그 기록이 어디서 왔는지 적습니다|@{.act__b--dark} 퇴근 버튼은 검정입니다. 출근 전의 파랑과 가릅니다|@{.rows} 퇴근시간 자리에는 '작업내용 입력 후 퇴근을 눌러주세요.' 가 적힙니다">홈 — 출근 완료</button>
+
+    </nav>
+  </aside>
+
+  <main class="proto-content">
+    <div id="screen"><iframe title="화면 미리보기"></iframe></div>
+  </main>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $=function(s,r){return (r||document).querySelector(s);};
+  var APP='face-attendance-app.html';
+
+  /* 시나리오 이름이 곧 화면 이름이다 — 화면 파일이 ?screen= 으로 한 장을 켠다.
+     여기서 더 할 일(클릭·스크롤)이 없다: 앱 화면은 한 장이 통째로 한 상태라,
+     열어 놓고 무언가를 눌러 만들 상태가 없다 */
+  function open(name){
+    var f=$('#screen iframe'); if(!f) return;
+    f.src = APP + '?screen=' + encodeURIComponent(name);
+  }
+
+  /* 크롬이 틀 안에서 ?scenario= 를 읽어 해당 버튼을 눌러 준다 — 그 누름을 여기서 받는다.
+     DOMContentLoaded 보다 먼저 붙어 있어야 그 클릭을 놓치지 않는다 */
+  document.querySelectorAll('.proto-nav-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.proto-nav-btn').forEach(function(o){
+        o.classList.toggle('is-active', o===b); });
+      open(b.dataset.scenario);
+    });
+  });
+  var first=document.querySelector('.proto-nav-btn.is-active')||document.querySelector('.proto-nav-btn');
+  if(first) open(first.dataset.scenario);
+})();
+</script>
+<script src="https://namiruan.github.io/kbz_3.0_ui_stytem/proto-chrome.js"></script>
+<script>
+  /* 아이콘은 스프라이트를 주입해 쓴다 (시스템 규약: 원격 절대 URL) */
+  fetch('https://namiruan.github.io/kbz_3.0_ui_stytem/icons/sprite.svg')
+    .then(function(r){ return r.text(); })
+    .then(function(svg){
+      var d=document.createElement('div');
+      d.style.cssText='position:absolute;width:0;height:0;overflow:hidden';
+      d.innerHTML=svg;
+      document.body.insertBefore(d, document.body.firstChild);
+    }).catch(function(){});
+
+  /* 폭을 모바일·태블릿으로 내려 잡는다 — 이 프로토타입에만 해당한다.
+     크롬은 lg 를 기본으로 열고 비교 모드에서 lg·md·sm 셋을 나란히 놓는데,
+     이 화면들은 앱이라 lg 에서 잴 것이 없다. 크롬 파일은 고치지 않고
+     크롬이 읽는 값만 켜기 전에 바꾼다 */
+  if (window.ProtoChrome) window.ProtoChrome.COMPARE = ['md','sm'];
+  try {
+    var want = new URL(location.href).searchParams.get('proto-view');
+    var kept = sessionStorage.getItem('protoView');
+    /* 다른 프로토타입에서 lg 로 보다 넘어오면 그 폭이 이어진다 — 여기엔 그 버튼이 없다 */
+    if (!want && !/^(md|sm|compare)$/.test(kept || '')) sessionStorage.setItem('protoView','sm');
+  } catch (e) {}
+
+  /* proto-chrome.js 는 초기화 함수를 등록만 한다 — 크롬은 여기서 켠다 */
+  if (typeof initProtoChrome === 'function') initProtoChrome(document);
+</script>
+</body>
+</html>
