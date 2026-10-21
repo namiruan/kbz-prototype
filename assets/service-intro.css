@@ -102,6 +102,34 @@ body.intro-page{word-break:keep-all}
   .img-group img,.img-group2 img{max-width:100%;max-height:280px;width:auto;height:auto}
 }
 
+/* 견적신청 모달 — index.html 이 쓰던 것과 같은 규칙이다. 라이브 틀에는 없고
+   우리가 더한 것이라 여기에 둔다. position 은 건드리지 않는다: 브라우저
+   기본값(fixed)을 relative 로 덮으면 모달이 문서 맨 위에 놓인 것으로 계산돼
+   열 때 페이지가 최상단으로 튄다 */
+.qm{margin:auto;padding:0;border:0;max-width:none;max-height:none;
+  width:min(1040px,calc(100vw - 40px));height:min(88vh,900px);
+  border-radius:14px;background:var(--main-white);overflow:hidden;
+  box-shadow:0 30px 80px -30px rgba(19,20,22,.5);
+  transition:width .22s ease,height .22s ease}
+@supports(height:100dvh){.qm{height:min(88dvh,900px)}}
+.qm[open]{display:flex;flex-direction:column}
+.qm::backdrop{background:rgba(19,20,22,.5)}
+.qm iframe{flex:1;display:block;width:100%;min-height:0;border:0}
+.qm-x{position:absolute;top:14px;right:14px;z-index:2;display:flex;align-items:center;justify-content:center;
+  width:38px;height:38px;padding:0;border:1px solid var(--main-gray);border-radius:50%;
+  background:var(--main-white);color:var(--sub-d-gray);cursor:pointer;
+  box-shadow:0 2px 10px rgba(19,20,22,.09);transition:color .15s,border-color .15s,background .15s}
+.qm-x svg{width:17px;height:17px;display:block}
+.qm-x:hover{color:var(--main-black);border-color:var(--sub-d-gray);background:var(--sub-w-gray)}
+.qm-x:focus-visible{outline:2px solid var(--main-blue);outline-offset:2px}
+@media(max-width:640px){
+  .qm{width:100vw;height:100vh;border-radius:0}
+  @supports(height:100dvh){.qm{height:100dvh}}
+  /* 완료 화면은 내용만큼만 — 전체화면이 아니게 되므로 모서리를 되살린다 */
+  .qm.is-fit{width:calc(100vw - 24px);border-radius:14px}
+  .qm-x{top:10px;right:10px;width:34px;height:34px}
+}
+
 /* 움직임을 줄여 달라고 한 사람에게는 띠도 캐러셀도 멈춘다 — 라이브에는 없다 */
 @media (prefers-reduced-motion:reduce){
   .slide-track,.rolling-track{animation:none}

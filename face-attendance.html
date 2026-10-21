@@ -290,11 +290,6 @@
       <svg xmlns="http://www.w3.org/2000/svg" width="11" height="16" viewBox="0 0 11 16" fill="none" aria-hidden="true"><path d="M2.5 2.5L8.5 8L2.5 13.5" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
   </div>
-
-  <p class="partition-5-tel">
-    <span class="tel-label body-small">바로 물어보고 싶으시면</span>
-    <a class="nav-button" href="tel:1588-9868">안면인식 상담 1588-9868</a>
-  </p>
 </div>
 
 <!-- ===== partition-6 : 프리미엄 ===== -->
@@ -323,6 +318,14 @@
     </a>
   </div>
 </div>
+
+<!-- ===== 견적신청 모달 ===== -->
+<dialog class="qm" id="quoteModal" aria-label="안면인식 단말기 견적신청">
+  <button type="button" class="qm-x" id="quoteModalClose" aria-label="닫기">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <iframe id="quoteFrame" title="안면인식 단말기 견적신청" src="about:blank"></iframe>
+</dialog>
 
 <script src="assets/service-intro.js"></script>
 </body>

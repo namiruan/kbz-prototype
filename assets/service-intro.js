@@ -128,4 +128,88 @@
     addEventListener('resize', tick);
     tick();
   })();
+
+  /* ── 견적신청 모달 ──────────────────────────────────────────
+     index.html 이 쓰던 것과 같다. 링크의 href 는 그대로 두므로 이 스크립트가
+     죽어도 견적 화면으로 이동은 된다. ─────────────────────────────── */
+  (function () {
+    var dlg = document.getElementById('quoteModal');
+    if (!dlg || typeof dlg.showModal !== 'function') return;
+    var frame = document.getElementById('quoteFrame');
+    var xBtn = document.getElementById('quoteModalClose');
+    var opener = null, loaded = '';
+    var PAGES = ['quote.html', 'face-quote.html'];   /* 모달로 띄우는 견적 화면 */
+
+    function open(e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;  /* 새 탭으로 열려는 것은 막지 않는다 */
+      e.preventDefault();
+      opener = e.currentTarget;
+      var page = opener.getAttribute('href');
+      if (loaded !== page) { frame.src = page; loaded = page; }
+      dlg.showModal();
+      fit();                          /* 완료 화면인 채로 닫았다 다시 열 수도 있다 */
+      document.body.style.overflow = 'hidden';
+    }
+    function close() { dlg.close(); }
+
+    /* 완료 화면은 내용이 몇 줄뿐이라 기본 크기로 두면 빈 상자가 된다.
+       같은 출처이므로 안쪽을 재서 모달을 내용에 맞춘다. 폼일 때는 CSS 기본값. */
+    function fit() {
+      var d;
+      try { d = frame.contentDocument; } catch (err) { return; }
+      var card = d && d.getElementById('doneCard');
+      var main = d && d.querySelector('.q-main');
+      var on = !!(card && main && card.classList.contains('on'));
+      dlg.classList.toggle('is-fit', on);
+      if (!on) { dlg.style.width = dlg.style.height = ''; return; }
+      var h = Math.ceil(main.getBoundingClientRect().bottom + (d.defaultView.scrollY || 0));
+      if (window.matchMedia('(max-width:640px)').matches) {
+        dlg.style.width = '';
+        dlg.style.height = 'min(' + h + 'px, calc(100dvh - 32px))';
+        return;
+      }
+      var r = card.getBoundingClientRect();
+      var w = Math.ceil(r.width + r.left * 2);                     /* 좌우 여백을 같게 */
+      dlg.style.width = 'min(' + w + 'px, calc(100vw - 40px))';
+      dlg.style.height = 'min(' + h + 'px, 88vh, 900px)';
+    }
+    addEventListener('resize', fit);
+
+    PAGES.forEach(function (page) {
+      Array.prototype.forEach.call(document.querySelectorAll('a[href="' + page + '"]'), function (a) {
+        a.addEventListener('click', open);
+      });
+    });
+    xBtn.addEventListener('click', close);
+
+    /* 넓은 화면의 완료 화면에서 '닫기'를 누르면 iframe 이 이 신호를 보낸다 */
+    addEventListener('message', function (e) {
+      if (e.source === frame.contentWindow && e.data && e.data.kbz === 'close') close();
+    });
+
+    dlg.addEventListener('close', function () {
+      document.body.style.overflow = '';
+      if (opener) { opener.focus(); opener = null; }
+    });
+
+    /* 배경 클릭으로 닫기 — dialog 는 배경까지 자기 영역이라 좌표로 판단한다 */
+    dlg.addEventListener('click', function (e) {
+      var r = dlg.getBoundingClientRect();
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) close();
+    });
+
+    /* iframe 안에서 누른 Esc 는 부모 문서에 닿지 않는다. 같은 출처이므로 직접 건다. */
+    frame.addEventListener('load', function () {
+      try {
+        frame.contentDocument.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') { e.preventDefault(); close(); }
+        });
+        var card = frame.contentDocument.getElementById('doneCard');
+        if (card && window.MutationObserver) {
+          new MutationObserver(fit).observe(card, { attributes: true, attributeFilter: ['class'] });
+        }
+        fit();
+      } catch (err) {}
+    });
+  })();
 })();
