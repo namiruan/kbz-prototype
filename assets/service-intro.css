@@ -52,7 +52,10 @@
 }
 
 /* ── 바탕 ─────────────────────────────────────────────────────── */
-body.intro-page{background:#FBFBFB;cursor:default;overflow-x:hidden}
+/* 라이브는 줄바꿈을 <br> 로 일일이 박아 둔다. 그 사이 폭에서는 한글이
+   낱말 가운데서 끊긴다("급 / 여") — keep-all 로 낱말을 지킨다.
+   라이브 CSS 에는 없는 한 줄이다 */
+body.intro-page{background:#FBFBFB;cursor:default;overflow-x:hidden;word-break:keep-all}
 
 .black{color:#272B2F}
 .white{color:#FFF}
