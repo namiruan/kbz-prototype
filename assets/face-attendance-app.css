@@ -24,6 +24,8 @@
   --ap-point:#e74900;              /* Color/Text/point · badge/point */
   --ap-point-bg:rgba(231,73,0,.1); /* Color/badge/negative */
   --ap-badge-normal:#e6e8ea;       /* Color/badge/normal */
+  --ap-tab-on:#eef7fc;             /* color/action/point-light-filtered — 고른 탭 바탕 */
+  --ap-tab-on-line:rgba(22,109,238,.5); /* color/action/primary-dark-hover — 고른 탭 테 */
 
   --ap-g0:#ffffff;                 /* color/light/gray/0 */
   --ap-g5:#f4f5f6;                 /* color/light/gray/5 */
@@ -50,7 +52,7 @@
   --ap-r-pill:100px;
 
   /* ── 여백 — padding/n ── */
-  --ap-p1:2px; --ap-p2:4px; --ap-p4:10px; --ap-p5:12px;
+  --ap-p1:2px; --ap-p2:4px; --ap-p3:6px; --ap-p4:10px; --ap-p5:12px;
   --ap-p6:16px; --ap-p8:24px; --ap-p9:32px; --ap-p10:40px; --ap-p12:56px;
 
   /* ── 카메라 화면 전용 ──
@@ -137,6 +139,13 @@ ul,ol{list-style:none}
   border-radius:var(--ap-r4);color:var(--ap-text-dark);
   font-size:15px;line-height:20px;letter-spacing:-.23px}
 .sel .ic{color:var(--ap-g90)}
+/* 목록 머리줄에 앉는 필터 — 거를 것이 직종 하나라 '직종' 이라는 이름을
+   따로 적을 자리가 없다. 거른 값이 곧 이름이고, 고르기 전에는 '전체' 다.
+   ⚠ 높이는 38px 이다. 머리줄에 앉는다고 줄이지 않는다 — 이 줄에서 유일하게
+     누르는 것이고, 손가락이 닿을 곳이 체크박스(20px)와 나란히 있다 */
+.sel--inline{flex:none;gap:2px;padding:8px 10px 8px 14px;white-space:nowrap;
+  color:var(--ap-text);font-size:17px;line-height:22px;letter-spacing:-.43px;
+  font-weight:600}
 
 /* ── 알약 버튼 — 변경 · 오늘 · 삭제 ── */
 .pill{flex:none;display:inline-flex;align-items:center;gap:4px;
@@ -177,12 +186,20 @@ ul,ol{list-style:none}
 .cal__n--on i{background:var(--ap-g0)}
 .cal__n--today::before{border:1px dashed var(--ap-g20)}
 
-/* ── 탭 — 시안 '신규 근로자 추가' 의 분절 탭 ── */
-.seg{display:flex;gap:4px}
-.seg__b{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;
-  height:40px;border-radius:var(--ap-r8);color:var(--ap-text);
-  font-size:15px;line-height:20px;letter-spacing:-.23px;text-align:center}
-.seg__b.is-on{background:var(--ap-primary-5);border:1px solid var(--ap-primary);
+/* ── 탭 — 시안 Tab 컴포넌트(600:4009) 그대로 ──
+   고른 것: 바탕 #eef7fc · 1.5px 반투명 테 · 모서리 10 · Body 17/22 semibold
+   안 고른 것: 바탕도 테도 없고 Body 17/22 regular.
+   ⚠ 안 고른 쪽에도 같은 두께의 투명 테를 둔다 — 없으면 고를 때마다 3px 씩
+     키가 자라 탭 줄 전체가 움찔한다.
+   ⚠ 폭을 넷으로 똑같이 나누지 않는다. 17px 에서는 '근로자 관리' 가 제 칸보다
+     길어져 두 줄로 접힌다. 시안처럼 글자만큼 차지하고 줄에 고루 편다 */
+.seg{display:flex;gap:4px;justify-content:space-between}
+.seg__b{flex:0 1 auto;min-width:50px;display:flex;align-items:center;
+  justify-content:center;padding:var(--ap-p4) var(--ap-p3);
+  border:1.5px solid transparent;border-radius:var(--ap-r10);
+  color:var(--ap-text);font-size:17px;line-height:22px;letter-spacing:-.43px;
+  white-space:nowrap}
+.seg__b.is-on{background:var(--ap-tab-on);border-color:var(--ap-tab-on-line);
   color:var(--ap-primary);font-weight:600}
 
 /* ── 본문 ── */
@@ -193,11 +210,18 @@ ul,ol{list-style:none}
 /* 목록 머리줄 — 전체 선택 · 건수 · 삭제 */
 .lbar{flex:none;display:flex;align-items:center;justify-content:space-between;
   gap:8px;padding:4px 0}
-.lbar__l{display:flex;align-items:center;gap:5px;
+.lbar__l{display:flex;align-items:center;gap:8px;min-width:0;
   font-size:15px;line-height:20px;letter-spacing:-.23px}
-.lbar__n{color:var(--ap-primary);font-weight:600}
-.chk{width:20px;height:20px;flex:none;border:1.5px solid var(--ap-g20);
-  border-radius:var(--ap-r4);background:var(--ap-g0)}
+/* 같은 줄에서 40px 필터 옆에 28px 버튼을 두면 누를 곳이 둘인데 크기가 두 배
+   차이가 난다. 시안의 알약(4·10)보다 한 단계 키워 32px 로 맞춘다 */
+.lbar .pill{padding:6px 12px}
+.lbar__n{flex:none;white-space:nowrap;color:var(--ap-primary);
+  font-size:17px;line-height:22px;letter-spacing:-.43px;font-weight:600}
+.chk{width:20px;height:20px;flex:none;display:flex;align-items:center;
+  justify-content:center;padding:0;border:1.5px solid var(--ap-g20);
+  border-radius:var(--ap-r4);background:var(--ap-g0);color:var(--ap-g0)}
+.chk--on{border-color:var(--ap-primary);background:var(--ap-primary)}
+.chk .ic{width:16px;height:16px}
 
 /* ── 카드 ── */
 .list{display:flex;flex-direction:column;gap:8px}
@@ -207,8 +231,6 @@ ul,ol{list-style:none}
 .card__nm{flex:1;min-width:0;color:var(--ap-text);
   font-size:20px;line-height:25px;letter-spacing:-.45px;font-weight:600;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.card__sub{flex:none;color:var(--ap-text-gray);
-  font-size:15px;line-height:20px;letter-spacing:-.23px}
 .card__gr{display:flex;flex-wrap:wrap;gap:4px 16px}
 .card__kv{flex:1 0 0;min-width:115px;display:flex;align-items:center;gap:6px}
 .card__k{flex:none;color:var(--ap-text-gray);
@@ -216,6 +238,27 @@ ul,ol{list-style:none}
 .card__v{flex:1;min-width:0;text-align:right;color:var(--ap-text);
   font-size:17px;line-height:22px;letter-spacing:-.43px;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* 사진이 왼쪽을 꽉 채우는 카드 — 카드의 여백은 글 쪽만 갖는다.
+   체크박스는 그 사진 위 좌측 상단에 얹는다. 줄 맨 앞에 두면 사진과 나란히
+   서느라 글이 시작하는 자리가 한 번 더 안으로 밀린다 */
+.card--photo{position:relative;flex-direction:row;align-items:stretch;gap:0;
+  padding:0;overflow:hidden}
+.card--photo > .face{width:92px;height:auto;align-self:stretch;border-radius:0}
+/* 사진 자리가 넓어졌다 — 24px 짜리가 그 안에서 점처럼 남는다 */
+.card--photo > .face .ic{width:40px;height:40px}
+
+/* 얼굴 사진이 들어오면 자리를 그대로 채운다 — 자리마다 비율이 달라 가장자리를
+   잘라 쓴다. 넣는 법은 images/worker/README.md */
+.face img,.shot__box img,.photo img,.confirm__pic img{
+  display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.card--photo > .chk{position:absolute;left:8px;top:8px;z-index:1;
+  box-shadow:0 1px 3px rgba(19,20,22,.25)}
+.card__bd{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px;
+  padding:var(--ap-p6)}
+/* 사진이 92px 를 가져가 글 자리가 좁다. 값 둘을 한 줄에 나누면 긴 쪽이 바로
+   줄임표가 되므로 한 줄에 하나씩 둔다 */
+.card--photo .card__kv{flex:1 0 100%}
 
 /* 얼굴 사진 — 등록된 얼굴이 있는 근로자 */
 .face{width:44px;height:44px;flex:none;border-radius:var(--ap-r8);
@@ -260,6 +303,12 @@ ul,ol{list-style:none}
 .act__b--dark{background:var(--ap-g95);color:var(--ap-g0)}
 .act__b--sub{background:var(--ap-g20);color:var(--ap-text-gray);border-top:1px solid var(--ap-line)}
 .act__b--off{background:var(--ap-g5);color:var(--ap-text-disabled);border-top:1px solid var(--ap-line)}
+/* 되돌릴 수 없는 쪽을 왼쪽 끝에 좁게 둔다. 폭이 같으면 어느 쪽이 이 화면의
+   주된 동작인지 말하지 않는다.
+   비율(1:2)이 아니라 고정 폭이다 — 비율로 두면 태블릿에서 삭제가 250px 까지
+   넓어져, 좁게 둔 뜻이 폭이 넓어질수록 사라진다 */
+.act--split .act__b:first-child{flex:0 0 104px;padding-inline:var(--ap-p6)}
+.act--split .act__b:last-child{flex:1}
 /* 아래 내비게이션이 없는 화면은 바가 홈 인디케이터 자리까지 내려간다 */
 .act--end .act__b{padding-bottom:var(--ap-p10)}
 
