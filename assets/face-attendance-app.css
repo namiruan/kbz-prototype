@@ -218,8 +218,6 @@ ul,ol{list-style:none}
 .card__nm{flex:1;min-width:0;color:var(--ap-text);
   font-size:20px;line-height:25px;letter-spacing:-.45px;font-weight:600;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.card__sub{flex:none;color:var(--ap-text-gray);
-  font-size:15px;line-height:20px;letter-spacing:-.23px}
 .card__gr{display:flex;flex-wrap:wrap;gap:4px 16px}
 .card__kv{flex:1 0 0;min-width:115px;display:flex;align-items:center;gap:6px}
 .card__k{flex:none;color:var(--ap-text-gray);
@@ -245,6 +243,9 @@ ul,ol{list-style:none}
   box-shadow:0 1px 3px rgba(19,20,22,.25)}
 .card__bd{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px;
   padding:var(--ap-p6)}
+/* 사진이 92px 를 가져가 글 자리가 좁다. 값 둘을 한 줄에 나누면 긴 쪽이 바로
+   줄임표가 되므로 한 줄에 하나씩 둔다 */
+.card--photo .card__kv{flex:1 0 100%}
 
 /* 얼굴 사진 — 등록된 얼굴이 있는 근로자 */
 .face{width:44px;height:44px;flex:none;border-radius:var(--ap-r8);
