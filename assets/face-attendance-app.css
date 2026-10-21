@@ -293,10 +293,12 @@ ul,ol{list-style:none}
 .act__b--dark{background:var(--ap-g95);color:var(--ap-g0)}
 .act__b--sub{background:var(--ap-g20);color:var(--ap-text-gray);border-top:1px solid var(--ap-line)}
 .act__b--off{background:var(--ap-g5);color:var(--ap-text-disabled);border-top:1px solid var(--ap-line)}
-/* 되돌릴 수 없는 쪽을 왼쪽 끝에 좁게 둔다 — 시안의 '출역등록 · 근로자 추가' 와
-   같은 비율이다. 폭이 같으면 어느 쪽이 이 화면의 주된 동작인지 말하지 않는다 */
-.act--split .act__b:first-child{flex:1}
-.act--split .act__b:last-child{flex:2}
+/* 되돌릴 수 없는 쪽을 왼쪽 끝에 좁게 둔다. 폭이 같으면 어느 쪽이 이 화면의
+   주된 동작인지 말하지 않는다.
+   비율(1:2)이 아니라 고정 폭이다 — 비율로 두면 태블릿에서 삭제가 250px 까지
+   넓어져, 좁게 둔 뜻이 폭이 넓어질수록 사라진다 */
+.act--split .act__b:first-child{flex:0 0 104px;padding-inline:var(--ap-p6)}
+.act--split .act__b:last-child{flex:1}
 /* 아래 내비게이션이 없는 화면은 바가 홈 인디케이터 자리까지 내려간다 */
 .act--end .act__b{padding-bottom:var(--ap-p10)}
 
