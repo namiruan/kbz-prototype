@@ -96,6 +96,7 @@
   /* ── 모서리 ── */
   --ap-r4:4px;                     /* radius/small1 */
   --ap-r6:6px;                     /* radius/medium1 — select-atomic */
+  --ap-sel-w:110px;                /* select-atomic 의 기본 폭 — 글자가 짧아도 이만큼은 둔다 */
   --ap-r8:8px;
   --ap-r10:10px;                   /* radius/large1 */
   --ap-r15:15px;
@@ -180,10 +181,14 @@ ul,ol{list-style:none}
    값을 고르기 전과 고른 뒤가 테와 글씨로 갈린다 — 고른 뒤에는 테가 짙어지고
    글씨가 굵어져, 지금 무엇으로 보고 있는지 줄만 봐도 안다 */
 .sel{font:var(--t-body);letter-spacing:var(--ls-body);
-  min-width:70px;display:flex;align-items:center;justify-content:space-between;
-  gap:var(--ap-p1);padding:var(--ap-p6) var(--ap-p3) var(--ap-p6) var(--ap-p6);
+  min-width:var(--ap-sel-w);display:flex;align-items:center;justify-content:space-between;
+  padding:var(--ap-p6) var(--ap-p3) var(--ap-p6) var(--ap-p6);
   background:var(--ap-g0);border:1px solid var(--ap-g20);
   border-radius:var(--ap-r6);color:var(--ap-text-dark)}
+/* 글자가 자리를 차지하고 꺾쇠를 칸 끝으로 민다 — 시안은 글자와 꺾쇠를
+   gap 으로 붙여 두지 않고 justify-between 으로 양끝에 민다 */
+.sel__t{flex:1 0 0;min-width:20px;text-align:left;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sel--selected{border-color:var(--ap-border-selected);color:var(--ap-g95);font-weight:600}
 .sel .ic{width:16px;height:16px;padding:var(--ap-p1);box-sizing:content-box;color:var(--ap-g90)}
 /* 목록 머리줄에 앉는 필터 — 거를 것이 직종 하나라 '직종' 이라는 이름을
@@ -247,7 +252,10 @@ ul,ol{list-style:none}
 /* 같은 줄에서 40px 필터 옆에 28px 버튼을 두면 누를 곳이 둘인데 크기가 두 배
    차이가 난다. 시안의 알약(4·10)보다 한 단계 키워 32px 로 맞춘다 */
 .lbar .pill{padding:6px 12px}
-.lbar__n{font:var(--t-head);letter-spacing:var(--ls-head);flex:none;white-space:nowrap;color:var(--ap-primary)}
+/* 목록의 수는 세어 둔 사실이라 무채색이다. 고른 수만 파랑으로 — 그때는
+   내가 만든 상태이고, 바로 아래 삭제가 켜지는 까닭이기도 하다 */
+.lbar__n{font:var(--t-head);letter-spacing:var(--ls-head);flex:none;white-space:nowrap;color:var(--ap-text)}
+.lbar__n--on{color:var(--ap-primary)}
 .chk{width:20px;height:20px;flex:none;display:flex;align-items:center;
   justify-content:center;padding:0;border:1.5px solid var(--ap-g20);
   border-radius:var(--ap-r4);background:var(--ap-g0);color:var(--ap-g0)}
