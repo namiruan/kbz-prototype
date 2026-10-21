@@ -86,7 +86,7 @@
   /* 바탕(primary/5)보다 한 끗 밝은 면. 팔레트에 바탕과 흰색 사이 칸이 없어
      새 hex 를 짓는 대신 바탕 위에 흰빛을 반만 얹는다 — 바탕이 바뀌면 같이
      따라 밝아진다 */
-  --ap-surface-lift:rgba(255,255,255,.5);
+  --ap-surface-lift:rgba(255,255,255,.75);
 
   /* ── 틈 — 시안 gap/3. 여백(padding/*)에는 8 이 없다 ── */
   --ap-gap3:8px;
@@ -162,11 +162,11 @@ ul,ol{list-style:none}
    바탕보다 한 끗 밝은 면으로 묶는다. 흰 카드로 띄우면 머리 카드가 둘이 되고,
    회색으로 내리면 이 줄만 바래 보인다 — 여기서 필요한 것은 '이 줄까지가 현장
    이야기' 라는 것뿐이라, 면이 있다는 것만 알리고 만다.
-   모서리와 그림자는 아래 목록 카드와 같은 값이다 */
+   모서리는 아래 목록 카드와 같은 값이되 그림자는 깔지 않는다 — 그림자는
+   '떠 있다(누를 수 있다)' 는 말이라, 읽기만 하는 줄에는 붙이지 않는다 */
 .ctx{flex:none;display:flex;flex-direction:column;gap:var(--ap-gap3);
   margin:var(--ap-p5) var(--ap-p6) 0;padding:var(--ap-p4) var(--ap-p5);
-  background:var(--ap-surface-lift);border-radius:var(--ap-r10);
-  box-shadow:var(--ap-shadow-card)}
+  background:var(--ap-surface-lift);border-radius:var(--ap-r10)}
 .ctx + .body{padding-top:var(--ap-p5)}
 
 .site{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3)}
