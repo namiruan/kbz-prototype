@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=24">
-<script src="assets/face-attendance-app.js?v=24" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=25">
+<script src="assets/face-attendance-app.js?v=25" defer></script>
 </head>
 
 <body>
@@ -74,7 +74,7 @@
       <!-- 얼굴이 등록된 근로자는 그 얼굴이 카드에 그대로 있다 —
            등록 여부가 이 화면에서 갈리는 유일한 값이다 -->
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
         <div class="card__bd">
           <div class="card__top">
@@ -88,7 +88,7 @@
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/02.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="김철수 선택"></button>
         <div class="card__bd">
           <div class="card__top">
@@ -102,7 +102,7 @@
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="이영희 선택"></button>
         <div class="card__bd">
           <div class="card__top">
@@ -116,7 +116,7 @@
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
         <div class="card__bd">
           <div class="card__top">
@@ -191,7 +191,7 @@
     <div class="list">
       <!-- 고른 카드는 체크박스가 사진 위에서 파랗게 채워진다 -->
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk chk--on" type="button" aria-label="홍길동 선택" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></button>
         <div class="card__bd">
           <div class="card__top">
@@ -205,7 +205,7 @@
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/02.jpg" alt=""></span>
         <button class="chk chk--on" type="button" aria-label="김철수 선택" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></button>
         <div class="card__bd">
           <div class="card__top">
@@ -219,7 +219,7 @@
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="이영희 선택"></button>
         <div class="card__bd">
           <div class="card__top">
@@ -233,7 +233,7 @@
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
         <div class="card__bd">
           <div class="card__top">
@@ -308,7 +308,7 @@
     <div class="list">
       <!-- 고른 직종만 남는다. 머리줄의 수도 걸러진 뒤의 수다 -->
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
         <div class="card__bd">
           <div class="card__top">
@@ -322,7 +322,7 @@
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
         <div class="card__bd">
           <div class="card__top">
@@ -405,7 +405,7 @@
 <section class="scr" data-screen="m-shot" data-title="등록 촬영 확인">
   <div class="cam">
     <div class="confirm">
-      <div class="confirm__pic"><svg class="ic" aria-hidden="true"><use href="#icon-employee"></use></svg></div>
+      <div class="confirm__pic"><img src="images/worker/01.jpg" alt=""></div>
       <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
       <div class="confirm__bt"><span class="re">다시 촬영</span><span class="ok">이 사진으로 등록</span></div>
     </div>
@@ -422,7 +422,7 @@
 
   <main class="body">
     <div class="shot">
-      <div class="shot__box shot__box--done"><svg class="ic ic--56" aria-hidden="true"><use href="#icon-employee"></use></svg></div>
+      <div class="shot__box shot__box--done"><img src="images/worker/01.jpg" alt=""></div>
     </div>
     <div class="rows">
       <div class="row"><span class="row__k">이름</span><span class="row__v">홍길동</span></div>
@@ -617,7 +617,7 @@
   </header>
 
   <main class="body">
-    <div class="photo"><svg class="ic" aria-hidden="true"><use href="#icon-employee"></use></svg></div>
+    <div class="photo"><img src="images/worker/01.jpg" alt=""></div>
     <div class="rows">
       <div class="row"><span class="row__k">인증 유형</span><span class="row__v"><span class="bd bd--positive">출근</span></span></div>
       <div class="row"><span class="row__k">인증 시간</span><span class="row__v">2026-10-20 07:05:19</span></div>
