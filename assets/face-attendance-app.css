@@ -99,6 +99,7 @@
   --ap-r4:4px;                     /* radius/small1 */
   --ap-r6:6px;                     /* radius/medium1 — select-atomic */
   --ap-sel-w:110px;                /* select-atomic 의 기본 폭 — 글자가 짧아도 이만큼은 둔다 */
+  --ap-face:112px;                 /* 근로자 카드의 얼굴 — 정방형이다 */
   --ap-r8:8px;
   --ap-r10:10px;                   /* radius/large1 */
   --ap-r15:15px;
@@ -293,7 +294,12 @@ ul,ol{list-style:none}
    서느라 글이 시작하는 자리가 한 번 더 안으로 밀린다 */
 .card--photo{position:relative;flex-direction:row;align-items:stretch;gap:0;
   padding:0;overflow:hidden}
-.card--photo > .face{width:92px;height:auto;align-self:stretch;border-radius:0}
+/* 사진은 정방형이다. 변을 못 박고 가운데에 둔다 — 카드 높이에 맞춰 늘리면
+   글이 한 줄 늘 때마다 세로로만 길어져 네모가 깨진다.
+   카드에 다른 높이가 없으면 이 네모가 카드 높이를 정한다 */
+.card--photo{align-items:center}
+.card--photo > .face{flex:none;width:var(--ap-face);height:var(--ap-face);
+  border-radius:0}
 /* 사진 자리가 넓어졌다 — 24px 짜리가 그 안에서 점처럼 남는다 */
 .card--photo > .face .ic{width:40px;height:40px}
 
