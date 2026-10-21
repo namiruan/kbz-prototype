@@ -41,7 +41,8 @@
 | `hero-card-reader.jpg` | 전자카드 `partition-1` 배경 | `kbz/social-insurances/partition-01.png` |
 | `hero-face.jpg` | 안면인식 `partition-1` 배경 | `kbz/ta_manager/partition-01.png` |
 | `premium-wide.jpg` · `premium-narrow.jpg` | `partition-6` 배경 (533px 경계로 갈림) | `kbz/public/partition-06(…).png` |
-| `step/card-0*.png` · `step/face-0*.png` | `partition-3` 의 3D 아이콘 | 여러 소개페이지의 `partition-03-*.png` |
+| `step/card-01~03.png` | 전자카드 `partition-3` — 검증(돋보기)·보정(출역 달력)·신고(서류와 공제부금) | `construction/03-02` · `social-insurances/03-01` · `regular_worker/03-02` |
+| `step/face-01~03.png` | 안면인식 `partition-3` 의 3D 아이콘 | 여러 소개페이지의 `partition-03-*.png` |
 | `voice-0*.jpg` | 후기 카드 아래 사진 | 여러 소개페이지의 `partition-04-*.png` |
 | `marquee-icon.png` | 안면인식 쪽 롤링 띠 | `kbz/document/marquee-icon.png` |
 
