@@ -44,6 +44,7 @@
   --ap-primary-90:#113569;         /* Color/Text/primary-dark — 켜진 내비 */
   --ap-primary-5:#eef4fc;          /* color/light/primary/5 — 화면 바탕 */
   --ap-badge-positive:#dce8f9;     /* Color/badge/positive */
+  --ap-surface-soft:#dce8f9;       /* primary/100 — 바탕(primary/5)보다 한 단계 진한 면 */
   --ap-point:#e74900;              /* Color/Text/point · badge/point */
   --ap-point-bg:rgba(231,73,0,.1); /* Color/badge/negative */
   --ap-badge-normal:#e6e8ea;       /* Color/badge/normal */
@@ -149,13 +150,17 @@ ul,ol{list-style:none}
   box-shadow:var(--ap-shadow-card);padding:var(--ap-p5) var(--ap-p6);
   display:flex;flex-direction:column;gap:var(--ap-gap3)}
 
-/* ── 머리 카드 밖 — 현장 · 필터 ──
+/* ── 머리 카드 밖 — 현장 ──
    탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말한다.
    말하는 범위가 달라 흰 카드 안에 같이 두지 않는다 — 현장은 제가 가리키는
-   목록 바로 위, 페이지 바탕 위에 놓는다 */
+   목록 바로 위에 놓는다.
+   바탕보다 한 단계만 진한 면으로 묶는다. 흰 카드로 띄우면 머리 카드가 둘이
+   되고, 선으로 가르면 목록의 카드들과 다른 종류의 선이 하나 더 생긴다 —
+   여기서 필요한 것은 '이 줄까지가 현장 이야기' 라는 것뿐이다 */
 .ctx{flex:none;display:flex;flex-direction:column;gap:var(--ap-gap3);
-  padding:var(--ap-p5) var(--ap-p6) 0}
-.ctx + .body{padding-top:8px}
+  margin:var(--ap-p5) var(--ap-p6) 0;padding:var(--ap-p4) var(--ap-p5);
+  background:var(--ap-surface-soft);border-radius:var(--ap-r10)}
+.ctx + .body{padding-top:var(--ap-p5)}
 
 .site{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3)}
 .site__k{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:none;width:var(--ap-label-w);color:var(--ap-primary)}
@@ -441,7 +446,7 @@ ul,ol{list-style:none}
   .form,.rows,.note,.shot{width:100%;max-width:560px;margin-inline:auto}
   .body{padding:var(--ap-p8)}
   /* 현장 줄은 제가 가리키는 목록과 세로 선이 맞아야 한다 */
-  .ctx{padding-inline:var(--ap-p8)}
+  .ctx{margin-inline:var(--ap-p8)}
   /* 필터는 한 칸이라 늘리지 않는다 — 폭을 다 쓰면 고를 것이 하나인데 줄만 길어진다 */
   .sel{flex:0 1 240px}
   /* 카드가 반 폭이 되면 값이 줄임표로 잘린다. 한 줄에 하나씩 둔다 */
