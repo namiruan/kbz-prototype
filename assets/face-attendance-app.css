@@ -138,9 +138,12 @@ ul,ol{list-style:none}
   font-size:15px;line-height:20px;letter-spacing:-.23px}
 .sel .ic{color:var(--ap-g90)}
 /* 목록 머리줄에 앉는 필터 — 거를 것이 직종 하나라 '직종' 이라는 이름을
-   따로 적을 자리가 없다. 거른 값이 곧 이름이고, 고르기 전에는 '전체' 다 */
-.sel--inline{flex:none;gap:2px;padding:3px 6px 3px 10px;white-space:nowrap;
-  color:var(--ap-text);font-weight:600}
+   따로 적을 자리가 없다. 거른 값이 곧 이름이고, 고르기 전에는 '전체' 다.
+   ⚠ 높이는 38px 이다. 머리줄에 앉는다고 줄이지 않는다 — 이 줄에서 유일하게
+     누르는 것이고, 손가락이 닿을 곳이 체크박스(20px)와 나란히 있다 */
+.sel--inline{flex:none;gap:2px;padding:8px 10px 8px 14px;white-space:nowrap;
+  color:var(--ap-text);font-size:17px;line-height:22px;letter-spacing:-.43px;
+  font-weight:600}
 
 /* ── 알약 버튼 — 변경 · 오늘 · 삭제 ── */
 .pill{flex:none;display:inline-flex;align-items:center;gap:4px;
@@ -199,7 +202,11 @@ ul,ol{list-style:none}
   gap:8px;padding:4px 0}
 .lbar__l{display:flex;align-items:center;gap:8px;min-width:0;
   font-size:15px;line-height:20px;letter-spacing:-.23px}
-.lbar__n{flex:none;white-space:nowrap;color:var(--ap-primary);font-weight:600}
+/* 같은 줄에서 40px 필터 옆에 28px 버튼을 두면 누를 곳이 둘인데 크기가 두 배
+   차이가 난다. 시안의 알약(4·10)보다 한 단계 키워 32px 로 맞춘다 */
+.lbar .pill{padding:6px 12px}
+.lbar__n{flex:none;white-space:nowrap;color:var(--ap-primary);
+  font-size:17px;line-height:22px;letter-spacing:-.43px;font-weight:600}
 .chk{width:20px;height:20px;flex:none;display:block;padding:0;
   border:1.5px solid var(--ap-g20);border-radius:var(--ap-r4);background:var(--ap-g0)}
 
