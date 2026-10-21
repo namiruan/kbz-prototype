@@ -24,6 +24,8 @@
   --ap-point:#e74900;              /* Color/Text/point · badge/point */
   --ap-point-bg:rgba(231,73,0,.1); /* Color/badge/negative */
   --ap-badge-normal:#e6e8ea;       /* Color/badge/normal */
+  --ap-tab-on:#eef7fc;             /* color/action/point-light-filtered — 고른 탭 바탕 */
+  --ap-tab-on-line:rgba(22,109,238,.5); /* color/action/primary-dark-hover — 고른 탭 테 */
 
   --ap-g0:#ffffff;                 /* color/light/gray/0 */
   --ap-g5:#f4f5f6;                 /* color/light/gray/5 */
@@ -50,7 +52,7 @@
   --ap-r-pill:100px;
 
   /* ── 여백 — padding/n ── */
-  --ap-p1:2px; --ap-p2:4px; --ap-p4:10px; --ap-p5:12px;
+  --ap-p1:2px; --ap-p2:4px; --ap-p3:6px; --ap-p4:10px; --ap-p5:12px;
   --ap-p6:16px; --ap-p8:24px; --ap-p9:32px; --ap-p10:40px; --ap-p12:56px;
 
   /* ── 카메라 화면 전용 ──
@@ -184,12 +186,20 @@ ul,ol{list-style:none}
 .cal__n--on i{background:var(--ap-g0)}
 .cal__n--today::before{border:1px dashed var(--ap-g20)}
 
-/* ── 탭 — 시안 '신규 근로자 추가' 의 분절 탭 ── */
-.seg{display:flex;gap:4px}
-.seg__b{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;
-  height:40px;border-radius:var(--ap-r8);color:var(--ap-text);
-  font-size:15px;line-height:20px;letter-spacing:-.23px;text-align:center}
-.seg__b.is-on{background:var(--ap-primary-5);border:1px solid var(--ap-primary);
+/* ── 탭 — 시안 Tab 컴포넌트(600:4009) 그대로 ──
+   고른 것: 바탕 #eef7fc · 1.5px 반투명 테 · 모서리 10 · Body 17/22 semibold
+   안 고른 것: 바탕도 테도 없고 Body 17/22 regular.
+   ⚠ 안 고른 쪽에도 같은 두께의 투명 테를 둔다 — 없으면 고를 때마다 3px 씩
+     키가 자라 탭 줄 전체가 움찔한다.
+   ⚠ 폭을 넷으로 똑같이 나누지 않는다. 17px 에서는 '근로자 관리' 가 제 칸보다
+     길어져 두 줄로 접힌다. 시안처럼 글자만큼 차지하고 줄에 고루 편다 */
+.seg{display:flex;gap:4px;justify-content:space-between}
+.seg__b{flex:0 1 auto;min-width:50px;display:flex;align-items:center;
+  justify-content:center;padding:var(--ap-p4) var(--ap-p3);
+  border:1.5px solid transparent;border-radius:var(--ap-r10);
+  color:var(--ap-text);font-size:17px;line-height:22px;letter-spacing:-.43px;
+  white-space:nowrap}
+.seg__b.is-on{background:var(--ap-tab-on);border-color:var(--ap-tab-on-line);
   color:var(--ap-primary);font-weight:600}
 
 /* ── 본문 ── */
