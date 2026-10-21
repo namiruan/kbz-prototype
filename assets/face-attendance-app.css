@@ -271,7 +271,12 @@ ul,ol{list-style:none}
 .chk .ic{width:16px;height:16px}
 
 /* ── 카드 ── */
-.list{display:flex;flex-direction:column;gap:var(--ap-gap3)}
+/* **단 수는 중단점이 아니라 실제로 남은 폭이 정한다.** 전에는 768px 중단점
+   하나로 갈랐는데, 그 값이 태블릿 틀 폭과 똑같아 여유가 0 이었다 — 그 앞에서
+   굴림대 15px 이든 확대 반올림이든 1px 만 깎이면 조용히 한 단으로 떨어진다.
+   카드가 320 아래로 좁아지지 않는 선에서 들어갈 만큼 들어간다 */
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:var(--ap-gap3);align-content:start}
 .card{display:flex;flex-direction:column;gap:var(--ap-p4);padding:var(--ap-p6);
   background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
 .card__top{display:flex;align-items:center;gap:var(--ap-gap3)}
@@ -476,9 +481,8 @@ ul,ol{list-style:none}
    앱이라 폭은 둘뿐이다. 데스크톱 중단점은 두지 않는다.
    한 손으로 쥐는 폭이 아니게 되면 바뀌는 것만 적는다 */
 @media (min-width:768px){
-  /* 목록은 두 단으로 — 한 단으로 두면 카드가 가로로 늘어나 이름과 값 사이가 비어 버린다 */
-  .list{display:grid;grid-template-columns:1fr 1fr;gap:var(--ap-p5);align-content:start}
-  .list--one{grid-template-columns:1fr}
+  /* 단이 둘로 갈리는 폭에서는 카드 사이도 조금 벌린다 */
+  .list{gap:var(--ap-p5)}
   /* 폼·상세는 늘리지 않고 가운데로 모은다 */
   .form,.rows,.note,.shot{width:100%;max-width:560px;margin-inline:auto}
   .body{padding:var(--ap-p8)}
