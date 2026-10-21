@@ -44,7 +44,6 @@
   --ap-primary-90:#113569;         /* Color/Text/primary-dark — 켜진 내비 */
   --ap-primary-5:#eef4fc;          /* color/light/primary/5 — 화면 바탕 */
   --ap-badge-positive:#dce8f9;     /* Color/badge/positive */
-  --ap-surface-soft:#dce8f9;       /* primary/100 — 바탕(primary/5)보다 한 단계 진한 면 */
   --ap-point:#e74900;              /* Color/Text/point · badge/point */
   --ap-point-bg:rgba(231,73,0,.1); /* Color/badge/negative */
   --ap-badge-normal:#e6e8ea;       /* Color/badge/normal */
@@ -154,12 +153,13 @@ ul,ol{list-style:none}
    탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말한다.
    말하는 범위가 달라 흰 카드 안에 같이 두지 않는다 — 현장은 제가 가리키는
    목록 바로 위에 놓는다.
-   바탕보다 한 단계만 진한 면으로 묶는다. 흰 카드로 띄우면 머리 카드가 둘이
-   되고, 선으로 가르면 목록의 카드들과 다른 종류의 선이 하나 더 생긴다 —
-   여기서 필요한 것은 '이 줄까지가 현장 이야기' 라는 것뿐이다 */
+   아래 목록의 카드와 같은 흰 면으로 묶는다 — 모서리도 그림자도 같은 값이다.
+   한 화면에 면이 두 종류면 그 둘이 무엇으로 갈리는지를 읽는 사람이 또
+   따져야 한다 */
 .ctx{flex:none;display:flex;flex-direction:column;gap:var(--ap-gap3);
   margin:var(--ap-p5) var(--ap-p6) 0;padding:var(--ap-p4) var(--ap-p5);
-  background:var(--ap-surface-soft);border-radius:var(--ap-r10)}
+  background:var(--ap-g0);border-radius:var(--ap-r10);
+  box-shadow:var(--ap-shadow-card)}
 .ctx + .body{padding-top:var(--ap-p5)}
 
 .site{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3)}
