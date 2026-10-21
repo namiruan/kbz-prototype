@@ -53,6 +53,7 @@
   --ap-g0:#ffffff;                 /* color/light/gray/0 */
   --ap-g5:#f4f5f6;                 /* color/light/gray/5 */
   --ap-g20:#cdd1d5;                /* color/light/gray/20 · border/gray-subtler */
+  --ap-border-selected:#6d7882;    /* color/border/selected — 값을 고른 select */
   --ap-g30:#b1b8be;                /* color/light/gray/30 */
   --ap-g90:#1e2124;                /* color/light/gray/90 */
   --ap-g95:#131416;                /* color/light/gray/95 · Color/Text/static */
@@ -82,6 +83,10 @@
   --ap-on-photo-deep:rgba(255,255,255,.55);
   --ap-on-photo-vivid:rgba(255,255,255,.82);
   --ap-on-photo-light:rgba(255,255,255,.3);
+  /* 바탕(primary/5)보다 한 끗 밝은 면. 팔레트에 바탕과 흰색 사이 칸이 없어
+     새 hex 를 짓는 대신 바탕 위에 흰빛을 반만 얹는다 — 바탕이 바뀌면 같이
+     따라 밝아진다 */
+  --ap-surface-lift:rgba(255,255,255,.5);
 
   /* ── 틈 — 시안 gap/3. 여백(padding/*)에는 8 이 없다 ── */
   --ap-gap3:8px;
@@ -90,6 +95,7 @@
 
   /* ── 모서리 ── */
   --ap-r4:4px;                     /* radius/small1 */
+  --ap-r6:6px;                     /* radius/medium1 — select-atomic */
   --ap-r8:8px;
   --ap-r10:10px;                   /* radius/large1 */
   --ap-r15:15px;
@@ -153,12 +159,13 @@ ul,ol{list-style:none}
    탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말한다.
    말하는 범위가 달라 흰 카드 안에 같이 두지 않는다 — 현장은 제가 가리키는
    목록 바로 위에 놓는다.
-   흰 카드에서 한 칸 내린 면(gray/5)으로 묶는다. 모서리와 그림자는 아래
-   목록 카드와 같은 값이라, 묶여 있다는 것은 같은 말로 하고 '누르는 카드가
-   아니다' 만 밝기로 가른다 */
+   바탕보다 한 끗 밝은 면으로 묶는다. 흰 카드로 띄우면 머리 카드가 둘이 되고,
+   회색으로 내리면 이 줄만 바래 보인다 — 여기서 필요한 것은 '이 줄까지가 현장
+   이야기' 라는 것뿐이라, 면이 있다는 것만 알리고 만다.
+   모서리와 그림자는 아래 목록 카드와 같은 값이다 */
 .ctx{flex:none;display:flex;flex-direction:column;gap:var(--ap-gap3);
   margin:var(--ap-p5) var(--ap-p6) 0;padding:var(--ap-p4) var(--ap-p5);
-  background:var(--ap-g5);border-radius:var(--ap-r10);
+  background:var(--ap-surface-lift);border-radius:var(--ap-r10);
   box-shadow:var(--ap-shadow-card)}
 .ctx + .body{padding-top:var(--ap-p5)}
 
@@ -168,13 +175,22 @@ ul,ol{list-style:none}
 
 .filter{display:flex;align-items:center;gap:var(--ap-gap3)}
 .filter__k{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:none;width:var(--ap-label-w);color:var(--ap-text)}
-.sel{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:1;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:var(--ap-p2);padding:6px 10px;background:var(--ap-g0);border:1px solid var(--ap-g20);border-radius:var(--ap-r4);color:var(--ap-text-dark)}
-.sel .ic{color:var(--ap-g90)}
+/* ── 고르는 칸 — 시안 select-atomic(583:4117) 그대로 ──
+   왼쪽 여백 16 · 오른쪽 6(꺾쇠가 제 여백 2 를 들고 있다) · 모서리 6.
+   값을 고르기 전과 고른 뒤가 테와 글씨로 갈린다 — 고른 뒤에는 테가 짙어지고
+   글씨가 굵어져, 지금 무엇으로 보고 있는지 줄만 봐도 안다 */
+.sel{font:var(--t-body);letter-spacing:var(--ls-body);
+  min-width:70px;display:flex;align-items:center;justify-content:space-between;
+  gap:var(--ap-p1);padding:var(--ap-p6) var(--ap-p3) var(--ap-p6) var(--ap-p6);
+  background:var(--ap-g0);border:1px solid var(--ap-g20);
+  border-radius:var(--ap-r6);color:var(--ap-text-dark)}
+.sel--selected{border-color:var(--ap-border-selected);color:var(--ap-g95);font-weight:600}
+.sel .ic{width:16px;height:16px;padding:var(--ap-p1);box-sizing:content-box;color:var(--ap-g90)}
 /* 목록 머리줄에 앉는 필터 — 거를 것이 직종 하나라 '직종' 이라는 이름을
    따로 적을 자리가 없다. 거른 값이 곧 이름이고, 고르기 전에는 '전체' 다.
    ⚠ 높이는 38px 이다. 머리줄에 앉는다고 줄이지 않는다 — 이 줄에서 유일하게
      누르는 것이고, 손가락이 닿을 곳이 체크박스(20px)와 나란히 있다 */
-.sel--inline{font:var(--t-head);letter-spacing:var(--ls-head);flex:none;gap:var(--ap-p1);padding:var(--ap-gap3) var(--ap-p4) var(--ap-gap3) var(--ap-p5);white-space:nowrap;color:var(--ap-text)}
+.sel--inline{flex:none;padding-block:var(--ap-gap3);white-space:nowrap}
 
 /* ── 알약 버튼 — 변경 · 오늘 · 삭제 ── */
 .pill{font:var(--t-sub-em);letter-spacing:var(--ls-sub);flex:none;display:inline-flex;align-items:center;gap:var(--ap-p2);padding:4px 10px;border-radius:var(--ap-r-pill)}
