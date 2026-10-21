@@ -1,52 +1,65 @@
-# 소개페이지 사진
+# 소개페이지 사진 — 지금은 스켈레톤
 
 `card-reader.html`(퇴직공제 전자카드 단말기)과 `face-attendance.html`(안면인식
-출퇴근관리 단말기)이 쓰는 사진입니다. **같은 파일명으로 덮어쓰면** 바로 반영됩니다.
+출퇴근관리 단말기)의 **사진 자리는 모두 비어 있습니다.** 제품컷을 새로 찍는
+동안 자리만 잡아 두었고, 화면에는 점선 상자에 「무엇이 들어갈지 · 어떤
+파일이어야 하는지」가 적혀 있습니다.
 
-## 제품컷 — `device/`
+처음 만들 때 라이브(kbz.co.kr)의 다른 소개페이지에서 빌려 끼워 둔 그림들은
+지웠습니다. 되살릴 일이 있으면 커밋 `d27dba2` 이전을 보세요.
 
-이 저장소에 이미 있던 사진을 소개페이지 틀에 맞게 잘라 둔 것입니다. 원본은
-`images/card-reader/` · `images/face-reader/` · `images/device/` 에 그대로 있습니다.
+## 사진이 나오면
 
-| 파일 | 무엇 | 원본 |
+`<span class="ph">…</span>` 를 `<img>` 로 바꾸기만 하면 됩니다. 자리 크기는
+스켈레톤과 같으니 레이아웃은 그대로입니다.
+
+```html
+<!-- 지금 -->
+<span class="ph"><b class="ph-cap">벽부형 단말기 제품컷</b><i class="ph-spec">투명 PNG · 가로 450 이상 · 바닥 맞춤</i></span>
+<!-- 사진이 나오면 -->
+<img class="partition-2-1" src="images/intro/device/wall.png" alt="벽부형 퇴직공제 전자카드 단말기" loading="lazy">
+```
+
+후기 카드 아래 사진은 `.ph-panel` 을 떼고 `class="panel-img"` 를 붙입니다.
+
+## 채워야 할 자리
+
+### 퇴직공제 — `card-reader.html`
+
+| 자리 | 무엇 | 규격 |
 | --- | --- | --- |
-| `wall.png` · `portable.png` · `mobile.png` | 전자카드 단말기 벽부형·이동형·휴대형 | `images/card-reader/` |
-| `card-reader-3.png` | 위 셋을 바닥 맞춰 한 장으로 — 전자카드 쪽 `partition-5` | 위 셋 |
-| `face-reader.png` | Ubio X Face Pro | `images/face-reader/ubio-x-face-pro.png` |
-| `face-site.png` | 현장에서 안면인식 단말기로 찍는 근로자 | `images/device/A-01.png` |
-| `app.png` | 김반장 앱을 든 근로자 | `images/device/A-02.png` |
-| `face-scene.png` | 위 둘을 한 장으로 — 안면인식 쪽 `partition-5` | 위 둘 |
+| `partition-1` 배경 | 히어로 배경 | 1600×790 이상 · 글이 위쪽 가운데에 얹히니 그 자리는 비워서 |
+| `partition-2` ×3 | 벽부형 · 이동형 · 휴대형 제품컷 | 투명 PNG · 가로 450 이상 · 바닥 맞춤 |
+| `partition-3` ×3 | 검증 · 보정 · 신고 아이콘 | 투명 PNG · 348×332 |
+| `partition-4` ×4 | 후기 카드 아래 사진 | 640×332 (표시 320×166) |
+| `partition-5` | 단말기 3종 한 컷 | 투명 PNG · 900×400 · 바닥 맞춰 나란히 · **짙은 남색 위에 얹힘** |
+| `partition-6` 배경 | 프리미엄 배경 | 넓은 화면 1542×614 · 532px 이하 1034×1397 |
 
-`face-reader.png` 는 원본이 115×248 밖에 안 돼, `partition-5` 에서는 늘어나지
-않도록 CSS 가 폭을 618px 로 묶어 둡니다(`service-intro.css` 의
-`.intro-face .partition-5-img-area img`). 큰 제품컷이 생기면 덮어쓰고 그 줄을 지우세요.
+### 안면인식 — `face-attendance.html`
 
-### 권장 사양
-
-- **형식** 배경이 투명한 PNG. 흰 사각형 배경이 있으면 짙은 파랑 바탕(`partition-5`)
-  과 옅은 파랑 바탕(`img-group2`) 위에서 테가 보입니다.
-- **정렬** 단말기가 프레임 아래쪽에 닿도록. `partition-5` 의 합성 사진은 세 대를
-  **바닥 맞춰** 놓습니다 — 키가 다른 채로 바닥이 맞아야 '놓여 있는' 것으로 읽힙니다.
-- **크기** `partition-2` 는 높이 250px 틀에, `partition-5` 는 최대 794px 폭에
-  들어갑니다. 그보다 큰 그림은 무게만 됩니다.
-
-## 라이브에서 가져온 것
-
-아래는 kbz.co.kr 의 다른 서비스 소개페이지가 쓰는 그림을 그대로 옮긴 것입니다.
-**단말기 전용 그림이 아니라 자리를 잡아둔 것**이니, 제품에 맞는 것이 생기면
-덮어써 주세요.
-
-| 파일 | 어디에 | 가져온 곳 |
+| 자리 | 무엇 | 규격 |
 | --- | --- | --- |
-| `hero-card-reader.jpg` | 전자카드 `partition-1` 배경 | `kbz/social-insurances/partition-01.png` |
-| `hero-face.jpg` | 안면인식 `partition-1` 배경 | `kbz/ta_manager/partition-01.png` |
-| `premium-wide.jpg` · `premium-narrow.jpg` | `partition-6` 배경 (533px 경계로 갈림) | `kbz/public/partition-06(…).png` |
-| `step/card-01~03.png` | 전자카드 `partition-3` — 검증(돋보기)·보정(출역 달력)·신고(서류와 공제부금) | `construction/03-02` · `social-insurances/03-01` · `regular_worker/03-02` |
-| `step/face-01~03.png` | 안면인식 `partition-3` 의 3D 아이콘 | 여러 소개페이지의 `partition-03-*.png` |
-| `voice-0*.jpg` | 후기 카드 아래 사진 | 여러 소개페이지의 `partition-04-*.png` |
-| `marquee-icon.png` | 안면인식 쪽 롤링 띠 | `kbz/document/marquee-icon.png` |
+| `partition-1` 배경 | 히어로 배경 | 1600×790 이상 · 글이 위쪽 가운데 |
+| `partition-2` ×3 | 앱으로 얼굴 등록하는 근로자 · 현장에서 얼굴 찍는 근로자 · Ubio X Face Pro 제품컷 | 투명 PNG · 가로 450 이상 · 바닥 맞춤 |
+| `partition-3` ×3 | 공수 · 정산 · 교부 아이콘 | 투명 PNG · 348×332 |
+| `partition-4` ×4 | 후기 카드 아래 사진 | 640×332 (표시 320×166) |
+| `partition-5` | 단말기와 앱이 함께 보이는 한 컷 | 투명 PNG · 1240×624 · 바닥 맞춤 · **짙은 남색 위에 얹힘** |
+| `partition-6` 배경 | 프리미엄 배경 | 넓은 화면 1542×614 · 532px 이하 1034×1397 |
 
-`voice-0*.jpg` 는 **후기를 쓴 분의 사진이 아닙니다.** 라이브와 같은 쓰임(카드
-아래를 채우는 그림)이며, 후기를 쓴 회사 이름은 카드 안에 따로 적혀 있습니다.
+## 사진 찍을 때
 
-고객사 로고 띠는 여기 두지 않고 `images/partners/` 를 그대로 씁니다.
+- **배경이 투명한 PNG.** 사진 뒤에 배경색을 깔지 않습니다. 흰 사각형 배경이
+  있으면 짙은 파랑 바탕(`partition-5`)과 옅은 파랑 바탕(`img-group2`) 위에서
+  테가 보입니다.
+- **바닥 맞춤.** 단말기가 프레임 아래쪽에 닿아야 '잘린' 게 아니라 '놓여
+  있는' 것으로 읽힙니다. `partition-5` 의 합성 컷은 키가 달라도 **바닥선을
+  맞춰** 나란히 놓습니다.
+- **좌우 여백**을 조금 두세요. 폭에 맞춰 줄어듭니다.
+- **배경 두 자리**는 글이 위에 얹히니 가운데 위쪽을 비워 두고 찍습니다.
+
+## 스켈레톤이 아닌 것
+
+- **고객사 로고 띠**(`partition-4`)는 `images/partners/` 의 실제 로고를 그대로
+  씁니다. 이것도 비워 두려면 말씀해 주세요.
+- **`marquee-icon.png`** — 안면인식 쪽 롤링 띠의 26×26 아이콘. 라이브
+  `kbz/document/marquee-icon.png` 를 옮긴 것이라 그대로 둡니다.
