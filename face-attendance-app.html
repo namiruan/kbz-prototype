@@ -13,11 +13,17 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=6">
-<script src="assets/face-attendance-app.js?v=6" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=9">
+<script src="assets/face-attendance-app.js?v=9" defer></script>
 </head>
 
 <body>
+
+<!-- ⚠ 시스템에 없어 다르게 둔 아이콘 — 디자이너에게 요청할 것
+     · 뒤로 가기: 시안은 화살표(←)지만 3.0 스프라이트에는 꺾쇠(‹)뿐이라
+       icon-chevron-left 를 쓴다
+     · QR 코드: 아이콘이 없어 icon-camera 로 자리만 잡았다
+     ================================================================ -->
 
 <!-- ================================================================
      화면 열세 장이 한 문서에 있고, 주소의 ?screen= 이 가리키는 한 장만 켜진다.
@@ -60,9 +66,9 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <b class="lbar__n">5명</b>
+        <button class="sel sel--inline" type="button">전체<svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </span>
-      <button class="sel sel--inline" type="button">전체<svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      <b class="lbar__n">5명</b>
     </div>
     <div class="list">
       <!-- 얼굴이 등록된 근로자는 그 얼굴이 카드에 그대로 있다 —
@@ -178,9 +184,9 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <b class="lbar__n">5명</b>
+        <button class="sel sel--inline" type="button">전체<svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </span>
-      <button class="sel sel--inline" type="button">전체<svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      <b class="lbar__n">5명</b>
     </div>
     <div class="list">
       <!-- 고른 카드는 체크박스가 사진 위에서 파랗게 채워진다 -->
@@ -295,9 +301,9 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <b class="lbar__n">2명</b>
+        <button class="sel sel--inline" type="button">형틀목공<svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </span>
-      <button class="sel sel--inline" type="button">형틀목공<svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      <b class="lbar__n">2명</b>
     </div>
     <div class="list">
       <!-- 고른 직종만 남는다. 머리줄의 수도 걸러진 뒤의 수다 -->
@@ -677,7 +683,7 @@
          자리만 잡아 두었다 — icons/categories.json 에 추가를 요청할 것 -->
     <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
     <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>QR 코드</span>
-    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg>마이페이지</span>
+    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-settings"></use></svg>마이페이지</span>
   </nav>
 </section>
 
@@ -733,7 +739,7 @@
   <nav class="tabbar" aria-label="주메뉴">
     <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
     <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>QR 코드</span>
-    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg>마이페이지</span>
+    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-settings"></use></svg>마이페이지</span>
   </nav>
 
   <!-- 안면인식 현장인데 이 현장에 등록된 얼굴이 없을 때 출근을 누르면 뜬다 -->
@@ -803,7 +809,7 @@
   <nav class="tabbar" aria-label="주메뉴">
     <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
     <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>QR 코드</span>
-    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg>마이페이지</span>
+    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-settings"></use></svg>마이페이지</span>
   </nav>
 </section>
 
