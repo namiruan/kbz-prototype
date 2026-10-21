@@ -17,19 +17,19 @@
    ================================================================ */
 
 /* ── 타이포 (라이브 common.css) ───────────────────────────────── */
-.partition-headcopy{font-size:42px;font-weight:500;line-height:normal;letter-spacing:-2.1px}
-.partition-conetents-head{font-size:30px;font-weight:700;line-height:normal;letter-spacing:-1.5px}
-.contents-tab-on{font-size:26px;font-weight:700;line-height:normal}
-.contents-tab-off{font-size:26px;font-weight:400;line-height:normal}
-.CTA-button{font-size:24px;font-weight:700;line-height:normal}
-.contents-marque-header{font-size:24px;font-weight:700;line-height:normal;letter-spacing:-1.2px}
-.partition-contents{font-size:22px;font-weight:400;line-height:120%}
-.nav-button{font-size:20px;font-weight:600;line-height:normal}
-.partition-banner-contents{font-size:18px;font-weight:400;line-height:140%;letter-spacing:-.36px}
-.nav-sub-category{font-size:16px;font-weight:500;line-height:normal;letter-spacing:-.16px}
-.partition-contents-list{font-size:16px;font-weight:400;line-height:normal}
-.contents-marque{font-size:16px;font-weight:600;line-height:normal}
-.body-small{font-size:14px;font-weight:400;line-height:normal}
+.partition-headcopy{font-family:var(--font-body);font-size:42px;font-weight:500;line-height:normal;letter-spacing:-2.1px}
+.partition-conetents-head{font-family:var(--font-body);font-size:30px;font-weight:700;line-height:normal;letter-spacing:-1.5px}
+.contents-tab-on{font-family:var(--font-body);font-size:26px;font-weight:700;line-height:normal}
+.contents-tab-off{font-family:var(--font-body);font-size:26px;font-weight:400;line-height:normal}
+.CTA-button{font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal}
+.contents-marque-header{font-family:var(--font-body);font-size:24px;font-weight:700;line-height:normal;letter-spacing:-1.2px}
+.partition-contents{font-family:var(--font-body);font-size:22px;font-weight:400;line-height:120%}
+.nav-button{font-family:var(--font-body);font-size:20px;font-weight:600;line-height:normal}
+.partition-banner-contents{font-family:var(--font-body);font-size:18px;font-weight:400;line-height:140%;letter-spacing:-.36px}
+.nav-sub-category{font-family:var(--font-body);font-size:16px;font-weight:500;line-height:normal;letter-spacing:-.16px}
+.partition-contents-list{font-family:var(--font-body);font-size:16px;font-weight:400;line-height:normal}
+.contents-marque{font-family:var(--font-body);font-size:16px;font-weight:600;line-height:normal}
+.body-small{font-family:var(--font-body);font-size:14px;font-weight:400;line-height:normal}
 
 @media (max-width:899px){
   .partition-headcopy{font-size:38px}
@@ -56,6 +56,9 @@
    낱말 가운데서 끊긴다("급 / 여") — keep-all 로 낱말을 지킨다.
    라이브 CSS 에는 없는 한 줄이다 */
 body.intro-page{background:#FBFBFB;cursor:default;overflow-x:hidden;word-break:keep-all}
+/* 라이브 common.css 의 리셋. 이게 없으면 <button> 으로 만든 CTA 에만 UA 기본
+   테두리(2px outset)가 그려져, 같은 줄의 <a> CTA 와 따로 논다 */
+.intro-page button{border:none}
 
 .black{color:#272B2F}
 .white{color:#FFF}
@@ -228,7 +231,7 @@ body.intro-page{background:#FBFBFB;cursor:default;overflow-x:hidden;word-break:k
 
 .arrow-btn-group{display:flex;justify-content:flex-end;align-items:flex-end;gap:10px;position:absolute;right:20px;bottom:-19.703px;z-index:3}
 .arrow-btn{display:flex;width:40px;height:40px;flex-direction:column;justify-content:center;align-items:center;border-radius:100px;border:1px solid var(--transparent-black-10);background:var(--main-white);box-shadow:0 0 4px 0 rgba(19,20,22,.1)}
-.arrow-btn:hover{border:1px solid rgba(var(--color-cyan-rgb),.3);background:var(--pastel-blue);cursor:pointer}
+.arrow-btn:hover{border:1px solid rgba(var(--color-cyan-rgb),.3);background:var(--pastel-blue);box-shadow:0 0 4px 0 rgba(19,20,22,.1);cursor:pointer}
 .arrow-btn:hover svg path{stroke:#115AC6}
 
 /* ── partition-5 · 짙은 바탕 · FAQ · CTA ──────────────────────── */
@@ -256,7 +259,7 @@ body.intro-page{background:#FBFBFB;cursor:default;overflow-x:hidden;word-break:k
 .svg-group{height:60px;display:flex;justify-content:center;align-items:center;margin-left:auto}
 .drop svg{transition:transform .3s cubic-bezier(.25,1,.5,1)}
 .drop-content{overflow:hidden;max-height:0;transition:max-height .4s ease,padding .4s ease;padding:0 20px}
-.drop-content.show{display:block;padding:0 20px 42px 30px;max-height:500px}
+.drop-content.show{display:block;padding:0 20px 42px 30px;align-items:flex-end;gap:10px;align-self:stretch;max-height:500px}
 .drop-txt{flex:1 0 0}
 /* 펼친 표시 — 라이브는 svg 두 장을 번갈아 보여 준다. 여기서는 한 장을 돌린다 */
 .drop[aria-expanded="true"] .svg-group svg{transform:rotate(180deg)}
