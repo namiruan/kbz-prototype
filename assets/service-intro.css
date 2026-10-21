@@ -201,7 +201,13 @@ body.intro-page{background:#FBFBFB;cursor:default;overflow-x:hidden;word-break:k
 .btn-blue{background:var(--main-blue)}
 .head-button:hover{background:var(--transparent-black-60)}
 
-/* 수상·실적 — 후기 바로 위. 라이브 틀에는 없지만 콜드메일이 늘 달고 나가는 줄이다 */
+/* 고객사 로고 띠만 남긴 얇은 구역. 라이브는 이 자리에 후기 캐러셀이 서는데,
+   이 두 제품으로 남은 후기가 아직 없어 띠와 실적만 둔다. 후기가 쌓이면
+   .is-proof 를 떼고 라이브 틀의 panel-group-arr 을 되살리면 된다 */
+.partition-4.is-proof{padding:100px 0 50px;gap:24px}
+.proof-lead{color:var(--main-black);text-align:center;padding:0 20px}
+
+/* 수상·실적 — 콜드메일이 늘 달고 나가는 줄이다 */
 .proof-badges{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;padding:0 20px}
 .proof-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:1000px;background:var(--main-white);color:var(--sub-d-blue);white-space:nowrap}
 
