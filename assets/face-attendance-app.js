@@ -29,7 +29,7 @@
        (실측: 앵커 40개 중 11개가 엉뚱한 화면을 짚고 있었다) */
     all.forEach(function (s) { if (s !== hit) s.remove(); });
     hit.classList.add('is-on');
-    bottomBar(hit);
+    stow(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -55,25 +55,47 @@
     hit.insertBefore(back, hit.firstChild);
   }
 
-  /* 바닥 버튼은 아래로 읽어 내려가는 동안 내려가 있다가, 스크롤이 멎으면
-     올라온다. 이것은 앱의 일(촬영·인증)이 아니라 **화면이 스크롤에 보이는
-     모습**이라, 보여 주려면 여기서 붙였다 뗄 수밖에 없다 — 올려 읽으면
-     기다리지 않고 바로 올라온다. 읽던 것을 가리는 쪽이 늘 더 나쁘다 */
-  function bottomBar(scr) {
-    var act = scr.querySelector('.act');
+  /* 위의 탭과 아래의 버튼은 아래로 읽어 내려가는 동안 비켜 있다가, 스크롤이
+     멎으면 돌아온다. 이것은 앱의 일(촬영·인증)이 아니라 **화면이 스크롤에
+     보이는 모습**이라, 보여 주려면 여기서 붙였다 뗄 수밖에 없다 — 올려
+     읽으면 기다리지 않고 바로 돌아온다. 읽던 것을 가리는 쪽이 늘 더 나쁘다 */
+  function stow(scr) {
     var sc = scr.querySelector('.body');
-    if (!act || !sc) return;
+    if (!sc) return;
+
+    var parts = [scr.querySelector('.hd'), scr.querySelector('.act')]
+      .filter(function (n) { return n; });
+    if (!parts.length) return;
+
+    /* 탭이 올라간 자리를 거두려면 제 높이를 알아야 한다 — 화면마다 다르다 */
+    var hd = scr.querySelector('.hd');
+    if (hd) hd.style.setProperty('--ap-hd-h', hd.offsetHeight + 'px');
+
+    /* 탭이 접히고 펴지는 동안에도 스크롤 이벤트가 온다 — 자리가 줄고 늘어
+       스크롤 값이 밀리기 때문이다. 그것을 손가락이 낸 것으로 치면, 접히며
+       민 값이 '더 내려 읽었다'가 되어 다시 접고, 펴지며 민 값이 또 접게
+       만든다. 내가 낸 움직임이 끝날 때까지(260ms) 못 본 척한다 */
+    var gone = false, deaf = 0;
+    function away(yes) {
+      if (yes === gone) return;
+      gone = yes;
+      deaf = Date.now() + 260;
+      parts.forEach(function (n) { n.classList.toggle('is-away', yes); });
+    }
 
     var last = sc.scrollTop, idle;
     sc.addEventListener('scroll', function () {
-      var now = sc.scrollTop;
-      /* 4px 는 손가락이 멎은 채로 생기는 떨림을 걸러 내는 문턱이다 */
-      if (now > last + 4) act.classList.add('is-away');
-      else if (now < last - 4) act.classList.remove('is-away');
+      var now = sc.scrollTop, moved = now - last;
       last = now;
+      if (Date.now() < deaf) return;
+
+      /* 4px 는 손가락이 멎은 채로 생기는 떨림을 걸러 내는 문턱이다 */
+      if (moved > 4) away(true);
+      else if (moved < -4) away(false);
+      else return;
 
       clearTimeout(idle);
-      idle = setTimeout(function () { act.classList.remove('is-away'); }, 200);
+      idle = setTimeout(function () { away(false); }, 200);
     }, { passive: true });
   }
 
