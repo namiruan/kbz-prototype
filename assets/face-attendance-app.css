@@ -83,7 +83,7 @@
   --ap-scrim-dim:rgba(19,20,22,.45);      /* 알림창 뒤 */
   --ap-scrim-pill:rgba(19,20,22,.5);      /* 카메라 위 이름표 */
   --ap-scrim-cam:rgba(0,0,0,.55);         /* 가이드 사각형 바깥 */
-  --ap-scrim-confirm:rgba(19,20,22,.56);  /* 촬영 확인 — 뒤 화면이 비쳐야 해 옅다 */
+  --ap-scrim-confirm:rgba(19,20,22,.72);  /* 촬영 확인 — 뒤 화면이 비치되, 묻는 말이 먼저다 */
   --ap-shadow-chk:0 1px 3px rgba(19,20,22,.25);
   --ap-shadow-cam-text:0 0 10px rgba(0,0,0,.9);
   --ap-on-dark-line:rgba(255,255,255,.38);
@@ -139,11 +139,14 @@
   --ap-plate-low:#e4ecf7;              /* 면의 아랫녘 — 빛이 덜 드는 쪽 */
   --ap-plate-lift:0 6px 14px rgba(17,90,198,.18); /* 면이 바탕에 드리우는 그림자 */
   --ap-plate-shade:inset 0 -8px 12px -8px rgba(17,90,198,.22); /* 안쪽 아래 그늘 */
-  --ap-beam-core:var(--ap-primary);          /* 레이저의 심 */
-  --ap-beam-edge:rgba(22,109,238,.5);        /* 심에서 양 끝으로 사그라지는 쪽 */
-  --ap-beam-glow:0 0 3px rgba(22,109,238,.95),0 0 10px rgba(22,109,238,.6),
-    0 0 22px rgba(22,109,238,.3);            /* 심에서 바깥으로 — 가까울수록 짙다 */
-  --ap-beam-bloom:rgba(22,109,238,.26);      /* 심을 감싸는 넓고 옅은 빛 */
+  /* 읽는 빛은 노란 쪽이다 — 파란 바탕 위에서 브랜드 색 줄은 바탕에 섞여
+     들어가 '지나간다'는 것이 드러나지 않는다. 시스템의 orange 램프에서
+     가져오되(400·300) 상태색으로 읽히지 않게 글자나 테가 아닌 빛으로만 쓴다 */
+  --ap-beam-core:#f39c39;                    /* orange-400 — 레이저의 심 */
+  --ap-beam-edge:rgba(243,156,57,.5);        /* 심에서 양 끝으로 사그라지는 쪽 */
+  --ap-beam-glow:0 0 3px rgba(243,156,57,.95),0 0 10px rgba(255,206,123,.8),
+    0 0 22px rgba(255,206,123,.5);           /* 심에서 바깥으로 — 가까울수록 짙다 */
+  --ap-beam-bloom:rgba(255,206,123,.5);      /* orange-300 — 심을 감싸는 넓고 옅은 빛 */
   --ap-beam-from:10px;  /* 레이저가 떠나는 자리 — 그림 칸(90) 안, 면 위쪽 */
   --ap-beam-to:78px;    /* 되돌아서는 자리 — 면 아래쪽 */
   --ap-scan-rest:rgba(17,90,198,.38); /* 훑기 전 얼굴·테 — 회색을 쓰면 파란 면 위에서 혼자 뜬다 */
@@ -533,8 +536,8 @@ ul,ol{list-style:none}
    흰 알약으로 띄우고, 테는 이 화면에서 누를 수 있는 자리와 같은 색이다 */
 .shot__box > .shot__edit{position:absolute;right:var(--ap-gap3);bottom:var(--ap-gap3);
   width:40px;height:40px;display:flex;align-items:center;justify-content:center;
-  background:var(--ap-g0);border:1px solid var(--ap-point-line);
-  border-radius:var(--ap-r-pill);color:var(--ap-primary)}
+  background:var(--ap-g0);border:1px solid var(--ap-line);
+  border-radius:var(--ap-r-pill);color:var(--ap-g60)}
 /* 찍은 뒤의 사진 자리도 찍기 전과 같은 틀이다 — 두 화면이 나란히 서야 하니
    크기도 모서리도 테도 같이 간다. 다른 것은 안에 사진이 들어찬다는 것뿐이다 */
 .shot__box--done{background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
@@ -576,7 +579,7 @@ ul,ol{list-style:none}
    멈춰 있을 때는 보이지 않는다 — 움직임이 꺼진 기기에서 줄만 남으면
    얼굴에 선을 그어 둔 그림이 된다 */
 .scan__beam{position:absolute;left:50%;top:0;z-index:2;opacity:0;
-  width:calc(var(--ap-scan) * 46 / 64);height:2px;border-radius:1px;
+  width:calc(var(--ap-scan) * 72 / 64);height:2px;border-radius:1px;
   transform:translate(-50%,var(--ap-beam-from));
   background:linear-gradient(90deg,transparent 0,var(--ap-beam-edge) 14%,
     var(--ap-beam-core) 44%,var(--ap-beam-core) 56%,var(--ap-beam-edge) 86%,transparent 100%);

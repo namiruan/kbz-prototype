@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=89">
-<script src="assets/face-attendance-app.js?v=89" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=92">
+<script src="assets/face-attendance-app.js?v=92" defer></script>
 </head>
 
 <body>
@@ -572,8 +572,10 @@
         <div class="inp">홍길동</div>
       </div>
       <div class="fld">
+        <!-- 목록에서는 뒷자리를 가리지만(남이 보는 자리다), 이 칸은 본인 것을
+             고쳐 넣는 자리라 가리지 않는다 — 가려 두면 고쳐 넣을 수가 없다 -->
         <label class="fld__l">주민번호 <b>(필수)</b></label>
-        <div class="inp">800101-1******</div>
+        <div class="inp">800101-1234567</div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
