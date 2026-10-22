@@ -171,6 +171,8 @@
   --ap-beam-fade:linear-gradient(90deg,transparent 0,#000 22%,#000 78%,transparent 100%);
   --ap-beam-from:4px;   /* 레이저가 떠나는 자리 — 면 위쪽 */
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
+  --ap-hat:#ffc400;                /* 안전모 — 현장의 노랑 */
+  --ap-hat-dark:#dfa300;           /* 그 챙과 골 — 한 단 짙다 */
   --ap-scan-rest:rgba(17,90,198,.78); /* 얼굴 — 흰 면 위에 또렷이 앉는 짙은 브랜드 색 */
   --ap-cam-t:88px;                /* 머리말 자리 — 닫기(56~86) 아래, 사각형(24%) 위.
                                       32 짜리 두 줄이 들어가도 사각형에 닿지 않는다 */
@@ -613,7 +615,13 @@ ul,ol{list-style:none}
   33.34%{transform:scale(.93,1.05)}
   66.67%{transform:scale(1.07,.95)}
 }
-.scan__hat{fill:var(--ap-scan-rest)}
+/* 안전모는 제 색을 가진다 — 얼굴과 같은 반투명 파랑으로 두니 흰 면이
+   비쳐 모자가 아니라 얼굴에 드리운 그늘처럼 보였고, 면 밖으로 나온 자리는
+   파란 카드에 묻혔다. 현장의 노랑이라 흰 면 위에서도 파란 카드 위에서도
+   또렷하다. 챙과 골은 한 단 짙은 노랑이라 껍데기와 갈린다 */
+.scan__hat{fill:var(--ap-hat)}
+.scan__hat-b{fill:var(--ap-hat-dark)}
+.scan__hat-d{fill:none;stroke:var(--ap-hat-dark);stroke-width:2;stroke-linecap:round}
 .scan__f{fill:var(--ap-scan-rest);opacity:0;
   animation:ap-face calc(var(--ap-scan-time) * 3) steps(1) infinite}
 .scan__f--b{animation-delay:var(--ap-scan-time)}
