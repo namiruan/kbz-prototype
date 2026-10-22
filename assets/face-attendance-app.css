@@ -83,7 +83,7 @@
   --ap-scrim-dim:rgba(19,20,22,.45);      /* 알림창 뒤 */
   --ap-scrim-pill:rgba(19,20,22,.5);      /* 카메라 위 이름표 */
   --ap-scrim-cam:rgba(0,0,0,.55);         /* 가이드 사각형 바깥 */
-  --ap-scrim-confirm:rgba(19,20,22,.72);  /* 촬영 확인 — 뒤 화면이 비치되, 묻는 말이 먼저다 */
+  --ap-scrim-confirm:rgba(19,20,22,.84);  /* 촬영 확인 — 뒤 화면은 어디서 왔는지만 알 만큼만 비친다 */
   --ap-shadow-chk:0 1px 3px rgba(19,20,22,.25);
   --ap-shadow-cam-text:0 0 10px rgba(0,0,0,.9);
   --ap-on-dark-line:rgba(255,255,255,.38);
@@ -126,7 +126,7 @@
   --ap-ease-sym:ease-in-out;       /* easing-symmetric — 되풀이하는 움직임 */
   --ap-beat:750ms;                 /* duration-pulse — 한 번 뛰는 길이 */
   --ap-beat-cycle:3s;              /* 뛰고 나서 쉬는 참까지. 750 뛰고 2250 쉰다 */
-  --ap-scan-time:1.4s;             /* 인증 줄이 한 쪽 끝에서 다른 끝까지 가는 데 걸리는 길이 */
+  --ap-scan-time:1.9s;             /* 레이저가 위에서 아래까지 한 번 훑는 데 걸리는 길이 */
   --ap-scan:120px;                 /* 얼굴을 훑는 그림의 크기 */
   /* 가운데에서 퍼지는 면 — primary/60(17,90,198)을 옅게 깐다. 팔레트에 이
      농도가 없어 투명도로 만든다. 브랜드 색 한 가지에서 나오므로 색이 바뀌면
@@ -142,13 +142,14 @@
   /* 읽는 빛은 노란 쪽이다 — 파란 바탕 위에서 브랜드 색 줄은 바탕에 섞여
      들어가 '지나간다'는 것이 드러나지 않는다. 시스템의 orange 램프에서
      가져오되(400·300) 상태색으로 읽히지 않게 글자나 테가 아닌 빛으로만 쓴다 */
-  --ap-beam-core:#f39c39;                    /* orange-400 — 레이저의 심 */
-  --ap-beam-edge:rgba(243,156,57,.5);        /* 심에서 양 끝으로 사그라지는 쪽 */
-  --ap-beam-glow:0 0 3px rgba(243,156,57,.95),0 0 10px rgba(255,206,123,.8),
-    0 0 22px rgba(255,206,123,.5);           /* 심에서 바깥으로 — 가까울수록 짙다 */
-  --ap-beam-bloom:rgba(255,206,123,.5);      /* orange-300 — 심을 감싸는 넓고 옅은 빛 */
-  --ap-beam-from:10px;  /* 레이저가 떠나는 자리 — 그림 칸(90) 안, 면 위쪽 */
-  --ap-beam-to:78px;    /* 되돌아서는 자리 — 면 아래쪽 */
+  --ap-beam-core:#ffc400;                    /* 레이저의 심 — 노랑 */
+  --ap-beam-edge:rgba(255,196,0,.5);         /* 심에서 양 끝으로 사그라지는 쪽 */
+  --ap-beam-glow:0 0 3px rgba(255,196,0,.95),0 0 10px rgba(255,206,123,.85),
+    0 0 24px rgba(255,206,123,.5);           /* 심에서 바깥으로 — 가까울수록 짙다 */
+  --ap-beam-bloom:rgba(255,214,92,.55);      /* 심을 감싸는 넓고 옅은 빛 */
+  --ap-beam-wake:rgba(255,206,123,.32);      /* 지나온 자리에 남는 빛 */
+  --ap-beam-from:4px;   /* 레이저가 떠나는 자리 — 면 위쪽 */
+  --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
   --ap-scan-rest:rgba(17,90,198,.38); /* 훑기 전 얼굴·테 — 회색을 쓰면 파란 면 위에서 혼자 뜬다 */
   --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
 
@@ -590,6 +591,13 @@ ul,ol{list-style:none}
   background:linear-gradient(90deg,transparent 0,var(--ap-beam-bloom) 30%,
     var(--ap-beam-bloom) 70%,transparent 100%);
   filter:blur(4px)}
+/* 지나온 자리에 남는 꼬리 — 위에서 아래로 한 방향으로만 훑으므로 꼬리는
+   늘 위쪽이다. 오르내리면 꼬리가 앞서 가 버려 그릴 수 없다.
+   끝은 심과 같이 사그라져야 하므로 가로로 한 번 더 가린다 */
+.scan__beam::after{content:"";position:absolute;left:0;right:0;bottom:100%;height:30px;
+  background:linear-gradient(to top,var(--ap-beam-wake),transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18%,#000 82%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 18%,#000 82%,transparent 100%)}
 
 /* 찍기 전 자리는 더 크다 — 훑는 그림이 들어앉고도 이름과 안내가 숨 쉴 자리가
    있어야 한다. 찍은 뒤(--done)는 사진이 들어차므로 200 그대로다 */
@@ -629,16 +637,18 @@ ul,ol{list-style:none}
   100%{transform:scale(2.4);opacity:0}
 }
 
-/* 사람은 가만히 있고 레이저만 오르내린다. alternate 라 내려갔다 그대로
-   거슬러 올라온다 — 끝에서 가감속이 걸려 잠깐 멎었다 돌아선다. 끝에서
-   흐려지는 것은 바코드를 읽는 레이저가 그렇게 보이기 때문이다 */
+/* 사람은 가만히 있고 레이저만 훑는다. 오르내리지 않고 **위에서 아래로
+   한 방향**이다 — 되짚어 올라오면 읽다 만 것을 다시 읽는 꼴이고, 꼬리도
+   앞서 가 버린다. 고른 걸음(linear)이라 읽는 기계처럼 보인다.
+   끝에 닿으면 사라졌다가 위에서 다시 시작한다 */
 .shot__box:not(.shot__box--done) .scan__beam{
-  animation:ap-scan-sweep var(--ap-scan-time) var(--ap-ease-sym) infinite alternate}
+  animation:ap-scan-sweep var(--ap-scan-time) linear infinite}
 
 @keyframes ap-scan-sweep{
-  0%{transform:translate(-50%,var(--ap-beam-from));opacity:.72}
-  50%{opacity:1}
-  100%{transform:translate(-50%,var(--ap-beam-to));opacity:.72}
+  0%{transform:translate(-50%,var(--ap-beam-from));opacity:0}
+  12%{opacity:1}
+  80%{opacity:1}
+  100%{transform:translate(-50%,var(--ap-beam-to));opacity:0}
 }
 
 /* 움직임을 줄여 달라고 한 기기에서는 멈춘다 — 시스템 규약이다 */
