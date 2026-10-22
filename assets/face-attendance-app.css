@@ -143,10 +143,10 @@
   --ap-plate-lift:0 6px 14px rgba(17,90,198,.18); /* 면이 바탕에 드리우는 그림자 */
   --ap-plate-shade:inset 0 -8px 12px -8px rgba(17,90,198,.22); /* 안쪽 아래 그늘 */
   /* 읽는 빛은 네온 블루다. 브랜드 색(#115ac6)과 같은 파랑이되 훨씬 밝고
-     청록으로 기울어, 짙은 얼굴과 옅은 바탕 사이 어느 쪽과도 섞이지 않는다 —
-     그래서 '지나간다'가 드러난다 */
-  --ap-beam-core:#2bd9ff;                    /* 레이저의 심 — 네온 블루 */
-  --ap-beam-edge:rgba(43,217,255,.6);        /* 심에서 양 끝으로 사그라지는 쪽 */
+     훨씬 밝고 맑다. 청록으로 기울이지 않고 파랑 쪽에 두되, 얼굴(#115ac6)보다
+     한참 밝아 겹쳐도 지나가는 줄이 또렷이 보인다 */
+  --ap-beam-core:#7cc0ff;                    /* 레이저의 심 — 네온 블루 */
+  --ap-beam-edge:rgba(124,192,255,.5);        /* 심에서 양 끝으로 사그라지는 쪽 */
   /* 빛은 box-shadow 가 아니라 drop-shadow 다. box-shadow 는 상자를 따라
      뿌리므로 양 끝이 뭉툭해지고(곤봉), 그걸 마스크로 지우면 마스크가
      상자 밖을 잘라 빛까지 사라진다. drop-shadow 는 **그려진 것의 투명도**를
@@ -154,9 +154,9 @@
      흐림값은 box-shadow 의 절반쯤으로 친다(기준이 다르다). 겹치는 것은
      두 겹까지다 — drop-shadow 는 앞 겹이 만든 빛에 **다시** 빛을 드리워,
      셋만 겹쳐도 얼굴이 통째로 노래진다 */
-  --ap-beam-glow:drop-shadow(0 0 2px rgba(0,190,255,.9))
-    drop-shadow(0 0 7px rgba(60,205,255,.5));
-  --ap-beam-wake:rgba(120,226,255,.18);      /* 지나온 자리에 남는 빛 — 심의 빛을 함께 받으므로 옅게 */
+  --ap-beam-glow:drop-shadow(0 0 2px rgba(70,165,255,.8))
+    drop-shadow(0 0 9px rgba(125,190,255,.45));
+  --ap-beam-wake:rgba(150,200,255,.14);      /* 지나온 자리에 남는 빛 — 심의 빛을 함께 받으므로 옅게 */
   --ap-beam-fade:linear-gradient(90deg,transparent 0,#000 22%,#000 78%,transparent 100%);
   --ap-beam-from:4px;   /* 레이저가 떠나는 자리 — 면 위쪽 */
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
@@ -463,8 +463,18 @@ ul,ol{list-style:none}
 .bd--negative{background:var(--ap-point-bg);color:var(--ap-point)}
 .bd--point{background:var(--ap-point);color:var(--ap-g0)}
 /* 현장 카드 밖, 그 아래에 선다 — 카드와 좌우를 맞추고 한 칸(8) 띄운다 */
-.bds{display:flex;flex-wrap:wrap;gap:var(--ap-p2);
+.bds{display:flex;flex-wrap:wrap;gap:var(--ap-gap3);
   margin:var(--ap-gap3) var(--ap-p6) 0}
+/* 시스템 Tag 의 md 다(components/atoms/tag.md) — 높이 32 · 여백 6·12 ·
+   글자 13 · 굵기 400 · 테 1 · 면 흰색. 뱃지(높이 24)보다 한 뼘 크다.
+   누르거나 지우는 태그가 아니라 **고정된 값**이라 span 으로 둔다 —
+   시스템이 그 자리에 span 을 두라고 적어 두었다.
+   ⚠ Tag 에는 상태색이 없다(기본·선택·비활성뿐). 미전송과 반영불가의
+   경중을 색으로 가르던 것은 글자가 맡는다 */
+.tg{font:var(--t-foot);letter-spacing:var(--ls-foot);
+  height:32px;display:inline-flex;align-items:center;padding:0 var(--ap-p5);
+  border:1px solid var(--ap-line);border-radius:var(--ap-r4);
+  background:var(--ap-g0);color:var(--ap-g60)}
 
 /* ── 바닥 버튼 바 ──
    화면 폭을 다 쓴다. 모서리도 여백도 없다 — 시안이 그렇다 */
