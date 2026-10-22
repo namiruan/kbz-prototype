@@ -521,9 +521,18 @@ ul,ol{list-style:none}
 .tabbar__b.is-on{color:var(--ap-primary-90);font-weight:600}
 
 /* ── 빈 화면 · 안내 ── */
-.blank{display:flex;flex-direction:column;align-items:center;gap:var(--ap-gap6);text-align:center}
-.blank__t{font:var(--t-body);letter-spacing:var(--ls-body);color:var(--ap-primary)}
-.blank__ic{color:var(--ap-primary);opacity:.45}
+/* 이 화면에서 할 일은 하나뿐이다 — 바닥에 가는 띠로 받지 않고, 한가운데에
+   카드만 한 과녁으로 세운다. 아이콘과 글이 세로로 선다.
+   출근과 퇴근은 색으로 가른다 — 시안에 주황이 없어, 시안이 강한 둘째
+   동작에 쓰는 검정을 퇴근에 준다 */
+.cta{width:100%;max-width:var(--ap-confirm-w);min-height:180px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:var(--ap-p5);padding:var(--ap-p9) var(--ap-p8);
+  border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-card);
+  background:var(--ap-primary);color:var(--ap-g0)}
+.cta--out{background:var(--ap-g95)}
+.cta__t{font:var(--t-title2);letter-spacing:var(--ls-title2)}
+.blank__t{font:var(--t-body);letter-spacing:var(--ls-body);text-align:center;color:var(--ap-primary)}
 .big{font:var(--t-title2);letter-spacing:var(--ls-title2);display:inline-flex;align-items:center;gap:15px;padding:var(--ap-p6) var(--ap-p8);background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
 .big--dark{background:var(--ap-g95)}
 
