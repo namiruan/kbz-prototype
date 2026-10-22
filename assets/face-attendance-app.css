@@ -1145,8 +1145,19 @@ ul,ol{list-style:none}
 .guide{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);margin-top:auto;color:var(--ap-text-gray);text-align:center}
 
 /* ── 카메라 — 앱 네이티브 화면 ── */
+/* 바탕은 렌즈가 보고 있는 것, 곧 **사진 한 장**이다. 회색 그라데이션으로
+   두었을 때는 카메라가 꺼진 화면처럼 보였다 — 가이드 사각형이 무엇을
+   맞추라는 것인지도 그림으로 말해 주지 못했다.
+   사진은 칸을 꽉 채운다(cover). 세로로 긴 사진이라 폰에서는 세로가 딱
+   맞아떨어져 자르는 데가 없고, 얼굴이 가이드 사각형(24~66%) 안에 든다.
+   세로 기준점을 13% 로 잡는 것은 **태블릿의 몫**이다 — 폰에서는 자를 것이
+   없어 기준점이 아무 일도 하지 않지만, 칸이 넓어지면 위아래가 잘리면서
+   얼굴이 사각형 위로 올라가 머리말과 겹친다.
+   그라데이션은 뒤에 그대로 깔아 둔다 — 사진이 뜨지 않으면 그것이 받는다 */
 .cam{flex:1;position:relative;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(ellipse at 50% 40%,var(--ap-cam-bg-1) 0%,var(--ap-cam-bg-2) 70%);
+  background:
+    url("../images/camera/preview.jpg") center 13% / cover no-repeat,
+    radial-gradient(ellipse at 50% 40%,var(--ap-cam-bg-1) 0%,var(--ap-cam-bg-2) 70%);
   overflow:hidden}
 /* 돌아가는 길 — 닫기(✕)가 아니라 뒤로(←)다. 닫기는 '하던 일을 접는다'고
    말하는데, 여기서 돌아가는 곳은 바로 앞 화면이다. 내비게이션 바의 뒤로
@@ -1303,8 +1314,9 @@ ul,ol{list-style:none}
   /* 폼·상세는 늘리지 않고 가운데로 모은다 */
   .form,.rows,.note,.shot{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
   .body{padding:var(--ap-p8)}
-  /* 현장 줄은 제가 가리키는 목록과 세로 선이 맞아야 한다 */
-  .ctx{margin-inline:var(--ap-p8)}
+  /* 현장 줄과 그 아래 뱃지는 제가 가리키는 목록과 세로 선이 맞아야 한다.
+     뱃지를 빠뜨리면 카드보다 8 바깥에 서서, 한 이야기가 두 선으로 갈린다 */
+  .ctx,.bds{margin-inline:var(--ap-p8)}
   /* 필터는 한 칸이라 늘리지 않는다 — 폭을 다 쓰면 고를 것이 하나인데 줄만 길어진다 */
   /* ⚠ 여기에 .sel 로 폭을 걸지 않는다. 폼 안의 고르는 칸까지 걸리는데, 폼의
      .fld 는 **세로 줄**이라 flex-basis 가 폭이 아니라 **높이**가 된다 —
