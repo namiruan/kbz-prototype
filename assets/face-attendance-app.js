@@ -71,6 +71,12 @@
     var hd = scr.querySelector('.hd');
     if (hd) hd.style.setProperty('--ap-hd-h', hd.offsetHeight + 'px');
 
+    /* 접으면 보이는 자리가 그만큼 **커진다**. 바닥 가까이에서 접으면 스크롤이
+       끝에 닿아 이벤트가 끊기고, 끊기면 '멎었다'고 보아 펴고, 펴면 다시
+       내려갈 자리가 생겨 또 접는다 — 바가 깜빡이는 까닭이 이것이다.
+       그래서 **접고도 더 내려갈 자리가 남을 때만** 접는다 */
+    var room = (hd ? hd.offsetHeight : 0) + 16;
+
     /* 탭이 접히고 펴지는 동안에도 스크롤 이벤트가 온다 — 자리가 줄고 늘어
        스크롤 값이 밀리기 때문이다. 그것을 손가락이 낸 것으로 치면, 접히며
        민 값이 '더 내려 읽었다'가 되어 다시 접고, 펴지며 민 값이 또 접게
@@ -87,15 +93,20 @@
     sc.addEventListener('scroll', function () {
       var now = sc.scrollTop, moved = now - last;
       last = now;
+
+      /* 멎었는지 재는 시계는 **어떤 스크롤에도** 다시 감는다. 귀를 닫은
+         동안에도 손가락은 움직이고 있다 — 여기서 감지 않으면, 접자마자
+         걸어 둔 시계가 귀를 닫은 사이에 끝나 버려 읽어 내려가는 중인데도
+         바가 돌아왔다가 다시 접힌다(깜빡인다) */
+      clearTimeout(idle);
+      idle = setTimeout(function () { away(false); }, 220);
+
       if (Date.now() < deaf) return;
 
       /* 4px 는 손가락이 멎은 채로 생기는 떨림을 걸러 내는 문턱이다 */
-      if (moved > 4) away(true);
+      var left = sc.scrollHeight - sc.clientHeight - now;
+      if (moved > 4 && left > room) away(true);
       else if (moved < -4) away(false);
-      else return;
-
-      clearTimeout(idle);
-      idle = setTimeout(function () { away(false); }, 200);
     }, { passive: true });
   }
 

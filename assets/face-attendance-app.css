@@ -452,29 +452,24 @@ ul,ol{list-style:none}
 .tabbar__b{--icon-menu-deep:currentColor;--icon-menu-vivid:currentColor;--icon-menu-light:var(--ap-g0)}
 
 /* ── 뱃지 ── */
-/* 시스템의 Badge 다(components/atoms/badge.md). 크기는 md(13), 굵기는
-   semibold, 줄 높이는 1.5 — 우리 쪽 foot 토큰은 400/18 이라 그대로 쓰면
-   같은 13 이라도 가늘고 납작해 뱃지로 읽히지 않는다. 안쪽 여백은
-   inset-squish-2xs(2·4) 그대로다 */
+/* 시스템의 Badge 다(components/atoms/badge.md). 굵기 semibold · 줄 높이 1.5 ·
+   안쪽 여백 inset-squish-2xs(2·4) — 우리 쪽 foot 토큰은 400/18 이라 그대로
+   쓰면 가늘고 납작해 뱃지로 읽히지 않는다.
+   크기는 세 단(12·13·14) 가운데 md(13)가 기본이다 — 줄 안에 섞여 드는
+   뱃지('출근' · '앱 · 얼굴')는 이 크기다 */
 .bd{font:var(--t-foot);font-weight:600;line-height:1.5;letter-spacing:var(--ls-foot);
   display:inline-flex;align-items:center;padding:2px 4px;border-radius:var(--ap-r4)}
+/* 현장 아래의 둘은 lg(14)다 — 손을 써야 하는 수라 줄 안의 뱃지와 같은
+   크기로 둘 수 없다. 크기 variant 는 글자만 올리고 높이(25)는 line-height 와
+   padding 이 따라 만든다 */
+.bds .bd{font-size:14px}
 .bd--normal{background:var(--ap-badge-normal);color:var(--ap-text)}
 .bd--positive{background:var(--ap-badge-positive);color:var(--ap-primary)}
 .bd--negative{background:var(--ap-point-bg);color:var(--ap-point)}
 .bd--point{background:var(--ap-point);color:var(--ap-g0)}
 /* 현장 카드 밖, 그 아래에 선다 — 카드와 좌우를 맞추고 한 칸(8) 띄운다 */
-.bds{display:flex;flex-wrap:wrap;gap:var(--ap-gap3);
+.bds{display:flex;flex-wrap:wrap;gap:var(--ap-p2);
   margin:var(--ap-gap3) var(--ap-p6) 0}
-/* 시스템 Tag 의 md 다(components/atoms/tag.md) — 높이 32 · 여백 6·12 ·
-   글자 13 · 굵기 400 · 테 1 · 면 흰색. 뱃지(높이 24)보다 한 뼘 크다.
-   누르거나 지우는 태그가 아니라 **고정된 값**이라 span 으로 둔다 —
-   시스템이 그 자리에 span 을 두라고 적어 두었다.
-   ⚠ Tag 에는 상태색이 없다(기본·선택·비활성뿐). 미전송과 반영불가의
-   경중을 색으로 가르던 것은 글자가 맡는다 */
-.tg{font:var(--t-foot);letter-spacing:var(--ls-foot);
-  height:32px;display:inline-flex;align-items:center;padding:0 var(--ap-p5);
-  border:1px solid var(--ap-line);border-radius:var(--ap-r4);
-  background:var(--ap-g0);color:var(--ap-g60)}
 
 /* ── 바닥 버튼 바 ──
    화면 폭을 다 쓴다. 모서리도 여백도 없다 — 시안이 그렇다 */
