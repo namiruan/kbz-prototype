@@ -761,7 +761,7 @@ ul,ol{list-style:none}
   background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
 /* 되돌리는 쪽 — 테도 면도 없이 글자와 아이콘만. 막 위에 서므로 흰 글씨다.
    카메라를 앞에 두어 '무엇을 다시 하는지'가 글자보다 먼저 읽힌다 */
-.confirm__re{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
+.confirm__re{font:var(--t-head);letter-spacing:var(--ls-head);
   display:flex;align-items:center;gap:var(--ap-p3);
   padding:var(--ap-p5) var(--ap-p6);color:var(--ap-g0)}
 /* 면도 테도 없으니 누를 수 있다는 표는 밑줄이 맡는다. 밑줄은 글자에만
