@@ -172,7 +172,7 @@
   --ap-step-w:50px;                /* 단가 ＋·－ 의 최소 폭 — 시안 min-width */
   --ap-tog-yes:36px;  --ap-tog-no:66px;  /* 예·아니오 알의 폭 — 정수로 떨어뜨린다 */
   --ap-confirm-w:320px;            /* 촬영 확인 카드의 폭 */
-  --ap-cta-w:352px;                /* 인증 시작 과녁 — 설명 한 줄이 접히지 않는 폭 */
+  --ap-cta-w:480px;                /* 인증 시작 과녁 — 태블릿에서도 과녁답게 */
   --ap-sel-w:110px;                /* select-atomic 의 기본 폭 — 글자가 짧아도 이만큼은 둔다 */
   --ap-form-w:560px;               /* 폼·상세가 가운데로 모이는 폭 */
   --ap-photo-w:320px;  --ap-photo-h:300px;      /* 이력 사진 */
@@ -528,8 +528,11 @@ ul,ol{list-style:none}
    카드만 한 과녁으로 세운다. 아이콘과 글이 세로로 선다.
    출근과 퇴근은 색으로 가른다 — 시안에 주황이 없어, 시안이 강한 둘째
    동작에 쓰는 검정을 퇴근에 준다 */
-.cta{position:relative;width:100%;max-width:var(--ap-cta-w);min-height:260px;
-  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+/* 화면에서 할 일이 이것 하나뿐이라 자리를 다 쓴다 — 좌우는 본문 여백까지,
+   세로는 남는 자리를 채우되 480 에서 멈춘다(그 위로 가면 글이 허공에 뜬다) */
+.cta{position:relative;width:100%;max-width:var(--ap-cta-w);
+  flex:1 1 auto;min-height:260px;max-height:480px;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;
   gap:var(--ap-p5);padding:var(--ap-p9) var(--ap-p8);
   border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-card);
   background:var(--ap-primary);color:var(--ap-g0);text-align:left}
@@ -550,6 +553,8 @@ ul,ol{list-style:none}
    줄은 낱말에서 끊는다(keep-all)지만, 애초에 접히지 않는 것이 낫다.
    이름 아래·두 줄 사이에 선을 긋는다 — 이어 읽는 한 문단이 아니라 따로
    읽는 것들이다. 선은 글자보다 한참 옅다(글이 아니라 가르는 자리다) */
+/* 이름과 설명은 붙어 있고(한 덩어리), 그림과만 멀다 */
+.cta__tx{display:flex;flex-direction:column;align-self:stretch;gap:var(--ap-p5)}
 .cta__d{font:var(--t-body);letter-spacing:var(--ls-body);word-break:keep-all;
   display:flex;flex-direction:column;align-self:stretch;
   border-top:1px solid var(--ap-on-cta-line);color:var(--ap-on-cta-sub)}
