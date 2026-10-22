@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=139">
-<script src="assets/face-attendance-app.js?v=139" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=141">
+<script src="assets/face-attendance-app.js?v=141" defer></script>
 </head>
 
 <body>
@@ -649,6 +649,44 @@
     <!-- 이 화면에서 할 일은 이것 하나뿐이라, 바닥에 가는 띠로 두지 않고
          한가운데에 카드만 한 과녁으로 세운다 -->
     <button class="cta cta--in" type="button">
+      <!-- 얼굴을 읽는 그림 — 근로자 추가의 것과 같은 짜임(파장 · 면 · 레이저)
+           이되, 여기 서는 사람은 **현장 사람**이라 안전모를 썼다. 레이저가
+           한 번 훑을 때마다 다른 얼굴이 선다(세 사람이 돌아간다) — 줄 선
+           사람을 이어서 읽는다는 말을 그림이 함께 한다 -->
+      <span class="cta__art" aria-hidden="true">
+        <span class="scan scan--hat">
+          <span class="wave"><i></i><i></i><i></i></span>
+          <span class="scan__plate"></span>
+          <svg viewBox="4 12 64 48">
+            <!-- 안전모 — 얼굴 **윗동을 덮는다**. 꼭대기는 얼굴 면과 같은
+                 동그라미(가운데 36,36 · 반지름 27)를 따라가 모자가 머리에
+                 얹힌 것이 아니라 머리를 감싼 것으로 보인다. 챙은 면보다
+                 좌우로 조금 더 나온다 -->
+            <g class="scan__hat">
+              <path d="M9.1 34A27 27 0 0 1 62.9 34Z"/>
+              <rect x="6" y="32" width="60" height="5" rx="2.5"/>
+            </g>
+            <!-- ① 웃는 사람 -->
+            <g class="scan__f">
+              <circle cx="27" cy="42" r="3.2"/><circle cx="45" cy="42" r="3.2"/>
+              <path class="scan__smile" d="M28 50C31.5 54.5 40.5 54.5 44 50"/>
+            </g>
+            <!-- ② 턱수염 — 입은 다물었다 -->
+            <g class="scan__f scan__f--b">
+              <circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/>
+              <path class="scan__smile" d="M31.5 51H40.5"/>
+              <path class="scan__smile" d="M27 48.5C27 59 45 59 45 48.5"/>
+            </g>
+            <!-- ③ 안경 -->
+            <g class="scan__f scan__f--c">
+              <path class="scan__gl" d="M22 42a5 5 0 1 0 10 0 5 5 0 1 0-10 0M40 42a5 5 0 1 0 10 0 5 5 0 1 0-10 0M32 42h8"/>
+              <circle cx="27" cy="42" r="2"/><circle cx="45" cy="42" r="2"/>
+              <path class="scan__smile" d="M29 51C32 54.5 40 54.5 43 51"/>
+            </g>
+          </svg>
+          <span class="scan__beam"></span>
+        </span>
+      </span>
       <!-- 이름과 설명은 한 덩어리다 — 그림은 위로, 이 덩어리는 아래로 간다.
            버튼 안이라 제 이름을 다시 부르지 않는다 — '출근 인증 시작을
            누르면' 이 아니라 '누르면' 이다 -->
@@ -698,6 +736,44 @@
     <!-- 이 화면에서 할 일은 이것 하나뿐이라, 바닥에 가는 띠로 두지 않고
          한가운데에 카드만 한 과녁으로 세운다 -->
     <button class="cta cta--out" type="button">
+      <!-- 얼굴을 읽는 그림 — 근로자 추가의 것과 같은 짜임(파장 · 면 · 레이저)
+           이되, 여기 서는 사람은 **현장 사람**이라 안전모를 썼다. 레이저가
+           한 번 훑을 때마다 다른 얼굴이 선다(세 사람이 돌아간다) — 줄 선
+           사람을 이어서 읽는다는 말을 그림이 함께 한다 -->
+      <span class="cta__art" aria-hidden="true">
+        <span class="scan scan--hat">
+          <span class="wave"><i></i><i></i><i></i></span>
+          <span class="scan__plate"></span>
+          <svg viewBox="4 12 64 48">
+            <!-- 안전모 — 얼굴 **윗동을 덮는다**. 꼭대기는 얼굴 면과 같은
+                 동그라미(가운데 36,36 · 반지름 27)를 따라가 모자가 머리에
+                 얹힌 것이 아니라 머리를 감싼 것으로 보인다. 챙은 면보다
+                 좌우로 조금 더 나온다 -->
+            <g class="scan__hat">
+              <path d="M9.1 34A27 27 0 0 1 62.9 34Z"/>
+              <rect x="6" y="32" width="60" height="5" rx="2.5"/>
+            </g>
+            <!-- ① 웃는 사람 -->
+            <g class="scan__f">
+              <circle cx="27" cy="42" r="3.2"/><circle cx="45" cy="42" r="3.2"/>
+              <path class="scan__smile" d="M28 50C31.5 54.5 40.5 54.5 44 50"/>
+            </g>
+            <!-- ② 턱수염 — 입은 다물었다 -->
+            <g class="scan__f scan__f--b">
+              <circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/>
+              <path class="scan__smile" d="M31.5 51H40.5"/>
+              <path class="scan__smile" d="M27 48.5C27 59 45 59 45 48.5"/>
+            </g>
+            <!-- ③ 안경 -->
+            <g class="scan__f scan__f--c">
+              <path class="scan__gl" d="M22 42a5 5 0 1 0 10 0 5 5 0 1 0-10 0M40 42a5 5 0 1 0 10 0 5 5 0 1 0-10 0M32 42h8"/>
+              <circle cx="27" cy="42" r="2"/><circle cx="45" cy="42" r="2"/>
+              <path class="scan__smile" d="M29 51C32 54.5 40 54.5 43 51"/>
+            </g>
+          </svg>
+          <span class="scan__beam"></span>
+        </span>
+      </span>
       <!-- 이름과 설명은 한 덩어리다 — 그림은 위로, 이 덩어리는 아래로 간다.
            버튼 안이라 제 이름을 다시 부르지 않는다 — '퇴근 인증 시작을
            누르면' 이 아니라 '누르면' 이다 -->
@@ -724,15 +800,15 @@
   <div class="cam">
     <button class="cam__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
     <div class="cam__box"></div>
+    <!-- 지금 무엇을 찍는지는 틀 바로 밑에서 말한다 — 촬영 확인에서
+         사진과 '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다 -->
+    <span class="cam__go">출근 인증</span>
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
+    <!-- 되돌리는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와
+         같은 자리·같은 결이다 -->
+    <span class="cam__stop"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg><b>인증 그만하기</b></span>
   </div>
 
-  <!-- 지금 무엇을 찍는지는 바닥 바가 말한다. 가운데 알약으로 띄워 두면
-       누르는 자리처럼 보이는데 누를 데가 아니었다 — 바닥 바는 이 앱에서
-       늘 '지금 하는 일'이 적히는 자리다 -->
-  <div class="act act--end">
-    <span class="act__b act__b--on">출근 인증</span>
-  </div>
 </section>
 
 
@@ -741,15 +817,15 @@
   <div class="cam">
     <button class="cam__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
     <div class="cam__box cam__box--ok"></div>
+    <!-- 지금 무엇을 찍는지는 틀 바로 밑에서 말한다 — 촬영 확인에서
+         사진과 '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다 -->
+    <span class="cam__go">출근 인증</span>
     <p class="cam__t cam__t--ok">홍길동님 출근 처리되었습니다.</p>
+    <!-- 되돌리는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와
+         같은 자리·같은 결이다 -->
+    <span class="cam__stop"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg><b>인증 그만하기</b></span>
   </div>
 
-  <!-- 지금 무엇을 찍는지는 바닥 바가 말한다. 가운데 알약으로 띄워 두면
-       누르는 자리처럼 보이는데 누를 데가 아니었다 — 바닥 바는 이 앱에서
-       늘 '지금 하는 일'이 적히는 자리다 -->
-  <div class="act act--end">
-    <span class="act__b act__b--on">출근 인증</span>
-  </div>
 </section>
 
 

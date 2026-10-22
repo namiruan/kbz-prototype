@@ -555,7 +555,7 @@ ul,ol{list-style:none}
    똑같이 남아, 자리를 키운 것이 아니라 띄워 둔 것처럼 보인다 */
 .cta{position:relative;width:100%;max-width:var(--ap-cta-w);
   flex:1 1 auto;min-height:260px;max-height:var(--ap-cta-h);
-  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;
   gap:var(--ap-p5);padding:var(--ap-p8);
   border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-cta);
   background:var(--ap-primary);color:var(--ap-g0);text-align:left}
@@ -587,6 +587,41 @@ ul,ol{list-style:none}
    줄은 낱말에서 끊는다(keep-all)지만, 애초에 접히지 않는 것이 낫다.
    이름 아래·두 줄 사이에 선을 긋는다 — 이어 읽는 한 문단이 아니라 따로
    읽는 것들이다. 선은 글자보다 한참 옅다(글이 아니라 가르는 자리다) */
+/* 그림은 남는 자리를 다 쓰고 그 한가운데에 선다 — 글 덩어리는 아래에
+   그대로 있고, 위의 빈 면이 그림 자리가 된다 */
+.cta__art{flex:1;min-height:0;align-self:stretch;
+  display:flex;align-items:center;justify-content:center}
+
+/* 안전모 쓴 얼굴 — 셋이 돌아가며 선다. 레이저가 한 번 훑는 동안 한 사람이고,
+   세 번이면 처음으로 돌아온다. 얼굴마다 면의 생김도 조금씩 다르다(동그란
+   얼굴 · 갸름한 얼굴 · 넓은 얼굴) — 줄 선 사람이 저마다 다르다는 말이다.
+   steps(1) 이라 사이값 없이 **딱 바뀐다** — 녹아 넘어가면 한 사람의 얼굴이
+   변하는 것처럼 보인다 */
+/* 면과 그림(모자·얼굴)이 **함께** 늘고 준다 — 면만 늘리면 모자가 면에서
+   삐져나온다 */
+.scan--hat .scan__plate{
+  animation:ap-face-shape calc(var(--ap-scan-time) * 3) steps(1) infinite}
+.scan--hat svg{transform-origin:center;
+  animation:ap-face-shape-art calc(var(--ap-scan-time) * 3) steps(1) infinite}
+@keyframes ap-face-shape{
+  0%  {transform:translate(-50%,-50%) scale(1,1)}
+  33.34%{transform:translate(-50%,-50%) scale(.93,1.05)}
+  66.67%{transform:translate(-50%,-50%) scale(1.07,.95)}
+}
+@keyframes ap-face-shape-art{
+  0%  {transform:scale(1,1)}
+  33.34%{transform:scale(.93,1.05)}
+  66.67%{transform:scale(1.07,.95)}
+}
+.scan__hat{fill:var(--ap-scan-rest)}
+.scan__f{fill:var(--ap-scan-rest);opacity:0;
+  animation:ap-face calc(var(--ap-scan-time) * 3) steps(1) infinite}
+.scan__f--b{animation-delay:var(--ap-scan-time)}
+.scan__f--c{animation-delay:calc(var(--ap-scan-time) * 2)}
+@keyframes ap-face{0%{opacity:1} 33.34%{opacity:0}}
+/* 안경테는 긋는 선이다 — 눈과 같은 색, 끝은 둥글게 */
+.scan__gl{fill:none;stroke:var(--ap-scan-rest);stroke-width:2.4;stroke-linecap:round}
+
 /* 이름과 설명은 붙어 있고(한 덩어리), 그림과만 멀다 */
 .cta__tx{display:flex;flex-direction:column;align-self:stretch;gap:var(--ap-p5)}
 .cta__d{font:var(--t-body);letter-spacing:var(--ls-body);word-break:keep-all;
@@ -781,6 +816,9 @@ ul,ol{list-style:none}
 @media (prefers-reduced-motion:reduce){
   /* 멈춰 서면 사람만 남는다 — 레이저는 제 바탕값(opacity 0)으로 돌아가 숨는다 */
   .scan__beam,.wave i,.cta__go{animation:none}
+  /* 얼굴은 바뀌지 않는다 — 첫 사람만 남는다 */
+  .scan--hat .scan__plate,.scan--hat svg,.scan__f{animation:none}
+  .scan__f--b,.scan__f--c{display:none}
 }
 
 /* ── 읽기 전용 정보 줄 ── */
@@ -821,6 +859,19 @@ ul,ol{list-style:none}
 .cam__box{position:absolute;left:14%;right:14%;top:24%;height:42%;
   border:3px solid var(--ap-g0);border-radius:28px;box-shadow:0 0 0 999px var(--ap-scrim-cam)}
 .cam__box--ok{border-color:var(--ap-cam-ok)}
+/* 지금 무엇을 찍는지는 틀 바로 밑에서 말한다 — 촬영 확인에서 사진과
+   '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다. 틀과 좌우를 맞춘다 */
+.cam__go{font:var(--t-title2);letter-spacing:var(--ls-title2);
+  position:absolute;left:14%;right:14%;top:calc(24% + 42% + var(--ap-p8));
+  height:56px;display:flex;align-items:center;justify-content:center;
+  background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
+/* 그만두는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와 같다.
+   면도 테도 없으니 누를 수 있다는 표는 밑줄이 맡고, 밑줄은 글자에만 긋는다 */
+.cam__stop{font:var(--t-head);letter-spacing:var(--ls-head);
+  position:absolute;left:0;right:0;bottom:var(--ap-p10);
+  display:flex;align-items:center;justify-content:center;gap:var(--ap-p3);
+  color:var(--ap-g0);text-shadow:var(--ap-shadow-cam-text)}
+.cam__stop b{font-weight:inherit;text-decoration:underline;text-underline-offset:3px}
 .cam__box--fail{border-color:var(--ap-cam-fail)}
 /* 묻고 시키는 말은 머리에 선다 — 촬영 확인의 머리말과 같은 자리·같은 크기다.
    가이드 사각형 아래에 두면 눈이 사각형을 지나 아래까지 내려가야 읽힌다.

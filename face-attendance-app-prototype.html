@@ -60,7 +60,7 @@
       <button class="proto-nav-btn proto-nav-sub is-active" type="button" data-scenario="m-in"
         data-why="얼굴을 찍기 전의 화면입니다. 이 화면에서 할 일은 인증을 여는 것 하나뿐이라, 바닥 바 대신 한가운데에 카드만 한 과녁을 둡니다 — 가는 띠로 받기에는 너무 자주 누르고, 장갑 낀 손으로 누릅니다. 탭은 흰 머리 카드에, 현장은 그 아래 목록 바로 위에 둡니다 — 탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말합니다."
         data-steps="안면 출퇴근 메뉴에 들어와 출근 탭이 열린 상태 — 보내지 못한 인증이 있습니다"
-        data-look="@{.bds} 미전송·반영불가는 현장 카드 밖, 그 아래에 섭니다|@md @{.body} 태블릿에서는 좌우 여백만 넓어지고 안내 글은 가운데에 그대로 있습니다">출근 인증 대기</button>
+        data-look="@{.cta__art} 레이저가 한 번 훑을 때마다 다른 사람이 섭니다 — 안전모를 쓴 셋이 돌아갑니다. 움직임을 줄인 기기에서는 첫 사람만 남습니다|@{.bds} 미전송·반영불가는 현장 카드 밖, 그 아래에 섭니다|@md @{.body} 태블릿에서는 좌우 여백만 넓어지고 안내 글은 가운데에 그대로 있습니다">출근 인증 대기</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-out"
         data-why="출근과 퇴근은 색으로 가릅니다. 시안의 버튼 색에 주황이 없어, 둘째로 강한 색인 검정을 퇴근에 줍니다. 찍는 사람도 보는 자리도 출근과 같아 구성은 그대로 둡니다."
         data-steps="퇴근 탭을 연 상태 — 보내지 못한 인증은 없습니다"
@@ -68,7 +68,7 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-cam"
         data-why="앱(Flutter)이 직접 그리는 화면입니다. 웹 화면이 아니라 시안의 머리·바닥 셸을 쓰지 않고, 얼굴을 맞출 자리와 지금 무엇을 찍는지만 남깁니다."
         data-steps="출근 인증 시작을 클릭해 카메라가 열린 상태"
-        data-look="@{.cam__t} 안내는 '얼굴을 사각형 안에 맞춰주세요.' 입니다|@{.act__b} 지금 찍는 것이 출근인지 퇴근인지는 바닥 바가 답합니다|@md @{.cam__box} 태블릿에서는 가이드 사각형이 좌우로 더 들어옵니다">카메라 인식</button>
+        data-look="@{.cam__t} 안내는 '얼굴을 사각형 안에 맞춰주세요.' 입니다|@{.cam__go} 지금 찍는 것이 출근인지 퇴근인지는 틀 바로 밑에서 답합니다|@{.cam__stop} 그만두는 쪽은 바닥에, 면 없이 섭니다|@md @{.cam__box} 태블릿에서는 가이드 사각형이 좌우로 더 들어옵니다">카메라 인식</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-cam-ok"
         data-why="결과를 잠깐 띄우고 다음 사람으로 넘어갑니다. 한 번 열면 줄 선 사람을 이어서 찍기 때문에, 결과를 클릭해 닫게 하면 줄이 그때마다 멈춥니다."
         data-steps="홍길동의 얼굴이 인식된 상태"
