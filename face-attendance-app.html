@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=175">
-<script src="assets/face-attendance-app.js?v=175" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=176">
+<script src="assets/face-attendance-app.js?v=176" defer></script>
 </head>
 
 <body>
@@ -657,9 +657,22 @@
            한 번 훑을 때마다 다른 얼굴이 선다(세 사람이 돌아간다) — 줄 선
            사람을 이어서 읽는다는 말을 그림이 함께 한다 -->
       <span class="cta__art" aria-hidden="true">
-        <!-- 카메라가 잡는 틀 — 네 귀퉁이 꺾쇠다. 사람은 이 안에서 흔들리지만
-             틀은 가만히 있는다. 틀까지 흔들리면 카메라가 흔들리는 것이 된다 -->
+        <!-- 카메라가 잡는 틀 — 네 귀퉁이 꺾쇠다. 사람과 함께 흔들린다:
+             흔들리는 것은 사람이 아니라 틀을 든 손이다.
+             테는 한 색이 아니라 밝은 데와 옅은 데가 도는 그라데이션이다
+             (카메라 인식 화면의 틀과 같은 어법). 두 카드에 같은 그림이
+             들어가므로 id 는 카드마다 다르게 둔다 — 같으면 뒤의 것이
+             앞의 것을 가리킨다 -->
         <svg class="scan__corner" viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="ctaEdgeIn" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#fff"/>
+              <stop offset=".28" stop-color="#fff" stop-opacity=".3"/>
+              <stop offset=".52" stop-color="#fff"/>
+              <stop offset=".76" stop-color="#fff" stop-opacity=".3"/>
+              <stop offset="1" stop-color="#fff"/>
+            </linearGradient>
+          </defs>
           <path d="M6 28V12a6 6 0 0 1 6-6h16M72 6h16a6 6 0 0 1 6 6v16M94 72v16a6 6 0 0 1-6 6H72M28 94H12a6 6 0 0 1-6-6V72"/>
         </svg>
         <span class="scan scan--hat">
@@ -772,9 +785,22 @@
            한 번 훑을 때마다 다른 얼굴이 선다(세 사람이 돌아간다) — 줄 선
            사람을 이어서 읽는다는 말을 그림이 함께 한다 -->
       <span class="cta__art" aria-hidden="true">
-        <!-- 카메라가 잡는 틀 — 네 귀퉁이 꺾쇠다. 사람은 이 안에서 흔들리지만
-             틀은 가만히 있는다. 틀까지 흔들리면 카메라가 흔들리는 것이 된다 -->
+        <!-- 카메라가 잡는 틀 — 네 귀퉁이 꺾쇠다. 사람과 함께 흔들린다:
+             흔들리는 것은 사람이 아니라 틀을 든 손이다.
+             테는 한 색이 아니라 밝은 데와 옅은 데가 도는 그라데이션이다
+             (카메라 인식 화면의 틀과 같은 어법). 두 카드에 같은 그림이
+             들어가므로 id 는 카드마다 다르게 둔다 — 같으면 뒤의 것이
+             앞의 것을 가리킨다 -->
         <svg class="scan__corner" viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="ctaEdgeOut" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#fff"/>
+              <stop offset=".28" stop-color="#fff" stop-opacity=".3"/>
+              <stop offset=".52" stop-color="#fff"/>
+              <stop offset=".76" stop-color="#fff" stop-opacity=".3"/>
+              <stop offset="1" stop-color="#fff"/>
+            </linearGradient>
+          </defs>
           <path d="M6 28V12a6 6 0 0 1 6-6h16M72 6h16a6 6 0 0 1 6 6v16M94 72v16a6 6 0 0 1-6 6H72M28 94H12a6 6 0 0 1-6-6V72"/>
         </svg>
         <span class="scan scan--hat">

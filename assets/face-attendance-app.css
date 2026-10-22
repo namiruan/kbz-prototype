@@ -193,6 +193,7 @@
   /* 카메라가 잡는 틀 — 사람(120)보다 한 뼘 넓다. 꽉 끼면 틀이 아니라
      테두리가 된다 */
   --ap-scan-frame:calc(var(--ap-scan) * 1.42);
+  --ap-corner-wash:rgba(255,255,255,.45); /* 꺾쇠 둘레로 번지는 빛 — 카메라 틀과 같다 */
   --ap-cam-side:14%;               /* 틀과 그 위아래 것들의 좌우 — 태블릿에서는 26% */
   --ap-cam-t:104px;                /* 머리말 자리 — 뒤로 가기(52~84) 아래,
                                       사각형(24%) 위. 32 짜리 두 줄(80)이 들어가고도
@@ -644,25 +645,72 @@ ul,ol{list-style:none}
 /* 틀은 그림 칸을 넘지 않는다 — 화면이 낮으면 칸이 먼저 줄어드는데, 틀만
    제 키를 고집하면 카드 밖으로 비어져 이름 위에 겹친다. 줄어도 사람은
    안에 들어온다(130 까지는 담긴다) */
+/* 빛은 카메라 인식 화면의 틀(.cam__box)과 같은 어법이다 — 테는 밝은 데와
+   옅은 데가 도는 그라데이션(svg 안의 linearGradient)이고, 그 둘레로 빛이
+   번지며, 숨 쉬듯 옅어졌다 짙어진다(ap-cam-pulse · 같은 박자).
+   번짐은 box-shadow 가 아니라 drop-shadow 다 — 꺾쇠는 상자가 아니라 **선**이라,
+   상자를 따라 뿌리면 네 귀퉁이가 아니라 네모가 빛난다. 겹치는 것은 두
+   겹까지다(drop-shadow 는 앞 겹이 만든 빛에 다시 빛을 드리운다) */
 .scan__corner{position:absolute;top:50%;left:50%;z-index:3;
   aspect-ratio:1;height:min(var(--ap-scan-frame),100%);width:auto;
   transform:translate(-50%,calc(-50% - 9px));
-  fill:none;stroke:var(--ap-g0);stroke-width:3;stroke-linecap:round}
+  fill:none;stroke:var(--ap-corner-edge,var(--ap-g0));stroke-width:3;stroke-linecap:round;
+  filter:drop-shadow(0 0 3px var(--ap-g0)) drop-shadow(0 0 11px var(--ap-corner-wash));
+  animation:ap-cam-pulse var(--ap-cam-blink) var(--ap-ease-sym) infinite}
+.cta--in .scan__corner{--ap-corner-edge:url(#ctaEdgeIn)}
+.cta--out .scan__corner{--ap-corner-edge:url(#ctaEdgeOut)}
 
 /* ── 셀카를 찍을 때처럼 ──
    사람이 바뀌는 그 순간이 가장 흔들린다. 카메라를 막 들었을 때다. 흔들림은
-   빠르게 잦아들어 한 바퀴의 앞 40%(760ms) 안에 멎고, 남은 동안은 초점이
-   맞은 채로 가만히 있는다 — 끝까지 떨면 흔들리는 그림이지 초점을 맞추는
-   그림이 아니다. 흐림도 함께 걷힌다(렌즈가 초점을 잡는다).
-   움직이는 것은 사람뿐이다 — 틀(.scan__corner)은 이 밖에 있다 */
-.scan--hat{animation:ap-jitter var(--ap-scan-time) var(--ap-ease-exit) infinite}
+   빠르게 잦아들어 초점이 맞고, 남은 동안은 가만히 있는다 — 끝까지 떨면
+   흔들리는 그림이지 초점을 맞추는 그림이 아니다. 흐림도 함께 걷힌다
+   (렌즈가 초점을 잡는다).
+   **그림 칸째로** 흔들린다(.cta__art) — 꺾쇠 틀도 함께다. 흔들리는 것은
+   사람이 아니라 카메라를 든 손이라, 틀만 가만히 있으면 사람이 저 혼자
+   움직이는 것이 된다.
+   흔들림은 **사람마다 다르다** — 드는 손이 저마다 다르다. 그래서 한 사람의
+   주기(1.9초)가 아니라 **다섯의 한 바퀴**(9.5초)를 한 번의 애니메이션으로
+   적고, 20% 마다 다음 손으로 넘어간다. 폭도 방향도 잦아드는 빠르기도 다르다.
+   다음 사람으로 넘어가기 바로 전(19.9% 꼴)에 멎은 자리를 한 번 더 박아 둔다 —
+   없으면 멎어 있어야 할 동안 다음 손의 첫 자리로 슬슬 끌려간다.
+   걸음은 고르다(linear) — 손떨림에는 가감속이 없다 */
+.cta__art{animation:ap-jitter var(--ap-face-cycle) linear infinite}
 @keyframes ap-jitter{
-  0%  {transform:translate(-3.5px,2.5px) rotate(-1.8deg) scale(1.035);filter:blur(1.4px)}
-  8%  {transform:translate(3px,-2.2px) rotate(1.5deg) scale(1.024);filter:blur(1px)}
-  16% {transform:translate(-2.2px,1.6px) rotate(-1deg) scale(1.016);filter:blur(.7px)}
-  24% {transform:translate(1.5px,-1.1px) rotate(.6deg) scale(1.009);filter:blur(.4px)}
-  32% {transform:translate(-.7px,.5px) rotate(-.3deg) scale(1.004);filter:blur(.15px)}
-  40%,100%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
+  /* ① 차분한 손 — 가로로 한 번 쓸고 곧 멎는다 */
+  0%{transform:translate(-3.2px,2.2px) rotate(-1.5deg) scale(1.03);filter:blur(1.3px)}
+  1.6%{transform:translate(2.6px,-1.9px) rotate(1.2deg) scale(1.021);filter:blur(.95px)}
+  3.2%{transform:translate(-1.8px,1.3px) rotate(-.8deg) scale(1.014);filter:blur(.65px)}
+  4.8%{transform:translate(1.1px,-.8px) rotate(.5deg) scale(1.008);filter:blur(.38px)}
+  6.4%{transform:translate(-.5px,.4px) rotate(-.2deg) scale(1.003);filter:blur(.15px)}
+  8%,19.9%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
+  /* ② 손이 큰 사람 — 크게 흔들리고 늦게 멎는다 */
+  20%{transform:translate(4.6px,-3.6px) rotate(2.4deg) scale(1.045);filter:blur(1.9px)}
+  22%{transform:translate(-4px,3.2px) rotate(-2deg) scale(1.034);filter:blur(1.5px)}
+  24%{transform:translate(3px,-2.3px) rotate(1.5deg) scale(1.024);filter:blur(1.1px)}
+  26%{transform:translate(-1.9px,1.5px) rotate(-.9deg) scale(1.014);filter:blur(.7px)}
+  28%{transform:translate(.9px,-.7px) rotate(.4deg) scale(1.006);filter:blur(.3px)}
+  30%,39.9%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
+  /* ③ 잔떨림 — 폭이 좁고 빨리 멎는다 */
+  40%{transform:translate(-1.7px,-1.5px) rotate(-.9deg) scale(1.018);filter:blur(.8px)}
+  41.2%{transform:translate(1.4px,1.2px) rotate(.7deg) scale(1.012);filter:blur(.55px)}
+  42.4%{transform:translate(-1px,-.8px) rotate(-.4deg) scale(1.007);filter:blur(.32px)}
+  43.6%{transform:translate(.6px,.5px) rotate(.2deg) scale(1.004);filter:blur(.16px)}
+  44.8%{transform:translate(-.3px,-.2px) rotate(-.1deg) scale(1.001);filter:blur(.06px)}
+  45.5%,59.9%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
+  /* ④ 위아래로 — 팔을 들어 올리며 잡는다 */
+  60%{transform:translate(.8px,4.2px) rotate(-.6deg) scale(1.034);filter:blur(1.5px)}
+  61.6%{transform:translate(-.7px,-3.4px) rotate(.5deg) scale(1.026);filter:blur(1.15px)}
+  63.2%{transform:translate(.5px,2.4px) rotate(-.3deg) scale(1.017);filter:blur(.78px)}
+  64.8%{transform:translate(-.4px,-1.5px) rotate(.2deg) scale(1.009);filter:blur(.45px)}
+  66.4%{transform:translate(.2px,.7px) rotate(-.1deg) scale(1.004);filter:blur(.18px)}
+  68%,79.9%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
+  /* ⑤ 기울여 드는 손 — 떨림보다 기울기가 크다 */
+  80%{transform:translate(-2.2px,1px) rotate(-3.4deg) scale(1.028);filter:blur(1.4px)}
+  81.8%{transform:translate(1.8px,-.8px) rotate(2.8deg) scale(1.021);filter:blur(1.05px)}
+  83.6%{transform:translate(-1.3px,.6px) rotate(-1.9deg) scale(1.014);filter:blur(.72px)}
+  85.4%{transform:translate(.8px,-.4px) rotate(1.1deg) scale(1.008);filter:blur(.4px)}
+  87.2%{transform:translate(-.4px,.2px) rotate(-.5deg) scale(1.003);filter:blur(.16px)}
+  89%,100%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
 }
 
 /* ── 눈을 깜빡인다 ──
@@ -938,8 +986,8 @@ ul,ol{list-style:none}
      띄우던 것이라(바탕값이 opacity:0), 멈추면 도로 보이게 해 준다 */
   .scan--hat .scan__plate,.scan--hat svg,.scan__f,.scan__hat-r{animation:none}
   .scan__f{opacity:1}
-  /* 흔들림·깜빡임·입도 멎는다. 틀은 애초에 움직이지 않는다 */
-  .scan--hat,.scan__eyes,.scan--hat .scan__smile{animation:none}
+  /* 흔들림·깜빡임·입도 멎는다. 꺾쇠의 빛은 숨 쉬기를 그치고 제 밝기로 선다 */
+  .cta__art,.scan__eyes,.scan--hat .scan__smile,.scan__corner{animation:none}
   .scan__hat-s{display:none}
   .scan__f--2,.scan__f--3,.scan__f--4,.scan__f--5{display:none}
 }
