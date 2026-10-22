@@ -609,10 +609,16 @@ ul,ol{list-style:none}
 .scan--hat svg{transform-origin:center;
   animation:ap-face-shape-art calc(var(--ap-scan-time) * 3) steps(1) infinite}
 @keyframes ap-face-shape{
-  0%  {transform:translate(-50%,-50%) scale(1,1)}
-  33.34%{transform:translate(-50%,-50%) scale(.93,1.05)}
-  66.67%{transform:translate(-50%,-50%) scale(1.07,.95)}
+  0%  {transform:translate(-50%,-50%) scale(1,1);border-radius:50%}
+  33.34%{transform:translate(-50%,-50%) scale(.93,1.05);border-radius:50%}
+  66.67%{transform:translate(-50%,-50%) scale(1.07,.95);border-radius:32%}
 }
+/* 안전모는 얼굴을 따라간다 — 둥근 얼굴에는 둥근 껍데기, 각진 얼굴에는
+   각진 껍데기. 셋째 사람만 각지므로 마지막 한 토막에서 바뀐다 */
+.scan__hat-r{animation:ap-hat-round calc(var(--ap-scan-time) * 3) steps(1) infinite}
+.scan__hat-s{opacity:0;animation:ap-hat-square calc(var(--ap-scan-time) * 3) steps(1) infinite}
+@keyframes ap-hat-round {0%{opacity:1} 66.67%{opacity:0}}
+@keyframes ap-hat-square{0%{opacity:0} 66.67%{opacity:1}}
 @keyframes ap-face-shape-art{
   0%  {transform:scale(1,1)}
   33.34%{transform:scale(.93,1.05)}
@@ -831,7 +837,8 @@ ul,ol{list-style:none}
   /* 멈춰 서면 사람만 남는다 — 레이저는 제 바탕값(opacity 0)으로 돌아가 숨는다 */
   .scan__beam,.wave i,.cta__go{animation:none}
   /* 얼굴은 바뀌지 않는다 — 첫 사람만 남는다 */
-  .scan--hat .scan__plate,.scan--hat svg,.scan__f{animation:none}
+  .scan--hat .scan__plate,.scan--hat svg,.scan__f,.scan__hat-r{animation:none}
+  .scan__hat-s{display:none}
   .scan__f--b,.scan__f--c{display:none}
 }
 

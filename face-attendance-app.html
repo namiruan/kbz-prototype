@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=149">
-<script src="assets/face-attendance-app.js?v=149" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=150">
+<script src="assets/face-attendance-app.js?v=150" defer></script>
 </head>
 
 <body>
@@ -669,8 +669,12 @@
                  가져간다. 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
                  넣은 것이 아니다 -->
             <g class="scan__hat">
-              <path d="M3 29 6.5 14Q19 0 36 0 53 0 65.5 14l3.5 15Z"/>
-              <!-- 골 두 줄과 챙 — 이것이 있어야 모자가 아니라 **안전모**로 읽힌다 -->
+              <!-- 껍데기는 둘이다 — 얼굴을 따라간다. 동그란 얼굴에는 동그란
+                   안전모가, 각진 얼굴에는 각진 안전모가 선다 -->
+              <path class="scan__hat-r" d="M3 29A33 33 0 0 1 69 29Z"/>
+              <path class="scan__hat-s" d="M3 29 6.5 14Q19 0 36 0 53 0 65.5 14l3.5 15Z"/>
+              <!-- 골 두 줄과 챙은 둘이 함께 쓴다 — 이것이 있어야 모자가 아니라
+                   **안전모**로 읽힌다 -->
               <path class="scan__hat-d" d="M28 4V27M44 4V27"/>
               <rect class="scan__hat-b" x="1.5" y="26" width="69" height="6" rx="3"/>
             </g>
@@ -761,8 +765,12 @@
                  가져간다. 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
                  넣은 것이 아니다 -->
             <g class="scan__hat">
-              <path d="M3 29 6.5 14Q19 0 36 0 53 0 65.5 14l3.5 15Z"/>
-              <!-- 골 두 줄과 챙 — 이것이 있어야 모자가 아니라 **안전모**로 읽힌다 -->
+              <!-- 껍데기는 둘이다 — 얼굴을 따라간다. 동그란 얼굴에는 동그란
+                   안전모가, 각진 얼굴에는 각진 안전모가 선다 -->
+              <path class="scan__hat-r" d="M3 29A33 33 0 0 1 69 29Z"/>
+              <path class="scan__hat-s" d="M3 29 6.5 14Q19 0 36 0 53 0 65.5 14l3.5 15Z"/>
+              <!-- 골 두 줄과 챙은 둘이 함께 쓴다 — 이것이 있어야 모자가 아니라
+                   **안전모**로 읽힌다 -->
               <path class="scan__hat-d" d="M28 4V27M44 4V27"/>
               <rect class="scan__hat-b" x="1.5" y="26" width="69" height="6" rx="3"/>
             </g>
@@ -817,9 +825,9 @@
          사진과 '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다 -->
     <span class="cam__go"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근 인증하기</span>
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
-    <!-- 되돌리는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와
+    <!-- 끝내는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와
          같은 자리·같은 결이다 -->
-    <span class="cam__stop"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg><b>인증 그만하기</b></span>
+    <span class="cam__stop"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg><b>인증 종료하기</b></span>
   </div>
 
 </section>
@@ -834,9 +842,9 @@
          사진과 '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다 -->
     <span class="cam__go"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근 인증하기</span>
     <p class="cam__t cam__t--ok">홍길동님 출근 처리되었습니다.</p>
-    <!-- 되돌리는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와
+    <!-- 끝내는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와
          같은 자리·같은 결이다 -->
-    <span class="cam__stop"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg><b>인증 그만하기</b></span>
+    <span class="cam__stop"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg><b>인증 종료하기</b></span>
   </div>
 
 </section>
