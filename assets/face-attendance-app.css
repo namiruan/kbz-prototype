@@ -940,7 +940,7 @@ ul,ol{list-style:none}
 /* 이름이 먼저고, 무슨 일이 되었는지가 그 아래다 — 줄을 나누고 크기도
    굵기도 한 단 내린다(32/600 → 20/400). 크기만 줄이면 둘이 같은 무게로
    읽혀 누구인지가 먼저 들어오지 않는다 */
-.cam__sub{display:block;margin-top:var(--ap-p3);
+.cam__sub{display:block;margin-top:var(--ap-p1);
   font:var(--t-title3);letter-spacing:var(--ls-title3)}
 .cam__t--fail{color:var(--ap-cam-fail)}
 
