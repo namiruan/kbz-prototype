@@ -190,6 +190,9 @@
      수염·머리카락처럼 **면**으로 둔 것이 비쳐 흐려진다 */
   --ap-scan-rest:#457ed2;
   --ap-face-cycle:calc(var(--ap-scan-time) * 5); /* 다섯 사람이 한 바퀴 */
+  /* 카메라가 잡는 틀 — 사람(120)보다 한 뼘 넓다. 꽉 끼면 틀이 아니라
+     테두리가 된다 */
+  --ap-scan-frame:calc(var(--ap-scan) * 1.42);
   --ap-cam-side:14%;               /* 틀과 그 위아래 것들의 좌우 — 태블릿에서는 26% */
   --ap-cam-t:104px;                /* 머리말 자리 — 뒤로 가기(52~84) 아래,
                                       사각형(24%) 위. 32 짜리 두 줄(80)이 들어가고도
@@ -611,7 +614,7 @@ ul,ol{list-style:none}
    읽는 것들이다. 선은 글자보다 한참 옅다(글이 아니라 가르는 자리다) */
 /* 그림은 남는 자리를 다 쓰고 그 한가운데에 선다 — 글 덩어리는 아래에
    그대로 있고, 위의 빈 면이 그림 자리가 된다 */
-.cta__art{flex:1;min-height:0;align-self:stretch;
+.cta__art{position:relative;flex:1;min-height:0;align-self:stretch;
   display:flex;align-items:center;justify-content:center}
 
 /* 안전모 쓴 얼굴 — 셋이 돌아가며 선다. 레이저가 한 번 훑는 동안 한 사람이고,
@@ -631,6 +634,67 @@ ul,ol{list-style:none}
    오려 낼 때 함께 잘린다 */
 /* 얼굴을 띄우는 빛은 다섯이 모두 같다 — 면을 따라 바싹 붙는 drop-shadow
    하나다. box-shadow 로 넓게 번지게 두니 사람이 뿌옇게 보였다 */
+/* ── 카메라가 잡는 틀 ──
+   네 귀퉁이만 꺾어 둔다. 네 변을 다 그으면 사진틀이 되고, 귀퉁이만 두면
+   '여기에 맞춰 선다' 는 카메라의 말이 된다(얼굴 인식 아이콘의 어법이다).
+   틀은 흐름에서 빠져 그림 한가운데에 앉는다 — 사람은 이 안에서 흔들리지만
+   틀은 끝까지 가만히 있는다. 틀까지 흔들리면 카메라가 흔들리는 것이 된다.
+   사람의 한가운데는 틀의 한가운데보다 위다(안전모가 면 위로 솟는다) —
+   9 만큼 올려 사람을 틀 가운데에 둔다 */
+/* 틀은 그림 칸을 넘지 않는다 — 화면이 낮으면 칸이 먼저 줄어드는데, 틀만
+   제 키를 고집하면 카드 밖으로 비어져 이름 위에 겹친다. 줄어도 사람은
+   안에 들어온다(130 까지는 담긴다) */
+.scan__corner{position:absolute;top:50%;left:50%;z-index:3;
+  aspect-ratio:1;height:min(var(--ap-scan-frame),100%);width:auto;
+  transform:translate(-50%,calc(-50% - 9px));
+  fill:none;stroke:var(--ap-g0);stroke-width:3;stroke-linecap:round}
+
+/* ── 셀카를 찍을 때처럼 ──
+   사람이 바뀌는 그 순간이 가장 흔들린다. 카메라를 막 들었을 때다. 흔들림은
+   빠르게 잦아들어 한 바퀴의 앞 40%(760ms) 안에 멎고, 남은 동안은 초점이
+   맞은 채로 가만히 있는다 — 끝까지 떨면 흔들리는 그림이지 초점을 맞추는
+   그림이 아니다. 흐림도 함께 걷힌다(렌즈가 초점을 잡는다).
+   움직이는 것은 사람뿐이다 — 틀(.scan__corner)은 이 밖에 있다 */
+.scan--hat{animation:ap-jitter var(--ap-scan-time) var(--ap-ease-exit) infinite}
+@keyframes ap-jitter{
+  0%  {transform:translate(-3.5px,2.5px) rotate(-1.8deg) scale(1.035);filter:blur(1.4px)}
+  8%  {transform:translate(3px,-2.2px) rotate(1.5deg) scale(1.024);filter:blur(1px)}
+  16% {transform:translate(-2.2px,1.6px) rotate(-1deg) scale(1.016);filter:blur(.7px)}
+  24% {transform:translate(1.5px,-1.1px) rotate(.6deg) scale(1.009);filter:blur(.4px)}
+  32% {transform:translate(-.7px,.5px) rotate(-.3deg) scale(1.004);filter:blur(.15px)}
+  40%,100%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
+}
+
+/* ── 눈을 깜빡인다 ──
+   초점이 맞은 뒤에 두 번 깜빡인다(56% · 88%). 흔들리는 동안에는 깜빡이지
+   않는다 — 두 움직임이 겹치면 어느 쪽도 보이지 않는다. 눈꺼풀은 그리지
+   않는다. 두 눈을 한 묶음으로 세로로만 눌러 감는다(scaleY) — 작은 그림에서
+   눈꺼풀 선은 때가 탄 것처럼 보인다. 기준은 묶음의 한가운데다
+   (transform-box:fill-box — SVG 안의 것은 제 칸이 아니라 제 모양을 기준
+   삼아야 제자리에서 눌린다) */
+.scan__eyes,.scan--hat .scan__smile{transform-box:fill-box;transform-origin:center}
+.scan__eyes{animation:ap-blink var(--ap-scan-time) var(--ap-ease-sym) infinite}
+@keyframes ap-blink{
+  0%,54%{transform:scaleY(1)}
+  57%{transform:scaleY(.08)}
+  61%{transform:scaleY(1)}
+  86%{transform:scaleY(1)}
+  89%{transform:scaleY(.08)}
+  93%,100%{transform:scaleY(1)}
+}
+/* 입은 초점이 맞으면서 펴진다 — 찡그렸다 웃는 참이다. 그러고는 한 번
+   더 넓어졌다 돌아온다. 세로로 누르지 않는다: 다문 입(②)은 선 하나라
+   세로로 눌러 봐야 아무 일도 일어나지 않는다 */
+/* 깜빡임과 함께 **안전모 쓴 사람에게만** 둔다 — 등록 화면의 얼굴은 눈을
+   감지 않는데 입만 움직이면 말을 하는 것처럼 보인다 */
+.scan--hat .scan__smile{animation:ap-mouth var(--ap-scan-time) var(--ap-ease-sym) infinite}
+@keyframes ap-mouth{
+  0%  {transform:translateY(.8px) scaleX(.88)}
+  40% {transform:translateY(0) scaleX(1)}
+  62% {transform:translateY(0) scaleX(1)}
+  72% {transform:translateY(.5px) scaleX(1.07)}
+  82%,100%{transform:translateY(0) scaleX(1)}
+}
 .scan--hat .scan__plate{box-shadow:none;filter:var(--ap-plate-cut);
   animation:ap-face-shape var(--ap-face-cycle) steps(1) infinite}
 .scan--hat svg{transform-origin:center;
@@ -870,8 +934,12 @@ ul,ol{list-style:none}
 @media (prefers-reduced-motion:reduce){
   /* 멈춰 서면 사람만 남는다 — 레이저는 제 바탕값(opacity 0)으로 돌아가 숨는다 */
   .scan__beam,.wave i,.cta__go,.cam__box::before,.cam__box::after{animation:none}
-  /* 얼굴은 바뀌지 않는다 — 첫 사람만 남는다 */
+  /* 얼굴은 바뀌지 않는다 — 첫 사람만 남는다. 눈·코·입은 애니메이션이
+     띄우던 것이라(바탕값이 opacity:0), 멈추면 도로 보이게 해 준다 */
   .scan--hat .scan__plate,.scan--hat svg,.scan__f,.scan__hat-r{animation:none}
+  .scan__f{opacity:1}
+  /* 흔들림·깜빡임·입도 멎는다. 틀은 애초에 움직이지 않는다 */
+  .scan--hat,.scan__eyes,.scan--hat .scan__smile{animation:none}
   .scan__hat-s{display:none}
   .scan__f--2,.scan__f--3,.scan__f--4,.scan__f--5{display:none}
 }

@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=173">
-<script src="assets/face-attendance-app.js?v=173" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=175">
+<script src="assets/face-attendance-app.js?v=175" defer></script>
 </head>
 
 <body>
@@ -657,6 +657,11 @@
            한 번 훑을 때마다 다른 얼굴이 선다(세 사람이 돌아간다) — 줄 선
            사람을 이어서 읽는다는 말을 그림이 함께 한다 -->
       <span class="cta__art" aria-hidden="true">
+        <!-- 카메라가 잡는 틀 — 네 귀퉁이 꺾쇠다. 사람은 이 안에서 흔들리지만
+             틀은 가만히 있는다. 틀까지 흔들리면 카메라가 흔들리는 것이 된다 -->
+        <svg class="scan__corner" viewBox="0 0 100 100">
+          <path d="M6 28V12a6 6 0 0 1 6-6h16M72 6h16a6 6 0 0 1 6 6v16M94 72v16a6 6 0 0 1-6 6H72M28 94H12a6 6 0 0 1-6-6V72"/>
+        </svg>
         <span class="scan scan--hat">
           <span class="wave"><i></i><i></i><i></i></span>
           <span class="scan__plate"></span>
@@ -683,30 +688,30 @@
                  가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
             <!-- ① 기본 -->
             <g class="scan__f">
-              <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
+              <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
               <path class="scan__smile" d="M28 47C31.5 51.5 40.5 51.5 44 47"/>
             </g>
             <!-- ② 다문 입 — 수염을 걷은 자리다 -->
             <g class="scan__f scan__f--2">
-              <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
+              <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
               <path class="scan__smile" d="M31 48h10"/>
             </g>
             <!-- ③ 점 — 볼에 하나 -->
             <g class="scan__f scan__f--3">
-              <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
+              <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
               <path class="scan__smile" d="M29 48C32 51.5 40 51.5 43 48"/>
               <circle cx="51" cy="43" r="2"/>
             </g>
             <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
             <g class="scan__f scan__f--4">
-              <circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/>
+              <g class="scan__eyes"><circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/></g>
               <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
               <path class="scan__smile" d="M31 52C33 54.5 39 54.5 41 52"/>
             </g>
             <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
             <g class="scan__f scan__f--5">
               <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
-              <circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/>
+              <g class="scan__eyes"><circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/></g>
               <path class="scan__smile" d="M28 49C31.5 53.5 40.5 53.5 44 49"/>
             </g>
           </svg>
@@ -767,6 +772,11 @@
            한 번 훑을 때마다 다른 얼굴이 선다(세 사람이 돌아간다) — 줄 선
            사람을 이어서 읽는다는 말을 그림이 함께 한다 -->
       <span class="cta__art" aria-hidden="true">
+        <!-- 카메라가 잡는 틀 — 네 귀퉁이 꺾쇠다. 사람은 이 안에서 흔들리지만
+             틀은 가만히 있는다. 틀까지 흔들리면 카메라가 흔들리는 것이 된다 -->
+        <svg class="scan__corner" viewBox="0 0 100 100">
+          <path d="M6 28V12a6 6 0 0 1 6-6h16M72 6h16a6 6 0 0 1 6 6v16M94 72v16a6 6 0 0 1-6 6H72M28 94H12a6 6 0 0 1-6-6V72"/>
+        </svg>
         <span class="scan scan--hat">
           <span class="wave"><i></i><i></i><i></i></span>
           <span class="scan__plate"></span>
@@ -793,30 +803,30 @@
                  가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
             <!-- ① 기본 -->
             <g class="scan__f">
-              <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
+              <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
               <path class="scan__smile" d="M28 47C31.5 51.5 40.5 51.5 44 47"/>
             </g>
             <!-- ② 다문 입 — 수염을 걷은 자리다 -->
             <g class="scan__f scan__f--2">
-              <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
+              <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
               <path class="scan__smile" d="M31 48h10"/>
             </g>
             <!-- ③ 점 — 볼에 하나 -->
             <g class="scan__f scan__f--3">
-              <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
+              <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
               <path class="scan__smile" d="M29 48C32 51.5 40 51.5 43 48"/>
               <circle cx="51" cy="43" r="2"/>
             </g>
             <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
             <g class="scan__f scan__f--4">
-              <circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/>
+              <g class="scan__eyes"><circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/></g>
               <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
               <path class="scan__smile" d="M31 52C33 54.5 39 54.5 41 52"/>
             </g>
             <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
             <g class="scan__f scan__f--5">
               <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
-              <circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/>
+              <g class="scan__eyes"><circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/></g>
               <path class="scan__smile" d="M28 49C31.5 53.5 40.5 53.5 44 49"/>
             </g>
           </svg>
