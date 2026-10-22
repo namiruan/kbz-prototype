@@ -493,16 +493,16 @@ ul,ol{list-style:none}
 /* 점선 테를 걷는다 — 테로 '여기' 를 가리키는 대신 **면이 가운데에서 퍼져**
    가리킨다. 바탕은 primary/5 에 가운데만 한 끗 짙은 둥근 면을 얹은 것이다 */
 .shot__box{font:var(--t-sub-em);letter-spacing:var(--ls-sub);width:var(--ap-shot);height:var(--ap-shot);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--ap-p2);
   position:relative;overflow:hidden;border:0;border-radius:var(--ap-r10);color:var(--ap-primary);
   background:radial-gradient(circle at 50% 40%,var(--ap-glow-core) 0,var(--ap-glow-edge) 48%,transparent 78%)}
 /* 글자와 그림은 퍼지는 면 위에 선다 — 자리를 잡아 두지 않으면 면이 그 위를 덮는다 */
 .shot__box > *{position:relative;z-index:1}
 .shot__box--done{border:0;background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   color:var(--ap-on-photo)}
-/* 이름과 안내는 한 덩어리로 붙인다(사이 0 — 줄 사이 여백만 남는다). 그림과는 떨어뜨린다 —
+/* 이름과 안내는 한 덩어리로 붙인다(사이 4 — 시안 gap/2). 그림과는 떨어뜨린다 —
    상자의 틈을 2 로 좁혔으니 그림 밑 자리는 이름이 제 여백으로 든다 */
-.shot__t{font:var(--t-title3-em);letter-spacing:var(--ls-title3);margin-top:var(--ap-p5)}
+.shot__t{font:var(--t-title2);letter-spacing:var(--ls-title2);margin-top:var(--ap-p5)}
 /* 이름과 안내도 브랜드 색이다. 둘의 높낮이는 색이 아니라 굵기와 크기로
    가른다 — 안내를 옅은 파랑으로 내리면 13px 글자가 바탕에 묻힌다 */
 .shot__hint{font:var(--t-body);letter-spacing:var(--ls-body);max-width:220px;text-align:center;
@@ -520,7 +520,6 @@ ul,ol{list-style:none}
 .scan svg{position:relative;z-index:1}
 .scan svg{display:block;width:100%;height:100%;overflow:visible}
 .scan__face{fill:var(--ap-scan-rest)}
-.scan__frame{fill:none;stroke:var(--ap-scan-rest);stroke-width:2.5;stroke-linecap:round}
 /* 훑는 줄은 멈춰 있을 때 보이지 않는다 — 움직임이 꺼진 기기에서 줄만 남으면
    얼굴에 선을 그어 둔 그림이 된다 */
 .scan__line{fill:var(--ap-primary);opacity:0}
@@ -549,7 +548,7 @@ ul,ol{list-style:none}
 
 .shot__box:not(.shot__box--done) .scan__line{animation:ap-scan-sweep var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
 .shot__box:not(.shot__box--done) .scan__face{animation:ap-scan-hit var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
-.shot__box:not(.shot__box--done) .scan__frame{animation:ap-scan-hit-line var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
+.shot__box:not(.shot__box--done) .scan__reveal{animation:ap-scan-reveal var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
 
 @keyframes ap-scan-sweep{
   0%,4%{transform:translateY(15px);opacity:0}
@@ -560,19 +559,24 @@ ul,ol{list-style:none}
 }
 /* 다 훑고 나서 물든다 — 훑는 동안이 아니라 끝난 뒤다. 찾았다는 말이라 */
 @keyframes ap-scan-hit{
-  0%,40%{fill:var(--ap-scan-rest)}
-  50%,64%{fill:var(--ap-primary)}
-  80%,100%{fill:var(--ap-scan-rest)}
+  0%,40%{fill:var(--ap-scan-rest);opacity:1}
+  50%,64%{fill:var(--ap-primary);opacity:1}
+  80%{fill:var(--ap-scan-rest);opacity:1}
+  94%,100%{fill:var(--ap-scan-rest);opacity:0}
 }
-@keyframes ap-scan-hit-line{
-  0%,40%{stroke:var(--ap-scan-rest)}
-  50%,64%{stroke:var(--ap-primary)}
-  80%,100%{stroke:var(--ap-scan-rest)}
+/* 사람은 줄이 지나간 데까지만 드러난다 — 다 지나면 다 선다.
+   끝에서 한 번 옅어지고 나서 처음으로 돌아간다. 안 그러면 다음 바퀴가
+   시작될 때 사람이 툭 사라진다 */
+@keyframes ap-scan-reveal{
+  0%,4%{transform:translateY(15px)}
+  40%,100%{transform:translateY(55px)}
 }
 
 /* 움직임을 줄여 달라고 한 기기에서는 멈춘다 — 시스템 규약이다 */
 @media (prefers-reduced-motion:reduce){
-  .scan__line,.scan__face,.scan__frame,.wave i{animation:none}
+  /* 멈춰 서면 사람만 남는다 — 드러내는 네모를 끝까지 내려 둔다 */
+  .scan__line,.scan__face,.wave i{animation:none}
+  .scan__reveal{animation:none;transform:translateY(55px)}
 }
 
 /* ── 읽기 전용 정보 줄 ── */

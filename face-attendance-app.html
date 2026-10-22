@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=51">
-<script src="assets/face-attendance-app.js?v=51" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=53">
+<script src="assets/face-attendance-app.js?v=53" defer></script>
 </head>
 
 <body>
@@ -368,21 +368,20 @@
           <span class="wave"><i></i><i></i><i></i></span>
           <svg viewBox="0 0 72 72">
             <defs>
-              <!-- 얼굴도 훑는 줄도 동그라미 안에서만 보인다 — 줄이 동그라미를
-                   넘어가면 테가 원인데 줄만 네모로 지나간다 -->
+              <!-- 훑는 줄은 동그란 자리 안에서만 보인다 — 테를 없앤 뒤에도
+                   줄이 네모로 지나가면 둘레의 물결과 꼴이 어긋난다 -->
               <clipPath id="scanLens"><circle cx="36" cy="36" r="22"/></clipPath>
+              <!-- 줄이 지나간 데까지만 사람이 드러난다. 이 네모의 아래끝이 곧
+                   훑는 줄이라, 둘은 같은 자리를 같은 때에 지난다 -->
+              <clipPath id="scanReveal"><rect class="scan__reveal" x="0" y="-72" width="72" height="72"/></clipPath>
             </defs>
             <g clip-path="url(#scanLens)">
-              <g class="scan__face">
+              <g class="scan__face" clip-path="url(#scanReveal)">
                 <circle cx="36" cy="30" r="8"/>
                 <path d="M24 48a12 12 0 0 1 24 0z"/>
               </g>
               <rect class="scan__line" x="8" y="0" width="56" height="2.5" rx="1.25"/>
             </g>
-            <!-- 네 토막으로 끊어 감싼다 — 이은 동그라미는 테두리가 되고,
-                 끊어 두면 '맞추는 자리' 로 읽힌다. 틈은 대각선에 온다 -->
-            <circle class="scan__frame" cx="36" cy="36" r="22"
-              stroke-dasharray="25 9.56" stroke-dashoffset="12.5"/>
           </svg>
         </span>
         <b class="shot__t">얼굴 등록하기</b>
@@ -453,21 +452,20 @@
           <span class="wave"><i></i><i></i><i></i></span>
           <svg viewBox="0 0 72 72">
             <defs>
-              <!-- 얼굴도 훑는 줄도 동그라미 안에서만 보인다 — 줄이 동그라미를
-                   넘어가면 테가 원인데 줄만 네모로 지나간다 -->
+              <!-- 훑는 줄은 동그란 자리 안에서만 보인다 — 테를 없앤 뒤에도
+                   줄이 네모로 지나가면 둘레의 물결과 꼴이 어긋난다 -->
               <clipPath id="scanLens"><circle cx="36" cy="36" r="22"/></clipPath>
+              <!-- 줄이 지나간 데까지만 사람이 드러난다. 이 네모의 아래끝이 곧
+                   훑는 줄이라, 둘은 같은 자리를 같은 때에 지난다 -->
+              <clipPath id="scanReveal"><rect class="scan__reveal" x="0" y="-72" width="72" height="72"/></clipPath>
             </defs>
             <g clip-path="url(#scanLens)">
-              <g class="scan__face">
+              <g class="scan__face" clip-path="url(#scanReveal)">
                 <circle cx="36" cy="30" r="8"/>
                 <path d="M24 48a12 12 0 0 1 24 0z"/>
               </g>
               <rect class="scan__line" x="8" y="0" width="56" height="2.5" rx="1.25"/>
             </g>
-            <!-- 네 토막으로 끊어 감싼다 — 이은 동그라미는 테두리가 되고,
-                 끊어 두면 '맞추는 자리' 로 읽힌다. 틈은 대각선에 온다 -->
-            <circle class="scan__frame" cx="36" cy="36" r="22"
-              stroke-dasharray="25 9.56" stroke-dashoffset="12.5"/>
           </svg>
         </span>
         <b class="shot__t">얼굴 등록하기</b>
