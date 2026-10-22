@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=78">
-<script src="assets/face-attendance-app.js?v=78" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=79">
+<script src="assets/face-attendance-app.js?v=79" defer></script>
 </head>
 
 <body>
@@ -509,10 +509,16 @@
 <section class="scr" data-screen="m-shot" data-title="등록 촬영 확인">
   <div class="cam">
     <div class="confirm">
-      <div class="confirm__pic"><img src="images/worker/01.jpg" alt=""></div>
-      <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
-      <!-- 위아래로 놓는다. 주된 동작이 아래인 것은 이 앱의 다른 화면과 같다 -->
-      <div class="confirm__bt"><span class="re">다시 촬영하기</span><span class="ok">이 사진으로 등록하기</span></div>
+      <!-- 사진 · 묻는 말 · 저지르는 버튼은 한 덩어리다. 흰 카드로 묶어 어두운
+           막 위에 띄운다 -->
+      <div class="confirm__card">
+        <div class="confirm__pic"><img src="images/worker/01.jpg" alt=""></div>
+        <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
+        <span class="confirm__ok">이 사진으로 등록하기</span>
+      </div>
+      <!-- 되돌리는 쪽은 카드 밖에, 글자만으로 둔다 — 같은 크기로 나란히 서면
+           어느 쪽이 주된 동작인지 흐려진다 -->
+      <span class="confirm__re">다시 촬영하기</span>
     </div>
   </div>
 </section>
