@@ -180,7 +180,7 @@
   /* 얼굴 — 흰 면 위에 또렷이 앉는 브랜드 색. 반투명을 쓰지 않는다:
      수염·머리카락처럼 **면**으로 둔 것이 비쳐 흐려진다 */
   --ap-scan-rest:#457ed2;
-  --ap-face-cycle:calc(var(--ap-scan-time) * 4); /* 네 사람이 한 바퀴 */
+  --ap-face-cycle:calc(var(--ap-scan-time) * 5); /* 다섯 사람이 한 바퀴 */
   --ap-cam-t:104px;                /* 머리말 자리 — 뒤로 가기(52~84) 아래,
                                       사각형(24%) 위. 32 짜리 두 줄(80)이 들어가고도
                                       사각형까지 한 뼘(19) 남는다 */
@@ -611,30 +611,32 @@ ul,ol{list-style:none}
    변하는 것처럼 보인다 */
 /* 다섯 사람이 돌아간다. 얼굴 면과 그림(모자·얼굴)은 **함께** 늘고 준다 —
    면만 늘리면 모자가 면에서 삐져나온다.
-   ① 원 ② 역삼각 ③ 마름모 ④ 둥근 사각 */
+   ① 원 ② 둥근 사각 ③ 역삼각 ④ 마름모 ⑤ 세로 타원 */
 .scan--hat .scan__plate{
   animation:ap-face-shape var(--ap-face-cycle) steps(1) infinite}
 .scan--hat svg{transform-origin:center;
   animation:ap-face-shape-art var(--ap-face-cycle) steps(1) infinite}
 @keyframes ap-face-shape{
   0% {transform:translate(-50%,-50%);border-radius:50%}
-  25%{transform:translate(-50%,-50%);border-radius:50% 50% 42% 42% / 38% 38% 62% 62%}
-  50%{transform:translate(-50%,-50%) rotate(45deg) scale(.86);border-radius:22%}
-  75%{transform:translate(-50%,-50%) scale(1.04,1);border-radius:30%}
+  20%{transform:translate(-50%,-50%) scale(1.04,1);border-radius:30%}
+  40%{transform:translate(-50%,-50%);border-radius:50% 50% 42% 42% / 38% 38% 62% 62%}
+  60%{transform:translate(-50%,-50%) rotate(45deg) scale(.86);border-radius:22%}
+  80%{transform:translate(-50%,-50%) scale(.93,1.06);border-radius:50%}
 }
 /* 안전모는 얼굴을 따라간다 — 둥근 얼굴에는 둥근 껍데기, 각진 얼굴
-   (③ 마름모 · ④ 둥근 사각)에는 각진 껍데기 */
+   (② 둥근 사각 · ④ 마름모)에는 각진 껍데기 */
 .scan__hat-r{animation:ap-hat-round var(--ap-face-cycle) steps(1) infinite}
 .scan__hat-s{opacity:0;animation:ap-hat-square var(--ap-face-cycle) steps(1) infinite}
-@keyframes ap-hat-round {0%{opacity:1} 50%{opacity:0}}
-@keyframes ap-hat-square{0%{opacity:0} 50%{opacity:1}}
+@keyframes ap-hat-round {0%{opacity:1} 20%{opacity:0} 40%{opacity:1} 60%{opacity:0} 80%{opacity:1}}
+@keyframes ap-hat-square{0%{opacity:0} 20%{opacity:1} 40%{opacity:0} 60%{opacity:1} 80%{opacity:0}}
 /* 그림은 면을 따라 늘고 줄되 **돌지는 않는다** — 마름모 얼굴이라고 사람이
    기울어 서지는 않는다 */
 @keyframes ap-face-shape-art{
   0% {transform:scale(1)}
-  25%{transform:scale(1)}
-  50%{transform:scale(.92)}
-  75%{transform:scale(1.04,1)}
+  20%{transform:scale(1.04,1)}
+  40%{transform:scale(1)}
+  60%{transform:scale(.92)}
+  80%{transform:scale(.93,1.06)}
 }
 /* 입체는 그라데이션이 맡는다 — 꼭대기가 밝고 아래로 가며 어두워진다.
    덧댄 광택 선으로는 모자가 아니라 모자 위에 그은 줄로 보인다.
@@ -657,7 +659,8 @@ ul,ol{list-style:none}
 .scan__f--2{animation-delay:var(--ap-scan-time)}
 .scan__f--3{animation-delay:calc(var(--ap-scan-time) * 2)}
 .scan__f--4{animation-delay:calc(var(--ap-scan-time) * 3)}
-@keyframes ap-face{0%{opacity:1} 25%{opacity:0}}
+.scan__f--5{animation-delay:calc(var(--ap-scan-time) * 4)}
+@keyframes ap-face{0%{opacity:1} 20%{opacity:0}}
 
 /* 이름과 설명은 붙어 있고(한 덩어리), 그림과만 멀다 */
 .cta__tx{display:flex;flex-direction:column;align-self:stretch;gap:var(--ap-p5)}
@@ -856,7 +859,7 @@ ul,ol{list-style:none}
   /* 얼굴은 바뀌지 않는다 — 첫 사람만 남는다 */
   .scan--hat .scan__plate,.scan--hat svg,.scan__f,.scan__hat-r{animation:none}
   .scan__hat-s{display:none}
-  .scan__f--2,.scan__f--3,.scan__f--4{display:none}
+  .scan__f--2,.scan__f--3,.scan__f--4,.scan__f--5{display:none}
 }
 
 /* ── 읽기 전용 정보 줄 ── */
