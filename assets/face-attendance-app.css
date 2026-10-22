@@ -175,7 +175,10 @@
                                       파란 카드·검은 카드보다 밝아 셋 위에서 다 선다 */
   --ap-hat-dark:#4189f3;           /* 그 챙과 골 — primary/40. 껍데기와 한 단만
                                       차이 난다 — 두 단 벌어지면 챙이 따로 논다 */
-  --ap-scan-rest:rgba(17,90,198,.78); /* 얼굴 — 흰 면 위에 또렷이 앉는 짙은 브랜드 색 */
+  /* 얼굴 — 흰 면 위에 또렷이 앉는 브랜드 색. 반투명을 쓰지 않는다:
+     수염·머리카락처럼 **면**으로 둔 것이 비쳐 흐려진다 */
+  --ap-scan-rest:#457ed2;
+  --ap-face-cycle:calc(var(--ap-scan-time) * 5); /* 다섯 사람이 한 바퀴 */
   --ap-cam-t:104px;                /* 머리말 자리 — 뒤로 가기(52~84) 아래,
                                       사각형(24%) 위. 32 짜리 두 줄(80)이 들어가고도
                                       사각형까지 한 뼘(19) 남는다 */
@@ -604,27 +607,34 @@ ul,ol{list-style:none}
    얼굴 · 갸름한 얼굴 · 넓은 얼굴) — 줄 선 사람이 저마다 다르다는 말이다.
    steps(1) 이라 사이값 없이 **딱 바뀐다** — 녹아 넘어가면 한 사람의 얼굴이
    변하는 것처럼 보인다 */
-/* 면과 그림(모자·얼굴)이 **함께** 늘고 준다 — 면만 늘리면 모자가 면에서
-   삐져나온다 */
+/* 다섯 사람이 돌아간다. 얼굴 면과 그림(모자·얼굴)은 **함께** 늘고 준다 —
+   면만 늘리면 모자가 면에서 삐져나온다.
+   ① 원 ② 둥근 사각 ③ 역삼각 ④ 마름모 ⑤ 가로 타원 */
 .scan--hat .scan__plate{
-  animation:ap-face-shape calc(var(--ap-scan-time) * 3) steps(1) infinite}
+  animation:ap-face-shape var(--ap-face-cycle) steps(1) infinite}
 .scan--hat svg{transform-origin:center;
-  animation:ap-face-shape-art calc(var(--ap-scan-time) * 3) steps(1) infinite}
+  animation:ap-face-shape-art var(--ap-face-cycle) steps(1) infinite}
 @keyframes ap-face-shape{
-  0%  {transform:translate(-50%,-50%) scale(1,1);border-radius:50%}
-  33.34%{transform:translate(-50%,-50%) scale(.93,1.05);border-radius:50%}
-  66.67%{transform:translate(-50%,-50%) scale(1.07,.95);border-radius:32%}
+  0% {transform:translate(-50%,-50%);border-radius:50%}
+  20%{transform:translate(-50%,-50%) scale(1.02,1);border-radius:30%}
+  40%{transform:translate(-50%,-50%);border-radius:50% 50% 42% 42% / 38% 38% 62% 62%}
+  60%{transform:translate(-50%,-50%) rotate(45deg) scale(.86);border-radius:22%}
+  80%{transform:translate(-50%,-50%) scale(1.12,.92);border-radius:50%}
 }
-/* 안전모는 얼굴을 따라간다 — 둥근 얼굴에는 둥근 껍데기, 각진 얼굴에는
-   각진 껍데기. 셋째 사람만 각지므로 마지막 한 토막에서 바뀐다 */
-.scan__hat-r{animation:ap-hat-round calc(var(--ap-scan-time) * 3) steps(1) infinite}
-.scan__hat-s{opacity:0;animation:ap-hat-square calc(var(--ap-scan-time) * 3) steps(1) infinite}
-@keyframes ap-hat-round {0%{opacity:1} 66.67%{opacity:0}}
-@keyframes ap-hat-square{0%{opacity:0} 66.67%{opacity:1}}
+/* 안전모는 얼굴을 따라간다 — 둥근 얼굴에는 둥근 껍데기, 각진 얼굴
+   (② 둥근 사각 · ④ 마름모)에는 각진 껍데기 */
+.scan__hat-r{animation:ap-hat-round var(--ap-face-cycle) steps(1) infinite}
+.scan__hat-s{opacity:0;animation:ap-hat-square var(--ap-face-cycle) steps(1) infinite}
+@keyframes ap-hat-round {0%{opacity:1} 20%{opacity:0} 40%{opacity:1} 60%{opacity:0} 80%{opacity:1}}
+@keyframes ap-hat-square{0%{opacity:0} 20%{opacity:1} 40%{opacity:0} 60%{opacity:1} 80%{opacity:0}}
+/* 그림은 면을 따라 늘고 줄되 **돌지는 않는다** — 마름모 얼굴이라고 사람이
+   기울어 서지는 않는다 */
 @keyframes ap-face-shape-art{
-  0%  {transform:scale(1,1)}
-  33.34%{transform:scale(.93,1.05)}
-  66.67%{transform:scale(1.07,.95)}
+  0% {transform:scale(1)}
+  20%{transform:scale(1.02,1)}
+  40%{transform:scale(1)}
+  60%{transform:scale(.92)}
+  80%{transform:scale(1.12,.92)}
 }
 /* 입체는 그라데이션이 맡는다 — 꼭대기가 밝고 아래로 가며 어두워진다.
    덧댄 광택 선으로는 모자가 아니라 모자 위에 그은 줄로 보인다.
@@ -643,10 +653,12 @@ ul,ol{list-style:none}
 .scan__hat{fill:var(--ap-hat)}
 .scan__hat-d{fill:none;stroke-width:2;stroke-linecap:round}
 .scan__f{fill:var(--ap-scan-rest);opacity:0;
-  animation:ap-face calc(var(--ap-scan-time) * 3) steps(1) infinite}
-.scan__f--b{animation-delay:var(--ap-scan-time)}
-.scan__f--c{animation-delay:calc(var(--ap-scan-time) * 2)}
-@keyframes ap-face{0%{opacity:1} 33.34%{opacity:0}}
+  animation:ap-face var(--ap-face-cycle) steps(1) infinite}
+.scan__f--2{animation-delay:var(--ap-scan-time)}
+.scan__f--3{animation-delay:calc(var(--ap-scan-time) * 2)}
+.scan__f--4{animation-delay:calc(var(--ap-scan-time) * 3)}
+.scan__f--5{animation-delay:calc(var(--ap-scan-time) * 4)}
+@keyframes ap-face{0%{opacity:1} 20%{opacity:0}}
 
 /* 이름과 설명은 붙어 있고(한 덩어리), 그림과만 멀다 */
 .cta__tx{display:flex;flex-direction:column;align-self:stretch;gap:var(--ap-p5)}
@@ -766,6 +778,8 @@ ul,ol{list-style:none}
   background:linear-gradient(160deg,var(--ap-g0) 0,var(--ap-g0) 42%,var(--ap-plate-low) 100%);
   box-shadow:var(--ap-plate-lift),var(--ap-glow-face),var(--ap-plate-shade)}
 .scan__face{fill:var(--ap-scan-rest)}
+/* 수염 면 위에 뚫는 입은 얼굴 색(흰색)이다 — 같은 색으로 그으면 묻힌다 */
+.scan__mouth{fill:none;stroke:var(--ap-g0);stroke-width:3;stroke-linecap:round}
 /* 웃음은 채우는 것이 아니라 긋는 것이다 — 눈과 같은 색, 끝은 둥글게 */
 .scan__smile{fill:none;stroke:var(--ap-scan-rest);stroke-width:4;stroke-linecap:round}
 /* 바코드를 읽는 레이저처럼 — 가운데가 짙고 양 끝으로 사그라지는 가는 줄에
@@ -845,7 +859,7 @@ ul,ol{list-style:none}
   /* 얼굴은 바뀌지 않는다 — 첫 사람만 남는다 */
   .scan--hat .scan__plate,.scan--hat svg,.scan__f,.scan__hat-r{animation:none}
   .scan__hat-s{display:none}
-  .scan__f--b,.scan__f--c{display:none}
+  .scan__f--2,.scan__f--3,.scan__f--4,.scan__f--5{display:none}
 }
 
 /* ── 읽기 전용 정보 줄 ── */
