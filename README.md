@@ -6,7 +6,7 @@
 estimate-prototype.html · prototype.html · quote-prototype.html   시나리오 목록(크롬)
 face-attendance-app-prototype.html                                 앱 화면 목록(크롬)
 estimate.html · plan-quote.html · quote.html · face-quote.html    끼워 보여 주는 화면
-face-attendance-app.html                                           앱 화면(소장 앱 · 근로자 앱 홈)
+face-attendance-app.html                                           앱 화면(현장소장 앱 · 근로자 앱 홈)
 login.html · face-attendance-review.html · index.html
 card-reader.html · face-attendance.html                            단말기 소개페이지
 assets/                                                            화면 쪽 CSS·JS

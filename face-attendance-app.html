@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>안면 출퇴근 · 김반장</title>
-<meta name="description" content="안면 출퇴근 앱 화면 — 소장 앱(kpmManager)과 근로자 앱(kpmUser) 홈. 디자인은 [현장소장] 앱 디자인 리뉴얼 시안을 따른다.">
+<meta name="description" content="안면 출퇴근 앱 화면 — 현장소장 앱(kpmManager)과 근로자 앱(kpmUser) 홈. 디자인은 [현장소장] 앱 디자인 리뉴얼 시안을 따른다.">
 
 <!-- 시안이 쓰는 글꼴은 Pretendard 하나다 (typo/font/type) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=26">
-<script src="assets/face-attendance-app.js?v=26" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=27">
+<script src="assets/face-attendance-app.js?v=27" defer></script>
 </head>
 
 <body>
@@ -30,14 +30,14 @@
      켜는 일은 assets/face-attendance-app.js 가 한다.
 
      앱 셸은 세 종류다.
-       ① 소장 앱 하위 화면 — 뒤로 가기가 있어 바닥 내비게이션이 없다
+       ① 현장소장 앱 하위 화면 — 뒤로 가기가 있어 바닥 내비게이션이 없다
           (시안 '현장근로자' 와 같다). 바닥은 버튼 바가 끝까지 쓴다
        ② 앱 네이티브 카메라 — 앱이 직접 그리는 화면이라 셸이 없다
        ③ 근로자 앱 주화면 — 바닥 내비게이션이 있다 (시안 '출퇴근관리')
      ================================================================ -->
 
 
-<!-- ===== ① 소장 앱 · 근로자 관리 ===== -->
+<!-- ===== ① 현장소장 앱 · 근로자 관리 ===== -->
 <section class="scr" data-screen="m-workers" data-title="근로자 관리">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
@@ -139,7 +139,7 @@
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">여권번호</span><span class="card__v">C1234567</span></span>
+            <span class="card__kv"><span class="card__k card__k--foreign">여권번호</span><span class="card__v">C1234567</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
           </div>
         </div>
@@ -155,7 +155,7 @@
 </section>
 
 
-<!-- ===== ①-3 소장 앱 · 근로자 관리(고른 뒤) ===== -->
+<!-- ===== ①-3 현장소장 앱 · 근로자 관리(고른 뒤) ===== -->
 <section class="scr" data-screen="m-workers-pick" data-title="근로자 관리 — 고른 뒤">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
@@ -256,7 +256,7 @@
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">여권번호</span><span class="card__v">C1234567</span></span>
+            <span class="card__kv"><span class="card__k card__k--foreign">여권번호</span><span class="card__v">C1234567</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
           </div>
         </div>
@@ -272,7 +272,7 @@
 </section>
 
 
-<!-- ===== ①-2 소장 앱 · 근로자 관리(직종을 고른 뒤) ===== -->
+<!-- ===== ①-2 현장소장 앱 · 근로자 관리(직종을 고른 뒤) ===== -->
 <section class="scr" data-screen="m-workers-job" data-title="근로자 관리 — 직종을 고른 뒤">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
@@ -346,7 +346,7 @@
 </section>
 
 
-<!-- ===== ② 소장 앱 · 근로자 등록 ===== -->
+<!-- ===== ② 현장소장 앱 · 근로자 등록 ===== -->
 <section class="scr" data-screen="m-worker-new" data-title="근로자 등록">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
@@ -401,7 +401,7 @@
 </section>
 
 
-<!-- ===== ③ 소장 앱 · 등록 촬영 확인 (앱 네이티브) ===== -->
+<!-- ===== ③ 현장소장 앱 · 등록 촬영 확인 (앱 네이티브) ===== -->
 <section class="scr" data-screen="m-shot" data-title="등록 촬영 확인">
   <div class="cam">
     <div class="confirm">
@@ -413,7 +413,7 @@
 </section>
 
 
-<!-- ===== ④ 소장 앱 · 근로자 상세 ===== -->
+<!-- ===== ④ 현장소장 앱 · 근로자 상세 ===== -->
 <section class="scr" data-screen="m-worker" data-title="근로자 상세">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
@@ -442,7 +442,7 @@
 </section>
 
 
-<!-- ===== ⑤ 소장 앱 · 출근 인증 대기 ===== -->
+<!-- ===== ⑤ 현장소장 앱 · 출근 인증 대기 ===== -->
 <section class="scr" data-screen="m-in" data-title="출근 인증 대기">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
@@ -464,7 +464,7 @@
       <span class="site__v">서울 마곡 A동 신축공사</span>
       <button class="pill pill--line" type="button">변경</button>
     </div>
-    <!-- 보내지 못한 인증과 반영되지 않은 인증 — 소장이 손을 써야 하는 수다 -->
+    <!-- 보내지 못한 인증과 반영되지 않은 인증 — 현장소장이 손을 써야 하는 수다 -->
     <div class="bds">
       <span class="bd bd--negative">미전송 2</span>
       <span class="bd bd--point">반영불가 1</span>
@@ -484,7 +484,7 @@
 </section>
 
 
-<!-- ===== ⑥ 소장 앱 · 퇴근 인증 대기 ===== -->
+<!-- ===== ⑥ 현장소장 앱 · 퇴근 인증 대기 ===== -->
 <section class="scr" data-screen="m-out" data-title="퇴근 인증 대기">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
@@ -523,7 +523,7 @@
 </section>
 
 
-<!-- ===== ⑦ 소장 앱 · 카메라 인식 (앱 네이티브) ===== -->
+<!-- ===== ⑦ 현장소장 앱 · 카메라 인식 (앱 네이티브) ===== -->
 <section class="scr" data-screen="m-cam" data-title="카메라 인식">
   <div class="cam">
     <button class="cam__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
@@ -534,7 +534,7 @@
 </section>
 
 
-<!-- ===== ⑧ 소장 앱 · 인식 결과 (앱 네이티브) ===== -->
+<!-- ===== ⑧ 현장소장 앱 · 인식 결과 (앱 네이티브) ===== -->
 <section class="scr" data-screen="m-cam-ok" data-title="인식 결과">
   <div class="cam">
     <button class="cam__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
@@ -545,7 +545,7 @@
 </section>
 
 
-<!-- ===== ⑨ 소장 앱 · 이력 ===== -->
+<!-- ===== ⑨ 현장소장 앱 · 이력 ===== -->
 <section class="scr" data-screen="m-log" data-title="이력">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
@@ -609,7 +609,7 @@
 </section>
 
 
-<!-- ===== ⑩ 소장 앱 · 이력 사진보기 ===== -->
+<!-- ===== ⑩ 현장소장 앱 · 이력 사진보기 ===== -->
 <section class="scr" data-screen="m-log-photo" data-title="이력 사진보기">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="닫기"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg></button>
@@ -794,7 +794,7 @@
     </div>
     <div class="rows">
       <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
-      <!-- 어느 길로 찍혔는지를 시간 옆에 붙인다 — 같은 날에 앱·단말기·소장앱이 섞인다 -->
+      <!-- 어느 길로 찍혔는지를 시간 옆에 붙인다 — 같은 날에 앱·단말기·현장소장앱이 섞인다 -->
       <div class="row"><span class="row__k">출근시간</span><span class="row__v">07:03 <span class="bd bd--positive">앱 · 얼굴</span></span></div>
       <div class="row"><span class="row__k">퇴근시간</span><span class="row__v">작업내용 입력 후 퇴근을 눌러주세요.</span></div>
       <div class="row"><span class="row__k">작업내용</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-edit"></use></svg>작성하기</button></span></div>

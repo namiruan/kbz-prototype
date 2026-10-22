@@ -20,7 +20,12 @@
        화면이 깨진 것인지 가릴 수 없다 */
     if (!hit) hit = all[0];
 
-    all.forEach(function (s) { s.classList.toggle('is-on', s === hit); });
+    /* 고른 한 장만 남기고 나머지는 문서에서 **덜어 낸다**. 숨기기만 하면 화면설명의
+       앵커(`@{선택자}`)가 깨진다 — 프로토타입 셸은 `document.querySelector` 로 첫 번째
+       것을 짚는데, 그 첫 번째가 숨은 다른 화면 안에 있으면 하이라이트가 보이지 않는다.
+       (실측: 앵커 40개 중 11개가 엉뚱한 화면을 짚고 있었다) */
+    all.forEach(function (s) { if (s !== hit) s.remove(); });
+    hit.classList.add('is-on');
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 

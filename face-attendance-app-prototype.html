@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>안면 출퇴근 앱 프로토타입</title>
-<meta name="description" content="안면 출퇴근 앱 화면을 시나리오별로 모아 본다. 소장 앱 전체와 근로자 앱 홈이다.">
+<meta name="description" content="안면 출퇴근 앱 화면을 시나리오별로 모아 본다. 현장소장 앱 전체와 근로자 앱 홈이다.">
 <!-- 김반장 3.0 디자인 시스템. 크롬(사이드바·설명·폭·비교·링크 복사·원본 링크)은
      proto-chrome.js 의 initProtoChrome 이 맡는다 — 이 파일이 따로 만들지 않는다.
      주소가 절대경로인 것은 시스템 규약이다 -->
@@ -46,7 +46,7 @@
 
     <nav class="proto-nav" aria-label="시나리오 선택">
 
-      <span class="proto-nav-group-label">소장 앱 · 인증</span>
+      <span class="proto-nav-group-label">현장소장 앱 · 인증</span>
       <button class="proto-nav-btn proto-nav-sub is-active" type="button" data-scenario="m-in"
         data-why="얼굴을 찍기 전의 화면입니다. 인증을 여는 버튼은 바닥 바에 둡니다 — 시안은 한 화면의 주된 동작을 폭을 다 쓰는 바닥 바 하나로 받습니다. 탭은 흰 머리 카드에, 현장은 그 아래 목록 바로 위에 둡니다 — 탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말합니다."
         data-steps="안면 출퇴근 메뉴에 들어와 출근 탭이 열린 상태 — 보내지 못한 인증이 있습니다"
@@ -64,33 +64,33 @@
         data-steps="홍길동의 얼굴이 인식된 상태"
         data-look="@{.cam__box--ok} 가이드 사각형이 초록으로 바뀌고, 결과 문구도 같은 초록입니다|@{.cam__t--ok} 문구에 인식된 사람의 이름이 들어갑니다 — '홍길동님 출근 처리되었습니다.'">인식 결과</button>
 
-      <span class="proto-nav-group-label">소장 앱 · 근로자</span>
+      <span class="proto-nav-group-label">현장소장 앱 · 근로자</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers"
-        data-why="얼굴을 등록한 근로자를 현장별로 봅니다. 카드에 사진을 함께 두는 것은 이 목록에서 얼굴 등록 여부가 갈리기 때문입니다. 거를 것이 직종 하나뿐이라 필터 줄을 따로 두지 않고, 목록 머리줄의 '전체' 가 그 필터를 겸합니다. 수는 고를 대상이 몇인지를 말하므로 체크박스 옆에 두고, 거르는 필터는 반대쪽 끝에 둡니다. 근로자를 더하는 버튼은 바닥 바에 둡니다 — 시안은 떠다니는 둥근 버튼을 쓰지 않습니다."
+        data-why="얼굴을 등록한 근로자를 현장별로 봅니다. 카드에 사진을 함께 두는 것은 이 목록에서 얼굴 등록 여부가 갈리기 때문입니다. 거를 것이 직종 하나뿐이라 목록 머리줄의 '전체' 가 필터를 겸합니다. 고르는 체크박스와 거르는 필터는 왼쪽에 모으고, 그 결과인 수는 반대쪽 끝에 둡니다."
         data-steps="근로자 관리 탭을 연 상태"
-        data-look="@{.face--none} 얼굴이 없는 근로자는 사진 자리가 회색입니다|@{.act__b--off} 삭제는 바닥 바 왼쪽에 있고, 고른 근로자가 없으면 꺼져 있습니다|@{.card__k} 외국인은 주민번호 자리가 '여권번호' 로 바뀝니다|@md @{.list} 태블릿에서는 카드가 두 단으로 놓입니다">근로자 관리</button>
+        data-look="@{.face--none} 얼굴을 등록하지 않은 근로자도 목록에 있습니다 — 사진 자리가 회색입니다|@{.act__b--off} 아무도 고르지 않았으므로 삭제는 꺼져 있습니다|@{.card__k--foreign} 외국인은 주민번호 자리가 '여권번호' 로 바뀝니다|@md @{.list} 태블릿에서는 카드가 두 단으로 놓입니다">근로자 관리</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-job"
-        data-why="거른 값을 필터에 그대로 적습니다. 거를 것이 직종 하나라 무엇으로 걸렀는지 따로 물을 자리가 없고, 머리줄만 읽어도 지금 무엇을 보고 있는지 알 수 있습니다."
+        data-why="거른 뒤에도 무엇으로 걸렀는지가 머리줄에 남습니다. 필터를 다시 열어 보지 않아도 지금 보고 있는 것이 무엇인지 머리줄 한 줄로 알 수 있습니다."
         data-steps="근로자 관리에서 직종을 '형틀목공' 으로 고른 상태"
-        data-look="@{.sel--selected} 고른 직종이 필터에 적히고, 테가 짙어지고 글씨가 굵어집니다 — 고르기 전에는 옅은 테에 전체입니다|@{.lbar__n} 수도 걸러진 뒤의 수로 바뀝니다">직종을 고르면</button>
+        data-look="@{.sel--selected} 고르고 나면 필터의 테가 짙어지고 글씨가 굵어집니다 — 고르기 전에는 옅은 테에 '전체' 입니다|@{.lbar__n} 수도 걸러진 뒤의 수로 바뀝니다">직종을 고르면</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-pick"
-        data-why="고른 사람이 있어야 지울 수 있습니다. 삭제를 바닥 바에 두되 꺼 두는 것은, 누를 수 있는 자리에 그냥 두면 고르지도 않고 누른 뒤에야 무엇이 빠졌는지 알게 되기 때문입니다."
+        data-why="고른 사람이 있어야 지울 수 있습니다. 삭제를 꺼 두는 것은, 클릭할 수 있는 자리에 그냥 두면 고르지도 않고 클릭한 뒤에야 무엇이 빠졌는지 알게 되기 때문입니다. 켜질 때 검정을 쓰는 것은 되돌릴 수 없는 동작이기 때문입니다."
         data-steps="근로자 관리에서 홍길동과 김철수를 고른 상태"
-        data-look="@{.chk--on} 고른 카드는 체크박스가 사진 위에서 파랗게 채워집니다|@{.lbar__n} 수가 '선택 2명' 으로 바뀝니다 — 고르기 전에는 목록의 수입니다|@{.act__b--dark} 삭제가 켜집니다 — 되돌릴 수 없는 쪽이라 검정입니다">근로자를 고르면</button>
+        data-look="@{.chk--on} 고른 카드는 체크박스가 사진 위에서 파랗게 채워집니다|@{.lbar__n} 수가 '선택 2명' 으로 바뀝니다 — 고르기 전에는 목록의 수입니다|@{.act__b--dark} 삭제가 켜집니다">근로자를 고르면</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new"
         data-why="얼굴 한 장과 기본 정보를 한 화면에서 받습니다. 사진이 맨 위인 것은 이 등록의 목적이 얼굴이기 때문입니다."
         data-steps="근로자 추가를 눌러 등록 화면이 열린 상태 — 아직 아무것도 채우지 않았습니다"
-        data-look="@{.tog} 외국인 여부는 예·아니오 토글입니다|@{.step} 단가는 칸에 적는 대신 ＋·－ 로 올리고 내립니다|@{.fld__l} 필수 항목은 이름 옆에 '(필수)' 가 붙습니다|@md @{.form} 태블릿에서는 폼이 늘어나지 않고 가운데로 모입니다">근로자 등록</button>
+        data-look="@{.tog} 외국인 여부는 예·아니오 토글입니다|@{.step} 단가는 칸에 적는 대신 ＋·－ 로 올리고 내립니다|@{.fld__l b} 필수 항목은 라벨 옆에 '(필수)' 가 붙습니다|@md @{.form} 태블릿에서는 폼이 늘어나지 않고 가운데로 모입니다">근로자 등록</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-shot"
         data-why="찍은 얼굴로 등록할지 묻고 나서 저장합니다. 흐린 사진 한 장이 그 뒤의 출근 인증을 내내 막기 때문에, 다시 찍을 기회를 이 자리에서 줍니다."
         data-steps="얼굴 촬영을 눌러 한 장 찍은 상태"
         data-look="@{.confirm} 찍은 사진 위에 어두운 막이 덮이고 그 위에서 묻습니다|@{.confirm__bt .ok} '이 사진으로 등록' 이 오른쪽이고, 되돌리는 '다시 촬영' 이 왼쪽입니다">등록 촬영 확인</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker"
-        data-why="등록해 둔 얼굴이 누구 것인지 확인하는 자리입니다. 사진을 맨 위에 크게 두는 것은 이름보다 사진이 먼저 확인되어야 하기 때문입니다."
+        data-why="등록해 둔 얼굴이 누구 것인지 확인합니다. 사진을 맨 위에 크게 두는 것은 이름보다 사진이 먼저 확인되어야 하기 때문입니다. 바닥 바에서 삭제를 좁게 둔 것은 이 화면에서 자주 하는 일이 수정이기 때문입니다."
         data-steps="근로자 관리에서 홍길동을 연 상태"
-        data-look="@{.rows} 값은 읽기만 하는 줄입니다. 고치려면 수정을 클릭합니다|@{.act__b--dark} 삭제는 검정이고 왼쪽 끝입니다 — 시안의 버튼 색에 위험을 뜻하는 빨강이 없습니다">근로자 상세</button>
+        data-look="@{.rows} 값은 읽기만 합니다. 고치려면 '수정' 을 클릭합니다|@{.act__b--dark} 삭제는 늘 켜져 있습니다 — 지울 대상이 이 한 사람으로 정해져 있습니다">근로자 상세</button>
 
-      <span class="proto-nav-group-label">소장 앱 · 이력</span>
+      <span class="proto-nav-group-label">현장소장 앱 · 이력</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-log"
         data-why="날짜 하나를 잡고 그날 찍힌 인증을 봅니다. 날짜는 시안의 달력 카드를 그대로 씁니다 — 숫자 칸을 고치거나, 주를 훑어 고르거나, '오늘' 로 돌아올 수 있습니다."
         data-steps="이력 탭에서 2026.10.20 을 고른 상태"
@@ -104,13 +104,13 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home"
         data-why="근로자 앱의 첫 화면입니다. 안면인식 현장이어도 이 화면은 달라지지 않습니다 — 근로자는 그대로 출근을 클릭하고, 그 현장이 안면인식 현장이면 카메라가 뒤이어 열립니다."
         data-steps="근로자 앱을 열고 오늘(2026.10.20)을 보는 상태 — 아직 출근하지 않았습니다"
-        data-look="@{.act__b--on} 출근 버튼에 지금 시각이 함께 적힙니다|@{.tabbar} 아래 내비게이션은 주화면에만 있습니다. 뒤로 가기가 있는 소장 앱 화면에는 없습니다">홈 — 출근 전</button>
+        data-look="@{.act__b--on} 출근 버튼에 지금 시각이 함께 적힙니다|@{.tabbar} 아래 내비게이션은 주화면에만 있습니다. 뒤로 가기가 있는 현장소장 앱 화면에는 없습니다">홈 — 출근 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-face"
         data-why="안면인식이 켜진 현장인데 이 현장에 등록된 얼굴이 없으면 출근이 바로 되지 않습니다. 막는 말로 끝내지 않고 등록으로 데려가는 것은, 근로자가 그 자리에서 할 수 있는 일이 등록뿐이기 때문입니다."
         data-steps="출근을 클릭한 상태 — 이 현장에 등록된 얼굴이 없습니다"
         data-look="@{.alert} 알림창은 시안의 modal_alert 입니다 — 버튼이 창 아래 끝까지 붙습니다|@{.alert__bt .yes} 오른쪽이 '얼굴 등록하고 출근' 입니다|@{.dim} 뒤 화면은 어두워지고 조작할 수 없습니다">얼굴 등록 안내</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-done"
-        data-why="출근이 끝난 뒤의 홈입니다. 출근시간 옆에 어느 길로 찍혔는지를 함께 적는 것은, 같은 날 기록이 앱·단말기·소장 앱으로 섞여 들어오기 때문입니다."
+        data-why="출근이 끝난 뒤의 홈입니다. 출근시간 옆에 어느 길로 찍혔는지를 함께 적는 것은, 같은 날 기록이 앱·단말기·현장소장 앱으로 섞여 들어오기 때문입니다."
         data-steps="얼굴 인증으로 출근 처리가 끝나 홈으로 돌아온 상태"
         data-look="@{.bd--positive} 출근시간 옆 '앱 · 얼굴' 이 그 기록이 어디서 왔는지 적습니다|@{.act__b--dark} 퇴근 버튼은 검정입니다. 출근 전의 파랑과 가릅니다|@{.rows} 퇴근시간 자리에는 '작업내용 입력 후 퇴근을 눌러주세요.' 가 적힙니다">홈 — 출근 완료</button>
 
