@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=161">
-<script src="assets/face-attendance-app.js?v=161" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=162">
+<script src="assets/face-attendance-app.js?v=162" defer></script>
 </head>
 
 <body>
@@ -25,13 +25,13 @@
 <svg aria-hidden="true" style="position:absolute;width:0;height:0">
   <defs>
     <linearGradient id="hatShade" x1="0" y1="0" x2=".3" y2="1">
-      <stop offset="0" stop-color="#c3d8f7"/>
-      <stop offset=".5" stop-color="#8cb5f3"/>
-      <stop offset="1" stop-color="#5f98ef"/>
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".55" stop-color="#eaf1fb"/>
+      <stop offset="1" stop-color="#d4e2f5"/>
     </linearGradient>
     <linearGradient id="brimShade" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#5a9bf5"/>
-      <stop offset="1" stop-color="#2f6fd4"/>
+      <stop offset="0" stop-color="#cfdcef"/>
+      <stop offset="1" stop-color="#b3c7e2"/>
     </linearGradient>
   </defs>
 </svg>
@@ -696,34 +696,28 @@
               <rect class="scan__hat-b" x="1.5" y="26" width="69" height="6" rx="3"/>
             </g>
             <!-- 레이저가 한 번 훑을 때마다 다른 사람이 선다. 사람을 가르는 것은
-                 **면으로 둔 특징(수염·머리카락)과 얼굴 생김과 표정**이다 —
+                 **면으로 둔 특징(콧수염·앞머리)과 얼굴 생김과 표정**이다 —
                  가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
             <!-- ① 기본 -->
             <g class="scan__f">
               <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
               <path class="scan__smile" d="M28 47C31.5 51.5 40.5 51.5 44 47"/>
             </g>
-            <!-- ② 턱수염 — 턱을 감싸고 얼굴 밖으로 조금 내려온다. 입은 그 위다 -->
+            <!-- ② 점 — 볼에 하나 -->
             <g class="scan__f scan__f--2">
-              <path d="M16 42C14 58 24 68 36 68 48 68 58 58 56 42 50 50 44 53 36 53 28 53 22 50 16 42Z"/>
-              <circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/>
-              <path class="scan__smile" d="M30 47C32.5 50 39.5 50 42 47"/>
-            </g>
-            <!-- ③ 점 — 볼에 하나 -->
-            <g class="scan__f scan__f--3">
               <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
               <path class="scan__smile" d="M29 48C32 51.5 40 51.5 43 48"/>
               <circle cx="51" cy="43" r="2"/>
             </g>
-            <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
-            <g class="scan__f scan__f--4">
+            <!-- ③ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
+            <g class="scan__f scan__f--3">
               <circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/>
               <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
               <path class="scan__smile" d="M31 52C33 54.5 39 54.5 41 52"/>
             </g>
-            <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다 -->
-            <g class="scan__f scan__f--5">
-              <path d="M11 31q7 11 14 3 7 10 14 0 7 8 14-3z"/>
+            <!-- ④ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
+            <g class="scan__f scan__f--4">
+              <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
               <circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/>
               <path class="scan__smile" d="M28 49C31.5 53.5 40.5 53.5 44 49"/>
             </g>
@@ -807,34 +801,28 @@
               <rect class="scan__hat-b" x="1.5" y="26" width="69" height="6" rx="3"/>
             </g>
             <!-- 레이저가 한 번 훑을 때마다 다른 사람이 선다. 사람을 가르는 것은
-                 **면으로 둔 특징(수염·머리카락)과 얼굴 생김과 표정**이다 —
+                 **면으로 둔 특징(콧수염·앞머리)과 얼굴 생김과 표정**이다 —
                  가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
             <!-- ① 기본 -->
             <g class="scan__f">
               <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
               <path class="scan__smile" d="M28 47C31.5 51.5 40.5 51.5 44 47"/>
             </g>
-            <!-- ② 턱수염 — 턱을 감싸고 얼굴 밖으로 조금 내려온다. 입은 그 위다 -->
+            <!-- ② 점 — 볼에 하나 -->
             <g class="scan__f scan__f--2">
-              <path d="M16 42C14 58 24 68 36 68 48 68 58 58 56 42 50 50 44 53 36 53 28 53 22 50 16 42Z"/>
-              <circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/>
-              <path class="scan__smile" d="M30 47C32.5 50 39.5 50 42 47"/>
-            </g>
-            <!-- ③ 점 — 볼에 하나 -->
-            <g class="scan__f scan__f--3">
               <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
               <path class="scan__smile" d="M29 48C32 51.5 40 51.5 43 48"/>
               <circle cx="51" cy="43" r="2"/>
             </g>
-            <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
-            <g class="scan__f scan__f--4">
+            <!-- ③ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
+            <g class="scan__f scan__f--3">
               <circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/>
               <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
               <path class="scan__smile" d="M31 52C33 54.5 39 54.5 41 52"/>
             </g>
-            <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다 -->
-            <g class="scan__f scan__f--5">
-              <path d="M11 31q7 11 14 3 7 10 14 0 7 8 14-3z"/>
+            <!-- ④ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
+            <g class="scan__f scan__f--4">
+              <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
               <circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/>
               <path class="scan__smile" d="M28 49C31.5 53.5 40.5 53.5 44 49"/>
             </g>
