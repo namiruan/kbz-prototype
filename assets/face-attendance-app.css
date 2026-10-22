@@ -135,7 +135,7 @@
   --ap-glow-out:var(--ap-primary-5);   /* 가장자리 — 연한 브랜드 색 */
   --ap-glow-ring:rgba(17,90,198,.22);  /* 번져 나가는 파장의 테 */
   --ap-scan-rest:rgba(17,90,198,.38); /* 훑기 전 얼굴·테 — 회색을 쓰면 파란 면 위에서 혼자 뜬다 */
-  --ap-shot:200px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 다르다 */
+  --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
 
   /* ── 모서리 ── */
   --ap-r4:4px;                     /* radius/small1 */
@@ -202,9 +202,6 @@ ul,ol{list-style:none}
   justify-content:center;width:20px;height:22px;color:var(--ap-g90)}
 .nav__ic--l{left:var(--ap-p6)}
 .nav__ic--r{right:var(--ap-p6)}
-/* 머리줄 오른쪽에 앉는 알약 — .nav__ic 는 아이콘 치수(20x22)에 맞춰져 있어
-   글자 알약을 끼우면 눌려 찌그러진다. 자리만 잡아 준다 */
-.nav__del{position:absolute;right:var(--ap-p6);bottom:var(--ap-p4)}
 
 /* ── 머리 카드 — 현장 · 필터 · 날짜가 들어가는 흰 판 ──
    아래 모서리만 둥글다. 내비게이션 바와 한 덩어리로 보인다 */
@@ -281,9 +278,6 @@ ul,ol{list-style:none}
 .pill--line{background:var(--ap-g0);border:1px solid var(--ap-primary);color:var(--ap-primary)}
 .pill--dark{border:1px solid var(--ap-g90);color:var(--ap-g95)}
 .pill--off{background:var(--ap-badge-normal);color:var(--ap-text-disabled)}
-/* 지우는 알약 — 시안 '근로자 수정'(530:4116)의 머리줄 오른쪽 검은 알약.
-   시안의 버튼 색에 위험을 뜻하는 빨강이 없어, 되돌릴 수 없는 쪽을 검정으로 세운다 */
-.pill--del{background:var(--ap-bg-black);color:var(--ap-g0)}
 
 /* ── 날짜 — 시안의 달력 카드 ── */
 .cal{display:flex;flex-direction:column;gap:var(--ap-p2)}
@@ -474,6 +468,8 @@ ul,ol{list-style:none}
   border-radius:var(--ap-r4);color:var(--ap-text)}
 .inp--ph{color:var(--ap-text-gray)}
 .inp--num{justify-content:flex-end}
+/* 고칠 수 없는 칸 — 꼴은 다른 칸과 같고 색만 가라앉는다 */
+.inp--off{background:var(--ap-g5);border-color:var(--ap-g5);color:var(--ap-text-gray)}
 
 /* ── 단가의 ＋·－ ──
    시안 '근로자현황 (현장근로자 / 신규추가-기본)'(486:4990) 의 button
@@ -506,11 +502,14 @@ ul,ol{list-style:none}
    가운데라 눈이 거기로 모이고, 드러나는 사람과 물결이 그 위에 선다 */
 .shot__box{font:var(--t-sub-em);letter-spacing:var(--ls-sub);width:var(--ap-shot);height:var(--ap-shot);
   display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:var(--ap-p2);
-  position:relative;overflow:hidden;border:0;border-radius:var(--ap-r10);color:var(--ap-primary);
+  position:relative;overflow:hidden;border:1px solid var(--ap-point-line);
+  border-radius:var(--ap-r10);color:var(--ap-primary);
   background:radial-gradient(circle at 50% 40%,var(--ap-glow-in) 0,var(--ap-glow-out) 72%)}
 /* 글자와 그림은 퍼지는 면 위에 선다 — 자리를 잡아 두지 않으면 면이 그 위를 덮는다 */
 .shot__box > *{position:relative;z-index:1}
-.shot__box--done{border:0;background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
+/* 찍은 뒤의 사진 자리도 찍기 전과 같은 틀이다 — 두 화면이 나란히 서야 하니
+   크기도 모서리도 테도 같이 간다. 다른 것은 안에 사진이 들어찬다는 것뿐이다 */
+.shot__box--done{background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   color:var(--ap-on-photo)}
 /* 이름과 안내는 한 덩어리로 붙인다(사이 4 — 시안 gap/2). 그림과는 떨어뜨린다 —
    상자의 틈을 2 로 좁혔으니 그림 밑 자리는 이름이 제 여백으로 든다 */
@@ -546,8 +545,7 @@ ul,ol{list-style:none}
    테 색은 단가의 ＋·－ 와 같은 짝(point-line)이다 — 같은 화면에서 누를 수
    있는 자리는 같은 말로 적는다.
    찍은 뒤(--done)는 사진을 보여 주는 자리라 테도 두지 않는다 */
-.shot__box:not(.shot__box--done){--ap-shot:240px;padding-bottom:var(--ap-p8);
-  border:1px solid var(--ap-point-line)}
+.shot__box:not(.shot__box--done){padding-bottom:var(--ap-p8)}
 /* 한가운데(50%)에서 조금 올린다 — 글이 아래에 깔려 있어 눈이 보는
    한가운데는 틀의 한가운데보다 위다. 42% 면 글과 16 이 뜬다 */
 .shot__box > .scan{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);z-index:1}

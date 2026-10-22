@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=71">
-<script src="assets/face-attendance-app.js?v=71" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=72">
+<script src="assets/face-attendance-app.js?v=72" defer></script>
 </head>
 
 <body>
@@ -525,13 +525,12 @@
 <section class="scr scr--form" data-screen="m-worker" data-title="근로자 상세">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <h1 class="nav__t">얼굴 근로자</h1>
-    <button class="nav__del pill pill--del" type="button">삭제</button>
+    <h1 class="nav__t">안면 출퇴근 근로자 수정</h1>
   </header>
 
   <main class="body">
     <div class="shot">
-      <div class="shot__box shot__box--done"><img src="images/worker/01.jpg" alt=""></div>
+      <button class="shot__box shot__box--done" type="button"><img src="images/worker/01.jpg" alt=""></button>
     </div>
 
     <form class="form">
@@ -556,6 +555,12 @@
         <label class="fld__l">직종</label>
         <button class="sel sel--selected" type="button"><span class="sel__t">형틀목공</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </div>
+      <!-- 등록일만 고칠 수 없다. 언제 등록했는지는 고치는 값이 아니라 남는 값이다.
+           줄을 따로 만들지 않고 폼의 한 칸으로 두되, 꺼진 꼴로 둔다 -->
+      <div class="fld">
+        <label class="fld__l">등록일</label>
+        <div class="inp inp--off">2026-10-02</div>
+      </div>
       <div class="fld">
         <label class="fld__l">단가</label>
         <div class="fld__row">
@@ -568,13 +573,13 @@
       </div>
     </form>
 
-    <!-- 등록일만 고칠 수 없다. 언제 등록했는지는 고치는 값이 아니라 남는 값이다 -->
-    <div class="rows">
-      <div class="row"><span class="row__k">등록일</span><span class="row__v">2026-10-02</span></div>
-    </div>
   </main>
 
-  <div class="act act--end">
+  <!-- 삭제는 바닥 바에 둔다. 머리줄에 두면 추가 화면과 머리줄이 달라지는데,
+       두 화면은 같은 폼이라 다른 데가 적을수록 좋다. 시안의 버튼 색에 위험을
+       뜻하는 빨강이 없어, 되돌릴 수 없는 쪽을 검정으로 세운다 -->
+  <div class="act act--end act--split">
+    <button class="act__b act__b--dark" type="button">삭제</button>
     <button class="act__b act__b--on" type="button">저장</button>
   </div>
 </section>
