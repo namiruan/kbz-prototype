@@ -47,12 +47,15 @@
   --ap-point:#e74900;              /* Color/Text/point · badge/point */
   --ap-point-bg:rgba(231,73,0,.1); /* Color/badge/negative */
   --ap-badge-normal:#e6e8ea;       /* Color/badge/normal */
-  --ap-tab-on:#eef7fc;             /* color/action/point-light-filtered — 고른 탭 바탕 */
-  --ap-tab-on-line:rgba(22,109,238,.5); /* color/action/primary-dark-hover — 고른 탭 테 */
+  /* 고른 탭과 단가의 ＋·－ 가 나눠 쓰는 짝. 쓰는 자리 이름(tab-on)으로 부르면
+     두 번째 자리가 남의 이름을 빌려 쓰게 되어, 시안 변수 이름으로 둔다 */
+  --ap-point-light:#eef7fc;        /* color/action/point-light-filtered */
+  --ap-point-line:rgba(22,109,238,.5); /* color/action/primary-dark-hover */
 
   --ap-g0:#ffffff;                 /* color/light/gray/0 */
   --ap-g5:#f4f5f6;                 /* color/light/gray/5 */
   --ap-g20:#cdd1d5;                /* color/light/gray/20 · border/gray-subtler */
+  --ap-g60:#58616a;                /* color/light/gray/60 — 폼 라벨 */
   --ap-border-selected:#6d7882;    /* color/border/selected — 값을 고른 select */
   --ap-g30:#b1b8be;                /* color/light/gray/30 */
   --ap-g90:#1e2124;                /* color/light/gray/90 */
@@ -113,10 +116,12 @@
 
   /* ── 틈 — 시안 gap/3. 여백(padding/*)에는 8 이 없다 ── */
   --ap-gap3:8px;
+  --ap-gap6:20px;                  /* gap/6 — 폼에서 칸과 칸 사이 */
 
   /* ── 모서리 ── */
   --ap-r4:4px;                     /* radius/small1 */
   --ap-r6:6px;                     /* radius/medium1 — select-atomic */
+  --ap-step-w:50px;                /* 단가 ＋·－ 의 최소 폭 — 시안 min-width */
   --ap-sel-w:110px;                /* select-atomic 의 기본 폭 — 글자가 짧아도 이만큼은 둔다 */
   --ap-face:112px;                 /* 근로자 카드의 얼굴 — 정방형이다 */
   --ap-r8:8px;
@@ -286,7 +291,7 @@ ul,ol{list-style:none}
      길어져 두 줄로 접힌다. 시안처럼 글자만큼 차지하고 줄에 고루 편다 */
 .seg{display:flex;gap:var(--ap-p2);justify-content:space-between}
 .seg__b{font:var(--t-body);letter-spacing:var(--ls-body);flex:0 1 auto;min-width:50px;display:flex;align-items:center;justify-content:center;padding:var(--ap-p4) var(--ap-p3);border:1.5px solid transparent;border-radius:var(--ap-r10);color:var(--ap-text);white-space:nowrap}
-.seg__b.is-on{background:var(--ap-tab-on);border-color:var(--ap-tab-on-line);
+.seg__b.is-on{background:var(--ap-point-light);border-color:var(--ap-point-line);
   color:var(--ap-primary);font-weight:600}
 
 /* ── 본문 ── */
@@ -424,18 +429,35 @@ ul,ol{list-style:none}
 .big--dark{background:var(--ap-g95)}
 
 /* ── 폼 ── */
-.form{display:flex;flex-direction:column;gap:var(--ap-p6)}
-.fld{display:flex;flex-direction:column;gap:var(--ap-p3)}
+/* ── 폼 — 시안 'input group'(600:4406) 그대로 ──
+   칸과 칸 20 · 라벨과 칸 4 · 라벨은 17/22 semibold 에 gray/60,
+   칸은 테 1px gray-subtler · 모서리 4 · 안쪽 여백 16/12 · 글자 17/22 regular */
+.form{display:flex;flex-direction:column;gap:var(--ap-gap6)}
+.fld{display:flex;flex-direction:column;gap:var(--ap-p2)}
 /* 값이 둘뿐이라 고르는 자리가 좁다 — 이름과 한 줄에 둔다. 시안의
    '고용안정직업능력 · 고용보험공제' 줄과 같은 꼴이다 */
 .fld--row{flex-direction:row;align-items:center;justify-content:space-between;
   gap:var(--ap-p5)}
 .fld--row .tog{align-self:auto}
-.fld__l{font:var(--t-sub-em);letter-spacing:var(--ls-sub);color:var(--ap-text)}
+.fld__l{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-g60)}
 .fld__l b{color:var(--ap-danger);font-weight:600}
-.inp{font:var(--t-body);letter-spacing:var(--ls-body);display:flex;align-items:center;height:56px;padding:0 var(--ap-p6);background:var(--ap-g0);border:1px solid var(--ap-g20);border-radius:var(--ap-r8);color:var(--ap-text)}
-.inp--ph{color:var(--ap-text-disabled)}
+.inp{font:var(--t-body);letter-spacing:var(--ls-body);display:flex;align-items:center;
+  padding:var(--ap-p6) var(--ap-p5);background:var(--ap-g0);border:1px solid var(--ap-g20);
+  border-radius:var(--ap-r4);color:var(--ap-text)}
+.inp--ph{color:var(--ap-text-gray)}
 .inp--num{justify-content:flex-end}
+
+/* ── 단가의 ＋·－ ──
+   시안 '근로자현황 (현장근로자 / 신규추가-기본)'(486:4990) 의 button
+   (624:8716 · 624:8581) 그대로다 — 바탕과 테는 고른 탭과 같은 짝,
+   모서리 10 · 안쪽 여백 10 · 최소 폭 50 · 아이콘 30 · 둘 사이 4.
+   높이는 제가 정하지 않고 옆 칸을 따라 늘어난다(stretch) */
+.fld__row{display:flex;align-items:stretch;gap:var(--ap-gap3)}
+.fld__row .inp{flex:1;min-width:0}
+.steps{flex:none;display:flex;align-items:stretch;gap:var(--ap-p2)}
+.step{min-width:var(--ap-step-w);display:flex;align-items:center;justify-content:center;
+  padding:var(--ap-p4);background:var(--ap-point-light);
+  border:1px solid var(--ap-point-line);border-radius:var(--ap-r10);color:var(--ap-primary)}
 
 /* 예 · 아니오 — 시안 Toggle(600:3777) 그대로.
    바탕 #33363d · 안쪽 여백 4 · 알 사이 4 · 알은 위아래 4 좌우 10 */
