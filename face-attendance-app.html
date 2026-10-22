@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=143">
-<script src="assets/face-attendance-app.js?v=143" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=146">
+<script src="assets/face-attendance-app.js?v=146" defer></script>
 </head>
 
 <body>
@@ -526,6 +526,9 @@
 <section class="scr has-dim" data-screen="m-shot" data-title="등록 촬영 확인"
   data-behind="m-worker-new">
   <div class="confirm">
+    <!-- 돌아가는 길은 왼쪽 위에 둔다 — 카메라 화면과 같은 자리다.
+         여기서 뒤로 가면 찍기 전으로, 즉 '근로자 추가' 로 돌아간다 -->
+    <button class="cam__back" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <!-- 묻는 말은 카드 위에 큰 글씨로 세운다. 카드 안에 넣으면 사진과
          버튼 사이에 끼어 묻는 말이 아니라 사진 설명으로 읽힌다 -->
     <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
@@ -658,15 +661,16 @@
           <span class="wave"><i></i><i></i><i></i></span>
           <span class="scan__plate"></span>
           <svg viewBox="4 12 64 48">
-            <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 큰 모자다:
-                 꼭대기는 얼굴 면(반지름 27)보다 크게(31) 둘러 면 밖으로
-                 나오고, 챙은 그보다 더 넓게 가로지른다. 얼굴은 챙 아래로만
-                 보인다 — 쓰고 있는 것이지 머리에 그려 넣은 것이 아니다 -->
+            <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 크고,
+                 동그라미가 아니라 조금 각졌다: 꼭대기는 눌린 듯 평평하고
+                 옆으로 내려오며 꺾여, 챙 바로 위에서 다시 벌어진다.
+                 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
+                 넣은 것이 아니다 -->
             <g class="scan__hat">
-              <path d="M5 34A31 31 0 0 1 67 34Z"/>
+              <path d="M6 33 9 20Q20 7 36 7 52 7 63 20l3 13Z"/>
               <!-- 골 두 줄과 챙 — 이것이 있어야 모자가 아니라 **안전모**로 읽힌다 -->
-              <path class="scan__hat-d" d="M29 6V32M43 6V32"/>
-              <rect class="scan__hat-b" x="4.5" y="31" width="63" height="6" rx="3"/>
+              <path class="scan__hat-d" d="M29 11V31M43 11V31"/>
+              <rect class="scan__hat-b" x="4.5" y="30.5" width="63" height="5.5" rx="2.75"/>
             </g>
             <!-- ① 웃는 사람 -->
             <g class="scan__f">
@@ -747,15 +751,16 @@
           <span class="wave"><i></i><i></i><i></i></span>
           <span class="scan__plate"></span>
           <svg viewBox="4 12 64 48">
-            <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 큰 모자다:
-                 꼭대기는 얼굴 면(반지름 27)보다 크게(31) 둘러 면 밖으로
-                 나오고, 챙은 그보다 더 넓게 가로지른다. 얼굴은 챙 아래로만
-                 보인다 — 쓰고 있는 것이지 머리에 그려 넣은 것이 아니다 -->
+            <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 크고,
+                 동그라미가 아니라 조금 각졌다: 꼭대기는 눌린 듯 평평하고
+                 옆으로 내려오며 꺾여, 챙 바로 위에서 다시 벌어진다.
+                 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
+                 넣은 것이 아니다 -->
             <g class="scan__hat">
-              <path d="M5 34A31 31 0 0 1 67 34Z"/>
+              <path d="M6 33 9 20Q20 7 36 7 52 7 63 20l3 13Z"/>
               <!-- 골 두 줄과 챙 — 이것이 있어야 모자가 아니라 **안전모**로 읽힌다 -->
-              <path class="scan__hat-d" d="M29 6V32M43 6V32"/>
-              <rect class="scan__hat-b" x="4.5" y="31" width="63" height="6" rx="3"/>
+              <path class="scan__hat-d" d="M29 11V31M43 11V31"/>
+              <rect class="scan__hat-b" x="4.5" y="30.5" width="63" height="5.5" rx="2.75"/>
             </g>
             <!-- ① 웃는 사람 -->
             <g class="scan__f">
@@ -802,11 +807,11 @@
 <!-- ===== ⑦ 현장소장 앱 · 카메라 인식 (앱 네이티브) ===== -->
 <section class="scr" data-screen="m-cam" data-title="카메라 인식">
   <div class="cam">
-    <button class="cam__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    <button class="cam__back" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <div class="cam__box"></div>
     <!-- 지금 무엇을 찍는지는 틀 바로 밑에서 말한다 — 촬영 확인에서
          사진과 '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다 -->
-    <span class="cam__go">출근 인증</span>
+    <span class="cam__go"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근 인증하기</span>
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
     <!-- 되돌리는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와
          같은 자리·같은 결이다 -->
@@ -819,11 +824,11 @@
 <!-- ===== ⑧ 현장소장 앱 · 인식 결과 (앱 네이티브) ===== -->
 <section class="scr" data-screen="m-cam-ok" data-title="인식 결과">
   <div class="cam">
-    <button class="cam__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    <button class="cam__back" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <div class="cam__box cam__box--ok"></div>
     <!-- 지금 무엇을 찍는지는 틀 바로 밑에서 말한다 — 촬영 확인에서
          사진과 '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다 -->
-    <span class="cam__go">출근 인증</span>
+    <span class="cam__go"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근 인증하기</span>
     <p class="cam__t cam__t--ok">홍길동님 출근 처리되었습니다.</p>
     <!-- 되돌리는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와
          같은 자리·같은 결이다 -->

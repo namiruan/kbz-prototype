@@ -171,8 +171,9 @@
   --ap-beam-fade:linear-gradient(90deg,transparent 0,#000 22%,#000 78%,transparent 100%);
   --ap-beam-from:4px;   /* 레이저가 떠나는 자리 — 면 위쪽 */
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
-  --ap-hat:#ffc400;                /* 안전모 — 현장의 노랑 */
-  --ap-hat-dark:#dfa300;           /* 그 챙과 골 — 한 단 짙다 */
+  --ap-hat:#4189f3;                /* 안전모 — primary/40. 흰 면보다 짙고
+                                      파란 카드·검은 카드보다 밝아 셋 위에서 다 선다 */
+  --ap-hat-dark:#114797;           /* 그 챙과 골 — primary/70 */
   --ap-scan-rest:rgba(17,90,198,.78); /* 얼굴 — 흰 면 위에 또렷이 앉는 짙은 브랜드 색 */
   --ap-cam-t:88px;                /* 머리말 자리 — 닫기(56~86) 아래, 사각형(24%) 위.
                                       32 짜리 두 줄이 들어가도 사각형에 닿지 않는다 */
@@ -617,8 +618,9 @@ ul,ol{list-style:none}
 }
 /* 안전모는 제 색을 가진다 — 얼굴과 같은 반투명 파랑으로 두니 흰 면이
    비쳐 모자가 아니라 얼굴에 드리운 그늘처럼 보였고, 면 밖으로 나온 자리는
-   파란 카드에 묻혔다. 현장의 노랑이라 흰 면 위에서도 파란 카드 위에서도
-   또렷하다. 챙과 골은 한 단 짙은 노랑이라 껍데기와 갈린다 */
+   파란 카드에 묻혔다. 브랜드 램프에서 가운데(primary/40)를 꽉 채워 쓴다:
+   흰 면보다 짙고, 출근 카드(primary/60)와 퇴근 카드(검정)보다 밝아 셋
+   위에서 모두 선다. 챙과 골은 한 단 짙은 primary/70 이라 껍데기와 갈린다 */
 .scan__hat{fill:var(--ap-hat)}
 .scan__hat-b{fill:var(--ap-hat-dark)}
 .scan__hat-d{fill:none;stroke:var(--ap-hat-dark);stroke-width:2;stroke-linecap:round}
@@ -862,7 +864,13 @@ ul,ol{list-style:none}
 .cam{flex:1;position:relative;display:flex;align-items:center;justify-content:center;
   background:radial-gradient(ellipse at 50% 40%,var(--ap-cam-bg-1) 0%,var(--ap-cam-bg-2) 70%);
   overflow:hidden}
-.cam__x{position:absolute;top:56px;right:var(--ap-p6);color:var(--ap-g0)}
+/* 돌아가는 길 — 닫기(✕)가 아니라 뒤로(←)다. 닫기는 '하던 일을 접는다'고
+   말하는데, 여기서 돌아가는 곳은 바로 앞 화면이다. 내비게이션 바의 뒤로
+   가기와 같은 자리(왼쪽 위)·같은 아이콘 버튼 크기(32)다 */
+.cam__back{position:absolute;top:calc(56px - 4px);left:calc(var(--ap-p6) - 4px);z-index:2;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:4px;border-radius:6px;color:var(--ap-g0)}
+.cam__back .ic{width:24px;height:24px}
 .cam__who{font:var(--t-sub-em);letter-spacing:var(--ls-sub);position:absolute;top:56px;left:var(--ap-p6);padding:4px 10px;border-radius:var(--ap-r-pill);background:var(--ap-scrim-pill);color:var(--ap-g0)}
 .cam__box{position:absolute;left:14%;right:14%;top:24%;height:42%;
   border:3px solid var(--ap-g0);border-radius:28px;box-shadow:0 0 0 999px var(--ap-scrim-cam)}
@@ -871,7 +879,7 @@ ul,ol{list-style:none}
    '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다. 틀과 좌우를 맞춘다 */
 .cam__go{font:var(--t-title2);letter-spacing:var(--ls-title2);
   position:absolute;left:14%;right:14%;top:calc(24% + 42% + var(--ap-p8));
-  height:56px;display:flex;align-items:center;justify-content:center;
+  height:56px;display:flex;align-items:center;justify-content:center;gap:var(--ap-p3);
   background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
 /* 그만두는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와 같다.
    면도 테도 없으니 누를 수 있다는 표는 밑줄이 맡고, 밑줄은 글자에만 긋는다 */
