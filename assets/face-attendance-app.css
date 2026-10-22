@@ -104,6 +104,15 @@
   /* 그 어두운 면 위의 라벨 — 값(흰색)과 한 겹 가른다
      (color/text-inverse-alpha = gray/0 의 65%) */
   --ap-on-dark-sub:rgba(255,255,255,.65);
+  /* 그 패널이 지는 그림자 — 시스템 elevation-tooltip 의 shadow-md 다.
+     지금 바탕이 거의 검정이라 눈에 띄지 않지만, 값을 바꿔 적을 까닭이
+     없어 시스템 것을 그대로 둔다 */
+  --ap-shadow-tip:0 2px 8px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  /* 그 패널의 글 — 13px · 줄높이 1.5 · 자간 0. 시스템 Tooltip 이
+     font-size-sm + line-height-reading + letter-spacing-default 로 적은
+     것이다. 화면의 13px 짝(--t-foot 13/18 · 자간 -.08)과 값이 달라
+     따로 적는다 */
+  --t-tip:400 13px/1.5 var(--ap-font);
   --ap-scrim-confirm:rgba(19,20,22,.84);  /* 촬영 확인 — 뒤 화면은 어디서 왔는지만 알 만큼만 비친다 */
   --ap-shadow-chk:0 1px 3px rgba(19,20,22,.25);
   --ap-shadow-cam-text:0 0 10px rgba(0,0,0,.9);
@@ -1233,12 +1242,16 @@ ul,ol{list-style:none}
    호버가 없고, 이 수는 물어봐야 나오는 설명이 아니라 계속 바뀌는 값이다.
    라벨은 한 겹 죽이고 수만 흰색으로 세운다 — 같은 어두운 면에서 라벨과
    값을 가르는 시스템의 방식이다(text-inverse-alpha ↔ text-inverse) */
-.cam__tip{font:var(--t-foot);letter-spacing:var(--ls-foot);
-  position:absolute;left:50%;transform:translateX(-50%);
+.cam__tip{font:var(--t-tip);letter-spacing:0;
+  position:absolute;left:50%;transform:translateX(-50%);z-index:2;
   bottom:calc(var(--ap-p10) + var(--ap-cam-go-h) + var(--ap-p5));
-  width:max-content;max-width:calc(100% - var(--ap-p6) * 2);
+  width:max-content;max-width:min(300px,calc(100% - var(--ap-p6) * 2));
   padding:4px 8px;border-radius:var(--ap-r8);text-align:center;word-break:keep-all;
-  background:var(--ap-surface-dark);color:var(--ap-on-dark-sub)}
+  background:var(--ap-surface-dark);color:var(--ap-on-dark-sub);
+  box-shadow:var(--ap-shadow-tip)}
+/* 시스템은 라벨과 값을 **색으로만** 가른다. 여기서는 굵기도 한 단
+   올린다 — 장갑 낀 손으로 흘끗 보는 수라, 13px 흰색 한 겹만으로는
+   라벨 사이에서 바로 집히지 않는다 */
 .cam__tip b{font-weight:600;color:var(--ap-g0)}
 /* 그만두는 쪽은 그 **위**에, 글자만으로 — 면도 테도 없으니 누를 수 있다는
    표는 밑줄이 맡고, 밑줄은 글자에만 긋는다.
