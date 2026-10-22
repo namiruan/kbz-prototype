@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=141">
-<script src="assets/face-attendance-app.js?v=141" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=142">
+<script src="assets/face-attendance-app.js?v=142" defer></script>
 </head>
 
 <body>
@@ -658,30 +658,30 @@
           <span class="wave"><i></i><i></i><i></i></span>
           <span class="scan__plate"></span>
           <svg viewBox="4 12 64 48">
-            <!-- 안전모 — 얼굴 **윗동을 덮는다**. 꼭대기는 얼굴 면과 같은
-                 동그라미(가운데 36,36 · 반지름 27)를 따라가 모자가 머리에
-                 얹힌 것이 아니라 머리를 감싼 것으로 보인다. 챙은 면보다
-                 좌우로 조금 더 나온다 -->
+            <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 큰 모자다:
+                 꼭대기는 얼굴 면(반지름 27)보다 크게(31) 둘러 면 밖으로
+                 나오고, 챙은 그보다 더 넓게 가로지른다. 얼굴은 챙 아래로만
+                 보인다 — 쓰고 있는 것이지 머리에 그려 넣은 것이 아니다 -->
             <g class="scan__hat">
-              <path d="M9.1 34A27 27 0 0 1 62.9 34Z"/>
-              <rect x="6" y="32" width="60" height="5" rx="2.5"/>
+              <path d="M5 34A31 31 0 0 1 67 34Z"/>
+              <rect x="4.5" y="32" width="63" height="5.5" rx="2.75"/>
             </g>
             <!-- ① 웃는 사람 -->
             <g class="scan__f">
-              <circle cx="27" cy="42" r="3.2"/><circle cx="45" cy="42" r="3.2"/>
-              <path class="scan__smile" d="M28 50C31.5 54.5 40.5 54.5 44 50"/>
+              <circle cx="27" cy="45" r="3.2"/><circle cx="45" cy="45" r="3.2"/>
+              <path class="scan__smile" d="M28 53C31.5 57.5 40.5 57.5 44 53"/>
             </g>
             <!-- ② 턱수염 — 입은 다물었다 -->
             <g class="scan__f scan__f--b">
-              <circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/>
-              <path class="scan__smile" d="M31.5 51H40.5"/>
-              <path class="scan__smile" d="M27 48.5C27 59 45 59 45 48.5"/>
+              <circle cx="27" cy="44" r="3.2"/><circle cx="45" cy="44" r="3.2"/>
+              <path class="scan__smile" d="M31.5 53.5H40.5"/>
+              <path class="scan__smile" d="M27 51C27 61 45 61 45 51"/>
             </g>
             <!-- ③ 안경 -->
             <g class="scan__f scan__f--c">
-              <path class="scan__gl" d="M22 42a5 5 0 1 0 10 0 5 5 0 1 0-10 0M40 42a5 5 0 1 0 10 0 5 5 0 1 0-10 0M32 42h8"/>
-              <circle cx="27" cy="42" r="2"/><circle cx="45" cy="42" r="2"/>
-              <path class="scan__smile" d="M29 51C32 54.5 40 54.5 43 51"/>
+              <path class="scan__gl" d="M22 45a5 5 0 1 0 10 0 5 5 0 1 0-10 0M40 45a5 5 0 1 0 10 0 5 5 0 1 0-10 0M32 45h8"/>
+              <circle cx="27" cy="45" r="2"/><circle cx="45" cy="45" r="2"/>
+              <path class="scan__smile" d="M29 54C32 57.5 40 57.5 43 54"/>
             </g>
           </svg>
           <span class="scan__beam"></span>
@@ -745,30 +745,30 @@
           <span class="wave"><i></i><i></i><i></i></span>
           <span class="scan__plate"></span>
           <svg viewBox="4 12 64 48">
-            <!-- 안전모 — 얼굴 **윗동을 덮는다**. 꼭대기는 얼굴 면과 같은
-                 동그라미(가운데 36,36 · 반지름 27)를 따라가 모자가 머리에
-                 얹힌 것이 아니라 머리를 감싼 것으로 보인다. 챙은 면보다
-                 좌우로 조금 더 나온다 -->
+            <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 큰 모자다:
+                 꼭대기는 얼굴 면(반지름 27)보다 크게(31) 둘러 면 밖으로
+                 나오고, 챙은 그보다 더 넓게 가로지른다. 얼굴은 챙 아래로만
+                 보인다 — 쓰고 있는 것이지 머리에 그려 넣은 것이 아니다 -->
             <g class="scan__hat">
-              <path d="M9.1 34A27 27 0 0 1 62.9 34Z"/>
-              <rect x="6" y="32" width="60" height="5" rx="2.5"/>
+              <path d="M5 34A31 31 0 0 1 67 34Z"/>
+              <rect x="4.5" y="32" width="63" height="5.5" rx="2.75"/>
             </g>
             <!-- ① 웃는 사람 -->
             <g class="scan__f">
-              <circle cx="27" cy="42" r="3.2"/><circle cx="45" cy="42" r="3.2"/>
-              <path class="scan__smile" d="M28 50C31.5 54.5 40.5 54.5 44 50"/>
+              <circle cx="27" cy="45" r="3.2"/><circle cx="45" cy="45" r="3.2"/>
+              <path class="scan__smile" d="M28 53C31.5 57.5 40.5 57.5 44 53"/>
             </g>
             <!-- ② 턱수염 — 입은 다물었다 -->
             <g class="scan__f scan__f--b">
-              <circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/>
-              <path class="scan__smile" d="M31.5 51H40.5"/>
-              <path class="scan__smile" d="M27 48.5C27 59 45 59 45 48.5"/>
+              <circle cx="27" cy="44" r="3.2"/><circle cx="45" cy="44" r="3.2"/>
+              <path class="scan__smile" d="M31.5 53.5H40.5"/>
+              <path class="scan__smile" d="M27 51C27 61 45 61 45 51"/>
             </g>
             <!-- ③ 안경 -->
             <g class="scan__f scan__f--c">
-              <path class="scan__gl" d="M22 42a5 5 0 1 0 10 0 5 5 0 1 0-10 0M40 42a5 5 0 1 0 10 0 5 5 0 1 0-10 0M32 42h8"/>
-              <circle cx="27" cy="42" r="2"/><circle cx="45" cy="42" r="2"/>
-              <path class="scan__smile" d="M29 51C32 54.5 40 54.5 43 51"/>
+              <path class="scan__gl" d="M22 45a5 5 0 1 0 10 0 5 5 0 1 0-10 0M40 45a5 5 0 1 0 10 0 5 5 0 1 0-10 0M32 45h8"/>
+              <circle cx="27" cy="45" r="2"/><circle cx="45" cy="45" r="2"/>
+              <path class="scan__smile" d="M29 54C32 57.5 40 57.5 43 54"/>
             </g>
           </svg>
           <span class="scan__beam"></span>
