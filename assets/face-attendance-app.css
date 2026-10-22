@@ -551,6 +551,12 @@ ul,ol{list-style:none}
 .alert__bt .yes{background:var(--ap-primary);color:var(--ap-g0)}
 
 /* 알림창이 뜬 화면의 뒤쪽 */
+/* 적어 넣는 화면은 흰 바탕이다 — 시안 '근로자현황 (현장근로자 / 신규추가-기본)'
+   (486:4990) 이 흰색이다. 목록 쪽은 그대로 primary/5 다(460:3120 에서 잰
+   목록 바탕이 #eef4fc). 카드가 바탕에서 떠 보여야 하는 목록과 달리, 폼은
+   칸 자체가 테로 서 있어 바탕까지 깔면 칸이 두 겹으로 보인다 */
+.scr--form.is-on{background:var(--ap-g0)}
+
 .scr.is-on.has-dim{position:relative}
 
 /* ── 태블릿(md) — 700px 부터 ────────────────────────────────
