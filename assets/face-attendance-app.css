@@ -179,10 +179,13 @@
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
   --ap-hat-groove:rgba(255,255,255,.18); /* 안전모의 파인 홈 — 어두운 모자 위라
                                       흰 기를 옅게 섞어 판다 */
-  --ap-hat:#1b3d6d;                /* 안전모 — 짙은 남색 한 겹. 흰 얼굴과 갈리고,
-                                      파란 카드·검은 카드 어느 쪽에서도 가라앉지 않는다 */
-  --ap-hat-dark:#122c52;           /* 그 챙 — 껍데기보다 한 단만 짙다.
+  /* 안전모 — 파란 카드(#115ac6)와 검은 카드(#131416) 사이, 양쪽 어느 쪽과도
+     한 걸음씩 떨어진 남색이다. 한쪽에 맞추면 다른 쪽에서 가라앉는다 */
+  --ap-hat:#21497f;
+  --ap-hat-dark:#16325c;           /* 그 챙 — 껍데기보다 한 단만 짙다.
                                       두 단 벌어지면 챙이 따로 논다 */
+  --ap-hat-edge:#4b82c4;           /* 모자의 테 — 검은 카드 위에서 모자가
+                                      바탕에 묻히지 않게 긋는 한 올이다 */
   /* 얼굴 — 흰 면 위에 또렷이 앉는 브랜드 색. 반투명을 쓰지 않는다:
      수염·머리카락처럼 **면**으로 둔 것이 비쳐 흐려진다 */
   --ap-scan-rest:#457ed2;
@@ -659,8 +662,9 @@ ul,ol{list-style:none}
    촌스러웠다 — 납작한 그림의 결은 면 하나에서 나온다. 입체는 챙이
    맡는다: 한 단 짙은 색으로 껍데기와 갈리고, 얼굴에 그림자를 드리운다.
    골은 밝은 선이 아니라 **파인 홈**이라야 입체로 읽힌다 */
-.scan__hat-r,.scan__hat-s{fill:var(--ap-hat)}
-.scan__hat-b{fill:var(--ap-hat-dark);filter:drop-shadow(0 2.5px 2px rgba(10,24,48,.45))}
+.scan__hat-r,.scan__hat-s{fill:var(--ap-hat);stroke:var(--ap-hat-edge);stroke-width:1.2}
+.scan__hat-b{fill:var(--ap-hat-dark);stroke:var(--ap-hat-edge);stroke-width:1.2;
+  filter:drop-shadow(0 2.5px 2px rgba(10,24,48,.45))}
 .scan__hat-d{stroke:var(--ap-hat-groove);stroke-width:1.8}
 .scan__hat{fill:var(--ap-hat)}
 .scan__hat-d{fill:none;stroke-width:2;stroke-linecap:round}
