@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=46">
-<script src="assets/face-attendance-app.js?v=46" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=47">
+<script src="assets/face-attendance-app.js?v=47" defer></script>
 </head>
 
 <body>
@@ -359,12 +359,13 @@
   <main class="body">
     <div class="shot">
       <button class="shot__box" type="button">
-        <!-- 가운데에서 바깥으로 번져 나가는 파장. 셋이 1초 간격으로 떠난다 -->
-        <span class="wave" aria-hidden="true"><i></i><i></i><i></i></span>
         <!-- 얼굴을 훑는 그림 — 스프라이트의 아이콘이 아니라 이 자리에서만 쓰는
              그림이다. 시스템에 얼굴 아이콘이 없다(사람은 icon-employee 뿐이고
              그것은 메뉴 아이콘이다). 움직임은 assets 쪽에 있다 -->
         <span class="scan" aria-hidden="true">
+          <!-- 파장은 그림 안에 둔다 — 아이콘이 동그라미 한가운데에 서야 한다.
+               셋이 1초 간격으로 떠난다 -->
+          <span class="wave"><i></i><i></i><i></i></span>
           <svg viewBox="0 0 72 72">
             <g class="scan__face">
               <circle cx="36" cy="31" r="8"/>
@@ -438,12 +439,13 @@
   <main class="body">
     <div class="shot">
       <button class="shot__box" type="button">
-        <!-- 가운데에서 바깥으로 번져 나가는 파장. 셋이 1초 간격으로 떠난다 -->
-        <span class="wave" aria-hidden="true"><i></i><i></i><i></i></span>
         <!-- 얼굴을 훑는 그림 — 스프라이트의 아이콘이 아니라 이 자리에서만 쓰는
              그림이다. 시스템에 얼굴 아이콘이 없다(사람은 icon-employee 뿐이고
              그것은 메뉴 아이콘이다). 움직임은 assets 쪽에 있다 -->
         <span class="scan" aria-hidden="true">
+          <!-- 파장은 그림 안에 둔다 — 아이콘이 동그라미 한가운데에 서야 한다.
+               셋이 1초 간격으로 떠난다 -->
+          <span class="wave"><i></i><i></i><i></i></span>
           <svg viewBox="0 0 72 72">
             <g class="scan__face">
               <circle cx="36" cy="31" r="8"/>
