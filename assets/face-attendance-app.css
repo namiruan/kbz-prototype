@@ -172,6 +172,7 @@
   --ap-step-w:50px;                /* 단가 ＋·－ 의 최소 폭 — 시안 min-width */
   --ap-tog-yes:36px;  --ap-tog-no:66px;  /* 예·아니오 알의 폭 — 정수로 떨어뜨린다 */
   --ap-confirm-w:320px;            /* 촬영 확인 카드의 폭 */
+  --ap-cta-w:352px;                /* 인증 시작 과녁 — 설명 한 줄이 접히지 않는 폭 */
   --ap-sel-w:110px;                /* select-atomic 의 기본 폭 — 글자가 짧아도 이만큼은 둔다 */
   --ap-form-w:560px;               /* 폼·상세가 가운데로 모이는 폭 */
   --ap-photo-w:320px;  --ap-photo-h:300px;      /* 이력 사진 */
@@ -527,25 +528,23 @@ ul,ol{list-style:none}
    카드만 한 과녁으로 세운다. 아이콘과 글이 세로로 선다.
    출근과 퇴근은 색으로 가른다 — 시안에 주황이 없어, 시안이 강한 둘째
    동작에 쓰는 검정을 퇴근에 준다 */
-.cta{width:100%;max-width:var(--ap-confirm-w);min-height:260px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
+.cta{width:100%;max-width:var(--ap-cta-w);min-height:260px;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
   gap:var(--ap-p5);padding:var(--ap-p9) var(--ap-p8);
   border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-card);
-  background:var(--ap-primary);color:var(--ap-g0);text-align:center}
+  background:var(--ap-primary);color:var(--ap-g0);text-align:left}
 .cta--out{background:var(--ap-g95)}
 .cta__t{font:var(--t-title2);letter-spacing:var(--ls-title2)}
 /* 설명은 이름 바로 밑에 붙는다 — 아이콘과 띄운 만큼(12) 떼어 놓으면
    따로 노는 줄이 된다. 색은 한 겹 죽여 이름이 먼저 읽히게 한다 */
-/* 한 문장이 한 줄이다. 17 로 두면 둘째 문장이 320 짜리 카드 안에서 접혀
-   세 줄이 되므로 15 로 내린다 — 설명은 이름보다 작아도 된다.
-   줄은 낱말에서 끊는다(keep-all) — 그러지 않으면 '인식 / 합니다' 처럼
-   한 낱말이 두 줄에 걸린다 */
-.cta__d{font:var(--t-sub);letter-spacing:var(--ls-sub);word-break:keep-all;
+/* 한 문장이 한 줄이다(17). 320 안에서는 둘째 문장이 접혀 352 로 넓혔다 —
+   줄은 낱말에서 끊는다(keep-all)지만, 애초에 접히지 않는 것이 낫다.
+   이름 아래·두 줄 사이에 선을 긋는다 — 이어 읽는 한 문단이 아니라 따로
+   읽는 것들이다. 선은 글자보다 한참 옅다(글이 아니라 가르는 자리다) */
+.cta__d{font:var(--t-body);letter-spacing:var(--ls-body);word-break:keep-all;
   display:flex;flex-direction:column;align-self:stretch;
-  margin-top:calc(var(--ap-p5) * -1 + var(--ap-p3));color:var(--ap-on-cta-sub)}
-/* 한 줄과 한 줄 사이에 선을 긋는다 — 이어 읽는 한 문단이 아니라 따로
-   읽는 두 가지다. 선은 글자보다 한참 옅다(글이 아니라 가르는 자리다) */
-.cta__d > span{padding:var(--ap-p3) 0}
+  border-top:1px solid var(--ap-on-cta-line);color:var(--ap-on-cta-sub)}
+.cta__d > span{padding:var(--ap-p4) 0}
 .cta__d > span + span{border-top:1px solid var(--ap-on-cta-line)}
 .big{font:var(--t-title2);letter-spacing:var(--ls-title2);display:inline-flex;align-items:center;gap:15px;padding:var(--ap-p6) var(--ap-p8);background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
 .big--dark{background:var(--ap-g95)}
