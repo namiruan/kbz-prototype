@@ -548,6 +548,8 @@ ul,ol{list-style:none}
 .scan svg{position:relative;z-index:1}
 .scan svg{display:block;width:100%;height:100%;overflow:visible}
 .scan__face{fill:var(--ap-scan-rest)}
+/* 웃음은 채우는 것이 아니라 긋는 것이다 — 눈과 같은 색, 끝은 둥글게 */
+.scan__smile{fill:none;stroke:var(--ap-scan-rest);stroke-width:4;stroke-linecap:round}
 /* 훑는 줄은 멈춰 있을 때 보이지 않는다 — 움직임이 꺼진 기기에서 줄만 남으면
    얼굴에 선을 그어 둔 그림이 된다 */
 .scan__line{fill:var(--ap-primary);opacity:0}
