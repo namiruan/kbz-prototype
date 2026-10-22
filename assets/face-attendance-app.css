@@ -172,7 +172,8 @@
   --ap-beam-from:4px;   /* 레이저가 떠나는 자리 — 면 위쪽 */
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
   --ap-scan-rest:rgba(17,90,198,.78); /* 얼굴 — 흰 면 위에 또렷이 앉는 짙은 브랜드 색 */
-  --ap-cam-t:112px;                /* 머리말 자리 — 닫기(56~86) 아래, 사각형(24%) 위 */
+  --ap-cam-t:88px;                /* 머리말 자리 — 닫기(56~86) 아래, 사각형(24%) 위.
+                                      32 짜리 두 줄이 들어가도 사각형에 닿지 않는다 */
   --ap-on-cta-sub:rgba(255,255,255,.78); /* 과녁 안의 설명 — 이름보다 한 겹 죽인다 */
   --ap-on-cta-line:rgba(255,255,255,.28); /* 그 설명을 한 줄씩 가르는 선 */
   --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
@@ -825,7 +826,7 @@ ul,ol{list-style:none}
    가이드 사각형 아래에 두면 눈이 사각형을 지나 아래까지 내려가야 읽힌다.
    그늘은 남긴다 — 뒤가 살아 움직이는 카메라 그림이라 흰 글씨만으로는
    밝은 바탕에서 지워진다 */
-.cam__t{font:var(--t-title2);letter-spacing:var(--ls-title2);
+.cam__t{font:var(--t-cta);word-break:keep-all;
   position:absolute;left:0;right:0;top:var(--ap-cam-t);
   padding:0 var(--ap-p8);text-align:center;color:var(--ap-g0);
   text-shadow:var(--ap-shadow-cam-text)}
@@ -851,9 +852,10 @@ ul,ol{list-style:none}
   background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   display:flex;align-items:center;justify-content:center;color:var(--ap-on-photo)}
 .confirm__pic .ic{width:96px;height:96px}
-/* 카드 위에 서는 머리말 — 막 위라 흰 글씨고, 카드 폭에 매이지 않으므로
-   제 크기(22)로 선다. 카드와는 한 칸(20) 띄운다 */
-.confirm__t{font:var(--t-title2);letter-spacing:var(--ls-title2);
+/* 카드 위에 서는 머리말 — 막 위라 흰 글씨다. 크기는 인증 시작 과녁의
+   이름과 같다(32/40): 둘 다 그 화면에서 묻거나 시키는 가장 큰 글이다.
+   카드와는 한 칸(20) 띄우고, 줄은 낱말에서 끊는다 */
+.confirm__t{font:var(--t-cta);word-break:keep-all;
   margin-bottom:var(--ap-gap6);text-align:center;color:var(--ap-g0)}
 /* 글자는 앱의 주된 동작 버튼(하단 바)과 같은 크기다 — 같은 무게의 동작이
    카드 안에 들어왔다고 작아질 까닭이 없다 */
