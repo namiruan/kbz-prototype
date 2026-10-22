@@ -13,14 +13,17 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=41">
-<script src="assets/face-attendance-app.js?v=41" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=42">
+<script src="assets/face-attendance-app.js?v=42" defer></script>
 </head>
 
 <body>
 
 <!-- ⚠ 시스템에 없어 다르게 둔 아이콘 — 디자이너에게 요청할 것
      · QR 코드: 아이콘이 없어 icon-camera 로 자리만 잡았다
+     · 얼굴 촬영 자리의 '얼굴을 훑는 그림': 시스템에 얼굴이 없다(사람은
+       icon-employee 뿐이고 그것은 메뉴 아이콘이다). 이 자리에서만 쓰는
+       그림으로 직접 그렸다 — 로티를 받게 되면 그걸로 갈아 끼운다
      뒤로 가기는 2026-10-21 에 시안의 화살표(←)가 icon-back 으로 들어와
      꺾쇠(‹) 자리표시를 걷었다
      ================================================================ -->
@@ -356,7 +359,24 @@
   <main class="body">
     <div class="shot">
       <button class="shot__box" type="button">
-        <svg class="ic ic--56" aria-hidden="true"><use href="#icon-camera"></use></svg>
+        <!-- 얼굴을 훑는 그림 — 스프라이트의 아이콘이 아니라 이 자리에서만 쓰는
+             그림이다. 시스템에 얼굴 아이콘이 없다(사람은 icon-employee 뿐이고
+             그것은 메뉴 아이콘이다). 움직임은 assets 쪽에 있다 -->
+        <span class="scan" aria-hidden="true">
+          <svg viewBox="0 0 72 72">
+            <g class="scan__face">
+              <circle cx="36" cy="31" r="8"/>
+              <path d="M24 50a12 12 0 0 1 24 0z"/>
+            </g>
+            <g class="scan__frame">
+              <path d="M15 27V20a5 5 0 0 1 5-5h7"/>
+              <path d="M45 15h7a5 5 0 0 1 5 5v7"/>
+              <path d="M57 45v7a5 5 0 0 1-5 5h-7"/>
+              <path d="M27 57h-7a5 5 0 0 1-5-5v-7"/>
+            </g>
+            <rect class="scan__line" x="17" y="0" width="38" height="2.5" rx="1.25"/>
+          </svg>
+        </span>
         <b class="shot__t">얼굴 촬영</b>
         <span class="shot__hint">사진을 터치해 얼굴을 촬영해주세요.</span>
       </button>
@@ -416,7 +436,24 @@
   <main class="body">
     <div class="shot">
       <button class="shot__box" type="button">
-        <svg class="ic ic--56" aria-hidden="true"><use href="#icon-camera"></use></svg>
+        <!-- 얼굴을 훑는 그림 — 스프라이트의 아이콘이 아니라 이 자리에서만 쓰는
+             그림이다. 시스템에 얼굴 아이콘이 없다(사람은 icon-employee 뿐이고
+             그것은 메뉴 아이콘이다). 움직임은 assets 쪽에 있다 -->
+        <span class="scan" aria-hidden="true">
+          <svg viewBox="0 0 72 72">
+            <g class="scan__face">
+              <circle cx="36" cy="31" r="8"/>
+              <path d="M24 50a12 12 0 0 1 24 0z"/>
+            </g>
+            <g class="scan__frame">
+              <path d="M15 27V20a5 5 0 0 1 5-5h7"/>
+              <path d="M45 15h7a5 5 0 0 1 5 5v7"/>
+              <path d="M57 45v7a5 5 0 0 1-5 5h-7"/>
+              <path d="M27 57h-7a5 5 0 0 1-5-5v-7"/>
+            </g>
+            <rect class="scan__line" x="17" y="0" width="38" height="2.5" rx="1.25"/>
+          </svg>
+        </span>
         <b class="shot__t">얼굴 촬영</b>
         <span class="shot__hint">사진을 터치해 얼굴을 촬영해주세요.</span>
       </button>
