@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=73">
-<script src="assets/face-attendance-app.js?v=73" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=74">
+<script src="assets/face-attendance-app.js?v=74" defer></script>
 </head>
 
 <body>
@@ -585,7 +585,9 @@
        뜻하는 빨강이 없어, 되돌릴 수 없는 쪽을 검정으로 세운다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--dark" type="button">삭제</button>
-    <button class="act__b act__b--on" type="button">저장</button>
+    <!-- 고친 데가 없으면 저장할 것도 없다. 열자마자 켜져 있으면 눌러야 하는지를
+         매번 가늠하게 된다 — 지우는 쪽은 고친 것과 상관없으므로 늘 켜져 있다 -->
+    <button class="act__b act__b--off" type="button" disabled aria-disabled="true">저장</button>
   </div>
 </section>
 
