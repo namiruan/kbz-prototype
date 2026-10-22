@@ -456,9 +456,6 @@ ul,ol{list-style:none}
    칸과 칸 20 · 라벨과 칸 4 · 라벨은 17/22 semibold 에 gray/60,
    칸은 테 1px gray-subtler · 모서리 4 · 안쪽 여백 16/12 · 글자 17/22 regular */
 .form{display:flex;flex-direction:column;gap:var(--ap-gap6)}
-/* 폼 맨 아래에 남기는 한 줄 — 읽기만 하는 날짜다 */
-.stamp{font:var(--t-foot);letter-spacing:var(--ls-foot);margin-top:var(--ap-p8);
-  text-align:center;color:var(--ap-text-gray)}
 .fld{display:flex;flex-direction:column;gap:var(--ap-p2)}
 /* 값이 둘뿐이라 고르는 자리가 좁다 — 이름과 한 줄에 둔다. 시안의
    '고용안정직업능력 · 고용보험공제' 줄과 같은 꼴이다 */
