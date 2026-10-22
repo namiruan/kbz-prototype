@@ -96,7 +96,7 @@
      팔레트 색이 아니라 '보인다/안 보인다' 를 적는 값이라 검정·투명 그대로 둔다.
      띠 높이는 현장과 목록 사이 틈과 같은 값 하나로 잡는다 — 멈춰 있을 때는
      빈 틈만 덮어 아무것도 옅어지지 않고, 밀어 올릴 때만 그 틈에서 사라진다 */
-  --ap-fade-h:var(--ap-p8);
+  --ap-fade-h:var(--ap-p10);
   --ap-fade-top:linear-gradient(to bottom,transparent 0,#000 var(--ap-fade-h));
 
   /* ── 틈 — 시안 gap/3. 여백(padding/*)에는 8 이 없다 ── */
@@ -325,7 +325,10 @@ ul,ol{list-style:none}
    줄임표가 되므로 한 줄에 하나씩 둔다 */
 .card--photo .card__kv{flex:1 0 100%}
 
-/* 얼굴 사진 — 등록된 얼굴이 있는 근로자 */
+/* 얼굴 사진 — 등록된 얼굴이 있는 근로자.
+   `--none` 은 얼굴을 등록하지 않은 자리, 곧 **빈 상태**다. 시스템의 EmptyState
+   (제목과 액션을 갖춘 컨테이너, organisms/empty-state.md)가 아니라 카드 한 칸의
+   빈 자리라, 면과 실루엣만으로 적는다 */
 .face{width:44px;height:44px;flex:none;border-radius:var(--ap-r8);
   background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   display:flex;align-items:center;justify-content:center}
