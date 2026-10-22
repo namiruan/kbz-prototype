@@ -163,6 +163,7 @@
   --ap-scan-rest:rgba(17,90,198,.78); /* 얼굴 — 흰 면 위에 또렷이 앉는 짙은 브랜드 색 */
   --ap-cam-t:112px;                /* 머리말 자리 — 닫기(56~86) 아래, 사각형(24%) 위 */
   --ap-on-cta-sub:rgba(255,255,255,.78); /* 과녁 안의 설명 — 이름보다 한 겹 죽인다 */
+  --ap-on-cta-line:rgba(255,255,255,.28); /* 그 설명을 한 줄씩 가르는 선 */
   --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
 
   /* ── 모서리 ── */
@@ -540,7 +541,12 @@ ul,ol{list-style:none}
    줄은 낱말에서 끊는다(keep-all) — 그러지 않으면 '인식 / 합니다' 처럼
    한 낱말이 두 줄에 걸린다 */
 .cta__d{font:var(--t-sub);letter-spacing:var(--ls-sub);word-break:keep-all;
+  display:flex;flex-direction:column;align-self:stretch;
   margin-top:calc(var(--ap-p5) * -1 + var(--ap-p3));color:var(--ap-on-cta-sub)}
+/* 한 줄과 한 줄 사이에 선을 긋는다 — 이어 읽는 한 문단이 아니라 따로
+   읽는 두 가지다. 선은 글자보다 한참 옅다(글이 아니라 가르는 자리다) */
+.cta__d > span{padding:var(--ap-p3) 0}
+.cta__d > span + span{border-top:1px solid var(--ap-on-cta-line)}
 .big{font:var(--t-title2);letter-spacing:var(--ls-title2);display:inline-flex;align-items:center;gap:15px;padding:var(--ap-p6) var(--ap-p8);background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
 .big--dark{background:var(--ap-g95)}
 
