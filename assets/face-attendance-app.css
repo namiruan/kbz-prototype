@@ -626,6 +626,13 @@ ul,ol{list-style:none}
   33.34%{transform:scale(.93,1.05)}
   66.67%{transform:scale(1.07,.95)}
 }
+/* 입체는 그라데이션이 맡는다 — 꼭대기가 밝고 아래로 가며 어두워진다.
+   덧댄 광택 선으로는 모자가 아니라 모자 위에 그은 줄로 보인다.
+   골은 밝은 선이 아니라 **파인 홈**이라야 입체로 읽히고, 챙은 제
+   그라데이션을 따로 쓰며 얼굴에 그림자를 드리운다 */
+.scan__hat-r,.scan__hat-s{fill:url(#hatShade)}
+.scan__hat-b{fill:url(#brimShade);filter:drop-shadow(0 2.5px 2px rgba(17,53,105,.35))}
+.scan__hat-d{stroke:rgba(17,53,105,.22)}
 /* 안전모는 제 색을 가진다 — 얼굴과 같은 반투명 파랑으로 두니 흰 면이
    비쳐 모자가 아니라 얼굴에 드리운 그늘처럼 보였고, 면 밖으로 나온 자리는
    파란 카드에 묻혔다. 브랜드 램프의 연한 쪽(primary/30)을 꽉 채워 쓴다:
@@ -634,8 +641,7 @@ ul,ol{list-style:none}
    하되 한 모자로 보일 만큼만 다르고, 카드 색(primary/60)보다는 밝아 면
    밖으로 나온 챙 끝도 묻히지 않는다 */
 .scan__hat{fill:var(--ap-hat)}
-.scan__hat-b{fill:var(--ap-hat-dark)}
-.scan__hat-d{fill:none;stroke:var(--ap-hat-dark);stroke-width:2;stroke-linecap:round}
+.scan__hat-d{fill:none;stroke-width:2;stroke-linecap:round}
 .scan__f{fill:var(--ap-scan-rest);opacity:0;
   animation:ap-face calc(var(--ap-scan-time) * 3) steps(1) infinite}
 .scan__f--b{animation-delay:var(--ap-scan-time)}

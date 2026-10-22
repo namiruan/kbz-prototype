@@ -13,11 +13,28 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=158">
-<script src="assets/face-attendance-app.js?v=158" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=159">
+<script src="assets/face-attendance-app.js?v=159" defer></script>
 </head>
 
 <body>
+
+<!-- 안전모의 입체를 맡는 그라데이션. 화면 바깥에 한 벌만 둔다 —
+     화면 안에 두면 같은 id 가 둘이 되고, 켜지 않은 화면이 지워질 때
+     살아남은 쪽이 지워진 쪽을 가리키게 된다 -->
+<svg aria-hidden="true" style="position:absolute;width:0;height:0">
+  <defs>
+    <linearGradient id="hatShade" x1="0" y1="0" x2=".3" y2="1">
+      <stop offset="0" stop-color="#c3d8f7"/>
+      <stop offset=".5" stop-color="#8cb5f3"/>
+      <stop offset="1" stop-color="#5f98ef"/>
+    </linearGradient>
+    <linearGradient id="brimShade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5a9bf5"/>
+      <stop offset="1" stop-color="#2f6fd4"/>
+    </linearGradient>
+  </defs>
+</svg>
 
 <!-- ⚠ 시스템에 없어 다르게 둔 아이콘 — 디자이너에게 요청할 것
      · QR 코드: 아이콘이 없어 icon-camera 로 자리만 잡았다
@@ -678,24 +695,25 @@
               <path class="scan__hat-d" d="M28 4V27M44 4V27"/>
               <rect class="scan__hat-b" x="1.5" y="26" width="69" height="6" rx="3"/>
             </g>
-            <!-- ① 구레나룻 — 챙 아래로 머리카락이 비어져 나온다 -->
+            <!-- 사람을 가르는 것은 **표정과 얼굴 생김**뿐이다. 수염·머리카락
+                 처럼 자유곡선이 드는 것은 두지 않는다 — 이 크기에서 손으로
+                 그리면 덩어리로 뭉개져, 단순한 그림의 깔끔함을 잃는다.
+                 그런 특징이 필요해지면 디자이너의 그림(로티)으로 갈아 끼운다 -->
+            <!-- ① 웃는 얼굴 -->
             <g class="scan__f">
-              <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
-              <path class="scan__smile" d="M28 47C31.5 51.5 40.5 51.5 44 47"/>
-              <path class="scan__smile" d="M13.5 34C12.5 38 13 41 14.5 43"/>
-              <path class="scan__smile" d="M58.5 34C59.5 38 59 41 57.5 43"/>
+              <circle cx="27" cy="40" r="3"/><circle cx="45" cy="40" r="3"/>
+              <path class="scan__smile" d="M28 49c2.5 4.5 13.5 4.5 16 0"/>
             </g>
-            <!-- ② 턱수염 — 입은 다물었다 -->
+            <!-- ② 다문 입 · 볼에 점 -->
             <g class="scan__f scan__f--b">
-              <circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/>
-              <path class="scan__smile" d="M31.5 48H40.5"/>
-              <path class="scan__smile" d="M27 45.5C27 55.5 45 55.5 45 45.5"/>
+              <circle cx="27" cy="40" r="3"/><circle cx="45" cy="40" r="3"/>
+              <path class="scan__smile" d="M31 50h10"/>
+              <circle cx="51.5" cy="45" r="2"/>
             </g>
-            <!-- ③ 점 — 오른쪽 볼에 하나 -->
+            <!-- ③ 눈웃음 — 눈이 반달이다 -->
             <g class="scan__f scan__f--c">
-              <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
-              <path class="scan__smile" d="M29 48C32 51.5 40 51.5 43 48"/>
-              <circle cx="50" cy="46" r="1.8"/>
+              <path class="scan__smile" d="M23.5 41c1.5-3 5.5-3 7 0M41.5 41c1.5-3 5.5-3 7 0"/>
+              <path class="scan__smile" d="M28 48c2.5 4.5 13.5 4.5 16 0"/>
             </g>
           </svg>
           <span class="scan__beam"></span>
@@ -776,24 +794,25 @@
               <path class="scan__hat-d" d="M28 4V27M44 4V27"/>
               <rect class="scan__hat-b" x="1.5" y="26" width="69" height="6" rx="3"/>
             </g>
-            <!-- ① 구레나룻 — 챙 아래로 머리카락이 비어져 나온다 -->
+            <!-- 사람을 가르는 것은 **표정과 얼굴 생김**뿐이다. 수염·머리카락
+                 처럼 자유곡선이 드는 것은 두지 않는다 — 이 크기에서 손으로
+                 그리면 덩어리로 뭉개져, 단순한 그림의 깔끔함을 잃는다.
+                 그런 특징이 필요해지면 디자이너의 그림(로티)으로 갈아 끼운다 -->
+            <!-- ① 웃는 얼굴 -->
             <g class="scan__f">
-              <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
-              <path class="scan__smile" d="M28 47C31.5 51.5 40.5 51.5 44 47"/>
-              <path class="scan__smile" d="M13.5 34C12.5 38 13 41 14.5 43"/>
-              <path class="scan__smile" d="M58.5 34C59.5 38 59 41 57.5 43"/>
+              <circle cx="27" cy="40" r="3"/><circle cx="45" cy="40" r="3"/>
+              <path class="scan__smile" d="M28 49c2.5 4.5 13.5 4.5 16 0"/>
             </g>
-            <!-- ② 턱수염 — 입은 다물었다 -->
+            <!-- ② 다문 입 · 볼에 점 -->
             <g class="scan__f scan__f--b">
-              <circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/>
-              <path class="scan__smile" d="M31.5 48H40.5"/>
-              <path class="scan__smile" d="M27 45.5C27 55.5 45 55.5 45 45.5"/>
+              <circle cx="27" cy="40" r="3"/><circle cx="45" cy="40" r="3"/>
+              <path class="scan__smile" d="M31 50h10"/>
+              <circle cx="51.5" cy="45" r="2"/>
             </g>
-            <!-- ③ 점 — 오른쪽 볼에 하나 -->
+            <!-- ③ 눈웃음 — 눈이 반달이다 -->
             <g class="scan__f scan__f--c">
-              <circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/>
-              <path class="scan__smile" d="M29 48C32 51.5 40 51.5 43 48"/>
-              <circle cx="50" cy="46" r="1.8"/>
+              <path class="scan__smile" d="M23.5 41c1.5-3 5.5-3 7 0M41.5 41c1.5-3 5.5-3 7 0"/>
+              <path class="scan__smile" d="M28 48c2.5 4.5 13.5 4.5 16 0"/>
             </g>
           </svg>
           <span class="scan__beam"></span>
