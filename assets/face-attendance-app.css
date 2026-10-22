@@ -177,12 +177,12 @@
   --ap-beam-fade:linear-gradient(90deg,transparent 0,#000 22%,#000 78%,transparent 100%);
   --ap-beam-from:4px;   /* 레이저가 떠나는 자리 — 면 위쪽 */
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
-  --ap-hat-groove:rgba(255,255,255,.22); /* 안전모의 파인 홈 — 어두운 모자 위라
+  --ap-hat-groove:rgba(255,255,255,.18); /* 안전모의 파인 홈 — 어두운 모자 위라
                                       흰 기를 옅게 섞어 판다 */
-  --ap-hat:#8cb5f3;                /* 안전모 — primary/30. 흰 면보다 짙고
-                                      파란 카드·검은 카드보다 밝아 셋 위에서 다 선다 */
-  --ap-hat-dark:#4189f3;           /* 그 챙과 골 — primary/40. 껍데기와 한 단만
-                                      차이 난다 — 두 단 벌어지면 챙이 따로 논다 */
+  --ap-hat:#1b3d6d;                /* 안전모 — 짙은 남색 한 겹. 흰 얼굴과 갈리고,
+                                      파란 카드·검은 카드 어느 쪽에서도 가라앉지 않는다 */
+  --ap-hat-dark:#122c52;           /* 그 챙 — 껍데기보다 한 단만 짙다.
+                                      두 단 벌어지면 챙이 따로 논다 */
   /* 얼굴 — 흰 면 위에 또렷이 앉는 브랜드 색. 반투명을 쓰지 않는다:
      수염·머리카락처럼 **면**으로 둔 것이 비쳐 흐려진다 */
   --ap-scan-rest:#457ed2;
@@ -655,20 +655,13 @@ ul,ol{list-style:none}
   60%{transform:scale(.92)}
   80%{transform:scale(1.03)}
 }
-/* 입체는 그라데이션이 맡는다 — 꼭대기가 밝고 아래로 가며 어두워진다.
-   덧댄 광택 선으로는 모자가 아니라 모자 위에 그은 줄로 보인다.
-   골은 밝은 선이 아니라 **파인 홈**이라야 입체로 읽히고, 챙은 제
-   그라데이션을 따로 쓰며 얼굴에 그림자를 드리운다 */
-.scan__hat-r,.scan__hat-s{fill:url(#hatShade)}
-.scan__hat-b{fill:url(#brimShade);filter:drop-shadow(0 2.5px 2px rgba(17,53,105,.35))}
+/* 색은 **한 겹**이다. 그라데이션을 깔아 보니 작은 그림에서는 번들거려
+   촌스러웠다 — 납작한 그림의 결은 면 하나에서 나온다. 입체는 챙이
+   맡는다: 한 단 짙은 색으로 껍데기와 갈리고, 얼굴에 그림자를 드리운다.
+   골은 밝은 선이 아니라 **파인 홈**이라야 입체로 읽힌다 */
+.scan__hat-r,.scan__hat-s{fill:var(--ap-hat)}
+.scan__hat-b{fill:var(--ap-hat-dark);filter:drop-shadow(0 2.5px 2px rgba(10,24,48,.45))}
 .scan__hat-d{stroke:var(--ap-hat-groove);stroke-width:1.8}
-/* 안전모는 제 색을 가진다 — 얼굴과 같은 반투명 파랑으로 두니 흰 면이
-   비쳐 모자가 아니라 얼굴에 드리운 그늘처럼 보였고, 면 밖으로 나온 자리는
-   파란 카드에 묻혔다. 브랜드 램프의 연한 쪽(primary/30)을 꽉 채워 쓴다:
-   흰 면보다 짙고, 출근 카드(primary/60)와 퇴근 카드(검정)보다 밝아 셋
-   위에서 모두 선다. 챙과 골은 **한 단만** 짙은 primary/40 이다 — 갈리기는
-   하되 한 모자로 보일 만큼만 다르고, 카드 색(primary/60)보다는 밝아 면
-   밖으로 나온 챙 끝도 묻히지 않는다 */
 .scan__hat{fill:var(--ap-hat)}
 .scan__hat-d{fill:none;stroke-width:2;stroke-linecap:round}
 .scan__f{fill:var(--ap-scan-rest);opacity:0;
