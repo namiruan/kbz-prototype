@@ -171,6 +171,8 @@
   --ap-beam-fade:linear-gradient(90deg,transparent 0,#000 22%,#000 78%,transparent 100%);
   --ap-beam-from:4px;   /* 레이저가 떠나는 자리 — 면 위쪽 */
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
+  --ap-hat-groove:#c6d6ea;         /* 안전모의 파인 홈 — 껍데기와 챙 사이 색이다.
+                                      남색 기를 섞으면 흰 모자 위에서 때처럼 보인다 */
   --ap-hat:#8cb5f3;                /* 안전모 — primary/30. 흰 면보다 짙고
                                       파란 카드·검은 카드보다 밝아 셋 위에서 다 선다 */
   --ap-hat-dark:#4189f3;           /* 그 챙과 골 — primary/40. 껍데기와 한 단만
@@ -640,7 +642,7 @@ ul,ol{list-style:none}
    그라데이션을 따로 쓰며 얼굴에 그림자를 드리운다 */
 .scan__hat-r,.scan__hat-s{fill:url(#hatShade)}
 .scan__hat-b{fill:url(#brimShade);filter:drop-shadow(0 2.5px 2px rgba(17,53,105,.35))}
-.scan__hat-d{stroke:rgba(17,53,105,.22)}
+.scan__hat-d{stroke:var(--ap-hat-groove);stroke-width:1.8}
 /* 안전모는 제 색을 가진다 — 얼굴과 같은 반투명 파랑으로 두니 흰 면이
    비쳐 모자가 아니라 얼굴에 드리운 그늘처럼 보였고, 면 밖으로 나온 자리는
    파란 카드에 묻혔다. 브랜드 램프의 연한 쪽(primary/30)을 꽉 채워 쓴다:
