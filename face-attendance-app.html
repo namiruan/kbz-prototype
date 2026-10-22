@@ -20,13 +20,13 @@
 <body>
 
 <!-- ⚠ 시스템에 없어 다르게 둔 아이콘 — 디자이너에게 요청할 것
-     · 뒤로 가기: 시안은 화살표(←)지만 3.0 스프라이트에는 꺾쇠(‹)뿐이라
-       icon-chevron-left 를 쓴다
      · QR 코드: 아이콘이 없어 icon-camera 로 자리만 잡았다
+     뒤로 가기는 2026-10-21 에 시안의 화살표(←)가 icon-back 으로 들어와
+     꺾쇠(‹) 자리표시를 걷었다
      ================================================================ -->
 
 <!-- ================================================================
-     화면 열세 장이 한 문서에 있고, 주소의 ?screen= 이 가리키는 한 장만 켜진다.
+     화면을 모두 한 문서에 담고, 주소의 ?screen= 이 가리키는 한 장만 켠다.
      켜는 일은 assets/face-attendance-app.js 가 한다.
 
      앱 셸은 세 종류다.
@@ -40,7 +40,7 @@
 <!-- ===== ① 현장소장 앱 · 근로자 관리 ===== -->
 <section class="scr" data-screen="m-workers" data-title="근로자 관리">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
     <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
   </header>
@@ -82,7 +82,7 @@
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
@@ -96,7 +96,7 @@
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">750512 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">750512-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
           </div>
         </div>
@@ -110,7 +110,7 @@
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
           </div>
         </div>
@@ -124,7 +124,7 @@
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
@@ -158,7 +158,7 @@
 <!-- ===== ①-3 현장소장 앱 · 근로자 관리(고른 뒤) ===== -->
 <section class="scr" data-screen="m-workers-pick" data-title="근로자 관리 — 고른 뒤">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
     <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
   </header>
@@ -199,7 +199,7 @@
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
@@ -213,7 +213,7 @@
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">750512 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">750512-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
           </div>
         </div>
@@ -227,7 +227,7 @@
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
           </div>
         </div>
@@ -241,7 +241,7 @@
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
@@ -275,7 +275,7 @@
 <!-- ===== ①-2 현장소장 앱 · 근로자 관리(직종을 고른 뒤) ===== -->
 <section class="scr" data-screen="m-workers-job" data-title="근로자 관리 — 직종을 고른 뒤">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
     <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
   </header>
@@ -316,7 +316,7 @@
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
@@ -330,7 +330,7 @@
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
@@ -349,7 +349,7 @@
 <!-- ===== ② 현장소장 앱 · 근로자 등록 ===== -->
 <section class="scr" data-screen="m-worker-new" data-title="근로자 등록">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">얼굴 근로자 등록</h1>
   </header>
 
@@ -416,7 +416,7 @@
 <!-- ===== ④ 현장소장 앱 · 근로자 상세 ===== -->
 <section class="scr" data-screen="m-worker" data-title="근로자 상세">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">얼굴 근로자</h1>
   </header>
 
@@ -445,7 +445,7 @@
 <!-- ===== ⑤ 현장소장 앱 · 출근 인증 대기 ===== -->
 <section class="scr" data-screen="m-in" data-title="출근 인증 대기">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
   </header>
 
@@ -487,7 +487,7 @@
 <!-- ===== ⑥ 현장소장 앱 · 퇴근 인증 대기 ===== -->
 <section class="scr" data-screen="m-out" data-title="퇴근 인증 대기">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
   </header>
 
@@ -548,7 +548,7 @@
 <!-- ===== ⑨ 현장소장 앱 · 이력 ===== -->
 <section class="scr" data-screen="m-log" data-title="이력">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
   </header>
 
