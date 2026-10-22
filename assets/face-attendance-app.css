@@ -162,6 +162,7 @@
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
   --ap-scan-rest:rgba(17,90,198,.78); /* 얼굴 — 흰 면 위에 또렷이 앉는 짙은 브랜드 색 */
   --ap-cam-t:112px;                /* 머리말 자리 — 닫기(56~86) 아래, 사각형(24%) 위 */
+  --ap-on-cta-sub:rgba(255,255,255,.78); /* 과녁 안의 설명 — 이름보다 한 겹 죽인다 */
   --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
 
   /* ── 모서리 ── */
@@ -529,10 +530,15 @@ ul,ol{list-style:none}
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:var(--ap-p5);padding:var(--ap-p9) var(--ap-p8);
   border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-card);
-  background:var(--ap-primary);color:var(--ap-g0)}
+  background:var(--ap-primary);color:var(--ap-g0);text-align:center}
 .cta--out{background:var(--ap-g95)}
 .cta__t{font:var(--t-title2);letter-spacing:var(--ls-title2)}
-.blank__t{font:var(--t-body);letter-spacing:var(--ls-body);text-align:center;color:var(--ap-primary)}
+/* 설명은 이름 바로 밑에 붙는다 — 아이콘과 띄운 만큼(12) 떼어 놓으면
+   따로 노는 줄이 된다. 색은 한 겹 죽여 이름이 먼저 읽히게 한다 */
+/* 줄은 낱말에서 끊는다 — 그러지 않으면 '인식 / 합니다' 처럼 한 낱말이
+   두 줄에 걸린다 */
+.cta__d{font:var(--t-body);letter-spacing:var(--ls-body);word-break:keep-all;
+  margin-top:calc(var(--ap-p5) * -1 + var(--ap-p3));color:var(--ap-on-cta-sub)}
 .big{font:var(--t-title2);letter-spacing:var(--ls-title2);display:inline-flex;align-items:center;gap:15px;padding:var(--ap-p6) var(--ap-p8);background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
 .big--dark{background:var(--ap-g95)}
 
