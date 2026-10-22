@@ -147,14 +147,14 @@
      읽히므로 빨강기를 빼고 노랑(#ffd400) 쪽에 둔다 */
   --ap-beam-core:#ffd400;                    /* 레이저의 심 — 노랑 */
   --ap-beam-edge:rgba(255,212,0,.55);        /* 심에서 양 끝으로 사그라지는 쪽 */
-  --ap-beam-glow:0 0 2px rgba(255,200,0,1),0 0 7px rgba(255,212,0,.9),
-    0 0 18px rgba(255,230,110,.6);           /* 심에서 바깥으로 — 가까울수록 짙다 */
-  --ap-beam-bloom:rgba(255,228,100,.55);     /* 심을 감싸는 넓고 옅은 빛 */
+  --ap-beam-glow:0 0 2px rgba(255,190,0,1),0 0 8px rgba(255,196,0,.95),
+    0 0 20px rgba(255,204,20,.85),0 0 36px rgba(255,214,60,.6); /* 심에서 바깥으로 */
+  --ap-beam-bloom:rgba(255,206,20,.85);      /* 심을 감싸는 넓은 빛 */
   --ap-beam-wake:rgba(255,230,120,.3);       /* 지나온 자리에 남는 빛 */
   --ap-beam-fade:linear-gradient(90deg,transparent 0,#000 22%,#000 78%,transparent 100%);
   --ap-beam-from:4px;   /* 레이저가 떠나는 자리 — 면 위쪽 */
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
-  --ap-scan-rest:rgba(17,90,198,.38); /* 훑기 전 얼굴·테 — 회색을 쓰면 파란 면 위에서 혼자 뜬다 */
+  --ap-scan-rest:rgba(17,90,198,.78); /* 얼굴 — 흰 면 위에 또렷이 앉는 짙은 브랜드 색 */
   --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
 
   /* ── 모서리 ── */
@@ -615,10 +615,10 @@ ul,ol{list-style:none}
    레이저는 가는 심과 그 둘레의 흐린 빛, 두 겹이다.
    z-index:-1 로 심 **뒤에** 둔다 — 앞에 두면 흐린 빛이 심을 덮어, 가장
    밝아야 할 가운데가 도리어 뿌옇다 */
-.scan__beam::before{content:"";position:absolute;left:0;right:0;top:-6px;height:14px;z-index:-1;
+.scan__beam::before{content:"";position:absolute;left:0;right:0;top:-9px;height:20px;z-index:-1;
   background:linear-gradient(90deg,transparent 0,var(--ap-beam-bloom) 34%,
     var(--ap-beam-bloom) 66%,transparent 100%);
-  filter:blur(4px)}
+  filter:blur(6px)}
 /* 지나온 자리에 남는 꼬리 — 위에서 아래로 한 방향으로만 훑으므로 꼬리는
    늘 위쪽이다. 오르내리면 꼬리가 앞서 가 버려 그릴 수 없다.
    끝은 심과 같이 사그라져야 하므로 가로로 한 번 더 가린다 */
