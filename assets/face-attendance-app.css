@@ -118,6 +118,11 @@
   --ap-gap3:8px;
   --ap-gap6:20px;                  /* gap/6 — 폼에서 칸과 칸 사이 */
 
+  /* ── 움직임 — 시스템 tokens/motion.css 의 값을 그대로 가져온다 ── */
+  --ap-ease-sym:ease-in-out;       /* easing-symmetric — 되풀이하는 움직임 */
+  --ap-beat:750ms;                 /* duration-pulse — 한 번 뛰는 길이 */
+  --ap-beat-cycle:3s;              /* 뛰고 나서 쉬는 참까지. 750 뛰고 2250 쉰다 */
+
   /* ── 모서리 ── */
   --ap-r4:4px;                     /* radius/small1 */
   --ap-r6:6px;                     /* radius/medium1 — select-atomic */
@@ -479,7 +484,27 @@ ul,ol{list-style:none}
 .shot__box{font:var(--t-sub-em);letter-spacing:var(--ls-sub);width:200px;height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--ap-gap3);background:var(--ap-g5);border:1px dashed var(--ap-g20);border-radius:var(--ap-r10);color:var(--ap-text-gray)}
 .shot__box--done{border:0;background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   color:var(--ap-on-photo)}
-.shot__hint{font:var(--t-foot);letter-spacing:var(--ls-foot);color:var(--ap-text-gray)}
+.shot__t{font:var(--t-sub-em);letter-spacing:var(--ls-sub)}
+.shot__hint{font:var(--t-foot);letter-spacing:var(--ls-foot);max-width:160px;text-align:center;
+  word-break:keep-all;color:var(--ap-text-gray)}
+
+/* ── 빈 사진 자리가 스스로 말하게 한다 ──
+   폼 맨 위의 빈 상자는 '여기를 눌러야 한다' 는 것을 말해 주지 않는다. 3초에
+   한 번 숨 쉬듯 뛰고 나머지는 쉰다 — 쉬는 참이 없으면 폼을 적는 내내 눈을 끈다.
+   길이와 가감속은 시스템 값(duration-pulse · easing-symmetric)을 쓴다.
+   사진이 들어찬 자리(--done)는 뛰지 않는다. 이미 할 일이 끝난 자리다 */
+.shot__box:not(.shot__box--done){position:relative}
+.shot__box:not(.shot__box--done)::after{content:'';position:absolute;inset:-1px;
+  border:2px solid var(--ap-primary);border-radius:inherit;opacity:0;
+  animation:ap-shot-ring var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
+.shot__box:not(.shot__box--done) .ic{animation:ap-shot-beat var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
+@keyframes ap-shot-beat{0%,25%,100%{transform:scale(1)} 12%{transform:scale(1.08)}}
+@keyframes ap-shot-ring{0%{transform:scale(1);opacity:.5} 25%,100%{transform:scale(1.06);opacity:0}}
+
+/* 움직임을 줄여 달라고 한 기기에서는 멈춘다 — 시스템 규약이다 */
+@media (prefers-reduced-motion:reduce){
+  .shot__box .ic,.shot__box::after{animation:none}
+}
 
 /* ── 읽기 전용 정보 줄 ── */
 .rows{display:flex;flex-direction:column;background:var(--ap-g0);
