@@ -122,7 +122,8 @@
   --ap-ease-sym:ease-in-out;       /* easing-symmetric — 되풀이하는 움직임 */
   --ap-beat:750ms;                 /* duration-pulse — 한 번 뛰는 길이 */
   --ap-beat-cycle:3s;              /* 뛰고 나서 쉬는 참까지. 750 뛰고 2250 쉰다 */
-  --ap-scan:72px;                  /* 얼굴을 훑는 그림의 크기 */
+  --ap-scan:96px;                  /* 얼굴을 훑는 그림의 크기 */
+  --ap-shot:200px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 다르다 */
 
   /* ── 모서리 ── */
   --ap-r4:4px;                     /* radius/small1 */
@@ -482,11 +483,11 @@ ul,ol{list-style:none}
    벌리는 것으로 족하다 — 칠하면 볼 것이 하나 더 는다 */
 .shot{display:flex;flex-direction:column;align-items:center;gap:var(--ap-gap3)}
 .shot + .form{margin-top:var(--ap-p8)}
-.shot__box{font:var(--t-sub-em);letter-spacing:var(--ls-sub);width:200px;height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--ap-gap3);background:var(--ap-g5);border:1px dashed var(--ap-g20);border-radius:var(--ap-r10);color:var(--ap-text-gray)}
+.shot__box{font:var(--t-sub-em);letter-spacing:var(--ls-sub);width:var(--ap-shot);height:var(--ap-shot);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--ap-gap3);background:var(--ap-g5);border:1px dashed var(--ap-g20);border-radius:var(--ap-r10);color:var(--ap-text-gray)}
 .shot__box--done{border:0;background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   color:var(--ap-on-photo)}
 .shot__t{font:var(--t-sub-em);letter-spacing:var(--ls-sub)}
-.shot__hint{font:var(--t-foot);letter-spacing:var(--ls-foot);max-width:160px;text-align:center;
+.shot__hint{font:var(--t-foot);letter-spacing:var(--ls-foot);max-width:180px;text-align:center;
   word-break:keep-all;color:var(--ap-text-gray)}
 
 /* ── 빈 사진 자리가 스스로 말하게 한다 ──
@@ -504,6 +505,10 @@ ul,ol{list-style:none}
 /* 훑는 줄은 멈춰 있을 때 보이지 않는다 — 움직임이 꺼진 기기에서 줄만 남으면
    얼굴에 선을 그어 둔 그림이 된다 */
 .scan__line{fill:var(--ap-primary);opacity:0}
+
+/* 찍기 전 자리는 더 크다 — 훑는 그림이 들어앉고도 이름과 안내가 숨 쉴 자리가
+   있어야 한다. 찍은 뒤(--done)는 사진이 들어차므로 200 그대로다 */
+.shot__box:not(.shot__box--done){--ap-shot:240px}
 
 .shot__box:not(.shot__box--done) .scan__line{animation:ap-scan-sweep var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
 .shot__box:not(.shot__box--done) .scan__face{animation:ap-scan-hit var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
