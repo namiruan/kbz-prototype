@@ -161,6 +161,7 @@
   --ap-beam-from:4px;   /* 레이저가 떠나는 자리 — 면 위쪽 */
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
   --ap-scan-rest:rgba(17,90,198,.78); /* 얼굴 — 흰 면 위에 또렷이 앉는 짙은 브랜드 색 */
+  --ap-cam-t:112px;                /* 머리말 자리 — 닫기(56~86) 아래, 사각형(24%) 위 */
   --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
 
   /* ── 모서리 ── */
@@ -748,7 +749,14 @@ ul,ol{list-style:none}
   border:3px solid var(--ap-g0);border-radius:28px;box-shadow:0 0 0 999px var(--ap-scrim-cam)}
 .cam__box--ok{border-color:var(--ap-cam-ok)}
 .cam__box--fail{border-color:var(--ap-cam-fail)}
-.cam__t{font:var(--t-title2);letter-spacing:var(--ls-title2);position:absolute;left:0;right:0;top:calc(24% + 42% + 24px);padding:0 var(--ap-p6);text-align:center;color:var(--ap-g0);text-shadow:var(--ap-shadow-cam-text)}
+/* 묻고 시키는 말은 머리에 선다 — 촬영 확인의 머리말과 같은 자리·같은 크기다.
+   가이드 사각형 아래에 두면 눈이 사각형을 지나 아래까지 내려가야 읽힌다.
+   그늘은 남긴다 — 뒤가 살아 움직이는 카메라 그림이라 흰 글씨만으로는
+   밝은 바탕에서 지워진다 */
+.cam__t{font:var(--t-title2);letter-spacing:var(--ls-title2);
+  position:absolute;left:0;right:0;top:var(--ap-cam-t);
+  padding:0 var(--ap-p8);text-align:center;color:var(--ap-g0);
+  text-shadow:var(--ap-shadow-cam-text)}
 .cam__t--ok{color:var(--ap-cam-ok)}
 .cam__t--fail{color:var(--ap-cam-fail)}
 
