@@ -526,7 +526,7 @@ ul,ol{list-style:none}
    카드만 한 과녁으로 세운다. 아이콘과 글이 세로로 선다.
    출근과 퇴근은 색으로 가른다 — 시안에 주황이 없어, 시안이 강한 둘째
    동작에 쓰는 검정을 퇴근에 준다 */
-.cta{width:100%;max-width:var(--ap-confirm-w);min-height:180px;
+.cta{width:100%;max-width:var(--ap-confirm-w);min-height:260px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:var(--ap-p5);padding:var(--ap-p9) var(--ap-p8);
   border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-card);
@@ -535,9 +535,11 @@ ul,ol{list-style:none}
 .cta__t{font:var(--t-title2);letter-spacing:var(--ls-title2)}
 /* 설명은 이름 바로 밑에 붙는다 — 아이콘과 띄운 만큼(12) 떼어 놓으면
    따로 노는 줄이 된다. 색은 한 겹 죽여 이름이 먼저 읽히게 한다 */
-/* 줄은 낱말에서 끊는다 — 그러지 않으면 '인식 / 합니다' 처럼 한 낱말이
-   두 줄에 걸린다 */
-.cta__d{font:var(--t-body);letter-spacing:var(--ls-body);word-break:keep-all;
+/* 한 문장이 한 줄이다. 17 로 두면 둘째 문장이 320 짜리 카드 안에서 접혀
+   세 줄이 되므로 15 로 내린다 — 설명은 이름보다 작아도 된다.
+   줄은 낱말에서 끊는다(keep-all) — 그러지 않으면 '인식 / 합니다' 처럼
+   한 낱말이 두 줄에 걸린다 */
+.cta__d{font:var(--t-sub);letter-spacing:var(--ls-sub);word-break:keep-all;
   margin-top:calc(var(--ap-p5) * -1 + var(--ap-p3));color:var(--ap-on-cta-sub)}
 .big{font:var(--t-title2);letter-spacing:var(--ls-title2);display:inline-flex;align-items:center;gap:15px;padding:var(--ap-p6) var(--ap-p8);background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
 .big--dark{background:var(--ap-g95)}
