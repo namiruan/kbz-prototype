@@ -616,7 +616,7 @@ ul,ol{list-style:none}
    멈춰 있을 때는 보이지 않는다 — 움직임이 꺼진 기기에서 줄만 남으면
    얼굴에 선을 그어 둔 그림이 된다 */
 .scan__beam{position:absolute;left:50%;top:0;z-index:2;opacity:0;
-  width:calc(var(--ap-scan) * 72 / 64);height:2px;border-radius:1px;
+  width:calc(var(--ap-scan) * 72 / 64);height:1.5px;border-radius:.75px;
   transform:translate(-50%,var(--ap-beam-from));
   background:linear-gradient(90deg,transparent 0,var(--ap-beam-edge) 16%,
     var(--ap-beam-core) 38%,var(--ap-beam-core) 62%,var(--ap-beam-edge) 84%,transparent 100%);
