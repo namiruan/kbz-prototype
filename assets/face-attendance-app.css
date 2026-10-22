@@ -221,7 +221,7 @@ ul,ol{list-style:none}
 /* svh 다(dvh 아니다). dvh 는 사파리 툴바가 들고 나는 대로 값이 바뀌어,
    읽는 도중에 화면 높이가 변하고 그때 목록의 아래가 잘린다. svh 는 툴바가
    나와 있을 때의 높이로 고정이라 흔들리지 않는다 */
-.scr.is-on{display:flex;flex-direction:column;height:100svh;overflow:hidden}
+.scr.is-on{display:flex;flex-direction:column;height:100svh;overflow:hidden;position:relative}
 
 /* ── 내비게이션 바 ──
    흰 바탕 · 위 56(상태바 자리) · 아래 10 · 좌우 16.
@@ -481,6 +481,14 @@ ul,ol{list-style:none}
   transition:transform var(--ap-dur-slow) var(--ap-ease-enter)}
 .act.is-away{transform:translateY(100%);transition-timing-function:var(--ap-ease-exit)}
 @media (prefers-reduced-motion:reduce){.act{transition:none}}
+/* 비키는 바는 목록 **위에 떠 있어야** 한다. 줄 세워 두면 내려가 봐야 제
+   자리가 빈 띠로 남을 뿐, 목록은 그만큼 더 보이지 않는다. 띄우고 목록
+   아래에 바 높이만큼 여백을 두면 — 그 여백은 그대로라 상자 크기가 바뀌지
+   않는다(아이폰에서 목록이 멎던 까닭이 그것이었다) — 바가 내려간 자리로
+   목록이 비친다. 높이는 js 가 재어 --ap-act-h 에 적는다.
+   바닥 탭이 있는 화면(근로자 앱)은 바가 그 위에 줄 서 있어야 해서 뺀다 */
+.has-float-act .act{position:absolute;left:0;right:0;bottom:0;z-index:2}
+.has-float-act .body{padding-bottom:var(--ap-act-h)}
 .act__b{font:var(--t-title2);letter-spacing:var(--ls-title2);flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:var(--ap-p2);padding:var(--ap-p6) var(--ap-p8)}
 .act__b--on{background:var(--ap-primary);color:var(--ap-g0)}
 .act__b--dark{background:var(--ap-g95);color:var(--ap-g0)}

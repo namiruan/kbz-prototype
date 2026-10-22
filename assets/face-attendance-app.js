@@ -65,10 +65,17 @@
 
     var act = scr.querySelector('.act');
     if (!act) return;
-    var parts = [act];
 
-    /* 바닥 버튼은 목록이 굴러가는 상자 **밖**이라, 내려 보내도 상자의 크기가
-       바뀌지 않는다. 위의 탭은 그렇지 않아 숨기기를 거뒀다(css 에 까닭) */
+    /* 바닥 탭이 있는 화면에서는 바가 그 위에 줄 서 있어야 하므로 띄우지
+       않는다 — 띄우지 않으면 내려가 봐야 빈 띠만 남으니 비키지도 않는다 */
+    if (scr.querySelector('.tabbar')) return;
+
+    /* 바를 목록 위로 띄우고, 목록 아래에 그 높이만큼 여백을 둔다. 여백은
+       한 번 정하고 바뀌지 않으므로 굴러가는 상자의 크기도 바뀌지 않는다 */
+    scr.style.setProperty('--ap-act-h', act.offsetHeight + 'px');
+    scr.classList.add('has-float-act');
+
+    var parts = [act];
     var room = 16;
 
     /* 탭이 접히고 펴지는 동안에도 스크롤 이벤트가 온다 — 자리가 줄고 늘어
