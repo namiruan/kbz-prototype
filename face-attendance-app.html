@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=76">
-<script src="assets/face-attendance-app.js?v=76" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=77">
+<script src="assets/face-attendance-app.js?v=77" defer></script>
 </head>
 
 <body>
@@ -560,12 +560,6 @@
         <label class="fld__l">직종</label>
         <button class="sel sel--selected" type="button"><span class="sel__t">형틀목공</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </div>
-      <!-- 등록일만 고칠 수 없다. 언제 등록했는지는 고치는 값이 아니라 남는 값이다.
-           줄을 따로 만들지 않고 폼의 한 칸으로 두되, 꺼진 꼴로 둔다 -->
-      <div class="fld">
-        <label class="fld__l">등록일</label>
-        <div class="inp inp--off">2026-10-02</div>
-      </div>
       <div class="fld">
         <label class="fld__l">단가</label>
         <div class="fld__row">
@@ -578,6 +572,10 @@
       </div>
     </form>
 
+    <!-- 날짜는 고치는 값이 아니라 남는 값이라 칸으로 두지 않는다. 맨 아래에
+         한 줄로만 적는다. 등록일이 아니라 **마지막으로 고친 날**이다 —
+         등록일은 고쳐도 그대로이므로, 이 화면에서 달라지는 쪽을 보여 준다 -->
+    <p class="stamp">마지막 수정 2026-10-02</p>
   </main>
 
   <!-- 삭제는 바닥 바에 둔다. 머리줄에 두면 추가 화면과 머리줄이 달라지는데,
