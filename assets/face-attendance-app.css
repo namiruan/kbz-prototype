@@ -925,7 +925,11 @@ ul,ol{list-style:none}
   position:absolute;left:0;right:0;top:var(--ap-cam-t);
   padding:0 var(--ap-p8);text-align:center;color:var(--ap-g0);
   text-shadow:var(--ap-shadow-cam-text)}
-.cam__t--ok{color:var(--ap-cam-ok)}
+/* 인식 결과만 한 단 더 크다 — 줄 선 사람이 멀찍이서 제 이름을 본다.
+   ⚠ 36 은 시안에도(꼭대기가 Title1 28) 시스템 램프에도(꼭대기가 h1 32)
+   없는 값이라 이 한 자리에서만 쓴다. 아랫줄 24 는 램프에 있는 값이다 */
+.cam__t--ok{font-size:36px;line-height:44px;color:var(--ap-cam-ok)}
+.cam__t--ok .cam__sub{font-size:24px;line-height:30px}
 /* 이름이 먼저고, 무슨 일이 되었는지가 그 아래다 — 줄을 나누고 크기도
    굵기도 한 단 내린다(32/600 → 20/400). 크기만 줄이면 둘이 같은 무게로
    읽혀 누구인지가 먼저 들어오지 않는다 */
