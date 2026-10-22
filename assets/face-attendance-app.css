@@ -458,11 +458,14 @@ ul,ol{list-style:none}
    칸은 테 1px gray-subtler · 모서리 4 · 안쪽 여백 16/12 · 글자 17/22 regular */
 .form{display:flex;flex-direction:column;gap:var(--ap-gap6)}
 .fld{display:flex;flex-direction:column;gap:var(--ap-p2)}
-/* 값이 둘뿐이라 고르는 자리가 좁다 — 이름과 한 줄에 둔다. 시안의
-   '고용안정직업능력 · 고용보험공제' 줄과 같은 꼴이다 */
-.fld--row{flex-direction:row;align-items:center;justify-content:space-between;
-  gap:var(--ap-p5)}
-.fld--row .tog{align-self:auto}
+/* 외국인인지는 적는 값이 아니라 **묻는 한 줄**이다. 칸으로 두면 다른 칸처럼
+   적어 넣는 자리로 읽힌다 — 묻는 말 옆에 답이 붙는 카드로 둔다.
+   면은 gray/5 다. 흰 폼 위에서 한 끗만 내려앉아 '여기는 다른 줄' 이라고만
+   알린다 */
+.ask{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-p5);
+  padding:var(--ap-p6);background:var(--ap-g5);border-radius:var(--ap-r10)}
+.ask__t{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-text)}
+.ask .tog{align-self:auto}
 .fld__l{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-g60)}
 .fld__l b{color:var(--ap-danger);font-weight:600}
 .inp{font:var(--t-body);letter-spacing:var(--ls-body);display:flex;align-items:center;

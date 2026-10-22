@@ -95,11 +95,11 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new"
         data-why="얼굴 한 장과 기본 정보를 한 화면에서 받습니다. 사진이 맨 위인 것은 이 등록의 목적이 얼굴이기 때문입니다."
         data-steps="근로자 추가를 클릭해 열린 상태 — 아직 아무것도 채우지 않았습니다"
-        data-look="@{.scan} 사진 자리는 3초에 한 번 얼굴을 훑습니다 — 다 훑고 나면 테와 얼굴이 파랗게 물듭니다. 가운데에서는 파장이 쉼 없이 바깥으로 번집니다. 움직임을 줄인 기기에서는 멈춥니다|@{.tog} 외국인 여부는 예·아니오 토글입니다|@{.step} 단가는 칸에 적어도 되고, ＋·－ 로 올리고 내려도 됩니다|@{.fld__l b} 필수 항목은 라벨 옆에 '(필수)' 가 붙습니다|@md @{.form} 태블릿에서는 폼이 늘어나지 않고 가운데로 모입니다">근로자 추가</button>
+        data-look="@{.scan} 사진 자리는 3초에 한 번 얼굴을 훑습니다 — 다 훑고 나면 테와 얼굴이 파랗게 물듭니다. 가운데에서는 파장이 쉼 없이 바깥으로 번집니다. 움직임을 줄인 기기에서는 멈춥니다|@{.ask} 외국인인지는 '외국인 근로자인가요?' 한 줄로 묻고, 답은 그 옆 예·아니오 토글입니다|@{.step} 단가는 칸에 적어도 되고, ＋·－ 로 올리고 내려도 됩니다|@{.fld__l b} 필수 항목은 라벨 옆에 '(필수)' 가 붙습니다|@md @{.form} 태블릿에서는 폼이 늘어나지 않고 가운데로 모입니다">근로자 추가</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new-foreign"
         data-why="외국인은 주민번호가 없어 여권번호를 받습니다. 받는 값이 갈린다고 화면을 따로 두지 않고, 토글 하나로 그 칸만 바꿉니다 — 나머지 칸은 내국인과 같습니다."
         data-steps="근로자 추가에서 외국인 여부를 '예' 로 바꾼 상태"
-        data-look="@{.fld__l--foreign} 주민번호 칸이 '여권번호' 로 바뀝니다|@{.tog .is-on} 토글은 '예' 쪽이 켜집니다">외국인이면</button>
+        data-look="@{.fld__l--foreign} 주민번호 칸이 '여권번호' 로 바뀝니다|@{.tog .is-on} 토글이 '예' 쪽으로 넘어갑니다">외국인이면</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-shot"
         data-why="찍은 얼굴로 등록할지 묻고 나서 저장합니다. 흐린 사진 한 장이 그 뒤의 출근 인증을 내내 막기 때문에, 다시 찍을 기회를 이 자리에서 줍니다."
         data-steps="얼굴 등록하기를 클릭해 한 장 찍은 상태"
