@@ -183,6 +183,7 @@
   --ap-tog-yes:36px;  --ap-tog-no:66px;  /* 예·아니오 알의 폭 — 정수로 떨어뜨린다 */
   --ap-confirm-w:320px;            /* 촬영 확인 카드의 폭 */
   --ap-cta-w:480px;                /* 인증 시작 과녁 — 태블릿에서도 과녁답게 */
+  --ap-cta-h:420px;                /* 그 과녁의 키 — 더 길면 빈 면만 늘어난다 */
   --ap-sel-w:110px;                /* select-atomic 의 기본 폭 — 글자가 짧아도 이만큼은 둔다 */
   --ap-form-w:560px;               /* 폼·상세가 가운데로 모이는 폭 */
   --ap-photo-w:320px;  --ap-photo-h:300px;      /* 이력 사진 */
@@ -543,12 +544,13 @@ ul,ol{list-style:none}
    동작에 쓰는 검정을 퇴근에 준다 */
 /* 화면에서 할 일이 이것 하나뿐이라 자리를 다 쓴다 — 좌우와 아래가 모두
    본문 여백(16)이다. 세로를 가운데에 띄워 두면 아래가 좌우보다 넓어,
-   같은 여백으로 둘린 면으로 보이지 않는다. 위만 12 인데, 현장 카드 밑으로
-   들어가며 옅어지는 띠(.ctx ~ .body)가 정해 둔 값이다.
+   같은 여백으로 둘린 면으로 보이지 않는다. 키는 420 에서 멈추고 남는 자리는
+   **위로** 보낸다(margin-top:auto) — 아래 여백을 좌우와 같게 둔 채로 키만
+   줄이려면 그 수밖에 없다.
    안의 것들은 바닥에 앉는다 — 가운데에 모으면 넓힌 자리가 글 위아래로
    똑같이 남아, 자리를 키운 것이 아니라 띄워 둔 것처럼 보인다 */
 .cta{position:relative;width:100%;max-width:var(--ap-cta-w);
-  flex:1 1 auto;min-height:260px;
+  flex:1 1 auto;min-height:260px;max-height:var(--ap-cta-h);margin-top:auto;
   display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;
   gap:var(--ap-p5);padding:var(--ap-p8);
   border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-cta);
@@ -898,6 +900,10 @@ ul,ol{list-style:none}
      390 과 768 사이, 어느 쪽에서도 멀찍한 700 에 둔다 — 두 미리보기 폭의
      판정은 그대로다(390 ✗ · 768 ✓). */
 @media (min-width:700px){
+  /* 태블릿에서는 정방형이다 — 폭이 480 이니 키도 480 이다. 가로가 넓어진
+     만큼 키도 따라 커져야 과녁이 납작해지지 않는다 */
+  .cta{flex:none;aspect-ratio:1;max-height:none}
+
   /* 단이 둘로 갈리는 폭에서는 카드 사이도 조금 벌린다 */
   .list{gap:var(--ap-p5)}
   /* 폼·상세는 늘리지 않고 가운데로 모은다 */
