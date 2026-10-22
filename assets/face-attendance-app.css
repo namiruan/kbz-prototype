@@ -550,7 +550,7 @@ ul,ol{list-style:none}
 .cta{position:relative;width:100%;max-width:var(--ap-cta-w);
   flex:1 1 auto;min-height:260px;
   display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;
-  gap:var(--ap-p5);padding:var(--ap-p9) var(--ap-p8);
+  gap:var(--ap-p5);padding:var(--ap-p8);
   border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-cta);
   background:var(--ap-primary);color:var(--ap-g0);text-align:left}
 .cta--out{background:var(--ap-g95);box-shadow:var(--ap-shadow-cta-out)}
@@ -585,7 +585,10 @@ ul,ol{list-style:none}
 .cta__d{font:var(--t-body);letter-spacing:var(--ls-body);word-break:keep-all;
   display:flex;flex-direction:column;align-self:stretch;
   border-top:1px solid var(--ap-on-cta-line);color:var(--ap-on-cta-sub)}
+/* 줄마다 위아래 10 — 선과 글이 붙지 않게 하는 간격이다. 마지막 줄의
+   아래쪽만 거둔다: 그것까지 두면 글 밑이 좌우 여백보다 10 더 넓어진다 */
 .cta__d > span{padding:var(--ap-p4) 0}
+.cta__d > span:last-child{padding-bottom:0}
 .cta__d > span + span{border-top:1px solid var(--ap-on-cta-line)}
 .big{font:var(--t-title2);letter-spacing:var(--ls-title2);display:inline-flex;align-items:center;gap:15px;padding:var(--ap-p6) var(--ap-p8);background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
 .big--dark{background:var(--ap-g95)}
