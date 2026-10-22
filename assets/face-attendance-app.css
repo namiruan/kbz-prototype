@@ -1147,6 +1147,35 @@ ul,ol{list-style:none}
 .row__v{font:var(--t-body);letter-spacing:var(--ls-body);flex:1;min-width:0;display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:var(--ap-p3);text-align:right;color:var(--ap-text);word-break:keep-all}
 
 /* 사진 한 장 */
+/* ── 이력 조회 — 누구의, 언제인가 ──
+   목록의 한 줄을 열면 그 줄 하나만 크게 보여 주던 화면이었다. 그래서는
+   '퇴근은 했나' 를 보려고 목록으로 되돌아가야 했다.
+   이름을 제목으로 세우고, 그날의 두 시각을 나란히 두고, 그 아래에 사람
+   정보와 사진을 둔다 — 위에서부터 '누구 · 언제 · 어떤 사람 · 그 증거' 로
+   읽힌다 */
+/* 이름과 뱃지. 이름이 길면 두 줄로 접히므로 뱃지는 첫 줄에 붙어 선다
+   (flex-start) — 가운데에 맞추면 두 줄짜리 이름에서 뱃지가 허공에 뜬다 */
+.dt{display:flex;align-items:flex-start;justify-content:space-between;
+  gap:var(--ap-p5);align-self:stretch;padding-top:var(--ap-p2)}
+.dt__t{font:var(--t-title2);letter-spacing:var(--ls-title2);
+  min-width:0;color:var(--ap-text);word-break:keep-all}
+.dt .bd{flex:none;margin-top:4px}
+/* 두 시각 — 가운데 선 하나로 가른다. 면도 테도 두지 않는다: 이 화면에서
+   가장 먼저 읽힐 수라, 카드로 묶으면 아래 정보 줄과 같은 무게가 된다.
+   숫자는 폭이 고른 꼴로 둔다(tabular-nums) — 두 칸의 자릿수가 어긋나면
+   같은 시각을 재는 자로 보이지 않는다 */
+.tms{display:flex;align-self:stretch;margin:var(--ap-p2) 0 var(--ap-p4)}
+.tms__c{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
+  gap:var(--ap-p2);padding:var(--ap-p4) var(--ap-p3)}
+.tms__c + .tms__c{border-left:1px solid var(--ap-g20)}
+.tms__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
+.tms__v{font:var(--t-title1);letter-spacing:var(--ls-title1);
+  color:var(--ap-text);font-variant-numeric:tabular-nums}
+/* 본문 안의 작은 제목 — 그 아래 한 덩어리가 무엇인지 말한다. 위로는
+   앞 덩어리와 벌리고 아래로는 제 것에 붙인다 */
+.sct{font:var(--t-title3-em);letter-spacing:var(--ls-title3);
+  align-self:stretch;margin-top:var(--ap-p5);color:var(--ap-text)}
+
 .photo{width:100%;max-width:var(--ap-photo-w);height:var(--ap-photo-h);margin:0 auto;border-radius:var(--ap-r10);
   background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   display:flex;align-items:center;justify-content:center;color:var(--ap-on-photo)}
@@ -1364,8 +1393,10 @@ ul,ol{list-style:none}
 
   /* 단이 둘로 갈리는 폭에서는 카드 사이도 조금 벌린다 */
   .list{gap:var(--ap-p5)}
-  /* 폼·상세는 늘리지 않고 가운데로 모은다 */
-  .form,.rows,.note,.shot{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
+  /* 폼·상세는 늘리지 않고 가운데로 모은다. 이력 조회의 제목·두 시각·
+     작은 제목도 같은 칸에 든다 — 카드만 모으면 그 위의 이름이 저 혼자
+     화면 끝에 서서 한 덩어리로 읽히지 않는다 */
+  .form,.rows,.note,.shot,.dt,.tms,.sct{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
   .body{padding:var(--ap-p8)}
   /* 현장 줄과 그 아래 뱃지는 제가 가리키는 목록과 세로 선이 맞아야 한다.
      뱃지를 빠뜨리면 카드보다 8 바깥에 서서, 한 이야기가 두 선으로 갈린다 */
