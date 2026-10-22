@@ -142,11 +142,11 @@
   --ap-plate-low:#e4ecf7;              /* 면의 아랫녘 — 빛이 덜 드는 쪽 */
   --ap-plate-lift:0 6px 14px rgba(17,90,198,.18); /* 면이 바탕에 드리우는 그림자 */
   --ap-plate-shade:inset 0 -8px 12px -8px rgba(17,90,198,.22); /* 안쪽 아래 그늘 */
-  /* 읽는 빛은 노란 쪽이다 — 파란 바탕 위에서 브랜드 색 줄은 바탕에 섞여
-     들어가 '지나간다'는 것이 드러나지 않는다. 주황으로 기울면 경고색으로
-     읽히므로 빨강기를 빼고 노랑(#ffd400) 쪽에 둔다 */
-  --ap-beam-core:#ffe100;                    /* 레이저의 심 — 밝은 노랑 */
-  --ap-beam-edge:rgba(255,225,0,.6);         /* 심에서 양 끝으로 사그라지는 쪽 */
+  /* 읽는 빛은 네온 블루다. 브랜드 색(#115ac6)과 같은 파랑이되 훨씬 밝고
+     청록으로 기울어, 짙은 얼굴과 옅은 바탕 사이 어느 쪽과도 섞이지 않는다 —
+     그래서 '지나간다'가 드러난다 */
+  --ap-beam-core:#2bd9ff;                    /* 레이저의 심 — 네온 블루 */
+  --ap-beam-edge:rgba(43,217,255,.6);        /* 심에서 양 끝으로 사그라지는 쪽 */
   /* 빛은 box-shadow 가 아니라 drop-shadow 다. box-shadow 는 상자를 따라
      뿌리므로 양 끝이 뭉툭해지고(곤봉), 그걸 마스크로 지우면 마스크가
      상자 밖을 잘라 빛까지 사라진다. drop-shadow 는 **그려진 것의 투명도**를
@@ -154,9 +154,9 @@
      흐림값은 box-shadow 의 절반쯤으로 친다(기준이 다르다). 겹치는 것은
      두 겹까지다 — drop-shadow 는 앞 겹이 만든 빛에 **다시** 빛을 드리워,
      셋만 겹쳐도 얼굴이 통째로 노래진다 */
-  --ap-beam-glow:drop-shadow(0 0 2px rgba(255,210,0,.9))
-    drop-shadow(0 0 7px rgba(255,206,20,.45));
-  --ap-beam-wake:rgba(255,232,130,.16);      /* 지나온 자리에 남는 빛 — 심의 빛을 함께 받으므로 옅게 */
+  --ap-beam-glow:drop-shadow(0 0 2px rgba(0,190,255,.9))
+    drop-shadow(0 0 7px rgba(60,205,255,.5));
+  --ap-beam-wake:rgba(120,226,255,.18);      /* 지나온 자리에 남는 빛 — 심의 빛을 함께 받으므로 옅게 */
   --ap-beam-fade:linear-gradient(90deg,transparent 0,#000 22%,#000 78%,transparent 100%);
   --ap-beam-from:4px;   /* 레이저가 떠나는 자리 — 면 위쪽 */
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
@@ -452,7 +452,12 @@ ul,ol{list-style:none}
 .tabbar__b{--icon-menu-deep:currentColor;--icon-menu-vivid:currentColor;--icon-menu-light:var(--ap-g0)}
 
 /* ── 뱃지 ── */
-.bd{font:var(--t-foot);letter-spacing:var(--ls-foot);display:inline-flex;align-items:center;padding:2px 4px;border-radius:var(--ap-r4)}
+/* 시스템의 Badge 다(components/atoms/badge.md). 크기는 md(13), 굵기는
+   semibold, 줄 높이는 1.5 — 우리 쪽 foot 토큰은 400/18 이라 그대로 쓰면
+   같은 13 이라도 가늘고 납작해 뱃지로 읽히지 않는다. 안쪽 여백은
+   inset-squish-2xs(2·4) 그대로다 */
+.bd{font:var(--t-foot);font-weight:600;line-height:1.5;letter-spacing:var(--ls-foot);
+  display:inline-flex;align-items:center;padding:2px 4px;border-radius:var(--ap-r4)}
 .bd--normal{background:var(--ap-badge-normal);color:var(--ap-text)}
 .bd--positive{background:var(--ap-badge-positive);color:var(--ap-primary)}
 .bd--negative{background:var(--ap-point-bg);color:var(--ap-point)}
