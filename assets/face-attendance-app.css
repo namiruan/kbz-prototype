@@ -550,11 +550,11 @@ ul,ol{list-style:none}
 .shot__box:not(.shot__box--done) .scan__frame{animation:ap-scan-hit-line var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
 
 @keyframes ap-scan-sweep{
-  0%,4%{transform:translateY(20px);opacity:0}
+  0%,4%{transform:translateY(15px);opacity:0}
   10%{opacity:1}
-  40%{transform:translateY(52px);opacity:1}
-  46%{transform:translateY(52px);opacity:0}
-  100%{transform:translateY(20px);opacity:0}
+  40%{transform:translateY(55px);opacity:1}
+  46%{transform:translateY(55px);opacity:0}
+  100%{transform:translateY(15px);opacity:0}
 }
 /* 다 훑고 나서 물든다 — 훑는 동안이 아니라 끝난 뒤다. 찾았다는 말이라 */
 @keyframes ap-scan-hit{

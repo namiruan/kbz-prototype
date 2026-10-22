@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=48">
-<script src="assets/face-attendance-app.js?v=48" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=49">
+<script src="assets/face-attendance-app.js?v=49" defer></script>
 </head>
 
 <body>
@@ -367,17 +367,22 @@
                셋이 1초 간격으로 떠난다 -->
           <span class="wave"><i></i><i></i><i></i></span>
           <svg viewBox="0 0 72 72">
-            <g class="scan__face">
-              <circle cx="36" cy="31" r="8"/>
-              <path d="M24 50a12 12 0 0 1 24 0z"/>
+            <defs>
+              <!-- 얼굴도 훑는 줄도 동그라미 안에서만 보인다 — 줄이 동그라미를
+                   넘어가면 테가 원인데 줄만 네모로 지나간다 -->
+              <clipPath id="scanLens"><circle cx="36" cy="36" r="22"/></clipPath>
+            </defs>
+            <g clip-path="url(#scanLens)">
+              <g class="scan__face">
+                <circle cx="36" cy="30" r="8"/>
+                <path d="M24 48a12 12 0 0 1 24 0z"/>
+              </g>
+              <rect class="scan__line" x="8" y="0" width="56" height="2.5" rx="1.25"/>
             </g>
-            <g class="scan__frame">
-              <path d="M15 27V20a5 5 0 0 1 5-5h7"/>
-              <path d="M45 15h7a5 5 0 0 1 5 5v7"/>
-              <path d="M57 45v7a5 5 0 0 1-5 5h-7"/>
-              <path d="M27 57h-7a5 5 0 0 1-5-5v-7"/>
-            </g>
-            <rect class="scan__line" x="17" y="0" width="38" height="2.5" rx="1.25"/>
+            <!-- 네 토막으로 끊어 감싼다 — 이은 동그라미는 테두리가 되고,
+                 끊어 두면 '맞추는 자리' 로 읽힌다. 틈은 대각선에 온다 -->
+            <circle class="scan__frame" cx="36" cy="36" r="22"
+              stroke-dasharray="25 9.56" stroke-dashoffset="12.5"/>
           </svg>
         </span>
         <b class="shot__t">얼굴 등록하기</b>
@@ -447,17 +452,22 @@
                셋이 1초 간격으로 떠난다 -->
           <span class="wave"><i></i><i></i><i></i></span>
           <svg viewBox="0 0 72 72">
-            <g class="scan__face">
-              <circle cx="36" cy="31" r="8"/>
-              <path d="M24 50a12 12 0 0 1 24 0z"/>
+            <defs>
+              <!-- 얼굴도 훑는 줄도 동그라미 안에서만 보인다 — 줄이 동그라미를
+                   넘어가면 테가 원인데 줄만 네모로 지나간다 -->
+              <clipPath id="scanLens"><circle cx="36" cy="36" r="22"/></clipPath>
+            </defs>
+            <g clip-path="url(#scanLens)">
+              <g class="scan__face">
+                <circle cx="36" cy="30" r="8"/>
+                <path d="M24 48a12 12 0 0 1 24 0z"/>
+              </g>
+              <rect class="scan__line" x="8" y="0" width="56" height="2.5" rx="1.25"/>
             </g>
-            <g class="scan__frame">
-              <path d="M15 27V20a5 5 0 0 1 5-5h7"/>
-              <path d="M45 15h7a5 5 0 0 1 5 5v7"/>
-              <path d="M57 45v7a5 5 0 0 1-5 5h-7"/>
-              <path d="M27 57h-7a5 5 0 0 1-5-5v-7"/>
-            </g>
-            <rect class="scan__line" x="17" y="0" width="38" height="2.5" rx="1.25"/>
+            <!-- 네 토막으로 끊어 감싼다 — 이은 동그라미는 테두리가 되고,
+                 끊어 두면 '맞추는 자리' 로 읽힌다. 틈은 대각선에 온다 -->
+            <circle class="scan__frame" cx="36" cy="36" r="22"
+              stroke-dasharray="25 9.56" stroke-dashoffset="12.5"/>
           </svg>
         </span>
         <b class="shot__t">얼굴 등록하기</b>
