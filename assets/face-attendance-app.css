@@ -202,6 +202,9 @@ ul,ol{list-style:none}
   justify-content:center;width:20px;height:22px;color:var(--ap-g90)}
 .nav__ic--l{left:var(--ap-p6)}
 .nav__ic--r{right:var(--ap-p6)}
+/* 머리줄 오른쪽에 앉는 알약 — .nav__ic 는 아이콘 치수(20x22)에 맞춰져 있어
+   글자 알약을 끼우면 눌려 찌그러진다. 자리만 잡아 준다 */
+.nav__del{position:absolute;right:var(--ap-p6);bottom:var(--ap-p4)}
 
 /* ── 머리 카드 — 현장 · 필터 · 날짜가 들어가는 흰 판 ──
    아래 모서리만 둥글다. 내비게이션 바와 한 덩어리로 보인다 */
@@ -278,6 +281,9 @@ ul,ol{list-style:none}
 .pill--line{background:var(--ap-g0);border:1px solid var(--ap-primary);color:var(--ap-primary)}
 .pill--dark{border:1px solid var(--ap-g90);color:var(--ap-g95)}
 .pill--off{background:var(--ap-badge-normal);color:var(--ap-text-disabled)}
+/* 지우는 알약 — 시안 '근로자 수정'(530:4116)의 머리줄 오른쪽 검은 알약.
+   시안의 버튼 색에 위험을 뜻하는 빨강이 없어, 되돌릴 수 없는 쪽을 검정으로 세운다 */
+.pill--del{background:var(--ap-bg-black);color:var(--ap-g0)}
 
 /* ── 날짜 — 시안의 달력 카드 ── */
 .cal{display:flex;flex-direction:column;gap:var(--ap-p2)}

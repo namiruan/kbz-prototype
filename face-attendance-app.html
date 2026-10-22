@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=69">
-<script src="assets/face-attendance-app.js?v=69" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=71">
+<script src="assets/face-attendance-app.js?v=71" defer></script>
 </head>
 
 <body>
@@ -518,31 +518,64 @@
 </section>
 
 
-<!-- ===== ④ 현장소장 앱 · 근로자 상세 ===== -->
-<section class="scr" data-screen="m-worker" data-title="근로자 상세">
+<!-- ===== ④ 현장소장 앱 · 근로자 상세(여기서 바로 고친다) =====
+     보는 화면과 고치는 화면을 따로 두지 않는다. 시안 '근로자현황
+     (현장근로자 / 근로자 수정-기본)'(530:4116)과 같은 꼴이다 —
+     값이 채워진 폼, 삭제는 머리줄 오른쪽 검은 알약, 바닥은 저장 하나 -->
+<section class="scr scr--form" data-screen="m-worker" data-title="근로자 상세">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">얼굴 근로자</h1>
+    <button class="nav__del pill pill--del" type="button">삭제</button>
   </header>
 
   <main class="body">
     <div class="shot">
       <div class="shot__box shot__box--done"><img src="images/worker/01.jpg" alt=""></div>
     </div>
+
+    <form class="form">
+      <div class="fld fld--row">
+        <span class="fld__l">외국인 여부</span>
+        <span class="tog"><span>예</span><span class="is-on">아니오</span></span>
+      </div>
+      <div class="fld">
+        <label class="fld__l">이름 <b>(필수)</b></label>
+        <div class="inp">홍길동</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">주민번호 <b>(필수)</b></label>
+        <div class="inp">800101-1******</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">연락처 <b>(필수)</b></label>
+        <div class="inp">010-1234-5678</div>
+      </div>
+      <!-- 값을 고른 뒤라 테가 짙고 글씨가 굵다 — 비어 있는 등록 화면과 갈린다 -->
+      <div class="fld">
+        <label class="fld__l">직종</label>
+        <button class="sel sel--selected" type="button"><span class="sel__t">형틀목공</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </div>
+      <div class="fld">
+        <label class="fld__l">단가</label>
+        <div class="fld__row">
+          <div class="inp inp--num">180,000 원</div>
+          <div class="steps">
+            <button class="step" type="button" aria-label="단가 내리기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-minus"></use></svg></button>
+            <button class="step" type="button" aria-label="단가 올리기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-plus"></use></svg></button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- 등록일만 고칠 수 없다. 언제 등록했는지는 고치는 값이 아니라 남는 값이다 -->
     <div class="rows">
-      <div class="row"><span class="row__k">이름</span><span class="row__v">홍길동</span></div>
-      <div class="row"><span class="row__k">주민번호</span><span class="row__v">800101-1******</span></div>
-      <div class="row"><span class="row__k">연락처</span><span class="row__v">010-1234-5678</span></div>
-      <div class="row"><span class="row__k">직종</span><span class="row__v">형틀목공</span></div>
       <div class="row"><span class="row__k">등록일</span><span class="row__v">2026-10-02</span></div>
     </div>
   </main>
 
-  <!-- 시안의 버튼 색에 위험(빨강)이 없다. 되돌릴 수 없는 쪽을 검정으로 세우고
-       왼쪽 끝에 둔다 — 시안 '반려 · 승인' 과 같은 자리다 -->
-  <div class="act act--end act--split">
-    <button class="act__b act__b--dark" type="button">삭제</button>
-    <button class="act__b act__b--on" type="button">수정</button>
+  <div class="act act--end">
+    <button class="act__b act__b--on" type="button">저장</button>
   </div>
 </section>
 
