@@ -541,12 +541,14 @@ ul,ol{list-style:none}
    카드만 한 과녁으로 세운다. 아이콘과 글이 세로로 선다.
    출근과 퇴근은 색으로 가른다 — 시안에 주황이 없어, 시안이 강한 둘째
    동작에 쓰는 검정을 퇴근에 준다 */
-/* 화면에서 할 일이 이것 하나뿐이라 자리를 다 쓴다 — 좌우는 본문 여백까지,
-   세로는 남는 자리를 채우되 480 에서 멈춘다(그 위로 가면 글이 허공에 뜬다).
+/* 화면에서 할 일이 이것 하나뿐이라 자리를 다 쓴다 — 좌우와 아래가 모두
+   본문 여백(16)이다. 세로를 가운데에 띄워 두면 아래가 좌우보다 넓어,
+   같은 여백으로 둘린 면으로 보이지 않는다. 위만 12 인데, 현장 카드 밑으로
+   들어가며 옅어지는 띠(.ctx ~ .body)가 정해 둔 값이다.
    안의 것들은 바닥에 앉는다 — 가운데에 모으면 넓힌 자리가 글 위아래로
    똑같이 남아, 자리를 키운 것이 아니라 띄워 둔 것처럼 보인다 */
 .cta{position:relative;width:100%;max-width:var(--ap-cta-w);
-  flex:1 1 auto;min-height:260px;max-height:480px;
+  flex:1 1 auto;min-height:260px;
   display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;
   gap:var(--ap-p5);padding:var(--ap-p9) var(--ap-p8);
   border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-cta);
@@ -559,7 +561,15 @@ ul,ol{list-style:none}
 .cta__h{display:flex;align-items:center;justify-content:space-between;
   gap:var(--ap-p5);align-self:stretch}
 .cta__go{flex:none;display:flex;align-items:center;justify-content:center;
-  color:var(--ap-g0)}
+  color:var(--ap-g0);
+  animation:ap-go var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
+/* 세 박자에 한 번만 앞으로 민다 — 쉬지 않고 흔들면 읽는 데 걸린다.
+   가는 쪽(→)으로만 밀고 제자리로 돌아온다 */
+@keyframes ap-go{
+  0%,75%{transform:translateX(0)}
+  87%{transform:translateX(6px)}
+  100%{transform:translateX(0)}
+}
 /* 이 화면에서 가장 큰 글이다(32/40). 과녁의 이름이 설명보다 한 단만
    크면 둘이 비슷해 보인다. 자간은 두지 않는다 — 빌려 온 칸이라
    시안의 자간 짝이 없다 */
@@ -760,7 +770,7 @@ ul,ol{list-style:none}
 /* 움직임을 줄여 달라고 한 기기에서는 멈춘다 — 시스템 규약이다 */
 @media (prefers-reduced-motion:reduce){
   /* 멈춰 서면 사람만 남는다 — 레이저는 제 바탕값(opacity 0)으로 돌아가 숨는다 */
-  .scan__beam,.wave i{animation:none}
+  .scan__beam,.wave i,.cta__go{animation:none}
 }
 
 /* ── 읽기 전용 정보 줄 ── */
