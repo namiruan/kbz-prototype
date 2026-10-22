@@ -153,11 +153,12 @@
   --ap-plate-low:#e4ecf7;              /* 면의 아랫녘 — 빛이 덜 드는 쪽 */
   --ap-plate-lift:0 6px 14px rgba(17,90,198,.18); /* 면이 바탕에 드리우는 그림자 */
   --ap-plate-shade:inset 0 -8px 12px -8px rgba(17,90,198,.22); /* 안쪽 아래 그늘 */
-  /* 오려 낸 얼굴(오각형)에 다는 빛과 그림자 — 모양을 따라간다 */
+  /* 얼굴 면이 드리우는 그림자 — 모양을 따라간다. 흰 빛은 두르지 않는다:
+     번지면 사람이 뿌옇게 보인다 */
   /* 모서리를 둥글린 육각형. 꼭짓점마다 13 만큼 물러나 곡선으로 돈다 —
      폭이 정해진 면(101.25)이라 길이를 바로 적는다 */
   --ap-plate-hex:path("M 31.2 0.0 L 70.0 0.0 Q 83.0 0.0 86.6 12.5 L 97.6 50.3 Q 101.2 62.8 93.9 73.5 L 82.3 90.5 Q 74.9 101.2 61.9 101.2 L 39.3 101.2 Q 26.3 101.2 19.0 90.5 L 7.3 73.5 Q 0.0 62.8 3.6 50.3 L 14.6 12.5 Q 18.2 0.0 31.2 0.0 Z");
-  --ap-plate-cut:drop-shadow(0 0 7px rgba(255,255,255,.92)) drop-shadow(0 4px 6px rgba(17,53,105,.2));
+  --ap-plate-cut:drop-shadow(0 3px 5px rgba(17,53,105,.3));
   /* 읽는 빛은 네온 블루다. 브랜드 색(#115ac6)과 같은 파랑이되 훨씬 밝고
      훨씬 밝고 맑다. 청록으로 기울이지 않고 파랑 쪽에 두되, 얼굴(#115ac6)보다
      한참 밝아 겹쳐도 지나가는 줄이 또렷이 보인다 */
@@ -176,8 +177,8 @@
   --ap-beam-fade:linear-gradient(90deg,transparent 0,#000 22%,#000 78%,transparent 100%);
   --ap-beam-from:4px;   /* 레이저가 떠나는 자리 — 면 위쪽 */
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
-  --ap-hat-groove:#c6d6ea;         /* 안전모의 파인 홈 — 껍데기와 챙 사이 색이다.
-                                      남색 기를 섞으면 흰 모자 위에서 때처럼 보인다 */
+  --ap-hat-groove:rgba(255,255,255,.22); /* 안전모의 파인 홈 — 어두운 모자 위라
+                                      흰 기를 옅게 섞어 판다 */
   --ap-hat:#8cb5f3;                /* 안전모 — primary/30. 흰 면보다 짙고
                                       파란 카드·검은 카드보다 밝아 셋 위에서 다 선다 */
   --ap-hat-dark:#4189f3;           /* 그 챙과 골 — primary/40. 껍데기와 한 단만
@@ -186,6 +187,7 @@
      수염·머리카락처럼 **면**으로 둔 것이 비쳐 흐려진다 */
   --ap-scan-rest:#457ed2;
   --ap-face-cycle:calc(var(--ap-scan-time) * 5); /* 다섯 사람이 한 바퀴 */
+  --ap-cam-side:14%;               /* 틀과 그 위아래 것들의 좌우 — 태블릿에서는 26% */
   --ap-cam-t:104px;                /* 머리말 자리 — 뒤로 가기(52~84) 아래,
                                       사각형(24%) 위. 32 짜리 두 줄(80)이 들어가고도
                                       사각형까지 한 뼘(19) 남는다 */
@@ -621,22 +623,22 @@ ul,ol{list-style:none}
    그 자리가 챙에 가려, 보이는 것은 아래로 좁아지는 컵이 된다.
    아래는 평평해 턱이 된다. 모서리는 옆의 역삼각 얼굴처럼 둥글려야 한다 —
    꺾쇠처럼 날카로우면 혼자 다른 그림이 된다. clip-path 는 모서리를
-   둥글려 주지 않으므로, 곡선으로 돌아가는 길(path)을 직접 적는다. 오려 내면 면이
-   드리우던 빛과 그림자(box-shadow)까지 함께 잘리므로, 그 토막에서는
-   **오려 낸 모양을 따라가는** drop-shadow 로 바꿔 단다 */
-.scan--hat .scan__plate{
+   둥글려 주지 않으므로, 곡선으로 돌아가는 길(path)을 직접 적는다. 오려 낸 모양을 빛이
+   따라가야 하므로 빛은 다섯 모두 drop-shadow 로 단다 — box-shadow 는
+   오려 낼 때 함께 잘린다 */
+/* 얼굴을 띄우는 빛은 다섯이 모두 같다 — 면을 따라 바싹 붙는 drop-shadow
+   하나다. box-shadow 로 넓게 번지게 두니 사람이 뿌옇게 보였다 */
+.scan--hat .scan__plate{box-shadow:none;filter:var(--ap-plate-cut);
   animation:ap-face-shape var(--ap-face-cycle) steps(1) infinite}
 .scan--hat svg{transform-origin:center;
   animation:ap-face-shape-art var(--ap-face-cycle) steps(1) infinite}
 @keyframes ap-face-shape{
-  0% {transform:translate(-50%,-50%);border-radius:50%;clip-path:none;filter:none;
-      box-shadow:var(--ap-plate-lift),var(--ap-glow-face),var(--ap-plate-shade)}
+  0% {transform:translate(-50%,-50%);border-radius:50%;clip-path:none}
   20%{transform:translate(-50%,-50%) scale(1.04,1);border-radius:30%}
   40%{transform:translate(-50%,-50%);border-radius:50% 50% 42% 42% / 38% 38% 62% 62%}
   60%{transform:translate(-50%,-50%) rotate(45deg) scale(.86);border-radius:22%}
   80%{transform:translate(-50%,-50%) scale(1.03);border-radius:0;
-      clip-path:var(--ap-plate-hex);
-      box-shadow:none;filter:var(--ap-plate-cut)}
+      clip-path:var(--ap-plate-hex)}
 }
 /* 안전모는 얼굴을 따라간다 — 둥근 얼굴에는 둥근 껍데기, 각진 얼굴
    (② 둥근 사각 · ④ 마름모)에는 각진 껍데기 */
@@ -923,7 +925,7 @@ ul,ol{list-style:none}
    로 깐다 — 면을 가장자리 두께(3)만큼만 남기고 가운데를 마스크로 뺀다.
    바깥을 어둡게 덮는 막(box-shadow)은 틀 자신이 그대로 들고 있다 */
 .cam__box{--ap-cam-edge:var(--ap-g0);--ap-cam-wash:rgba(255,255,255,.45);
-  position:absolute;left:14%;right:14%;top:24%;height:42%;
+  position:absolute;left:var(--ap-cam-side);right:var(--ap-cam-side);top:24%;height:42%;
   border-radius:28px;box-shadow:0 0 0 999px var(--ap-scrim-cam)}
 .cam__box::before{content:"";position:absolute;inset:0;border-radius:inherit;
   padding:3px;background:linear-gradient(135deg,
@@ -948,28 +950,27 @@ ul,ol{list-style:none}
 /* 주된 동작은 바닥에 둔다 — 한 손으로 드는 기기에서 엄지가 닿는 자리다.
    틀과 좌우를 맞춘다 */
 .cam__go{font:var(--t-title2);letter-spacing:var(--ls-title2);
-  position:absolute;left:14%;right:14%;bottom:var(--ap-p10);
+  position:absolute;left:var(--ap-cam-side);right:var(--ap-cam-side);bottom:var(--ap-p10);
   height:56px;display:flex;align-items:center;justify-content:center;gap:var(--ap-p3);
   background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
 /* 그만두는 쪽은 그 **위**에, 글자만으로 — 면도 테도 없으니 누를 수 있다는
    표는 밑줄이 맡고, 밑줄은 글자에만 긋는다.
-   자리는 '인증하기'(바닥 40 + 키 56)에서 한 칸(12) 더 띄운 곳이다 —
-   글자만 떼어 놓으면 손가락이 짚는 자리끼리 맞붙어, 끝내려다 인증하기를
-   누른다. 위아래 12 씩 둘러 짚을 자리를 46 으로 만든다 */
+   자리는 **틀 바로 아래**(16)다 — 머리말이 틀 위에 붙어 서듯, 끝내는 길도
+   틀에 붙어 선다. 위아래 12 씩 둘러 짚을 자리를 46 으로 만든다 */
 .cam__stop{font:var(--t-head);letter-spacing:var(--ls-head);
-  position:absolute;left:0;right:0;
-  bottom:calc(var(--ap-p10) + 56px + var(--ap-p5));
+  position:absolute;left:0;right:0;top:calc(24% + 42% + var(--ap-p6));
   padding:var(--ap-p5) 0;
   display:flex;align-items:center;justify-content:center;gap:var(--ap-p3);
   color:var(--ap-g0);text-shadow:var(--ap-shadow-cam-text)}
 .cam__stop b{font-weight:inherit;text-decoration:underline;text-underline-offset:3px}
 .cam__box--fail{--ap-cam-edge:var(--ap-cam-fail);--ap-cam-wash:rgba(242,109,106,.5)}
-/* 묻고 시키는 말은 머리에 선다 — 촬영 확인의 머리말과 같은 자리·같은 크기다.
-   가이드 사각형 아래에 두면 눈이 사각형을 지나 아래까지 내려가야 읽힌다.
+/* 묻고 시키는 말은 **틀 바로 위**(16)에 붙어 선다 — 화면 꼭대기에 못 박아
+   두면 태블릿처럼 화면이 길어질 때 틀과 멀어져 따로 노는 글이 된다.
+   틀 아래에 두면 눈이 사각형을 지나 아래까지 내려가야 읽힌다.
    그늘은 남긴다 — 뒤가 살아 움직이는 카메라 그림이라 흰 글씨만으로는
    밝은 바탕에서 지워진다 */
 .cam__t{font:var(--t-cta);word-break:keep-all;
-  position:absolute;left:0;right:0;top:var(--ap-cam-t);
+  position:absolute;left:0;right:0;bottom:calc(100% - 24% + var(--ap-p6));
   padding:0 var(--ap-p8);text-align:center;color:var(--ap-g0);
   text-shadow:var(--ap-shadow-cam-text)}
 /* 인식 결과만 한 단 더 크다 — 줄 선 사람이 멀찍이서 제 이름을 본다.
@@ -1076,6 +1077,6 @@ ul,ol{list-style:none}
   /* 카드가 반 폭이 되면 값이 줄임표로 잘린다. 한 줄에 하나씩 둔다 */
   .card__kv{flex:1 0 100%}
   /* 바닥 바의 글자는 그대로 두고 바만 넓어진다 */
-  .cam__box{left:26%;right:26%}
+  .cam__box{--ap-cam-side:26%}
   .photo{max-width:var(--ap-photo-w-md);height:var(--ap-photo-h-md)}
 }
