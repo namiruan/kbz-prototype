@@ -20,6 +20,9 @@
        화면이 깨진 것인지 가릴 수 없다 */
     if (!hit) hit = all[0];
 
+    /* 덜어 내기 전에 베낀다 — 뒤에 깔 화면도 덜어 낼 것들 가운데 하나다 */
+    behind(hit);
+
     /* 고른 한 장만 남기고 나머지는 문서에서 **덜어 낸다**. 숨기기만 하면 화면설명의
        앵커(`@{선택자}`)가 깨진다 — 프로토타입 셸은 `document.querySelector` 로 첫 번째
        것을 짚는데, 그 첫 번째가 숨은 다른 화면 안에 있으면 하이라이트가 보이지 않는다.
@@ -27,6 +30,28 @@
     all.forEach(function (s) { if (s !== hit) s.remove(); });
     hit.classList.add('is-on');
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
+  }
+
+  /* 떠 있는 창(촬영 확인)은 뒤에 그 창을 띄운 화면을 둔다. 그 화면을 여기
+     옮겨 적지 않고 켜기 직전에 **베껴** 온다 — 같은 마크업을 두 곳에 적으면
+     한쪽만 고쳐져 따로 늙는다. 어느 화면 위인지는 `data-behind` 가 말한다.
+     화면 안의 동작을 흉내 내는 것이 아니라, 한 장의 화면을 짜 맞추는 일이다. */
+  function behind(hit) {
+    var name = hit.dataset.behind;
+    var src = name && document.querySelector('.scr[data-screen="' + name + '"]');
+    if (!src) return;
+
+    var back = src.cloneNode(true);
+    /* 베낀 쪽은 더 이상 '화면'이 아니다 — 이름을 지워 골라지지 않게 하고,
+       읽는 기계와 탭 이동에서 뺀다. id 가 겹치면 라벨이 엉뚱한 칸을 가리킨다 */
+    back.removeAttribute('data-screen');
+    back.removeAttribute('data-title');
+    back.removeAttribute('data-behind');
+    back.setAttribute('aria-hidden', 'true');
+    back.setAttribute('inert', '');
+    back.className = src.className + ' is-on behind';
+    back.querySelectorAll('[id]').forEach(function (n) { n.removeAttribute('id'); });
+    hit.insertBefore(back, hit.firstChild);
   }
 
   /* 아이콘은 스프라이트를 주입해 쓴다 (시스템 규약: 원격 절대 URL) */
