@@ -84,8 +84,8 @@
   --ap-shadow-lift:0 4px 16px rgba(17,53,105,.12);
   /* 인증 시작 과녁 — 눌리는 것으로 보이려면 바탕에서 떠 있어야 한다.
      카드 자리(shadow-card)보다 깊게, 제 색 계열로 드리운다 */
-  --ap-shadow-cta:0 10px 24px rgba(17,53,105,.28);
-  --ap-shadow-cta-out:0 10px 24px rgba(19,20,22,.28);
+  --ap-shadow-cta:0 4px 8px rgba(17,53,105,.3),0 14px 28px rgba(17,53,105,.34);
+  --ap-shadow-cta-out:0 4px 8px rgba(19,20,22,.3),0 14px 28px rgba(19,20,22,.34);
 
   /* ── 어두운 막과 그 위에 얹는 것 ──
      카메라 화면·촬영 확인·알림창이 나눠 쓴다. 투명도를 규칙마다 손으로
@@ -488,6 +488,9 @@ ul,ol{list-style:none}
    padding 이 따라 만든다 */
 .bds .bd{font-size:14px}
 .bd--normal{background:var(--ap-badge-normal);color:var(--ap-text)}
+/* 라인 — 면은 흰색이고 테로 가른다(시스템의 badge--line). 테는 안쪽으로
+   그어 넣는다: 테두리로 두르면 뱃지가 1 씩 커져 옆 글자와 줄이 어긋난다 */
+.bd--line{background:var(--ap-g0);box-shadow:inset 0 0 0 1px var(--ap-line)}
 .bd--positive{background:var(--ap-badge-positive);color:var(--ap-primary)}
 .bd--negative{background:var(--ap-point-bg);color:var(--ap-point)}
 .bd--point{background:var(--ap-point);color:var(--ap-g0)}
