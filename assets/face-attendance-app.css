@@ -916,16 +916,21 @@ ul,ol{list-style:none}
    얼굴을 맞출지 알 수 없다 */
 @keyframes ap-cam-pulse{0%,100%{opacity:.5} 50%{opacity:1}}
 .cam__box--ok{--ap-cam-edge:var(--ap-cam-ok);--ap-cam-wash:rgba(123,227,139,.5)}
-/* 지금 무엇을 찍는지는 틀 바로 밑에서 말한다 — 촬영 확인에서 사진과
-   '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다. 틀과 좌우를 맞춘다 */
+/* 주된 동작은 바닥에 둔다 — 한 손으로 드는 기기에서 엄지가 닿는 자리다.
+   틀과 좌우를 맞춘다 */
 .cam__go{font:var(--t-title2);letter-spacing:var(--ls-title2);
-  position:absolute;left:14%;right:14%;top:calc(24% + 42% + var(--ap-p8));
+  position:absolute;left:14%;right:14%;bottom:var(--ap-p10);
   height:56px;display:flex;align-items:center;justify-content:center;gap:var(--ap-p3);
   background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
-/* 그만두는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와 같다.
-   면도 테도 없으니 누를 수 있다는 표는 밑줄이 맡고, 밑줄은 글자에만 긋는다 */
+/* 그만두는 쪽은 그 **위**에, 글자만으로 — 면도 테도 없으니 누를 수 있다는
+   표는 밑줄이 맡고, 밑줄은 글자에만 긋는다.
+   자리는 '인증하기'(바닥 40 + 키 56)에서 한 칸(12) 더 띄운 곳이다 —
+   글자만 떼어 놓으면 손가락이 짚는 자리끼리 맞붙어, 끝내려다 인증하기를
+   누른다. 위아래 12 씩 둘러 짚을 자리를 46 으로 만든다 */
 .cam__stop{font:var(--t-head);letter-spacing:var(--ls-head);
-  position:absolute;left:0;right:0;bottom:var(--ap-p10);
+  position:absolute;left:0;right:0;
+  bottom:calc(var(--ap-p10) + 56px + var(--ap-p5));
+  padding:var(--ap-p5) 0;
   display:flex;align-items:center;justify-content:center;gap:var(--ap-p3);
   color:var(--ap-g0);text-shadow:var(--ap-shadow-cam-text)}
 .cam__stop b{font-weight:inherit;text-decoration:underline;text-underline-offset:3px}
