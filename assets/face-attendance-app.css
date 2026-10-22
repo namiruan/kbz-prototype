@@ -141,6 +141,7 @@
   --ap-r4:4px;                     /* radius/small1 */
   --ap-r6:6px;                     /* radius/medium1 — select-atomic */
   --ap-step-w:50px;                /* 단가 ＋·－ 의 최소 폭 — 시안 min-width */
+  --ap-tog-yes:36px;  --ap-tog-no:66px;  /* 예·아니오 알의 폭 — 정수로 떨어뜨린다 */
   --ap-sel-w:110px;                /* select-atomic 의 기본 폭 — 글자가 짧아도 이만큼은 둔다 */
   --ap-form-w:560px;               /* 폼·상세가 가운데로 모이는 폭 */
   --ap-photo-w:320px;  --ap-photo-h:300px;      /* 이력 사진 */
@@ -487,7 +488,14 @@ ul,ol{list-style:none}
    바탕 #33363d · 안쪽 여백 4 · 알 사이 4 · 알은 위아래 4 좌우 10 */
 .tog{display:inline-flex;align-items:center;align-self:flex-start;gap:var(--ap-p2);
   background:var(--ap-bg-black);border-radius:var(--ap-r-pill);padding:var(--ap-p2)}
-.tog span{font:var(--t-sub-em);letter-spacing:var(--ls-sub);padding:var(--ap-p2) var(--ap-p4);border-radius:var(--ap-r-pill);color:var(--ap-g0)}
+/* 알의 폭을 정수로 못 박는다. 글자 폭이 소수로 떨어져(예 34.78 · 아니오 64.31)
+   토글이 111.09 로 끝나고, 줄 오른쪽 끝에 붙는 자리라 왼쪽 가장자리가 262.91 에
+   앉았다 — 알약의 둥근 끝이 픽셀 사이에 걸려 흐릿해 보이던 까닭이다.
+   시안의 안쪽 여백(4/10)은 그대로 두고 폭만 올려 잡는다 */
+.tog span{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
+  min-width:var(--ap-tog-yes);display:inline-flex;align-items:center;justify-content:center;
+  padding:var(--ap-p2) var(--ap-p4);border-radius:var(--ap-r-pill);color:var(--ap-g0)}
+.tog span:last-child{min-width:var(--ap-tog-no)}
 .tog span.is-on{background:var(--ap-g0);color:var(--ap-g95)}
 
 /* ── 얼굴 촬영 자리 ──
