@@ -122,12 +122,13 @@
   --ap-ease-sym:ease-in-out;       /* easing-symmetric — 되풀이하는 움직임 */
   --ap-beat:750ms;                 /* duration-pulse — 한 번 뛰는 길이 */
   --ap-beat-cycle:3s;              /* 뛰고 나서 쉬는 참까지. 750 뛰고 2250 쉰다 */
+  --ap-scan-time:1.4s;             /* 인증 줄이 한 쪽 끝에서 다른 끝까지 가는 데 걸리는 길이 */
   --ap-scan:96px;                  /* 얼굴을 훑는 그림의 크기 */
   /* 가운데에서 퍼지는 면 — primary/60(17,90,198)을 옅게 깐다. 팔레트에 이
      농도가 없어 투명도로 만든다. 브랜드 색 한 가지에서 나오므로 색이 바뀌면
      둘 다 따라간다 */
-  --ap-glow-core:rgba(17,90,198,.17);
-  --ap-glow-edge:rgba(17,90,198,.04);
+  --ap-glow-in:var(--ap-g0);           /* 가운데 — 밝다 */
+  --ap-glow-out:var(--ap-primary-5);   /* 가장자리 — 연한 브랜드 색 */
   --ap-glow-ring:rgba(17,90,198,.22);  /* 번져 나가는 파장의 테 */
   --ap-scan-rest:rgba(17,90,198,.38); /* 훑기 전 얼굴·테 — 회색을 쓰면 파란 면 위에서 혼자 뜬다 */
   --ap-shot:200px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 다르다 */
@@ -490,12 +491,13 @@ ul,ol{list-style:none}
    벌리는 것으로 족하다 — 칠하면 볼 것이 하나 더 는다 */
 .shot{display:flex;flex-direction:column;align-items:center;gap:var(--ap-gap3)}
 .shot + .form{margin-top:var(--ap-p8)}
-/* 점선 테를 걷는다 — 테로 '여기' 를 가리키는 대신 **면이 가운데에서 퍼져**
-   가리킨다. 바탕은 primary/5 에 가운데만 한 끗 짙은 둥근 면을 얹은 것이다 */
+/* 점선 테를 걷는다 — 테로 '여기' 를 가리키는 대신 **면**이 가리킨다.
+   연한 브랜드 색(primary/5)을 깔고 가운데로 갈수록 밝아진다. 밝은 쪽이
+   가운데라 눈이 거기로 모이고, 드러나는 사람과 물결이 그 위에 선다 */
 .shot__box{font:var(--t-sub-em);letter-spacing:var(--ls-sub);width:var(--ap-shot);height:var(--ap-shot);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--ap-p2);
   position:relative;overflow:hidden;border:0;border-radius:var(--ap-r10);color:var(--ap-primary);
-  background:radial-gradient(circle at 50% 40%,var(--ap-glow-core) 0,var(--ap-glow-edge) 48%,transparent 78%)}
+  background:radial-gradient(circle at 50% 40%,var(--ap-glow-in) 0,var(--ap-glow-out) 72%)}
 /* 글자와 그림은 퍼지는 면 위에 선다 — 자리를 잡아 두지 않으면 면이 그 위를 덮는다 */
 .shot__box > *{position:relative;z-index:1}
 .shot__box--done{border:0;background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
@@ -546,37 +548,20 @@ ul,ol{list-style:none}
   100%{transform:scale(2.4);opacity:0}
 }
 
-.shot__box:not(.shot__box--done) .scan__line{animation:ap-scan-sweep var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
-.shot__box:not(.shot__box--done) .scan__face{animation:ap-scan-hit var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
-.shot__box:not(.shot__box--done) .scan__reveal{animation:ap-scan-reveal var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
+/* 사람은 가만히 있고 인증 줄만 오르내린다. alternate 라 내려갔다 그대로
+   거슬러 올라온다 — 끝에서 가감속이 걸려 잠깐 멎었다 돌아선다 */
+.shot__box:not(.shot__box--done) .scan__line{
+  animation:ap-scan-sweep var(--ap-scan-time) var(--ap-ease-sym) infinite alternate}
 
 @keyframes ap-scan-sweep{
-  0%,4%{transform:translateY(15px);opacity:0}
-  10%{opacity:1}
-  40%{transform:translateY(55px);opacity:1}
-  46%{transform:translateY(55px);opacity:0}
-  100%{transform:translateY(15px);opacity:0}
-}
-/* 다 훑고 나서 물든다 — 훑는 동안이 아니라 끝난 뒤다. 찾았다는 말이라 */
-@keyframes ap-scan-hit{
-  0%,40%{fill:var(--ap-scan-rest);opacity:1}
-  50%,64%{fill:var(--ap-primary);opacity:1}
-  80%{fill:var(--ap-scan-rest);opacity:1}
-  94%,100%{fill:var(--ap-scan-rest);opacity:0}
-}
-/* 사람은 줄이 지나간 데까지만 드러난다 — 다 지나면 다 선다.
-   끝에서 한 번 옅어지고 나서 처음으로 돌아간다. 안 그러면 다음 바퀴가
-   시작될 때 사람이 툭 사라진다 */
-@keyframes ap-scan-reveal{
-  0%,4%{transform:translateY(15px)}
-  40%,100%{transform:translateY(55px)}
+  from{transform:translateY(15px);opacity:1}
+  to{transform:translateY(55px);opacity:1}
 }
 
 /* 움직임을 줄여 달라고 한 기기에서는 멈춘다 — 시스템 규약이다 */
 @media (prefers-reduced-motion:reduce){
-  /* 멈춰 서면 사람만 남는다 — 드러내는 네모를 끝까지 내려 둔다 */
-  .scan__line,.scan__face,.wave i{animation:none}
-  .scan__reveal{animation:none;transform:translateY(55px)}
+  /* 멈춰 서면 사람만 남는다 — 줄은 제 바탕값(opacity 0)으로 돌아가 숨는다 */
+  .scan__line,.wave i{animation:none}
 }
 
 /* ── 읽기 전용 정보 줄 ── */
