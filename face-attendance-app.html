@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=55">
-<script src="assets/face-attendance-app.js?v=55" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=56">
+<script src="assets/face-attendance-app.js?v=56" defer></script>
 </head>
 
 <body>
@@ -367,18 +367,13 @@
                셋이 1초 간격으로 떠난다 -->
           <span class="wave"><i></i><i></i><i></i></span>
           <svg viewBox="0 0 72 72">
-            <defs>
-              <!-- 훑는 줄은 동그란 자리 안에서만 보인다 — 테를 없앤 뒤에도
-                   줄이 네모로 지나가면 둘레의 물결과 꼴이 어긋난다 -->
-              <clipPath id="scanLens"><circle cx="36" cy="36" r="22"/></clipPath>
-            </defs>
-            <g clip-path="url(#scanLens)">
-              <g class="scan__face">
-                <circle cx="36" cy="30" r="8"/>
-                <path d="M24 48a12 12 0 0 1 24 0z"/>
-              </g>
-              <rect class="scan__line" x="8" y="0" width="56" height="2.5" rx="1.25"/>
+            <g class="scan__face">
+              <circle cx="36" cy="30" r="8"/>
+              <path d="M24 48a12 12 0 0 1 24 0z"/>
             </g>
+            <!-- 인증 줄 — 길이는 늘 같다. 동그라미에 오려 두면 끝으로 갈수록
+                 짧아져, 오르내리는 동안 막대가 늘었다 줄었다 한다 -->
+            <rect class="scan__line" x="8" y="0" width="56" height="2.5" rx="1.25"/>
           </svg>
         </span>
         <b class="shot__t">얼굴 등록하기</b>
@@ -448,18 +443,13 @@
                셋이 1초 간격으로 떠난다 -->
           <span class="wave"><i></i><i></i><i></i></span>
           <svg viewBox="0 0 72 72">
-            <defs>
-              <!-- 훑는 줄은 동그란 자리 안에서만 보인다 — 테를 없앤 뒤에도
-                   줄이 네모로 지나가면 둘레의 물결과 꼴이 어긋난다 -->
-              <clipPath id="scanLens"><circle cx="36" cy="36" r="22"/></clipPath>
-            </defs>
-            <g clip-path="url(#scanLens)">
-              <g class="scan__face">
-                <circle cx="36" cy="30" r="8"/>
-                <path d="M24 48a12 12 0 0 1 24 0z"/>
-              </g>
-              <rect class="scan__line" x="8" y="0" width="56" height="2.5" rx="1.25"/>
+            <g class="scan__face">
+              <circle cx="36" cy="30" r="8"/>
+              <path d="M24 48a12 12 0 0 1 24 0z"/>
             </g>
+            <!-- 인증 줄 — 길이는 늘 같다. 동그라미에 오려 두면 끝으로 갈수록
+                 짧아져, 오르내리는 동안 막대가 늘었다 줄었다 한다 -->
+            <rect class="scan__line" x="8" y="0" width="56" height="2.5" rx="1.25"/>
           </svg>
         </span>
         <b class="shot__t">얼굴 등록하기</b>
