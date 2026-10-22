@@ -494,15 +494,17 @@ ul,ol{list-style:none}
    가리킨다. 바탕은 primary/5 에 가운데만 한 끗 짙은 둥근 면을 얹은 것이다 */
 .shot__box{font:var(--t-sub-em);letter-spacing:var(--ls-sub);width:var(--ap-shot);height:var(--ap-shot);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--ap-gap3);
-  position:relative;overflow:hidden;border:0;border-radius:var(--ap-r10);color:var(--ap-text-gray);
+  position:relative;overflow:hidden;border:0;border-radius:var(--ap-r10);color:var(--ap-primary);
   background:radial-gradient(circle at 50% 40%,var(--ap-glow-core) 0,var(--ap-glow-edge) 48%,transparent 78%)}
 /* 글자와 그림은 퍼지는 면 위에 선다 — 자리를 잡아 두지 않으면 면이 그 위를 덮는다 */
 .shot__box > *{position:relative;z-index:1}
 .shot__box--done{border:0;background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   color:var(--ap-on-photo)}
 .shot__t{font:var(--t-sub-em);letter-spacing:var(--ls-sub)}
+/* 이름과 안내도 브랜드 색이다. 둘의 높낮이는 색이 아니라 굵기와 크기로
+   가른다 — 안내를 옅은 파랑으로 내리면 13px 글자가 바탕에 묻힌다 */
 .shot__hint{font:var(--t-foot);letter-spacing:var(--ls-foot);max-width:180px;text-align:center;
-  word-break:keep-all;color:var(--ap-text-gray)}
+  word-break:keep-all;color:var(--ap-primary)}
 
 /* ── 빈 사진 자리가 스스로 말하게 한다 ──
    폼 맨 위의 빈 상자는 '여기를 눌러야 한다' 는 것도, '무엇을 찍는다' 는 것도
