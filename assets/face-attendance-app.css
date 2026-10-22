@@ -153,6 +153,8 @@
   --ap-plate-low:#e4ecf7;              /* 면의 아랫녘 — 빛이 덜 드는 쪽 */
   --ap-plate-lift:0 6px 14px rgba(17,90,198,.18); /* 면이 바탕에 드리우는 그림자 */
   --ap-plate-shade:inset 0 -8px 12px -8px rgba(17,90,198,.22); /* 안쪽 아래 그늘 */
+  /* 오려 낸 얼굴(오각형)에 다는 빛과 그림자 — 모양을 따라간다 */
+  --ap-plate-cut:drop-shadow(0 0 7px rgba(255,255,255,.92)) drop-shadow(0 4px 6px rgba(17,53,105,.2));
   /* 읽는 빛은 네온 블루다. 브랜드 색(#115ac6)과 같은 파랑이되 훨씬 밝고
      훨씬 밝고 맑다. 청록으로 기울이지 않고 파랑 쪽에 두되, 얼굴(#115ac6)보다
      한참 밝아 겹쳐도 지나가는 줄이 또렷이 보인다 */
@@ -611,17 +613,25 @@ ul,ol{list-style:none}
    변하는 것처럼 보인다 */
 /* 다섯 사람이 돌아간다. 얼굴 면과 그림(모자·얼굴)은 **함께** 늘고 준다 —
    면만 늘리면 모자가 면에서 삐져나온다.
-   ① 원 ② 둥근 사각 ③ 역삼각 ④ 마름모 ⑤ 세로 타원 */
+   ① 원 ② 둥근 사각 ③ 역삼각 ④ 마름모 ⑤ 오각형.
+   오각형은 **꼭짓점을 아래로** 둔다 — 위를 뾰족하게 두면 모자에 가려
+   컵처럼 보이고, 아래로 두면 뾰족한 턱이 되어 얼굴로 읽힌다.
+   모서리를 둥글릴 수 없어 clip-path 로 오린다. 오려 내면 면이
+   드리우던 빛과 그림자(box-shadow)까지 함께 잘리므로, 그 토막에서는
+   **오려 낸 모양을 따라가는** drop-shadow 로 바꿔 단다 */
 .scan--hat .scan__plate{
   animation:ap-face-shape var(--ap-face-cycle) steps(1) infinite}
 .scan--hat svg{transform-origin:center;
   animation:ap-face-shape-art var(--ap-face-cycle) steps(1) infinite}
 @keyframes ap-face-shape{
-  0% {transform:translate(-50%,-50%);border-radius:50%}
+  0% {transform:translate(-50%,-50%);border-radius:50%;clip-path:none;filter:none;
+      box-shadow:var(--ap-plate-lift),var(--ap-glow-face),var(--ap-plate-shade)}
   20%{transform:translate(-50%,-50%) scale(1.04,1);border-radius:30%}
   40%{transform:translate(-50%,-50%);border-radius:50% 50% 42% 42% / 38% 38% 62% 62%}
   60%{transform:translate(-50%,-50%) rotate(45deg) scale(.86);border-radius:22%}
-  80%{transform:translate(-50%,-50%) scale(.93,1.06);border-radius:50%}
+  80%{transform:translate(-50%,-50%) scale(1.03);border-radius:0;
+      clip-path:polygon(19% 0,81% 0,100% 60%,50% 100%,0 60%);
+      box-shadow:none;filter:var(--ap-plate-cut)}
 }
 /* 안전모는 얼굴을 따라간다 — 둥근 얼굴에는 둥근 껍데기, 각진 얼굴
    (② 둥근 사각 · ④ 마름모)에는 각진 껍데기 */
@@ -636,7 +646,7 @@ ul,ol{list-style:none}
   20%{transform:scale(1.04,1)}
   40%{transform:scale(1)}
   60%{transform:scale(.92)}
-  80%{transform:scale(.93,1.06)}
+  80%{transform:scale(1.03)}
 }
 /* 입체는 그라데이션이 맡는다 — 꼭대기가 밝고 아래로 가며 어두워진다.
    덧댄 광택 선으로는 모자가 아니라 모자 위에 그은 줄로 보인다.
