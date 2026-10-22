@@ -72,6 +72,10 @@
   --ap-line:rgba(19,20,22,.15);    /* Color/action/gray-pressed */
   --ap-shadow-card:0 4px 2px rgba(17,53,105,.05);
   --ap-shadow-float:0 0 10px rgba(19,20,22,.08);  /* shadow-02 */
+  /* 눌러야 하는 면을 띄우는 그림자. 색은 시안이 카드에 쓰는 것과 같은
+     계열(primary-dark #113569)이다 — 검정 그림자를 파란 면 밑에 깔면
+     그 자리만 때가 낀 것처럼 탁해진다. 꼴은 시스템 shadow-lg(0 4px 16px) */
+  --ap-shadow-lift:0 4px 16px rgba(17,53,105,.12);
 
   /* ── 어두운 막과 그 위에 얹는 것 ──
      카메라 화면·촬영 확인·알림창이 나눠 쓴다. 투명도를 규칙마다 손으로
@@ -533,11 +537,10 @@ ul,ol{list-style:none}
    남은 자리를 글이 온전히 쓰고, 그림은 글이 길어지든 말든 제자리에 선다 */
 /* 그림자는 "떠 있다 = 누를 수 있다" 는 말이다. 읽기만 하는 줄(현장)에는
    붙이지 않았지만, 이 자리는 눌러야 다음이 있으므로 띄운다.
-   있는 그림자 둘을 겹친다 — card(0 4px)가 바닥에 앉은 그림자를, float(0 0 10px,
-   시안 shadow-02)이 둘레의 공기를 맡는다. 새 값을 짓지 않는다.
+   색은 브랜드 계열로 간다(--ap-shadow-lift) — 자세한 까닭은 그 토큰 옆에.
    찍은 뒤(--done)는 사진을 보여 주는 자리라 그대로 가라앉혀 둔다 */
 .shot__box:not(.shot__box--done){--ap-shot:240px;padding-bottom:var(--ap-p8);
-  box-shadow:var(--ap-shadow-card),var(--ap-shadow-float)}
+  box-shadow:var(--ap-shadow-lift)}
 /* 한가운데(50%)에서 조금 올린다 — 글이 아래에 깔려 있어 눈이 보는
    한가운데는 틀의 한가운데보다 위다. 42% 면 글과 16 이 뜬다 */
 .shot__box > .scan{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);z-index:1}
@@ -631,8 +634,12 @@ ul,ol{list-style:none}
   display:flex;align-items:center;justify-content:center;color:var(--ap-on-photo)}
 .confirm__pic .ic{width:96px;height:96px}
 .confirm__t{font:var(--t-title2);letter-spacing:var(--ls-title2);color:var(--ap-g0)}
-.confirm__bt{display:flex;gap:var(--ap-gap3);width:100%;max-width:400px}
-.confirm__bt span{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;display:flex;align-items:center;justify-content:center;height:56px;border-radius:var(--ap-r10)}
+/* 둘을 위아래로 놓는다. 나란히 두면 긴 이름이 두 줄로 접히고, 되돌리는
+   쪽과 저지르는 쪽이 같은 크기로 서서 어느 쪽이 주된 동작인지 흐려진다 */
+.confirm__bt{display:flex;flex-direction:column;gap:var(--ap-gap3);width:100%;max-width:400px}
+/* 위아래로 세운 줄에서 flex:1 은 **높이**를 나눠 갖는 말이 된다 — 56 을
+   적어 두어도 눌려 납작해진다. 제 높이를 지키게 둔다 */
+.confirm__bt span{font:var(--t-head);letter-spacing:var(--ls-head);flex:none;display:flex;align-items:center;justify-content:center;height:56px;border-radius:var(--ap-r10)}
 .confirm__bt .re{border:1px solid var(--ap-on-dark-line);color:var(--ap-g0)}
 .confirm__bt .ok{background:var(--ap-primary);color:var(--ap-g0)}
 
