@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=146">
-<script src="assets/face-attendance-app.js?v=146" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=147">
+<script src="assets/face-attendance-app.js?v=147" defer></script>
 </head>
 
 <body>
@@ -664,13 +664,14 @@
             <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 크고,
                  동그라미가 아니라 조금 각졌다: 꼭대기는 눌린 듯 평평하고
                  옆으로 내려오며 꺾여, 챙 바로 위에서 다시 벌어진다.
-                 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
+                 챙은 면 한가운데(36)보다 **위**에 걸친다 — 더 내려오면
+                 얼굴의 반을 가져간다. 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
                  넣은 것이 아니다 -->
             <g class="scan__hat">
-              <path d="M6 33 9 20Q20 7 36 7 52 7 63 20l3 13Z"/>
+              <path d="M6 28 9 15Q20 2 36 2 52 2 63 15l3 13Z"/>
               <!-- 골 두 줄과 챙 — 이것이 있어야 모자가 아니라 **안전모**로 읽힌다 -->
-              <path class="scan__hat-d" d="M29 11V31M43 11V31"/>
-              <rect class="scan__hat-b" x="4.5" y="30.5" width="63" height="5.5" rx="2.75"/>
+              <path class="scan__hat-d" d="M29 6V26M43 6V26"/>
+              <rect class="scan__hat-b" x="4.5" y="25.5" width="63" height="5.5" rx="2.75"/>
             </g>
             <!-- ① 웃는 사람 -->
             <g class="scan__f">
@@ -754,13 +755,14 @@
             <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 크고,
                  동그라미가 아니라 조금 각졌다: 꼭대기는 눌린 듯 평평하고
                  옆으로 내려오며 꺾여, 챙 바로 위에서 다시 벌어진다.
-                 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
+                 챙은 면 한가운데(36)보다 **위**에 걸친다 — 더 내려오면
+                 얼굴의 반을 가져간다. 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
                  넣은 것이 아니다 -->
             <g class="scan__hat">
-              <path d="M6 33 9 20Q20 7 36 7 52 7 63 20l3 13Z"/>
+              <path d="M6 28 9 15Q20 2 36 2 52 2 63 15l3 13Z"/>
               <!-- 골 두 줄과 챙 — 이것이 있어야 모자가 아니라 **안전모**로 읽힌다 -->
-              <path class="scan__hat-d" d="M29 11V31M43 11V31"/>
-              <rect class="scan__hat-b" x="4.5" y="30.5" width="63" height="5.5" rx="2.75"/>
+              <path class="scan__hat-d" d="M29 6V26M43 6V26"/>
+              <rect class="scan__hat-b" x="4.5" y="25.5" width="63" height="5.5" rx="2.75"/>
             </g>
             <!-- ① 웃는 사람 -->
             <g class="scan__f">

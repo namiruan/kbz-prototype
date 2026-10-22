@@ -171,9 +171,9 @@
   --ap-beam-fade:linear-gradient(90deg,transparent 0,#000 22%,#000 78%,transparent 100%);
   --ap-beam-from:4px;   /* 레이저가 떠나는 자리 — 면 위쪽 */
   --ap-beam-to:84px;    /* 훑기를 마치는 자리 — 면 아래쪽 */
-  --ap-hat:#4189f3;                /* 안전모 — primary/40. 흰 면보다 짙고
+  --ap-hat:#8cb5f3;                /* 안전모 — primary/30. 흰 면보다 짙고
                                       파란 카드·검은 카드보다 밝아 셋 위에서 다 선다 */
-  --ap-hat-dark:#114797;           /* 그 챙과 골 — primary/70 */
+  --ap-hat-dark:#166dee;           /* 그 챙과 골 — primary/50 */
   --ap-scan-rest:rgba(17,90,198,.78); /* 얼굴 — 흰 면 위에 또렷이 앉는 짙은 브랜드 색 */
   --ap-cam-t:88px;                /* 머리말 자리 — 닫기(56~86) 아래, 사각형(24%) 위.
                                       32 짜리 두 줄이 들어가도 사각형에 닿지 않는다 */
@@ -618,9 +618,10 @@ ul,ol{list-style:none}
 }
 /* 안전모는 제 색을 가진다 — 얼굴과 같은 반투명 파랑으로 두니 흰 면이
    비쳐 모자가 아니라 얼굴에 드리운 그늘처럼 보였고, 면 밖으로 나온 자리는
-   파란 카드에 묻혔다. 브랜드 램프에서 가운데(primary/40)를 꽉 채워 쓴다:
+   파란 카드에 묻혔다. 브랜드 램프의 연한 쪽(primary/30)을 꽉 채워 쓴다:
    흰 면보다 짙고, 출근 카드(primary/60)와 퇴근 카드(검정)보다 밝아 셋
-   위에서 모두 선다. 챙과 골은 한 단 짙은 primary/70 이라 껍데기와 갈린다 */
+   위에서 모두 선다. 챙과 골은 한 단 짙은 primary/50 이라 껍데기와 갈리되,
+   카드 색(primary/60)보다는 밝아 면 밖으로 나온 챙 끝도 묻히지 않는다 */
 .scan__hat{fill:var(--ap-hat)}
 .scan__hat-b{fill:var(--ap-hat-dark)}
 .scan__hat-d{fill:none;stroke:var(--ap-hat-dark);stroke-width:2;stroke-linecap:round}
