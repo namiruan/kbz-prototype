@@ -141,7 +141,8 @@
   --ap-go-cycle:1.6s;              /* '시작' 화살표가 한 번 밀었다 돌아오는 주기 */
   --ap-beat-cycle:3s;              /* 뛰고 나서 쉬는 참까지. 750 뛰고 2250 쉰다 */
   --ap-scan-time:1.9s;             /* 레이저가 위에서 아래까지 한 번 훑는 데 걸리는 길이 */
-  --ap-scan:120px;                 /* 얼굴을 훑는 그림의 크기 */
+  --ap-scan-base:120px;            /* 얼굴을 훑는 그림의 본디 크기 */
+  --ap-scan:var(--ap-scan-base);   /* 자리가 좁으면 과녁 안에서만 줄어든다 */
   /* 가운데에서 퍼지는 면 — primary/60(17,90,198)을 옅게 깐다. 팔레트에 이
      농도가 없어 투명도로 만든다. 브랜드 색 한 가지에서 나오므로 색이 바뀌면
      둘 다 따라간다 */
@@ -190,15 +191,20 @@
      수염·머리카락처럼 **면**으로 둔 것이 비쳐 흐려진다 */
   --ap-scan-rest:#457ed2;
   --ap-face-cycle:calc(var(--ap-scan-time) * 5); /* 다섯 사람이 한 바퀴 */
-  /* 카메라가 잡는 틀 — 사람(120)보다 한 뼘 넓다. 꽉 끼면 틀이 아니라
-     테두리가 된다 */
-  --ap-scan-frame:calc(var(--ap-scan) * 1.42);
+  /* 카메라가 잡는 틀 — 사람(120)보다 한참 넓다. 꽉 끼면 틀이 아니라
+     테두리가 된다. 그림 칸이 허락하는 데까지 벌린다 */
+  --ap-scan-frame:calc(var(--ap-scan) * 1.7);
   /* 꺾쇠의 빛 — 흰색이되 흰색까지 올리지는 않는다. 카메라 화면은 바탕이
      검어 흰 선이 그대로 앉지만, 과녁은 파랑·검정 두 면 위라 같은 밝기면
      사람보다 테가 먼저 읽힌다. 테는 사람을 가리키는 것이지 제가 과녁이
      아니다 */
   --ap-corner-line:rgba(255,255,255,.5);  /* 선에 바싹 붙는 빛 */
   --ap-corner-wash:rgba(255,255,255,.24); /* 그 바깥으로 번지는 빛 */
+  /* 찾았을 때의 빛 — 인식 결과 화면의 초록(--ap-cam-ok)과 같은 색이다.
+     같은 일(얼굴을 찾았다)을 두 화면이 다른 색으로 말하면 색이 뜻을 잃는다.
+     흰 테보다 한 단 밝고 한참 넓게 번진다 — 숨 쉬던 테가 '켜지는' 참이다 */
+  --ap-corner-ok-line:rgba(123,227,139,.9);
+  --ap-corner-ok-wash:rgba(123,227,139,.45);
   --ap-cam-side:14%;               /* 틀과 그 위아래 것들의 좌우 — 태블릿에서는 26% */
   --ap-cam-t:104px;                /* 머리말 자리 — 뒤로 가기(52~84) 아래,
                                       사각형(24%) 위. 32 짜리 두 줄(80)이 들어가고도
@@ -622,6 +628,17 @@ ul,ol{list-style:none}
    그대로 있고, 위의 빈 면이 그림 자리가 된다 */
 .cta__art{position:relative;flex:1;min-height:0;align-self:stretch;
   display:flex;align-items:center;justify-content:center}
+/* 그림 칸이 낮으면 틀도 사람도 **함께** 줄어든다 — 틀만 칸에 맞춰 줄이면
+   사람이 틀 밖으로 비어져, 들어와 선다는 말이 거짓이 된다. 칸의 키를 재야
+   하므로 칸을 컨테이너로 삼는다(cqh). 쟤는 제 컨테이너가 아니라 조상의
+   것을 보므로 값은 **자식**에 건다 — .scan__corner 와 .cta__stage 둘 다 자식이다 */
+.cta__art{container-type:size}
+.cta__art > *{--ap-scan:min(var(--ap-scan-base),57cqh)}
+/* 사람이 뛰노는 자리 — 틀 바깥에서 들어오므로 그림 칸에서 잘라 낸다.
+   자르지 않으면 카드 밖까지 비어져 이름 위에 겹친다. 꺾쇠는 이 밖에
+   있어 제 빛이 함께 잘리지 않는다 */
+.cta__stage{position:absolute;inset:0;overflow:hidden;
+  display:flex;align-items:center;justify-content:center}
 
 /* 안전모 쓴 얼굴 — 셋이 돌아가며 선다. 레이저가 한 번 훑는 동안 한 사람이고,
    세 번이면 처음으로 돌아온다. 얼굴마다 면의 생김도 조금씩 다르다(동그란
@@ -655,17 +672,67 @@ ul,ol{list-style:none}
    번지며, 숨 쉬듯 옅어졌다 짙어진다(ap-cam-pulse · 같은 박자).
    번짐은 box-shadow 가 아니라 drop-shadow 다 — 꺾쇠는 상자가 아니라 **선**이라,
    상자를 따라 뿌리면 네 귀퉁이가 아니라 네모가 빛난다. 겹치는 것은 두
-   겹까지다(drop-shadow 는 앞 겹이 만든 빛에 다시 빛을 드리운다) */
+   겹까지다(drop-shadow 는 앞 겹이 만든 빛에 다시 빛을 드리운다).
+   선의 굵기는 틀의 크기를 따라가지 않는다(non-scaling-stroke) — 100 짜리
+   viewBox 를 키워 쓰는 그림이라 그냥 두면 틀을 벌릴 때마다 선이 함께
+   굵어진다. 틀은 '얼마나 넓게 잡는가'이고 선은 'UI 의 굵기'라 서로 다른 몫이다 */
 .scan__corner{position:absolute;top:50%;left:50%;z-index:3;
   aspect-ratio:1;height:min(var(--ap-scan-frame),100%);width:auto;
   transform:translate(-50%,calc(-50% - 9px));
-  fill:none;stroke:var(--ap-corner-edge,var(--ap-g0));stroke-width:3;stroke-linecap:round;
+  fill:none;stroke:var(--ap-corner-edge,var(--ap-g0));
+  stroke-width:5;vector-effect:non-scaling-stroke;stroke-linecap:round;
   filter:drop-shadow(0 0 2px var(--ap-corner-line)) drop-shadow(0 0 8px var(--ap-corner-wash));
-  animation:ap-corner-pulse var(--ap-cam-blink) var(--ap-ease-sym) infinite}
+  animation:ap-corner-pulse var(--ap-cam-blink) var(--ap-ease-sym) infinite,
+            ap-corner-glow var(--ap-face-cycle) linear infinite}
 /* 숨 쉬는 박자는 카메라 틀과 같되(--ap-cam-blink), 내려앉는 데는 얕다 —
    테가 이미 흰색까지 가지 않아, 카메라 틀만큼(0.5) 떨어뜨리면 숨을 쉬는
    것이 아니라 깜빡이며 사라지는 것으로 보인다 */
 @keyframes ap-corner-pulse{0%,100%{opacity:.72} 50%{opacity:1}}
+/* ── 틀 안에 들어오면 초록으로 켜진다 ──
+   사람이 들어와 선 **뒤에** 켜진다(한 사람의 몫 20% 중 13.4~18.6%) —
+   들어오는 동안 켜지면 아직 맞추지도 않았는데 찾았다고 말하는 꼴이다.
+   켜지는 데는 빠르고(0.6%≈57ms) 꺼지는 데도 빠르다. 찾았다는 말은
+   번지는 것이 아니라 **켜지는** 것이다. 꺼지고 나서 다음 사람이 들어온다.
+   테 색과 번지는 빛을 따로 적는다 — 색은 svg 그라데이션의 꼭짓점(stop)에,
+   번짐은 바깥의 drop-shadow 에 있어 한 자리에서 같이 바꿀 수 없다.
+   둘은 같은 길이(--ap-face-cycle)·같은 때라 어긋나지 않는다.
+   숨 쉬기(ap-corner-pulse)는 그동안에도 멎지 않는다 — 다루는 것이 다르다
+   (하나는 opacity, 하나는 filter) */
+@keyframes ap-corner-glow{
+  0%,12.8%{filter:drop-shadow(0 0 2px var(--ap-corner-line)) drop-shadow(0 0 8px var(--ap-corner-wash))}
+  13.4%,18.6%{filter:drop-shadow(0 0 3px var(--ap-corner-ok-line)) drop-shadow(0 0 15px var(--ap-corner-ok-wash))}
+  19.4%{filter:drop-shadow(0 0 2px var(--ap-corner-line)) drop-shadow(0 0 8px var(--ap-corner-wash))}
+  20%,32.8%{filter:drop-shadow(0 0 2px var(--ap-corner-line)) drop-shadow(0 0 8px var(--ap-corner-wash))}
+  33.4%,38.6%{filter:drop-shadow(0 0 3px var(--ap-corner-ok-line)) drop-shadow(0 0 15px var(--ap-corner-ok-wash))}
+  39.4%{filter:drop-shadow(0 0 2px var(--ap-corner-line)) drop-shadow(0 0 8px var(--ap-corner-wash))}
+  40%,52.8%{filter:drop-shadow(0 0 2px var(--ap-corner-line)) drop-shadow(0 0 8px var(--ap-corner-wash))}
+  53.4%,58.6%{filter:drop-shadow(0 0 3px var(--ap-corner-ok-line)) drop-shadow(0 0 15px var(--ap-corner-ok-wash))}
+  59.4%{filter:drop-shadow(0 0 2px var(--ap-corner-line)) drop-shadow(0 0 8px var(--ap-corner-wash))}
+  60%,72.8%{filter:drop-shadow(0 0 2px var(--ap-corner-line)) drop-shadow(0 0 8px var(--ap-corner-wash))}
+  73.4%,78.6%{filter:drop-shadow(0 0 3px var(--ap-corner-ok-line)) drop-shadow(0 0 15px var(--ap-corner-ok-wash))}
+  79.4%{filter:drop-shadow(0 0 2px var(--ap-corner-line)) drop-shadow(0 0 8px var(--ap-corner-wash))}
+  80%,92.8%,100%{filter:drop-shadow(0 0 2px var(--ap-corner-line)) drop-shadow(0 0 8px var(--ap-corner-wash))}
+  93.4%,98.6%{filter:drop-shadow(0 0 3px var(--ap-corner-ok-line)) drop-shadow(0 0 15px var(--ap-corner-ok-wash))}
+  99.4%{filter:drop-shadow(0 0 2px var(--ap-corner-line)) drop-shadow(0 0 8px var(--ap-corner-wash))}
+}
+@keyframes ap-corner-ok{
+  0%,12.8%{stop-color:#fff}
+  13.4%,18.6%{stop-color:var(--ap-cam-ok)}
+  19.4%{stop-color:#fff}
+  20%,32.8%{stop-color:#fff}
+  33.4%,38.6%{stop-color:var(--ap-cam-ok)}
+  39.4%{stop-color:#fff}
+  40%,52.8%{stop-color:#fff}
+  53.4%,58.6%{stop-color:var(--ap-cam-ok)}
+  59.4%{stop-color:#fff}
+  60%,72.8%{stop-color:#fff}
+  73.4%,78.6%{stop-color:var(--ap-cam-ok)}
+  79.4%{stop-color:#fff}
+  80%,92.8%,100%{stop-color:#fff}
+  93.4%,98.6%{stop-color:var(--ap-cam-ok)}
+  99.4%{stop-color:#fff}
+}
+.scan__corner stop{animation:ap-corner-ok var(--ap-face-cycle) linear infinite}
 .cta--in .scan__corner{--ap-corner-edge:url(#ctaEdgeIn)}
 .cta--out .scan__corner{--ap-corner-edge:url(#ctaEdgeOut)}
 
@@ -682,43 +749,84 @@ ul,ol{list-style:none}
    적고, 20% 마다 다음 손으로 넘어간다. 폭도 방향도 잦아드는 빠르기도 다르다.
    다음 사람으로 넘어가기 바로 전(19.9% 꼴)에 멎은 자리를 한 번 더 박아 둔다 —
    없으면 멎어 있어야 할 동안 다음 손의 첫 자리로 슬슬 끌려간다.
-   걸음은 고르다(linear) — 손떨림에는 가감속이 없다 */
+   걸음은 고르다(linear) — 손떨림에는 가감속이 없다.
+   흔들리기만 하고 **흐려지지는 않는다**. 흐림은 렌즈가 하는 일인데 꺾쇠는
+   렌즈 뒤가 아니라 그 위에 얹힌 UI 다 — 함께 흐리면 틀까지 초점이 나간
+   것으로 보인다. 흐림은 들어오는 사람(ap-enter)만 쓴다 */
 .cta__art{animation:ap-jitter var(--ap-face-cycle) linear infinite}
 @keyframes ap-jitter{
-  /* ① 차분한 손 — 가로로 한 번 쓸고 곧 멎는다 */
-  0%{transform:translate(-3.2px,2.2px) rotate(-1.5deg) scale(1.03);filter:blur(1.3px)}
-  1.6%{transform:translate(2.6px,-1.9px) rotate(1.2deg) scale(1.021);filter:blur(.95px)}
-  3.2%{transform:translate(-1.8px,1.3px) rotate(-.8deg) scale(1.014);filter:blur(.65px)}
-  4.8%{transform:translate(1.1px,-.8px) rotate(.5deg) scale(1.008);filter:blur(.38px)}
-  6.4%{transform:translate(-.5px,.4px) rotate(-.2deg) scale(1.003);filter:blur(.15px)}
+  /* ① 차분한 손 */
+  0%{transform:translate(-1.4px,1px) rotate(-.7deg) scale(1.012)}
+  1.6%{transform:translate(1.2px,-.9px) rotate(.5deg) scale(1.008)}
+  3.2%{transform:translate(-.8px,.6px) rotate(-.4deg) scale(1.005)}
+  4.8%{transform:translate(.5px,-.4px) rotate(.2deg) scale(1.003)}
+  6.4%{transform:translate(-.2px,.2px) rotate(-.1deg) scale(1.001)}
+  8%,19.9%{transform:translate(0,0) rotate(0) scale(1)}
+  /* ② 손이 큰 사람 */
+  20%{transform:translate(2.1px,-1.6px) rotate(1.1deg) scale(1.018)}
+  22%{transform:translate(-1.8px,1.4px) rotate(-.9deg) scale(1.014)}
+  24%{transform:translate(1.4px,-1px) rotate(.7deg) scale(1.009)}
+  26%{transform:translate(-.9px,.7px) rotate(-.4deg) scale(1.006)}
+  28%{transform:translate(.4px,-.3px) rotate(.2deg) scale(1.002)}
+  30%,39.9%{transform:translate(0,0) rotate(0) scale(1)}
+  /* ③ 잔떨림 */
+  40%{transform:translate(-.8px,-.7px) rotate(-.4deg) scale(1.007)}
+  41.2%{transform:translate(.6px,.5px) rotate(.3deg) scale(1.005)}
+  42.4%{transform:translate(-.5px,-.4px) rotate(-.2deg) scale(1.003)}
+  43.6%{transform:translate(.3px,.2px) rotate(.1deg) scale(1.002)}
+  44.8%{transform:translate(-.1px,-.1px) rotate(0deg) scale(1.001)}
+  45.5%,59.9%{transform:translate(0,0) rotate(0) scale(1)}
+  /* ④ 위아래로 */
+  60%{transform:translate(.4px,1.9px) rotate(-.3deg) scale(1.014)}
+  61.6%{transform:translate(-.3px,-1.5px) rotate(.2deg) scale(1.01)}
+  63.2%{transform:translate(.2px,1.1px) rotate(-.1deg) scale(1.007)}
+  64.8%{transform:translate(-.2px,-.7px) rotate(.1deg) scale(1.004)}
+  66.4%{transform:translate(.1px,.3px) rotate(0deg) scale(1.002)}
+  68%,79.9%{transform:translate(0,0) rotate(0) scale(1)}
+  /* ⑤ 기울여 드는 손 */
+  80%{transform:translate(-1px,.5px) rotate(-1.5deg) scale(1.011)}
+  81.8%{transform:translate(.8px,-.4px) rotate(1.3deg) scale(1.008)}
+  83.6%{transform:translate(-.6px,.3px) rotate(-.9deg) scale(1.005)}
+  85.4%{transform:translate(.4px,-.2px) rotate(.5deg) scale(1.003)}
+  87.2%{transform:translate(-.2px,.1px) rotate(-.2deg) scale(1.001)}
+  89%,100%{transform:translate(0,0) rotate(0) scale(1)}
+}
+
+/* ── 사람은 틀 밖에서 들어온다 ──
+   줄 선 다음 사람이 카메라 앞으로 걸어 들어오는 참이다. 들어오는 쪽도
+   (오른쪽·왼쪽 위·아래·왼쪽·오른쪽 위) 걸리는 품도 사람마다 다르다.
+   한 번 지나쳤다가 되돌아와 선다 — 곧장 제자리에 멎으면 기계가 끌어다
+   놓은 것처럼 보인다.
+   빠르게 움직이는 동안은 크게 흐리다(3.2px) — 움직이는 피사체를 좇는
+   카메라의 흐림이다. 서는 자리에서는 0 이다.
+   이 움직임은 **사람만** 한다. 틀과 함께 흔드는 손떨림(ap-jitter)은
+   그림 칸(.cta__art)에 있고, 둘은 겹쳐 쌓인다 */
+.scan--hat{animation:ap-enter var(--ap-face-cycle) var(--ap-ease-enter) infinite}
+@keyframes ap-enter{
+  /* ① 오른쪽에서 걸어 들어온다 */
+  0%{transform:translate(calc(var(--ap-scan) * 1.55),calc(var(--ap-scan) * .05)) rotate(6deg) scale(1.07);filter:blur(3.2px)}
+  4.48%{transform:translate(calc(var(--ap-scan) * -.14),calc(var(--ap-scan) * -.02)) rotate(-2deg) scale(1.02);filter:blur(1.1px)}
+  6.48%{transform:translate(calc(var(--ap-scan) * .05),calc(var(--ap-scan) * .01)) rotate(.6deg) scale(1.005);filter:blur(.35px)}
   8%,19.9%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
-  /* ② 손이 큰 사람 — 크게 흔들리고 늦게 멎는다 */
-  20%{transform:translate(4.6px,-3.6px) rotate(2.4deg) scale(1.045);filter:blur(1.9px)}
-  22%{transform:translate(-4px,3.2px) rotate(-2deg) scale(1.034);filter:blur(1.5px)}
-  24%{transform:translate(3px,-2.3px) rotate(1.5deg) scale(1.024);filter:blur(1.1px)}
-  26%{transform:translate(-1.9px,1.5px) rotate(-.9deg) scale(1.014);filter:blur(.7px)}
-  28%{transform:translate(.9px,-.7px) rotate(.4deg) scale(1.006);filter:blur(.3px)}
-  30%,39.9%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
-  /* ③ 잔떨림 — 폭이 좁고 빨리 멎는다 */
-  40%{transform:translate(-1.7px,-1.5px) rotate(-.9deg) scale(1.018);filter:blur(.8px)}
-  41.2%{transform:translate(1.4px,1.2px) rotate(.7deg) scale(1.012);filter:blur(.55px)}
-  42.4%{transform:translate(-1px,-.8px) rotate(-.4deg) scale(1.007);filter:blur(.32px)}
-  43.6%{transform:translate(.6px,.5px) rotate(.2deg) scale(1.004);filter:blur(.16px)}
-  44.8%{transform:translate(-.3px,-.2px) rotate(-.1deg) scale(1.001);filter:blur(.06px)}
-  45.5%,59.9%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
-  /* ④ 위아래로 — 팔을 들어 올리며 잡는다 */
-  60%{transform:translate(.8px,4.2px) rotate(-.6deg) scale(1.034);filter:blur(1.5px)}
-  61.6%{transform:translate(-.7px,-3.4px) rotate(.5deg) scale(1.026);filter:blur(1.15px)}
-  63.2%{transform:translate(.5px,2.4px) rotate(-.3deg) scale(1.017);filter:blur(.78px)}
-  64.8%{transform:translate(-.4px,-1.5px) rotate(.2deg) scale(1.009);filter:blur(.45px)}
-  66.4%{transform:translate(.2px,.7px) rotate(-.1deg) scale(1.004);filter:blur(.18px)}
-  68%,79.9%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
-  /* ⑤ 기울여 드는 손 — 떨림보다 기울기가 크다 */
-  80%{transform:translate(-2.2px,1px) rotate(-3.4deg) scale(1.028);filter:blur(1.4px)}
-  81.8%{transform:translate(1.8px,-.8px) rotate(2.8deg) scale(1.021);filter:blur(1.05px)}
-  83.6%{transform:translate(-1.3px,.6px) rotate(-1.9deg) scale(1.014);filter:blur(.72px)}
-  85.4%{transform:translate(.8px,-.4px) rotate(1.1deg) scale(1.008);filter:blur(.4px)}
-  87.2%{transform:translate(-.4px,.2px) rotate(-.5deg) scale(1.003);filter:blur(.16px)}
+  /* ② 왼쪽 위에서 — 크게 돌아 들어온다 */
+  20%{transform:translate(calc(var(--ap-scan) * -1.45),calc(var(--ap-scan) * -.95)) rotate(-8deg) scale(1.08);filter:blur(3.6px)}
+  25.32%{transform:translate(calc(var(--ap-scan) * .16),calc(var(--ap-scan) * .1)) rotate(2.6deg) scale(1.025);filter:blur(1.3px)}
+  27.7%{transform:translate(calc(var(--ap-scan) * -.06),calc(var(--ap-scan) * -.04)) rotate(-.8deg) scale(1.006);filter:blur(.4px)}
+  29.5%,39.9%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
+  /* ③ 아래에서 쑥 올라온다 */
+  40%{transform:translate(calc(var(--ap-scan) * .05),calc(var(--ap-scan) * 1.55)) rotate(3deg) scale(1.07);filter:blur(3.2px)}
+  43.64%{transform:translate(calc(var(--ap-scan) * -.02),calc(var(--ap-scan) * -.15)) rotate(-1.4deg) scale(1.02);filter:blur(1.1px)}
+  45.27%{transform:translate(calc(var(--ap-scan) * .01),calc(var(--ap-scan) * .05)) rotate(.4deg) scale(1.004);filter:blur(.3px)}
+  46.5%,59.9%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
+  /* ④ 왼쪽에서 */
+  60%{transform:translate(calc(var(--ap-scan) * -1.65),calc(var(--ap-scan) * .3)) rotate(-5deg) scale(1.075);filter:blur(3.4px)}
+  64.76%{transform:translate(calc(var(--ap-scan) * .15),calc(var(--ap-scan) * -.04)) rotate(1.8deg) scale(1.022);filter:blur(1.2px)}
+  66.89%{transform:translate(calc(var(--ap-scan) * -.05),calc(var(--ap-scan) * .02)) rotate(-.5deg) scale(1.005);filter:blur(.35px)}
+  68.5%,79.9%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
+  /* ⑤ 오른쪽 위에서 — 기울어진 채로 */
+  80%{transform:translate(calc(var(--ap-scan) * 1.25),calc(var(--ap-scan) * -1.2)) rotate(9deg) scale(1.08);filter:blur(3.5px)}
+  85.04%{transform:translate(calc(var(--ap-scan) * -.12),calc(var(--ap-scan) * .12)) rotate(-3deg) scale(1.024);filter:blur(1.25px)}
+  87.29%{transform:translate(calc(var(--ap-scan) * .04),calc(var(--ap-scan) * -.04)) rotate(1deg) scale(1.006);filter:blur(.4px)}
   89%,100%{transform:translate(0,0) rotate(0) scale(1);filter:blur(0)}
 }
 
@@ -996,7 +1104,8 @@ ul,ol{list-style:none}
   .scan--hat .scan__plate,.scan--hat svg,.scan__f,.scan__hat-r{animation:none}
   .scan__f{opacity:1}
   /* 흔들림·깜빡임·입도 멎는다. 꺾쇠의 빛은 숨 쉬기를 그치고 제 밝기로 선다 */
-  .cta__art,.scan__eyes,.scan--hat .scan__smile,.scan__corner{animation:none}
+  .cta__art,.scan--hat,.scan__eyes,.scan--hat .scan__smile,
+  .scan__corner,.scan__corner stop{animation:none}
   .scan__hat-s{display:none}
   .scan__f--2,.scan__f--3,.scan__f--4,.scan__f--5{display:none}
 }
