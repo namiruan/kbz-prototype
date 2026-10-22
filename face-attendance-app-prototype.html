@@ -14,8 +14,11 @@
 <link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/tokens.css">
 <link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/proto-chrome.css">
 <style>
-/* 이 파일이 갖는 것은 '화면을 끼우는 자리' 하나뿐이다. 나머지 생김새는 전부 시스템이 낸다 */
+/* 이 파일이 갖는 것은 '화면을 끼우는 자리' 와 '언제 것인지 적는 줄' 뿐이다.
+   나머지 생김새는 전부 시스템이 낸다 */
 #screen{display:block;width:100%;height:100dvh}
+.proto-stamp{margin:var(--space-stack-sm) var(--space-16) 0;
+  font-size:var(--font-size-12);line-height:1.4;color:var(--color-text-subtle)}
 #screen iframe{display:block;width:100%;height:100%;border:0;background:var(--color-surface-base)}
 </style>
 
@@ -41,6 +44,13 @@
       <button class="proto-viewport__btn is-active" type="button" data-viewport="sm" aria-pressed="true">sm</button>
       <button class="proto-viewport__btn" type="button" data-viewport="compare" aria-pressed="false">비교</button>
     </div>
+
+    <!-- **언제 받은 페이지인지** 적는다. 화면은 틀 안에 있어 주소에 ?r= 을 실어
+         늘 새로 받지만, 이 바깥 페이지에는 그런 장치가 없어 브라우저가 쥐고 있던
+         것을 그대로 내놓을 수 있다 — 「고친 게 안 보인다」가 거기서 나온다.
+         document.lastModified 는 **이 문서를 받은 시각**이라, 캐시에서 나온
+         페이지면 옛 시각이 적힌다 -->
+    <p class="proto-stamp" id="protoStamp"></p>
 
     <div class="proto-nav-divider"></div>
 
@@ -155,6 +165,9 @@
   });
   var first=document.querySelector('.proto-nav-btn.is-active')||document.querySelector('.proto-nav-btn');
   if(first) open(first.dataset.scenario);
+
+  var stamp=$('#protoStamp');
+  if(stamp) stamp.textContent='이 페이지 '+document.lastModified;
 })();
 </script>
 <script src="https://namiruan.github.io/kbz_3.0_ui_stytem/proto-chrome.js"></script>
