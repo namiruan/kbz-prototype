@@ -113,8 +113,6 @@
 
   /* ── 틈 — 시안 gap/3. 여백(padding/*)에는 8 이 없다 ── */
   --ap-gap3:8px;
-  /* ── 시안이 못 박은 한 자리 — '현장 :' 과 '필터 :' 의 이름표 폭 ── */
-  --ap-label-w:41px;
 
   /* ── 모서리 ── */
   --ap-r4:4px;                     /* radius/small1 */
@@ -221,11 +219,12 @@ ul,ol{list-style:none}
 }
 
 .site{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3)}
-.site__k{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:none;width:var(--ap-label-w);color:var(--ap-primary)}
+/* 이름표는 **글자만큼만** 차지한다. 칸을 못 박아 두면 '현장 :' 이 그보다
+   짧아 콜론과 현장 이름 사이가 멋대로 벌어진다 — 줄을 맞출 짝(필터 줄)이
+   머리줄로 옮겨 가 더는 맞출 것도 없다 */
+.site__k{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:none;color:var(--ap-primary)}
 .site__v{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;min-width:0;color:var(--ap-primary-70);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-.filter{display:flex;align-items:center;gap:var(--ap-gap3)}
-.filter__k{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:none;width:var(--ap-label-w);color:var(--ap-text)}
 /* ── 고르는 칸 — 시안 select-atomic(583:4117) 그대로 ──
    왼쪽 여백 16 · 오른쪽 6(꺾쇠가 제 여백 2 를 들고 있다) · 모서리 6.
    값을 고르기 전과 고른 뒤가 테와 글씨로 갈린다 — 고른 뒤에는 테가 짙어지고
