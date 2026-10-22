@@ -82,6 +82,10 @@
      계열(primary-dark #113569)이다 — 검정 그림자를 파란 면 밑에 깔면
      그 자리만 때가 낀 것처럼 탁해진다. 꼴은 시스템 shadow-lg(0 4px 16px) */
   --ap-shadow-lift:0 4px 16px rgba(17,53,105,.12);
+  /* 인증 시작 과녁 — 눌리는 것으로 보이려면 바탕에서 떠 있어야 한다.
+     카드 자리(shadow-card)보다 깊게, 제 색 계열로 드리운다 */
+  --ap-shadow-cta:0 10px 24px rgba(17,53,105,.28);
+  --ap-shadow-cta-out:0 10px 24px rgba(19,20,22,.28);
 
   /* ── 어두운 막과 그 위에 얹는 것 ──
      카메라 화면·촬영 확인·알림창이 나눠 쓴다. 투명도를 규칙마다 손으로
@@ -535,14 +539,16 @@ ul,ol{list-style:none}
    출근과 퇴근은 색으로 가른다 — 시안에 주황이 없어, 시안이 강한 둘째
    동작에 쓰는 검정을 퇴근에 준다 */
 /* 화면에서 할 일이 이것 하나뿐이라 자리를 다 쓴다 — 좌우는 본문 여백까지,
-   세로는 남는 자리를 채우되 480 에서 멈춘다(그 위로 가면 글이 허공에 뜬다) */
+   세로는 남는 자리를 채우되 480 에서 멈춘다(그 위로 가면 글이 허공에 뜬다).
+   안의 것들은 바닥에 앉는다 — 가운데에 모으면 넓힌 자리가 글 위아래로
+   똑같이 남아, 자리를 키운 것이 아니라 띄워 둔 것처럼 보인다 */
 .cta{position:relative;width:100%;max-width:var(--ap-cta-w);
   flex:1 1 auto;min-height:260px;max-height:480px;
-  display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;
   gap:var(--ap-p5);padding:var(--ap-p9) var(--ap-p8);
-  border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-card);
+  border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-cta);
   background:var(--ap-primary);color:var(--ap-g0);text-align:left}
-.cta--out{background:var(--ap-g95)}
+.cta--out{background:var(--ap-g95);box-shadow:var(--ap-shadow-cta-out)}
 /* '시작' 표 — 화살표 하나뿐이다. 면을 깔면 과녁 안에 또 하나의 버튼이
    있는 것처럼 보이는데, 누르는 자리는 카드 전체다.
    이름과 같은 줄, 줄의 오른쪽 끝에 선다 — 귀퉁이에 떨어뜨려 두면
