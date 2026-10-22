@@ -436,11 +436,6 @@ ul,ol{list-style:none}
 .inp{font:var(--t-body);letter-spacing:var(--ls-body);display:flex;align-items:center;height:56px;padding:0 var(--ap-p6);background:var(--ap-g0);border:1px solid var(--ap-g20);border-radius:var(--ap-r8);color:var(--ap-text)}
 .inp--ph{color:var(--ap-text-disabled)}
 .inp--num{justify-content:flex-end}
-.fld__row{display:flex;align-items:center;gap:var(--ap-gap3)}
-.fld__row .inp{flex:1;min-width:0}
-.step{width:56px;height:56px;flex:none;display:flex;align-items:center;justify-content:center;
-  background:var(--ap-primary-5);border:1px solid var(--ap-primary);
-  border-radius:var(--ap-r8);color:var(--ap-primary)}
 
 /* 예 · 아니오 — 시안 Toggle(600:3777) 그대로.
    바탕 #33363d · 안쪽 여백 4 · 알 사이 4 · 알은 위아래 4 좌우 10 */

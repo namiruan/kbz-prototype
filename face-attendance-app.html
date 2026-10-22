@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=35">
-<script src="assets/face-attendance-app.js?v=35" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=36">
+<script src="assets/face-attendance-app.js?v=36" defer></script>
 </head>
 
 <body>
@@ -383,14 +383,13 @@
         <label class="fld__l">직종</label>
         <div class="inp inp--ph">직종 선택</div>
       </div>
-      <!-- 단가는 시안의 +·− 버튼을 그대로 쓴다 — 손으로 고치는 수가 아니라 올리고 내리는 수다 -->
+      <!-- 단가는 다른 칸과 같이 적어 넣는다. 시안에서 ＋·－ 로 오르내리는 단가는
+           없다 — 시안의 단가는 '출퇴근관리 (단가수정)'(581:4656) 에서 적힌 값과
+           '수정' 버튼으로 나오고, 등록 폼에는 그런 자리가 따로 없다.
+           금액이라 값만 오른쪽으로 붙인다 -->
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="fld__row">
-          <div class="inp inp--num inp--ph">0 원</div>
-          <button class="step" type="button" aria-label="단가 내리기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-minus"></use></svg></button>
-          <button class="step" type="button" aria-label="단가 올리기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-plus"></use></svg></button>
-        </div>
+        <div class="inp inp--num inp--ph">0 원</div>
       </div>
     </form>
   </main>

@@ -74,11 +74,11 @@
         data-steps="홍길동의 얼굴이 인식된 상태"
         data-look="@{.cam__box--ok} 가이드 사각형이 초록으로 바뀌고, 결과 문구도 같은 초록입니다|@{.cam__t--ok} 문구에 인식된 사람의 이름이 들어갑니다 — '홍길동님 출근 처리되었습니다.'">인식 결과</button>
 
-      <span class="proto-nav-group-label">현장소장 앱 · 근로자</span>
+      <span class="proto-nav-group-label">현장소장 앱 · 근로자 관리</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers"
         data-why="얼굴을 등록한 근로자를 현장별로 봅니다. 카드에 사진을 함께 두는 것은 이 목록에서 얼굴 등록 여부가 갈리기 때문입니다. 거를 것이 직종 하나뿐이라 목록 머리줄의 '전체' 가 필터를 겸합니다. 고르는 체크박스와 거르는 필터는 왼쪽에 모으고, 그 결과인 수는 반대쪽 끝에 둡니다."
-        data-steps="근로자 관리 탭을 연 상태"
-        data-look="@{.face--none} 얼굴을 등록하지 않은 근로자도 목록에 있습니다 — 사진 자리가 빈 상태입니다|@{.act__b--off} 아무도 고르지 않았으므로 삭제는 꺼져 있습니다|@{.card__k--foreign} 외국인은 주민번호 자리가 '여권번호' 로 바뀝니다|@{.list} 목록이 한 화면을 넘으면, 스크롤할 때 현장 밑으로 들어가는 카드가 옅어지며 사라집니다|@md @{.list} 태블릿에서는 카드가 두 단으로 놓입니다">근로자 관리</button>
+        data-steps="근로자 관리 탭에서 현장을 고른 상태"
+        data-look="@{.face--none} 얼굴을 등록하지 않은 근로자도 목록에 있습니다 — 사진 자리가 빈 상태입니다|@{.act__b--off} 아무도 고르지 않았으므로 삭제는 꺼져 있습니다|@{.card__k--foreign} 외국인은 주민번호 자리가 '여권번호' 로 바뀝니다|@{.list} 목록이 한 화면을 넘으면, 스크롤할 때 현장 밑으로 들어가는 카드가 옅어지며 사라집니다|@md @{.list} 태블릿에서는 카드가 두 단으로 놓입니다">현장 선택 시</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-job"
         data-why="거른 뒤에도 무엇으로 걸렀는지가 머리줄에 남습니다. 필터를 다시 열어 보지 않아도 지금 보고 있는 것이 무엇인지 머리줄 한 줄로 알 수 있습니다."
         data-steps="근로자 관리에서 직종을 '형틀목공' 으로 고른 상태"
@@ -90,7 +90,7 @@
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new"
         data-why="얼굴 한 장과 기본 정보를 한 화면에서 받습니다. 사진이 맨 위인 것은 이 등록의 목적이 얼굴이기 때문입니다."
         data-steps="근로자 추가를 눌러 등록 화면이 열린 상태 — 아직 아무것도 채우지 않았습니다"
-        data-look="@{.tog} 외국인 여부는 예·아니오 토글입니다|@{.step} 단가는 칸에 적는 대신 ＋·－ 로 올리고 내립니다|@{.fld__l b} 필수 항목은 라벨 옆에 '(필수)' 가 붙습니다|@md @{.form} 태블릿에서는 폼이 늘어나지 않고 가운데로 모입니다">근로자 등록</button>
+        data-look="@{.tog} 외국인 여부는 예·아니오 토글입니다|@{.fld__l b} 필수 항목은 라벨 옆에 '(필수)' 가 붙습니다|@md @{.form} 태블릿에서는 폼이 늘어나지 않고 가운데로 모입니다">근로자 등록</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-shot"
         data-why="찍은 얼굴로 등록할지 묻고 나서 저장합니다. 흐린 사진 한 장이 그 뒤의 출근 인증을 내내 막기 때문에, 다시 찍을 기회를 이 자리에서 줍니다."
         data-steps="얼굴 촬영을 눌러 한 장 찍은 상태"
