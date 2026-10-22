@@ -94,10 +94,15 @@
      현장은 제자리에 서고 목록만 밀려 올라가므로, 목록은 현장 바로 밑에서
      한 줄로 뚝 잘린다. 자르는 자리를 띠로 바꿔 옅어지며 사라지게 한다.
      팔레트 색이 아니라 '보인다/안 보인다' 를 적는 값이라 검정·투명 그대로 둔다.
-     띠 높이는 현장과 목록 사이 틈과 같은 값 하나로 잡는다 — 멈춰 있을 때는
-     빈 틈만 덮어 아무것도 옅어지지 않고, 밀어 올릴 때만 그 틈에서 사라진다 */
-  --ap-fade-h:var(--ap-p10);
-  --ap-fade-top:linear-gradient(to bottom,transparent 0,#000 var(--ap-fade-h));
+
+     띠는 밀어 올릴 때만 생긴다. 멈춰 있을 때까지 깔아 두려면 띠가 현장과
+     목록 사이 틈 안에 들어가야 하는데, 그러면 띠를 내린 만큼 틈도 같이
+     벌어진다 — 틈을 좁게 두고 띠만 깊게 내리려면 둘을 떼어 놓아야 한다.
+     그래서 띠 높이는 굴림에 매단다(--ap-fade-h 는 0 에서 자란다).
+       · --ap-fade-gap  현장과 목록 사이 틈. 멈춰 있을 때의 모습만 정한다
+       · --ap-fade-deep 다 밀어 올렸을 때 띠가 내려오는 깊이 */
+  --ap-fade-gap:var(--ap-p5);
+  --ap-fade-deep:var(--ap-p12);
 
   /* ── 틈 — 시안 gap/3. 여백(padding/*)에는 8 이 없다 ── */
   --ap-gap3:8px;
@@ -184,8 +189,27 @@ ul,ol{list-style:none}
 .ctx{flex:none;display:flex;flex-direction:column;gap:var(--ap-gap3);
   margin:var(--ap-p5) var(--ap-p6) 0;padding:var(--ap-p4) var(--ap-p5);
   background:var(--ap-surface-lift);border-radius:var(--ap-r10)}
-.ctx + .body{padding-top:var(--ap-fade-h);
-  -webkit-mask-image:var(--ap-fade-top);mask-image:var(--ap-fade-top)}
+/* 길이를 등록해 둬야 0 에서 깊이까지 **이어서** 자란다 — 등록하지 않은 값은
+   중간을 모르고 톡 하고 바뀐다 */
+@property --ap-fade-h{syntax:"<length>";inherits:true;initial-value:0px}
+
+/* 바탕값은 굴림을 모르는 브라우저의 몫이다. 틈(12)과 머리줄이 제 여백으로 가진
+   4 까지만 덮어, 멈춰 있어도 글자에는 닿지 않는다 */
+.ctx + .body{padding-top:var(--ap-fade-gap);--ap-fade-h:var(--ap-p6);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 var(--ap-fade-h));
+  mask-image:linear-gradient(to bottom,transparent 0,#000 var(--ap-fade-h))}
+
+/* 굴림 자리가 띠 높이를 정한다 — 멈춰 있으면 0 이라 아무것도 옅어지지 않고,
+   --ap-fade-deep 만큼 밀어 올리는 동안 띠가 그 깊이까지 자란다.
+   ⚠ @supports 로 감싸는 까닭 — 타임라인을 모르는 브라우저는 이 animation 을
+     길이 0 초로 읽고 끝 상태(깊이)에 바로 못 박는다. 애니메이션은 보통 선언을
+     이기므로 위의 바탕값도 소용없어져, 멈춰 있는 화면이 늘 옅어진다 */
+@supports (animation-timeline:scroll()){
+  .ctx + .body{animation:ap-fade linear both;
+    animation-timeline:scroll(self block);
+    animation-range:0 var(--ap-fade-deep)}
+  @keyframes ap-fade{from{--ap-fade-h:0px} to{--ap-fade-h:var(--ap-fade-deep)}}
+}
 
 .site{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3)}
 .site__k{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:none;width:var(--ap-label-w);color:var(--ap-primary)}
