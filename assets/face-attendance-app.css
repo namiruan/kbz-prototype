@@ -126,8 +126,9 @@
   /* 가운데에서 퍼지는 면 — primary/60(17,90,198)을 옅게 깐다. 팔레트에 이
      농도가 없어 투명도로 만든다. 브랜드 색 한 가지에서 나오므로 색이 바뀌면
      둘 다 따라간다 */
-  --ap-glow-core:rgba(17,90,198,.20);
-  --ap-glow-edge:rgba(17,90,198,.05);
+  --ap-glow-core:rgba(17,90,198,.13);
+  --ap-glow-edge:rgba(17,90,198,.04);
+  --ap-glow-ring:rgba(17,90,198,.22);  /* 번져 나가는 파장의 테 */
   --ap-shot:200px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 다르다 */
 
   /* ── 모서리 ── */
@@ -522,16 +523,24 @@ ul,ol{list-style:none}
 /* 찍기 전 자리는 더 크다 — 훑는 그림이 들어앉고도 이름과 안내가 숨 쉴 자리가
    있어야 한다. 찍은 뒤(--done)는 사진이 들어차므로 200 그대로다 */
 .shot__box:not(.shot__box--done){--ap-shot:240px}
-/* 다 훑고 나서 한 번 번진다 — 훑는 동안 번지면 '찾았다' 가 아니라 배경이
-   혼자 숨 쉬는 그림이 된다. 테·얼굴이 물드는 때와 같은 자리에 맞춘다 */
-.shot__box:not(.shot__box--done)::before{content:'';position:absolute;inset:0;z-index:0;
-  background:radial-gradient(circle at 50% 44%,var(--ap-glow-core) 0,var(--ap-glow-edge) 48%,transparent 74%);
-  opacity:0;animation:ap-glow var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
-@keyframes ap-glow{
-  0%,36%{transform:scale(.5);opacity:0}
-  52%{transform:scale(1);opacity:1}
-  66%{transform:scale(1.2);opacity:.8}
-  84%,100%{transform:scale(1.45);opacity:0}
+/* ── 파장 — 가운데에서 바깥으로 ──
+   셋이 1초 간격으로 떠난다(주기 3초에 -1s · -2s 늦춰 들어간다). 끊기지 않고
+   물결이 이어지되, 한 겹씩은 옅어 글자를 가리지 않는다. 상자가 모서리를
+   둥글게 잘라내므로 파장도 그 안에서만 번진다 */
+.wave{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.shot__box > .wave{z-index:0}
+.wave i{position:absolute;width:var(--ap-scan);height:var(--ap-scan);
+  border:2px solid var(--ap-glow-ring);border-radius:50%;opacity:0}
+.shot__box:not(.shot__box--done) .wave i{animation:ap-wave var(--ap-beat-cycle) linear infinite}
+.shot__box:not(.shot__box--done) .wave i:nth-child(2){animation-delay:calc(var(--ap-beat-cycle) / -3)}
+.shot__box:not(.shot__box--done) .wave i:nth-child(3){animation-delay:calc(var(--ap-beat-cycle) / -1.5)}
+/* 멀어질수록 바탕에 녹는다 — 글자 줄에 닿을 즈음에는 거의 남지 않아야
+   읽는 데 걸리지 않는다 */
+@keyframes ap-wave{
+  0%{transform:scale(.45);opacity:0}
+  14%{opacity:1}
+  55%{opacity:.35}
+  100%{transform:scale(2.4);opacity:0}
 }
 
 .shot__box:not(.shot__box--done) .scan__line{animation:ap-scan-sweep var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
@@ -559,7 +568,7 @@ ul,ol{list-style:none}
 
 /* 움직임을 줄여 달라고 한 기기에서는 멈춘다 — 시스템 규약이다 */
 @media (prefers-reduced-motion:reduce){
-  .scan__line,.scan__face,.scan__frame,.shot__box::before{animation:none}
+  .scan__line,.scan__face,.scan__frame,.wave i{animation:none}
 }
 
 /* ── 읽기 전용 정보 줄 ── */
