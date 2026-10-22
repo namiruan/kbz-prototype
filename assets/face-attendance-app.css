@@ -547,6 +547,8 @@ ul,ol{list-style:none}
 .scan{flex:none;position:relative;display:block;width:var(--ap-scan);height:calc(var(--ap-scan) * .75)}
 .scan svg{position:relative;z-index:1}
 .scan svg{display:block;width:100%;height:100%;overflow:visible}
+/* 얼굴이 앉는 면 — 카드 가운데(흰색)보다 한 단 짙은 파랑이라 면으로 읽힌다 */
+.scan__disc{fill:var(--ap-badge-positive)}
 .scan__face{fill:var(--ap-scan-rest)}
 /* 웃음은 채우는 것이 아니라 긋는 것이다 — 눈과 같은 색, 끝은 둥글게 */
 .scan__smile{fill:none;stroke:var(--ap-scan-rest);stroke-width:4;stroke-linecap:round}
