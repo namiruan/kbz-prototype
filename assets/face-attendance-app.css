@@ -138,6 +138,7 @@
   --ap-ease-exit:ease-in;          /* easing-exit — 나가는 것 */
   --ap-dur-slow:200ms;             /* duration-slow — 패널이 들고 나는 길이 */
   --ap-beat:750ms;                 /* duration-pulse — 한 번 뛰는 길이 */
+  --ap-go-cycle:1.6s;              /* '시작' 화살표가 한 번 밀었다 돌아오는 주기 */
   --ap-beat-cycle:3s;              /* 뛰고 나서 쉬는 참까지. 750 뛰고 2250 쉰다 */
   --ap-scan-time:1.9s;             /* 레이저가 위에서 아래까지 한 번 훑는 데 걸리는 길이 */
   --ap-scan:120px;                 /* 얼굴을 훑는 그림의 크기 */
@@ -566,12 +567,13 @@ ul,ol{list-style:none}
   gap:var(--ap-p5);align-self:stretch}
 .cta__go{flex:none;display:flex;align-items:center;justify-content:center;
   color:var(--ap-g0);
-  animation:ap-go var(--ap-beat-cycle) var(--ap-ease-sym) infinite}
-/* 세 박자에 한 번만 앞으로 민다 — 쉬지 않고 흔들면 읽는 데 걸린다.
-   가는 쪽(→)으로만 밀고 제자리로 돌아온다 */
+  animation:ap-go var(--ap-go-cycle) var(--ap-ease-sym) infinite}
+/* 한 바퀴에 한 번만 앞으로 민다 — 쉬지 않고 흔들면 읽는 데 걸린다.
+   미는 데 270, 돌아오는 데 290 쯤이다(한 바퀴 1.6초의 끝 35%). 가는
+   쪽(→)으로만 밀고 제자리로 돌아온다 */
 @keyframes ap-go{
-  0%,75%{transform:translateX(0)}
-  87%{transform:translateX(6px)}
+  0%,65%{transform:translateX(0)}
+  82%{transform:translateX(6px)}
   100%{transform:translateX(0)}
 }
 /* 이 화면에서 가장 큰 글이다(32/40). 과녁의 이름이 설명보다 한 단만
