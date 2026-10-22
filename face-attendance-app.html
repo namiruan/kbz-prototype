@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=83">
-<script src="assets/face-attendance-app.js?v=83" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=85">
+<script src="assets/face-attendance-app.js?v=85" defer></script>
 </head>
 
 <body>
@@ -371,7 +371,7 @@
           <svg viewBox="4 12 64 48">
             <!-- 얼굴이 앉는 동그란 면. 테가 아니라 면이라 그 위에 눈과 웃음이
                  얹힌다. 파장은 이 면 뒤에서 번져 나온다 -->
-            <circle class="scan__disc" cx="36" cy="36" r="23"/>
+            <circle class="scan__disc" cx="36" cy="36" r="27"/>
             <!-- 얼굴은 눈 둘과 웃음 하나다. 모서리 테는 두지 않는다 -->
             <g class="scan__face">
               <circle cx="24" cy="29" r="4"/>
@@ -455,7 +455,7 @@
           <svg viewBox="4 12 64 48">
             <!-- 얼굴이 앉는 동그란 면. 테가 아니라 면이라 그 위에 눈과 웃음이
                  얹힌다. 파장은 이 면 뒤에서 번져 나온다 -->
-            <circle class="scan__disc" cx="36" cy="36" r="23"/>
+            <circle class="scan__disc" cx="36" cy="36" r="27"/>
             <!-- 얼굴은 눈 둘과 웃음 하나다. 모서리 테는 두지 않는다 -->
             <g class="scan__face">
               <circle cx="24" cy="29" r="4"/>
@@ -519,11 +519,12 @@
 <section class="scr" data-screen="m-shot" data-title="등록 촬영 확인">
   <div class="cam">
     <div class="confirm">
-      <!-- 사진 · 묻는 말 · 저지르는 버튼은 한 덩어리다. 흰 카드로 묶어 어두운
-           막 위에 띄운다 -->
+      <!-- 묻는 말은 카드 위에 큰 글씨로 세운다. 카드 안에 넣으면 사진과
+           버튼 사이에 끼어 묻는 말이 아니라 사진 설명으로 읽힌다 -->
+      <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
+      <!-- 사진과 저지르는 버튼은 한 덩어리다. 흰 카드로 묶어 어두운 막 위에 띄운다 -->
       <div class="confirm__card">
         <div class="confirm__pic"><img src="images/worker/01.jpg" alt=""></div>
-        <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
         <span class="confirm__ok">이 사진으로 등록하기</span>
       </div>
       <!-- 되돌리는 쪽은 카드 밖에, 글자만으로 둔다 — 같은 크기로 나란히 서면

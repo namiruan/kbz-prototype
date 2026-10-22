@@ -134,6 +134,7 @@
   --ap-glow-in:var(--ap-g0);           /* 가운데 — 밝다 */
   --ap-glow-out:var(--ap-primary-5);   /* 가장자리 — 연한 브랜드 색 */
   --ap-glow-ring:rgba(17,90,198,.22);  /* 번져 나가는 파장의 테 */
+  --ap-glow-face:0 0 12px rgba(17,90,198,.28); /* 얼굴 면을 띄우는 빛 */
   --ap-scan-rest:rgba(17,90,198,.38); /* 훑기 전 얼굴·테 — 회색을 쓰면 파란 면 위에서 혼자 뜬다 */
   --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
 
@@ -547,8 +548,9 @@ ul,ol{list-style:none}
 .scan{flex:none;position:relative;display:block;width:var(--ap-scan);height:calc(var(--ap-scan) * .75)}
 .scan svg{position:relative;z-index:1}
 .scan svg{display:block;width:100%;height:100%;overflow:visible}
-/* 얼굴이 앉는 면 — 카드 가운데(흰색)보다 한 단 짙은 파랑이라 면으로 읽힌다 */
-.scan__disc{fill:var(--ap-badge-positive)}
+/* 얼굴이 앉는 면 — 흰색이다. 카드 가운데도 흰색이라 면만으로는 보이지 않아
+   브랜드 색 빛을 둘러 띄운다. 그림자가 아니라 빛이라 아래로 치우치지 않는다 */
+.scan__disc{fill:var(--ap-g0);filter:drop-shadow(var(--ap-glow-face))}
 .scan__face{fill:var(--ap-scan-rest)}
 /* 웃음은 채우는 것이 아니라 긋는 것이다 — 눈과 같은 색, 끝은 둥글게 */
 .scan__smile{fill:none;stroke:var(--ap-scan-rest);stroke-width:4;stroke-linecap:round}
@@ -663,8 +665,10 @@ ul,ol{list-style:none}
   background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   display:flex;align-items:center;justify-content:center;color:var(--ap-on-photo)}
 .confirm__pic .ic{width:96px;height:96px}
-/* 카드 안이라 글자는 어두운 쪽이다. 22 로 두면 320 안에서 두 줄로 접힌다 */
-.confirm__t{font:var(--t-head);letter-spacing:var(--ls-head);text-align:center;color:var(--ap-text)}
+/* 카드 위에 서는 머리말 — 막 위라 흰 글씨고, 카드 폭에 매이지 않으므로
+   제 크기(22)로 선다. 카드와는 한 칸(20) 띄운다 */
+.confirm__t{font:var(--t-title2);letter-spacing:var(--ls-title2);
+  margin-bottom:var(--ap-gap6);text-align:center;color:var(--ap-g0)}
 .confirm__ok{font:var(--t-head);letter-spacing:var(--ls-head);width:100%;height:56px;
   display:flex;align-items:center;justify-content:center;
   background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
