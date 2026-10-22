@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=185">
-<script src="assets/face-attendance-app.js?v=185" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=186">
+<script src="assets/face-attendance-app.js?v=186" defer></script>
 </head>
 
 <body>
@@ -897,6 +897,13 @@
     <div class="cam__box"></div>
     <!-- 지금 무엇을 찍는지는 틀 바로 밑에서 말한다 — 촬영 확인에서
          사진과 '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다 -->
+    <!-- 한 번 열면 줄 선 사람을 이어서 찍는다. 몇 사람째인지는 찍는 사람만
+         아는 수라, '인증하기' 바로 위에 붙여 센다 — 누르기 전에 눈이 지나는
+         자리다. 시스템의 Tooltip 패널(atoms/tooltip.md)이되 늘 떠 있는
+         pinned 꼴이다: 폰에는 호버가 없고, 이 수는 물어봐야 나오는 설명이
+         아니라 계속 바뀌는 값이다. 라벨은 한 겹 죽이고 수만 흰색으로
+         세운다(tokens/color 의 text-inverse-alpha ↔ text-inverse) -->
+    <p class="cam__tip" role="status">지금까지 <b>2명</b> 인증 완료</p>
     <span class="cam__go"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근 인증하기</span>
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
     <!-- 끝내는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와
@@ -914,6 +921,13 @@
     <div class="cam__box cam__box--ok"></div>
     <!-- 지금 무엇을 찍는지는 틀 바로 밑에서 말한다 — 촬영 확인에서
          사진과 '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다 -->
+    <!-- 한 번 열면 줄 선 사람을 이어서 찍는다. 몇 사람째인지는 찍는 사람만
+         아는 수라, '인증하기' 바로 위에 붙여 센다 — 누르기 전에 눈이 지나는
+         자리다. 시스템의 Tooltip 패널(atoms/tooltip.md)이되 늘 떠 있는
+         pinned 꼴이다: 폰에는 호버가 없고, 이 수는 물어봐야 나오는 설명이
+         아니라 계속 바뀌는 값이다. 라벨은 한 겹 죽이고 수만 흰색으로
+         세운다(tokens/color 의 text-inverse-alpha ↔ text-inverse) -->
+    <p class="cam__tip" role="status">지금까지 <b>3명</b> 인증 완료</p>
     <span class="cam__go"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근 인증하기</span>
     <p class="cam__t cam__t--ok">홍길동님<span class="cam__sub">출근 처리 완료!</span></p>
     <!-- 끝내는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와
