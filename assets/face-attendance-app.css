@@ -123,6 +123,9 @@
   --ap-r6:6px;                     /* radius/medium1 — select-atomic */
   --ap-step-w:50px;                /* 단가 ＋·－ 의 최소 폭 — 시안 min-width */
   --ap-sel-w:110px;                /* select-atomic 의 기본 폭 — 글자가 짧아도 이만큼은 둔다 */
+  --ap-form-w:560px;               /* 폼·상세가 가운데로 모이는 폭 */
+  --ap-photo-w:320px;  --ap-photo-h:300px;      /* 이력 사진 */
+  --ap-photo-w-md:420px; --ap-photo-h-md:400px;
   --ap-face:112px;                 /* 근로자 카드의 얼굴 — 정방형이다 */
   --ap-r8:8px;
   --ap-r10:10px;                   /* radius/large1 */
@@ -301,7 +304,7 @@ ul,ol{list-style:none}
 .body{scrollbar-width:none}
 .body::-webkit-scrollbar{display:none}
 .body--flat{padding:0}
-.body--mid{align-items:center;justify-content:center;gap:20px;text-align:center}
+.body--mid{align-items:center;justify-content:center;gap:var(--ap-gap6);text-align:center}
 
 /* 목록 머리줄 — 전체 선택 · 건수 · 삭제 */
 .lbar{flex:none;display:flex;align-items:center;justify-content:space-between;
@@ -422,7 +425,7 @@ ul,ol{list-style:none}
 .tabbar__b.is-on{color:var(--ap-primary-90);font-weight:600}
 
 /* ── 빈 화면 · 안내 ── */
-.blank{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+.blank{display:flex;flex-direction:column;align-items:center;gap:var(--ap-gap6);text-align:center}
 .blank__t{font:var(--t-body);letter-spacing:var(--ls-body);color:var(--ap-primary)}
 .blank__ic{color:var(--ap-primary);opacity:.45}
 .big{font:var(--t-title2);letter-spacing:var(--ls-title2);display:inline-flex;align-items:center;gap:15px;padding:var(--ap-p6) var(--ap-p8);background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
@@ -488,7 +491,7 @@ ul,ol{list-style:none}
 .row__v{font:var(--t-body);letter-spacing:var(--ls-body);flex:1;min-width:0;display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:var(--ap-p3);text-align:right;color:var(--ap-text);word-break:keep-all}
 
 /* 사진 한 장 */
-.photo{width:100%;max-width:320px;height:300px;margin:0 auto;border-radius:var(--ap-r10);
+.photo{width:100%;max-width:var(--ap-photo-w);height:var(--ap-photo-h);margin:0 auto;border-radius:var(--ap-r10);
   background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   display:flex;align-items:center;justify-content:center;color:var(--ap-on-photo)}
 .photo .ic{width:72px;height:72px}
@@ -579,15 +582,18 @@ ul,ol{list-style:none}
   /* 단이 둘로 갈리는 폭에서는 카드 사이도 조금 벌린다 */
   .list{gap:var(--ap-p5)}
   /* 폼·상세는 늘리지 않고 가운데로 모은다 */
-  .form,.rows,.note,.shot{width:100%;max-width:560px;margin-inline:auto}
+  .form,.rows,.note,.shot{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
   .body{padding:var(--ap-p8)}
   /* 현장 줄은 제가 가리키는 목록과 세로 선이 맞아야 한다 */
   .ctx{margin-inline:var(--ap-p8)}
   /* 필터는 한 칸이라 늘리지 않는다 — 폭을 다 쓰면 고를 것이 하나인데 줄만 길어진다 */
-  .sel{flex:0 1 240px}
+  /* ⚠ 여기에 .sel 로 폭을 걸지 않는다. 폼 안의 고르는 칸까지 걸리는데, 폼의
+     .fld 는 **세로 줄**이라 flex-basis 가 폭이 아니라 **높이**가 된다 —
+     태블릿에서 직종 칸이 길쭉해지던 까닭이다. 머리줄의 필터는 제 글자만큼
+     차지하면 된다(늘려 봐야 고를 것이 하나다) */
   /* 카드가 반 폭이 되면 값이 줄임표로 잘린다. 한 줄에 하나씩 둔다 */
   .card__kv{flex:1 0 100%}
   /* 바닥 바의 글자는 그대로 두고 바만 넓어진다 */
   .cam__box{left:26%;right:26%}
-  .photo{max-width:420px;height:400px}
+  .photo{max-width:var(--ap-photo-w-md);height:var(--ap-photo-h-md)}
 }
