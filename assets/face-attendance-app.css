@@ -751,8 +751,6 @@ ul,ol{list-style:none}
 .cam__t{font:var(--t-title2);letter-spacing:var(--ls-title2);position:absolute;left:0;right:0;top:calc(24% + 42% + 24px);padding:0 var(--ap-p6);text-align:center;color:var(--ap-g0);text-shadow:var(--ap-shadow-cam-text)}
 .cam__t--ok{color:var(--ap-cam-ok)}
 .cam__t--fail{color:var(--ap-cam-fail)}
-.cam__mode{font:var(--t-title2);letter-spacing:var(--ls-title2);position:absolute;left:50%;bottom:var(--ap-p10);transform:translateX(-50%);display:flex;align-items:center;gap:var(--ap-gap3);padding:12px 22px;border-radius:var(--ap-r-pill);background:var(--ap-primary);color:var(--ap-g0);white-space:nowrap}
-.cam__mode--out{background:var(--ap-g95)}
 
 /* 촬영 확인 — 찍은 얼굴을 덮어 놓고 묻는다 */
 /* 창을 띄운 화면은 뒤에 그대로 깔린다 — 어디서 온 창인지가 보인다.

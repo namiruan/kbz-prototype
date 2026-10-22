@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=112">
-<script src="assets/face-attendance-app.js?v=112" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=113">
+<script src="assets/face-attendance-app.js?v=113" defer></script>
 </head>
 
 <body>
@@ -701,7 +701,13 @@
     <button class="cam__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
     <div class="cam__box"></div>
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
-    <span class="cam__mode">출근 인증</span>
+  </div>
+
+  <!-- 지금 무엇을 찍는지는 바닥 바가 말한다. 가운데 알약으로 띄워 두면
+       누르는 자리처럼 보이는데 누를 데가 아니었다 — 바닥 바는 이 앱에서
+       늘 '지금 하는 일'이 적히는 자리다 -->
+  <div class="act act--end">
+    <span class="act__b act__b--on">출근 인증</span>
   </div>
 </section>
 
@@ -712,7 +718,13 @@
     <button class="cam__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
     <div class="cam__box cam__box--ok"></div>
     <p class="cam__t cam__t--ok">홍길동님 출근 처리되었습니다.</p>
-    <span class="cam__mode">출근 인증</span>
+  </div>
+
+  <!-- 지금 무엇을 찍는지는 바닥 바가 말한다. 가운데 알약으로 띄워 두면
+       누르는 자리처럼 보이는데 누를 데가 아니었다 — 바닥 바는 이 앱에서
+       늘 '지금 하는 일'이 적히는 자리다 -->
+  <div class="act act--end">
+    <span class="act__b act__b--on">출근 인증</span>
   </div>
 </section>
 
