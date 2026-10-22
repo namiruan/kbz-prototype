@@ -29,6 +29,7 @@
        (실측: 앵커 40개 중 11개가 엉뚱한 화면을 짚고 있었다) */
     all.forEach(function (s) { if (s !== hit) s.remove(); });
     hit.classList.add('is-on');
+    bottomBar(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -52,6 +53,28 @@
     back.className = src.className + ' is-on behind';
     back.querySelectorAll('[id]').forEach(function (n) { n.removeAttribute('id'); });
     hit.insertBefore(back, hit.firstChild);
+  }
+
+  /* 바닥 버튼은 아래로 읽어 내려가는 동안 내려가 있다가, 스크롤이 멎으면
+     올라온다. 이것은 앱의 일(촬영·인증)이 아니라 **화면이 스크롤에 보이는
+     모습**이라, 보여 주려면 여기서 붙였다 뗄 수밖에 없다 — 올려 읽으면
+     기다리지 않고 바로 올라온다. 읽던 것을 가리는 쪽이 늘 더 나쁘다 */
+  function bottomBar(scr) {
+    var act = scr.querySelector('.act');
+    var sc = scr.querySelector('.body');
+    if (!act || !sc) return;
+
+    var last = sc.scrollTop, idle;
+    sc.addEventListener('scroll', function () {
+      var now = sc.scrollTop;
+      /* 4px 는 손가락이 멎은 채로 생기는 떨림을 걸러 내는 문턱이다 */
+      if (now > last + 4) act.classList.add('is-away');
+      else if (now < last - 4) act.classList.remove('is-away');
+      last = now;
+
+      clearTimeout(idle);
+      idle = setTimeout(function () { act.classList.remove('is-away'); }, 200);
+    }, { passive: true });
   }
 
   /* 아이콘은 스프라이트를 주입해 쓴다 (시스템 규약: 원격 절대 URL) */

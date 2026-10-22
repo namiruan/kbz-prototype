@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=93">
-<script src="assets/face-attendance-app.js?v=93" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=95">
+<script src="assets/face-attendance-app.js?v=95" defer></script>
 </head>
 
 <body>
@@ -380,10 +380,9 @@
               <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
             </g>
           </svg>
-          <!-- 읽는 레이저 — 길이는 늘 같다. 동그라미에 오려 두면 끝으로 갈수록
-               짧아져, 오르내리는 동안 막대가 늘었다 줄었다 한다.
-               그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
-          <span class="scan__beam"></span>
+          <!-- 읽는 격자 — 얼굴에 점이 깔리고 위에서 아래로 한 줄씩 밝아진다.
+               그림 위에 얹혀야 하므로 svg 밖, 맨 위에 둔다 -->
+          <span class="scan__grid"></span>
         </span>
         <b class="shot__t">얼굴 등록하기</b>
         <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
@@ -466,10 +465,9 @@
               <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
             </g>
           </svg>
-          <!-- 읽는 레이저 — 길이는 늘 같다. 동그라미에 오려 두면 끝으로 갈수록
-               짧아져, 오르내리는 동안 막대가 늘었다 줄었다 한다.
-               그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
-          <span class="scan__beam"></span>
+          <!-- 읽는 격자 — 얼굴에 점이 깔리고 위에서 아래로 한 줄씩 밝아진다.
+               그림 위에 얹혀야 하므로 svg 밖, 맨 위에 둔다 -->
+          <span class="scan__grid"></span>
         </span>
         <b class="shot__t">얼굴 등록하기</b>
         <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
@@ -557,7 +555,8 @@
            고친다' 고 알리는 표지다 — 버튼 안에 버튼을 넣지 않는다 -->
       <button class="shot__box shot__box--done" type="button" aria-label="얼굴 사진 다시 촬영">
         <img src="images/worker/01.jpg" alt="">
-        <span class="shot__edit" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-edit"></use></svg></span>
+        <!-- 연필이 아니라 카메라다 — 누르면 글을 고치는 것이 아니라 다시 찍는다 -->
+        <span class="shot__edit" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg></span>
       </button>
     </div>
 
