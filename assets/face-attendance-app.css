@@ -534,7 +534,9 @@ ul,ol{list-style:none}
   border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-card);
   background:var(--ap-primary);color:var(--ap-g0);text-align:left}
 .cta--out{background:var(--ap-g95)}
-.cta__t{font:var(--t-title2);letter-spacing:var(--ls-title2)}
+/* 이 화면에서 가장 큰 글이다 — 시안의 Title1(28/34). 과녁의 이름이
+   설명보다 한 단만 크면 둘이 비슷해 보인다 */
+.cta__t{font:var(--t-title1);letter-spacing:var(--ls-title1)}
 /* 설명은 이름 바로 밑에 붙는다 — 아이콘과 띄운 만큼(12) 떼어 놓으면
    따로 노는 줄이 된다. 색은 한 겹 죽여 이름이 먼저 읽히게 한다 */
 /* 한 문장이 한 줄이다(17). 320 안에서는 둘째 문장이 접혀 352 로 넓혔다 —
