@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=72">
-<script src="assets/face-attendance-app.js?v=72" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=73">
+<script src="assets/face-attendance-app.js?v=73" defer></script>
 </head>
 
 <body>
@@ -530,7 +530,12 @@
 
   <main class="body">
     <div class="shot">
-      <button class="shot__box shot__box--done" type="button"><img src="images/worker/01.jpg" alt=""></button>
+      <!-- 사진 자리 전체가 누르는 자리다. 오른쪽 아래 아이콘은 '여기를 눌러
+           고친다' 고 알리는 표지다 — 버튼 안에 버튼을 넣지 않는다 -->
+      <button class="shot__box shot__box--done" type="button" aria-label="얼굴 사진 다시 촬영">
+        <img src="images/worker/01.jpg" alt="">
+        <span class="shot__edit" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-edit"></use></svg></span>
+      </button>
     </div>
 
     <form class="form">
