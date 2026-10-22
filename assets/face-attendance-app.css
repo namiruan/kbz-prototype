@@ -307,10 +307,10 @@ ul,ol{list-style:none}
 }
 
 .site{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3)}
-/* 이름표는 **글자만큼만** 차지한다. 칸을 못 박아 두면 '현장 :' 이 그보다
-   짧아 콜론과 현장 이름 사이가 멋대로 벌어진다 — 줄을 맞출 짝(필터 줄)이
-   머리줄로 옮겨 가 더는 맞출 것도 없다 */
-.site__k{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:none;color:var(--ap-primary)}
+/* 이름표는 뱃지다(중립). 글씨로만 '현장 :' 이라 적어 두면 현장 이름과
+   같은 줄에 같은 결로 서서, 어디까지가 이름표고 어디부터가 이름인지
+   눈이 한 번 더 가른다. 면을 입히면 그 일이 없어지고 콜론도 필요 없다 */
+.site .bd{flex:none}
 .site__v{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;min-width:0;color:var(--ap-primary-70);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* ── 고르는 칸 — 시안 select-atomic(583:4117) 그대로 ──
