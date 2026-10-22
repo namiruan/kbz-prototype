@@ -504,7 +504,7 @@ ul,ol{list-style:none}
   color:var(--ap-on-photo)}
 /* 이름과 안내는 한 덩어리로 붙인다(사이 4 — 시안 gap/2). 그림과는 떨어뜨린다 —
    상자의 틈을 2 로 좁혔으니 그림 밑 자리는 이름이 제 여백으로 든다 */
-.shot__t{font:var(--t-title2);letter-spacing:var(--ls-title2);margin-top:var(--ap-p5)}
+.shot__t{font:var(--t-title2);letter-spacing:var(--ls-title2);margin-top:var(--ap-gap3)}
 /* 이름과 안내도 브랜드 색이다. 둘의 높낮이는 색이 아니라 굵기와 크기로
    가른다 — 안내를 옅은 파랑으로 내리면 13px 글자가 바탕에 묻힌다 */
 .shot__hint{font:var(--t-body);letter-spacing:var(--ls-body);max-width:220px;text-align:center;
@@ -518,7 +518,8 @@ ul,ol{list-style:none}
    길이와 가감속은 지어내지 않고 시스템 값을 쓴다
    (tokens/motion.css — duration-pulse 750ms · easing-symmetric).
    사진이 들어찬 자리(--done)는 훑지 않는다. 이미 할 일이 끝난 자리다 */
-.scan{flex:none;position:relative;display:block;width:var(--ap-scan);height:var(--ap-scan)}
+/* 가로:세로 4:3 — 잘라 담은 그림의 비율이다 */
+.scan{flex:none;position:relative;display:block;width:var(--ap-scan);height:calc(var(--ap-scan) * .75)}
 .scan svg{position:relative;z-index:1}
 .scan svg{display:block;width:100%;height:100%;overflow:visible}
 .scan__face{fill:var(--ap-scan-rest)}
@@ -534,7 +535,9 @@ ul,ol{list-style:none}
    물결이 이어지되, 한 겹씩은 옅어 글자를 가리지 않는다. 상자가 모서리를
    둥글게 잘라내므로 파장도 그 안에서만 번진다 */
 .wave{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:0}
-.wave i{position:absolute;width:100%;height:100%;
+/* 물결은 그림 칸 한가운데에서 **동그랗게** 떠난다 — 칸이 4:3 이라
+   100% 로 두면 타원이 된다 */
+.wave i{position:absolute;width:var(--ap-scan);height:var(--ap-scan);
   border:2px solid var(--ap-glow-ring);border-radius:50%;opacity:0}
 .shot__box:not(.shot__box--done) .wave i{animation:ap-wave var(--ap-beat-cycle) linear infinite}
 .shot__box:not(.shot__box--done) .wave i:nth-child(2){animation-delay:calc(var(--ap-beat-cycle) / -3)}
