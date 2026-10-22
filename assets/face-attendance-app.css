@@ -136,6 +136,9 @@
   --ap-glow-ring:rgba(255,255,255,.85);  /* 번져 나가는 파장의 앞머리 — 흰 빛 */
   --ap-glow-wash:rgba(255,255,255,.3);   /* 그 앞머리를 따라오는 옅은 빛 */
   --ap-glow-face:0 0 14px rgba(255,255,255,.95); /* 얼굴 면에서 번지는 빛 — 면과 같은 흰색이다 */
+  --ap-plate-low:#e4ecf7;              /* 면의 아랫녘 — 빛이 덜 드는 쪽 */
+  --ap-plate-lift:0 6px 14px rgba(17,90,198,.18); /* 면이 바탕에 드리우는 그림자 */
+  --ap-plate-shade:inset 0 -8px 12px -8px rgba(17,90,198,.22); /* 안쪽 아래 그늘 */
   --ap-scan-rest:rgba(17,90,198,.38); /* 훑기 전 얼굴·테 — 회색을 쓰면 파란 면 위에서 혼자 뜬다 */
   --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
 
@@ -549,11 +552,15 @@ ul,ol{list-style:none}
 .scan{flex:none;position:relative;display:block;width:var(--ap-scan);height:calc(var(--ap-scan) * .75)}
 .scan svg{position:relative;z-index:1}
 .scan svg{display:block;width:100%;height:100%;overflow:visible}
-/* 얼굴이 앉는 면 — 흰색이고, 번지는 빛도 같은 흰색이다. 면이 어디서
-   끝나는지 모르게 파란 바탕으로 녹아든다. 한 겹으로는 연해서 두 겹 겹친다.
-   그림자가 아니라 빛이라 아래로 치우치지 않는다 */
-.scan__disc{fill:var(--ap-g0);
-  filter:drop-shadow(var(--ap-glow-face)) drop-shadow(var(--ap-glow-face))}
+/* 얼굴이 앉는 면 — 흰색이다. 평평하게 두면 바탕에 뚫린 구멍처럼 보여,
+   빛을 위에서 받는 공처럼 칠한다: 위는 흰색 그대로, 아래로 갈수록 한 단
+   어두워지고(plate-low), 안쪽 아래에 그늘이 한 줄 돈다. 면 밑에는 닿는
+   그림자를, 둘레에는 흰 빛을 둔다 — 그림자가 깊이를, 빛이 번짐을 맡는다.
+   지름은 그림의 54/64 로, 아이콘이 커지면 함께 커진다 */
+.scan__plate{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:calc(var(--ap-scan) * 54 / 64);aspect-ratio:1;border-radius:50%;z-index:0;
+  background:linear-gradient(160deg,var(--ap-g0) 0,var(--ap-g0) 42%,var(--ap-plate-low) 100%);
+  box-shadow:var(--ap-plate-lift),var(--ap-glow-face),var(--ap-plate-shade)}
 .scan__face{fill:var(--ap-scan-rest)}
 /* 웃음은 채우는 것이 아니라 긋는 것이다 — 눈과 같은 색, 끝은 둥글게 */
 .scan__smile{fill:none;stroke:var(--ap-scan-rest);stroke-width:4;stroke-linecap:round}
@@ -685,6 +692,9 @@ ul,ol{list-style:none}
 .confirm__re{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
   display:flex;align-items:center;gap:var(--ap-p3);
   padding:var(--ap-p5) var(--ap-p6);color:var(--ap-g0)}
+/* 면도 테도 없으니 누를 수 있다는 표는 밑줄이 맡는다. 밑줄은 글자에만
+   긋는다 — 아이콘까지 그으면 줄이 글자에서 떠 보인다 */
+.confirm__re b{font-weight:inherit;text-decoration:underline;text-underline-offset:3px}
 
 /* ── 알림창 — 시안 modal_alert ── */
 .dim{position:absolute;inset:0;background:var(--ap-scrim-dim);
