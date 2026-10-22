@@ -218,7 +218,10 @@ ul,ol{list-style:none}
    본문뿐이다. min-height 로 두면 목록이 길어질 때 바닥 바가 문서 아래로
    밀려나 화면 밖으로 나간다 — 웹 페이지라면 맞지만 앱에서는 바가 늘
    엄지 밑에 있어야 한다 */
-.scr.is-on{display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+/* svh 다(dvh 아니다). dvh 는 사파리 툴바가 들고 나는 대로 값이 바뀌어,
+   읽는 도중에 화면 높이가 변하고 그때 목록의 아래가 잘린다. svh 는 툴바가
+   나와 있을 때의 높이로 고정이라 흔들리지 않는다 */
+.scr.is-on{display:flex;flex-direction:column;height:100svh;overflow:hidden}
 
 /* ── 내비게이션 바 ──
    흰 바탕 · 위 56(상태바 자리) · 아래 10 · 좌우 16.
@@ -235,19 +238,17 @@ ul,ol{list-style:none}
 
 /* ── 머리 카드 — 현장 · 필터 · 날짜가 들어가는 흰 판 ──
    아래 모서리만 둥글다. 내비게이션 바와 한 덩어리로 보인다 */
-/* 탭도 아래로 읽어 내려가는 동안 내비 뒤로 올라가 숨는다 — 바닥 버튼과
-   같은 까닭이다. 올라가기만 하면 있던 자리에 흰 띠가 남으므로, 그 자리까지
-   margin 으로 거둬 아래 것들이 따라 올라오게 한다. 높이는 화면마다 다르니
-   assets/face-attendance-app.js 가 재어 --ap-hd-h 에 적어 둔다 */
+/* ⚠ 탭도 읽어 내려가는 동안 숨겼다가 되돌렸다. 숨기면서 그 자리를 margin
+   으로 거뒀는데, 그것이 **목록이 스크롤되는 상자의 크기를 바꾼다**. 손가락이
+   굴리고 있는 도중에 상자가 커지면 아이폰은 굴리던 것을 그 자리에서 놓아
+   버린다 — 목록이 중간에 멎고 아래가 영영 안 보였다(실측: 다섯째 카드에
+   닿지 못한다). 바닥 버튼은 상자 밖이라 옮겨도 크기가 바뀌지 않는다.
+   탭을 숨기려면 탭이 목록 **안에** 붙박이로 들어앉아야 한다 — 그건 이
+   화면의 짜임을 바꾸는 일이라, 지금은 바닥 버튼만 비킨다 */
 .hd{flex:none;position:relative;z-index:0;
   background:var(--ap-g0);border-radius:0 0 var(--ap-r15) var(--ap-r15);
   box-shadow:var(--ap-shadow-card);padding:var(--ap-p5) var(--ap-p6);
-  display:flex;flex-direction:column;gap:var(--ap-gap3);
-  transition:transform var(--ap-dur-slow) var(--ap-ease-enter),
-             margin-bottom var(--ap-dur-slow) var(--ap-ease-enter)}
-.hd.is-away{transform:translateY(-100%);margin-bottom:calc(-1 * var(--ap-hd-h));
-  transition-timing-function:var(--ap-ease-exit)}
-@media (prefers-reduced-motion:reduce){.hd{transition:none}}
+  display:flex;flex-direction:column;gap:var(--ap-gap3)}
 
 /* ── 머리 카드 밖 — 현장 ──
    탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말한다.

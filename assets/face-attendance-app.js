@@ -63,19 +63,13 @@
     var sc = scr.querySelector('.body');
     if (!sc) return;
 
-    var parts = [scr.querySelector('.hd'), scr.querySelector('.act')]
-      .filter(function (n) { return n; });
-    if (!parts.length) return;
+    var act = scr.querySelector('.act');
+    if (!act) return;
+    var parts = [act];
 
-    /* 탭이 올라간 자리를 거두려면 제 높이를 알아야 한다 — 화면마다 다르다 */
-    var hd = scr.querySelector('.hd');
-    if (hd) hd.style.setProperty('--ap-hd-h', hd.offsetHeight + 'px');
-
-    /* 접으면 보이는 자리가 그만큼 **커진다**. 바닥 가까이에서 접으면 스크롤이
-       끝에 닿아 이벤트가 끊기고, 끊기면 '멎었다'고 보아 펴고, 펴면 다시
-       내려갈 자리가 생겨 또 접는다 — 바가 깜빡이는 까닭이 이것이다.
-       그래서 **접고도 더 내려갈 자리가 남을 때만** 접는다 */
-    var room = (hd ? hd.offsetHeight : 0) + 16;
+    /* 바닥 버튼은 목록이 굴러가는 상자 **밖**이라, 내려 보내도 상자의 크기가
+       바뀌지 않는다. 위의 탭은 그렇지 않아 숨기기를 거뒀다(css 에 까닭) */
+    var room = 16;
 
     /* 탭이 접히고 펴지는 동안에도 스크롤 이벤트가 온다 — 자리가 줄고 늘어
        스크롤 값이 밀리기 때문이다. 그것을 손가락이 낸 것으로 치면, 접히며
