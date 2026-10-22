@@ -528,12 +528,19 @@ ul,ol{list-style:none}
    카드만 한 과녁으로 세운다. 아이콘과 글이 세로로 선다.
    출근과 퇴근은 색으로 가른다 — 시안에 주황이 없어, 시안이 강한 둘째
    동작에 쓰는 검정을 퇴근에 준다 */
-.cta{width:100%;max-width:var(--ap-cta-w);min-height:260px;
+.cta{position:relative;width:100%;max-width:var(--ap-cta-w);min-height:260px;
   display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
   gap:var(--ap-p5);padding:var(--ap-p9) var(--ap-p8);
   border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-card);
   background:var(--ap-primary);color:var(--ap-g0);text-align:left}
 .cta--out{background:var(--ap-g95)}
+/* 오른쪽 위의 '시작' 표 — 흰 동그라미에 화살표 하나. 글자 없이 '누르면
+   간다'를 말하는 자리라, 카드 색을 뒤집어(면이 흰색, 화살표가 카드 색)
+   과녁 안에서 가장 먼저 눈에 띈다 */
+.cta__go{position:absolute;top:var(--ap-p8);right:var(--ap-p8);
+  width:48px;height:48px;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;background:var(--ap-g0);color:var(--ap-primary)}
+.cta--out .cta__go{color:var(--ap-g95)}
 /* 이 화면에서 가장 큰 글이다 — 시안의 Title1(28/34). 과녁의 이름이
    설명보다 한 단만 크면 둘이 비슷해 보인다 */
 .cta__t{font:var(--t-title1);letter-spacing:var(--ls-title1)}
