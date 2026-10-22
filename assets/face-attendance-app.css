@@ -133,8 +133,9 @@
      둘 다 따라간다 */
   --ap-glow-in:var(--ap-g0);           /* 가운데 — 밝다 */
   --ap-glow-out:var(--ap-primary-5);   /* 가장자리 — 연한 브랜드 색 */
-  --ap-glow-ring:rgba(17,90,198,.22);  /* 번져 나가는 파장의 테 */
-  --ap-glow-face:0 0 12px rgba(17,90,198,.28); /* 얼굴 면을 띄우는 빛 */
+  --ap-glow-ring:rgba(255,255,255,.85);  /* 번져 나가는 파장의 앞머리 — 흰 빛 */
+  --ap-glow-wash:rgba(255,255,255,.3);   /* 그 앞머리를 따라오는 옅은 빛 */
+  --ap-glow-face:0 0 14px rgba(255,255,255,.95); /* 얼굴 면에서 번지는 빛 — 면과 같은 흰색이다 */
   --ap-scan-rest:rgba(17,90,198,.38); /* 훑기 전 얼굴·테 — 회색을 쓰면 파란 면 위에서 혼자 뜬다 */
   --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
 
@@ -548,9 +549,11 @@ ul,ol{list-style:none}
 .scan{flex:none;position:relative;display:block;width:var(--ap-scan);height:calc(var(--ap-scan) * .75)}
 .scan svg{position:relative;z-index:1}
 .scan svg{display:block;width:100%;height:100%;overflow:visible}
-/* 얼굴이 앉는 면 — 흰색이다. 카드 가운데도 흰색이라 면만으로는 보이지 않아
-   브랜드 색 빛을 둘러 띄운다. 그림자가 아니라 빛이라 아래로 치우치지 않는다 */
-.scan__disc{fill:var(--ap-g0);filter:drop-shadow(var(--ap-glow-face))}
+/* 얼굴이 앉는 면 — 흰색이고, 번지는 빛도 같은 흰색이다. 면이 어디서
+   끝나는지 모르게 파란 바탕으로 녹아든다. 한 겹으로는 연해서 두 겹 겹친다.
+   그림자가 아니라 빛이라 아래로 치우치지 않는다 */
+.scan__disc{fill:var(--ap-g0);
+  filter:drop-shadow(var(--ap-glow-face)) drop-shadow(var(--ap-glow-face))}
 .scan__face{fill:var(--ap-scan-rest)}
 /* 웃음은 채우는 것이 아니라 긋는 것이다 — 눈과 같은 색, 끝은 둥글게 */
 .scan__smile{fill:none;stroke:var(--ap-scan-rest);stroke-width:4;stroke-linecap:round}
@@ -579,8 +582,11 @@ ul,ol{list-style:none}
 .wave{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:0}
 /* 물결은 그림 칸 한가운데에서 **동그랗게** 떠난다 — 칸이 4:3 이라
    100% 로 두면 타원이 된다 */
+/* 테만 있으면 고리가 번지는 것으로 보인다. 앞머리 안쪽을 옅은 빛으로
+   채워, 고리가 아니라 **빛이 번지는 것**으로 읽히게 한다 */
 .wave i{position:absolute;width:var(--ap-scan);height:var(--ap-scan);
-  border:2px solid var(--ap-glow-ring);border-radius:50%;opacity:0}
+  border:2px solid var(--ap-glow-ring);border-radius:50%;opacity:0;
+  background:radial-gradient(circle,transparent 55%,var(--ap-glow-wash) 100%)}
 .shot__box:not(.shot__box--done) .wave i{animation:ap-wave var(--ap-beat-cycle) linear infinite}
 .shot__box:not(.shot__box--done) .wave i:nth-child(2){animation-delay:calc(var(--ap-beat-cycle) / -3)}
 .shot__box:not(.shot__box--done) .wave i:nth-child(3){animation-delay:calc(var(--ap-beat-cycle) / -1.5)}
@@ -655,8 +661,10 @@ ul,ol{list-style:none}
 .cam__mode--out{background:var(--ap-g95)}
 
 /* 촬영 확인 — 찍은 얼굴을 덮어 놓고 묻는다 */
+/* 카드와 '다시 촬영하기' 는 한 묶음이 아니다 — 하나는 저지르고 하나는
+   되돌린다. 24 를 띄워 둘이 한 덩어리로 읽히지 않게 한다 */
 .confirm{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:var(--ap-p2);padding:var(--ap-p8);background:var(--ap-scrim-confirm)}
+  justify-content:center;gap:var(--ap-p8);padding:var(--ap-p8);background:var(--ap-scrim-confirm)}
 /* 묻는 한 덩어리 — 흰 카드로 묶어 어두운 막 위에 띄운다 */
 .confirm__card{display:flex;flex-direction:column;align-items:center;gap:var(--ap-gap6);
   width:100%;max-width:var(--ap-confirm-w);padding:var(--ap-p8);
@@ -672,8 +680,10 @@ ul,ol{list-style:none}
 .confirm__ok{font:var(--t-head);letter-spacing:var(--ls-head);width:100%;height:56px;
   display:flex;align-items:center;justify-content:center;
   background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
-/* 되돌리는 쪽 — 테도 면도 없이 글자만. 막 위에 서므로 흰 글씨다 */
+/* 되돌리는 쪽 — 테도 면도 없이 글자와 아이콘만. 막 위에 서므로 흰 글씨다.
+   카메라를 앞에 두어 '무엇을 다시 하는지'가 글자보다 먼저 읽힌다 */
 .confirm__re{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
+  display:flex;align-items:center;gap:var(--ap-p3);
   padding:var(--ap-p5) var(--ap-p6);color:var(--ap-g0)}
 
 /* ── 알림창 — 시안 modal_alert ── */
