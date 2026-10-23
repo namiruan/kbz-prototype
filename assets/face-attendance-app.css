@@ -405,14 +405,27 @@ ul,ol{list-style:none}
 
 /* ── 날짜 — 시안의 달력 카드 ── */
 .cal{display:flex;flex-direction:column;gap:var(--ap-p2)}
-/* 이력 화면에서는 날짜가 **제 카드**로 선다 — 탭은 화면을 가르는 것이고
-   날짜는 고른 값이라 하는 일이 다르다. 한 면에 같이 담아 두니 탭을
-   누르면 날짜까지 따라 바뀌는 것처럼 보였다.
-   근로자 앱의 날짜는 그대로 둔다 — 거기에는 탭이 없어 머리 카드가 곧
-   날짜 카드다. 모서리는 바탕 위에 홀로 선 다른 카드들과 같은 10 이다
-   (머리 카드의 15 는 화면 꼭대기에 붙어 위가 각진 슬래브라 그렇다) */
-.cal--card{flex:none;margin:var(--ap-p5) var(--ap-p6) 0;padding:var(--ap-p5) var(--ap-p6);
+/* ── 날짜 고르개 — 이력 화면 ──
+   현장 **아래**에 선다: 현장을 고르고 그 안에서 날을 고르는 차례다.
+   한 날씩 좌우로 옮긴다. 일자별 달력(주 띠)은 걷었다 — 띠는 '이 주의
+   어디쯤' 을 보여 주는 것이고 화살표는 '한 날씩' 옮기는 것이라, 둘을
+   같이 두면 같은 일을 두 번 한다. 날짜를 숫자 칸으로 두지 않는 것도 같은
+   까닭이다(칸은 '적어 넣어라' 라고 말한다).
+   근로자 앱의 날짜는 그대로 달력이다 — 거기에는 탭도 현장도 없어 머리
+   카드가 곧 날짜 카드다.
+   모서리는 바탕 위에 홀로 선 다른 카드들과 같은 10 이다 */
+.day{flex:none;display:flex;align-items:center;gap:var(--ap-p3);
+  margin:var(--ap-p5) var(--ap-p6) 0;padding:var(--ap-p3) var(--ap-p5);
   background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
+/* 날짜는 두 화살표 사이에서 남는 자리를 다 쓰고 그 한가운데에 선다 —
+   '오늘' 은 그 바깥에 붙는 덤이다. 요일만 굵기를 올려 숫자와 가른다 */
+.day__v{font:var(--t-title3);letter-spacing:var(--ls-title3);
+  flex:1;min-width:0;text-align:center;color:var(--ap-text);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.day__v b{font-weight:600}
+/* 시스템의 Icon Button md — 아이콘 24 에 둘레 4 씩이면 짚을 자리가 32 다 */
+.day__a{flex:none;display:inline-flex;align-items:center;justify-content:center;
+  padding:4px;border-radius:var(--ap-r6);color:var(--ap-g90)}
 .cal__top{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3);padding:8px 0}
 .cal__date{display:flex;align-items:center;gap:var(--ap-p2)}
 .cal__num{font:var(--t-title2);letter-spacing:var(--ls-title2);display:flex;align-items:center;justify-content:center;padding:2px 6px;background:var(--ap-g0);border:1px solid var(--ap-g20);border-radius:var(--ap-r8);color:var(--ap-g95)}
@@ -1441,7 +1454,7 @@ ul,ol{list-style:none}
   /* 날짜·현장 줄과 그 아래 뱃지는 제가 가리키는 목록과 세로 선이 맞아야
      한다. 하나라도 빠뜨리면 그것만 8 바깥에 서서, 한 이야기가 두 선으로
      갈린다 */
-  .cal--card,.ctx,.bds{margin-inline:var(--ap-p8)}
+  .day,.ctx,.bds{margin-inline:var(--ap-p8)}
   /* 필터는 한 칸이라 늘리지 않는다 — 폭을 다 쓰면 고를 것이 하나인데 줄만 길어진다 */
   /* ⚠ 여기에 .sel 로 폭을 걸지 않는다. 폼 안의 고르는 칸까지 걸리는데, 폼의
      .fld 는 **세로 줄**이라 flex-basis 가 폭이 아니라 **높이**가 된다 —

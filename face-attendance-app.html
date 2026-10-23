@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=197">
-<script src="assets/face-attendance-app.js?v=197" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=198">
+<script src="assets/face-attendance-app.js?v=198" defer></script>
 </head>
 
 <body>
@@ -954,43 +954,26 @@
     </nav>
   </div>
 
-  <!-- 날짜는 시안의 달력 카드를 그대로 쓴다. 숫자 칸을 직접 고치거나
-       주를 훑어 고르거나 '오늘' 로 돌아온다.
-       탭 카드에서 떼어 제 카드로 세운다 — 탭은 **화면을 가르는 것**이고
-       날짜는 **고른 값**이라 하는 일이 다르다. 한 면에 같이 담아 두니
-       탭을 누르면 날짜까지 따라 바뀌는 것처럼 보였다.
-       이렇게 떼고 나면 탭 카드는 다른 네 화면(출근·퇴근·근로자 관리)의
-       것과 같아진다 -->
-  <div class="cal cal--card">
-    <div class="cal__top">
-      <div class="cal__date">
-        <span class="cal__num">2026</span><span class="cal__dot">.</span>
-        <span class="cal__num">10</span><span class="cal__dot">.</span>
-        <span class="cal__num">20</span>
-        <span class="cal__dow">화</span>
-      </div>
-      <div class="cal__side">
-        <button class="pill pill--dark" type="button">오늘</button>
-        <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
-      </div>
-    </div>
-    <div class="cal__week">
-      <div class="cal__d"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></div>
-      <div class="cal__d"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></div>
-      <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b><i></i></div></div>
-      <div class="cal__d"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></div>
-      <div class="cal__d"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></div>
-      <div class="cal__d"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></div>
-      <div class="cal__d"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></div>
-    </div>
-  </div>
-
   <div class="ctx">
     <div class="site">
       <span class="bd bd--normal bd--line">현장</span>
       <span class="site__v">서울 마곡 A동 신축공사</span>
       <button class="pill pill--line" type="button">변경</button>
     </div>
+  </div>
+
+  <!-- 날짜는 현장 **아래**에 선다 — 현장을 고르고 그 안에서 날을 고르는
+       차례다. 위에 두면 날을 먼저 고른 뒤 현장이 바뀌는 꼴이 된다.
+       일자별 달력(주 띠)은 걷었다. 날을 옮기는 길이 좌우 화살표로 바뀌어
+       띠가 하는 일이 없어졌다 — 띠는 '이 주의 어디쯤' 을 보여 주는 것이고
+       화살표는 '한 날씩' 옮기는 것이라, 둘을 같이 두면 같은 일을 두 번 한다.
+       날짜를 숫자 칸으로 두지 않는 것도 같은 까닭이다. 칸은 '적어 넣어라'
+       라고 말하는데 이제 바꾸는 길은 화살표다 -->
+  <div class="day">
+    <button class="day__a" type="button" aria-label="앞 날짜"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <span class="day__v">2026. 10. 20 <b>화</b></span>
+    <button class="day__a" type="button" aria-label="뒤 날짜"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
+    <button class="pill pill--dark" type="button">오늘</button>
   </div>
 
   <main class="body">
