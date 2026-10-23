@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=233">
-<script src="assets/face-attendance-app.js?v=233" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=234">
+<script src="assets/face-attendance-app.js?v=234" defer></script>
 </head>
 
 <body>
@@ -1014,13 +1014,14 @@
          인증에서 나온 짝이라 표를 따로 떼어 두면 읽는 사람이 둘을 다시
          이어 붙여야 한다. 그래서 '출근' 과 시각이 한 뱃지 안에 들고, 그
          면 색이 어느 쪽인지를 말한다 — 퇴근이면 .tms--out 으로 바뀐다.
-         목록 줄의 표와 같은 색이다.
+         목록 줄의 표와 같은 색이다. 둘 사이에는 세로 구분선을 세운다 —
+         한 면 안에 들었어도 '출근' 과 시각은 서로 다른 값이다.
          '출근시간' 이라는 라벨은 적지 않는다 — 뱃지가 이미 출근이라 말했고,
          시계 아이콘이 이 수가 시각임을 말한다. 셋을 다 두면 같은 말이
          세 번이다 -->
     <div class="stmp">
       <p class="stmp__d">2026. 10. 20 <b>화</b></p>
-      <p class="tms tms--in"><span class="tms__k">출근</span><span class="tms__v"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>07:05:19</span></p>
+      <p class="tms tms--in"><span class="tms__k">출근</span><span class="tms__bar" role="separator" aria-orientation="vertical"></span><span class="tms__v"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>07:05:19</span></p>
     </div>
 
     <!-- 사진은 언제 바로 아래, 누구인지 위다 — '이 시각에 찍힌 얼굴' 과

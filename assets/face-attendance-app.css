@@ -1256,13 +1256,21 @@ ul,ol{list-style:none}
    색이라 줄에서 보던 것이 여기서도 그대로다.
    ⚠ DS 를 벗어나는 곳: Badge 는 작은 인라인 레이블이라 lg 도 글자가
    작은데, 여기서는 **시각이 주인공**이라 28 이 뱃지 안에 든다. 커진 만큼
-   여백(4/12)과 모서리(15)도 따라 키웠다 — rect 의 4 를 그대로 두면 42 키의
-   면에 모서리만 뾰족하게 남는다. 15 는 아래 사진과 같은 단이라 둘이 한
-   짜임으로 읽힌다 */
+   여백(4/12)과 모서리(8)도 따라 키웠다 — rect 의 4 를 그대로 두면 42 키의
+   면에 모서리만 뾰족하게 남는다. 그 위(15)로 가면 아래 사진의 모서리와
+   같아져, 면이 네모라기보다 알약처럼 읽힌다 */
 .tms{display:inline-flex;align-items:center;gap:var(--ap-p4);
-  padding:var(--ap-p2) var(--ap-p5);border-radius:var(--ap-r15)}
+  padding:var(--ap-p2) var(--ap-p5);border-radius:var(--ap-r8)}
 .tms--in{background:var(--ap-badge-positive);color:var(--ap-primary)}
 .tms--out{background:var(--ap-badge-normal);color:var(--ap-text)}
+/* '출근' 과 시각 사이의 세로 구분선(DS Divider 의 vertical) — 한 면 안에
+   들었어도 둘은 서로 다른 값이라, 선 하나가 '어느 쪽인가 | 몇 시인가' 로
+   갈라 준다.
+   ⚠ DS 를 벗어나는 곳: DS 는 선 색이 Color/border/subtle(회색)이고 키가
+   부모만큼 늘어난다(align-self:stretch). 여기서는 면이 이미 옅은 색이라
+   회색 선이 면에 묻고, 끝까지 늘리면 선이 여백을 가른다 — 뱃지의 글자색을
+   흐려 쓰고(.28) 키는 글줄만큼(20)만 둔다 */
+.tms__bar{flex:none;width:1px;height:20px;background:currentColor;opacity:.28}
 /* 라벨은 수보다 한참 작다(13) — 뱃지 안에서 읽히는 주인공은 시각이고,
    '출근' 은 그 시각이 어느 쪽인지를 붙여 주는 말이다. 목록 줄의 표와
    같은 글자 크기다 */
