@@ -1283,15 +1283,24 @@ ul,ol{list-style:none}
 /* 줄 하나가 통째로 과녁이다 — 안에 또 버튼을 두지 않는다. 오른쪽 끝의
    꺾쇠는 근로자 관리 목록의 것과 같다(16 · 본문 색) — 같은 '눌러 들어간다'
    를 목록마다 다른 꼴로 말하면 읽는 사람이 둘을 다른 것으로 본다 */
-.log{display:flex;width:100%;align-items:center;gap:var(--ap-p4);padding:12px var(--ap-p6);
+/* 이름과 시각이 두 줄로 쌓여 있었다. 한 줄에 세우면 줄의 키가 64 에서
+   46 으로 준다 — 한 화면에 들어오는 줄이 그만큼 늘고, 목록은 훑는 자리라
+   그것이 곧 쓸모다.
+   차례는 **표 · 시각 · 이름** 이다: 표와 시각은 '언제 무엇이 찍혔나' 로
+   한 덩어리라 바싹 붙이고(6), 이름은 한 칸 떨어져(10) 남는 자리를 다
+   쓴다. 시각을 이름 뒤로 보내면 표와 시각이 갈라져 둘을 눈이 두 번
+   건너뛰어야 한다 */
+.log{display:flex;width:100%;align-items:center;gap:var(--ap-p3);padding:12px var(--ap-p6);
   background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
 .log__go{flex:none}
 .log__t{font:var(--t-foot-em);letter-spacing:var(--ls-foot);flex:none;min-width:48px;padding:2px 4px;border-radius:var(--ap-r4);text-align:center}
 .log__t--in{background:var(--ap-badge-positive);color:var(--ap-primary)}
 .log__t--out{background:var(--ap-badge-normal);color:var(--ap-text)}
-.log__m{flex:1;min-width:0}
-.log__nm{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-text)}
-.log__tm{font:var(--t-foot);letter-spacing:var(--ls-foot);color:var(--ap-text-gray);font-variant-numeric:tabular-nums}
+.log__nm{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;min-width:0;
+  margin-left:var(--ap-p2);color:var(--ap-text);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.log__tm{font:var(--t-foot);letter-spacing:var(--ls-foot);flex:none;
+  color:var(--ap-text-gray);font-variant-numeric:tabular-nums}
 
 /* ── 안내 글 ── */
 .note{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);padding:12px var(--ap-p6);background:var(--ap-primary-5);border-radius:var(--ap-r10);color:var(--ap-primary-70)}
