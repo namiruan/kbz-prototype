@@ -1290,21 +1290,27 @@ ul,ol{list-style:none}
    한 덩어리라 바싹 붙이고(6), 이름은 한 칸 떨어져(10) 남는 자리를 다
    쓴다. 시각을 이름 뒤로 보내면 표와 시각이 갈라져 둘을 눈이 두 번
    건너뛰어야 한다.
-   위아래 여백은 8 이다 — 32 짜리 네모가 줄의 키를 잡으므로 12 를 두면
-   줄이 56 으로 는다. 8 이면 48 로, 두 줄이던 때(64)보다 한참 낮다 */
-.log{display:flex;width:100%;align-items:center;gap:var(--ap-p3);padding:var(--ap-gap3) var(--ap-p6);
+   위아래 여백은 8 이다 — 40 짜리 네모가 줄의 키를 잡아 줄은 56 이 된다.
+   이름과 시각이 두 줄로 쌓여 있던 때(64)보다는 여전히 낮다.
+   좌우는 10 이다. 16 은 글이 앉을 때의 값인데, 왼쪽에 앉는 것이 **면을
+   가진 네모**라 그만큼 들여쓰면 저 혼자 깊이 들어가 보인다 — 네모의
+   가장자리가 이미 줄의 가장자리 노릇을 한다. 10 이면 화면 끝에서 26 으로,
+   현장 줄의 '현장' 뱃지(28)·날짜의 꺾쇠(20)와 같은 띠 안에 든다 */
+.log{display:flex;width:100%;align-items:center;gap:var(--ap-p3);padding:var(--ap-gap3) var(--ap-p4);
   background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
 .log__go{flex:none}
-/* 표는 **정방형** 면이다(32×32). 가로로 긴 알약은 글자 수를 따라 폭이
+/* 표는 **정방형** 면이다(40×40). 가로로 긴 알약은 글자 수를 따라 폭이
    바뀌는데, 줄마다 같은 크기의 네모가 서 있으면 눈이 그 칸만 따라
    내려가며 출근·퇴근을 훑을 수 있다.
-   글자는 12 로 한 단 내린다 — 13 짜리 '출근' 은 26 이라 32 안에서 좌우에
-   3 밖에 남지 않아 네모에 꽉 낀다(12 면 24, 좌우 4).
+   40 이라 글자는 13(--t-foot-em)으로 돌아간다 — '출근' 이 26 이니 좌우로
+   7 씩 남는다(32 짜리 네모에서는 3 밖에 남지 않아 12 로 내렸었다).
+   모서리는 6 이다. 4 는 32 짜리에 맞춘 값이라, 면이 커지면 모서리도 한 단
+   따라가야 같은 둥글기로 보인다.
    색 짝은 알약이 쓰던 그대로다 — 출근은 badge/positive 면에 브랜드 색,
    퇴근은 badge/normal 면에 본문 색 */
-.log__t{font:600 12px/1 var(--ap-font);letter-spacing:var(--ls-foot);flex:none;
-  width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;
-  border-radius:var(--ap-r4)}
+.log__t{font:var(--t-foot-em);letter-spacing:var(--ls-foot);flex:none;
+  width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;
+  border-radius:var(--ap-r6)}
 .log__t--in{background:var(--ap-badge-positive);color:var(--ap-primary)}
 .log__t--out{background:var(--ap-badge-normal);color:var(--ap-text)}
 .log__nm{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;min-width:0;
