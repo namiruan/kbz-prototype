@@ -1166,11 +1166,14 @@ ul,ol{list-style:none}
 .tms{--tms-bg:var(--ap-badge-positive); --tms-fg:var(--ap-primary);
   display:flex;flex-direction:column;gap:var(--ap-p5);
   align-self:stretch;margin:var(--ap-p4) 0 var(--ap-p5);padding:var(--ap-p5);
-  border-radius:var(--ap-r10);background:var(--tms-bg);color:var(--tms-fg)}
+  border-radius:var(--ap-r15);background:var(--tms-bg);color:var(--tms-fg)}
 .tms--out{--tms-bg:var(--ap-badge-normal); --tms-fg:var(--ap-text)}
 .tms__hd{display:flex}
+/* 안쪽 여백은 **카드가 혼자 쥔다**. 칸이 제 여백을 또 가지면 위는
+   12+10, 아래는 12 가 되어 한쪽만 조인 꼴이 된다 — 카드가 어설퍼
+   보이던 까닭이다 */
 .tms__c{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
-  gap:var(--ap-p2);padding:var(--ap-p4) var(--ap-p3)}
+  gap:var(--ap-p2)}
 /* 가르는 선은 면 위에 한 겹 어둡게 — 바탕색이 둘이라 고정 회색을 쓸 수 없다 */
 .tms__c + .tms__c{border-left:1px solid rgba(19,20,22,.1)}
 /* 라벨과 값은 **같은 색**이다. 뱃지가 한 색인 것과 같다 — 크기와 굵기가
@@ -1183,13 +1186,18 @@ ul,ol{list-style:none}
 .rows--bare{background:none;box-shadow:none;padding:0}
 .rows--bare .row{border-bottom:0}
 /* 사진은 카드 안에 들어가 제 안쪽 폭을 다 쓰고, 키는 폭을 따라간다
-   (정방형) — 폰과 태블릿에서 카드 폭이 다른데 키를 못으로 박아 두면
-   한쪽에서 납작해진다. 모서리는 카드보다 한 단 작게 둥글린다 (안에 든
+   (4:3) — 폰과 태블릿에서 카드 폭이 다른데 키를 못으로 박아 두면
+   한쪽에서 납작해진다. 정방형으로 두었더니 사진이 카드를 통째로 삼켜,
+   면 색은 사진을 두른 테처럼만 남고 시각은 그 위의 머리띠처럼 보였다 —
+   카드가 카드로 읽히려면 제 면이 보일 만큼은 남아야 한다. 모서리는 카드보다 한 단 작게 둥글린다 (안에 든
    것이 바깥보다 더 둥글면 테가 겹쳐 보인다).
    사진을 자리에서 띄워 둬야(absolute) 비율이 제 몫을 한다 — 흐름에 두면
-   그림의 제 키가 먼저 자리를 잡아 버려 aspect-ratio 가 할 일이 없다 */
+   그림의 제 키가 먼저 자리를 잡아 버려 aspect-ratio 가 할 일이 없다.
+   모서리는 **같은 중심을 도는 꼴**로 맞춘다: 바깥(15) = 안쪽(4) + 여백(12).
+   어긋나면 두 모서리가 서로 다른 곡선을 그려 귀퉁이가 꼬집힌 것처럼
+   보인다 */
 .photo{position:relative;overflow:hidden;
-  width:100%;aspect-ratio:1;border-radius:var(--ap-r8);
+  width:100%;aspect-ratio:4 / 3;border-radius:var(--ap-r4);
   background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   display:flex;align-items:center;justify-content:center;color:var(--ap-on-photo)}
 .photo img{position:absolute;inset:0}
