@@ -1232,28 +1232,17 @@ ul,ol{list-style:none}
    머리에 선다 — 주민번호·연락처·직종은 이름이 없으면 누구의 것인지 알 수
    없는 값들이다. 위로는 한 칸 떼고(4+8) 아래로는 제 것에 붙인다(8).
    길면 두 줄로 접힌다 */
-.dt{display:flex;align-items:center;justify-content:space-between;
-  gap:var(--ap-p5);align-self:stretch;padding-top:var(--ap-p2)}
-.dt__t{font:var(--t-cta);min-width:0;color:var(--ap-text);word-break:keep-all}
-/* 표는 목록 줄의 것을 그대로 쓴다(.log__t — 40 짜리 네모 · 같은 색 짝).
-   줄에서 보던 네모가 열어 본 화면에도 그대로 있어야 같은 것으로 읽힌다.
-   다만 넉 자라 두 줄로 접는다(출근 / 완료) — 줄 높이를 1.25 로 좁혀야
-   두 줄(13 × 2)이 40 안에 든다 */
-.dt__b{line-height:1.25;text-align:center}
-/* 시각 — 출근인지 퇴근인지를 **이 카드의 색**이 말한다. 이름 옆에 작은
-   뱃지를 따로 달면 같은 말이 두 군데에서 나고, 정작 크게 읽힐 수는
-   색이 없어 중립이 된다. 색 짝은 뱃지 그대로다 — 출근은 badge/positive
-   면에 브랜드 색, 퇴근은 badge/normal 면에 본문 색(목록의 출근·퇴근
-   표와 같은 짝이다). 그러니 여기서 색을 새로 고르지 않는다.
-   숫자는 폭이 고른 꼴로 둔다(tabular-nums).
-   칸은 **하나**다 — 출근과 퇴근은 따로 쌓이는 이력이라 한 화면이 맡는
-   것도 그중 하나다. 칸이 둘로 늘 자리는 남겨 둔다(가운데 선은 둘째 칸이
-   생길 때만 그어진다) */
-.tms{--tms-bg:var(--ap-badge-positive); --tms-fg:var(--ap-primary);
-  display:flex;flex-direction:column;gap:var(--ap-p5);
-  align-self:stretch;margin:var(--ap-p4) 0 var(--ap-p5);padding:var(--ap-p5);
-  border-radius:var(--ap-r15);background:var(--tms-bg);color:var(--tms-fg)}
-.tms--out{--tms-bg:var(--ap-badge-normal); --tms-fg:var(--ap-text)}
+.dt{font:var(--t-cta);align-self:stretch;padding-top:var(--ap-p2);
+  color:var(--ap-text);word-break:keep-all}
+/* 시각과 사진 — 면도 테도 두지 않는다. 흰 종이 위에 그대로 눕는다:
+   아래 사람 정보가 카드를 벗고 있는데 위만 면을 쥐고 있으면 둘이 다른
+   무게로 읽힌다.
+   출근인지 퇴근인지는 **맨 앞의 네모**가 말한다 — 면을 걷고 나니 색을
+   쥘 자리가 거기뿐이고, 목록 줄의 표와 같은 것이라 줄에서 보던 것이
+   여기서도 그대로다.
+   숫자는 폭이 고른 꼴로 둔다(tabular-nums) */
+.tms{display:flex;flex-direction:column;gap:var(--ap-p5);
+  align-self:stretch;margin:var(--ap-p4) 0 var(--ap-p5)}
 /* 안쪽 여백은 **카드가 혼자 쥔다**. 칸이 제 여백을 또 가지면 위는
    12+10, 아래는 12 가 되어 한쪽만 조인 꼴이 된다 — 카드가 어설퍼
    보이던 까닭이다 */
@@ -1261,15 +1250,16 @@ ul,ol{list-style:none}
    같다). 라벨 위에 값을 쌓아 두었더니, 같은 화면에서 '무엇: 얼마' 를
    읽는 법이 카드 안과 밖에서 서로 달랐다.
    시각의 값은 작아지지 않는다(28) — 자리만 오른쪽으로 옮긴 것이다.
-   줄은 하나다(시각). 날짜는 머리줄이 쥐고 있고, 나란히 세울 칸도 없다 —
-   출근과 퇴근은 따로 쌓이는 이력이라 한 화면이 맡는 것도 그중 하나다 */
-.tms__c{flex:1;min-width:0;display:flex;align-items:center;
-  justify-content:space-between;gap:var(--ap-p5)}
-/* 라벨과 값은 **같은 색**이다. 뱃지가 한 색인 것과 같다 — 크기와 굵기가
-   이미 둘을 가른다 */
-.tms__k{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:none}
+   줄은 하나다(시각). 날짜는 머리줄이 쥐고 있다.
+   표 · 라벨은 왼쪽에 붙고 값만 반대쪽 끝으로 민다(margin-left:auto) —
+   셋을 space-between 으로 벌리면 라벨이 줄 한가운데에 떠 버린다 */
+.tms__c{flex:1;min-width:0;display:flex;align-items:center;gap:var(--ap-p4)}
+/* 라벨과 값은 아래 정보 줄과 같은 색이다 — 라벨은 옅고 값은 짙다.
+   면을 쥐고 있을 때는 둘이 한 색이었으나(뱃지가 한 색인 것과 같았다),
+   흰 종이 위에서는 .row 와 같은 짝이라야 한 화면이 한 법으로 읽힌다 */
+.tms__k{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:none;color:var(--ap-text-gray)}
 .tms__v{font:var(--t-title1);letter-spacing:var(--ls-title1);flex:none;
-  font-variant-numeric:tabular-nums}
+  margin-left:auto;color:var(--ap-text);font-variant-numeric:tabular-nums}
 /* 흰 종이 위에서는 정보 줄이 카드를 벗는다 — 흰 카드를 흰 바탕에 올리면
    그림자만 남아 때처럼 보인다. 줄 사이 선도 긋지 않는다: 라벨과 값이
    좌우로 멀찍이 갈라져 있어 선이 없어도 한 줄로 읽힌다 */
