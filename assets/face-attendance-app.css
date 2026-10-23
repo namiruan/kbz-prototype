@@ -1249,14 +1249,30 @@ ul,ol{list-style:none}
 .stmp__d{font:var(--t-title2);letter-spacing:var(--ls-title2);
   color:var(--ap-text);font-variant-numeric:tabular-nums;white-space:nowrap}
 .stmp__d b{font:var(--t-head);letter-spacing:var(--ls-head);margin-left:2px}
-.tms{display:flex;align-items:center;justify-content:center;gap:var(--ap-p4)}
+/* 출근/퇴근과 그 시각은 **한 뱃지**다 — 같은 한 번의 인증에서 나온 짝이라
+   표를 따로 떼어 두면 읽는 사람이 둘을 다시 이어 붙여야 한다.
+   면 색이 어느 쪽인지를 말한다(.tms--in / --out) — DS Badge 의 tint 색
+   짝(Color/badge/positive · normal)을 그대로 쓰고, 목록 줄의 표와도 같은
+   색이라 줄에서 보던 것이 여기서도 그대로다.
+   ⚠ DS 를 벗어나는 곳: Badge 는 작은 인라인 레이블이라 lg 도 글자가
+   작은데, 여기서는 **시각이 주인공**이라 28 이 뱃지 안에 든다. 커진 만큼
+   여백(4/12)과 모서리(15)도 따라 키웠다 — rect 의 4 를 그대로 두면 42 키의
+   면에 모서리만 뾰족하게 남는다. 15 는 아래 사진과 같은 단이라 둘이 한
+   짜임으로 읽힌다 */
+.tms{display:inline-flex;align-items:center;gap:var(--ap-p4);
+  padding:var(--ap-p2) var(--ap-p5);border-radius:var(--ap-r15)}
+.tms--in{background:var(--ap-badge-positive);color:var(--ap-primary)}
+.tms--out{background:var(--ap-badge-normal);color:var(--ap-text)}
+/* 라벨은 수보다 한참 작다(13) — 뱃지 안에서 읽히는 주인공은 시각이고,
+   '출근' 은 그 시각이 어느 쪽인지를 붙여 주는 말이다. 목록 줄의 표와
+   같은 글자 크기다 */
+.tms__k{font:var(--t-foot-em);letter-spacing:var(--ls-foot);flex:none}
 /* 시각 앞의 시계 — '이 수가 시각이다' 를 아이콘이 말하므로 '출근시간'
-   이라는 라벨을 따로 적지 않는다. 색은 한 겹 죽인다: 수를 읽는 데
-   아이콘이 끼어들지 않게 한다 */
+   이라는 라벨을 따로 적지 않는다. 색은 뱃지의 글자색을 그대로 받는다:
+   면이 이미 옅어 여기서 한 겹 더 죽이면 아이콘이 면에 묻는다 */
 .tms__v{font:var(--t-title1);letter-spacing:var(--ls-title1);flex:none;
   display:inline-flex;align-items:center;gap:var(--ap-p3);
-  color:var(--ap-text);font-variant-numeric:tabular-nums}
-.tms__v .ic{color:var(--ap-text-gray)}
+  font-variant-numeric:tabular-nums}
 /* 흰 종이 위에서는 정보 줄이 카드를 벗는다 — 흰 카드를 흰 바탕에 올리면
    그림자만 남아 때처럼 보인다. 줄 사이 선도 긋지 않는다: 라벨과 값이
    좌우로 멀찍이 갈라져 있어 선이 없어도 한 줄로 읽힌다 */

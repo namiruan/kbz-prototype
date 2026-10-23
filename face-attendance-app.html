@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=232">
-<script src="assets/face-attendance-app.js?v=232" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=233">
+<script src="assets/face-attendance-app.js?v=233" defer></script>
 </head>
 
 <body>
@@ -1010,15 +1010,17 @@
          되짚어야 한다.
          시각은 하나다 — 출근과 퇴근은 따로 쌓이는 이력이라, 한 화면이
          맡는 것도 그중 하나다. 퇴근은 목록의 제 줄에서 따로 연다.
-         맨 앞의 네모가 이 기록이 출근인지 퇴근인지를 말한다 — 면을 걷고
-         나니 색을 쥘 자리가 여기뿐이고, 퇴근이면 .log__t--out 으로 바뀐다.
-         목록 줄의 표와 같은 것이다.
-         '출근시간' 이라는 라벨은 적지 않는다 — 그 네모가 이미 출근이라
-         말했고, 시계 아이콘이 이 수가 시각임을 말한다. 셋을 다 두면
-         같은 말이 세 번이다 -->
+         출근인지 퇴근인지와 그 시각은 **한 덩어리**다 — 같은 한 번의
+         인증에서 나온 짝이라 표를 따로 떼어 두면 읽는 사람이 둘을 다시
+         이어 붙여야 한다. 그래서 '출근' 과 시각이 한 뱃지 안에 들고, 그
+         면 색이 어느 쪽인지를 말한다 — 퇴근이면 .tms--out 으로 바뀐다.
+         목록 줄의 표와 같은 색이다.
+         '출근시간' 이라는 라벨은 적지 않는다 — 뱃지가 이미 출근이라 말했고,
+         시계 아이콘이 이 수가 시각임을 말한다. 셋을 다 두면 같은 말이
+         세 번이다 -->
     <div class="stmp">
       <p class="stmp__d">2026. 10. 20 <b>화</b></p>
-      <p class="tms"><span class="log__t log__t--in">출근</span><span class="tms__v"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>07:05:19</span></p>
+      <p class="tms tms--in"><span class="tms__k">출근</span><span class="tms__v"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>07:05:19</span></p>
     </div>
 
     <!-- 사진은 언제 바로 아래, 누구인지 위다 — '이 시각에 찍힌 얼굴' 과
