@@ -85,6 +85,12 @@
      그래서 시스템의 검정(.10)보다 짙게 둔다(.20) — 같은 알파에서 파란 먹이
      검정보다 옅게 깔린다 */
   --ap-shadow-card:0 4px 14px rgba(17,53,105,.2),0 1px 3px rgba(17,53,105,.14);
+  /* 탭을 쥔 머리 카드는 한 단 옅다(시스템 shadow-md 꼴) — 카드와 같은
+     깊이로 드리우면 화면 맨 위의 띠가 목록 카드들과 같은 높이로 떠서,
+     무엇이 머리이고 무엇이 목록인지가 그림자로는 갈리지 않는다.
+     목록 카드는 하나씩 떨어져 있어 깊은 그림자가 사이를 갈라 주지만,
+     머리 카드는 화면 폭을 다 쓰는 한 장이라 갈라 줄 이웃이 없다 */
+  --ap-shadow-head:0 2px 8px rgba(17,53,105,.1),0 1px 2px rgba(17,53,105,.07);
   --ap-shadow-float:0 0 10px rgba(19,20,22,.08);  /* shadow-02 */
   /* 눌러야 하는 면을 띄우는 그림자. 색은 시안이 카드에 쓰는 것과 같은
      계열(primary-dark #113569)이다 — 검정 그림자를 파란 면 밑에 깔면
@@ -335,7 +341,7 @@ ul,ol{list-style:none}
    화면의 짜임을 바꾸는 일이라, 지금은 바닥 버튼만 비킨다 */
 .hd{flex:none;position:relative;z-index:0;
   background:var(--ap-g0);border-radius:0 0 var(--ap-r15) var(--ap-r15);
-  box-shadow:var(--ap-shadow-card);padding:var(--ap-p5) var(--ap-p6);
+  box-shadow:var(--ap-shadow-head);padding:var(--ap-p5) var(--ap-p6);
   display:flex;flex-direction:column;gap:var(--ap-gap3)}
 
 /* ── 머리 카드 밖 — 현장 ──
