@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=216">
-<script src="assets/face-attendance-app.js?v=216" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=217">
+<script src="assets/face-attendance-app.js?v=217" defer></script>
 </head>
 
 <body>
@@ -69,8 +69,10 @@
 
   <main class="body">
     <div class="lbar">
-      <span class="lbar__l"><button class="chk" type="button" aria-label="전체 선택"></button></span>
-      <button class="sel sel--inline sel--ghost" type="button"><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      <span class="lbar__l">
+        <button class="chk" type="button" aria-label="전체 선택"></button>
+        <button class="sel sel--inline sel--ghost" type="button"><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </span>
     </div>
     <div class="list">
       <!-- 얼굴이 등록된 근로자는 그 얼굴이 카드에 그대로 있다 —
@@ -184,11 +186,13 @@
 
   <main class="body">
     <div class="lbar">
-      <!-- 고른 수는 **체크박스 곁**에 선다 — 고르는 일과 한 덩어리다.
-           거르개 옆의 수(목록에 남은 수)와는 세는 것이 달라 한 자리에
-           둘 수 없다 -->
-      <span class="lbar__l"><button class="chk" type="button" aria-label="전체 선택"></button><b class="lbar__n lbar__n--on">선택 2명</b></span>
-      <button class="sel sel--inline sel--ghost" type="button"><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      <span class="lbar__l">
+        <button class="chk" type="button" aria-label="전체 선택"></button>
+        <button class="sel sel--inline sel--ghost" type="button"><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </span>
+      <!-- 오른쪽 끝의 수는 **고른 수**다 — 거르개 옆의 수(목록에 남은 수)와
+           다른 것을 센다. 둘을 한 자리에 둘 수 없는 까닭이다 -->
+      <b class="lbar__n lbar__n--on">선택 2명</b>
     </div>
     <div class="list">
       <!-- 고른 카드는 체크박스가 사진 위에서 파랗게 채워진다 -->
@@ -301,8 +305,10 @@
 
   <main class="body">
     <div class="lbar">
-      <span class="lbar__l"><button class="chk" type="button" aria-label="전체 선택"></button></span>
-      <button class="sel sel--inline sel--ghost sel--selected" type="button"><span class="sel__t">형틀목공</span><span class="sel__n">2</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      <span class="lbar__l">
+        <button class="chk" type="button" aria-label="전체 선택"></button>
+        <button class="sel sel--inline sel--ghost sel--selected" type="button"><span class="sel__t">형틀목공</span><span class="sel__n">2</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </span>
     </div>
     <div class="list">
       <!-- 고른 직종만 남는다. 머리줄의 수도 걸러진 뒤의 수다 -->
