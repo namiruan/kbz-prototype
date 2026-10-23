@@ -418,21 +418,25 @@ ul,ol{list-style:none}
    '읽을 것이 둘' 로 보인다. 날짜는 읽을 것이 아니라 **고르는 손잡이** 라,
    면은 손잡이(화살표)만 가진다. 줄은 바탕 위에 그대로 눕고 좌우는 현장
    카드·목록과 같은 선에 선다 */
-.day{flex:none;display:flex;align-items:center;gap:var(--ap-p2);
+.day{flex:none;display:flex;align-items:center;justify-content:center;gap:var(--ap-p2);
   margin:var(--ap-p5) var(--ap-p6) 0}
-/* 날짜는 두 화살표 사이에서 남는 자리를 다 쓰고 그 한가운데에 선다.
+/* 화살표는 날짜 **바로 옆**에 붙는다 — 줄의 양 끝으로 밀어 두면 손잡이와
+   날짜가 따로 놀아, 무엇을 옮기는 손잡이인지가 멀어진다. 셋이 한 덩어리로
+   묶여 줄 한가운데에 선다.
    글꼴은 시안의 달력 카드 그대로다 — 숫자는 Title2(600 22/28), 요일은
    Headline(600 17/22). 주 띠를 걷으면서 숫자 칸만 벗겼지 글자의 크기와
    굵기까지 바꿀 까닭은 없었다 */
 .day__v{font:var(--t-title2);letter-spacing:var(--ls-title2);
-  flex:1;min-width:0;text-align:center;color:var(--ap-g95);
+  flex:none;min-width:0;text-align:center;color:var(--ap-g95);
   font-variant-numeric:tabular-nums;white-space:nowrap}
 .day__v b{font:var(--t-head);letter-spacing:var(--ls-head);margin-left:2px}
-/* 시스템의 Icon Button md 그대로다 — 아이콘 24 · 둘레 4 · 모서리 6 이면
-   짚을 자리가 32 다. 다만 시스템의 기본은 **면이 없고 호버에만 색이
-   도는** 중립 꼴인데, 여기서는 쉴 때도 흰 면을 깐다: 카드를 걷은 줄이라
-   면이 없으면 화살표가 바탕 위에 떠 있는 글리프로만 보이고, 누를 수
-   있다는 말을 아무것도 하지 않는다 */
+/* 시스템의 Icon Button **md** 다 — 아이콘 20(icon-md) · 둘레 4 · 모서리 6
+   이면 짚을 자리가 28 이다. 날짜 곁에 붙는 손잡이라 머리줄의 lg(24+4=32)
+   보다 한 단 작게 둔다.
+   다만 시스템의 기본은 **면이 없고 호버에만 색이 도는** 중립 꼴인데,
+   여기서는 쉴 때도 흰 면을 깐다: 카드를 걷은 줄이라 면이 없으면 화살표가
+   바탕 위에 떠 있는 글리프로만 보이고, 누를 수 있다는 말을 아무것도
+   하지 않는다 */
 .day__a{flex:none;display:inline-flex;align-items:center;justify-content:center;
   padding:4px;border-radius:var(--ap-r6);color:var(--ap-g90);background:var(--ap-g0)}
 .cal__top{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3);padding:8px 0}
@@ -1239,11 +1243,11 @@ ul,ol{list-style:none}
 
 /* ── 이력 줄 ── */
 /* 줄 하나가 통째로 과녁이다 — 안에 또 버튼을 두지 않는다. 오른쪽 끝의
-   꺾쇠는 누를 수 있다는 표일 뿐이라, 색을 한참 죽여 이름과 시각을
-   가리지 않게 한다 */
+   꺾쇠는 근로자 관리 목록의 것과 같다(16 · 본문 색) — 같은 '눌러 들어간다'
+   를 목록마다 다른 꼴로 말하면 읽는 사람이 둘을 다른 것으로 본다 */
 .log{display:flex;width:100%;align-items:center;gap:var(--ap-p4);padding:12px var(--ap-p6);
   background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
-.log__go{flex:none;color:var(--ap-g20)}
+.log__go{flex:none}
 .log__t{font:var(--t-foot-em);letter-spacing:var(--ls-foot);flex:none;min-width:48px;padding:2px 4px;border-radius:var(--ap-r4);text-align:center}
 .log__t--in{background:var(--ap-badge-positive);color:var(--ap-primary)}
 .log__t--out{background:var(--ap-badge-normal);color:var(--ap-text)}
