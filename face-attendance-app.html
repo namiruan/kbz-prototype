@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=227">
-<script src="assets/face-attendance-app.js?v=227" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=228">
+<script src="assets/face-attendance-app.js?v=228" defer></script>
 </head>
 
 <body>
@@ -998,7 +998,11 @@
 <section class="scr scr--paper" data-screen="m-log-photo" data-title="이력 조회">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <h1 class="nav__t">이력 조회</h1>
+    <!-- 머리줄이 날짜를 쥔다. '이력 조회' 는 어느 화면인지를 말할 뿐이라
+         한 번 보고 나면 다시 읽을 일이 없는데, 날짜는 이 기록이 어느 날
+         것인지라 화면을 보는 내내 쓸모가 있다. 표기는 날짜별 인증의
+         것과 같다 — 거기서 날을 고르고 줄을 열어 들어온 자리다 -->
+    <h1 class="nav__t">2026. 10. 20 화</h1>
   </header>
 
   <main class="body">
@@ -1012,10 +1016,8 @@
     <div class="tms">
       <!-- 카드 안도 라벨/값 줄이다 — 아래 사람 정보와 같은 짜임이라, 한
            화면에서 '무엇: 얼마' 를 읽는 법이 하나다.
-           날짜가 먼저고 시각이 그 다음이다. 값의 크기는 둘이 다르다 —
-           이 카드에서 크게 읽힐 것은 시각 하나이고, 날짜는 그것이
-           **언제의** 시각인지를 받쳐 주는 줄이다 -->
-      <div class="tms__c"><span class="tms__k">날짜</span><span class="tms__d">2026. 10. 20 화</span></div>
+           날짜는 여기 없다. 머리줄이 쥐고 있어, 여기 또 적으면 같은 말이
+           한 화면에 두 번 난다 -->
       <div class="tms__c"><span class="tms__k">출근시간</span><span class="tms__v">07:05:19</span></div>
       <div class="photo"><img src="images/worker/01.jpg" alt=""></div>
     </div>
