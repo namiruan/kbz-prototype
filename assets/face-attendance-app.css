@@ -1248,27 +1248,26 @@ ul,ol{list-style:none}
   align-self:stretch;margin:var(--ap-p4) 0 var(--ap-p5);padding:var(--ap-p5);
   border-radius:var(--ap-r15);background:var(--tms-bg);color:var(--tms-fg)}
 .tms--out{--tms-bg:var(--ap-badge-normal); --tms-fg:var(--ap-text)}
-/* 카드의 첫 줄 — 날짜다. 표기는 날짜별 인증의 것과 같다(2026. 10. 20 화):
-   같은 날을 두 화면이 다른 꼴로 적으면 같은 날인지 한 번 더 따져 보게
-   된다. 크기는 시각보다 한참 작다 — 이 카드에서 크게 읽힐 것은 시각
+/* 날짜 값 — 표기는 날짜별 인증의 것과 같다(2026. 10. 20 화): 같은 날을
+   두 화면이 다른 꼴로 적으면 같은 날인지 한 번 더 따져 보게 된다.
+   크기는 시각보다 한참 작다(17 ↔ 28) — 이 카드에서 크게 읽힐 것은 시각
    하나이고, 날짜는 그것이 **언제의** 시각인지를 받쳐 주는 줄이다.
    색은 따로 주지 않는다. 카드가 쥔 한 색을 그대로 쓴다(뱃지가 한 색인
    것과 같다) */
-.tms__d{font:var(--t-head);letter-spacing:var(--ls-head);
-  align-self:flex-start;font-variant-numeric:tabular-nums}
-.tms__hd{display:flex}
+.tms__d{font:var(--t-head);letter-spacing:var(--ls-head);flex:none;
+  font-variant-numeric:tabular-nums}
 /* 안쪽 여백은 **카드가 혼자 쥔다**. 칸이 제 여백을 또 가지면 위는
    12+10, 아래는 12 가 되어 한쪽만 조인 꼴이 된다 — 카드가 어설퍼
    보이던 까닭이다 */
 /* 아래 사람 정보와 같은 짜임이다 — 라벨은 왼쪽, 값은 오른쪽 끝(.row 와
    같다). 라벨 위에 값을 쌓아 두었더니, 같은 화면에서 '무엇: 얼마' 를
    읽는 법이 카드 안과 밖에서 서로 달랐다.
-   값은 작아지지 않는다(28). 이 카드에서 크게 읽힐 것은 여전히 시각
-   하나이고, 자리만 오른쪽으로 옮긴 것이다 */
+   시각의 값은 작아지지 않는다(28) — 자리만 오른쪽으로 옮긴 것이다.
+   줄은 둘이다(날짜 · 시각). 나란히 세울 일이 없어 가르는 세로 선은
+   두지 않는다 — 출근과 퇴근은 따로 쌓이는 이력이라 한 화면이 맡는 것도
+   그중 하나다 */
 .tms__c{flex:1;min-width:0;display:flex;align-items:center;
   justify-content:space-between;gap:var(--ap-p5)}
-/* 가르는 선은 면 위에 한 겹 어둡게 — 바탕색이 둘이라 고정 회색을 쓸 수 없다 */
-.tms__c + .tms__c{border-left:1px solid rgba(19,20,22,.1)}
 /* 라벨과 값은 **같은 색**이다. 뱃지가 한 색인 것과 같다 — 크기와 굵기가
    이미 둘을 가른다 */
 .tms__k{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:none}

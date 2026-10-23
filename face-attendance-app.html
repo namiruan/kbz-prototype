@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=226">
-<script src="assets/face-attendance-app.js?v=226" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=227">
+<script src="assets/face-attendance-app.js?v=227" defer></script>
 </head>
 
 <body>
@@ -1010,13 +1010,13 @@
          출근인지 퇴근인지는 이 카드의 색이 말한다 — 뱃지를 따로 달지 않는다.
          퇴근이면 .tms--out 을 더해 뱃지의 normal 짝으로 바뀐다 -->
     <div class="tms">
-      <!-- 언제 찍혔나는 날짜부터다 — 날짜별 인증이 날짜를 제 줄로 세우듯
-           여기서도 라벨/값 행이 아니라 카드의 첫 줄로 올린다. 시각보다
-           한참 작게 둔다: 이 카드에서 크게 읽힐 것은 시각 하나다 -->
-      <span class="tms__d">2026. 10. 20 화</span>
-      <div class="tms__hd">
-        <div class="tms__c"><span class="tms__k">출근시간</span><span class="tms__v">07:05:19</span></div>
-      </div>
+      <!-- 카드 안도 라벨/값 줄이다 — 아래 사람 정보와 같은 짜임이라, 한
+           화면에서 '무엇: 얼마' 를 읽는 법이 하나다.
+           날짜가 먼저고 시각이 그 다음이다. 값의 크기는 둘이 다르다 —
+           이 카드에서 크게 읽힐 것은 시각 하나이고, 날짜는 그것이
+           **언제의** 시각인지를 받쳐 주는 줄이다 -->
+      <div class="tms__c"><span class="tms__k">날짜</span><span class="tms__d">2026. 10. 20 화</span></div>
+      <div class="tms__c"><span class="tms__k">출근시간</span><span class="tms__v">07:05:19</span></div>
       <div class="photo"><img src="images/worker/01.jpg" alt=""></div>
     </div>
 
