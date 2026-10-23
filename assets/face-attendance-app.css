@@ -405,6 +405,14 @@ ul,ol{list-style:none}
 
 /* ── 날짜 — 시안의 달력 카드 ── */
 .cal{display:flex;flex-direction:column;gap:var(--ap-p2)}
+/* 이력 화면에서는 날짜가 **제 카드**로 선다 — 탭은 화면을 가르는 것이고
+   날짜는 고른 값이라 하는 일이 다르다. 한 면에 같이 담아 두니 탭을
+   누르면 날짜까지 따라 바뀌는 것처럼 보였다.
+   근로자 앱의 날짜는 그대로 둔다 — 거기에는 탭이 없어 머리 카드가 곧
+   날짜 카드다. 모서리는 바탕 위에 홀로 선 다른 카드들과 같은 10 이다
+   (머리 카드의 15 는 화면 꼭대기에 붙어 위가 각진 슬래브라 그렇다) */
+.cal--card{flex:none;margin:var(--ap-p5) var(--ap-p6) 0;padding:var(--ap-p5) var(--ap-p6);
+  background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
 .cal__top{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3);padding:8px 0}
 .cal__date{display:flex;align-items:center;gap:var(--ap-p2)}
 .cal__num{font:var(--t-title2);letter-spacing:var(--ls-title2);display:flex;align-items:center;justify-content:center;padding:2px 6px;background:var(--ap-g0);border:1px solid var(--ap-g20);border-radius:var(--ap-r8);color:var(--ap-g95)}
@@ -1430,9 +1438,10 @@ ul,ol{list-style:none}
      화면 끝에 서서 한 덩어리로 읽히지 않는다 */
   .form,.rows,.note,.shot,.dt,.tms{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
   .body{padding:var(--ap-p8)}
-  /* 현장 줄과 그 아래 뱃지는 제가 가리키는 목록과 세로 선이 맞아야 한다.
-     뱃지를 빠뜨리면 카드보다 8 바깥에 서서, 한 이야기가 두 선으로 갈린다 */
-  .ctx,.bds{margin-inline:var(--ap-p8)}
+  /* 날짜·현장 줄과 그 아래 뱃지는 제가 가리키는 목록과 세로 선이 맞아야
+     한다. 하나라도 빠뜨리면 그것만 8 바깥에 서서, 한 이야기가 두 선으로
+     갈린다 */
+  .cal--card,.ctx,.bds{margin-inline:var(--ap-p8)}
   /* 필터는 한 칸이라 늘리지 않는다 — 폭을 다 쓰면 고를 것이 하나인데 줄만 길어진다 */
   /* ⚠ 여기에 .sel 로 폭을 걸지 않는다. 폼 안의 고르는 칸까지 걸리는데, 폼의
      .fld 는 **세로 줄**이라 flex-basis 가 폭이 아니라 **높이**가 된다 —
