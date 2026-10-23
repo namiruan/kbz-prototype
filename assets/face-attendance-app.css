@@ -1240,6 +1240,14 @@ ul,ol{list-style:none}
   align-self:stretch;margin:var(--ap-p4) 0 var(--ap-p5);padding:var(--ap-p5);
   border-radius:var(--ap-r15);background:var(--tms-bg);color:var(--tms-fg)}
 .tms--out{--tms-bg:var(--ap-badge-normal); --tms-fg:var(--ap-text)}
+/* 카드의 첫 줄 — 날짜다. 표기는 날짜별 인증의 것과 같다(2026. 10. 20 화):
+   같은 날을 두 화면이 다른 꼴로 적으면 같은 날인지 한 번 더 따져 보게
+   된다. 크기는 시각보다 한참 작다 — 이 카드에서 크게 읽힐 것은 시각
+   하나이고, 날짜는 그것이 **언제의** 시각인지를 받쳐 주는 줄이다.
+   색은 따로 주지 않는다. 카드가 쥔 한 색을 그대로 쓴다(뱃지가 한 색인
+   것과 같다) */
+.tms__d{font:var(--t-head);letter-spacing:var(--ls-head);
+  align-self:flex-start;font-variant-numeric:tabular-nums}
 .tms__hd{display:flex}
 /* 안쪽 여백은 **카드가 혼자 쥔다**. 칸이 제 여백을 또 가지면 위는
    12+10, 아래는 12 가 되어 한쪽만 조인 꼴이 된다 — 카드가 어설퍼
