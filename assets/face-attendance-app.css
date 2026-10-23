@@ -370,10 +370,9 @@ ul,ol{list-style:none}
 }
 
 .site{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3)}
-/* 이름표는 뱃지다(중립). 글씨로만 '현장 :' 이라 적어 두면 현장 이름과
-   같은 줄에 같은 결로 서서, 어디까지가 이름표고 어디부터가 이름인지
-   눈이 한 번 더 가른다. 면을 입히면 그 일이 없어지고 콜론도 필요 없다 */
-.site .bd{flex:none}
+/* '현장' 이라는 이름표는 달지 않는다 — 이 줄에 들 수 있는 것이 현장
+   이름뿐이라, 이름표가 가려 줄 것이 없다. 오른쪽 끝의 '변경' 이 무엇을
+   바꾸는 줄인지도 함께 말한다 */
 .site__v{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;min-width:0;color:var(--ap-primary-70);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* ── 고르는 칸 — 시안 select-atomic(583:4117) 그대로 ──
@@ -626,10 +625,9 @@ ul,ol{list-style:none}
    크기로 둘 수 없다. 크기 variant 는 글자만 올리고 높이(25)는 line-height 와
    padding 이 따라 만든다 */
 .bds .bd{font-size:14px}
-.bd--normal{background:var(--ap-badge-normal);color:var(--ap-text)}
-/* 라인 — 면은 흰색이고 테로 가른다(시스템의 badge--line). 테는 안쪽으로
-   그어 넣는다: 테두리로 두르면 뱃지가 1 씩 커져 옆 글자와 줄이 어긋난다 */
-.bd--line{background:var(--ap-g0);box-shadow:inset 0 0 0 1px var(--ap-line)}
+/* normal(회색 면)과 line(흰 면 + 테)은 쓰는 자리가 없어 걷었다 — 현장
+   이름표가 마지막 자리였다. 다시 쓸 일이 생기면 시스템의 badge.md 에서
+   가져온다 */
 .bd--positive{background:var(--ap-badge-positive);color:var(--ap-primary)}
 .bd--negative{background:var(--ap-point-bg);color:var(--ap-point)}
 .bd--point{background:var(--ap-point);color:var(--ap-g0)}
