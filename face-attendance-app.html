@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=191">
-<script src="assets/face-attendance-app.js?v=191" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=193">
+<script src="assets/face-attendance-app.js?v=193" defer></script>
 </head>
 
 <body>
@@ -1014,12 +1014,18 @@
          말할 뿐이라, 이름은 본문에서 다시 한 번 크게 선다 -->
     <h2 class="dt">홍길동</h2>
 
-    <!-- 시각은 하나다 — 출근과 퇴근은 따로 쌓이는 이력이라, 한 화면이
+    <!-- 언제 · 어떻게 인증했는지를 한 덩어리로 묶는다. 시각과 사진은
+         같은 한 번의 인증에서 나온 짝이라, 따로 떼어 두면 읽는 사람이
+         다시 이어 붙여야 한다.
+         시각은 하나다 — 출근과 퇴근은 따로 쌓이는 이력이라, 한 화면이
          맡는 것도 그중 하나다. 퇴근은 목록의 제 줄에서 따로 연다.
          출근인지 퇴근인지는 이 카드의 색이 말한다 — 뱃지를 따로 달지 않는다.
          퇴근이면 .tms--out 을 더해 뱃지의 normal 짝으로 바뀐다 -->
     <div class="tms">
-      <div class="tms__c"><span class="tms__k">출근시간</span><span class="tms__v">07:05:19</span></div>
+      <div class="tms__hd">
+        <div class="tms__c"><span class="tms__k">출근시간</span><span class="tms__v">07:05:19</span></div>
+      </div>
+      <div class="photo"><img src="images/worker/01.jpg" alt=""></div>
     </div>
 
     <div class="rows rows--bare">
@@ -1028,9 +1034,6 @@
       <div class="row"><span class="row__k">연락처</span><span class="row__v">010-1234-5678</span></div>
       <div class="row"><span class="row__k">직종</span><span class="row__v">형틀목공</span></div>
     </div>
-
-    <h3 class="sct">인증 사진</h3>
-    <div class="photo"><img src="images/worker/01.jpg" alt=""></div>
   </main>
 </section>
 

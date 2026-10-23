@@ -243,8 +243,6 @@
   --ap-cta-h:420px;                /* 그 과녁의 키 — 더 길면 빈 면만 늘어난다 */
   --ap-sel-w:110px;                /* select-atomic 의 기본 폭 — 글자가 짧아도 이만큼은 둔다 */
   --ap-form-w:560px;               /* 폼·상세가 가운데로 모이는 폭 */
-  --ap-photo-w:320px;  --ap-photo-h:300px;      /* 이력 사진 */
-  --ap-photo-w-md:420px; --ap-photo-h-md:400px;
   --ap-face:112px;                 /* 근로자 카드의 얼굴 — 정방형이다 */
   --ap-r8:8px;
   --ap-r10:10px;                   /* radius/large1 */
@@ -1166,11 +1164,13 @@ ul,ol{list-style:none}
    것도 그중 하나다. 칸이 둘로 늘 자리는 남겨 둔다(가운데 선은 둘째 칸이
    생길 때만 그어진다) */
 .tms{--tms-bg:var(--ap-badge-positive); --tms-fg:var(--ap-primary);
-  display:flex;align-self:stretch;margin:var(--ap-p4) 0 var(--ap-p5);
+  display:flex;flex-direction:column;gap:var(--ap-p5);
+  align-self:stretch;margin:var(--ap-p4) 0 var(--ap-p5);padding:var(--ap-p5);
   border-radius:var(--ap-r10);background:var(--tms-bg);color:var(--tms-fg)}
 .tms--out{--tms-bg:var(--ap-badge-normal); --tms-fg:var(--ap-text)}
+.tms__hd{display:flex}
 .tms__c{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
-  gap:var(--ap-p2);padding:var(--ap-p6) var(--ap-p5)}
+  gap:var(--ap-p2);padding:var(--ap-p4) var(--ap-p3)}
 /* 가르는 선은 면 위에 한 겹 어둡게 — 바탕색이 둘이라 고정 회색을 쓸 수 없다 */
 .tms__c + .tms__c{border-left:1px solid rgba(19,20,22,.1)}
 /* 라벨과 값은 **같은 색**이다. 뱃지가 한 색인 것과 같다 — 크기와 굵기가
@@ -1182,14 +1182,17 @@ ul,ol{list-style:none}
    좌우로 멀찍이 갈라져 있어 선이 없어도 한 줄로 읽힌다 */
 .rows--bare{background:none;box-shadow:none;padding:0}
 .rows--bare .row{border-bottom:0}
-/* 본문 안의 작은 제목 — 그 아래 한 덩어리가 무엇인지 말한다. 위로는
-   앞 덩어리와 벌리고 아래로는 제 것에 붙인다 */
-.sct{font:var(--t-title3-em);letter-spacing:var(--ls-title3);
-  align-self:stretch;margin-top:var(--ap-p5);color:var(--ap-text)}
-
-.photo{width:100%;max-width:var(--ap-photo-w);height:var(--ap-photo-h);margin:0 auto;border-radius:var(--ap-r10);
+/* 사진은 카드 안에 들어가 제 안쪽 폭을 다 쓰고, 키는 폭을 따라간다
+   (정방형) — 폰과 태블릿에서 카드 폭이 다른데 키를 못으로 박아 두면
+   한쪽에서 납작해진다. 모서리는 카드보다 한 단 작게 둥글린다 (안에 든
+   것이 바깥보다 더 둥글면 테가 겹쳐 보인다).
+   사진을 자리에서 띄워 둬야(absolute) 비율이 제 몫을 한다 — 흐름에 두면
+   그림의 제 키가 먼저 자리를 잡아 버려 aspect-ratio 가 할 일이 없다 */
+.photo{position:relative;overflow:hidden;
+  width:100%;aspect-ratio:1;border-radius:var(--ap-r8);
   background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   display:flex;align-items:center;justify-content:center;color:var(--ap-on-photo)}
+.photo img{position:absolute;inset:0}
 .photo .ic{width:72px;height:72px}
 
 /* ── 이력 줄 ── */
@@ -1409,7 +1412,7 @@ ul,ol{list-style:none}
   /* 폼·상세는 늘리지 않고 가운데로 모은다. 이력 조회의 제목·두 시각·
      작은 제목도 같은 칸에 든다 — 카드만 모으면 그 위의 이름이 저 혼자
      화면 끝에 서서 한 덩어리로 읽히지 않는다 */
-  .form,.rows,.note,.shot,.dt,.tms,.sct{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
+  .form,.rows,.note,.shot,.dt,.tms{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
   .body{padding:var(--ap-p8)}
   /* 현장 줄과 그 아래 뱃지는 제가 가리키는 목록과 세로 선이 맞아야 한다.
      뱃지를 빠뜨리면 카드보다 8 바깥에 서서, 한 이야기가 두 선으로 갈린다 */
@@ -1423,5 +1426,4 @@ ul,ol{list-style:none}
   .card__kv{flex:1 0 100%}
   /* 바닥 바의 글자는 그대로 두고 바만 넓어진다 */
   .cam__box{--ap-cam-side:26%}
-  .photo{max-width:var(--ap-photo-w-md);height:var(--ap-photo-h-md)}
 }
