@@ -414,15 +414,22 @@ ul,ol{list-style:none}
    근로자 앱의 날짜는 그대로 달력이다 — 거기에는 탭도 현장도 없어 머리
    카드가 곧 날짜 카드다.
    모서리는 바탕 위에 홀로 선 다른 카드들과 같은 10 이다 */
-.day{flex:none;display:flex;align-items:center;gap:var(--ap-p3);
-  margin:var(--ap-p5) var(--ap-p6) 0;padding:var(--ap-p3) var(--ap-p5);
+/* 좌우 여백은 6 이다 — 화살표가 제 둘레 4 를 이미 가지고 있어 꺾쇠는
+   카드 끝에서 10 쯤 떨어져 선다. 12 로 두면 가장 좁은 폭(320)에서
+   날짜가 14 모자라 잘렸다 */
+.day{flex:none;display:flex;align-items:center;gap:var(--ap-p2);
+  margin:var(--ap-p5) var(--ap-p6) 0;padding:var(--ap-p3);
   background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
-/* 날짜는 두 화살표 사이에서 남는 자리를 다 쓰고 그 한가운데에 선다 —
-   '오늘' 은 그 바깥에 붙는 덤이다. 요일만 굵기를 올려 숫자와 가른다 */
-.day__v{font:var(--t-title3);letter-spacing:var(--ls-title3);
-  flex:1;min-width:0;text-align:center;color:var(--ap-text);
+/* 날짜와 '오늘' 은 **화살표 안쪽**에 든다 — 화살표는 날짜를 양쪽에서
+   잡는 손잡이고, '오늘' 은 그 날짜를 되돌리는 것이라 날짜 곁에 있어야
+   한다. 바깥에 두면 손잡이와 같은 줄에 선 또 하나의 손잡이로 읽힌다.
+   글꼴은 시안의 달력 카드 그대로다 — 숫자는 Title2(600 22/28), 요일은
+   Headline(600 17/22). 주 띠를 걷으면서 숫자 칸만 벗겼지 글자의 크기와
+   굵기까지 바꿀 까닭은 없었다 */
+.day__v{font:var(--t-title2);letter-spacing:var(--ls-title2);
+  flex:1;min-width:0;text-align:center;color:var(--ap-g95);
   font-variant-numeric:tabular-nums;white-space:nowrap}
-.day__v b{font-weight:600}
+.day__v b{font:var(--t-head);letter-spacing:var(--ls-head);margin-left:2px}
 /* 시스템의 Icon Button md — 아이콘 24 에 둘레 4 씩이면 짚을 자리가 32 다 */
 .day__a{flex:none;display:inline-flex;align-items:center;justify-content:center;
   padding:4px;border-radius:var(--ap-r6);color:var(--ap-g90)}
