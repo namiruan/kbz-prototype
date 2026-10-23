@@ -1160,10 +1160,12 @@ ul,ol{list-style:none}
 .dt__t{font:var(--t-title2);letter-spacing:var(--ls-title2);
   min-width:0;color:var(--ap-text);word-break:keep-all}
 .dt .bd{flex:none;margin-top:4px}
-/* 두 시각 — 가운데 선 하나로 가른다. 면도 테도 두지 않는다: 이 화면에서
-   가장 먼저 읽힐 수라, 카드로 묶으면 아래 정보 줄과 같은 무게가 된다.
-   숫자는 폭이 고른 꼴로 둔다(tabular-nums) — 두 칸의 자릿수가 어긋나면
-   같은 시각을 재는 자로 보이지 않는다 */
+/* 시각 — 면도 테도 두지 않는다: 이 화면에서 가장 먼저 읽힐 수라, 카드로
+   묶으면 아래 정보 줄과 같은 무게가 된다. 숫자는 폭이 고른 꼴로 둔다
+   (tabular-nums).
+   칸은 **하나**다 — 출근과 퇴근은 따로 쌓이는 이력이라 한 화면이 맡는
+   것도 그중 하나다. 칸이 둘로 늘 자리는 남겨 둔다(가운데 선은 둘째 칸이
+   생길 때만 그어진다) */
 .tms{display:flex;align-self:stretch;margin:var(--ap-p2) 0 var(--ap-p4)}
 .tms__c{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
   gap:var(--ap-p2);padding:var(--ap-p4) var(--ap-p3)}
@@ -1171,6 +1173,11 @@ ul,ol{list-style:none}
 .tms__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
 .tms__v{font:var(--t-title1);letter-spacing:var(--ls-title1);
   color:var(--ap-text);font-variant-numeric:tabular-nums}
+/* 흰 종이 위에서는 정보 줄이 카드를 벗는다 — 흰 카드를 흰 바탕에 올리면
+   그림자만 남아 때처럼 보인다. 줄 사이 선도 긋지 않는다: 라벨과 값이
+   좌우로 멀찍이 갈라져 있어 선이 없어도 한 줄로 읽힌다 */
+.rows--bare{background:none;box-shadow:none;padding:0}
+.rows--bare .row{border-bottom:0}
 /* 본문 안의 작은 제목 — 그 아래 한 덩어리가 무엇인지 말한다. 위로는
    앞 덩어리와 벌리고 아래로는 제 것에 붙인다 */
 .sct{font:var(--t-title3-em);letter-spacing:var(--ls-title3);
@@ -1371,7 +1378,9 @@ ul,ol{list-style:none}
    (486:4990) 이 흰색이다. 목록 쪽은 그대로 primary/5 다(460:3120 에서 잰
    목록 바탕이 #eef4fc). 카드가 바탕에서 떠 보여야 하는 목록과 달리, 폼은
    칸 자체가 테로 서 있어 바탕까지 깔면 칸이 두 겹으로 보인다 */
-.scr--form.is-on{background:var(--ap-g0)}
+/* 이력 조회도 같다 — 띄울 카드가 없고 이름과 시각이 바로 종이 위에
+   앉는다. 옅은 파랑을 깔면 흰 칸 하나만 둥둥 뜬다 */
+.scr--form.is-on,.scr--paper.is-on{background:var(--ap-g0)}
 
 .scr.is-on.has-dim{position:relative}
 

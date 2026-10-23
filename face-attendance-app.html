@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=189">
-<script src="assets/face-attendance-app.js?v=189" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=190">
+<script src="assets/face-attendance-app.js?v=190" defer></script>
 </head>
 
 <body>
@@ -1003,7 +1003,7 @@
 
 
 <!-- ===== ⑩ 현장소장 앱 · 이력 사진보기 ===== -->
-<section class="scr" data-screen="m-log-photo" data-title="이력 조회">
+<section class="scr scr--paper" data-screen="m-log-photo" data-title="이력 조회">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">이력 조회</h1>
@@ -1018,14 +1018,13 @@
       <span class="bd bd--positive">출근</span>
     </div>
 
-    <!-- 그날의 두 시각 — 들어온 줄 하나만 보여 주면 '퇴근은 했나' 를 보려고
-         목록으로 되돌아가야 한다. 둘을 나란히 두면 그 자리에서 끝난다 -->
+    <!-- 시각은 하나다 — 출근과 퇴근은 따로 쌓이는 이력이라, 한 화면이
+         맡는 것도 그중 하나다. 퇴근은 목록의 제 줄에서 따로 연다 -->
     <div class="tms">
       <div class="tms__c"><span class="tms__k">출근시간</span><span class="tms__v">07:05:19</span></div>
-      <div class="tms__c"><span class="tms__k">퇴근시간</span><span class="tms__v">17:32:08</span></div>
     </div>
 
-    <div class="rows">
+    <div class="rows rows--bare">
       <div class="row"><span class="row__k">날짜</span><span class="row__v">2026-10-20</span></div>
       <div class="row"><span class="row__k">주민번호</span><span class="row__v">800101-1******</span></div>
       <div class="row"><span class="row__k">연락처</span><span class="row__v">010-1234-5678</span></div>
