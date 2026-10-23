@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=231">
-<script src="assets/face-attendance-app.js?v=231" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=232">
+<script src="assets/face-attendance-app.js?v=232" defer></script>
 </head>
 
 <body>
@@ -998,33 +998,33 @@
 <section class="scr scr--paper" data-screen="m-log-photo" data-title="이력 조회">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <!-- 머리줄이 날짜를 쥔다. '이력 조회' 는 어느 화면인지를 말할 뿐이라
-         한 번 보고 나면 다시 읽을 일이 없는데, 날짜는 이 기록이 어느 날
-         것인지라 화면을 보는 내내 쓸모가 있다. 표기는 날짜별 인증의
-         것과 같다 — 거기서 날을 고르고 줄을 열어 들어온 자리다 -->
-    <h1 class="nav__t">2026. 10. 20 화</h1>
+    <h1 class="nav__t">출근 이력보기</h1>
   </header>
 
   <main class="body">
-    <!-- 언제 · 어떻게 인증했는지를 한 덩어리로 묶는다. 시각과 사진은
-         같은 한 번의 인증에서 나온 짝이라, 따로 떼어 두면 읽는 사람이
-         다시 이어 붙여야 한다.
+    <!-- 언제의 기록인가를 화면 맨 위에 세운다 — 날짜 위에 시각, 둘 다
+         가운데. 머리줄은 '출근 이력보기' 로 어느 화면인지만 말하므로,
+         이 기록이 언제 것인지는 본문이 쥔다.
+         날짜 표기는 날짜별 인증의 것과 같다 — 거기서 날을 고르고 줄을 열어
+         들어온 자리라, 같은 날을 두 화면이 다른 꼴로 적으면 같은 날인지
+         되짚어야 한다.
          시각은 하나다 — 출근과 퇴근은 따로 쌓이는 이력이라, 한 화면이
          맡는 것도 그중 하나다. 퇴근은 목록의 제 줄에서 따로 연다.
-         출근인지 퇴근인지는 맨 앞의 네모가 말한다 — 퇴근이면 그 네모가
-         .log__t--out 으로 바뀐다 -->
-    <div class="tms">
-      <!-- 라벨/값 줄이다 — 아래 사람 정보와 같은 짜임이라, 한 화면에서
-           '무엇: 얼마' 를 읽는 법이 하나다. 날짜는 여기 없다: 머리줄이
-           쥐고 있어 여기 또 적으면 같은 말이 한 화면에 두 번 난다.
-           맨 앞의 네모가 이 기록이 출근인지 퇴근인지를 말한다 — 면을 걷고
-           나니 색을 쥘 자리가 여기뿐이다. 목록 줄의 표와 같은 것이다.
-           '출근시간' 이라는 라벨은 적지 않는다 — 그 네모가 이미 출근이라
-           말했고, 시계 아이콘이 이 수가 시각임을 말한다. 셋을 다 두면
-           같은 말이 세 번이다 -->
-      <div class="tms__c"><span class="log__t log__t--in">출근</span><span class="tms__v"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>07:05:19</span></div>
-      <div class="photo"><img src="images/worker/01.jpg" alt=""></div>
+         맨 앞의 네모가 이 기록이 출근인지 퇴근인지를 말한다 — 면을 걷고
+         나니 색을 쥘 자리가 여기뿐이고, 퇴근이면 .log__t--out 으로 바뀐다.
+         목록 줄의 표와 같은 것이다.
+         '출근시간' 이라는 라벨은 적지 않는다 — 그 네모가 이미 출근이라
+         말했고, 시계 아이콘이 이 수가 시각임을 말한다. 셋을 다 두면
+         같은 말이 세 번이다 -->
+    <div class="stmp">
+      <p class="stmp__d">2026. 10. 20 <b>화</b></p>
+      <p class="tms"><span class="log__t log__t--in">출근</span><span class="tms__v"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>07:05:19</span></p>
     </div>
+
+    <!-- 사진은 언제 바로 아래, 누구인지 위다 — '이 시각에 찍힌 얼굴' 과
+         '그 얼굴이 누구인가' 를 잇는 자리다. 정방형이라 얼굴이 가운데
+         오고, 가로세로가 같아 폰과 태블릿에서 같은 꼴로 읽힌다 -->
+    <div class="photo"><img src="images/worker/01.jpg" alt=""></div>
 
     <!-- 이름은 **사람 정보를 이끄는 제목**이다. 위의 시각과 사진이 '언제
          어떻게 찍혔나' 를 말하고 나면, 그 아래는 '누구이고 어떤 사람인가'
