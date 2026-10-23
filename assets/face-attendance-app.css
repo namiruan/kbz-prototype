@@ -1223,9 +1223,14 @@ ul,ol{list-style:none}
    이름을 제목으로 세우고, 그날의 두 시각을 나란히 두고, 그 아래에 사람
    정보와 사진을 둔다 — 위에서부터 '누구 · 언제 · 어떤 사람 · 그 증거' 로
    읽힌다 */
-/* 이름. 길면 두 줄로 접힌다 */
-.dt{font:var(--t-title2);letter-spacing:var(--ls-title2);
-  align-self:stretch;padding-top:var(--ap-p2);color:var(--ap-text);word-break:keep-all}
+/* 이름 — 이 화면의 제목이다. 카메라 인식·등록 촬영 확인의 머리말과 같은
+   크기다(--t-cta 32/40). 그 둘은 '지금 무엇을 하는 참인가' 를 32 로 말하고,
+   여기서는 '누구의 기록인가' 가 그 자리다. 자간은 두지 않는다 — 시안 밖에서
+   빌려 온 칸이라 짝이 없다(.cta__t · .cam__t 와 같다).
+   정보(시각 카드 · 사람 정보)보다 위에 서서 그 아래 것들이 모두 이 사람의
+   것임을 말한다. 길면 두 줄로 접힌다 */
+.dt{font:var(--t-cta);align-self:stretch;padding-top:var(--ap-p2);
+  color:var(--ap-text);word-break:keep-all}
 /* 시각 — 출근인지 퇴근인지를 **이 카드의 색**이 말한다. 이름 옆에 작은
    뱃지를 따로 달면 같은 말이 두 군데에서 나고, 정작 크게 읽힐 수는
    색이 없어 중립이 된다. 색 짝은 뱃지 그대로다 — 출근은 badge/positive
