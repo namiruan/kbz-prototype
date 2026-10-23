@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=230">
-<script src="assets/face-attendance-app.js?v=230" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=231">
+<script src="assets/face-attendance-app.js?v=231" defer></script>
 </head>
 
 <body>
@@ -1018,8 +1018,11 @@
            '무엇: 얼마' 를 읽는 법이 하나다. 날짜는 여기 없다: 머리줄이
            쥐고 있어 여기 또 적으면 같은 말이 한 화면에 두 번 난다.
            맨 앞의 네모가 이 기록이 출근인지 퇴근인지를 말한다 — 면을 걷고
-           나니 색을 쥘 자리가 여기뿐이다. 목록 줄의 표와 같은 것이다 -->
-      <div class="tms__c"><span class="log__t log__t--in">출근</span><span class="tms__k">출근시간</span><span class="tms__v">07:05:19</span></div>
+           나니 색을 쥘 자리가 여기뿐이다. 목록 줄의 표와 같은 것이다.
+           '출근시간' 이라는 라벨은 적지 않는다 — 그 네모가 이미 출근이라
+           말했고, 시계 아이콘이 이 수가 시각임을 말한다. 셋을 다 두면
+           같은 말이 세 번이다 -->
+      <div class="tms__c"><span class="log__t log__t--in">출근</span><span class="tms__v"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>07:05:19</span></div>
       <div class="photo"><img src="images/worker/01.jpg" alt=""></div>
     </div>
 
