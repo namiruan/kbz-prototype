@@ -409,16 +409,19 @@ ul,ol{list-style:none}
 .sel--ghost .ic{color:var(--ap-text-gray)}
 .sel--ghost.sel--selected{border-color:transparent}
 /* 거르개에 붙는 수 — 시스템 Dropdown 의 count 뱃지 그대로다(dropdown__count:
-   16 짜리 알약 · 브랜드 면 · 흰 글자 · 11 semibold · 값과 꺾쇠 사이 4).
+   알약 · 브랜드 면 · 흰 글자 · semibold · 값과 꺾쇠 사이 4).
+   크기만 한 단 올린다: 시스템은 16 알약에 11 인데, 그 옆의 값이 17 이라
+   수가 글자에 묻혔다. 20 알약에 13(시스템에 수 뱃지의 크기 variant 는
+   없다 — 비율만 그대로 키운다).
    ⚠ 시스템에서 이 뱃지는 **고른 필터 수**이고, 「전체」는 '아무것도 고르지
    않음' 이라 0(숨김)이다(dropdown.md 의 DON'T: 「전체」를 카운트에 세지
    않는다). 여기서는 **거른 결과의 건수**를 적는다 — 고르는 값이 하나뿐인
    단일 선택 거르개라 '몇 개 골랐나' 를 셀 일이 없고, 이 화면에서 수가
    말해야 할 것은 '이 조건으로 몇 건이 남았나' 다. 시스템 뜻과 다르게 쓰는
    자리라 여기 적어 둔다 */
-.sel__n{font:600 11px/1 var(--ap-font);flex:none;
+.sel__n{font:600 13px/1 var(--ap-font);letter-spacing:var(--ls-foot);flex:none;
   display:inline-flex;align-items:center;justify-content:center;
-  min-width:16px;height:16px;padding:0 var(--ap-p2);
+  min-width:20px;height:20px;padding:0 var(--ap-p3);
   border-radius:var(--ap-r-pill);background:var(--ap-primary);color:var(--ap-g0)}
 
 /* ── 알약 버튼 — 변경 · 오늘 · 삭제 ── */
