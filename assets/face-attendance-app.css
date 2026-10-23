@@ -1293,13 +1293,18 @@ ul,ol{list-style:none}
 .log{display:flex;width:100%;align-items:center;gap:var(--ap-p3);padding:12px var(--ap-p6);
   background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
 .log__go{flex:none}
-.log__t{font:var(--t-foot-em);letter-spacing:var(--ls-foot);flex:none;min-width:48px;padding:2px 4px;border-radius:var(--ap-r4);text-align:center}
-.log__t--in{background:var(--ap-badge-positive);color:var(--ap-primary)}
-.log__t--out{background:var(--ap-badge-normal);color:var(--ap-text)}
+/* 표는 알약을 벗고 글자만 남는다 — 시각과는 세로 금 하나로 가른다
+   (퇴근 | 17:32:08). 알약 둘이 줄마다 쌓이면 목록이 알록달록해져 정작
+   읽을 것(이름)보다 먼저 눈에 든다. 색 짝은 알약이 쓰던 그대로다 —
+   출근은 브랜드 색, 퇴근은 본문 색 */
+.log__t{font:var(--t-foot-em);letter-spacing:var(--ls-foot);flex:none}
+.log__t--in{color:var(--ap-primary)}
+.log__t--out{color:var(--ap-text)}
 .log__nm{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;min-width:0;
   margin-left:var(--ap-p2);color:var(--ap-text);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .log__tm{font:var(--t-foot);letter-spacing:var(--ls-foot);flex:none;
+  padding-left:var(--ap-p3);border-left:1px solid var(--ap-g20);
   color:var(--ap-text-gray);font-variant-numeric:tabular-nums}
 
 /* ── 안내 글 ── */
