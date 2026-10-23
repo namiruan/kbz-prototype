@@ -468,7 +468,11 @@ ul,ol{list-style:none}
 .day__v{font:var(--t-title2);letter-spacing:var(--ls-title2);
   flex:none;min-width:0;text-align:center;color:var(--ap-text);
   font-variant-numeric:tabular-nums;white-space:nowrap}
-.day__v b{font:var(--t-head);letter-spacing:var(--ls-head);margin-left:2px}
+/* 요일은 괄호 안에 든다 — 날짜 숫자에 바싹 붙여(2), 괄호가 숫자와 요일을
+   가른다. 떼어 두면 '20' 과 '화' 가 두 값처럼 보인다.
+   이력 조회의 .stmp__d 도 같은 꼴이다 — 거기서 날을 고르고 줄을 열어
+   들어간 자리라, 같은 날이 두 화면에서 같게 읽혀야 한다 */
+.day__v b{font:var(--t-head);letter-spacing:var(--ls-head);margin-left:var(--ap-p1)}
 /* 시스템의 Icon Button **md** 그대로다 — 아이콘 20(icon-md) · 둘레 4 ·
    모서리 6 이면 짚을 자리가 28 이다. 날짜 곁에 붙는 손잡이라 머리줄의
    뒤로 가기(lg · 24+4=32)보다 한 단 작게 둔다.
@@ -1248,7 +1252,7 @@ ul,ol{list-style:none}
    줄을 열어 들어온 자리라, 같은 날이 두 화면에서 같게 읽혀야 한다 */
 .stmp__d{font:var(--t-title2);letter-spacing:var(--ls-title2);
   color:var(--ap-text);font-variant-numeric:tabular-nums;white-space:nowrap}
-.stmp__d b{font:var(--t-head);letter-spacing:var(--ls-head);margin-left:2px}
+.stmp__d b{font:var(--t-head);letter-spacing:var(--ls-head);margin-left:var(--ap-p1)}
 /* 출근/퇴근과 그 시각은 **한 뱃지**다 — 같은 한 번의 인증에서 나온 짝이라
    표를 따로 떼어 두면 읽는 사람이 둘을 다시 이어 붙여야 한다.
    면 색이 어느 쪽인지를 말한다(.tms--in / --out) — DS Badge 의 tint 색
