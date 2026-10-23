@@ -1153,26 +1153,30 @@ ul,ol{list-style:none}
    이름을 제목으로 세우고, 그날의 두 시각을 나란히 두고, 그 아래에 사람
    정보와 사진을 둔다 — 위에서부터 '누구 · 언제 · 어떤 사람 · 그 증거' 로
    읽힌다 */
-/* 이름과 뱃지. 이름이 길면 두 줄로 접히므로 뱃지는 첫 줄에 붙어 선다
-   (flex-start) — 가운데에 맞추면 두 줄짜리 이름에서 뱃지가 허공에 뜬다 */
-.dt{display:flex;align-items:flex-start;justify-content:space-between;
-  gap:var(--ap-p5);align-self:stretch;padding-top:var(--ap-p2)}
-.dt__t{font:var(--t-title2);letter-spacing:var(--ls-title2);
-  min-width:0;color:var(--ap-text);word-break:keep-all}
-.dt .bd{flex:none;margin-top:4px}
-/* 시각 — 면도 테도 두지 않는다: 이 화면에서 가장 먼저 읽힐 수라, 카드로
-   묶으면 아래 정보 줄과 같은 무게가 된다. 숫자는 폭이 고른 꼴로 둔다
-   (tabular-nums).
+/* 이름. 길면 두 줄로 접힌다 */
+.dt{font:var(--t-title2);letter-spacing:var(--ls-title2);
+  align-self:stretch;padding-top:var(--ap-p2);color:var(--ap-text);word-break:keep-all}
+/* 시각 — 출근인지 퇴근인지를 **이 카드의 색**이 말한다. 이름 옆에 작은
+   뱃지를 따로 달면 같은 말이 두 군데에서 나고, 정작 크게 읽힐 수는
+   색이 없어 중립이 된다. 색 짝은 뱃지 그대로다 — 출근은 badge/positive
+   면에 브랜드 색, 퇴근은 badge/normal 면에 본문 색(목록의 출근·퇴근
+   표와 같은 짝이다). 그러니 여기서 색을 새로 고르지 않는다.
+   숫자는 폭이 고른 꼴로 둔다(tabular-nums).
    칸은 **하나**다 — 출근과 퇴근은 따로 쌓이는 이력이라 한 화면이 맡는
    것도 그중 하나다. 칸이 둘로 늘 자리는 남겨 둔다(가운데 선은 둘째 칸이
    생길 때만 그어진다) */
-.tms{display:flex;align-self:stretch;margin:var(--ap-p2) 0 var(--ap-p4)}
+.tms{--tms-bg:var(--ap-badge-positive); --tms-fg:var(--ap-primary);
+  display:flex;align-self:stretch;margin:var(--ap-p4) 0 var(--ap-p5);
+  border-radius:var(--ap-r10);background:var(--tms-bg);color:var(--tms-fg)}
+.tms--out{--tms-bg:var(--ap-badge-normal); --tms-fg:var(--ap-text)}
 .tms__c{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
-  gap:var(--ap-p2);padding:var(--ap-p4) var(--ap-p3)}
-.tms__c + .tms__c{border-left:1px solid var(--ap-g20)}
-.tms__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
-.tms__v{font:var(--t-title1);letter-spacing:var(--ls-title1);
-  color:var(--ap-text);font-variant-numeric:tabular-nums}
+  gap:var(--ap-p2);padding:var(--ap-p6) var(--ap-p5)}
+/* 가르는 선은 면 위에 한 겹 어둡게 — 바탕색이 둘이라 고정 회색을 쓸 수 없다 */
+.tms__c + .tms__c{border-left:1px solid rgba(19,20,22,.1)}
+/* 라벨과 값은 **같은 색**이다. 뱃지가 한 색인 것과 같다 — 크기와 굵기가
+   이미 둘을 가른다 */
+.tms__k{font:var(--t-sub);letter-spacing:var(--ls-sub)}
+.tms__v{font:var(--t-title1);letter-spacing:var(--ls-title1);font-variant-numeric:tabular-nums}
 /* 흰 종이 위에서는 정보 줄이 카드를 벗는다 — 흰 카드를 흰 바탕에 올리면
    그림자만 남아 때처럼 보인다. 줄 사이 선도 긋지 않는다: 라벨과 값이
    좌우로 멀찍이 갈라져 있어 선이 없어도 한 줄로 읽힌다 */
