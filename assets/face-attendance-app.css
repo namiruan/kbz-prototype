@@ -1260,18 +1260,20 @@ ul,ol{list-style:none}
 /* 안쪽 여백은 **카드가 혼자 쥔다**. 칸이 제 여백을 또 가지면 위는
    12+10, 아래는 12 가 되어 한쪽만 조인 꼴이 된다 — 카드가 어설퍼
    보이던 까닭이다 */
-.tms__c{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
-  gap:var(--ap-p2)}
-/* 글은 카드 왼쪽에 붙는다 — 칸이 하나뿐이라 가운데로 모을 까닭이 없다.
-   이름도 아래 정보 줄도 왼쪽에서 시작하므로, 가운데에 두면 이 덩어리만
-   혼자 다른 축에 선다 */
-.tms__c{align-items:flex-start}
+/* 아래 사람 정보와 같은 짜임이다 — 라벨은 왼쪽, 값은 오른쪽 끝(.row 와
+   같다). 라벨 위에 값을 쌓아 두었더니, 같은 화면에서 '무엇: 얼마' 를
+   읽는 법이 카드 안과 밖에서 서로 달랐다.
+   값은 작아지지 않는다(28). 이 카드에서 크게 읽힐 것은 여전히 시각
+   하나이고, 자리만 오른쪽으로 옮긴 것이다 */
+.tms__c{flex:1;min-width:0;display:flex;align-items:center;
+  justify-content:space-between;gap:var(--ap-p5)}
 /* 가르는 선은 면 위에 한 겹 어둡게 — 바탕색이 둘이라 고정 회색을 쓸 수 없다 */
 .tms__c + .tms__c{border-left:1px solid rgba(19,20,22,.1)}
 /* 라벨과 값은 **같은 색**이다. 뱃지가 한 색인 것과 같다 — 크기와 굵기가
    이미 둘을 가른다 */
-.tms__k{font:var(--t-sub);letter-spacing:var(--ls-sub)}
-.tms__v{font:var(--t-title1);letter-spacing:var(--ls-title1);font-variant-numeric:tabular-nums}
+.tms__k{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:none}
+.tms__v{font:var(--t-title1);letter-spacing:var(--ls-title1);flex:none;
+  font-variant-numeric:tabular-nums}
 /* 흰 종이 위에서는 정보 줄이 카드를 벗는다 — 흰 카드를 흰 바탕에 올리면
    그림자만 남아 때처럼 보인다. 줄 사이 선도 긋지 않는다: 라벨과 값이
    좌우로 멀찍이 갈라져 있어 선이 없어도 한 줄로 읽힌다 */
