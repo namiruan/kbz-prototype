@@ -404,9 +404,22 @@ ul,ol{list-style:none}
    거두어야 글이 줄 끝(아래 '총 5건')과 같은 선에 선다.
    고른 값은 색이 아니라 **굵기**로 말한다 — ghost 는 브랜드 색을 쓰지
    않는다(값 자체가 이미 피드백이다). 꺾쇠는 text-subtle 이다 */
-.sel--ghost{min-width:0;padding-inline:0;border-color:transparent;background:transparent}
+.sel--ghost{min-width:0;gap:var(--ap-p2);padding-inline:0;
+  border-color:transparent;background:transparent}
 .sel--ghost .ic{color:var(--ap-text-gray)}
 .sel--ghost.sel--selected{border-color:transparent}
+/* 거르개에 붙는 수 — 시스템 Dropdown 의 count 뱃지 그대로다(dropdown__count:
+   16 짜리 알약 · 브랜드 면 · 흰 글자 · 11 semibold · 값과 꺾쇠 사이 4).
+   ⚠ 시스템에서 이 뱃지는 **고른 필터 수**이고, 「전체」는 '아무것도 고르지
+   않음' 이라 0(숨김)이다(dropdown.md 의 DON'T: 「전체」를 카운트에 세지
+   않는다). 여기서는 **거른 결과의 건수**를 적는다 — 고르는 값이 하나뿐인
+   단일 선택 거르개라 '몇 개 골랐나' 를 셀 일이 없고, 이 화면에서 수가
+   말해야 할 것은 '이 조건으로 몇 건이 남았나' 다. 시스템 뜻과 다르게 쓰는
+   자리라 여기 적어 둔다 */
+.sel__n{font:600 11px/1 var(--ap-font);flex:none;
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:16px;height:16px;padding:0 var(--ap-p2);
+  border-radius:var(--ap-r-pill);background:var(--ap-primary);color:var(--ap-g0)}
 
 /* ── 알약 버튼 — 변경 · 오늘 · 삭제 ── */
 .pill{font:var(--t-sub-em);letter-spacing:var(--ls-sub);flex:none;display:inline-flex;align-items:center;gap:var(--ap-p2);padding:4px 10px;border-radius:var(--ap-r-pill)}
@@ -515,9 +528,6 @@ ul,ol{list-style:none}
 /* 같은 줄에서 40px 필터 옆에 28px 버튼을 두면 누를 곳이 둘인데 크기가 두 배
    차이가 난다. 시안의 알약(4·10)보다 한 단계 키워 32px 로 맞춘다 */
 .lbar .pill{padding:6px 12px}
-/* 왼쪽에 둘 것이 없는 머리줄 — 수만 오른쪽 끝에 붙는다. space-between 은
-   혼자 남은 것을 왼쪽으로 밀어 버린다 */
-.lbar--end{justify-content:flex-end}
 /* 목록의 수는 세어 둔 사실이라 무채색이다. 고른 수만 파랑으로 — 그때는
    내가 만든 상태이고, 바로 아래 삭제가 켜지는 까닭이기도 하다 */
 .lbar__n{font:var(--t-head);letter-spacing:var(--ls-head);flex:none;white-space:nowrap;color:var(--ap-text)}
