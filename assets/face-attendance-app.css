@@ -1174,6 +1174,10 @@ ul,ol{list-style:none}
    보이던 까닭이다 */
 .tms__c{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
   gap:var(--ap-p2)}
+/* 글은 카드 왼쪽에 붙는다 — 칸이 하나뿐이라 가운데로 모을 까닭이 없다.
+   이름도 아래 정보 줄도 왼쪽에서 시작하므로, 가운데에 두면 이 덩어리만
+   혼자 다른 축에 선다 */
+.tms__c{align-items:flex-start}
 /* 가르는 선은 면 위에 한 겹 어둡게 — 바탕색이 둘이라 고정 회색을 쓸 수 없다 */
 .tms__c + .tms__c{border-left:1px solid rgba(19,20,22,.1)}
 /* 라벨과 값은 **같은 색**이다. 뱃지가 한 색인 것과 같다 — 크기와 굵기가
@@ -1204,8 +1208,12 @@ ul,ol{list-style:none}
 .photo .ic{width:72px;height:72px}
 
 /* ── 이력 줄 ── */
-.log{display:flex;align-items:center;gap:var(--ap-p4);padding:12px var(--ap-p6);
+/* 줄 하나가 통째로 과녁이다 — 안에 또 버튼을 두지 않는다. 오른쪽 끝의
+   꺾쇠는 누를 수 있다는 표일 뿐이라, 색을 한참 죽여 이름과 시각을
+   가리지 않게 한다 */
+.log{display:flex;width:100%;align-items:center;gap:var(--ap-p4);padding:12px var(--ap-p6);
   background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
+.log__go{flex:none;color:var(--ap-g20)}
 .log__t{font:var(--t-foot-em);letter-spacing:var(--ls-foot);flex:none;min-width:48px;padding:2px 4px;border-radius:var(--ap-r4);text-align:center}
 .log__t--in{background:var(--ap-badge-positive);color:var(--ap-primary)}
 .log__t--out{background:var(--ap-badge-normal);color:var(--ap-text)}
