@@ -35,8 +35,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=351">
-<script src="assets/face-attendance-app.js?v=351" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=353">
+<script src="assets/face-attendance-app.js?v=353" defer></script>
 </head>
 
 <body>
@@ -948,6 +948,11 @@
     <div class="cam__box cam__box--ok"></div>
     <!-- 찍힌 시각을 아래에 붙인다 — 이 화면이 사라지고 나면 홈의 출근
          카드에서 다시 볼 값이라, 그 값이 여기서 한 번 먼저 선다 -->
+    <!-- 이 화면은 잠깐 머물다 스스로 홈으로 돌아간다. '메인으로' 를
+         함께 두는 것은 기다리지 않고 바로 가려는 사람 몫이다 — 돌아가는
+         일이 저절로 되더라도, 그 사이에 할 수 있는 것이 아무것도 없으면
+         화면이 멈춘 것처럼 보인다 -->
+    <span class="cam__go" data-go="w-home-done"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-home"></use></svg>메인으로</span>
     <p class="cam__t cam__t--ok">출근 처리 완료!<span class="cam__sub">07:03:12</span></p>
   </div>
 </section>
@@ -1142,6 +1147,7 @@
     <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home-out"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <p class="cam__who">홍길동님 본인 확인</p>
     <div class="cam__box cam__box--ok"></div>
+    <span class="cam__go" data-go="w-home-out"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-home"></use></svg>메인으로</span>
     <p class="cam__t cam__t--ok">퇴근 처리 완료!<span class="cam__sub">17:31:40</span></p>
   </div>
 </section>
