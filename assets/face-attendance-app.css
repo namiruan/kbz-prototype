@@ -1155,9 +1155,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    덮개는 날짜 칸과 요일까지만 덮는다 — 옆의 꺾쇠(접기)는 제 일이 따로
    있어 가리면 안 된다 */
 .cal__pickw{position:relative;display:flex;align-items:center;gap:var(--ap-p2)}
+/* ⚠ appearance:none 을 걸지 않는다 — 기기가 제 고르개를 띄우는 칸이라,
+   꼴을 벗겨 내면 기기가 그 칸을 제 것으로 보지 않을 수 있다. 보이지
+   않게 하는 일은 투명도 하나로 충분하다 */
 .cal__pick{position:absolute;inset:0;width:100%;height:100%;
-  margin:0;padding:0;border:0;opacity:0;cursor:pointer;
-  -webkit-appearance:none;appearance:none}
+  margin:0;padding:0;border:0;opacity:0;cursor:pointer}
 
 @media (prefers-reduced-motion:reduce){.calm{animation:none}}
 

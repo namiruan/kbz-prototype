@@ -148,6 +148,16 @@
   function jump(scr) {
     var i = scr.querySelector('.cal__pick');
     if (!i) return;
+
+    /* 칸을 누르면 **직접 연다**. 폰은 칸을 누르면 알아서 열리지만,
+       데스크톱 브라우저는 칸이 아니라 끝의 달력 표를 눌러야 열린다 —
+       그 표를 덮어 두었으니 열리지 않았다. showPicker() 는 누른 바로
+       그 자리에서 부르는 것이라 기기가 막지 않는다(클릭이 사람의 짓임을
+       기기가 안다). 모르는 브라우저에서는 칸에 눈길만 준다 */
+    i.addEventListener('click', function () {
+      try { i.showPicker(); } catch (e) { i.focus(); }
+    });
+
     i.addEventListener('change', function () {
       var d = parseInt(i.value.slice(8), 10);
       if (!(d >= 1 && d <= 31)) return;
