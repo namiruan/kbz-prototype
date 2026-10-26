@@ -360,32 +360,18 @@ ul,ol{list-style:none}
    기기에서는 아무 데도 나타나지 않는다 */
 .scr.is-on{background:var(--ap-primary-5)}
 
-/* 띠의 색은 **그 화면의 아랫단 끝 색**이다 — 바닥에 붙은 것이 무엇이냐에
-   따라 갈린다. 눈으로 고르지 않고 390 폭에서 맨 아랫줄의 픽셀을 재서
-   적었다. 아무것도 붙지 않은 화면은 화면 바탕 그대로라 적을 것이 없다.
-   ⚠ 아래로 갈수록 이긴다 — 바닥 탭이 있는 화면 위로 창이 뜨면(얼굴 등록
-     안내 · 인정범위) 아랫단은 탭이 아니라 그 창이다. 카메라 화면의 '메인
-     으로' 처럼 바닥까지 닿지 않는 바도 마찬가지로 뒤의 것이 이긴다 */
+/* 띠의 색은 **그 화면의 윗단 끝 색**이다 — 상태 표시줄이 지나는 자리라
+   머리줄이 무엇이냐에 따라 갈린다. 눈으로 고르지 않고 390 폭에서 맨
+   윗줄의 픽셀을 재서 적었다.
+   ⚠ 아래로 갈수록 이긴다 — 화면 위로 창이 뜨면 윗단은 머리줄이 아니라
+     그 창을 덮은 어두운 자리다 */
 html{--ap-edge:var(--ap-primary-5)}
-html:has(.tabbar){--ap-edge:var(--ap-g0)}
-html:has(.act--end){--ap-edge:var(--ap-primary)}
-html:has(.scr--paper){--ap-edge:var(--ap-g0)}
-html:has(.kb){--ap-edge:var(--ap-kb-bg)}
-html:has(.alert--sheet){--ap-edge:var(--ap-primary-5)}
-html:has(.zone__m){--ap-edge:var(--ap-map-ground)}
-html:has(.cam){--ap-edge:#000}
-/* 어두운 사진 위에 덮인 창의 끝 색이라 검정보다 반 단 푸르다(재서 적었다) */
-html:has(.confirm){--ap-edge:#121f32}
+html:has(.nav){--ap-edge:var(--ap-g0)}
+/* 사진의 윗단과 그 위에 덮인 창의 윗단 — 둘 다 재서 적었다 */
+html:has(.cam){--ap-edge:#3c4043}
+html:has(.dim--sheet){--ap-edge:#8c8f94}
+html:has(.confirm){--ap-edge:#393a3b}
 html,body{background:var(--ap-edge)}
-
-/* 둘로 갈린 바는 띠도 둘로 갈린다. 왼쪽 버튼의 폭이 104 로 못 박혀 있어
-   (.act--split .act__b:first-child) 그 자리에서 색을 끊으면 맞는다 */
-html:has(.act--split){--ap-edge-l:var(--ap-primary);--ap-edge-r:var(--ap-primary)}
-html:has(.act--split .act__b--off:first-child){--ap-edge-l:var(--ap-g5)}
-html:has(.act--split .act__b--dark:first-child){--ap-edge-l:var(--ap-g95)}
-html:has(.act--split .act__b--off:last-child){--ap-edge-r:var(--ap-g5)}
-html:has(.act--split),html:has(.act--split) body{
-  background:linear-gradient(to right,var(--ap-edge-l) 0 104px,var(--ap-edge-r) 104px)}
 
 /* ── 홈 화면에 놓고 연 뒤(standalone) ──
    ⚠ 브라우저 탭에서는 이 블록이 켜지지 않는다 — display-mode 가 다르다.
@@ -406,12 +392,13 @@ html:has(.act--split),html:has(.act--split) body{
 }
 html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .is-app .scr.is-on{position:fixed;inset:0;height:auto}
-/* 창 밖에 남는 띠만큼 바가 제 여백을 덜어 낸다 — 띠는 이미 바와 같은
-   색이라(--ap-edge) 둘이 겹치면 바가 두 배로 두꺼워 보인다. 띠의 높이는
-   js 가 재어 --ap-band 에 적는다(기기에 물어서는 알 수 없다) */
-html{--ap-band:0px}
-.is-app .tabbar{padding-bottom:max(var(--ap-p4),calc(var(--ap-p9) - var(--ap-band)))}
-.is-app .act--end .act__b{padding-bottom:max(var(--ap-p6),calc(var(--ap-p10) - var(--ap-band)))}
+/* 홈 화면에서 연 창은 상태 표시줄 **아래**에서 시작한다 — 그 자리를 iOS
+   가 이미 비워 두었으므로 56(표시줄을 흉내 내던 값)을 또 비우면 머리줄이
+   두 번 내려간다. 창 안에서 숨 쉴 틈만 둔다 */
+.is-app{--ap-statusbar:var(--ap-p5)}
+/* 자판이 그려 둔 홈 인디케이터는 **그림**이다. 홈 화면에서 연 창은 그
+   자리가 기기 것과 겹치므로 그림을 걷는다 — 자리는 그대로 둔다 */
+.is-app .kb__home i{visibility:hidden}
 
 /* ── 내비게이션 바 ──
    흰 바탕 · 위 56(상태바 자리) · 아래 10 · 좌우 16.

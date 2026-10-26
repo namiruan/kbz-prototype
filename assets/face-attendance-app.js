@@ -21,23 +21,6 @@
             (window.matchMedia && window.matchMedia('(display-mode:standalone)').matches);
   if (app) document.documentElement.classList.add('is-app');
 
-  /* ── 창 밖에 남는 띠를 잰다 ──
-     홈 화면에서 연 창은 기기 화면보다 짧을 수 있다. 아이폰 16 Pro 에서
-     잰 값은 화면 874 · 창 812 이고, 남는 62 는 **창 아래**에 깔린다
-     (safe-check.html). 그 자리는 창 밖이라 어느 요소도 칠하지 못하고,
-     env(safe-area-inset-bottom) 도 0 을 돌려준다 — 기기에 물어서는
-     알 수 없고 두 높이의 차로만 알 수 있다.
-     띠는 켜진 화면의 아랫단 색으로 칠해 두었으므로(css 의 --ap-edge)
-     이미 바의 일부처럼 보인다. 그래서 바가 제 아래 여백을 그만큼
-     덜어 낸다 — 덜지 않으면 띠와 여백이 겹쳐 바가 두 배로 두꺼워진다.
-     세로로 쥐었을 때만, 그리고 터무니없는 값은 버린다 */
-  if (app) {
-    var band = screen.height - window.innerHeight - (window.screenY || 0);
-    if (window.innerWidth < window.innerHeight && band > 0 && band < 120) {
-      document.documentElement.style.setProperty('--ap-band', band + 'px');
-    }
-  }
-
   function pick() {
     var want = new URL(location.href).searchParams.get('screen');
     var all = document.querySelectorAll('.scr');

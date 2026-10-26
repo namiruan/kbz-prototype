@@ -10,7 +10,7 @@ estimate.html · plan-quote.html · quote.html · face-quote.html    끼워 보�
 face-attendance-app.html                                           앱 화면 — 현장소장 앱(kpmManager)
 face-attendance-worker.html                                        앱 화면 — 근로자 앱(kpmUser)
 manifest.webmanifest · images/app-icon/                            근로자 앱을 홈 화면에 놓을 때
-safe-check.html                                                    기기의 바닥 여백을 재는 쪽지(홈 화면에 따로 놓고 연다)
+safe-check.html · safe-check-b.html                                기기가 창을 어디에 놓는지 재는 쪽지(홈 화면에 따로 놓고 연다)
 login.html · face-attendance-review.html · index.html
 card-reader.html · face-attendance.html                            단말기 소개페이지
 assets/                                                            화면 쪽 CSS·JS

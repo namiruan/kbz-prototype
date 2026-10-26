@@ -25,7 +25,13 @@
 <!-- black-translucent — 화면이 상태 표시줄 **아래까지** 깔린다. 이 쪽이
      맞는 것은 화면들이 이미 제 안에 그 자리(56)를 비워 두고 있어서다.
      default 로 두면 시스템이 또 한 번 띄워 띠가 두 겹이 된다 -->
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- ⚠ black-translucent 이 아니다. 그 꼴은 창을 화면 꼭대기로 당기고
+     **아래에 62 를 비워 둔다**(아이폰 16 Pro 에서 잰 값 — 화면 874 ·
+     창 812). 그 자리는 창 밖이라 바가 기기 바닥에 닿지 못한다.
+     iOS 가 그리게 두면 창이 상태 표시줄 아래에서 시작해 **화면 바닥
+     까지** 내려온다. 표시줄 자리는 문서 바탕색으로 칠해지므로 화면마다
+     그 색을 맞춘다(css 의 --ap-edge) -->
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="images/app-icon/icon-180.png">
 
 <!-- 시안이 쓰는 글꼴은 Pretendard 하나다 (typo/font/type) -->
@@ -35,8 +41,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=379">
-<script src="assets/face-attendance-app.js?v=379" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=380">
+<script src="assets/face-attendance-app.js?v=380" defer></script>
 </head>
 
 <body>
