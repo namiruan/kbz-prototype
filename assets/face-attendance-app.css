@@ -1353,11 +1353,21 @@ ul,ol{list-style:none}
 /* 점선 테를 걷는다 — 테로 '여기' 를 가리키는 대신 **면**이 가리킨다.
    연한 브랜드 색(primary/5)을 깔고 가운데로 갈수록 밝아진다. 밝은 쪽이
    가운데라 눈이 거기로 모이고, 드러나는 사람과 물결이 그 위에 선다 */
+/* 얼굴이 앉는 **면** — 가운데가 밝고 가장자리로 갈수록 연한 브랜드 색이
+   퍼진다. 근로자 추가의 '얼굴 등록하기' 자리와 얼굴 등록 안내 창이 이
+   한 벌을 나눠 쓴다: 같은 일을 묻는 두 자리라 바탕도 같아야 하고, 두 곳에
+   따로 적어 두면 한쪽만 고쳐져 따로 늙는다 */
+.shot__box,.scan__well{position:relative;overflow:hidden;
+  border:1px solid var(--ap-badge-positive);border-radius:var(--ap-r10);
+  background:radial-gradient(circle at 50% 40%,var(--ap-glow-in) 0,var(--ap-glow-out) 72%)}
 .shot__box{font:var(--t-sub-em);letter-spacing:var(--ls-sub);width:var(--ap-shot);height:var(--ap-shot);
   display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:var(--ap-p2);
-  position:relative;overflow:hidden;border:1px solid var(--ap-badge-positive);
-  border-radius:var(--ap-r10);color:var(--ap-primary);
-  background:radial-gradient(circle at 50% 40%,var(--ap-glow-in) 0,var(--ap-glow-out) 72%)}
+  color:var(--ap-primary)}
+/* 창 안에서는 그 면이 글 폭을 다 쓰는 띠가 된다 — 네모로 두면 창이 세로로
+   길어져 바닥에서 올라온 시트가 화면을 절반 넘게 먹는다 */
+.scan__well{align-self:stretch;display:flex;align-items:center;justify-content:center;
+  padding:var(--ap-p8) 0}
+.scan__well > *{position:relative;z-index:1}
 /* 글자와 그림은 퍼지는 면 위에 선다 — 자리를 잡아 두지 않으면 면이 그 위를 덮는다 */
 .shot__box > *{position:relative;z-index:1}
 /* 사진을 고치는 표지 — 오른쪽 아래 모서리에 앉는다. 사진 위에 얹히므로
