@@ -2042,8 +2042,8 @@ ul,ol{list-style:none}
    여기 조건은 '아직 동의하지 않았다' 이고, 동의하고 나가면 이 말도 따라
    사라진다 — 닫기 버튼을 두지 않는 것도 그 때문이다(닫힘은 Toast 의
    성격이다).
-   시스템 값 그대로다: 면은 옅은 브랜드, 테 1px 반투명 브랜드, 모서리 8,
-   아이콘 20(icon-info)이 왼쪽에 서고 사이 8.
+   면·테·모서리·여백은 시스템 값 그대로다(옅은 브랜드 면, 테 1px 반투명
+   브랜드, 모서리 8, 사방 8).
    글도 시스템대로 **브랜드 색**이다(banner__message 는 text-brand).
    시안에서 그 몫을 맡는 값이 primary/70 이고, 이 저장소의 다른 안내
    글(.note)도 같은 색을 쓴다.
@@ -2051,19 +2051,18 @@ ul,ol{list-style:none}
    줄 사이를 gap-xs 로만 띄운다. 금을 그었더니 배너 안에 또 목록이
    들어앉아, 한 덩이로 읽혀야 할 안내가 세 칸으로 잘렸다. 점(•)만으로
    셋이 갈린다.
-   ⚠ 면만 다르다 — 시스템 토큰(blue/50) 대신 **시안의 badge/positive**
-     다. 이 화면의 바탕이 primary/5 라 blue/50 을 깔면 바탕에 묻힌다;
-     시안에서 같은 몫(옅은 브랜드 면)을 맡는 값이 저것이다 */
-.bnr{display:flex;align-items:flex-start;gap:var(--ap-gap3);
-  padding:var(--ap-gap3) var(--ap-p5);
+   ⚠ 둘이 다르다.
+     · 면은 시스템 토큰(blue/50) 대신 **시안의 badge/positive** 다 —
+       이 화면의 바탕이 primary/5 라 blue/50 을 깔면 바탕에 묻힌다.
+     · 왼쪽의 아이콘(icon-info)은 두지 않는다. 시스템의 배너는 상태
+       넷(info·success·caution·error)을 **아이콘으로** 가르는데, 이
+       화면에는 그 하나뿐이라 가를 것이 없다. 줄이 셋이어서 아이콘이
+       첫 줄에만 붙는 것도 어색했다 — 점(•)이 이미 줄을 가른다 */
+.bnr{padding:var(--ap-gap3) var(--ap-p5);
   background:var(--ap-badge-positive);
   border:1px solid var(--ap-brand-line);border-radius:var(--ap-r8)}
-/* 아이콘은 첫 줄의 한가운데에 선다 — 상자 높이를 첫 줄의 글줄(22)에
-   맞춰, 20 짜리 그림이 글줄보다 커도 중심은 같게 둔다 */
-.bnr__i{flex:none;display:inline-flex;align-items:center;
-  height:22px;color:var(--ap-primary)}
 .bnr__b{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);
-  flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--ap-p2);
+  min-width:0;display:flex;flex-direction:column;gap:var(--ap-p2);
   color:var(--ap-primary-70);word-break:keep-all}
 .bnr__b > span{display:flex;gap:var(--ap-p4)}
 .bnr__b > span::before{content:"•";flex:none}
