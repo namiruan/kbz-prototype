@@ -603,9 +603,14 @@ ul,ol{list-style:none}
    ⚠ 시스템 Accordion 은 토글 아이콘을 제목 **왼쪽**에 둔다. 여기서는
    오른쪽이다 — 이 카드의 다른 줄들이 모두 왼쪽에 라벨, 오른쪽에 과녁이라,
    이 줄만 반대로 두면 눈이 한 줄마다 좌우를 바꿔 가며 훑어야 한다 */
-.zone__s{display:flex;align-items:center;justify-content:space-between;
-  gap:var(--ap-p5);list-style:none;cursor:pointer;
+.zone__s{display:flex;align-items:center;justify-content:center;
+  gap:var(--ap-p2);list-style:none;cursor:pointer;
   padding:var(--ap-p5) var(--ap-p6)}
+/* 말은 상태를 따라 뒤집는다(시스템 Disclosure 의 data-label-expand /
+   -collapse 와 같은 일을 CSS 로 한다 — JS 를 두지 않는 자리라서다) */
+.zone__l--open{display:none}
+details[open] > .zone__s .zone__l--shut{display:none}
+details[open] > .zone__s .zone__l--open{display:inline}
 .zone__s::-webkit-details-marker{display:none}
 .zone__c{flex:none;color:var(--ap-g90);
   transition:transform var(--ap-dur-base) var(--ap-ease-sym)}
@@ -619,17 +624,11 @@ details[open] > .zone__s .zone__c{transform:rotate(180deg)}
     repeating-linear-gradient(0deg,transparent 0 15px,var(--ap-map-rule) 15px 16px),
     repeating-linear-gradient(90deg,transparent 0 15px,var(--ap-map-rule) 15px 16px),
     var(--ap-map-ground)}
-.zone__th,.zone__m{position:relative;
+.zone__m{position:relative;
   display:flex;align-items:center;justify-content:center}
 .zone__r{position:absolute;border-radius:50%;
   border:1.5px dashed var(--ap-primary);background:var(--ap-zone-fill)}
 .zone__p{position:relative;color:var(--ap-primary)}
-/* 접힌 줄의 표지 — 줄의 바탕이 이미 지도라 따로 테를 두르지 않는다.
-   그 위에 선 반경 원과 핀이다 */
-.zone__th{flex:none;margin-left:auto;width:28px;height:28px}
-.zone__th .zone__r{width:28px;height:28px;border-width:1px}
-.zone__th .zone__p{width:14px;height:14px}
-details[open] > .zone__s .zone__th{display:none}
 /* 펼친 칸 — 머리줄과 같은 면이 그대로 이어진다(제 바탕을 갖지 않는다) */
 .zone__m{height:160px}
 .zone__m .zone__r{width:120px;height:120px}
