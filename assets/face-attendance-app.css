@@ -379,7 +379,21 @@ ul,ol{list-style:none}
    날마다 같아야 한다) */
 .hd--bare{background:none;box-shadow:none;border-radius:0;
   padding-top:var(--ap-statusbar);padding-bottom:0}
-.hd--bare ~ .body{padding-top:var(--ap-p4)}
+/* 본문의 **발**은 흐려진다. 과녁이 바닥에 떠 있어 굴러 올라온 카드가
+   본문의 아래 변에서 뚝 잘렸다 — 잘린 자리는 '여기서 끝' 으로 보이지
+   '더 있다' 로 보이지 않는다. 마지막 한 겹을 바탕으로 녹여, 카드가
+   과녁 밑으로 들어가는 것처럼 보이게 한다.
+   다 내려 읽으면 흐림이 걷힌다(스크롤이 끝에 닿는 동안 0 으로 줄인다) —
+   끝까지 왔는데도 마지막 줄이 흐리면 읽다 만 것처럼 보인다 */
+.hd--bare ~ .body{padding-top:var(--ap-p4);--ap-fade-b:32px;
+  -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - var(--ap-fade-b)),transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 calc(100% - var(--ap-fade-b)),transparent 100%)}
+@supports (animation-timeline:scroll()){
+  .hd--bare ~ .body{animation:ap-fade-foot linear both;
+    animation-timeline:scroll(self block);
+    animation-range:calc(100% - var(--ap-fade-deep)) 100%}
+  @keyframes ap-fade-foot{from{--ap-fade-b:32px} to{--ap-fade-b:0px}}
+}
 
 /* ── 머리 카드 밖 — 현장 ──
    탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말한다.
@@ -396,6 +410,7 @@ ul,ol{list-style:none}
 /* 길이를 등록해 둬야 0 에서 깊이까지 **이어서** 자란다 — 등록하지 않은 값은
    중간을 모르고 톡 하고 바뀐다 */
 @property --ap-fade-h{syntax:"<length>";inherits:true;initial-value:0px}
+@property --ap-fade-b{syntax:"<length>";inherits:true;initial-value:0px}
 
 /* 바탕값은 굴림을 모르는 브라우저의 몫이다. 틈(12)과 머리줄이 제 여백으로 가진
    4 까지만 덮어, 멈춰 있어도 글자에는 닿지 않는다 */
@@ -908,9 +923,20 @@ ul,ol{list-style:none}
   padding:2px var(--ap-p5);border-radius:var(--ap-r-pill);
   background:var(--ap-on-cta-chip);color:var(--ap-g0);
   font-variant-numeric:tabular-nums}
-/* 표는 이름 줄에 선다 — 가운데로 맞추면 뱃지까지 품은 덩어리의 한가운데라
-   이름보다 위로 떠 버린다 */
-.act--cta .cta__h{align-items:flex-end}
+/* 시각과 '얼굴 인식 필요' 는 한 줄에 나란히 선다 — 둘 다 이름 위에 붙는
+   곁말이다. 다만 말하는 바가 다르다: 시각은 지금 몇 시인가(매초 바뀐다),
+   저것은 이 현장이 어떤 곳인가(날이 가도 그대로다).
+   그래서 꼴을 가른다 — 시각은 면을 채운 알약, 현장의 것은 테만 두른
+   알약이다. 같은 꼴로 두었더니 둘이 한 덩어리로 읽혀, 시각이 '얼굴 인식
+   필요' 의 머리말처럼 보였다 */
+.act--cta .cta__meta{display:flex;align-items:center;flex-wrap:wrap;gap:var(--ap-p3)}
+.act--cta .cta__need{font:var(--t-head);letter-spacing:var(--ls-head);
+  padding:2px var(--ap-p5);border-radius:var(--ap-r-pill);
+  box-shadow:inset 0 0 0 1px var(--ap-on-cta-line);color:var(--ap-g0)}
+/* 표는 덩어리의 한가운데에 선다. 설명 줄이 있던 동안에는 이름 줄에
+   맞춰야 했지만(flex-end), 이제 남은 것이 뱃지와 이름 둘뿐이라 가운데가
+   곧 둘의 한가운데다 — 끝에 맞추면 표만 아래로 처져 보인다 */
+.act--cta .cta__h{align-items:center}
 /* '시작' 표는 한 바퀴에 한 번 앞으로 민다 — 저쪽 과녁의 것과 같다 */
 .act--cta .act__go{flex:none;display:flex;align-items:center;justify-content:center;
   animation:ap-go var(--ap-go-cycle) var(--ap-ease-sym) infinite}
