@@ -2455,7 +2455,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    앉는다. 옅은 파랑을 깔면 흰 칸 하나만 둥둥 뜬다 */
 .scr--form.is-on,.scr--paper.is-on{background:var(--ap-g0)}
 
-.scr.is-on.has-dim{position:relative}
 
 /* ── 태블릿(md) — 700px 부터 ────────────────────────────────
    앱이라 폭은 둘뿐이다. 데스크톱 중단점은 두지 않는다.
