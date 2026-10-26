@@ -587,9 +587,16 @@ ul,ol{list-style:none}
    접힌 줄과 펼친 칸이 한 면이라, 열려도 새 면이 끼어들지 않고 **같은 칸이
    자라는** 것으로 보인다.
    제 면을 가졌으므로 위의 가름선은 걷는다 — 면과 선이 같은 일(가르기)을
-   두 번 한다. 카드의 gap(10)이 위 줄과의 사이를 잡는다 */
-.card--site .row--zone{display:block;padding:0;border:0;
-  margin-top:var(--ap-p4);border-radius:var(--ap-r8);overflow:hidden}
+   두 번 한다. 카드의 gap(10)이 위 줄과의 사이를 잡는다.
+   칸은 카드의 여백을 **밀고 나가 변까지 꽉 찬다**(음수 margin). 지도는
+   보는 그림이라 넓을수록 쓸모가 있고, 안으로 한 겹 들여 두면 흰 테가
+   남아 카드 안에 또 카드가 든 꼴이 된다. 모서리는 카드의 것을 그대로
+   따른다 — 카드가 overflow:hidden 으로 잘라 준다.
+   머리줄의 좌우 여백은 카드의 것과 같은 16 이다: 위의 현장 이름과 '인정
+   범위' 가 같은 세로 선에서 시작해야 한 카드로 읽힌다 */
+.card--site{overflow:hidden}
+.card--site .row--zone{display:block;padding:0;border:0;border-radius:0;
+  margin:0 calc(var(--ap-p6) * -1) calc(var(--ap-p6) * -1)}
 /* 줄 자체가 헤더다 — 과녁은 줄 전체이고, 오른쪽 끝의 꺾쇠가 '펼친다' 를
    말한다. 브라우저의 기본 삼각 표식은 걷는다: 꺾쇠와 둘을 다 두면 한 줄에
    같은 말이 두 번 난다.
@@ -598,7 +605,7 @@ ul,ol{list-style:none}
    이 줄만 반대로 두면 눈이 한 줄마다 좌우를 바꿔 가며 훑어야 한다 */
 .zone__s{display:flex;align-items:center;justify-content:space-between;
   gap:var(--ap-p5);list-style:none;cursor:pointer;
-  padding:var(--ap-p4) var(--ap-p5)}
+  padding:var(--ap-p5) var(--ap-p6)}
 .zone__s::-webkit-details-marker{display:none}
 .zone__c{flex:none;color:var(--ap-g90);
   transition:transform var(--ap-dur-base) var(--ap-ease-sym)}
