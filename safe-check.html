@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<!-- ⚠ 앱 화면과 **같은 머리말**이라야 같은 답이 나온다. manifest 는 걸지
+     않는다 — start_url 이 있으면 홈 화면에 놓을 때 그 주소로 잡혀, 이
+     페이지가 아니라 근로자 앱이 열린다 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="바닥 재기">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>바닥 재기</title>
+<link rel="stylesheet" href="assets/safe-check.css?v=1">
+</head>
+<body>
+  <!-- 100svh 상자 — 앱 화면(.scr)이 높이를 잡는 방식과 같다 -->
+  <div class="box">
+    <h1>바닥 재기</h1>
+    <p class="how">홈 화면에 놓고 연 다음, 이 화면을 통째로 찍어 보내 주세요.</p>
+    <dl id="out"></dl>
+    <div class="bar bar--svh">여기가 100svh 의 끝</div>
+  </div>
+  <!-- 기기 바닥에 못 박은 바 — position:fixed; bottom:0 -->
+  <div class="bar bar--pin">여기가 fixed bottom:0</div>
+  <script src="assets/safe-check.js?v=1"></script>
+</body>
+</html>
