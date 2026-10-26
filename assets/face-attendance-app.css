@@ -538,8 +538,11 @@ ul,ol{list-style:none}
 .cal__side{display:flex;align-items:center;gap:var(--ap-gap3)}
 /* 달을 펴는 꺾쇠 — 날짜 바로 옆이다. 24 로 둔다: 시안은 줄의 반대쪽 끝에
    30 으로 떨어뜨려 두었는데, 날짜 옆으로 들어오면 그 크기가 요일(17)보다
-   한참 커서 꺾쇠가 날짜를 거느린 꼴이 된다 */
-.cal__more{display:flex;align-items:center;justify-content:center;color:var(--ap-g90)}
+   한참 커서 꺾쇠가 날짜를 거느린 꼴이 된다.
+   색도 날짜(gray/95)보다 한참 옅다(Text/gray) — 읽을 것은 날짜이고 꺾쇠는
+   '더 있다' 를 붙여 주는 말이다. 날짜와 같은 짙기로 두었더니 둘이 한
+   덩어리로 읽혀 '2026. 10. 20 화 ⌄' 가 통째로 날짜처럼 보였다 */
+.cal__more{display:flex;align-items:center;justify-content:center;color:var(--ap-text-gray)}
 /* 알림 — 흰 원에 담긴 브랜드 아이콘이다. 아래 '인정범위 지도보기' 의
    핀과 같은 꼴(32 원 · 아이콘 20)이라, 한 화면의 두 동그란 표가 같은
    것으로 읽힌다.
