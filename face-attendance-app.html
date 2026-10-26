@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=243">
-<script src="assets/face-attendance-app.js?v=243" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=244">
+<script src="assets/face-attendance-app.js?v=244" defer></script>
 </head>
 
 <body>
@@ -1075,8 +1075,16 @@
         <button class="pill pill--line" type="button">현장선택</button>
       </div>
     </div>
+    <!-- 인정범위는 **현장의 것**이다 — 오늘 몇 시에 찍혔는가와 달리 날이
+         바뀌어도 그대로다. 아래 시각 카드와 한 카드에 섞어 두었더니 '오늘
+         내 기록' 을 보러 온 사람이 바뀌지 않는 줄을 매번 지나쳐야 했다.
+         카드를 갈라 위에 둔다 — 위의 현장 카드와 잇닿아 '이 현장은 어떤
+         현장인가' 가 한 덩어리로 읽힌다 -->
     <div class="rows">
       <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
+    </div>
+
+    <div class="rows rows--day">
       <div class="row"><span class="row__k">출근시간</span><span class="row__v">출근을 눌러 근무를 시작하세요.</span></div>
     </div>
     <p class="guide">출근시간 : 07:00</p>
@@ -1133,8 +1141,16 @@
         <button class="pill pill--line" type="button">현장선택</button>
       </div>
     </div>
+    <!-- 인정범위는 **현장의 것**이다 — 오늘 몇 시에 찍혔는가와 달리 날이
+         바뀌어도 그대로다. 아래 시각 카드와 한 카드에 섞어 두었더니 '오늘
+         내 기록' 을 보러 온 사람이 바뀌지 않는 줄을 매번 지나쳐야 했다.
+         카드를 갈라 위에 둔다 — 위의 현장 카드와 잇닿아 '이 현장은 어떤
+         현장인가' 가 한 덩어리로 읽힌다 -->
     <div class="rows">
       <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
+    </div>
+
+    <div class="rows rows--day">
       <div class="row"><span class="row__k">출근시간</span><span class="row__v">출근을 눌러 근무를 시작하세요.</span></div>
     </div>
     <p class="guide">출근시간 : 07:00</p>
@@ -1200,8 +1216,16 @@
         <button class="pill pill--line" type="button">현장선택</button>
       </div>
     </div>
+    <!-- 인정범위는 **현장의 것**이다 — 오늘 몇 시에 찍혔는가와 달리 날이
+         바뀌어도 그대로다. 아래 시각 카드와 한 카드에 섞어 두었더니 '오늘
+         내 기록' 을 보러 온 사람이 바뀌지 않는 줄을 매번 지나쳐야 했다.
+         카드를 갈라 위에 둔다 — 위의 현장 카드와 잇닿아 '이 현장은 어떤
+         현장인가' 가 한 덩어리로 읽힌다 -->
     <div class="rows">
       <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
+    </div>
+
+    <div class="rows rows--day">
       <!-- 어느 길로 찍혔는지를 시간 옆에 붙인다 — 같은 날에 앱·단말기·현장소장앱이 섞인다 -->
       <div class="row"><span class="row__k">출근시간</span><span class="row__v">07:03 <span class="bd bd--positive">앱 · 얼굴</span></span></div>
       <div class="row"><span class="row__k">퇴근시간</span><span class="row__v">작업내용 입력 후 퇴근을 눌러주세요.</span></div>
