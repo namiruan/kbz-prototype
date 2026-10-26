@@ -10,6 +10,17 @@
 (function () {
   'use strict';
 
+  /* ── 홈 화면에서 연 창인가 ──
+     css 의 `@media (display-mode:standalone)` 만으로는 모자란다. 아이폰이
+     그 물음을 알아듣게 된 것이 한참 뒤(사파리 16.4)라, 그 전 기기에서는
+     블록이 통째로 꺼진 채 지나간다 — 머리줄은 env() 로 고쳐져 내려왔는데
+     바닥 바만 변에서 떠 있던 까닭이 이것이다.
+     아이폰은 navigator.standalone 으로 오래전부터 답해 왔으므로 둘 다
+     묻고, 답이 나오면 문서에 표를 붙인다. css 는 그 표를 본다. */
+  var app = (window.navigator.standalone === true) ||
+            (window.matchMedia && window.matchMedia('(display-mode:standalone)').matches);
+  if (app) document.documentElement.classList.add('is-app');
+
   function pick() {
     var want = new URL(location.href).searchParams.get('screen');
     var all = document.querySelectorAll('.scr');
