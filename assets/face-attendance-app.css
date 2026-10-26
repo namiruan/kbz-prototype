@@ -581,9 +581,15 @@ ul,ol{list-style:none}
    맞춰, 선을 사이에 두고 양쪽이 같은 폭으로 벌어진다 */
 .card--site .row{padding:var(--ap-p4) 0 0;
   border-top:1px solid var(--ap-g5);border-bottom:0}
-/* 인정범위 줄은 펼친다 — <details> 라 줄이 flex 가 아니라 블록이다. 라벨과
-   과녁을 한 줄에 세우는 일은 <summary> 가 맡는다 */
-.card--site .row--zone{display:block}
+/* 인정범위 줄은 **그 자체가 지도 칸**이다 — 바탕에 지도를 깔아 둬서, 접혀
+   있어도 '여기가 지도를 보여 주는 자리' 로 읽힌다. 글로 '지도 보기' 라
+   적거나 줄 옆에 작은 지도 조각을 따로 세우지 않아도 되는 까닭이다.
+   접힌 줄과 펼친 칸이 한 면이라, 열려도 새 면이 끼어들지 않고 **같은 칸이
+   자라는** 것으로 보인다.
+   제 면을 가졌으므로 위의 가름선은 걷는다 — 면과 선이 같은 일(가르기)을
+   두 번 한다. 카드의 gap(10)이 위 줄과의 사이를 잡는다 */
+.card--site .row--zone{display:block;padding:0;border:0;
+  margin-top:var(--ap-p4);border-radius:var(--ap-r8);overflow:hidden}
 /* 줄 자체가 헤더다 — 과녁은 줄 전체이고, 오른쪽 끝의 꺾쇠가 '펼친다' 를
    말한다. 브라우저의 기본 삼각 표식은 걷는다: 꺾쇠와 둘을 다 두면 한 줄에
    같은 말이 두 번 난다.
@@ -591,7 +597,8 @@ ul,ol{list-style:none}
    오른쪽이다 — 이 카드의 다른 줄들이 모두 왼쪽에 라벨, 오른쪽에 과녁이라,
    이 줄만 반대로 두면 눈이 한 줄마다 좌우를 바꿔 가며 훑어야 한다 */
 .zone__s{display:flex;align-items:center;justify-content:space-between;
-  gap:var(--ap-p5);list-style:none;cursor:pointer}
+  gap:var(--ap-p5);list-style:none;cursor:pointer;
+  padding:var(--ap-p4) var(--ap-p5)}
 .zone__s::-webkit-details-marker{display:none}
 .zone__c{flex:none;color:var(--ap-g90);
   transition:transform var(--ap-dur-base) var(--ap-ease-sym)}
@@ -601,24 +608,23 @@ details[open] > .zone__s .zone__c{transform:rotate(180deg)}
    모눈을 깔아 '여기는 지도다' 만 말한다.
    원은 테가 점선이다 — '여기까지' 가 그어 둔 선이 아니라 **재어서 나오는
    범위**라는 말이다 */
-.zone__th,.zone__m{position:relative;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
-  background:
+.card--site .row--zone{background:
     repeating-linear-gradient(0deg,transparent 0 15px,var(--ap-map-rule) 15px 16px),
     repeating-linear-gradient(90deg,transparent 0 15px,var(--ap-map-rule) 15px 16px),
     var(--ap-map-ground)}
+.zone__th,.zone__m{position:relative;
+  display:flex;align-items:center;justify-content:center}
 .zone__r{position:absolute;border-radius:50%;
   border:1.5px dashed var(--ap-primary);background:var(--ap-zone-fill)}
 .zone__p{position:relative;color:var(--ap-primary)}
-/* 접힌 줄의 조각 — 다른 줄의 알약이 서던 자리에 같은 크기로 선다(32).
-   눌러서 커지는 것이 이것이라, 펼친 칸과 같은 그림이어야 한다 */
-.zone__th{flex:none;margin-left:auto;width:52px;height:32px;
-  border-radius:var(--ap-r6)}
-.zone__th .zone__r{width:26px;height:26px;border-width:1px}
-.zone__th .zone__p{width:12px;height:12px}
+/* 접힌 줄의 표지 — 줄의 바탕이 이미 지도라 따로 테를 두르지 않는다.
+   그 위에 선 반경 원과 핀이다 */
+.zone__th{flex:none;margin-left:auto;width:28px;height:28px}
+.zone__th .zone__r{width:28px;height:28px;border-width:1px}
+.zone__th .zone__p{width:14px;height:14px}
 details[open] > .zone__s .zone__th{display:none}
-/* 펼친 칸 */
-.zone__m{height:160px;margin-top:var(--ap-p4);border-radius:var(--ap-r8)}
+/* 펼친 칸 — 머리줄과 같은 면이 그대로 이어진다(제 바탕을 갖지 않는다) */
+.zone__m{height:160px}
 .zone__m .zone__r{width:120px;height:120px}
 .zone__m .zone__p{width:24px;height:24px}
 .card__nm{font:var(--t-title3-em);letter-spacing:var(--ls-title3);flex:1;min-width:0;color:var(--ap-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
