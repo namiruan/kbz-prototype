@@ -295,7 +295,13 @@
   /* 화면 맨 위, 기기가 쥐는 자리 — 시계 · 신호 · 배터리가 거기 그려진다.
      앱이 그리는 것이 아니라 **비워 두어야 하는** 높이다. 머리줄(.nav)이
      위 여백으로 쥐고 있던 값과 같다 */
-  --ap-statusbar:56px;
+  /* 기기의 상태 표시줄이 지나는 자리 + 그 아래 숨 쉴 틈(12).
+     ⚠ 56 은 브라우저 탭에서 그 자리를 **흉내 내는** 값이다. 홈 화면에서
+       연 창은 화면이 상태 표시줄 **아래까지** 깔리므로(black-translucent),
+       기기가 말하는 실제 깊이를 물어 그만큼 비워야 한다 — 노치·다이내믹
+       아일랜드 기기는 59 쯤이라 56 으로는 머리줄이 표시줄에 붙는다.
+     브라우저 탭에서는 inset 이 0 이라 56 이 그대로 이긴다 */
+  --ap-statusbar:max(56px,calc(env(safe-area-inset-top,0px) + var(--ap-p5)));
   --ap-p1:2px; --ap-p2:4px; --ap-p3:6px; --ap-p4:10px; --ap-p5:12px;
   --ap-p6:16px; --ap-p7:20px; --ap-p8:24px; --ap-p9:32px; --ap-p10:40px; --ap-p12:56px;
 
@@ -2117,7 +2123,7 @@ ul,ol{list-style:none}
 /* 돌아가는 길 — 닫기(✕)가 아니라 뒤로(←)다. 닫기는 '하던 일을 접는다'고
    말하는데, 여기서 돌아가는 곳은 바로 앞 화면이다. 내비게이션 바의 뒤로
    가기와 같은 자리(왼쪽 위)·같은 아이콘 버튼 크기(32)다 */
-.cam__back{position:absolute;top:calc(56px - 4px);left:calc(var(--ap-p6) - 4px);z-index:2;
+.cam__back{position:absolute;top:calc(var(--ap-statusbar) - 4px);left:calc(var(--ap-p6) - 4px);z-index:2;
   display:inline-flex;align-items:center;justify-content:center;
   padding:4px;border-radius:6px;color:var(--ap-g0)}
 .cam__back .ic{width:24px;height:24px}
@@ -2127,7 +2133,7 @@ ul,ol{list-style:none}
    것인지를 먼저 보여야, 남의 폰에 대고 찍는 일이 생기지 않는다.
    자리는 **가운데**다 — 왼쪽 위는 뒤로 가기가 쓴다 */
 .cam__who{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
-  position:absolute;top:56px;left:50%;transform:translateX(-50%);z-index:2;
+  position:absolute;top:var(--ap-statusbar);left:50%;transform:translateX(-50%);z-index:2;
   padding:4px 10px;border-radius:var(--ap-r-pill);
   background:var(--ap-scrim-pill);color:var(--ap-g0);white-space:nowrap}
 /* 틀의 테는 한 가지 색으로 그은 선이 아니라 **번지는 그라데이션**이다.
