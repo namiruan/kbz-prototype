@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=262">
-<script src="assets/face-attendance-app.js?v=262" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=263">
+<script src="assets/face-attendance-app.js?v=263" defer></script>
 </head>
 
 <body>
@@ -1129,7 +1129,6 @@
       <div class="tcard"><span class="tcard__k">출근</span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 07:00</span></div>
       <div class="tcard"><span class="tcard__k">퇴근</span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 17:00</span></div>
     </div>
-    <p class="note">출근을 눌러 근무를 시작하세요.</p>
   </main>
 
   <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 같은
@@ -1140,7 +1139,14 @@
        키는 가져오지 않는다 — 근로자 앱은 바닥 탭이 있어 과녁이 그 위에
        줄 서야 한다 -->
   <div class="act act--cta">
-    <button class="act__b act__b--on" type="button">07:03:12&nbsp;&nbsp;출근<span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span></button>
+    <!-- 과녁의 이름 아래에 설명이 붙는다 — 현장소장 앱의 인증 시작 과녁과
+         같은 짜임이다(이름 · 그 아래 설명). 본문에 따로 한 줄로 두었더니
+         '눌러 주세요' 라고 적힌 자리와 실제로 누를 자리가 떨어져 있었다 -->
+    <button class="act__b act__b--on" type="button">
+      <span class="act__l">
+        <span class="act__t">07:03:12&nbsp;&nbsp;출근</span>
+        <span class="act__d">출근을 눌러 근무를 시작하세요.</span>
+      </span><span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span></button>
   </div>
 
   <nav class="tabbar" aria-label="주메뉴">
@@ -1244,7 +1250,6 @@
       <div class="tcard"><span class="tcard__k">출근</span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 07:00</span></div>
       <div class="tcard"><span class="tcard__k">퇴근</span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 17:00</span></div>
     </div>
-    <p class="note">출근을 눌러 근무를 시작하세요.</p>
   </main>
 
   <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 같은
@@ -1255,7 +1260,14 @@
        키는 가져오지 않는다 — 근로자 앱은 바닥 탭이 있어 과녁이 그 위에
        줄 서야 한다 -->
   <div class="act act--cta">
-    <button class="act__b act__b--on" type="button">07:03:12&nbsp;&nbsp;출근<span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span></button>
+    <!-- 과녁의 이름 아래에 설명이 붙는다 — 현장소장 앱의 인증 시작 과녁과
+         같은 짜임이다(이름 · 그 아래 설명). 본문에 따로 한 줄로 두었더니
+         '눌러 주세요' 라고 적힌 자리와 실제로 누를 자리가 떨어져 있었다 -->
+    <button class="act__b act__b--on" type="button">
+      <span class="act__l">
+        <span class="act__t">07:03:12&nbsp;&nbsp;출근</span>
+        <span class="act__d">출근을 눌러 근무를 시작하세요.</span>
+      </span><span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span></button>
   </div>
 
   <nav class="tabbar" aria-label="주메뉴">
