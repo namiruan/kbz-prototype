@@ -343,6 +343,24 @@ ul,ol{list-style:none}
    나와 있을 때의 높이로 고정이라 흔들리지 않는다 */
 .scr.is-on{display:flex;flex-direction:column;height:100svh;overflow:hidden;position:relative}
 
+/* ── 홈 화면에 놓고 연 뒤(standalone) ──
+   ⚠ 브라우저 탭에서는 이 블록이 켜지지 않는다 — display-mode 가 다르다.
+   100svh 는 '기기가 말하는 작은 뷰포트' 다. 브라우저에서는 주소창이
+   들고 나는 만큼을 미리 뺀 값이라 맞지만, 홈 화면에서 연 창에는 들고
+   날 것이 없어 **실제로 보이는 높이보다 짧게** 잡히는 일이 있다. 그
+   차이만큼 아래가 비어, 바닥 내비게이션이 변에서 떠 보인다.
+   그래서 이때는 높이를 세지 않고 **보이는 영역에 못 박는다**(fixed·inset:0).
+   문서가 굴러갈 일도 없으니 바깥 스크롤은 잠근다 — 한 번 밀려 올라가면
+   돌아올 길이 없다 */
+@media (display-mode:standalone){
+  html,body{overflow:hidden;overscroll-behavior:none}
+  .scr.is-on{position:fixed;inset:0;height:auto}
+  /* 홈 인디케이터가 지나는 자리를 기기에 물어본다. 32 는 아이폰에서 잰
+     값이라 대개 맞지만, 더 두꺼운 기기에서는 기기가 말하는 쪽이 맞다 */
+  .tabbar{padding-bottom:max(var(--ap-p9),env(safe-area-inset-bottom))}
+  .act--end .act__b{padding-bottom:max(var(--ap-p10),env(safe-area-inset-bottom))}
+}
+
 /* ── 내비게이션 바 ──
    흰 바탕 · 위 56(상태바 자리) · 아래 10 · 좌우 16.
    제목은 가운데, 아이콘은 양 끝에 겹쳐 둔다 — 제목이 길어도 가운데를 지킨다 */
