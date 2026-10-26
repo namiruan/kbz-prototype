@@ -157,6 +157,8 @@
      따라 밝아진다 */
   --ap-surface-lift:rgba(255,255,255,.75);
   --ap-kb-bg:#d1d4d9;              /* 기기 자판 바탕 — 화면 밖 띠도 이 색이다 */
+  --ap-border-focus:rgba(22,109,238,.75); /* color/border/focus — 휠이 돌리는 칸의 테 */
+  --ap-scrim-dim-deep:rgba(19,20,22,.75); /* color/background/dim — 달을 편 뒤 (21:2649) */
 
   /* ── 현장 밑으로 들어가는 목록의 끝 ──
      현장은 제자리에 서고 목록만 밀려 올라가므로, 목록은 현장 바로 밑에서
@@ -327,6 +329,9 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+/* 꺼 둔 과녁은 손 모양이 아니다 — 손 모양은 '눌린다' 는 말이라, 눌리지
+   않는 것 위에서 뜨면 눌러 보고서야 안 눌린다는 것을 알게 된다 */
+button:disabled{cursor:default}
 ul,ol{list-style:none}
 
 /* 아이콘 — 스프라이트 심볼은 fill:currentColor 다 */
@@ -637,6 +642,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   padding:4px;border-radius:var(--ap-r6);color:var(--ap-g90)}
 .cal__top{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3);padding:8px 0}
 .cal__date{display:flex;align-items:center;gap:var(--ap-p2)}
+/* 날짜 줄 전체가 달을 펴는 과녁이다 — 꺾쇠만 짚게 두면 과녁이 24 짜리
+   표 하나뿐이라, 날짜를 눌러도 아무 일이 없는 것으로 읽힌다 */
+.cal__date[data-go]{cursor:pointer}
 .cal__num{font:var(--t-title2);letter-spacing:var(--ls-title2);display:flex;align-items:center;justify-content:center;padding:2px 6px;background:var(--ap-g0);border:1px solid var(--ap-g20);border-radius:var(--ap-r8);color:var(--ap-g95)}
 .cal__dot{font:var(--t-title3);letter-spacing:var(--ls-title3);color:var(--ap-g95)}
 .cal__dow{font:var(--t-head);letter-spacing:var(--ls-head);padding:5px 9px;color:var(--ap-g95)}
@@ -1091,6 +1099,53 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* '시작' 표는 한 바퀴에 한 번 앞으로 민다 — 저쪽 과녁의 것과 같다 */
 .act--cta .act__go{flex:none;display:flex;align-items:center;justify-content:center;
   animation:ap-go var(--ap-go-cycle) var(--ap-ease-sym) infinite}
+
+/* ── 펴진 달 ─────────────────────────────────────────────
+   띠에서 날짜를 누르면 **그 자리에서** 달이 펴진다. 날짜 줄(.cal__top)은
+   띠의 것을 그대로 쓴다 — 같은 자리에 같은 꼴로 서야 '같은 줄이 펼쳐진
+   것' 으로 읽힌다. 판은 위에서 내려와 화면 꼭대기에 붙으므로 아래 모서리
+   만 둥글다(시안 21:2656 — 반지름 15 · 그림자 0 4 2 rgba(17,53,105,.05)).
+   ⚠ 시안에는 알림 종이 없다(저쪽은 머리줄이 따로 있는 작업일보 화면이다).
+     여기서는 띠의 줄이 그대로 펴지는 것이라, 종이 사라지면 줄이 바뀐 것
+     으로 보여 그대로 둔다 */
+.calp{flex:none;background:var(--ap-g0);
+  padding:var(--ap-statusbar) var(--ap-p6) 4px;
+  border-radius:0 0 var(--ap-r15) var(--ap-r15);
+  box-shadow:0 4px 2px rgba(17,53,105,.05)}
+.calp__w,.calp__g{display:grid;grid-template-columns:repeat(7,1fr)}
+.calp__g{row-gap:9px;padding-top:9px}
+/* 휠이 돌리는 세 칸은 브랜드 테를 쥔다 — 띠에서는 같은 칸이 회색 테다.
+   테가 1.5 인 것도 시안 그대로다(border-width/variable-medium) */
+.cal__num--pick{border:1.5px solid var(--ap-border-focus);color:var(--ap-primary)}
+/* 펴 둔 동안에는 꺾쇠가 **접는 손잡이**라 거꾸로 선다 */
+.cal__more--up{transform:rotate(180deg)}
+/* 이 달 밖의 날 — 자리는 지키되 고를 수 없다 */
+.cal__n--off{color:var(--ap-text-disabled)}
+/* ── 기기의 날짜 휠 ──
+   ⚠ 누를 수 있는 판이 아니라 **그 자리가 얼마인지 보여 주는 그림**이다.
+     날을 고르는 일은 앱(Flutter)과 기기의 몫이라 여기서 흉내 내지 않는다
+     — 자판(.kb)과 같다.
+   치수는 시안 21:2807 에서 가져왔다: 높이 213 · 위 모서리 13 · 가운데
+   띠 35(반지름 7 · fills/quaternary). 바탕은 시안이 블러를 깐 재질이라
+   같은 회색을 깔고 뒤를 흐린다 — 블러가 듣지 않는 곳에서도 색은 남는다.
+   위아래는 흐려져 사라진다(시안의 Fade Out) — 가려 두는 것이 아니라
+   **원통이 돌아간다**는 말이라, 자르지 않고 지운다 */
+.wheel{flex:none;height:213px;display:flex;align-items:center;justify-content:center;
+  padding:18px 20px;border-radius:13px 13px 0 0;
+  background:rgba(179,179,179,.82);backdrop-filter:blur(25px);
+  -webkit-backdrop-filter:blur(25px)}
+.wheel__b{font:var(--t-title3);letter-spacing:var(--ls-title3);
+  position:relative;flex:1;min-width:0;max-width:297px;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 28%,#000 72%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0,#000 28%,#000 72%,transparent 100%)}
+.wheel__band{position:absolute;left:0;right:0;top:50%;height:35px;transform:translateY(-50%);
+  border-radius:7px;background:rgba(120,120,128,.08)}
+.wheel__c{display:flex;flex-direction:column;align-items:center;gap:0}
+.wheel__c i,.wheel__c b{height:35px;display:flex;align-items:center;justify-content:center;
+  font-style:normal;white-space:nowrap}
+.wheel__c i{color:rgba(255,255,255,.65)}
+.wheel__c b{font-weight:400;color:var(--ap-g95)}
 
 /* ── 아래 내비게이션 — 주화면에만 ── */
 /* ⚠ 아래 여백은 **홈 화면에서 연 창인지 묻지 않고** 기기에 바로 묻는다.
@@ -2325,6 +2380,20 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* ── 알림창 — 시안 modal_alert ── */
 .dim{position:absolute;inset:0;background:var(--ap-scrim-dim);
   display:flex;align-items:center;justify-content:center;padding:var(--ap-p8)}
+/* 달 뒤는 한 단 더 어둡다(.75) — 알림창 뒤(.45)보다 짙은 것은 시안
+   그대로다. 아래에서 기기의 휠이 올라와, 그 사이로 비치는 화면이
+   옅으면 휠과 판이 한 덩어리로 보이지 않는다 */
+/* ⚠ .dim 은 가운데에 창 하나를 세우는 상자라 align-items:center 다.
+   여기서는 판과 휠이 **위아래 끝에 폭을 꽉 채워** 서야 해서 되돌린다 */
+.dim--cal{padding:0;background:var(--ap-scrim-dim-deep);
+  flex-direction:column;align-items:stretch;justify-content:space-between;
+  animation:ap-dim-in var(--ap-dur-slow) var(--ap-ease-enter) both}
+.dim--cal > .calp{animation:ap-cal-down var(--ap-dur-sheet) var(--ap-ease-sheet) both}
+.dim--cal > .wheel{animation:ap-sheet-up var(--ap-dur-sheet) both}
+@keyframes ap-cal-down{from{transform:translateY(-100%)} to{transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){
+  .dim--cal,.dim--cal > .calp,.dim--cal > .wheel{animation:none}}
+
 .alert{width:300px;max-width:100%;overflow:hidden;background:var(--ap-g0);
   border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-float)}
 /* 바닥에서 올라오는 꼴 — 인정범위 지도 시트(.sheet)와 같다. 한 앱에서

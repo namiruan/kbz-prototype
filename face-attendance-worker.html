@@ -44,8 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=384">
-<script src="assets/face-attendance-app.js?v=384" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=387">
+<!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
+     집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
+     (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
+     DOMContentLoaded 를 기다린다 -->
+<script src="assets/face-attendance-app.js?v=387"></script>
 </head>
 
 <body>
@@ -90,7 +94,7 @@
   <div class="hd hd--bare">
     <div class="cal">
       <div class="cal__top">
-        <div class="cal__date">
+        <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
           <span class="cal__num">10</span><span class="cal__dot">.</span>
           <span class="cal__num">20</span>
@@ -98,7 +102,7 @@
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
+          <span class="cal__more" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-down-app"></use></svg></span>
         </div>
         <div class="cal__side">
           <button class="pill pill--today" type="button" disabled>오늘</button>
@@ -232,6 +236,90 @@
 <!-- ===== ⑪-1 근로자 앱 · 인정범위 지도 (창) ===== -->
 <!-- 뒤에는 이 창을 띄운 화면(홈)이 그대로 있다. 그 마크업을 여기 옮겨
      적지 않는다 — js 가 data-behind 를 보고 켜기 직전에 베껴 온다 -->
+<!-- ── 날짜 고르기 ─────────────────────────────────────────────
+     띠에서 날짜를 누르면 **그 자리에서 달이 펴진다**. 날짜 줄은 그대로
+     있고(같은 자리 · 같은 꼴) 아래로 한 달이 열리므로, 띠에서 보던 주가
+     어느 주였는지가 이어 읽힌다 — 새 창을 띄워 날짜를 처음부터 고르게
+     하지 않는 까닭이다.
+     기기의 날짜 휠이 함께 올라온다(시안 21:2649). 달에서는 이 달 안의
+     날만 고를 수 있고, 다른 달·다른 해로 건너뛰는 일은 휠의 몫이다.
+     ⚠ 휠은 **그림**이다 — 자판(.kb)과 같다. 고르는 일은 앱(Flutter)과
+       기기의 몫이라 여기서 흉내 내지 않는다.
+     ⚠ 시안의 휠은 영어(September · 17 · 2021)다. 기기의 말을 따르는
+       자리라 한국어로 적었다 — 자판을 한글로 그린 것과 같은 까닭이다 -->
+<section class="scr has-dim" data-screen="w-cal" data-behind="w-home" data-title="근로자 앱 홈 — 날짜 고르기">
+  <div class="dim dim--cal" data-go="w-home" data-go-self>
+
+    <div class="calp">
+      <div class="cal__top">
+        <div class="cal__date">
+          <!-- 세 칸이 브랜드 테를 쥔다(border/focus) — 휠이 돌리는 것이
+               이 셋이라는 말이다. 띠에서는 같은 칸이 회색 테다 -->
+          <span class="cal__num cal__num--pick">2026</span><span class="cal__dot">.</span>
+          <span class="cal__num cal__num--pick">10</span><span class="cal__dot">.</span>
+          <span class="cal__num cal__num--pick">20</span>
+          <span class="cal__dow">화</span>
+          <button class="cal__more cal__more--up" type="button" aria-label="달 접기" data-go="w-home"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
+        </div>
+        <div class="cal__side">
+          <button class="pill pill--today" type="button" disabled>오늘</button>
+          <button class="cal__bell" type="button" aria-label="알림"><svg class="ic" aria-hidden="true"><use href="#icon-bell-app"></use></svg></button>
+        </div>
+      </div>
+
+      <div class="calp__w"><div class="cal__w cal__w--sun">일</div><div class="cal__w">월</div><div class="cal__w">화</div><div class="cal__w">수</div><div class="cal__w">목</div><div class="cal__w">금</div><div class="cal__w cal__w--sat">토</div></div>
+      <div class="calp__g">
+        <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>27</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>28</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>29</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>30</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>1</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>2</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>3</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>4</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>5</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>6</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>7</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>8</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>9</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>10</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>11</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>12</b><i></i></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>13</b><i></i></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>14</b><i></i></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>15</b><i></i></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>16</b><i></i></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>17</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>18</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home-past"><div class="cal__n"><b>19</b><i></i></div></button>
+        <button class="cal__d" type="button" data-go="w-home-done"><div class="cal__n cal__n--on"><b>20</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>21</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>22</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>23</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>24</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>25</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>26</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>27</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>28</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>29</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>30</b></div></button>
+        <button class="cal__d" type="button" data-go="w-home"><div class="cal__n"><b>31</b></div></button>
+      </div>
+    </div>
+
+    <!-- 기기의 날짜 휠 — 누르는 판이 아니라 **그 자리가 얼마인지 보여 주는
+         그림**이다. 가운데 띠에 든 것이 고른 날이다 -->
+    <div class="wheel" aria-hidden="true">
+      <div class="wheel__b">
+        <span class="wheel__band"></span>
+        <div class="wheel__c"><i>2024년</i><i>2025년</i><b>2026년</b><i>2027년</i><i>2028년</i></div>
+        <div class="wheel__c"><i>8월</i><i>9월</i><b>10월</b><i>11월</i><i>12월</i></div>
+        <div class="wheel__c"><i>18일</i><i>19일</i><b>20일</b><i>21일</i><i>22일</i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="scr has-dim" data-screen="w-map" data-title="인정범위 지도"
   data-behind="w-home">
   <!-- 알림창(.alert)이 아니라 **바닥에서 올라오는 시트**다. 알림창은 묻고
@@ -271,7 +359,7 @@
   <div class="hd hd--bare">
     <div class="cal">
       <div class="cal__top">
-        <div class="cal__date">
+        <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
           <span class="cal__num">10</span><span class="cal__dot">.</span>
           <span class="cal__num">20</span>
@@ -279,7 +367,7 @@
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
+          <span class="cal__more" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-down-app"></use></svg></span>
         </div>
         <div class="cal__side">
           <button class="pill pill--today" type="button" disabled>오늘</button>
@@ -473,7 +561,7 @@
   <div class="hd hd--bare">
     <div class="cal">
       <div class="cal__top">
-        <div class="cal__date">
+        <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
           <span class="cal__num">10</span><span class="cal__dot">.</span>
           <span class="cal__num">20</span>
@@ -481,7 +569,7 @@
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
+          <span class="cal__more" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-down-app"></use></svg></span>
         </div>
         <div class="cal__side">
           <button class="pill pill--today" type="button" disabled>오늘</button>
@@ -709,7 +797,7 @@
   <div class="hd hd--bare">
     <div class="cal">
       <div class="cal__top">
-        <div class="cal__date">
+        <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
           <span class="cal__num">10</span><span class="cal__dot">.</span>
           <span class="cal__num">20</span>
@@ -717,7 +805,7 @@
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
+          <span class="cal__more" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-down-app"></use></svg></span>
         </div>
         <div class="cal__side">
           <button class="pill pill--today" type="button" disabled>오늘</button>
@@ -997,7 +1085,7 @@
   <div class="hd hd--bare">
     <div class="cal">
       <div class="cal__top">
-        <div class="cal__date">
+        <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
           <span class="cal__num">10</span><span class="cal__dot">.</span>
           <span class="cal__num">20</span>
@@ -1005,7 +1093,7 @@
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
+          <span class="cal__more" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-down-app"></use></svg></span>
         </div>
         <div class="cal__side">
           <button class="pill pill--today" type="button" disabled>오늘</button>
@@ -1178,7 +1266,7 @@
   <div class="hd hd--bare">
     <div class="cal">
       <div class="cal__top">
-        <div class="cal__date">
+        <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
           <span class="cal__num">10</span><span class="cal__dot">.</span>
           <span class="cal__num">19</span>
@@ -1186,7 +1274,7 @@
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
+          <span class="cal__more" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-down-app"></use></svg></span>
         </div>
         <div class="cal__side">
           <!-- 오늘이 아닌 날을 보는 중이라 되돌아갈 데가 있다 — 켜진다 -->
