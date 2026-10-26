@@ -79,6 +79,12 @@
   --ap-zone-fill:rgba(17,90,198,.08); /* 인정범위 원의 속 — 지도 위에 얹는
                                       면이라 불투명 색이 아니라 투명도로 둔다 */
   --ap-zone-chip:rgba(17,90,198,.1);/* 핀을 담는 옅은 브랜드 면 */
+  /* 꺼진 과녁의 면 — 불투명 회색이 아니라 **바탕을 덮는 먹**이다.
+     gray/5(#f4f5f6)로 두었더니 화면 바탕(primary/5 #eef4fc)과 밝기가
+     거의 같아, 카드가 바탕에 묻혀 어디서 끝나는지 보이지 않았다.
+     바탕을 한 단 눌러 주면 같은 파랑 식구 안에서 짙기만 갈려, 어디에
+     깔리든 그 바탕의 그늘로 앉는다(그림자가 쓰는 먹과 같은 색이다) */
+  --ap-off-fill:rgba(17,53,105,.08);
   --ap-map-ground:#eef0f2;         /* 지도 바닥 — gray/5 보다 반 단 짙다.
                                       흰 카드 위에서 '다른 면' 으로 읽혀야 한다 */
   --ap-map-rule:rgba(19,20,22,.05);/* 지도 모눈 — 있는 줄만 알 만큼 */
@@ -938,7 +944,7 @@ ul,ol{list-style:none}
    눌리는 것은 떠 있고, 꺼진 것은 바닥에 가라앉는다. 더구나 이 카드는
    아랫단이 내비게이션에 덮여 있어, 그림자를 두면 덮인 자리에서 테두리가
    한 겹 더 비쳐 '덮였다' 가 아니라 '겹쳤다' 로 보인다 */
-.act--cta .act__b--lock{background:var(--ap-g5);color:var(--ap-text-disabled);
+.act--cta .act__b--lock{background:var(--ap-off-fill);color:var(--ap-text-disabled);
   box-shadow:none;cursor:default}
 /* 뱃지 둘은 짙은 면 위의 짝(흰빛 투명도)으로 그려져 있어, 옅은 면
    위에서는 보이지 않는다. 밝은 바탕의 짝으로 바꿔 끼운다 —
@@ -998,8 +1004,12 @@ ul,ol{list-style:none}
 /* ── 아래 내비게이션 — 주화면에만 ── */
 .tabbar{flex:none;display:flex;align-items:center;justify-content:space-between;
   padding:var(--ap-p6) var(--ap-p8) var(--ap-p9);
-  background:var(--ap-g0);border-top:1px solid var(--ap-g20);
-  position:relative;z-index:3}
+  background:var(--ap-g0);border-top:1px solid var(--ap-g20)}
+/* ⚠ 내비게이션이 **쌓인 과녁 위로만** 올라온다. 바로 앞의 .act--stack 을
+   짚는 것은, 위로 올리는 일이 그 한 화면의 사정이기 때문이다 — 모든
+   .tabbar 를 올렸더니 떠 있는 창(.dim)까지 뚫고 나와, 바텀 시트 위에
+   바닥 내비게이션이 비쳤다 */
+.act--stack + .tabbar{position:relative;z-index:3}
 .tabbar__b{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--ap-p2);padding:0 4px;border-radius:var(--ap-r10);color:var(--ap-text);text-align:center;white-space:nowrap}
 .tabbar__b.is-on{color:var(--ap-primary-90);font-weight:600}
 
