@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=247">
-<script src="assets/face-attendance-app.js?v=247" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=248">
+<script src="assets/face-attendance-app.js?v=248" defer></script>
 </head>
 
 <body>
@@ -1082,22 +1082,18 @@
            내가 범위 안인가' 를 흘깃 보자고 화면을 한 장 덮었다가 다시
            닫아야 한다 — 머물러서 하는 일이 아니다. 펼치면 현장 이름 바로
            아래라 '어느 현장의 범위인가' 를 되짚을 일도 없다.
-           시스템의 Disclosure 다(레이블이 '지도 보기' ↔ '접기' 로 뒤집히고
-           꺾쇠가 돈다).
-           ⚠ 클래스가 아니라 <details> 로 짠다. Disclosure·Accordion 은 JS
-           가 여는데, 이 프로토타입의 JS 는 어느 화면을 보여 줄지만 정하고
-           화면 안의 동작은 앱(Flutter)의 몫으로 남긴다(face-attendance-app.js
-           머리말). <details> 는 흉내가 아니라 브라우저가 쥔 동작이다.
-           ⚠ 과녁은 <summary> 전체다. 그래서 오른쪽의 알약은 button 이 아니라
-           span 이다 — summary 안에 button 을 넣으면 과녁이 둘로 갈린다 -->
+           시스템의 Accordion 이다 — **줄 자체가 헤더**이고, 그 줄을 클릭하면
+           아래로 열린다. 오른쪽에 '지도 보기' 알약을 따로 두지 않는다: 줄에
+           달린 것이 여는 일 하나뿐인데 과녁을 알약만 한 크기로 줄일 까닭이
+           없고, 알약을 두면 '줄을 눌러도 되는가' 가 흐려진다.
+           ⚠ 클래스가 아니라 <details> 로 짠다. Accordion 은 JS 가 여는데,
+           이 프로토타입의 JS 는 어느 화면을 보여 줄지만 정하고 화면 안의
+           동작은 앱(Flutter)의 몫으로 남긴다(face-attendance-app.js 머리말).
+           <details> 는 흉내가 아니라 브라우저가 쥔 동작이다 -->
       <details class="row row--zone">
         <summary class="zone__s">
           <span class="row__k">인정범위</span>
-          <span class="pill pill--line zone__t">
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>
-            <span class="zone__l zone__l--shut">지도 보기</span><span class="zone__l zone__l--open">접기</span>
-            <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
-          </span>
+          <svg class="ic ic--24 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
         </summary>
         <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
              지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
@@ -1172,22 +1168,18 @@
            내가 범위 안인가' 를 흘깃 보자고 화면을 한 장 덮었다가 다시
            닫아야 한다 — 머물러서 하는 일이 아니다. 펼치면 현장 이름 바로
            아래라 '어느 현장의 범위인가' 를 되짚을 일도 없다.
-           시스템의 Disclosure 다(레이블이 '지도 보기' ↔ '접기' 로 뒤집히고
-           꺾쇠가 돈다).
-           ⚠ 클래스가 아니라 <details> 로 짠다. Disclosure·Accordion 은 JS
-           가 여는데, 이 프로토타입의 JS 는 어느 화면을 보여 줄지만 정하고
-           화면 안의 동작은 앱(Flutter)의 몫으로 남긴다(face-attendance-app.js
-           머리말). <details> 는 흉내가 아니라 브라우저가 쥔 동작이다.
-           ⚠ 과녁은 <summary> 전체다. 그래서 오른쪽의 알약은 button 이 아니라
-           span 이다 — summary 안에 button 을 넣으면 과녁이 둘로 갈린다 -->
+           시스템의 Accordion 이다 — **줄 자체가 헤더**이고, 그 줄을 클릭하면
+           아래로 열린다. 오른쪽에 '지도 보기' 알약을 따로 두지 않는다: 줄에
+           달린 것이 여는 일 하나뿐인데 과녁을 알약만 한 크기로 줄일 까닭이
+           없고, 알약을 두면 '줄을 눌러도 되는가' 가 흐려진다.
+           ⚠ 클래스가 아니라 <details> 로 짠다. Accordion 은 JS 가 여는데,
+           이 프로토타입의 JS 는 어느 화면을 보여 줄지만 정하고 화면 안의
+           동작은 앱(Flutter)의 몫으로 남긴다(face-attendance-app.js 머리말).
+           <details> 는 흉내가 아니라 브라우저가 쥔 동작이다 -->
       <details class="row row--zone">
         <summary class="zone__s">
           <span class="row__k">인정범위</span>
-          <span class="pill pill--line zone__t">
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>
-            <span class="zone__l zone__l--shut">지도 보기</span><span class="zone__l zone__l--open">접기</span>
-            <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
-          </span>
+          <svg class="ic ic--24 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
         </summary>
         <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
              지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
@@ -1271,22 +1263,18 @@
            내가 범위 안인가' 를 흘깃 보자고 화면을 한 장 덮었다가 다시
            닫아야 한다 — 머물러서 하는 일이 아니다. 펼치면 현장 이름 바로
            아래라 '어느 현장의 범위인가' 를 되짚을 일도 없다.
-           시스템의 Disclosure 다(레이블이 '지도 보기' ↔ '접기' 로 뒤집히고
-           꺾쇠가 돈다).
-           ⚠ 클래스가 아니라 <details> 로 짠다. Disclosure·Accordion 은 JS
-           가 여는데, 이 프로토타입의 JS 는 어느 화면을 보여 줄지만 정하고
-           화면 안의 동작은 앱(Flutter)의 몫으로 남긴다(face-attendance-app.js
-           머리말). <details> 는 흉내가 아니라 브라우저가 쥔 동작이다.
-           ⚠ 과녁은 <summary> 전체다. 그래서 오른쪽의 알약은 button 이 아니라
-           span 이다 — summary 안에 button 을 넣으면 과녁이 둘로 갈린다 -->
+           시스템의 Accordion 이다 — **줄 자체가 헤더**이고, 그 줄을 클릭하면
+           아래로 열린다. 오른쪽에 '지도 보기' 알약을 따로 두지 않는다: 줄에
+           달린 것이 여는 일 하나뿐인데 과녁을 알약만 한 크기로 줄일 까닭이
+           없고, 알약을 두면 '줄을 눌러도 되는가' 가 흐려진다.
+           ⚠ 클래스가 아니라 <details> 로 짠다. Accordion 은 JS 가 여는데,
+           이 프로토타입의 JS 는 어느 화면을 보여 줄지만 정하고 화면 안의
+           동작은 앱(Flutter)의 몫으로 남긴다(face-attendance-app.js 머리말).
+           <details> 는 흉내가 아니라 브라우저가 쥔 동작이다 -->
       <details class="row row--zone">
         <summary class="zone__s">
           <span class="row__k">인정범위</span>
-          <span class="pill pill--line zone__t">
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>
-            <span class="zone__l zone__l--shut">지도 보기</span><span class="zone__l zone__l--open">접기</span>
-            <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
-          </span>
+          <svg class="ic ic--24 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
         </summary>
         <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
              지어내면 읽는 사람이 그것을 받은 값으로 본다 -->

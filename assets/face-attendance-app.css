@@ -581,21 +581,17 @@ ul,ol{list-style:none}
 /* 인정범위 줄은 펼친다 — <details> 라 줄이 flex 가 아니라 블록이다. 라벨과
    과녁을 한 줄에 세우는 일은 <summary> 가 맡는다 */
 .card--site .row--zone{display:block}
-/* 과녁은 줄 전체다. 기본 삼각 표식은 걷는다 — 오른쪽 알약의 꺾쇠가 이미
-   '펼친다' 를 말하고, 둘을 다 두면 한 줄에 같은 말이 두 번 난다 */
+/* 줄 자체가 헤더다 — 과녁은 줄 전체이고, 오른쪽 끝의 꺾쇠가 '펼친다' 를
+   말한다. 브라우저의 기본 삼각 표식은 걷는다: 꺾쇠와 둘을 다 두면 한 줄에
+   같은 말이 두 번 난다.
+   ⚠ 시스템 Accordion 은 토글 아이콘을 제목 **왼쪽**에 둔다. 여기서는
+   오른쪽이다 — 이 카드의 다른 줄들이 모두 왼쪽에 라벨, 오른쪽에 과녁이라,
+   이 줄만 반대로 두면 눈이 한 줄마다 좌우를 바꿔 가며 훑어야 한다 */
 .zone__s{display:flex;align-items:center;justify-content:space-between;
   gap:var(--ap-p5);list-style:none;cursor:pointer}
 .zone__s::-webkit-details-marker{display:none}
-.zone__t{display:inline-flex;align-items:center;gap:var(--ap-p2)}
-/* 레이블은 상태를 따라 뒤집힌다(시스템 Disclosure 의 data-label-expand /
-   -collapse 와 같은 일을 CSS 로 한다 — JS 를 두지 않는 자리라서다) */
-.zone__l--open{display:none}
-details[open] > .zone__s .zone__l--shut{display:none}
-details[open] > .zone__s .zone__l--open{display:inline}
-/* 핀은 접혀 있을 때만 — '지도 보기' 앞에서는 무엇을 여는지 말하지만,
-   '접기' 앞에서는 닫는 것과 아무 상관이 없다 */
-details[open] > .zone__s .zone__t > .ic:first-child{display:none}
-.zone__c{transition:transform var(--ap-dur-base) var(--ap-ease-sym)}
+.zone__c{flex:none;color:var(--ap-g90);
+  transition:transform var(--ap-dur-base) var(--ap-ease-sym)}
 details[open] > .zone__s .zone__c{transform:rotate(180deg)}
 /* 펼친 자리 — 지도가 들어올 칸이다. 지금은 자리표시자라 반경 원과 핀만
    그린다: 지도 타일을 흉내 내면 받은 지도인 줄로 읽힌다.
