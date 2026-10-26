@@ -1934,7 +1934,14 @@ ul,ol{list-style:none}
 .sheet__t--ask{color:var(--ap-primary)}
 /* 닫는 자리는 오른쪽 위 — 들어온 길(줄의 오른쪽 꺾쇠)과 같은 쪽이라
    되돌아 나가는 것으로 읽힌다 */
-.sheet__x{flex:none;display:flex;align-items:center;justify-content:center;
+/* 닫기 — 짚는 자리는 시안과 같은 30 이고, 그 안의 ✕ 는 24 로 둔다.
+   시안의 ✕ 는 30 상자 안에서 **16×16** 인데, 시스템 스프라이트의 것을
+   30 으로 그리면 20×20 이 되어 한 단 크고 굵게 보인다 — 글리프가 제
+   뷰박스를 더 꽉 채우는 그림이라서다. 24 로 그리면 16 이 되어 시안과
+   같아진다(실측으로 맞췄다).
+   상자는 30 그대로 둔다: 손가락이 겨냥하는 자리는 그림이 아니라 상자다 */
+.sheet__x{flex:none;width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
   color:var(--ap-g95)}
 
 /* 알림창이 뜬 화면의 뒤쪽 */
