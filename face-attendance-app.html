@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=274">
-<script src="assets/face-attendance-app.js?v=274" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=278">
+<script src="assets/face-attendance-app.js?v=278" defer></script>
 </head>
 
 <body>
@@ -1187,10 +1187,11 @@
      적지 않는다 — js 가 data-behind 를 보고 켜기 직전에 베껴 온다 -->
 <section class="scr has-dim" data-screen="w-map" data-title="인정범위 지도"
   data-behind="w-home">
-  <!-- 알림창(.alert)이 아니라 **넓은 창**이다. 알림창은 묻고 답하는 자리라
-       300 으로 못 박혀 있는데, 여기서 할 일은 읽는 것이 아니라 보는 것이다 —
-       지도는 넓을수록 쓸모가 있어 화면 여백만 남기고 다 쓴다 -->
-  <div class="dim">
+  <!-- 알림창(.alert)이 아니라 **바닥에서 올라오는 시트**다. 알림창은 묻고
+       답하는 자리라 300 으로 못 박혀 화면 가운데에 뜨는데, 여기서 할 일은
+       읽는 것이 아니라 보는 것이다 — 지도는 넓을수록 쓸모가 있어 폭을
+       다 쓴다 -->
+  <div class="dim dim--sheet">
     <div class="sheet" role="dialog" aria-labelledby="wMapT">
     <div class="sheet__h">
       <p class="sheet__t" id="wMapT">인정범위</p>
