@@ -57,7 +57,20 @@
       e.preventDefault();
       var u = new URL(location.href);
       u.searchParams.set('screen', go.dataset.go);
-      location.href = u.toString();
+      var url = u.toString();
+
+      /* 시트가 떠 있는 화면에서 떠날 때는 **내려가는 것을 보여 주고** 간다.
+         바로 주소를 갈면 시트가 사라진 뒤에야 다음 화면이 그려져, 올라올
+         때는 밀려 올라오고 닫힐 때는 툭 꺼지는 짝이 안 맞는 꼴이 된다.
+         기다리는 길이는 css 가 정한 --ap-dur-sheet-out 을 그대로 읽는다 —
+         두 곳에 적으면 한쪽만 고쳐져 따로 늙는다. */
+      var sheet = hit.querySelector('.dim--sheet');
+      var slow = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      if (!sheet || slow) { location.href = url; return; }
+
+      sheet.classList.add('is-off');
+      var ms = parseFloat(getComputedStyle(hit).getPropertyValue('--ap-dur-sheet-out')) || 240;
+      setTimeout(function () { location.href = url; }, ms);
     });
   }
 

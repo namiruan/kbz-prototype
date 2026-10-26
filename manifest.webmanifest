@@ -1,18 +1,38 @@
 {
-  "name": "안면 출퇴근 · 김반장",
+  "name": "안면 출퇴근 근로자 앱 · 김반장",
   "short_name": "안면 출퇴근",
-  "description": "안면 출퇴근 앱 화면 — 현장소장 앱(kpmManager)과 근로자 앱(kpmUser).",
+  "description": "안면 출퇴근 근로자 앱(kpmUser) 화면.",
   "lang": "ko",
-  "start_url": "face-attendance-app.html?screen=w-home",
+  "start_url": "face-attendance-worker.html?screen=w-home",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "icons": [
-    { "src": "images/app-icon/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "images/app-icon/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "images/app-icon/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "images/app-icon/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "images/app-icon/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "images/app-icon/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "images/app-icon/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "images/app-icon/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ]
 }
