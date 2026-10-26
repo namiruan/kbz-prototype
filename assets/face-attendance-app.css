@@ -1910,13 +1910,16 @@ ul,ol{list-style:none}
        머리말이 또 하나의 카드가 된다 */
   background:linear-gradient(to bottom,
     var(--ap-g0) 0, var(--ap-g0) 38%, var(--ap-primary-5) 100%)}
-.agr__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
-/* 현장 이름은 **테 두른 브랜드 알약**이다(.pill--line — 홈의 '현장선택' ·
-   '변경' 과 같은 것). 글자만 두었더니 제목처럼 보여 '이 화면의 이름' 으로
-   읽혔는데, 이것은 이름이 아니라 **이 동의가 걸리는 범위**다. 테가 둘리면
-   값 하나가 거기 담긴 것으로 읽힌다.
-   꼴·크기·색은 그 컴포넌트가 쥔다 — 여기서는 자리와 넘침만 정한다 */
-.agr__site{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 꼬리표('현장명')가 **테 두른 브랜드 알약**이다(.pill--line — 홈의
+   '현장선택' · '변경' 과 같은 것). 회색 글자로 두었더니 아래 이름의
+   머리말처럼 묻혀, 이 머리말이 한 덩어리임을 쥐는 것이 없었다.
+   꼴·크기·색은 그 컴포넌트가 쥔다 — 여기서는 자리만 비운다 */
+.agr__k{margin-bottom:var(--ap-p3)}
+/* 이름은 큰 글자 그대로다 — 읽을 것은 이름이고, 알약은 그 이름이 무엇의
+   이름인지 적은 꼬리표다 */
+.agr__site{font:var(--t-title3-em);letter-spacing:var(--ls-title3);
+  color:var(--ap-primary-70);max-width:100%;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* 줄과 줄은 금으로 가른다 — 카드의 gap 으로 띄우면 동의 항목 셋이
    따로 선 세 덩이가 되어, 하나의 목록으로 읽히지 않는다 */
 .card--agree{gap:0;padding:var(--ap-p2) var(--ap-p6)}
@@ -2039,30 +2042,29 @@ ul,ol{list-style:none}
    성격이다).
    시스템 값 그대로다: 면은 옅은 브랜드, 테 1px 반투명 브랜드, 모서리 8,
    아이콘 20(icon-info)이 왼쪽에 서고 사이 8.
-   ⚠ 두 가지만 다르다.
-     · 면은 시스템 토큰(blue/50) 대신 **시안의 badge/positive** 다 —
-       이 화면의 바탕이 primary/5 라 blue/50 을 깔면 바탕에 묻힌다.
-       시안에서 같은 몫(옅은 브랜드 면)을 맡는 값이 저것이다.
-     · 글은 브랜드가 아니라 중립색이다. 브랜드 글자는 '여기서 할 일과
-       이어진다' 고 가리키는 색인데, 이 셋은 읽고 넘기는 고지다.
-   문장마다 점을 찍고 금을 긋는다 — 셋은 이어 읽는 한 문단이 아니라
-   '어디에 쓰나' · '어디까지 가나' · '안 하면 어떻게 되나' 로 따로 묻고
-   답하는 말이다 */
+   글도 시스템대로 **브랜드 색**이다(banner__message 는 text-brand).
+   시안에서 그 몫을 맡는 값이 primary/70 이고, 이 저장소의 다른 안내
+   글(.note)도 같은 색을 쓴다.
+   줄과 줄은 **금이 아니라 사이(4)로** 가른다 — 시스템 banner__body 는
+   줄 사이를 gap-xs 로만 띄운다. 금을 그었더니 배너 안에 또 목록이
+   들어앉아, 한 덩이로 읽혀야 할 안내가 세 칸으로 잘렸다. 점(•)만으로
+   셋이 갈린다.
+   ⚠ 면만 다르다 — 시스템 토큰(blue/50) 대신 **시안의 badge/positive**
+     다. 이 화면의 바탕이 primary/5 라 blue/50 을 깔면 바탕에 묻힌다;
+     시안에서 같은 몫(옅은 브랜드 면)을 맡는 값이 저것이다 */
 .bnr{display:flex;align-items:flex-start;gap:var(--ap-gap3);
-  padding:var(--ap-p2) var(--ap-p5);
+  padding:var(--ap-gap3) var(--ap-p5);
   background:var(--ap-badge-positive);
   border:1px solid var(--ap-brand-line);border-radius:var(--ap-r8)}
-/* 아이콘은 첫 줄의 한가운데에 선다 — 상자 높이를 첫 줄(글줄 22 + 위아래
-   여백 10)에 맞춰, 20 짜리 그림이 글줄보다 커도 중심은 같게 둔다 */
+/* 아이콘은 첫 줄의 한가운데에 선다 — 상자 높이를 첫 줄의 글줄(22)에
+   맞춰, 20 짜리 그림이 글줄보다 커도 중심은 같게 둔다 */
 .bnr__i{flex:none;display:inline-flex;align-items:center;
-  height:calc(22px + var(--ap-p4) * 2);color:var(--ap-primary)}
+  height:22px;color:var(--ap-primary)}
 .bnr__b{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);
-  flex:1;min-width:0;display:flex;flex-direction:column;
-  color:var(--ap-text-dark);word-break:keep-all}
-.bnr__b > span{display:flex;gap:var(--ap-p4);
-  padding:var(--ap-p4) 0;border-bottom:1px solid var(--ap-line)}
+  flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--ap-p2);
+  color:var(--ap-primary-70);word-break:keep-all}
+.bnr__b > span{display:flex;gap:var(--ap-p4)}
 .bnr__b > span::before{content:"•";flex:none}
-.bnr__b > span:last-child{border-bottom:0}
 .guide{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);margin-top:auto;color:var(--ap-text-gray);text-align:center}
 
 /* ── 카메라 — 앱 네이티브 화면 ── */
