@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=288">
-<script src="assets/face-attendance-app.js?v=288" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=289">
+<script src="assets/face-attendance-app.js?v=289" defer></script>
 </head>
 
 <body>
@@ -1185,7 +1185,14 @@
     <button class="act__b act__b--on" type="button">
       <span class="cta__tx">
         <span class="cta__h">
-          <span class="cta__t">07:03:12&nbsp;&nbsp;출근</span>
+          <span class="cta__nm">
+            <!-- 지금 시각은 이름 **위에 뱃지**로 앉는다. 이름과 한 줄에
+                 나란히 두었더니 '07:03:12 출근' 이 통째로 과녁의 이름처럼
+                 읽혔는데, 시각은 누를 것의 이름이 아니라 지금 몇 시인지를
+                 알려 주는 곁말이다 -->
+            <span class="cta__time">07:03:12</span>
+            <span class="cta__t">출근 인증하기</span>
+          </span>
           <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
         </span>
         <span class="cta__d">
@@ -1354,7 +1361,14 @@
     <button class="act__b act__b--on" type="button">
       <span class="cta__tx">
         <span class="cta__h">
-          <span class="cta__t">07:03:12&nbsp;&nbsp;출근</span>
+          <span class="cta__nm">
+            <!-- 지금 시각은 이름 **위에 뱃지**로 앉는다. 이름과 한 줄에
+                 나란히 두었더니 '07:03:12 출근' 이 통째로 과녁의 이름처럼
+                 읽혔는데, 시각은 누를 것의 이름이 아니라 지금 몇 시인지를
+                 알려 주는 곁말이다 -->
+            <span class="cta__time">07:03:12</span>
+            <span class="cta__t">출근 인증하기</span>
+          </span>
           <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
         </span>
         <span class="cta__d">
@@ -1523,7 +1537,10 @@
     <button class="act__b act__b--dark" type="button">
       <span class="cta__tx">
         <span class="cta__h">
-          <span class="cta__t">17:31:40&nbsp;&nbsp;퇴근</span>
+          <span class="cta__nm">
+            <span class="cta__time">17:31:40</span>
+            <span class="cta__t">퇴근 인증하기</span>
+          </span>
           <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
         </span>
         <span class="cta__d">

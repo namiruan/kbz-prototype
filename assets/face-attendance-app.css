@@ -258,6 +258,7 @@
                                       사각형까지 한 뼘(19) 남는다 */
   --ap-on-cta-sub:rgba(255,255,255,.78); /* 과녁 안의 설명 — 이름보다 한 겹 죽인다 */
   --ap-on-cta-line:rgba(255,255,255,.28); /* 그 설명을 한 줄씩 가르는 선 */
+  --ap-on-cta-chip:rgba(255,255,255,.18); /* 그 면 위에 얹는 뱃지의 면 */
   --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
 
   /* ── 모서리 ── */
@@ -888,10 +889,24 @@ ul,ol{list-style:none}
   border-radius:var(--ap-r15) var(--ap-r15) 0 0;
   box-shadow:var(--ap-shadow-cta)}
 .act--cta .act__b--dark{box-shadow:var(--ap-shadow-cta-out)}
-/* 이름은 저쪽 과녁의 꼭대기 글자(32)가 아니라 22 다 — 저기는 화면 한가운데
-   의 카드라 이름이 화면의 주인이지만, 여기는 바닥에 붙은 시트라 위의 시각
-   카드(28)보다 커지면 눈이 아래로 끌려 내려간다 */
-.act--cta .cta__t{font:var(--t-title2);letter-spacing:var(--ls-title2)}
+/* 이름은 저쪽 과녁과 같은 크기다(--t-cta 32/40) — 두 앱에서 같은 일을
+   말하는 글자라 크기도 같아야 한다 */
+/* 지금 시각은 이름 위에 **뱃지**로 앉는다. 이름과 한 줄에 나란히 두었더니
+   '07:03:12 출근' 이 통째로 과녁의 이름처럼 읽혔는데, 시각은 누를 것의
+   이름이 아니라 지금 몇 시인지를 알려 주는 곁말이다.
+   ⚠ 시스템의 Badge 는 모두 밝은 바탕에 쓰는 짝이다(badge/positive 등).
+   여기는 짙은 면 위라 그중 어느 것도 맞지 않아, 흰빛을 옅게 깐 알약으로
+   둔다 — 면 위에 얹는 것이라 불투명 색이 아니라 투명도로 쥔다(설명을
+   가르는 선과 같은 식구다) */
+.act--cta .cta__nm{display:flex;flex-direction:column;align-items:flex-start;
+  gap:var(--ap-p3);min-width:0}
+.act--cta .cta__time{font:var(--t-foot-em);letter-spacing:var(--ls-foot);
+  padding:2px var(--ap-gap3);border-radius:var(--ap-r-pill);
+  background:var(--ap-on-cta-chip);color:var(--ap-g0);
+  font-variant-numeric:tabular-nums}
+/* 표는 이름 줄에 선다 — 가운데로 맞추면 뱃지까지 품은 덩어리의 한가운데라
+   이름보다 위로 떠 버린다 */
+.act--cta .cta__h{align-items:flex-end}
 /* '시작' 표는 한 바퀴에 한 번 앞으로 민다 — 저쪽 과녁의 것과 같다 */
 .act--cta .act__go{flex:none;display:flex;align-items:center;justify-content:center;
   animation:ap-go var(--ap-go-cycle) var(--ap-ease-sym) infinite}
