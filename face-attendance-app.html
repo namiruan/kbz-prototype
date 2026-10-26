@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=303">
-<script src="assets/face-attendance-app.js?v=303" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=305">
+<script src="assets/face-attendance-app.js?v=305" defer></script>
 </head>
 
 <body>
@@ -1413,36 +1413,41 @@
         <button class="sheet__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
       <div class="alert__bd">
-        <!-- 얼굴을 훑는 그림 — 현장소장 앱의 '얼굴 등록하기' 자리에 서는
-             것과 같은 그림이고 같은 움직임이다(레이저가 위에서 아래로 한 번
-             훑고, 파장이 셋 떠난다). 여기서 묻는 것이 그 등록이라, 무엇을
-             하자는 것인지 그림 하나로 말한다 — 창 안에서 글보다 먼저 눈에
-             닿는 자리에 둔다.
-             앉는 면도 그 자리의 것을 그대로 가져온다(.scan__well) — 가운데가
-             밝고 가장자리로 연한 브랜드 색이 퍼지는 면이다. 같은 일을 묻는
-             두 자리라 바탕도 같아야 한다 -->
-        <span class="scan__well">
-        <span class="scan scan--alert" aria-hidden="true">
-          <span class="wave"><i></i><i></i><i></i></span>
-          <span class="scan__plate"></span>
-          <svg viewBox="4 12 64 48">
-            <g class="scan__face">
-              <circle cx="24" cy="29" r="4"/>
-              <circle cx="48" cy="29" r="4"/>
-              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
-            </g>
-          </svg>
-          <span class="scan__beam"></span>
-        </span>
-        </span>
         <!-- 문장마다 줄을 바꾼다 — 둘은 이어 읽는 한 문단이 아니라 '여기는
              이런 현장이다' 와 '그래서 이렇게 하면 된다' 로 따로 읽는 말이다 -->
         <p class="alert__d">
           <span>얼굴 인증으로 출퇴근하는 현장입니다.</span>
           <span>얼굴 등록 후 출근을 인증할 수 있습니다.</span>
         </p>
+        <!-- 등록으로 가는 과녁은 **그림 자리 그 자체**다 — 현장소장 앱의
+             '얼굴 등록하기' 와 같다. 바닥에 띠로 두었더니 그림은 그림대로
+             놀고 누를 곳은 저 아래에 따로 있어, 보여 준 것과 누를 것이
+             갈라져 있었다.
+             그림과 움직임은 그 자리의 것을 그대로 쓴다(레이저가 위에서
+             아래로 한 번 훑고, 파장이 셋 떠난다).
+             글이 먼저고 과녁이 뒤인 것은, 왜 해야 하는지를 읽고 나서 누르는
+             차례이기 때문이다 -->
+        <button class="scan__well scan__well--go" type="button">
+          <span class="scan scan--alert" aria-hidden="true">
+            <span class="wave"><i></i><i></i><i></i></span>
+            <span class="scan__plate"></span>
+            <svg viewBox="4 12 64 48">
+              <g class="scan__face">
+                <circle cx="24" cy="29" r="4"/>
+                <circle cx="48" cy="29" r="4"/>
+                <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
+              </g>
+            </svg>
+            <span class="scan__beam"></span>
+          </span>
+          <b class="shot__t">얼굴 등록하고 출근</b>
+        </button>
       </div>
-      <div class="alert__bt"><span class="no">취소</span><span class="yes">얼굴 등록하고 출근</span></div>
+      <!-- 되돌리는 쪽은 면 없는 글 하나다 — 같은 크기의 띠로 나란히 두면
+           어느 쪽이 이 시트가 권하는 일인지 흐려진다. '취소' 가 아니라
+           '나중에 등록하기' 인 것은, 등록이 없어지는 것이 아니라 뒤로
+           미뤄질 뿐이어서다 -->
+      <button class="alert__later" type="button">나중에 등록하기</button>
     </div>
   </div>
 </section>
