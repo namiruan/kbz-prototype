@@ -1838,6 +1838,28 @@ ul,ol{list-style:none}
 .ta__c{flex:none;font:var(--t-foot);letter-spacing:var(--ls-foot);
   color:var(--ap-text-gray);text-align:right;font-variant-numeric:tabular-nums}
 
+/* ── 써 둔 작업내용 — 홈에서 보는 꼴 ──
+   오늘 한 일은 오늘 찍힌 시각 다음에 온다. 출퇴근 카드 바로 아래에
+   붙여 두면 위에서 아래로 그대로 읽힌다 */
+.card--note{gap:var(--ap-p3)}
+.wnote__h{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-p5)}
+.wnote__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
+/* 고치러 가는 길은 머리줄 오른쪽 끝이다 — 글 아래에 두면 읽고 난 다음에야
+   보이는데, 여기 온 사람의 절반은 고치러 온다 */
+.wnote__e{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
+  flex:none;display:inline-flex;align-items:center;gap:var(--ap-p2);
+  color:var(--ap-primary)}
+/* 두 줄까지만 보이고 그 뒤는 말줄임이다 — 여기서 할 일은 '썼다' 를
+   확인하는 것이지 다시 읽는 것이 아니다. 시안도 카드 안의 작업내용을
+   줄여 적는다(45:1216 의 메모) */
+.wnote__t{font:var(--t-body);letter-spacing:var(--ls-body);color:var(--ap-text);
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+/* 사진은 **작게** 놓는다 — 쓰기 화면의 105 는 고르고 지우는 크기이고,
+   여기서는 몇 장 붙었는지만 보이면 된다 */
+.wnote__g{display:flex;flex-wrap:wrap;gap:var(--ap-gap3)}
+.wnote__p{flex:none;width:56px;height:56px;border-radius:var(--ap-r8);
+  background:linear-gradient(145deg,#e7eaee 0%,#d9dee4 58%,#cfd5dc 100%)}
+
 /* ── 사진 첨부 — 시안 '작업일보 / 공종추가 (정보 입력)' 의 사진 칸(65:3639) ──
    제목과 더하는 버튼이 한 줄에 서고, 그 아래 20 띄우고 사진이 깔린다.
    사진은 글 아래다 — 위에 두면 적기도 전에 사진부터 고르게 된다 */
