@@ -35,8 +35,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=349">
-<script src="assets/face-attendance-app.js?v=349" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=350">
+<script src="assets/face-attendance-app.js?v=350" defer></script>
 </head>
 
 <body>
@@ -441,7 +441,7 @@
         </p>
         <!-- 채운 버튼은 제가 버튼임을 제 꼴로 말한다 — 글만 얹어 두었더니
              그림의 이름표처럼 읽혔다.
-             크기는 등록 촬영 확인의 '얼굴 등록하기'(.confirm__ok)와 같다 —
+             크기는 등록 촬영 확인의 과녁(.confirm__ok)과 같다 —
              같은 일을 저지르는 버튼이라 두 화면에서 같은 무게로 서야 한다.
              되돌리는 쪽은 두지 않는다: 닫기(✕)가 이미 오른쪽 위에 있고,
              같은 일을 두 자리에서 할 까닭이 없다 -->
@@ -914,7 +914,10 @@
     <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
     <div class="confirm__card">
       <div class="confirm__pic"><img src="images/worker/01.jpg" alt=""></div>
-      <span class="confirm__ok" data-go="w-cam">얼굴 등록하기</span>
+      <!-- 이름이 두 몫을 적는다 — 이 버튼 하나로 등록이 끝나고 곧바로
+           출근 인증 카메라가 열린다. '얼굴 등록하기' 로만 두면 등록만
+           되고 출근은 다시 눌러야 하는 줄 안다 -->
+      <span class="confirm__ok" data-go="w-cam">등록하고 출근 인증하기</span>
     </div>
     <span class="confirm__re"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg><b>다시 촬영하기</b></span>
   </div>
