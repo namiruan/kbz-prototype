@@ -35,8 +35,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=332">
-<script src="assets/face-attendance-app.js?v=332" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=334">
+<script src="assets/face-attendance-app.js?v=334" defer></script>
 </head>
 
 <body>
@@ -1649,7 +1649,11 @@
      모습이라 키보드가 올라와 있다 -->
 <section class="scr scr--form" data-screen="w-work" data-title="작업내용 작성">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="닫기"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    <!-- 되돌아가는 표는 **꺾쇠**다. ✕ 는 띄운 창을 덮어 버리는 표인데,
+         이 화면은 홈 위로 밀려 올라온 한 장이라 되돌아가는 자리가
+         있다 — 시스템의 navigation bar 도 밀려 올라온 화면에는 ← 를
+         둔다(atoms/icon-button · icon-back) -->
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">작업내용 작성</h1>
     <!-- 저장은 글로 적는다 — 아이콘으로 그릴 수 없는 일이고, 바닥 버튼으로
          두면 키보드에 가려 적는 내내 보이지 않는다 -->
@@ -1673,7 +1677,8 @@
          그대로다 — 제목이 몇 장인지를 괄호로 쥐고, 더하는 길 둘이 그 줄
          오른쪽에 선다. 사진은 105 정사각이 12 간격으로 깔린다 -->
     <div class="atts">
-      <p class="atts__l">사진 (2)</p>
+      <!-- 머리줄은 두지 않는다 — 점선 칸이 '사진 추가' 라고 제 안에 적고
+           있어, 그 위에 '사진' 을 한 번 더 적으면 같은 말이 두 번이다 -->
       <!-- 더하는 자리는 **사진들과 같은 줄, 그 끝**이다. 머리줄에 버튼으로
            두면 사진이 놓이는 자리와 더하는 자리가 화면 위아래로 갈린다 —
            점선 칸 하나면 '여기가 빈 자리' 와 '여기를 누르면 는다' 를
