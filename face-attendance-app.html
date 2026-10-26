@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=311">
-<script src="assets/face-attendance-app.js?v=311" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=315">
+<script src="assets/face-attendance-app.js?v=315" defer></script>
 </head>
 
 <body>
@@ -1559,6 +1559,18 @@
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="bd bd--positive">앱 · 얼굴</span></span><span class="tcard__v">07:03</span><span class="tcard__s">기준 07:00</span></div>
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 17:00</span></div>
     </div>
+  </main>
+
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
+       짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
+       한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
+       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
+       꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
+       다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
+       있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
+       들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
+  <div class="act act--cta act--stack">
     <!-- 쓰러 들어가는 문은 **카드 한 장 통째**다. '작업내용' 이라는 값에
          작은 알약 하나를 달아 두었더니, 위의 출근·퇴근 카드보다 작고
          뒤에 선 것이 되어 오늘 남은 할 일로 읽히지 않았다. 여기서 읽을
@@ -1573,19 +1585,9 @@
       </span>
       <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
     </button>
-  </main>
-
-  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
-       짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
-       한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
-       적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
-       꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
-       다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
-       있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
-       들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
-  <div class="act act--cta">
-    <button class="act__b act__b--dark" type="button">
+    <!-- 작업내용을 쓰기 전이라 **꺼진** 과녁이다. 자리를 지워 버리지
+         않는 것은, 없으면 '퇴근은 어디서 하나' 를 묻게 되기 때문이다 -->
+    <button class="act__b act__b--lock" type="button" disabled>
       <span class="cta__tx">
         <span class="cta__h">
           <span class="cta__nm">
@@ -1599,9 +1601,14 @@
                    '이 과녁에 이것이 걸린다' 로 읽힌다 -->
               <span class="cta__need">얼굴 인식</span>
             </span>
-            <span class="cta__t">퇴근 인증하기</span>
+            <!-- 이름 자리에 서는 것은 **할 일의 이름이 아니라 못 하는
+                 까닭**이다. '퇴근 인증하기' 를 꺼진 채로 두면 누를 수
+                 있다고 읽히고, 왜 안 되는지는 어디에도 없다 -->
+            <span class="cta__t cta__t--lock">작업내용 작성 완료 후 퇴근이 가능해요</span>
           </span>
-          <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
+          <!-- 꺾쇠 자리에 자물쇠가 선다 — 갈 데가 없는데 앞으로 미는
+               꺾쇠를 두면 거짓말이 된다 -->
+          <span class="cta__lock" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-lock"></use></svg></span>
         </span>
       </span>
     </button>

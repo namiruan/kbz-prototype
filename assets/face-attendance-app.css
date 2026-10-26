@@ -616,7 +616,11 @@ ul,ol{list-style:none}
   left:50%;transform:translateX(-50%);width:33px;height:33px;border-radius:50%}
 .cal__n--on::before{background:var(--ap-primary)}
 .cal__n--on b{color:var(--ap-g0);font-weight:600}
-.cal__n--on i{background:var(--ap-g0)}
+/* ⚠ 고른 날의 점을 흰색으로 두지 않는다. 흰색은 '파란 동그라미 **안**에
+   앉는 점' 의 색인데, 이 점은 동그라미(33) 밖, 숫자 아래에 선다 —
+   바탕(primary/5) 위에 흰 점만 동동 떠, 기록이 있다는 표가 아니라
+   지우다 만 자국으로 보였다. 점은 고르든 말든 제 뜻(기록 있음)이
+   같으니 색도 같이 둔다 */
 .cal__n--today::before{border:1px dashed var(--ap-g20)}
 
 /* ── 탭 — 시안 Tab 컴포넌트(600:4009) 그대로 ──
@@ -643,7 +647,7 @@ ul,ol{list-style:none}
    것이 남지 않는다. 게다가 제 안을 잘라 두는 카드(.card--site)는 쭈그러든
    만큼 안의 것을 잘라 버린다 — 인정범위 지도를 펼쳤는데 지도가 한 줄만
    남던 까닭이 이것이었다 */
-.body > .card,.body > .rows,.body > .note,.body > .tcards,.body > .cardb{flex:none}
+.body > .card,.body > .rows,.body > .note,.body > .tcards{flex:none}
 .body{scrollbar-width:none}
 .body::-webkit-scrollbar{display:none}
 .body--flat{padding:0}
@@ -731,8 +735,12 @@ ul,ol{list-style:none}
    면 위의 핀은 짙은 브랜드 색 그대로다: 옅은 면과 짙은 그림이 짝이라야
    담긴 것이 보인다 */
 .zone__ib,.cardb__ib{flex:none;display:inline-flex;align-items:center;justify-content:center;
-  width:32px;height:32px;border-radius:50%;background:var(--ap-zone-chip)}
-.zone__i,.cardb__i{color:var(--ap-primary)}
+  width:32px;height:32px;border-radius:50%}
+/* 담는 꼴(크기·둥글기)은 한 자리에 적고, 색은 **앉는 면이 정한다** —
+   지도보기 줄은 흰 카드 위라 옅은 브랜드 면에 짙은 브랜드 그림이고,
+   작업내용 카드는 브랜드 면 위라 그 짝이 뒤집힌다 */
+.zone__ib{background:var(--ap-zone-chip)}
+.zone__i{color:var(--ap-primary)}
 /* 꺾쇠는 글자(15)에 맞춰 16 이다. 24 로 두니 말보다 꺾쇠가 먼저 보여,
    무엇을 여는지보다 연다는 것이 커졌다 */
 /* 오른쪽 꺾쇠다 — 여기서 펴지는 것이 아니라 창으로 넘어간다. 목록 줄의
@@ -905,6 +913,48 @@ ul,ol{list-style:none}
   border-radius:var(--ap-r15);
   box-shadow:var(--ap-shadow-cta)}
 .act--cta .act__b--dark{box-shadow:var(--ap-shadow-cta-out)}
+/* ── 바닥에 쌓이는 두 장 ──
+   작업내용 카드는 목록 안이 아니라 **과녁 바로 위**에 뜬다. 목록 안에
+   두었더니 출근·퇴근 카드 다음에 놓인 또 하나의 읽을 것이 되어, 지금
+   눌러야 할 것이 화면 가운데에 묻혔다. 지금 할 수 있는 일과 그 다음에
+   할 일은 한자리에 쌓여야 차례로 읽힌다 */
+.act--stack{flex-direction:column;gap:var(--ap-gap3);padding-bottom:0}
+.act--stack .cardb,.act--stack .act__b{flex:none}
+/* 꺼진 과녁은 **바닥 내비게이션 아래로 밀려 들어간다** — 아랫단이 가려져
+   끝이 보이지 않는 꼴이다. 아직 손이 닿지 않는 것이라 온전히 꺼내 두지
+   않는다: 자리는 있으되 덮여 있다고 꼴이 먼저 말한다.
+   가리는 쪽은 내비게이션이다 — 흰 면과 윗선을 그대로 쥔 채 위로 올라와
+   덮는다(z-index) */
+/* 가려지는 만큼을 **카드 아래에 미리 둔다** — 그만큼 발치가 비어 있어야
+   덮이는 것이 빈 자리이지 글자가 아니다. 글자가 잘리면 '덮였다' 가
+   아니라 '깨졌다' 로 읽힌다 */
+.act--stack .act__b--lock{padding-bottom:calc(var(--ap-p5) + var(--ap-p8));
+  margin-bottom:calc(var(--ap-p8) * -1)}
+/* ── 꺼진 과녁 — 아직 할 수 없는 일 ──
+   작업내용을 쓰기 전에는 퇴근을 찍을 수 없다. 과녁을 지워 버리지 않는
+   것은, 없으면 '퇴근은 어디서 하나' 를 묻게 되기 때문이다 — 자리는
+   그대로 두고 **꺼 둔다**.
+   면은 옅은 회색이고 글은 disabled 색이다. 떠 있는 그림자도 거둔다 —
+   눌리는 것은 떠 있고, 꺼진 것은 바닥에 가라앉는다 */
+.act--cta .act__b--lock{background:var(--ap-g5);color:var(--ap-text-disabled);
+  box-shadow:var(--ap-shadow-card);cursor:default}
+/* 뱃지 둘은 짙은 면 위의 짝(흰빛 투명도)으로 그려져 있어, 옅은 면
+   위에서는 보이지 않는다. 밝은 바탕의 짝으로 바꿔 끼운다 —
+   시스템의 badge/normal 과 border/gray-subtler 다 */
+.act--cta .act__b--lock .cta__time{background:var(--ap-badge-normal);
+  color:var(--ap-text-gray)}
+.act--cta .act__b--lock .cta__need{box-shadow:inset 0 0 0 1px var(--ap-g20);
+  color:var(--ap-text-gray)}
+/* 이름 자리에 서는 것은 **할 일의 이름이 아니라 못 하는 까닭**이다.
+   '퇴근 인증하기' 를 꺼진 채로 두면 누를 수 있다고 읽히고, 왜 안 되는지는
+   어디에도 없다. 문장이라 이름(32)보다 한 단 작게 둔다 — 크게 두면 한
+   문장이 석 줄로 접힌다 */
+.act--cta .cta__t--lock{font:var(--t-title2);letter-spacing:var(--ls-title2);
+  color:var(--ap-text-gray);word-break:keep-all}
+/* 오른쪽 끝의 표는 꺾쇠가 아니라 자물쇠다 — 같은 자리에 서되, 미는
+   그림(ap-go)은 두지 않는다. 갈 데가 없는데 앞으로 미는 표는 거짓말이다 */
+.act--cta .cta__lock{flex:none;display:flex;align-items:center;justify-content:center;
+  color:var(--ap-g30)}
 /* 이름은 저쪽 과녁과 같은 크기다(--t-cta 32/40) — 두 앱에서 같은 일을
    말하는 글자라 크기도 같아야 한다 */
 /* 지금 시각은 이름 위에 **뱃지**로 앉는다. 이름과 한 줄에 나란히 두었더니
@@ -947,7 +997,8 @@ ul,ol{list-style:none}
 /* ── 아래 내비게이션 — 주화면에만 ── */
 .tabbar{flex:none;display:flex;align-items:center;justify-content:space-between;
   padding:var(--ap-p6) var(--ap-p8) var(--ap-p9);
-  background:var(--ap-g0);border-top:1px solid var(--ap-g20)}
+  background:var(--ap-g0);border-top:1px solid var(--ap-g20);
+  position:relative;z-index:3}
 .tabbar__b{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--ap-p2);padding:0 4px;border-radius:var(--ap-r10);color:var(--ap-text);text-align:center;white-space:nowrap}
 .tabbar__b.is-on{color:var(--ap-primary-90);font-weight:600}
 
@@ -1684,8 +1735,17 @@ ul,ol{list-style:none}
    위의 이름 줄과는 2 만 띄운다(카드의 gap) — 시각과 그 꼬리표는 한
    덩어리라, 벌어지면 따로 선 두 줄이 된다.
    숫자는 폭이 고른 꼴로 둔다 — 두 카드의 시각이 세로로 나란히 서야 한다 */
-.tcard__v{font:var(--t-title1);letter-spacing:var(--ls-title1);
-  color:var(--ap-text);font-variant-numeric:tabular-nums}
+/* 크기는 과녁의 이름('퇴근 인증하기')과 같은 32 다 — 이 화면에서 제일
+   크게 읽혀야 할 둘이 '오늘 몇 시에 찍혔나' 와 '이제 무엇을 하나' 이고,
+   둘이 같은 무게로 서야 눈이 둘 사이를 오간다. 28 로는 과녁보다 한 단
+   작아, 이미 찍힌 기록이 앞으로 할 일에 눌렸다.
+   줄 높이는 글자(32)보다 넉넉한 44 다 — 위아래가 바싹 붙으면 숫자가
+   칸에 갇힌 것처럼 보인다. 과녁의 40 보다 높은 것은, 저쪽은 글줄이고
+   이쪽은 **칸 안에 혼자 선 수**라 제 둘레가 곧 여백이기 때문이다.
+   색은 브랜드다 — 검정으로 두었더니 이름(회색)·기준(회색)과 같은
+   먹으로 읽혀, 카드 안에서 무엇이 값인지 크기로만 가렸다 */
+.tcard__v{font:600 32px/44px var(--ap-font);letter-spacing:var(--ls-title1);
+  color:var(--ap-primary);font-variant-numeric:tabular-nums}
 /* 아직 찍히지 않은 자리 — 빈칸으로 두면 값이 없는 것인지 아직인 것인지
    가릴 수 없다. 글자는 흐리게 둔다: 자리는 잡되 읽을 값은 아니다 */
 .tcard__v--none{color:var(--ap-text-disabled)}
@@ -1709,18 +1769,27 @@ ul,ol{list-style:none}
    한다. 다른 것은 **안쪽의 짜임**이다 — 표와 말이 왼쪽에, 꺾쇠가 오른쪽
    끝에 서는 짜임은 현장 카드의 '인정범위 지도보기' 줄과 같다. 한 앱에서
    '눌러 들어가는 것' 이 한 꼴로 서야 눈이 매번 다시 잡지 않는다 */
+/* 면은 **브랜드 색을 채운다**. 흰 카드로 두었더니 위의 출근·퇴근 카드와
+   같은 흰 면이라, 읽는 값과 누를 것이 한 줄로 섞였다. 더구나 이 화면에서
+   퇴근 과녁은 작업내용을 쓰기 전까지 꺼져 있다 — 그러면 지금 누를 수
+   있는 것이 이 카드 하나뿐이라, 화면에서 색을 쥐는 것도 이 하나여야
+   한다. 과녁이 켜지면 바닥의 짙은 카드가 색을 넘겨받는다 */
 .cardb{display:flex;align-items:center;justify-content:space-between;
   gap:var(--ap-p5);width:100%;text-align:left;
-  padding:var(--ap-p5) var(--ap-p6);background:var(--ap-g0);
+  padding:var(--ap-p5) var(--ap-p6);background:var(--ap-primary);
   border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card);cursor:pointer}
 /* 표와 말은 한 덩어리로 왼쪽에 선다 — 지도보기 줄과 같다.
    표의 면·크기·색을 .zone__ib 와 **한 자리에 적는다**: 같은 것이라
    따로 적으면 한쪽만 고쳐져 따로 늙는다 */
 .cardb__t{display:inline-flex;align-items:center;gap:var(--ap-p3);min-width:0}
 .cardb__l{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
-  color:var(--ap-primary-70);min-width:0;
+  color:var(--ap-g0);min-width:0;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cardb__c{flex:none;color:var(--ap-primary-70)}
+.cardb__c{flex:none;color:var(--ap-g0)}
+/* 표의 면은 흰빛을 옅게 깐 것이다 — 짙은 면 위에 얹는 것이라 불투명
+   색이 아니라 투명도로 쥔다(과녁의 시각 알약과 같은 식구다) */
+.cardb__ib{background:var(--ap-on-cta-chip)}
+.cardb__i{color:var(--ap-g0)}
 
 /* ── 안내 글 ── */
 .note{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);padding:12px var(--ap-p6);background:var(--ap-primary-5);border-radius:var(--ap-r10);color:var(--ap-primary-70)}
