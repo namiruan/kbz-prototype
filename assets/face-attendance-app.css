@@ -558,9 +558,29 @@ ul,ol{list-style:none}
 .cal__bell{flex:none;display:inline-flex;align-items:center;justify-content:center;
   width:32px;height:32px;border-radius:50%;
   background:var(--ap-g0);color:var(--ap-primary);box-shadow:var(--ap-shadow-chip)}
-.cal__week{display:flex;align-items:flex-start}
+/* 띠는 제 폭을 재는 **컨테이너**다 — 화면 폭이 아니라 여기를 재야 한다.
+   이 화면은 끼워 보여지는 틀(iframe) 안에 있어 바깥 폭과 안쪽 폭이 다르고,
+   폭에 따라 좌우 여백도 16 에서 24 로 바뀐다 */
+.cal__week{display:flex;align-items:flex-start;
+  container-type:inline-size;container-name:cal-week}
 .cal__d{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--ap-p2);
   padding:4px;border-radius:var(--ap-r10)}
+/* 지난 날은 자리가 날 때만 드러난다. 한 칸이 폰에서 쥐는 폭(358÷7 ≈ 51)
+   보다 좁아지지 않는 선이 문턱이다 — 여덟째 날은 8×51, 아홉째는 9×51 …
+   열넷째는 14×51(714). 폰(띠 358)에서는 첫 문턱(408)에도 못 미쳐 일곱 날
+   그대로이고, 태블릿(띠 720)에서는 열네 날이 다 선다.
+   선택자에 > 를 두는 것은 바로 위의 .cal__d 와 특정도를 맞추기 위해서다 —
+   같으면 뒤에 오는 쪽이 이기는데, 숨기는 쪽이 뒤에 서야 한다 */
+.cal__week > .cal__d--n8,.cal__week > .cal__d--n9,.cal__week > .cal__d--n10,
+.cal__week > .cal__d--n11,.cal__week > .cal__d--n12,
+.cal__week > .cal__d--n13,.cal__week > .cal__d--n14{display:none}
+@container cal-week (min-width:408px){.cal__week > .cal__d--n8{display:flex}}
+@container cal-week (min-width:459px){.cal__week > .cal__d--n9{display:flex}}
+@container cal-week (min-width:510px){.cal__week > .cal__d--n10{display:flex}}
+@container cal-week (min-width:561px){.cal__week > .cal__d--n11{display:flex}}
+@container cal-week (min-width:612px){.cal__week > .cal__d--n12{display:flex}}
+@container cal-week (min-width:663px){.cal__week > .cal__d--n13{display:flex}}
+@container cal-week (min-width:714px){.cal__week > .cal__d--n14{display:flex}}
 .cal__w{font:var(--t-sub);letter-spacing:var(--ls-sub);height:20px;text-align:center;color:var(--ap-text)}
 .cal__w--sun{color:var(--ap-danger)}
 .cal__w--sat{color:var(--ap-primary)}
