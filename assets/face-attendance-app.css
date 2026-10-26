@@ -1866,7 +1866,15 @@ ul,ol{list-style:none}
    (300)에서 손으로 끊어 두었던 <br> 은 걷었다 */
 .alert__t{font:var(--t-title2);letter-spacing:var(--ls-title2);
   color:var(--ap-primary);word-break:keep-all}
-.alert__d{font:var(--t-body);letter-spacing:var(--ls-body);color:var(--ap-text-dark)}
+/* 문장마다 줄을 바꾼다 — 둘은 이어 읽는 한 문단이 아니라 '여기는 이런
+   현장이다' 와 '그래서 이렇게 하면 된다' 로 따로 읽는 말이다. <br> 로
+   끊지 않는 것은, 한 문장이 좁은 폭에서 다시 접힐 때 그 접힘과 문장 사이의
+   끊김이 같아 보이지 않아야 해서다(문장 사이만 2 벌어진다).
+   줄은 낱말에서 끊는다 — 두지 않으면 '얼굴 등 / 록 후' 처럼 낱말 한가운데
+   에서 넘어간다 */
+.alert__d{font:var(--t-body);letter-spacing:var(--ls-body);
+  display:flex;flex-direction:column;gap:var(--ap-p1);
+  color:var(--ap-text-dark);word-break:keep-all}
 .alert__bt{display:flex;border-top:1px solid var(--ap-line)}
 .alert__bt span{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;display:flex;align-items:center;justify-content:center;padding:var(--ap-p6) var(--ap-p8)}
 .alert__bt .no{flex:0 0 96px;background:var(--ap-g0);color:var(--ap-text-dark)}

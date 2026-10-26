@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=298">
-<script src="assets/face-attendance-app.js?v=298" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=301">
+<script src="assets/face-attendance-app.js?v=301" defer></script>
 </head>
 
 <body>
@@ -1429,7 +1429,12 @@
         </span>
         </span>
         <p class="alert__t" id="wFaceT">얼굴 등록이 필요합니다</p>
-        <p class="alert__d">이 현장은 얼굴 인증으로 출근합니다. 얼굴을 한 번 등록하면 바로 출근할 수 있습니다.</p>
+        <!-- 문장마다 줄을 바꾼다 — 둘은 이어 읽는 한 문단이 아니라 '여기는
+             이런 현장이다' 와 '그래서 이렇게 하면 된다' 로 따로 읽는 말이다 -->
+        <p class="alert__d">
+          <span>얼굴 인증으로 출퇴근하는 현장입니다.</span>
+          <span>얼굴 등록 후 출근을 인증할 수 있습니다.</span>
+        </p>
       </div>
       <div class="alert__bt"><span class="no">취소</span><span class="yes">얼굴 등록하고 출근</span></div>
     </div>
