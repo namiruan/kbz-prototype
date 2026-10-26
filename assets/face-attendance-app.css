@@ -878,15 +878,16 @@ ul,ol{list-style:none}
 /* 근로자 앱의 출근·퇴근 과녁 — 현장소장 앱의 인증 시작 과녁(.cta)과 같은
    **짜임**이다. 이름과 '시작' 표가 한 줄에 서고, 그 아래 선을 긋고 설명이
    한 줄씩 쌓인다(.cta__tx · .cta__h · .cta__d 를 그대로 쓴다).
-   꼴은 **바닥에서 올라온 시트**다 — 좌우와 아래는 변까지 꽉 차고 위
-   모서리만 둥글다. 현장소장 앱처럼 화면 가운데에 카드로 띄울 수 없는 것은
-   아래에 탭이 있어서인데, 시트로 두면 그 탭을 가리지 않으면서도 카드만 한
-   자리를 얻는다 — 설명이 들어갈 자리가 그렇게 난다.
+   꼴은 **떠 있는 카드**다 — 네 변에서 모두 들어와 있고 모서리도 네 귀가
+   다 둥글다. 저쪽 과녁과 같은 꼴이라, 두 앱에서 같은 일을 하는 것이 같은
+   모양으로 선다.
+   화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이 있어서다 — 그 위에
+   줄 서되, 변까지 꽉 채우지 않고 여백 안으로 들여 카드로 떠 있게 한다.
    면 색은 저쪽과 같은 짝이다(출근 primary, 퇴근 g95 = .cta / .cta--out) */
-.act--cta{padding:0}
+.act--cta{padding:var(--ap-p5) var(--ap-p6) var(--ap-p6)}
 .act--cta .act__b{display:block;text-align:left;
   padding:var(--ap-p6) var(--ap-p6) var(--ap-p5);
-  border-radius:var(--ap-r15) var(--ap-r15) 0 0;
+  border-radius:var(--ap-r15);
   box-shadow:var(--ap-shadow-cta)}
 .act--cta .act__b--dark{box-shadow:var(--ap-shadow-cta-out)}
 /* 이름은 저쪽 과녁과 같은 크기다(--t-cta 32/40) — 두 앱에서 같은 일을
