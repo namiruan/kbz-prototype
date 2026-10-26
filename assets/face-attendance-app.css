@@ -616,22 +616,27 @@ ul,ol{list-style:none}
 .zone__s{display:flex;align-items:center;justify-content:space-between;
   gap:var(--ap-p5);list-style:none;cursor:pointer;
   padding:var(--ap-p5) var(--ap-p6);background:var(--ap-map-plate)}
-.zone__s .row__k{color:var(--ap-text)}
+/* 말·핀·꺾쇠가 모두 브랜드 색이다 — 이 줄은 읽는 값이 아니라 **누르는
+   것**이고, 같은 카드의 '현장선택'·'작성하기' 알약이 쓰는 꼴 그대로다
+   (Text/sub-em 600 15 · primary). 회색으로 두었더니 위아래 알약들 사이에서
+   이 줄만 눌리지 않는 것처럼 보였다 */
+.zone__l{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
+  color:var(--ap-primary);min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* 핀과 말은 한 덩어리로 왼쪽에 선다 */
 .zone__t{display:inline-flex;align-items:center;gap:var(--ap-p3);min-width:0}
 /* 핀은 아래 지도의 핀과 같은 것이다 — 같은 색으로 둬야 '저 핀을 보러
    가는 문' 으로 읽힌다. 꺾쇠는 무채색이다: 그것이 말하는 것은 자리가
-   아니라 여닫는 일이라서다 */
+   아니라 여닫는 일이라서다.
+   크기는 24 로, 글자(15)보다 크고 꺾쇠(16)보다도 크다 — 이 줄에서 눈이
+   먼저 닿아야 하는 것이 '지도' 라서다. 꺾쇠는 따라오기만 하면 된다.
+   꺾쇠도 브랜드 색이다: 셋이 한 색으로 서야 줄 전체가 하나의 누를 것으로
+   읽힌다 */
 .zone__i{color:var(--ap-primary)}
-/* 말은 상태를 따라 뒤집는다(시스템 Disclosure 의 data-label-expand /
-   -collapse 와 같은 일을 CSS 로 한다 — JS 를 두지 않는 자리라서다) */
-.zone__l--open{display:none}
-details[open] > .zone__s .zone__l--shut{display:none}
-details[open] > .zone__s .zone__l--open{display:inline}
 .zone__s::-webkit-details-marker{display:none}
 /* 꺾쇠는 글자(15)에 맞춰 16 이다. 24 로 두니 말보다 꺾쇠가 먼저 보여,
    무엇을 여는지보다 연다는 것이 커졌다 */
-.zone__c{flex:none;color:var(--ap-g90);
+.zone__c{flex:none;color:var(--ap-primary);
   transition:transform var(--ap-dur-base) var(--ap-ease-sym)}
 details[open] > .zone__s .zone__c{transform:rotate(180deg)}
 /* 펼침은 **자라듯이** 한다 — 지도가 톡 하고 나타나면 어디서 나왔는지가
