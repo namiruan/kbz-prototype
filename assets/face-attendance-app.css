@@ -1860,7 +1860,12 @@ ul,ol{list-style:none}
 .alert--sheet .alert__bd{padding:var(--ap-p8) var(--ap-p8) var(--ap-p6)}
 .alert__bd{display:flex;flex-direction:column;align-items:center;gap:var(--ap-p5);
   padding:var(--ap-p8) var(--ap-p6);text-align:center}
-.alert__t{font:var(--t-title2);letter-spacing:var(--ls-title2);color:var(--ap-g95)}
+/* 묻는 말은 브랜드 색이다 — 이 창이 권하는 것(얼굴 등록)과 아래 '얼굴
+   등록하고 출근' 이 같은 색으로 묶여, 묻는 말과 그 답이 한 쌍으로 읽힌다.
+   줄은 넘기지 않는다: 시트가 폭을 다 써서 한 줄에 들어간다 — 좁던 창
+   (300)에서 손으로 끊어 두었던 <br> 은 걷었다 */
+.alert__t{font:var(--t-title2);letter-spacing:var(--ls-title2);
+  color:var(--ap-primary);word-break:keep-all}
 .alert__d{font:var(--t-body);letter-spacing:var(--ls-body);color:var(--ap-text-dark)}
 .alert__bt{display:flex;border-top:1px solid var(--ap-line)}
 .alert__bt span{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;display:flex;align-items:center;justify-content:center;padding:var(--ap-p6) var(--ap-p8)}
