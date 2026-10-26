@@ -1858,10 +1858,14 @@ ul,ol{list-style:none}
   border-bottom:1px solid var(--ap-g5)}
 .wnote__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
 /* 고치러 가는 길은 머리줄 오른쪽 끝이다 — 글 아래에 두면 읽고 난 다음에야
-   보이는데, 여기 온 사람의 절반은 고치러 온다 */
+   보이는데, 여기 온 사람의 절반은 고치러 온다.
+   색은 **회색**이다. 브랜드로 두었더니 이 화면에서 파란 것이 셋(출근
+   시각 · 지도보기 줄 · 이것)이 되어, 정작 눈이 가야 할 출근 시각이
+   같은 색의 작은 글 사이에 묻혔다. 고치는 일은 지금 해야 할 일이 아니라
+   필요하면 가는 길이라, 한 발 물러서 있는 쪽이 맞다 */
 .wnote__e{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
   flex:none;display:inline-flex;align-items:center;gap:var(--ap-p2);
-  color:var(--ap-primary)}
+  color:var(--ap-text-gray)}
 /* 두 줄까지만 보이고 그 뒤는 말줄임이다 — 여기서 할 일은 '썼다' 를
    확인하는 것이지 다시 읽는 것이 아니다. 시안도 카드 안의 작업내용을
    줄여 적는다(45:1216 의 메모) */
