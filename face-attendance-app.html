@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=268">
-<script src="assets/face-attendance-app.js?v=268" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=272">
+<script src="assets/face-attendance-app.js?v=272" defer></script>
 </head>
 
 <body>
@@ -1060,7 +1060,11 @@
        있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
        자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
 
-  <div class="hd">
+  <!-- 달력은 카드가 아니다 — 흰 면도 그림자도 두지 않고 바탕 위에 그대로
+       앉는다. 날짜는 이 화면이 **무엇을 보여 주는 때인가**이지 읽고 넘길
+       한 덩어리가 아니라, 면으로 묶어 두면 아래 카드들과 같은 무게로 서서
+       머리가 아니라 첫째 카드로 읽힌다 -->
+  <div class="hd hd--bare">
     <div class="cal">
       <div class="cal__top">
         <div class="cal__date">
@@ -1096,41 +1100,23 @@
         <span class="card__nm">서울 마곡 A동 신축공사</span>
         <button class="pill pill--line" type="button">현장선택</button>
       </div>
-      <!-- 지도는 **제자리에서 펼친다**. 전체를 덮는 창으로 띄우면, '지금
-           내가 범위 안인가' 를 흘깃 보자고 화면을 한 장 덮었다가 다시
-           닫아야 한다 — 머물러서 하는 일이 아니다. 펼치면 현장 이름 바로
-           아래라 '어느 현장의 범위인가' 를 되짚을 일도 없다.
-           시스템의 Accordion 이다 — **줄 자체가 헤더**이고, 그 줄을 클릭하면
-           아래로 열린다. 오른쪽에 '지도 보기' 알약을 따로 두지 않는다: 줄에
-           달린 것이 여는 일 하나뿐인데 과녁을 알약만 한 크기로 줄일 까닭이
-           없고, 알약을 두면 '줄을 눌러도 되는가' 가 흐려진다.
-           ⚠ 클래스가 아니라 <details> 로 짠다. Accordion 은 JS 가 여는데,
-           이 프로토타입의 JS 는 어느 화면을 보여 줄지만 정하고 화면 안의
-           동작은 앱(Flutter)의 몫으로 남긴다(face-attendance-app.js 머리말).
-           <details> 는 흉내가 아니라 브라우저가 쥔 동작이다 -->
-      <details class="row row--zone">
-        <summary class="zone__s">
-          <!-- 왼쪽에 핀과 말, 오른쪽 끝에 꺾쇠 — 카드의 다른 줄들과 같은
-               양쪽 정렬이다. 핀이 '무엇에 대한 줄인가'(이 자리는 지도다)를
-               말하고 꺾쇠가 '무엇을 하는가'(편다)를 말해, 두 끝이 각자 할
-               말을 쥔다. 가운데로 모아 두었더니 이 줄만 다른 짜임이라
-               한 카드 안에서 줄마다 눈이 좌우를 다시 잡아야 했다.
-               말에는 '보기'·'접기' 를 붙이지 않는다 — 무엇을 하는지는 꺾쇠가
-               말하고, 그 꺾쇠는 돌아서 지금 열렸는지까지 말한다. 말까지
-               같이 뒤집으면 한 줄이 같은 것을 두 번 말한다 -->
+      <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
+           끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
+           말한다. 줄의 바탕에 깔린 모눈은 그대로다 — 넘어가면 무엇이
+           나오는지를 문이 미리 보여 준다.
+           ⚠ 창을 여는 일은 여기서 흉내 내지 않는다. 이 프로토타입의 JS 는
+           어느 화면을 보여 줄지만 정하고 화면 안의 동작은 앱(Flutter)의
+           몫이다(face-attendance-app.js 머리말). 창이 뜬 모습은 제 화면
+           (w-map)으로 따로 둔다 -->
+      <span class="row row--zone">
+        <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">출퇴근 인정범위</span>
+            <span class="zone__l">인정범위 지도보기</span>
           </span>
-          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg>
-        </summary>
-        <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
-             지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
-        <div class="zone__m" role="img" aria-label="현장 위치와 인정범위">
-          <span class="zone__r"></span>
-          <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
-        </div>
-      </details>
+          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+        </span>
+      </span>
     </div>
 
     <!-- 출근과 퇴근은 **따로 선 기록**이다 — 각각 제 시각과 제 경로를
@@ -1177,13 +1163,45 @@
 </section>
 
 
+<!-- ===== ⑪-1 근로자 앱 · 인정범위 지도 (창) ===== -->
+<!-- 뒤에는 이 창을 띄운 화면(홈)이 그대로 있다. 그 마크업을 여기 옮겨
+     적지 않는다 — js 가 data-behind 를 보고 켜기 직전에 베껴 온다 -->
+<section class="scr has-dim" data-screen="w-map" data-title="인정범위 지도"
+  data-behind="w-home">
+  <!-- 알림창(.alert)이 아니라 **넓은 창**이다. 알림창은 묻고 답하는 자리라
+       300 으로 못 박혀 있는데, 여기서 할 일은 읽는 것이 아니라 보는 것이다 —
+       지도는 넓을수록 쓸모가 있어 화면 여백만 남기고 다 쓴다 -->
+  <div class="dim">
+    <div class="sheet" role="dialog" aria-labelledby="wMapT">
+    <div class="sheet__h">
+      <p class="sheet__t" id="wMapT">인정범위</p>
+      <!-- 닫는 자리는 오른쪽 위다 — 들어온 길(줄의 오른쪽 꺾쇠)과 같은 쪽이라
+           되돌아 나가는 것으로 읽힌다 -->
+      <button class="sheet__x" type="button" aria-label="닫기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    </div>
+    <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
+         지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
+    <div class="zone__m" role="img" aria-label="현장 위치와 인정범위">
+      <span class="zone__r"></span>
+      <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+    </div>
+    <p class="sheet__d">서울 마곡 A동 신축공사</p>
+  </div>
+  </div>
+</section>
+
+
 <!-- ===== ⑫ 근로자 앱 · 얼굴 등록 안내 ===== -->
 <section class="scr has-dim" data-screen="w-face" data-title="얼굴 등록 안내">
   <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
        있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
        자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
 
-  <div class="hd">
+  <!-- 달력은 카드가 아니다 — 흰 면도 그림자도 두지 않고 바탕 위에 그대로
+       앉는다. 날짜는 이 화면이 **무엇을 보여 주는 때인가**이지 읽고 넘길
+       한 덩어리가 아니라, 면으로 묶어 두면 아래 카드들과 같은 무게로 서서
+       머리가 아니라 첫째 카드로 읽힌다 -->
+  <div class="hd hd--bare">
     <div class="cal">
       <div class="cal__top">
         <div class="cal__date">
@@ -1219,41 +1237,23 @@
         <span class="card__nm">서울 마곡 A동 신축공사</span>
         <button class="pill pill--line" type="button">현장선택</button>
       </div>
-      <!-- 지도는 **제자리에서 펼친다**. 전체를 덮는 창으로 띄우면, '지금
-           내가 범위 안인가' 를 흘깃 보자고 화면을 한 장 덮었다가 다시
-           닫아야 한다 — 머물러서 하는 일이 아니다. 펼치면 현장 이름 바로
-           아래라 '어느 현장의 범위인가' 를 되짚을 일도 없다.
-           시스템의 Accordion 이다 — **줄 자체가 헤더**이고, 그 줄을 클릭하면
-           아래로 열린다. 오른쪽에 '지도 보기' 알약을 따로 두지 않는다: 줄에
-           달린 것이 여는 일 하나뿐인데 과녁을 알약만 한 크기로 줄일 까닭이
-           없고, 알약을 두면 '줄을 눌러도 되는가' 가 흐려진다.
-           ⚠ 클래스가 아니라 <details> 로 짠다. Accordion 은 JS 가 여는데,
-           이 프로토타입의 JS 는 어느 화면을 보여 줄지만 정하고 화면 안의
-           동작은 앱(Flutter)의 몫으로 남긴다(face-attendance-app.js 머리말).
-           <details> 는 흉내가 아니라 브라우저가 쥔 동작이다 -->
-      <details class="row row--zone">
-        <summary class="zone__s">
-          <!-- 왼쪽에 핀과 말, 오른쪽 끝에 꺾쇠 — 카드의 다른 줄들과 같은
-               양쪽 정렬이다. 핀이 '무엇에 대한 줄인가'(이 자리는 지도다)를
-               말하고 꺾쇠가 '무엇을 하는가'(편다)를 말해, 두 끝이 각자 할
-               말을 쥔다. 가운데로 모아 두었더니 이 줄만 다른 짜임이라
-               한 카드 안에서 줄마다 눈이 좌우를 다시 잡아야 했다.
-               말에는 '보기'·'접기' 를 붙이지 않는다 — 무엇을 하는지는 꺾쇠가
-               말하고, 그 꺾쇠는 돌아서 지금 열렸는지까지 말한다. 말까지
-               같이 뒤집으면 한 줄이 같은 것을 두 번 말한다 -->
+      <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
+           끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
+           말한다. 줄의 바탕에 깔린 모눈은 그대로다 — 넘어가면 무엇이
+           나오는지를 문이 미리 보여 준다.
+           ⚠ 창을 여는 일은 여기서 흉내 내지 않는다. 이 프로토타입의 JS 는
+           어느 화면을 보여 줄지만 정하고 화면 안의 동작은 앱(Flutter)의
+           몫이다(face-attendance-app.js 머리말). 창이 뜬 모습은 제 화면
+           (w-map)으로 따로 둔다 -->
+      <span class="row row--zone">
+        <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">출퇴근 인정범위</span>
+            <span class="zone__l">인정범위 지도보기</span>
           </span>
-          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg>
-        </summary>
-        <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
-             지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
-        <div class="zone__m" role="img" aria-label="현장 위치와 인정범위">
-          <span class="zone__r"></span>
-          <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
-        </div>
-      </details>
+          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+        </span>
+      </span>
     </div>
 
     <!-- 출근과 퇴근은 **따로 선 기록**이다 — 각각 제 시각과 제 경로를
@@ -1315,7 +1315,11 @@
        있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
        자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
 
-  <div class="hd">
+  <!-- 달력은 카드가 아니다 — 흰 면도 그림자도 두지 않고 바탕 위에 그대로
+       앉는다. 날짜는 이 화면이 **무엇을 보여 주는 때인가**이지 읽고 넘길
+       한 덩어리가 아니라, 면으로 묶어 두면 아래 카드들과 같은 무게로 서서
+       머리가 아니라 첫째 카드로 읽힌다 -->
+  <div class="hd hd--bare">
     <div class="cal">
       <div class="cal__top">
         <div class="cal__date">
@@ -1351,41 +1355,23 @@
         <span class="card__nm">서울 마곡 A동 신축공사</span>
         <button class="pill pill--line" type="button">현장선택</button>
       </div>
-      <!-- 지도는 **제자리에서 펼친다**. 전체를 덮는 창으로 띄우면, '지금
-           내가 범위 안인가' 를 흘깃 보자고 화면을 한 장 덮었다가 다시
-           닫아야 한다 — 머물러서 하는 일이 아니다. 펼치면 현장 이름 바로
-           아래라 '어느 현장의 범위인가' 를 되짚을 일도 없다.
-           시스템의 Accordion 이다 — **줄 자체가 헤더**이고, 그 줄을 클릭하면
-           아래로 열린다. 오른쪽에 '지도 보기' 알약을 따로 두지 않는다: 줄에
-           달린 것이 여는 일 하나뿐인데 과녁을 알약만 한 크기로 줄일 까닭이
-           없고, 알약을 두면 '줄을 눌러도 되는가' 가 흐려진다.
-           ⚠ 클래스가 아니라 <details> 로 짠다. Accordion 은 JS 가 여는데,
-           이 프로토타입의 JS 는 어느 화면을 보여 줄지만 정하고 화면 안의
-           동작은 앱(Flutter)의 몫으로 남긴다(face-attendance-app.js 머리말).
-           <details> 는 흉내가 아니라 브라우저가 쥔 동작이다 -->
-      <details class="row row--zone">
-        <summary class="zone__s">
-          <!-- 왼쪽에 핀과 말, 오른쪽 끝에 꺾쇠 — 카드의 다른 줄들과 같은
-               양쪽 정렬이다. 핀이 '무엇에 대한 줄인가'(이 자리는 지도다)를
-               말하고 꺾쇠가 '무엇을 하는가'(편다)를 말해, 두 끝이 각자 할
-               말을 쥔다. 가운데로 모아 두었더니 이 줄만 다른 짜임이라
-               한 카드 안에서 줄마다 눈이 좌우를 다시 잡아야 했다.
-               말에는 '보기'·'접기' 를 붙이지 않는다 — 무엇을 하는지는 꺾쇠가
-               말하고, 그 꺾쇠는 돌아서 지금 열렸는지까지 말한다. 말까지
-               같이 뒤집으면 한 줄이 같은 것을 두 번 말한다 -->
+      <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
+           끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
+           말한다. 줄의 바탕에 깔린 모눈은 그대로다 — 넘어가면 무엇이
+           나오는지를 문이 미리 보여 준다.
+           ⚠ 창을 여는 일은 여기서 흉내 내지 않는다. 이 프로토타입의 JS 는
+           어느 화면을 보여 줄지만 정하고 화면 안의 동작은 앱(Flutter)의
+           몫이다(face-attendance-app.js 머리말). 창이 뜬 모습은 제 화면
+           (w-map)으로 따로 둔다 -->
+      <span class="row row--zone">
+        <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">출퇴근 인정범위</span>
+            <span class="zone__l">인정범위 지도보기</span>
           </span>
-          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg>
-        </summary>
-        <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
-             지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
-        <div class="zone__m" role="img" aria-label="현장 위치와 인정범위">
-          <span class="zone__r"></span>
-          <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
-        </div>
-      </details>
+          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+        </span>
+      </span>
     </div>
 
     <!-- 출근과 퇴근은 **따로 선 기록**이다 — 각각 제 시각과 제 경로를

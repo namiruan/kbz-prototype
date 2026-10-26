@@ -176,9 +176,6 @@
 
   /* ── 움직임 — 시스템 tokens/motion.css 의 값을 그대로 가져온다 ── */
   --ap-ease-sym:ease-in-out;       /* easing-symmetric — 되풀이하는 움직임 */
-  /* 키를 auto 로 이어서 바꾸게 한다 — 펼치는 칸이 제 키를 모른 채 0 에서
-     자라야 하는데, 이것이 없으면 auto 는 중간을 모르고 톡 하고 바뀐다 */
-  interpolate-size:allow-keywords;
   --ap-ease-enter:ease-out;        /* easing-enter — 들어오는 것 */
   --ap-ease-exit:ease-in;          /* easing-exit — 나가는 것 */
   --ap-dur-base:150ms;             /* duration-base — 꺾쇠가 도는 길이 */
@@ -355,6 +352,11 @@ ul,ol{list-style:none}
   background:var(--ap-g0);border-radius:0 0 var(--ap-r15) var(--ap-r15);
   box-shadow:var(--ap-shadow-head);padding:var(--ap-p5) var(--ap-p6);
   display:flex;flex-direction:column;gap:var(--ap-gap3)}
+/* 근로자 앱의 달력은 카드가 아니다 — 흰 면도 그림자도 두지 않는다. 날짜는
+   이 화면이 **무엇을 보여 주는 때인가**이지 읽고 넘길 한 덩어리가 아니라,
+   면으로 묶어 두면 아래 카드들과 같은 무게로 서서 머리가 아니라 첫째
+   카드로 읽힌다. 현장소장 앱의 .hd 는 탭을 쥐고 있어 그대로 카드다 */
+.hd--bare{background:none;box-shadow:none;border-radius:0}
 
 /* ── 머리 카드 밖 — 현장 ──
    탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말한다.
@@ -608,13 +610,9 @@ ul,ol{list-style:none}
    범위' 가 같은 세로 선에서 시작해야 한 카드로 읽힌다 */
 .card--site{overflow:hidden}
 .card--site .row--zone{display:block;padding:0;border:0;border-radius:0;
-  margin:0 calc(var(--ap-p6) * -1) calc(var(--ap-p6) * -1)}
-/* 줄 자체가 헤더다 — 과녁은 줄 전체이고, 오른쪽 끝의 꺾쇠가 '펼친다' 를
-   말한다. 브라우저의 기본 삼각 표식은 걷는다: 꺾쇠와 둘을 다 두면 한 줄에
-   같은 말이 두 번 난다.
-   ⚠ 시스템 Accordion 은 토글 아이콘을 제목 **왼쪽**에 둔다. 여기서는
-   오른쪽이다 — 이 카드의 다른 줄들이 모두 왼쪽에 라벨, 오른쪽에 과녁이라,
-   이 줄만 반대로 두면 눈이 한 줄마다 좌우를 바꿔 가며 훑어야 한다 */
+  margin:0 calc(var(--ap-p6) * -1) calc(var(--ap-p6) * -1);cursor:pointer}
+/* 줄 전체가 문이다 — 왼쪽에 핀과 말, 오른쪽 끝에 꺾쇠. 이 카드의 다른
+   줄들과 같은 양쪽 정렬이다 */
 /* 과녁은 지도 위에 얹은 **글판**이다 — 모눈 위에 글자를 그냥 올렸더니
    선이 글자 사이를 지나가 읽기가 힘들었다. 반투명 흰 면을 깔아 모눈을
    씻어 내되, 비쳐 보일 만큼은 남긴다: 글판 아래가 지도라는 것이 보여야
@@ -647,41 +645,28 @@ ul,ol{list-style:none}
 .zone__ib{flex:none;display:inline-flex;align-items:center;justify-content:center;
   width:32px;height:32px;border-radius:50%;background:var(--ap-zone-chip)}
 .zone__i{color:var(--ap-primary)}
-.zone__s::-webkit-details-marker{display:none}
 /* 꺾쇠는 글자(15)에 맞춰 16 이다. 24 로 두니 말보다 꺾쇠가 먼저 보여,
    무엇을 여는지보다 연다는 것이 커졌다 */
-.zone__c{flex:none;color:var(--ap-primary-70);
-  transition:transform var(--ap-dur-base) var(--ap-ease-sym)}
-details[open] > .zone__s .zone__c{transform:rotate(180deg)}
-/* 펼침은 **자라듯이** 한다 — 지도가 톡 하고 나타나면 어디서 나왔는지가
-   눈에 남지 않는다. 키를 0 에서 제 키까지 끌고, 그동안 지도는 옅은 데서
-   짙은 데로 들어온다.
-   키를 auto 로 **이어서** 바꾸려면 interpolate-size 가 있어야 한다. 없는
-   브라우저에서는 규칙이 통째로 무시되고 전처럼 톡 열린다 — 열리는 일
-   자체는 <details> 가 하므로 잃는 것은 움직임뿐이다 */
-.row--zone::details-content{block-size:0;overflow:hidden;
-  transition:block-size var(--ap-dur-slow) var(--ap-ease-enter),
-             content-visibility var(--ap-dur-slow) allow-discrete;
-  transition-behavior:allow-discrete}
-.row--zone[open]::details-content{block-size:auto}
-.row--zone[open] .zone__m{animation:ap-zone-in var(--ap-dur-slow) var(--ap-ease-enter) both}
-@keyframes ap-zone-in{from{opacity:0} to{opacity:1}}
+/* 오른쪽 꺾쇠다 — 여기서 펴지는 것이 아니라 창으로 넘어간다. 목록 줄의
+   '눌러 들어간다' 와 같은 표다 */
+.zone__c{flex:none;color:var(--ap-primary-70)}
 /* 지도 바닥 — 접힌 줄의 조각과 펼친 칸이 같은 그림이다. 자리표시자라
    지도 타일을 흉내 내지 않는다(받은 지도인 줄로 읽힌다). 대신 옅은
    모눈을 깔아 '여기는 지도다' 만 말한다.
    원은 테가 점선이다 — '여기까지' 가 그어 둔 선이 아니라 **재어서 나오는
    범위**라는 말이다 */
-.card--site .row--zone{background:
+.card--site .row--zone,.zone__m{background:
     repeating-linear-gradient(0deg,transparent 0 15px,var(--ap-map-rule) 15px 16px),
     repeating-linear-gradient(90deg,transparent 0 15px,var(--ap-map-rule) 15px 16px),
     var(--ap-map-ground)}
-.zone__m{position:relative;
+.zone__m{position:relative;overflow:hidden;
   display:flex;align-items:center;justify-content:center}
 .zone__r{position:absolute;border-radius:50%;
   border:1.5px dashed var(--ap-primary);background:var(--ap-zone-fill)}
 .zone__p{position:relative;color:var(--ap-primary)}
-/* 펼친 칸 — 머리줄과 같은 면이 그대로 이어진다(제 바탕을 갖지 않는다) */
-.zone__m{height:160px}
+/* 지도 칸 — 창 안에서 선다. 줄의 바탕(모눈)과 같은 그림이라, 문을 열면
+   문에 비치던 것이 커져 나온 것으로 읽힌다 */
+.zone__m{height:260px;border-radius:var(--ap-r10)}
 .zone__m .zone__r{width:120px;height:120px}
 .zone__m .zone__p{width:24px;height:24px}
 .card__nm{font:var(--t-title3-em);letter-spacing:var(--ls-title3);flex:1;min-width:0;color:var(--ap-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -1388,10 +1373,6 @@ details[open] > .zone__s .zone__c{transform:rotate(180deg)}
   .scan__corner,.scan__corner stop{animation:none}
   .scan__hat-s{display:none}
   .scan__f--2,.scan__f--3,.scan__f--4,.scan__f--5{display:none}
-  /* 지도 칸은 자라지 않고 그 자리에 선다 — 여는 일은 그대로 된다 */
-  .row--zone::details-content{transition:none}
-  .row--zone[open] .zone__m{animation:none}
-  .zone__c{transition:none}
 }
 
 /* ── 읽기 전용 정보 줄 ── */
@@ -1743,6 +1724,24 @@ details[open] > .zone__s .zone__c{transform:rotate(180deg)}
 .alert__bt span{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;display:flex;align-items:center;justify-content:center;padding:var(--ap-p6) var(--ap-p8)}
 .alert__bt .no{flex:0 0 96px;background:var(--ap-g0);color:var(--ap-text-dark)}
 .alert__bt .yes{background:var(--ap-primary);color:var(--ap-g0)}
+
+/* 지도 창 — 알림창(.alert)이 아니다. 알림창은 묻고 답하는 자리라 300 으로
+   못 박혀 있는데, 여기서 할 일은 읽는 것이 아니라 **보는 것**이다. 지도는
+   넓을수록 쓸모가 있어 화면 여백(24, .dim 의 padding)만 남기고 다 쓴다 */
+.sheet{width:100%;max-width:420px;display:flex;flex-direction:column;
+  gap:var(--ap-p5);padding:var(--ap-p6);background:var(--ap-g0);
+  border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-float)}
+.sheet__h{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-p5)}
+.sheet__t{font:var(--t-title2);letter-spacing:var(--ls-title2);color:var(--ap-g95)}
+/* 닫는 자리는 오른쪽 위 — 들어온 길(줄의 오른쪽 꺾쇠)과 같은 쪽이라
+   되돌아 나가는 것으로 읽힌다 */
+.sheet__x{flex:none;display:flex;align-items:center;justify-content:center;
+  padding:var(--ap-p2);margin:calc(var(--ap-p2) * -1);
+  border-radius:var(--ap-r6);color:var(--ap-g90)}
+/* 어느 현장의 범위인지를 지도 아래에 적는다 — 창이 홈을 덮어 현장 이름이
+   가려지므로, 창 안에 한 번 더 둔다 */
+.sheet__d{font:var(--t-sub);letter-spacing:var(--ls-sub);
+  color:var(--ap-text-gray);text-align:center}
 
 /* 알림창이 뜬 화면의 뒤쪽 */
 /* 적어 넣는 화면은 흰 바탕이다 — 시안 '근로자현황 (현장근로자 / 신규추가-기본)'
