@@ -548,6 +548,12 @@ ul,ol{list-style:none}
 .body{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;
   padding:var(--ap-p6);gap:var(--ap-gap3)}
 /* 굴림대는 감춘다 — 기기에서는 손이 닿을 때만 떴다 사라진다 */
+/* .body 는 세로 flex 다 — 자식은 기본으로 쭈그러든다(flex-shrink:1). 내용이
+   화면을 넘치면 줄어들 것이 아니라 **굴러야** 하는데, 쭈그러들고 나면 굴릴
+   것이 남지 않는다. 게다가 제 안을 잘라 두는 카드(.card--site)는 쭈그러든
+   만큼 안의 것을 잘라 버린다 — 인정범위 지도를 펼쳤는데 지도가 한 줄만
+   남던 까닭이 이것이었다 */
+.body > .card,.body > .rows,.body > .note,.body > .tcards{flex:none}
 .body{scrollbar-width:none}
 .body::-webkit-scrollbar{display:none}
 .body--flat{padding:0}
