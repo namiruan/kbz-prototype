@@ -365,12 +365,17 @@ ul,ol{list-style:none}
    윗줄의 픽셀을 재서 적었다.
    ⚠ 아래로 갈수록 이긴다 — 화면 위로 창이 뜨면 윗단은 머리줄이 아니라
      그 창을 덮은 어두운 자리다 */
+/* ⚠ 고르는 일은 js 가 한다(assets/face-attendance-app.js 의 edge()).
+     전에는 `html:has(.cam)` 처럼 css 가 직접 골랐는데, 기기에서는 그
+     고름이 듣지 않아 카메라 화면의 표시줄 자리에 기본값(옅은 파랑)이
+     깔렸다. 어느 화면인지는 이미 js 가 알고 있으므로 표를 붙이게 하고,
+     **색은 여기에 둔다** — 값이 두 곳으로 갈라지지 않는다 */
 html{--ap-edge:var(--ap-primary-5)}
-html:has(.nav){--ap-edge:var(--ap-g0)}
+html.edge--nav{--ap-edge:var(--ap-g0)}
 /* 사진의 윗단과 그 위에 덮인 창의 윗단 — 둘 다 재서 적었다 */
-html:has(.cam){--ap-edge:#3c4043}
-html:has(.dim--sheet){--ap-edge:#8c8f94}
-html:has(.confirm){--ap-edge:#393a3b}
+html.edge--cam{--ap-edge:#3c4043}
+html.edge--dim{--ap-edge:#8c8f94}
+html.edge--shot{--ap-edge:#393a3b}
 html,body{background:var(--ap-edge)}
 
 /* ── 홈 화면에 놓고 연 뒤(standalone) ──

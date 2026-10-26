@@ -43,7 +43,39 @@
     stow(hit);
     link(hit);
     clock(hit);
+    edge(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
+  }
+
+  /* ── 화면 밖에 남는 띠의 색 ──
+     홈 화면에서 연 창은 기기 화면보다 짧고(아이폰 16 Pro: 화면 874 ·
+     창 812), 남는 자리는 창 밖이라 어느 요소도 칠하지 못한다. 거기
+     깔리는 것은 **문서의 바탕색**이라, 켜진 화면의 윗단 색에 맞춘다.
+
+     ⚠ 어느 색인지는 css 가 쥔다(--ap-edge). 여기서는 **어느 화면인가**
+       만 표로 붙인다 — 색을 여기 적으면 css 와 두 곳으로 갈라진다.
+       차례가 있다: 창이 떠 있으면 그 창이 윗단이고, 아니면 카메라,
+       그다음이 머리줄이다(css 의 차례와 같다).
+     theme-color 에도 같은 색을 적어 둔다 — 기기가 띠를 문서 바탕이
+     아니라 이 값으로 칠하는 수도 있다. 읽어서 옮길 뿐이라 값은 한 곳
+     (css)에 그대로 있다. */
+  function edge(scr) {
+    var name = scr.querySelector('.confirm') ? 'shot' :
+               scr.querySelector('.dim--sheet') ? 'dim' :
+               scr.querySelector('.cam') ? 'cam' :
+               scr.querySelector('.nav') ? 'nav' : '';
+    var root = document.documentElement;
+    if (name) root.classList.add('edge--' + name);
+
+    var c = getComputedStyle(root).getPropertyValue('--ap-edge').trim();
+    if (!c) return;
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (!m) {
+      m = document.createElement('meta');
+      m.setAttribute('name', 'theme-color');
+      document.head.appendChild(m);
+    }
+    m.setAttribute('content', c);
   }
 
   /* ── 과녁 위의 시계 ──
