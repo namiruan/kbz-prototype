@@ -1498,8 +1498,12 @@ details[open] > .zone__s .zone__c{transform:rotate(180deg)}
    두 카드의 키는 grid 가 맞춰 준다(stretch): 한쪽에만 '앱 · 얼굴' 이
    붙는데 키가 따로 놀면 둘이 대등해 보이지 않는다 */
 .tcards{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:var(--ap-gap3)}
-.tcard{display:flex;flex-direction:column;align-items:flex-start;gap:var(--ap-p2);
-  padding:var(--ap-p5) var(--ap-p6);background:var(--ap-g0);
+/* 카드 안은 가운데로 모은다 — 카드가 쥔 것이 수 하나뿐이라, 왼쪽에
+   붙여 두면 이름·수·기준이 왼쪽 선에 매달리고 오른쪽이 통째로 빈다.
+   가운데에 세우면 두 카드의 수가 각자 제 칸의 한가운데에 서서, 나란히
+   놓인 두 값으로 읽힌다 */
+.tcard{display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:var(--ap-p2);padding:var(--ap-p5) var(--ap-p6);background:var(--ap-g0);
   border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
 .tcard__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
 /* 숫자는 폭이 고른 꼴로 둔다 — 두 카드의 시각이 세로로 나란히 서야 한다 */
