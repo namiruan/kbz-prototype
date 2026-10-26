@@ -161,12 +161,21 @@
       items.forEach(function (it, n) { if (it.dataset.v === pick) at = n; });
       c.scrollTop = at * WHEEL_H;
 
+      mark(c, items);
+
       var idle;
       c.addEventListener('scroll', function () {
+        mark(c, items);                 /* 굴러가는 동안에도 가운데는 표시한다 */
         clearTimeout(idle);
         idle = setTimeout(function () { stop(c, items); }, 160);
       }, { passive: true });
     });
+  }
+
+  /* 가운데에 든 값에 표를 붙인다 — 크고 짙은 꼴은 css 가 쥔다(--on) */
+  function mark(c, items) {
+    var n = Math.round(c.scrollTop / WHEEL_H);
+    items.forEach(function (it, i) { it.classList.toggle('wheel__i--on', i === n); });
   }
 
   function stop(c, items) {
