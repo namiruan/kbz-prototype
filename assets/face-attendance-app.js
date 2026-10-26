@@ -46,6 +46,7 @@
     day(hit);
     roll(hit);
     wheel(hit);
+    swipe(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -91,57 +92,171 @@
   }
   edge();
 
-  /* ── 어느 날을 보는가 — 주소의 `d` ──
+  /* ── 달력 — 어느 날, 어느 달이든 ──
      하이파이 화면은 **정해진 장면**이라 '아직 안 찍힌 날' 의 장면은 하나
-     (w-home)뿐이다. 그 한 장면을 어느 날로도 쓸 수 있게, 날만 주소에
-     싣고(`?screen=w-home&d=21`) 날짜가 적히는 자리를 갈아 끼운다 —
+     (w-home)뿐이다. 그 한 장면을 어느 날로도 쓸 수 있게, 보는 날을 주소에
+     싣고(`?screen=w-home&d=2026-10-21`) 날이 적히는 자리를 갈아 끼운다 —
      날짜를 누를 때마다 20일로 되돌아가 보이던 까닭이 이것이었다.
      갈아 끼우는 것은 **날이 적히는 자리**뿐이다: 날짜 칸 · 요일 · 띠와
-     달의 고른 날 · '오늘'. 찍힌 시각이나 작업내용 같은 그 날의 기록은
-     장면이 쥔 것이라 건드리지 않는다(기록이 있는 날은 제 장면이 따로
-     있다 — 19일 · 20일).
-     2026년 10월 한 달만 쥐고 있다. 1일이 목요일이라 요일은 세어서 낸다 */
-  var DOW = ['목', '금', '토', '일', '월', '화', '수'];
-  var TODAY = 20;
+     달의 고른 날 · '오늘' · 휠. 찍힌 시각이나 작업내용 같은 그 날의
+     기록은 장면이 쥔 것이라 건드리지 않는다(기록이 있는 날은 제 장면이
+     따로 있다 — 10월 19일 · 20일).
+
+     마크업이 쥔 달은 2026년 10월 하나다. **다른 달은 여기서 그린다** —
+     띠도 달도 같은 칸(.cal__d)이라 한 자리에서 낸다. 기록이 없는 달이라
+     점도 제 장면도 없고, 눌러 가면 '아직 안 찍힌 날' 이다. */
+  var BASE = { y: 2026, m: 10 };
+  var TODAY = { y: 2026, m: 10, d: 20 };
+  var WDAY = ['일', '월', '화', '수', '목', '금', '토'];
+
+  function two(n) { return (n < 10 ? '0' : '') + n; }
+  function iso(y, m, d) { return y + '-' + two(m) + '-' + two(d); }
+  function inMonth(y, m) { return new Date(y, m, 0).getDate(); }
+
+  /* 주소가 가리키는 날. 아무 말이 없으면 마크업이 쥔 날 그대로다 */
+  function seeing() {
+    var v = new URL(location.href).searchParams.get('d');
+    if (!v) return null;
+    var p = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
+    if (!p) return null;
+    var y = +p[1], m = +p[2], d = +p[3];
+    if (m < 1 || m > 12 || d < 1 || d > inMonth(y, m)) return null;
+    return { y: y, m: m, d: d };
+  }
+
+  /* 한 달치 칸을 낸다. 일요일에서 시작해 주 단위로 떨어지고, 달 밖의
+     날도 자리를 지킨다(고를 수는 없다) — 달 격자와 띠가 같은 칸을 같은
+     차례로 쥐어야 요일 줄이 두 꼴에서 같은 자리에 온다.
+     `wd` 가 참이면 칸마다 요일을 얹는다(띠), 거짓이면 숫자만(달 격자 —
+     요일은 위에 한 줄로 따로 선다) */
+  function fill(box, y, m, sel, wd) {
+    var lead = new Date(y, m - 1, 1).getDay();
+    var n = inMonth(y, m), back = inMonth(y, m === 1 ? 12 : m - 1);
+    var rows = Math.ceil((lead + n) / 7), out = [];
+
+    for (var i = 0; i < rows * 7; i++) {
+      var k = i - lead + 1, cur = k >= 1 && k <= n;
+      var num = cur ? k : (k < 1 ? back + k : k - n);
+      var w = WDAY[i % 7];
+      var head = wd ? '<div class="cal__w' +
+        (w === '일' ? ' cal__w--sun' : w === '토' ? ' cal__w--sat' : '') + '">' + w + '</div>' : '';
+      var on = cur && iso(y, m, num) === sel ? ' cal__n--on' : '';
+      var today = (cur && y === TODAY.y && m === TODAY.m && num === TODAY.d && !on) ? ' cal__n--today' : '';
+      out.push(cur
+        ? '<button class="cal__d" type="button" data-d="' + iso(y, m, num) + '" data-go="w-home">' +
+          head + '<div class="cal__n' + on + today + '"><b>' + num + '</b></div></button>'
+        : '<button class="cal__d" type="button" disabled>' +
+          head + '<div class="cal__n cal__n--off"><b>' + num + '</b></div></button>');
+    }
+    box.innerHTML = out.join('');
+  }
 
   function day(scr) {
-    var d = parseInt(new URL(location.href).searchParams.get('d'), 10);
-    if (!(d >= 1 && d <= 31)) return;
-    function two(n) { return (n < 10 ? '0' : '') + n; }
+    var v = seeing();
+    if (!v) return;
+    var sel = iso(v.y, v.m, v.d);
+    var other = !(v.y === BASE.y && v.m === BASE.m);
+
+    /* 마크업이 쥔 달이 아니면 띠와 달을 다시 그린다 */
+    if (other) {
+      scr.querySelectorAll('.cal__week').forEach(function (b) { fill(b, v.y, v.m, sel, true); });
+      scr.querySelectorAll('.calm__g').forEach(function (b) { fill(b, v.y, v.m, sel, false); });
+    }
 
     scr.querySelectorAll('.cal__date').forEach(function (row) {
       var nums = row.querySelectorAll('.cal__num');   /* 연 · 월 · 일 */
-      if (nums.length === 3) nums[2].textContent = two(d);
+      if (nums.length === 3) {
+        nums[0].textContent = String(v.y);
+        nums[1].textContent = two(v.m);
+        nums[2].textContent = two(v.d);
+      }
       var dow = row.querySelector('.cal__dow');
-      if (dow) dow.textContent = DOW[(d - 1) % 7];
+      if (dow) dow.textContent = WDAY[new Date(v.y, v.m - 1, v.d).getDay()];
       /* 달을 펴도 보던 날이 이어지게, 누르는 자리에 날을 적어 둔다 */
-      if (row.hasAttribute('data-go')) row.setAttribute('data-d', String(d));
+      if (row.hasAttribute('data-go')) row.setAttribute('data-d', sel);
     });
 
-    scr.querySelectorAll('.cal__n--on,.cal__n--today').forEach(function (n) {
-      n.classList.remove('cal__n--on');
-      n.classList.remove('cal__n--today');
-    });
-    scr.querySelectorAll('.cal__d[data-d="' + d + '"] .cal__n').forEach(function (n) {
-      n.classList.add('cal__n--on');
-    });
-    /* 오늘이 아닌 날을 보는 동안에는 오늘이 점선 테로 남는다 */
-    if (d !== TODAY) {
-      scr.querySelectorAll('.cal__d[data-d="' + TODAY + '"] .cal__n').forEach(function (n) {
-        n.classList.add('cal__n--today');
+    if (!other) {
+      scr.querySelectorAll('.cal__n--on,.cal__n--today').forEach(function (n) {
+        n.classList.remove('cal__n--on');
+        n.classList.remove('cal__n--today');
       });
+      scr.querySelectorAll('.cal__d[data-d="' + sel + '"] .cal__n').forEach(function (n) {
+        n.classList.add('cal__n--on');
+      });
+      /* 오늘이 아닌 날을 보는 동안에는 오늘이 점선 테로 남는다 */
+      if (sel !== iso(TODAY.y, TODAY.m, TODAY.d)) {
+        scr.querySelectorAll('.cal__d[data-d="' + iso(TODAY.y, TODAY.m, TODAY.d) + '"] .cal__n')
+          .forEach(function (n) { n.classList.add('cal__n--today'); });
+      }
     }
 
-    /* 휠의 '일' 칸도 그 날에서 시작한다 */
-    var dc = scr.querySelector('.wheel__c[data-wheel="일"]');
-    if (dc) dc.setAttribute('data-pick', String(d));
+    /* 휠도 그 날에서 시작한다. 짧은 달이면 없는 날은 덜어 낸다 */
+    var w = { '연': v.y, '월': v.m, '일': v.d };
+    scr.querySelectorAll('.wheel__c').forEach(function (c) {
+      var kind = c.getAttribute('data-wheel');
+      if (kind === '일') {
+        c.querySelectorAll('.wheel__i').forEach(function (it) {
+          it.hidden = (+it.dataset.v > inMonth(v.y, v.m));
+        });
+      }
+      c.setAttribute('data-pick', String(w[kind]));
+    });
 
     /* '오늘' 은 되돌아가는 길이라, 오늘을 보는 동안에는 갈 데가 없다 */
     scr.querySelectorAll('.pill--today').forEach(function (b) {
-      b.disabled = (d === TODAY);
+      b.disabled = (sel === iso(TODAY.y, TODAY.m, TODAY.d));
       if (b.disabled) b.removeAttribute('data-go');
       else if (!b.hasAttribute('data-go')) b.setAttribute('data-go', 'w-home-done');
     });
+  }
+
+  /* ── 달을 옆으로 밀어 바꾼다 ──
+     달 격자를 좌우로 밀면 앞뒤 달로 간다(시안 596:4064 의 주석 — '캘린더
+     좌우 스와이프 시 이전·이후 달로 이동'). 고르고 있던 날은 그대로 들고
+     간다: 짧은 달이면 그 달의 마지막 날로 내려앉는다.
+     한 번에 60 이상 가로로 움직였고 세로보다 가로가 더 움직였을 때만
+     민 것으로 친다 — 아래로 읽어 내려가다 손끝이 비뚤어진 것까지 민 것으로
+     받으면 달이 제멋대로 넘어간다 */
+  function swipe(scr) {
+    var box = scr.querySelector('.calm__g');
+    if (!box) return;
+    var x0 = 0, y0 = 0, on = false;
+
+    box.addEventListener('touchstart', function (e) {
+      var t = e.changedTouches[0];
+      x0 = t.clientX; y0 = t.clientY; on = true;
+    }, { passive: true });
+
+    box.addEventListener('touchend', function (e) {
+      if (!on) return;
+      on = false;
+      var t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0;
+      if (Math.abs(dx) < 60 || Math.abs(dx) <= Math.abs(dy)) return;
+      move(dx < 0 ? 1 : -1);
+    }, { passive: true });
+
+    /* 손가락이 없는 자리(브라우저)에서는 끌어서 민다 */
+    box.addEventListener('mousedown', function (e) { x0 = e.clientX; y0 = e.clientY; on = true; });
+    box.addEventListener('mouseup', function (e) {
+      if (!on) return;
+      on = false;
+      var dx = e.clientX - x0, dy = e.clientY - y0;
+      if (Math.abs(dx) < 60 || Math.abs(dx) <= Math.abs(dy)) return;
+      move(dx < 0 ? 1 : -1);
+    });
+  }
+
+  /* 달을 n 만큼 옮긴다 — **보던 화면은 그대로**다. 달을 편 채로 있어야
+     앞뒤 달을 이어 넘겨볼 수 있다. 고르고 있던 날은 들고 가되 짧은 달
+     이면 그 달의 마지막 날로 내려앉는다(시안 596:4064 의 주석) */
+  function move(n) {
+    var v = seeing() || { y: BASE.y, m: BASE.m, d: TODAY.d };
+    var t = new Date(v.y, v.m - 1 + n, 1);
+    var y = t.getFullYear(), m = t.getMonth() + 1;
+    var u = new URL(location.href);
+    u.searchParams.set('d', iso(y, m, Math.min(v.d, inMonth(y, m))));
+    location.href = u.toString();
   }
 
   /* ── 년·월·일 휠 ──
@@ -183,24 +298,23 @@
     if (n < 0) n = 0;
     if (n > items.length - 1) n = items.length - 1;
     var it = items[n];
+    if (it.hidden) return;
 
-    /* 쥐지 않은 해·달이면 제자리로 되돌린다 */
-    if (it.classList.contains('wheel__i--off')) {
-      var back = 0;
-      items.forEach(function (x, i) { if (x.dataset.v === c.getAttribute('data-pick')) back = i; });
-      c.scrollTo({ top: back * WHEEL_H, behavior: 'smooth' });
-      return;
-    }
+    var v = String(it.dataset.v);
+    if (v === c.getAttribute('data-pick')) return;
 
-    if (c.getAttribute('data-wheel') !== '일') return;
-    var d = parseInt(it.dataset.v, 10);
-    if (String(d) === c.getAttribute('data-pick')) return;
+    /* 어느 칸을 굴렸든 **달력이 그 날짜로 바뀐다**(시안 21:2807 의 주석).
+       달을 편 채로 있어야 고른 날이 달의 어디인지가 보인다 — 그래서
+       화면은 지금 보던 그대로 두고 날짜만 갈아 끼운다 */
+    var now = seeing() || { y: BASE.y, m: BASE.m, d: TODAY.d };
+    var kind = c.getAttribute('data-wheel');
+    var y = kind === '연' ? +v : now.y;
+    var m = kind === '월' ? +v : now.m;
+    var d = kind === '일' ? +v : now.d;
+    d = Math.min(d, inMonth(y, m));
 
-    /* 그 날에 제 장면이 있으면 그리로, 없으면 아직 안 찍힌 날의 장면으로 */
-    var hit = document.querySelector('.cal__d[data-d="' + d + '"][data-go]');
     var u = new URL(location.href);
-    u.searchParams.set('screen', hit ? hit.dataset.go : 'w-home');
-    u.searchParams.set('d', String(d));
+    u.searchParams.set('d', iso(y, m, d));
     location.href = u.toString();
   }
 
