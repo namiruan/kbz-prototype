@@ -35,8 +35,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=358">
-<script src="assets/face-attendance-app.js?v=358" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=363">
+<script src="assets/face-attendance-app.js?v=363" defer></script>
 </head>
 
 <body>
@@ -168,6 +168,9 @@
          한쪽은 어디에도 없었다 -->
     <div class="tcards">
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <!-- 하루의 폭을 잇는 물결 — 두 카드가 따로 선 값 둘이 아니라 한 구간의
+           양 끝임을 말한다 -->
+      <span class="tcards__x" aria-hidden="true">~</span>
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
     </div>
   </main>
@@ -349,6 +352,9 @@
          한쪽은 어디에도 없었다 -->
     <div class="tcards">
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <!-- 하루의 폭을 잇는 물결 — 두 카드가 따로 선 값 둘이 아니라 한 구간의
+           양 끝임을 말한다 -->
+      <span class="tcards__x" aria-hidden="true">~</span>
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
     </div>
   </main>
@@ -501,7 +507,7 @@
         <div class="cal__d cal__d--n8"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>17</b></div></div>
         <div class="cal__d"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></div>
         <div class="cal__d"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></div>
-        <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b><i></i></div></div>
+        <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on cal__n--open"><b>20</b><i></i></div></div>
         <div class="cal__d"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></div>
         <div class="cal__d"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></div>
         <div class="cal__d"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></div>
@@ -555,6 +561,9 @@
            한가운데에 서서 시각 다음으로 크게 읽혔는데, 이것은 '언제' 가
            아니라 '어디서' 라 시각에 딸린 꼬리표다 -->
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:03</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <!-- 하루의 폭을 잇는 물결 — 두 카드가 따로 선 값 둘이 아니라 한 구간의
+           양 끝임을 말한다 -->
+      <span class="tcards__x" aria-hidden="true">~</span>
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
     </div>
   </main>
@@ -737,7 +746,7 @@
         <div class="cal__d cal__d--n8"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>17</b></div></div>
         <div class="cal__d"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></div>
         <div class="cal__d"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></div>
-        <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b><i></i></div></div>
+        <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on cal__n--open"><b>20</b><i></i></div></div>
         <div class="cal__d"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></div>
         <div class="cal__d"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></div>
         <div class="cal__d"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></div>
@@ -791,6 +800,9 @@
            한가운데에 서서 시각 다음으로 크게 읽혔는데, 이것은 '언제' 가
            아니라 '어디서' 라 시각에 딸린 꼬리표다 -->
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:03</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <!-- 하루의 폭을 잇는 물결 — 두 카드가 따로 선 값 둘이 아니라 한 구간의
+           양 끝임을 말한다 -->
+      <span class="tcards__x" aria-hidden="true">~</span>
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
     </div>
     <!-- 쓴 것은 **출퇴근 카드 바로 아래**에 붙는다. 오늘 한 일이 오늘
@@ -866,7 +878,7 @@
          등록하는 것이라, 여기가 어느 현장인지가 동의의 범위다 -->
     <div class="card card--head">
       <span class="agr__k">현장명</span>
-      <p class="agr__site">서울 마곡 A동 신축공사</p>
+      <p class="agr__site pill pill--line">서울 마곡 A동 신축공사</p>
     </div>
 
     <div class="card card--agree">
@@ -890,10 +902,13 @@
     <!-- 문장마다 금을 긋는다 — 셋은 이어 읽는 한 문단이 아니라 '어디에
          쓰나' · '어디까지 가나' · '안 하면 어떻게 되나' 로 따로 묻고
          답하는 말이다 -->
-    <div class="note note--split">
-      <span>등록한 얼굴은 이 현장의 출퇴근 확인에만 씁니다.</span>
-      <span>안면인식기가 있는 현장이면 같은 사진이 안면인식기에도 등록됩니다.</span>
-      <span>동의하지 않으면 얼굴 출근을 할 수 없습니다.</span>
+    <div class="bnr" role="status">
+      <span class="bnr__i" aria-hidden="true"><svg class="ic"><use href="#icon-info"></use></svg></span>
+      <div class="bnr__b">
+        <span>등록한 얼굴은 이 현장의 출퇴근 확인에만 씁니다.</span>
+        <span>안면인식기가 있는 현장이면 같은 사진이 안면인식기에도 등록됩니다.</span>
+        <span>동의하지 않으면 얼굴 출근을 할 수 없습니다.</span>
+      </div>
     </div>
   </main>
 
@@ -1077,6 +1092,9 @@
            한가운데에 서서 시각 다음으로 크게 읽혔는데, 이것은 '언제' 가
            아니라 '어디서' 라 시각에 딸린 꼬리표다 -->
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:03</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <!-- 하루의 폭을 잇는 물결 — 두 카드가 따로 선 값 둘이 아니라 한 구간의
+           양 끝임을 말한다 -->
+      <span class="tcards__x" aria-hidden="true">~</span>
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v">17:31</span><span class="bd bd--positive">앱 · 얼굴</span></div>
     </div>
     <!-- 쓴 것은 **출퇴근 카드 바로 아래**에 붙는다. 오늘 한 일이 오늘

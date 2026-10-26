@@ -79,6 +79,10 @@
   --ap-zone-fill:rgba(17,90,198,.08); /* 인정범위 원의 속 — 지도 위에 얹는
                                       면이라 불투명 색이 아니라 투명도로 둔다 */
   --ap-zone-chip:rgba(17,90,198,.1);/* 핀을 담는 옅은 브랜드 면 */
+  --ap-brand-line:rgba(17,90,198,.3);/* 연한 브랜드 테 — 시스템 border/brand-subtle 과 같은 비율.
+                                      안내 배너처럼 **면까지 옅은 브랜드**인 자리에 쓴다 */
+  --ap-brand-line-on:rgba(17,90,198,.5);/* 흰 면 위의 브랜드 테 — 찍힌 출퇴근 카드.
+                                      같은 .3 으로는 흰 바탕에서 거의 보이지 않아 한 단 올린다 */
   --ap-map-ground:#eef0f2;         /* 지도 바닥 — gray/5 보다 반 단 짙다.
                                       흰 카드 위에서 '다른 면' 으로 읽혀야 한다 */
   --ap-map-rule:rgba(19,20,22,.05);/* 지도 모눈 — 있는 줄만 알 만큼 */
@@ -637,6 +641,11 @@ ul,ol{list-style:none}
    지우다 만 자국으로 보였다. 점은 고르든 말든 제 뜻(기록 있음)이
    같으니 색도 같이 둔다 */
 .cal__n--today::before{border:1px dashed var(--ap-g20)}
+/* 출근만 찍히고 **퇴근이 아직 없는 날**은 점이 경고색이다(badge/point).
+   기록이 있다는 사실만으로는 하루가 닫혔는지 알 수 없다 — 같은 파란 점을
+   찍어 두면 어제와 오늘이 똑같아 보이는데, 어제는 끝난 하루이고 오늘은
+   아직 퇴근을 안 찍은 하루다. 띠를 훑다가 눈이 걸리는 자리가 그날이다 */
+.cal__n--open i{background:var(--ap-point)}
 
 /* ── 탭 — 시안 Tab 컴포넌트(600:4009) 그대로 ──
    고른 것: 바탕 #eef7fc · 1.5px 반투명 테 · 모서리 10 · Body 17/22 semibold
@@ -1734,7 +1743,11 @@ ul,ol{list-style:none}
    단은 1fr 둘로 못 박는다 — 출근과 퇴근은 늘 둘이고 더 늘지 않는다.
    두 카드의 키는 grid 가 맞춰 준다(stretch): 한쪽에만 '앱 · 얼굴' 이
    붙는데 키가 따로 놀면 둘이 대등해 보이지 않는다 */
-.tcards{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:var(--ap-gap3)}
+/* 가운데에 물결이 선다 — 두 카드가 따로 선 값 둘이 아니라 **한 구간의
+   양 끝**임을 말한다. 칸을 셋으로 나누되 가운데는 글자만큼만 차지한다 */
+.tcards{flex:none;display:grid;grid-template-columns:1fr auto 1fr;gap:var(--ap-gap3)}
+.tcards__x{font:var(--t-title3);letter-spacing:var(--ls-title3);
+  display:flex;align-items:center;justify-content:center;color:var(--ap-text-gray)}
 /* 카드 안은 가운데로 모은다 — 카드가 쥔 것이 수 하나뿐이라, 왼쪽에
    붙여 두면 수와 꼬리표가 왼쪽 선에 매달리고 오른쪽이 통째로 빈다.
    가운데에 세우면 두 카드의 수가 각자 제 칸의 한가운데에 서서, 나란히
@@ -1779,6 +1792,13 @@ ul,ol{list-style:none}
      어느 쪽이 찍힌 것인지가 면만 보고도 갈린다.
    그림자도 거둔다: 떠 있는 것은 값이 든 카드뿐이다 */
 .tcard:has(.tcard__v--none){background:var(--ap-surface-lift);box-shadow:none}
+/* 찍힌 카드에는 연한 브랜드 테를 두른다 — 안의 수가 브랜드 색이라,
+   테가 그 색을 카드 가장자리까지 물려 '이 칸은 값이 들어찼다' 가 면
+   하나로 읽힌다. 아직 빈 카드와 나란히 놓였을 때 가름이 한 겹 더 선다.
+   ⚠ border 가 아니라 outline 에 음수 offset 이다 — border 를 주면 그
+     1px 만큼 안쪽이 좁아져, 빈 카드와 글자 자리가 어긋난다 */
+.tcard:not(:has(.tcard__v--none)){outline:1px solid var(--ap-brand-line-on);
+  outline-offset:-1px}
 .tcard:has(.tcard__v--none) .tcard__b b{color:var(--ap-text-gray)}
 /* 기준 시각은 **이름 옆**이다. 카드의 발에 '기준 07:00' 으로 따로
    두었더니 찍힌 시각과 기준이 카드의 위아래 끝으로 갈려, 늦었는지
@@ -1895,8 +1915,12 @@ ul,ol{list-style:none}
   background:linear-gradient(to bottom,
     var(--ap-g0) 0, var(--ap-g0) 38%, var(--ap-primary-5) 100%)}
 .agr__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
-.agr__site{font:var(--t-title3-em);letter-spacing:var(--ls-title3);color:var(--ap-primary-70);
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 현장 이름은 **테 두른 브랜드 알약**이다(.pill--line — 홈의 '현장선택' ·
+   '변경' 과 같은 것). 글자만 두었더니 제목처럼 보여 '이 화면의 이름' 으로
+   읽혔는데, 이것은 이름이 아니라 **이 동의가 걸리는 범위**다. 테가 둘리면
+   값 하나가 거기 담긴 것으로 읽힌다.
+   꼴·크기·색은 그 컴포넌트가 쥔다 — 여기서는 자리와 넘침만 정한다 */
+.agr__site{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* 줄과 줄은 금으로 가른다 — 카드의 gap 으로 띄우면 동의 항목 셋이
    따로 선 세 덩이가 되어, 하나의 목록으로 읽히지 않는다 */
 .card--agree{gap:0;padding:var(--ap-p2) var(--ap-p6)}
@@ -2012,24 +2036,37 @@ ul,ol{list-style:none}
 
 /* ── 안내 글 ── */
 .note{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);padding:12px var(--ap-p6);background:var(--ap-primary-5);border-radius:var(--ap-r10);color:var(--ap-primary-70)}
-/* 문장마다 점을 찍고 금을 긋는다 — 셋은 이어 읽는 한 문단이 아니라
+/* ── 안내 배너 — 시스템 Banner(molecules/banner.md) 의 info ──
+   흐름 안에 고정되어 **조건이 해소될 때까지** 남는 인라인 상태 메시지다.
+   여기 조건은 '아직 동의하지 않았다' 이고, 동의하고 나가면 이 말도 따라
+   사라진다 — 닫기 버튼을 두지 않는 것도 그 때문이다(닫힘은 Toast 의
+   성격이다).
+   시스템 값 그대로다: 면은 옅은 브랜드, 테 1px 반투명 브랜드, 모서리 8,
+   아이콘 20(icon-info)이 왼쪽에 서고 사이 8.
+   ⚠ 두 가지만 다르다.
+     · 면은 시스템 토큰(blue/50) 대신 **시안의 badge/positive** 다 —
+       이 화면의 바탕이 primary/5 라 blue/50 을 깔면 바탕에 묻힌다.
+       시안에서 같은 몫(옅은 브랜드 면)을 맡는 값이 저것이다.
+     · 글은 브랜드가 아니라 중립색이다. 브랜드 글자는 '여기서 할 일과
+       이어진다' 고 가리키는 색인데, 이 셋은 읽고 넘기는 고지다.
+   문장마다 점을 찍고 금을 긋는다 — 셋은 이어 읽는 한 문단이 아니라
    '어디에 쓰나' · '어디까지 가나' · '안 하면 어떻게 되나' 로 따로 묻고
-   답하는 말이다. 한 덩이로 붙여 두었더니 넉 줄짜리 글이 되어, 셋 중
-   어느 것도 눈에 걸리지 않았다.
-   꼴은 **위의 동의 카드와 같다** — 같은 모서리·같은 안쪽 여백이라 둘이
-   한 줄로 쌓인다. 다만 면은 비친다(흰빛 .75): 꽉 채운 흰 면으로 두면
-   동의 항목과 같은 무게로 서는데, 이쪽은 고르는 것이 아니라 읽는
-   말이다. 비치는 면은 '같은 자리에 있되 한 겹 뒤' 라고 말한다 */
-/* 글자는 중립색이다 — .note 의 기본은 브랜드(primary/70)인데, 그것은
-   '이 말이 여기서 할 일과 이어진다' 고 가리킬 때 쓰는 색이다. 이 셋은
-   가리키는 말이 아니라 **읽고 넘기는 고지**라, 파랑을 입히면 눌러야 할
-   것처럼 보인다 */
-.note--split{background:var(--ap-surface-lift);color:var(--ap-text-dark);
-  display:flex;flex-direction:column;padding:var(--ap-p2) var(--ap-p6)}
-.note--split > span{display:flex;gap:var(--ap-p4);
+   답하는 말이다 */
+.bnr{display:flex;align-items:flex-start;gap:var(--ap-gap3);
+  padding:var(--ap-p2) var(--ap-p5);
+  background:var(--ap-badge-positive);
+  border:1px solid var(--ap-brand-line);border-radius:var(--ap-r8)}
+/* 아이콘은 첫 줄의 한가운데에 선다 — 상자 높이를 첫 줄(글줄 22 + 위아래
+   여백 10)에 맞춰, 20 짜리 그림이 글줄보다 커도 중심은 같게 둔다 */
+.bnr__i{flex:none;display:inline-flex;align-items:center;
+  height:calc(22px + var(--ap-p4) * 2);color:var(--ap-primary)}
+.bnr__b{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);
+  flex:1;min-width:0;display:flex;flex-direction:column;
+  color:var(--ap-text-dark);word-break:keep-all}
+.bnr__b > span{display:flex;gap:var(--ap-p4);
   padding:var(--ap-p4) 0;border-bottom:1px solid var(--ap-line)}
-.note--split > span::before{content:"•";flex:none}
-.note--split > span:last-child{border-bottom:0}
+.bnr__b > span::before{content:"•";flex:none}
+.bnr__b > span:last-child{border-bottom:0}
 .guide{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);margin-top:auto;color:var(--ap-text-gray);text-align:center}
 
 /* ── 카메라 — 앱 네이티브 화면 ── */
