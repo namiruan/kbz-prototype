@@ -1860,8 +1860,15 @@ ul,ol{list-style:none}
 /* ── 얼굴 등록 동의 — 근로자 앱 ──
    현장마다 한 번 받는다. 얼굴은 민감정보라 '어디에 쓰는지' 를 먼저
    보이고 나서 카메라를 연다 — 찍고 나서 묻는 것은 묻는 것이 아니다 */
+/* 현장명은 **면도 그림자도 없이** 종이 위에 바로 앉는다. 흰 카드로
+   띄워 두었더니 아래의 동의 카드와 같은 무게로 서서, 고를 것이 둘인
+   것처럼 보였다 — 이것은 고르는 칸이 아니라 '지금 어느 현장의 동의인가'
+   를 적은 머리말이다.
+   이름은 브랜드 색이다(primary/70 — 시안이 현장명에 쓰는 색). 면이
+   없어진 자리를 색이 대신 쥐어, 종이 위에서도 이름이 가장 먼저 읽힌다 */
+.card--head{background:none;box-shadow:none;padding:0 var(--ap-p2)}
 .agr__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
-.agr__site{font:var(--t-title3-em);letter-spacing:var(--ls-title3);color:var(--ap-g95);
+.agr__site{font:var(--t-title3-em);letter-spacing:var(--ls-title3);color:var(--ap-primary-70);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* 줄과 줄은 금으로 가른다 — 카드의 gap 으로 띄우면 동의 항목 셋이
    따로 선 세 덩이가 되어, 하나의 목록으로 읽히지 않는다 */
