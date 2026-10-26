@@ -714,9 +714,15 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .cal__w{font:var(--t-sub);letter-spacing:var(--ls-sub);height:20px;text-align:center;color:var(--ap-text)}
 .cal__w--sun{color:var(--ap-danger)}
 .cal__w--sat{color:var(--ap-primary)}
-.cal__n{font:var(--t-body);letter-spacing:var(--ls-body);position:relative;display:flex;flex-direction:column;align-items:center;gap:var(--ap-p4);padding:4px 0;text-align:center;color:var(--ap-text)}
+/* 칸의 키는 점이 있든 없든 **같다**(46 = 4 + 숫자 22 + 10 + 점 6 + 4).
+   점을 줄에 세우면 점이 있는 날만 칸이 길어져, 달에서는 그 주만 한 줄이
+   두꺼워지고 띠에서는 아래가 들쭉날쭉해진다. 점은 자리를 차지하지 않게
+   띄워 두고(absolute) 그 자리는 늘 비워 둔다 — 점이 서는 높이가 날마다
+   같아야 훑는 눈이 걸리지 않는다 */
+.cal__n{font:var(--t-body);letter-spacing:var(--ls-body);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;height:46px;padding:4px 0;text-align:center;color:var(--ap-text)}
 .cal__n b{position:relative;z-index:1;font-weight:400}
-.cal__n i{width:6px;height:6px;border-radius:50%;background:var(--ap-primary)}
+.cal__n i{position:absolute;left:50%;transform:translateX(-50%);bottom:4px;
+  width:6px;height:6px;border-radius:50%;background:var(--ap-primary)}
 .cal__n--on::before,.cal__n--today::before{content:"";position:absolute;top:-1px;
   left:50%;transform:translateX(-50%);width:33px;height:33px;border-radius:50%}
 .cal__n--on::before{background:var(--ap-primary)}
@@ -1122,7 +1128,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    달을 펴 둔 동안 아래는 어두워지지만 머리줄과 달은 덮이지 않는다:
    바탕을 깔고(투명한 .hd--bare 그대로 두면 어두운 자리가 비친다) 위로
    올린다 */
-.hd--over{z-index:2;background:var(--ap-primary-5)}
+/* 아래를 둥글게 닫는다 — 네모로 끊으면 달이 잘려 나간 것처럼 보인다.
+   모서리 15 와 옅은 그림자는 시안의 달력 판(21:2656)에서 가져왔다.
+   달의 마지막 줄이 그 모서리에 닿지 않게 아래 여백도 둔다 */
+.hd--over{z-index:2;background:var(--ap-primary-5);
+  padding-bottom:var(--ap-p6);
+  border-radius:0 0 var(--ap-r15) var(--ap-r15);
+  box-shadow:0 4px 2px rgba(17,53,105,.05)}
 .calm{display:flex;flex-direction:column;gap:9px;
   animation:ap-cal-open var(--ap-dur-slow) var(--ap-ease-enter) both}
 .calm__w,.calm__g{display:grid;grid-template-columns:repeat(7,1fr)}
@@ -1136,23 +1148,18 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 이 달 밖의 날 — 자리는 지키되 고를 수 없다 */
 .cal__n--off{color:var(--ap-text-disabled)}
 
-/* ── 다른 날짜 직접 고르기 — 기기의 고르개 ──
-   그림으로 그린 휠을 걷어 낸 자리다. 그림은 돌아가지 않지만 이것은
-   진짜로 돈다 — <input type="date"> 를 두면 아이폰은 제 휠을, 안드로이드는
-   제 달력을 띄운다. 흉내 내지 않는 것이 아니라 **기기 것을 그대로 쓴다**.
-   칸은 바닥에 눕는 흰 띠다. 글은 왼쪽, 값은 오른쪽 — 칸 전체가 과녁이라
-   어디를 눌러도 고르개가 열린다(label 로 묶었다) */
-.dpick{display:flex;align-items:center;justify-content:space-between;
-  gap:var(--ap-gap3);margin:var(--ap-p6);
-  margin-bottom:max(var(--ap-p9),env(safe-area-inset-bottom));padding:var(--ap-p6);
-  background:var(--ap-g0);border-radius:var(--ap-r10);
-  box-shadow:var(--ap-shadow-card);cursor:pointer;
-  animation:ap-sheet-up var(--ap-dur-sheet) both}
-.dpick__t{font:var(--t-body-em);letter-spacing:var(--ls-body);color:var(--ap-g95)}
-.dpick__i{font:var(--t-body);letter-spacing:var(--ls-body);
-  flex:none;min-width:0;padding:0;background:none;border:0;
-  color:var(--ap-primary);font-family:var(--ap-font);cursor:pointer}
-@media (prefers-reduced-motion:reduce){.calm,.dpick{animation:none}}
+/* ── 날짜 칸 = 기기의 날짜 고르개 ──
+   그림으로 휠을 그리지 않는다. 칸 위에 <input type="date"> 를 **보이지
+   않게** 덮어 두면, 누를 때 기기가 제 꼴의 고르개를 띄운다 — 아이폰은
+   휠, 안드로이드는 달력이다. 흉내 내는 것이 아니라 기기 것을 그대로 쓴다.
+   덮개는 날짜 칸과 요일까지만 덮는다 — 옆의 꺾쇠(접기)는 제 일이 따로
+   있어 가리면 안 된다 */
+.cal__pickw{position:relative;display:flex;align-items:center;gap:var(--ap-p2)}
+.cal__pick{position:absolute;inset:0;width:100%;height:100%;
+  margin:0;padding:0;border:0;opacity:0;cursor:pointer;
+  -webkit-appearance:none;appearance:none}
+
+@media (prefers-reduced-motion:reduce){.calm{animation:none}}
 
 /* ── 아래 내비게이션 — 주화면에만 ── */
 /* ⚠ 아래 여백은 **홈 화면에서 연 창인지 묻지 않고** 기기에 바로 묻는다.

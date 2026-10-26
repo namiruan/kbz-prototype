@@ -140,13 +140,13 @@
     });
   }
 
-  /* ── 다른 달·다른 해 — 기기의 고르개 ──
+  /* ── 날짜 칸에서 고른 날 — 기기의 고르개 ──
      <input type="date"> 가 띄우는 것은 **기기 제 것**이다(아이폰은 휠,
      안드로이드는 달력). 여기서 하는 일은 고른 날로 화면을 넘기는 것뿐이라,
      머리말이 말한 이 파일의 몫 그대로다. 그 날에 제 장면이 있으면(19·20)
      그리로, 없으면 '아직 안 찍힌 날' 의 장면으로 간다 */
   function jump(scr) {
-    var i = scr.querySelector('.dpick__i');
+    var i = scr.querySelector('.cal__pick');
     if (!i) return;
     i.addEventListener('change', function () {
       var d = parseInt(i.value.slice(8), 10);
