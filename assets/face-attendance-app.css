@@ -157,7 +157,6 @@
      따라 밝아진다 */
   --ap-surface-lift:rgba(255,255,255,.75);
   --ap-kb-bg:#d1d4d9;              /* 기기 자판 바탕 — 화면 밖 띠도 이 색이다 */
-  --ap-border-focus:rgba(22,109,238,.75); /* color/border/focus — 휠이 돌리는 칸의 테 */
   --ap-scrim-dim-deep:rgba(19,20,22,.75); /* color/background/dim — 달을 편 뒤 (21:2649) */
 
   /* ── 현장 밑으로 들어가는 목록의 끝 ──
@@ -677,9 +676,19 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
        32 짜리 면보다 넓어, 자국만 번지고 테두리가 서지 않아서다.
    크기(32)와 아이콘(20)은 Icon Button lg 의 치수가 아니라 저 핀과 맞춘
    값이다. 옆의 '오늘' 알약(28)보다 4 크지만, 둘은 가운데로 맞춰 선다 */
-.cal__bell{flex:none;display:inline-flex;align-items:center;justify-content:center;
+.cal__bell{flex:none;position:relative;display:inline-flex;align-items:center;justify-content:center;
   width:32px;height:32px;border-radius:50%;
   background:var(--ap-g0);color:var(--ap-primary);box-shadow:var(--ap-shadow-chip)}
+/* 새 소식이 몇인지 종 위에 얹는다 — 주의색(badge/point)이다. 브랜드 색을
+   쓰면 종의 아이콘과 한 색이 되어 수가 종의 일부로 보인다.
+   흰 테를 한 겹 두르는 것은 종의 흰 면과 뱃지가 맞닿아 서로 녹지 않게
+   하기 위해서다 — 뱃지가 면 밖으로 반쯤 나가 있어 바탕과도 닿는다.
+   수가 두 자리가 되면 알약으로 늘어난다(min-width + 좌우 여백) */
+.cal__bell__n{font:600 13px/16px var(--ap-font);
+  position:absolute;top:-5px;right:-5px;
+  min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;
+  padding:0 5px;border-radius:var(--ap-r-pill);border:2px solid var(--ap-g0);
+  background:var(--ap-point);color:var(--ap-g0);font-variant-numeric:tabular-nums}
 /* 띠는 제 폭을 재는 **컨테이너**다 — 화면 폭이 아니라 여기를 재야 한다.
    이 화면은 끼워 보여지는 틀(iframe) 안에 있어 바깥 폭과 안쪽 폭이 다르고,
    폭에 따라 좌우 여백도 16 에서 24 로 바뀐다 */
@@ -692,7 +701,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    섞인다. 띠를 켤 때 오늘이 든 주가 보이도록 끝으로 밀어 두는 일은
    js 가 한다(assets/face-attendance-app.js 의 roll) */
 .cal__week{display:flex;align-items:flex-start;
-  overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
+  overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
+  scroll-snap-type:x mandatory}
+/* 띠는 **주 단위로** 멎는다 — 달 격자와 같은 칸을 같은 차례로 쥐고 있어,
+   주의 첫 칸(일요일)에 맞춰 서면 일~토가 늘 제자리에 온다. 달을 펴고
+   접어도 요일 줄이 움직이지 않는 까닭이다. 첫 칸이 9월 27일(일)이라
+   일곱 칸마다 한 주가 시작한다 */
+.cal__week > .cal__d:nth-child(7n+1){scroll-snap-align:start}
 .cal__week::-webkit-scrollbar{display:none}
 .cal__d{flex:1 0 51px;min-width:0;display:flex;flex-direction:column;gap:var(--ap-p2);
   padding:4px;border-radius:var(--ap-r10)}
@@ -1101,51 +1116,43 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   animation:ap-go var(--ap-go-cycle) var(--ap-ease-sym) infinite}
 
 /* ── 펴진 달 ─────────────────────────────────────────────
-   띠에서 날짜를 누르면 **그 자리에서** 달이 펴진다. 날짜 줄(.cal__top)은
-   띠의 것을 그대로 쓴다 — 같은 자리에 같은 꼴로 서야 '같은 줄이 펼쳐진
-   것' 으로 읽힌다. 판은 위에서 내려와 화면 꼭대기에 붙으므로 아래 모서리
-   만 둥글다(시안 21:2656 — 반지름 15 · 그림자 0 4 2 rgba(17,53,105,.05)).
-   ⚠ 시안에는 알림 종이 없다(저쪽은 머리줄이 따로 있는 작업일보 화면이다).
-     여기서는 띠의 줄이 그대로 펴지는 것이라, 종이 사라지면 줄이 바뀐 것
-     으로 보여 그대로 둔다 */
-.calp{flex:none;background:var(--ap-g0);
-  padding:var(--ap-statusbar) var(--ap-p6) 4px;
-  border-radius:0 0 var(--ap-r15) var(--ap-r15);
-  box-shadow:0 4px 2px rgba(17,53,105,.05)}
-.calp__w,.calp__g{display:grid;grid-template-columns:repeat(7,1fr)}
-.calp__g{row-gap:9px;padding-top:9px}
-/* 휠이 돌리는 세 칸은 브랜드 테를 쥔다 — 띠에서는 같은 칸이 회색 테다.
-   테가 1.5 인 것도 시안 그대로다(border-width/variable-medium) */
-.cal__num--pick{border:1.5px solid var(--ap-border-focus);color:var(--ap-primary)}
+   띠에서 날짜를 누르면 **띠가 서 있던 자리에서** 달이 펴진다. 머리줄
+   (날짜 칸 · '오늘' · 알림)은 자리도 꼴도 그대로다 — 새 판을 덮어 같은
+   줄을 한 벌 더 그리면, 한 줄이 두 자리에서 움직이는 꼴이 된다.
+   달을 펴 둔 동안 아래는 어두워지지만 머리줄과 달은 덮이지 않는다:
+   바탕을 깔고(투명한 .hd--bare 그대로 두면 어두운 자리가 비친다) 위로
+   올린다 */
+.hd--over{z-index:2;background:var(--ap-primary-5)}
+.calm{display:flex;flex-direction:column;gap:9px;
+  animation:ap-cal-open var(--ap-dur-slow) var(--ap-ease-enter) both}
+.calm__w,.calm__g{display:grid;grid-template-columns:repeat(7,1fr)}
+.calm__g{row-gap:9px}
+/* ⚠ 투명도는 건드리지 않는다 — 달이 **없는 상태에서** 시작하면, 그
+   사이에 화면을 집어 보는 눈(화면설명의 앵커 · 화면을 찍는 기계)에는
+   달이 없는 것으로 보인다. 내려오는 몸짓만으로 충분하다 */
+@keyframes ap-cal-open{from{transform:translateY(-8px)} to{transform:translateY(0)}}
 /* 펴 둔 동안에는 꺾쇠가 **접는 손잡이**라 거꾸로 선다 */
 .cal__more--up{transform:rotate(180deg)}
 /* 이 달 밖의 날 — 자리는 지키되 고를 수 없다 */
 .cal__n--off{color:var(--ap-text-disabled)}
-/* ── 기기의 날짜 휠 ──
-   ⚠ 누를 수 있는 판이 아니라 **그 자리가 얼마인지 보여 주는 그림**이다.
-     날을 고르는 일은 앱(Flutter)과 기기의 몫이라 여기서 흉내 내지 않는다
-     — 자판(.kb)과 같다.
-   치수는 시안 21:2807 에서 가져왔다: 높이 213 · 위 모서리 13 · 가운데
-   띠 35(반지름 7 · fills/quaternary). 바탕은 시안이 블러를 깐 재질이라
-   같은 회색을 깔고 뒤를 흐린다 — 블러가 듣지 않는 곳에서도 색은 남는다.
-   위아래는 흐려져 사라진다(시안의 Fade Out) — 가려 두는 것이 아니라
-   **원통이 돌아간다**는 말이라, 자르지 않고 지운다 */
-.wheel{flex:none;height:213px;display:flex;align-items:center;justify-content:center;
-  padding:18px 20px;border-radius:13px 13px 0 0;
-  background:rgba(179,179,179,.82);backdrop-filter:blur(25px);
-  -webkit-backdrop-filter:blur(25px)}
-.wheel__b{font:var(--t-title3);letter-spacing:var(--ls-title3);
-  position:relative;flex:1;min-width:0;max-width:297px;
-  display:grid;grid-template-columns:repeat(3,1fr);
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 28%,#000 72%,transparent 100%);
-  mask-image:linear-gradient(to bottom,transparent 0,#000 28%,#000 72%,transparent 100%)}
-.wheel__band{position:absolute;left:0;right:0;top:50%;height:35px;transform:translateY(-50%);
-  border-radius:7px;background:rgba(120,120,128,.08)}
-.wheel__c{display:flex;flex-direction:column;align-items:center;gap:0}
-.wheel__c i,.wheel__c b{height:35px;display:flex;align-items:center;justify-content:center;
-  font-style:normal;white-space:nowrap}
-.wheel__c i{color:rgba(255,255,255,.65)}
-.wheel__c b{font-weight:400;color:var(--ap-g95)}
+
+/* ── 다른 날짜 직접 고르기 — 기기의 고르개 ──
+   그림으로 그린 휠을 걷어 낸 자리다. 그림은 돌아가지 않지만 이것은
+   진짜로 돈다 — <input type="date"> 를 두면 아이폰은 제 휠을, 안드로이드는
+   제 달력을 띄운다. 흉내 내지 않는 것이 아니라 **기기 것을 그대로 쓴다**.
+   칸은 바닥에 눕는 흰 띠다. 글은 왼쪽, 값은 오른쪽 — 칸 전체가 과녁이라
+   어디를 눌러도 고르개가 열린다(label 로 묶었다) */
+.dpick{display:flex;align-items:center;justify-content:space-between;
+  gap:var(--ap-gap3);margin:var(--ap-p6);
+  margin-bottom:max(var(--ap-p9),env(safe-area-inset-bottom));padding:var(--ap-p6);
+  background:var(--ap-g0);border-radius:var(--ap-r10);
+  box-shadow:var(--ap-shadow-card);cursor:pointer;
+  animation:ap-sheet-up var(--ap-dur-sheet) both}
+.dpick__t{font:var(--t-body-em);letter-spacing:var(--ls-body);color:var(--ap-g95)}
+.dpick__i{font:var(--t-body);letter-spacing:var(--ls-body);
+  flex:none;min-width:0;padding:0;background:none;border:0;
+  color:var(--ap-primary);font-family:var(--ap-font);cursor:pointer}
+@media (prefers-reduced-motion:reduce){.calm,.dpick{animation:none}}
 
 /* ── 아래 내비게이션 — 주화면에만 ── */
 /* ⚠ 아래 여백은 **홈 화면에서 연 창인지 묻지 않고** 기기에 바로 묻는다.
@@ -2346,7 +2353,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    z-index:0 은 뒤 화면 안의 z-index 를 그 안에 가둔다. 가두지 않으면
    화면 속 z-index:1 인 것들(훑는 그림 · 글자)이 막 위로 올라와 혼자
    또렷하게 선다 */
-.behind{position:absolute;inset:0;height:100%;z-index:0}
+/* ⚠ 선택자가 `.scr.is-on` 과 같은 무게여야 한다 — 베낀 쪽도 그 표를 달고
+   있어, `.behind` 한 장으로는 `.scr.is-on{position:relative}` 에 진다.
+   지면 베낀 화면이 **줄에 서서** 제 높이를 차지하고, 이 화면의 머리줄이
+   그 아래로 밀린다(달을 편 화면에서 드러났다) */
+.scr.is-on.behind{position:absolute;inset:0;height:100%;z-index:0}
 /* 카드와 '다시 촬영하기' 는 한 묶음이 아니다 — 하나는 저지르고 하나는
    되돌린다. 24 를 띄워 둘이 한 덩어리로 읽히지 않게 한다 */
 .confirm{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
@@ -2380,19 +2391,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* ── 알림창 — 시안 modal_alert ── */
 .dim{position:absolute;inset:0;background:var(--ap-scrim-dim);
   display:flex;align-items:center;justify-content:center;padding:var(--ap-p8)}
-/* 달 뒤는 한 단 더 어둡다(.75) — 알림창 뒤(.45)보다 짙은 것은 시안
-   그대로다. 아래에서 기기의 휠이 올라와, 그 사이로 비치는 화면이
-   옅으면 휠과 판이 한 덩어리로 보이지 않는다 */
-/* ⚠ .dim 은 가운데에 창 하나를 세우는 상자라 align-items:center 다.
-   여기서는 판과 휠이 **위아래 끝에 폭을 꽉 채워** 서야 해서 되돌린다 */
+/* 달을 편 뒤의 어두운 자리 — 알림창 뒤(.45)보다 한 단 짙다(시안 21:2649).
+   달과 머리줄은 그 위로 올라가 덮이지 않고(.hd--over), 바닥에는 기기의
+   날짜 고르개가 눕는다 */
 .dim--cal{padding:0;background:var(--ap-scrim-dim-deep);
-  flex-direction:column;align-items:stretch;justify-content:space-between;
+  flex-direction:column;align-items:stretch;justify-content:flex-end;
   animation:ap-dim-in var(--ap-dur-slow) var(--ap-ease-enter) both}
-.dim--cal > .calp{animation:ap-cal-down var(--ap-dur-sheet) var(--ap-ease-sheet) both}
-.dim--cal > .wheel{animation:ap-sheet-up var(--ap-dur-sheet) both}
-@keyframes ap-cal-down{from{transform:translateY(-100%)} to{transform:translateY(0)}}
-@media (prefers-reduced-motion:reduce){
-  .dim--cal,.dim--cal > .calp,.dim--cal > .wheel{animation:none}}
+@media (prefers-reduced-motion:reduce){.dim--cal{animation:none}}
 
 .alert{width:300px;max-width:100%;overflow:hidden;background:var(--ap-g0);
   border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-float)}

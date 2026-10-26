@@ -43,7 +43,9 @@
     stow(hit);
     link(hit);
     clock(hit);
+    day(hit);
     roll(hit);
+    jump(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -89,16 +91,94 @@
   }
   edge();
 
-  /* ── 날짜 띠를 끝으로 밀어 둔다 ──
-     띠에는 지난 주까지 들어 있어 폰에서는 다 보이지 않는다. 그대로 두면
-     맨 앞(지난 주)이 보이는데, 이 화면이 말하는 때는 **오늘이 든 주**라
-     그 주가 보이는 자리에서 시작해야 한다. 옆으로 밀면 지난 날이 나온다.
-     자리가 넓어 열네 날이 다 서는 폭에서는 밀 것이 없어 아무 일도 않는다.
+  /* ── 어느 날을 보는가 — 주소의 `d` ──
+     하이파이 화면은 **정해진 장면**이라 '아직 안 찍힌 날' 의 장면은 하나
+     (w-home)뿐이다. 그 한 장면을 어느 날로도 쓸 수 있게, 날만 주소에
+     싣고(`?screen=w-home&d=21`) 날짜가 적히는 자리를 갈아 끼운다 —
+     날짜를 누를 때마다 20일로 되돌아가 보이던 까닭이 이것이었다.
+     갈아 끼우는 것은 **날이 적히는 자리**뿐이다: 날짜 칸 · 요일 · 띠와
+     달의 고른 날 · '오늘'. 찍힌 시각이나 작업내용 같은 그 날의 기록은
+     장면이 쥔 것이라 건드리지 않는다(기록이 있는 날은 제 장면이 따로
+     있다 — 19일 · 20일).
+     2026년 10월 한 달만 쥐고 있다. 1일이 목요일이라 요일은 세어서 낸다 */
+  var DOW = ['목', '금', '토', '일', '월', '화', '수'];
+  var TODAY = 20;
+
+  function day(scr) {
+    var d = parseInt(new URL(location.href).searchParams.get('d'), 10);
+    if (!(d >= 1 && d <= 31)) return;
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+
+    scr.querySelectorAll('.cal__date').forEach(function (row) {
+      var nums = row.querySelectorAll('.cal__num');   /* 연 · 월 · 일 */
+      if (nums.length === 3) nums[2].textContent = two(d);
+      var dow = row.querySelector('.cal__dow');
+      if (dow) dow.textContent = DOW[(d - 1) % 7];
+      /* 달을 펴도 보던 날이 이어지게, 누르는 자리에 날을 적어 둔다 */
+      if (row.hasAttribute('data-go')) row.setAttribute('data-d', String(d));
+    });
+
+    scr.querySelectorAll('.cal__n--on,.cal__n--today').forEach(function (n) {
+      n.classList.remove('cal__n--on');
+      n.classList.remove('cal__n--today');
+    });
+    scr.querySelectorAll('.cal__d[data-d="' + d + '"] .cal__n').forEach(function (n) {
+      n.classList.add('cal__n--on');
+    });
+    /* 오늘이 아닌 날을 보는 동안에는 오늘이 점선 테로 남는다 */
+    if (d !== TODAY) {
+      scr.querySelectorAll('.cal__d[data-d="' + TODAY + '"] .cal__n').forEach(function (n) {
+        n.classList.add('cal__n--today');
+      });
+    }
+
+    /* '오늘' 은 되돌아가는 길이라, 오늘을 보는 동안에는 갈 데가 없다 */
+    scr.querySelectorAll('.pill--today').forEach(function (b) {
+      b.disabled = (d === TODAY);
+      if (b.disabled) b.removeAttribute('data-go');
+      else if (!b.hasAttribute('data-go')) b.setAttribute('data-go', 'w-home-done');
+    });
+  }
+
+  /* ── 다른 달·다른 해 — 기기의 고르개 ──
+     <input type="date"> 가 띄우는 것은 **기기 제 것**이다(아이폰은 휠,
+     안드로이드는 달력). 여기서 하는 일은 고른 날로 화면을 넘기는 것뿐이라,
+     머리말이 말한 이 파일의 몫 그대로다. 그 날에 제 장면이 있으면(19·20)
+     그리로, 없으면 '아직 안 찍힌 날' 의 장면으로 간다 */
+  function jump(scr) {
+    var i = scr.querySelector('.dpick__i');
+    if (!i) return;
+    i.addEventListener('change', function () {
+      var d = parseInt(i.value.slice(8), 10);
+      if (!(d >= 1 && d <= 31)) return;
+      var cell = scr.querySelector('.cal__d[data-d="' + d + '"][data-go]');
+      var u = new URL(location.href);
+      u.searchParams.set('screen', cell ? cell.dataset.go : 'w-home');
+      u.searchParams.set('d', String(d));
+      location.href = u.toString();
+    });
+  }
+
+  /* ── 날짜 띠를 고른 날이 보이는 자리에 둔다 ──
+     띠에는 한 달이 다 들어 있어 폰에서는 일곱 날만 보인다. 그대로 두면
+     맨 앞(1일)이 보이는데, 이 화면이 말하는 때는 **고른 날**이라 그 날이
+     가운데 오게 밀어 둔다. 옆으로 밀면 나머지 날이 나온다.
+     한 달이 다 들어가는 넓은 폭에서는 밀 것이 없어 아무 일도 않는다.
      (화면 안의 동작을 흉내 내는 것이 아니라, 띠를 **어디서부터 보여
      줄지**를 정하는 일이다 — 머리말이 말한 이 파일의 몫 그대로다) */
   function roll(scr) {
     scr.querySelectorAll('.cal__week').forEach(function (w) {
-      w.scrollLeft = w.scrollWidth - w.clientWidth;
+      var on = w.querySelector('.cal__n--on');
+      var cell = on && on.closest('.cal__d');
+      if (!cell) { w.scrollLeft = w.scrollWidth - w.clientWidth; return; }
+      /* 고른 날이 **든 주**를 통째로 보여 준다 — 그 날만 가운데 두면
+         일요일에서 시작하지 않아, 달을 폈을 때의 요일 줄과 어긋난다 */
+      var all = w.querySelectorAll('.cal__d');
+      var i = Array.prototype.indexOf.call(all, cell);
+      var head = all[i - (i % 7)];
+      /* 굴린 자리를 **재서** 옮긴다 — offsetLeft 는 띠가 아니라 자리를
+         잡아 둔 조상(.scr)에서 재는 값이라 띠의 굴림 값과 다르다 */
+      w.scrollLeft += head.getBoundingClientRect().left - w.getBoundingClientRect().left;
     });
   }
 
@@ -144,6 +224,10 @@
       e.preventDefault();
       var u = new URL(location.href);
       u.searchParams.set('screen', go.dataset.go);
+      /* 누른 것이 날을 쥐고 있으면 실어 보내고, 아니면 지운다 — 지우지
+         않으면 다른 화면에 갔다 돌아올 때 지난 날이 따라온다 */
+      if (go.hasAttribute('data-d')) u.searchParams.set('d', go.getAttribute('data-d'));
+      else u.searchParams.delete('d');
       var url = u.toString();
 
       /* 시트가 떠 있는 화면에서 떠날 때는 **내려가는 것을 보여 주고** 간다.
