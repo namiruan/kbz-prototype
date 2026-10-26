@@ -1213,11 +1213,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   height:35px;display:flex;align-items:center;justify-content:center;
   scroll-snap-align:center;white-space:nowrap;color:var(--ap-text-gray);
   transition:color var(--ap-dur-fast) linear}
-.wheel__i--on{font:var(--t-title2);letter-spacing:var(--ls-title2);color:var(--ap-g95)}
-/* 프로토타입이 쥐지 않은 해와 달 — 흐리게 두고, 손을 떼면 제자리로
-   돌아온다(js 의 wheel). 기기 고르개가 min·max 에서 하는 일과 같다.
-   가운데에 와도 흐린 채다 — 고를 수 없는 값이라 */
-.wheel__i--off,.wheel__i--off.wheel__i--on{color:var(--ap-g20)}
+/* 고른 값은 Title1(28/34)에 브랜드 색이다 — 띠(primary/5) · 글자 ·
+   달에서 고른 날(채운 브랜드 동그라미)이 한 색 가족으로 묶인다.
+   34 는 칸의 키(35) 안에 꼭 드는 줄높이다 — 더 키우면 줄이 밀린다 */
+.wheel__i--on{font:var(--t-title1);letter-spacing:var(--ls-title1);color:var(--ap-primary)}
 
 /* ── 아래 내비게이션 — 주화면에만 ── */
 /* ⚠ 아래 여백은 **홈 화면에서 연 창인지 묻지 않고** 기기에 바로 묻는다.
