@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=248">
-<script src="assets/face-attendance-app.js?v=248" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=249">
+<script src="assets/face-attendance-app.js?v=249" defer></script>
 </head>
 
 <body>
@@ -1093,6 +1093,13 @@
       <details class="row row--zone">
         <summary class="zone__s">
           <span class="row__k">인정범위</span>
+          <!-- 접힌 줄에 지도를 한 조각 보여 둔다 — '여기를 누르면 지도가
+               나온다' 를 글로 적지 않고 그 지도로 말한다. 펼치면 아래 칸에
+               같은 그림이 크게 서므로 이 조각은 빠진다 -->
+          <span class="zone__th" aria-hidden="true">
+            <span class="zone__r"></span>
+            <svg class="ic zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+          </span>
           <svg class="ic ic--24 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
         </summary>
         <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
@@ -1179,6 +1186,13 @@
       <details class="row row--zone">
         <summary class="zone__s">
           <span class="row__k">인정범위</span>
+          <!-- 접힌 줄에 지도를 한 조각 보여 둔다 — '여기를 누르면 지도가
+               나온다' 를 글로 적지 않고 그 지도로 말한다. 펼치면 아래 칸에
+               같은 그림이 크게 서므로 이 조각은 빠진다 -->
+          <span class="zone__th" aria-hidden="true">
+            <span class="zone__r"></span>
+            <svg class="ic zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+          </span>
           <svg class="ic ic--24 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
         </summary>
         <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
@@ -1274,6 +1288,13 @@
       <details class="row row--zone">
         <summary class="zone__s">
           <span class="row__k">인정범위</span>
+          <!-- 접힌 줄에 지도를 한 조각 보여 둔다 — '여기를 누르면 지도가
+               나온다' 를 글로 적지 않고 그 지도로 말한다. 펼치면 아래 칸에
+               같은 그림이 크게 서므로 이 조각은 빠진다 -->
+          <span class="zone__th" aria-hidden="true">
+            <span class="zone__r"></span>
+            <svg class="ic zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+          </span>
           <svg class="ic ic--24 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
         </summary>
         <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
