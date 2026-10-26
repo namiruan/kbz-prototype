@@ -919,8 +919,11 @@ ul,ol{list-style:none}
    한 번 더 가까이 가져가야 했다 */
 .act--cta .cta__nm{display:flex;flex-direction:column;align-items:flex-start;
   gap:var(--ap-p3);min-width:0}
+/* 시계 아이콘이 수 앞에 선다 — '07:03:12' 는 시각으로도 남은 시간으로도
+   읽히는 꼴이라, 아이콘이 '지금 몇 시' 쪽임을 붙여 준다 */
 .act--cta .cta__time{font:var(--t-head);letter-spacing:var(--ls-head);
-  padding:2px var(--ap-p5);border-radius:var(--ap-r-pill);
+  display:inline-flex;align-items:center;gap:var(--ap-p2);
+  padding:2px var(--ap-p5) 2px var(--ap-p4);border-radius:var(--ap-r-pill);
   background:var(--ap-on-cta-chip);color:var(--ap-g0);
   font-variant-numeric:tabular-nums}
 /* 시각과 '얼굴 인식 필요' 는 한 줄에 나란히 선다 — 둘 다 이름 위에 붙는
@@ -1838,6 +1841,13 @@ ul,ol{list-style:none}
   display:flex;align-items:center;justify-content:center;padding:var(--ap-p8)}
 .alert{width:300px;max-width:100%;overflow:hidden;background:var(--ap-g0);
   border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-float)}
+/* 바닥에서 올라오는 꼴 — 인정범위 지도 시트(.sheet)와 같다. 한 앱에서
+   덮고 올라오는 것이 한 가지 꼴로 서야, 어디서 올라온 것인지 눈이 매번
+   다시 잡지 않는다. 폭을 다 쓰고 위 모서리만 둥글다 */
+.alert--sheet{width:100%;border-radius:var(--ap-r15) var(--ap-r15) 0 0}
+/* 묻는 글의 좌우 여백은 폭을 따라 넓힌다 — 300 에 맞춰 둔 16 을 그대로
+   두면 글줄이 화면 끝까지 가 한 줄이 너무 길어진다 */
+.alert--sheet .alert__bd{padding:var(--ap-p8) var(--ap-p8) var(--ap-p6)}
 .alert__bd{display:flex;flex-direction:column;align-items:center;gap:var(--ap-p5);
   padding:var(--ap-p8) var(--ap-p6);text-align:center}
 .alert__t{font:var(--t-title2);letter-spacing:var(--ls-title2);color:var(--ap-g95)}

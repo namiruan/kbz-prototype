@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=293">
-<script src="assets/face-attendance-app.js?v=293" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=295">
+<script src="assets/face-attendance-app.js?v=295" defer></script>
 </head>
 
 <body>
@@ -1193,7 +1193,7 @@
                  읽혔는데, 시각은 누를 것의 이름이 아니라 지금 몇 시인지를
                  알려 주는 곁말이다 -->
             <span class="cta__meta">
-              <span class="cta__time">07:03:12</span>
+              <span class="cta__time"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-time"></use></svg>07:03:12</span>
               <!-- 이 현장이 얼굴로 찍는 곳임을 과녁 위에 적는다 — 누르면
                    카메라가 열리는데, 누르기 전에는 그것을 알 길이 없었다.
                    현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
@@ -1374,7 +1374,7 @@
                  읽혔는데, 시각은 누를 것의 이름이 아니라 지금 몇 시인지를
                  알려 주는 곁말이다 -->
             <span class="cta__meta">
-              <span class="cta__time">07:03:12</span>
+              <span class="cta__time"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-time"></use></svg>07:03:12</span>
               <!-- 이 현장이 얼굴로 찍는 곳임을 과녁 위에 적는다 — 누르면
                    카메라가 열리는데, 누르기 전에는 그것을 알 길이 없었다.
                    현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
@@ -1396,8 +1396,11 @@
   </nav>
 
   <!-- 안면인식 현장인데 이 현장에 등록된 얼굴이 없을 때 출근을 누르면 뜬다 -->
-  <div class="dim">
-    <div class="alert" role="alertdialog" aria-labelledby="wFaceT">
+  <!-- 창은 **바닥에서 올라오는 시트**다 — 인정범위 지도와 같은 꼴이다.
+       한 앱에서 덮고 올라오는 것이 한 가지 꼴로 서야, 어디서 올라온
+       것인지 눈이 매번 다시 잡지 않는다 -->
+  <div class="dim dim--sheet">
+    <div class="alert alert--sheet" role="alertdialog" aria-labelledby="wFaceT">
       <div class="alert__bd">
         <!-- 얼굴을 훑는 그림 — 현장소장 앱의 '얼굴 등록하기' 자리에 서는
              것과 같은 그림이고 같은 움직임이다(레이저가 위에서 아래로 한 번
@@ -1551,7 +1554,7 @@
         <span class="cta__h">
           <span class="cta__nm">
             <span class="cta__meta">
-              <span class="cta__time">17:31:40</span>
+              <span class="cta__time"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-time"></use></svg>17:31:40</span>
               <!-- 이 현장이 얼굴로 찍는 곳임을 과녁 위에 적는다 — 누르면
                    카메라가 열리는데, 누르기 전에는 그것을 알 길이 없었다.
                    현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
