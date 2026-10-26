@@ -64,7 +64,11 @@
          때는 밀려 올라오고 닫힐 때는 툭 꺼지는 짝이 안 맞는 꼴이 된다.
          기다리는 길이는 css 가 정한 --ap-dur-sheet-out 을 그대로 읽는다 —
          두 곳에 적으면 한쪽만 고쳐져 따로 늙는다. */
-      var sheet = hit.querySelector('.dim--sheet');
+      /* `data-go-now` 는 **내려가는 몸짓을 건너뛴다**. 내려가는 그림은
+         '여기서 나간다' 는 말이라 닫기(✕)와 뒤의 어두운 자리 몫이다 —
+         시트가 권하는 일을 눌러 앞으로 갈 때까지 접히고 나면, 다음
+         화면으로 가는 길이 한 번 물러섰다 다시 나아가는 꼴이 된다 */
+      var sheet = go.hasAttribute('data-go-now') ? null : hit.querySelector('.dim--sheet');
       var slow = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
       if (!sheet || slow) { location.href = url; return; }
 
