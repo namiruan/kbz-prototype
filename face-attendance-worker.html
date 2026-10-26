@@ -30,7 +30,10 @@
      창 812). 그 자리는 창 밖이라 바가 기기 바닥에 닿지 못한다.
      iOS 가 그리게 두면 창이 상태 표시줄 아래에서 시작해 **화면 바닥
      까지** 내려온다. 표시줄 자리는 문서 바탕색으로 칠해지므로 화면마다
-     그 색을 맞춘다(css 의 --ap-edge) -->
+     그 색을 맞춘다(css 의 --ap-edge).
+     ⚠ iOS 는 이 값을 홈 화면에 **놓을 때** 읽어 둔다. 이미 놓아 둔
+       아이콘은 이 줄을 고쳐도 옛 꼴 그대로 돈다 — 지우고 다시 놓아야
+       바뀐다(고친 뒤 머리줄이 상태 표시줄에 깔려 보인 까닭이다) -->
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="images/app-icon/icon-180.png">
 
@@ -41,8 +44,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=381">
-<script src="assets/face-attendance-app.js?v=381" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=382">
+<script src="assets/face-attendance-app.js?v=382" defer></script>
 </head>
 
 <body>

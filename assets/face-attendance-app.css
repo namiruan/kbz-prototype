@@ -1534,7 +1534,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    치수는 등록 촬영 확인의 '얼굴 등록하기'(.confirm__ok)와 같다 — 글자
    22/28, 키 56, 모서리 10. 같은 일을 저지르는 버튼이라 두 화면에서 같은
    무게로 서야 한다. 그 자리의 값과 한 줄에서 나오게 선택자를 묶는다 */
-.confirm__ok,.scan__go{font:var(--t-title2);letter-spacing:var(--ls-title2);
+/* ⚠ 이것들은 button 이 아니라 span 이라, 맨 위의 reset
+   (button{cursor:pointer})이 닿지 않는다 — 글자 위에서 텍스트 커서가
+   떴다. 눌리는 것은 손 모양이어야 한다(atoms/link.md 의 '클릭 영역') */
+.confirm__ok,.scan__go{cursor:pointer;font:var(--t-title2);letter-spacing:var(--ls-title2);
   width:100%;height:56px;display:flex;align-items:center;justify-content:center;
   background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
 .scan__go{box-shadow:var(--ap-shadow-lift)}
@@ -2079,7 +2082,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   background:linear-gradient(145deg,#e7eaee 0%,#d9dee4 58%,#cfd5dc 100%)}
 /* 지우는 표는 사진의 **모서리 밖으로 5 걸친다** — 안에 넣으면 사진을
    가리고, 밖에 떼어 놓으면 어느 사진의 것인지 흐려진다 */
-.att__x{position:absolute;top:-5px;right:-5px;
+.att__x{cursor:pointer;position:absolute;top:-5px;right:-5px;
   display:flex;align-items:center;justify-content:center;
   width:28px;height:28px;border-radius:50%;
   background:var(--ap-g90);color:var(--ap-g0)}
@@ -2227,7 +2230,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .cam__box--ok{--ap-cam-edge:var(--ap-cam-ok);--ap-cam-wash:rgba(123,227,139,.5)}
 /* 주된 동작은 바닥에 둔다 — 한 손으로 드는 기기에서 엄지가 닿는 자리다.
    틀과 좌우를 맞춘다 */
-.cam__go{font:var(--t-title2);letter-spacing:var(--ls-title2);
+.cam__go{cursor:pointer;font:var(--t-title2);letter-spacing:var(--ls-title2);
   position:absolute;left:var(--ap-cam-side);right:var(--ap-cam-side);bottom:var(--ap-p10);
   height:var(--ap-cam-go-h);display:flex;align-items:center;justify-content:center;gap:var(--ap-p3);
   background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
