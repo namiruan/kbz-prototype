@@ -568,6 +568,13 @@ ul,ol{list-style:none}
 .card{display:flex;flex-direction:column;gap:var(--ap-p4);padding:var(--ap-p6);
   background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
 .card__top{display:flex;align-items:center;gap:var(--ap-gap3)}
+/* 현장 카드 — 이름 아래에 인정범위가 든다. 둘은 결이 다른 줄이라(하나는
+   제목+액션, 하나는 라벨+값) 선을 그어 가른다. 선이 없으면 이름과 라벨이
+   한 덩어리로 흘러, 어디까지가 현장 이름인지 눈이 한 번 더 가른다.
+   .row 의 제 여백(12/12)과 아래 선은 걷는다 — 위아래를 카드의 gap(10)에
+   맞춰, 선을 사이에 두고 양쪽이 같은 폭으로 벌어진다 */
+.card--site .row{padding:var(--ap-p4) 0 0;
+  border-top:1px solid var(--ap-g5);border-bottom:0}
 .card__nm{font:var(--t-title3-em);letter-spacing:var(--ls-title3);flex:1;min-width:0;color:var(--ap-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .card__gr{display:flex;flex-wrap:wrap;gap:var(--ap-p2) var(--ap-p6)}
 .card__kv{flex:1 0 0;min-width:115px;display:flex;align-items:center;gap:var(--ap-p3)}
@@ -1322,9 +1329,6 @@ ul,ol{list-style:none}
 /* 흰 종이 위에서는 정보 줄이 카드를 벗는다 — 흰 카드를 흰 바탕에 올리면
    그림자만 남아 때처럼 보인다. 줄 사이 선도 긋지 않는다: 라벨과 값이
    좌우로 멀찍이 갈라져 있어 선이 없어도 한 줄로 읽힌다 */
-/* .rows--day 는 꼴을 바꾸지 않는다 — 근로자 앱 홈에서 똑같이 생긴 카드가
-   둘(인정범위 · 오늘 기록) 서게 되어, 둘 중 어느 것인지를 가리킬 이름이
-   필요했다(화면설명의 앵커가 그 이름을 짚는다) */
 .rows--bare{background:none;box-shadow:none;padding:0}
 .rows--bare .row{border-bottom:0}
 /* 사진은 본문 폭을 다 쓰는 **라운드된 정방형**이다. 가로세로가 같아
