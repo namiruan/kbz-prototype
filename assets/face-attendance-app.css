@@ -1356,8 +1356,11 @@ ul,ol{list-style:none}
 /* 얼굴이 앉는 **면** — 가운데가 밝고 가장자리로 갈수록 연한 브랜드 색이
    퍼진다. 근로자 추가의 '얼굴 등록하기' 자리와 얼굴 등록 안내 창이 이
    한 벌을 나눠 쓴다: 같은 일을 묻는 두 자리라 바탕도 같아야 하고, 두 곳에
-   따로 적어 두면 한쪽만 고쳐져 따로 늙는다 */
-.shot__box,.scan__well{position:relative;overflow:hidden;
+   따로 적어 두면 한쪽만 고쳐져 따로 늙는다.
+   창 쪽에서는 그 면이 **시트 제 바탕**이다(.alert--sheet) — 네모를 따로
+   두르면 시트 안에 또 하나의 카드가 들어앉고, 그림은 그 카드 몫이 되어
+   글과 버튼은 바깥에 남는다 */
+.shot__box{position:relative;overflow:hidden;
   border:1px solid var(--ap-badge-positive);border-radius:var(--ap-r10);
   background:radial-gradient(circle at 50% 40%,var(--ap-glow-in) 0,var(--ap-glow-out) 72%)}
 .shot__box{font:var(--t-sub-em);letter-spacing:var(--ls-sub);width:var(--ap-shot);height:var(--ap-shot);
@@ -1367,17 +1370,8 @@ ul,ol{list-style:none}
    길어져 바닥에서 올라온 시트가 화면을 절반 넘게 먹는다.
    그 면이 곧 **과녁**이다(.scan__well--go) — 현장소장 앱의 '얼굴 등록하기'
    와 같다. 그림 아래에 이름이 붙는 차례도 같다 */
-/* 그림이 면을 꽉 채우고, 그 아래에 **채운 버튼**이 선다. 면 전체를
-   과녁으로 두었더니 눌리는 자리로 보이지 않았다 — 글만 얹혀 있어 그림의
-   이름표처럼 읽혔다.
-   그림과 버튼 사이는 16 이다: 그림의 둘레로 빛이 번져 나오므로 바싹
-   붙이면 버튼이 그 빛을 깔고 앉는다 */
-.scan__well{align-self:stretch;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:var(--ap-p6);
-  padding:var(--ap-p8) var(--ap-p6) var(--ap-p6);color:var(--ap-primary)}
-.scan__well > *{position:relative;z-index:1}
-/* 채운 버튼 — 이 시트가 권하는 일 하나다. 면 안에서 좌우를 다 쓴다:
-   가운데에 글자만큼만 두면 옅은 면 위에서 또 하나의 조각처럼 보인다 */
+/* 채운 버튼 — 이 시트가 권하는 일 하나다. 좌우를 다 쓴다: 글자만큼만
+   두면 옅은 면 위에서 또 하나의 조각처럼 보인다 */
 .scan__go{font:var(--t-head);letter-spacing:var(--ls-head);
   align-self:stretch;display:flex;align-items:center;justify-content:center;
   padding:15px var(--ap-p8);border-radius:var(--ap-r10);
@@ -1388,8 +1382,8 @@ ul,ol{list-style:none}
    어느 쪽이 이 시트가 권하는 일인지 흐려진다.
    아래 여백 40 은 홈 인디케이터 자리다(시안의 바닥 버튼과 같다) */
 .alert__later{font:var(--t-head);letter-spacing:var(--ls-head);
-  display:block;width:100%;text-align:center;
-  padding:var(--ap-p5) var(--ap-p6) var(--ap-p10);
+  align-self:stretch;display:block;text-align:center;
+  padding:var(--ap-p2) var(--ap-p6) var(--ap-p10);
   color:var(--ap-text-gray)}
 /* 글자와 그림은 퍼지는 면 위에 선다 — 자리를 잡아 두지 않으면 면이 그 위를 덮는다 */
 .shot__box > *{position:relative;z-index:1}
@@ -1876,13 +1870,20 @@ ul,ol{list-style:none}
   border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-float)}
 /* 바닥에서 올라오는 꼴 — 인정범위 지도 시트(.sheet)와 같다. 한 앱에서
    덮고 올라오는 것이 한 가지 꼴로 서야, 어디서 올라온 것인지 눈이 매번
-   다시 잡지 않는다. 폭을 다 쓰고 위 모서리만 둥글다 */
-.alert--sheet{width:100%;border-radius:var(--ap-r15) var(--ap-r15) 0 0}
+   다시 잡지 않는다. 폭을 다 쓰고 위 모서리만 둥글다.
+   바탕은 '얼굴 등록하기' 자리의 그 면이다 — 빛이 가운데 위쪽(50% 40%)
+   에서 퍼지고, 얼굴이 거기 앉는다. 제목부터 '나중에 등록하기' 까지가
+   한 그림 위에 선다 */
+.alert--sheet{width:100%;border-radius:var(--ap-r15) var(--ap-r15) 0 0;
+  background:radial-gradient(circle at 50% 40%,var(--ap-glow-in) 0,var(--ap-glow-out) 72%)}
 /* 머리줄 아래가 곧 몸이다 — 시안의 시트도 제목 줄(56) 바로 다음에 몸이
    붙는다. 좌우는 머리줄과 같은 16 이라 제목과 글이 한 세로 선에서
    시작하고, 글은 가운데로 모으지 않는다(제목이 왼쪽이라서다) */
-.alert--sheet .alert__bd{align-items:stretch;text-align:left;
-  padding:var(--ap-p5) var(--ap-p6) var(--ap-p6)}
+.alert--sheet .alert__bd{align-items:center;text-align:center;
+  gap:var(--ap-p6);padding:var(--ap-p5) var(--ap-p6) 0}
+/* 글과 버튼은 퍼지는 빛 **위에** 선다 — 자리를 잡아 두지 않으면 바탕이
+   그 위를 덮는다(.shot__box 안에서와 같다) */
+.alert--sheet .alert__bd > *{position:relative;z-index:1}
 
 .alert__bd{display:flex;flex-direction:column;align-items:center;gap:var(--ap-p5);
   padding:var(--ap-p8) var(--ap-p6);text-align:center}
