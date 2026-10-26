@@ -1841,8 +1841,17 @@ ul,ol{list-style:none}
 /* ── 써 둔 작업내용 — 홈에서 보는 꼴 ──
    오늘 한 일은 오늘 찍힌 시각 다음에 온다. 출퇴근 카드 바로 아래에
    붙여 두면 위에서 아래로 그대로 읽힌다 */
-.card--note{gap:var(--ap-p3)}
-.wnote__h{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-p5)}
+/* 그림자는 두지 않는다 — 위의 출근·퇴근 카드는 '오늘의 값' 이라 바탕에서
+   떠 있지만, 이것은 그 값에 딸려 읽는 글이다. 같은 무게로 띄우면 셋이
+   나란히 선 카드 셋이 되어, 무엇이 값이고 무엇이 그에 붙은 글인지가
+   가려지지 않는다. 흰 면만으로도 바탕(primary/5)과는 갈린다 */
+.card--note{gap:var(--ap-p3);box-shadow:none}
+/* 머리줄과 글 사이에 금을 긋는다 — '작업내용'·'수정' 은 이 칸이 무엇이고
+   어디로 가는지를 말하는 줄이고, 아래는 쓴 글이다. 금이 없으면 라벨이
+   글의 첫 줄처럼 붙어 읽힌다 */
+.wnote__h{display:flex;align-items:center;justify-content:space-between;
+  gap:var(--ap-p5);padding-bottom:var(--ap-p4);
+  border-bottom:1px solid var(--ap-g5)}
 .wnote__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
 /* 고치러 가는 길은 머리줄 오른쪽 끝이다 — 글 아래에 두면 읽고 난 다음에야
    보이는데, 여기 온 사람의 절반은 고치러 온다 */
