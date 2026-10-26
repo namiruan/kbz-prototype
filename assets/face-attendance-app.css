@@ -1540,7 +1540,7 @@ details[open] > .zone__s .zone__c{transform:rotate(180deg)}
    가운데에 세우면 두 카드의 수가 각자 제 칸의 한가운데에 서서, 나란히
    놓인 두 값으로 읽힌다 */
 .tcard{display:flex;flex-direction:column;align-items:center;text-align:center;
-  gap:var(--ap-p2);padding:var(--ap-p5) var(--ap-p6);background:var(--ap-g0);
+  gap:var(--ap-p1);padding:var(--ap-p5) var(--ap-p6);background:var(--ap-g0);
   border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
 /* 이름 줄 — 이름은 왼쪽, 그 기록이 어디서 왔는지는 오른쪽 끝이다. 카드
    안은 가운데로 모으지만 이 줄만은 양쪽으로 벌린다: 둘은 짝이 아니라
@@ -1549,8 +1549,13 @@ details[open] > .zone__s .zone__c{transform:rotate(180deg)}
 .tcard__h{display:flex;align-items:center;justify-content:space-between;
   gap:var(--ap-p3);align-self:stretch;min-height:22px}
 .tcard__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
-/* 숫자는 폭이 고른 꼴로 둔다 — 두 카드의 시각이 세로로 나란히 서야 한다 */
-.tcard__v{font:var(--t-title2);letter-spacing:var(--ls-title2);
+/* 이 카드에서 읽을 것은 시각 하나다 — 시안의 꼭대기 글자(28)로 둔다.
+   22 로는 이름(15)·기준(13)과 한 묶음으로 보여, 카드가 무엇을 보여 주는
+   것인지가 세 줄에 흩어졌다.
+   위의 이름 줄과는 2 만 띄운다(카드의 gap) — 시각과 그 꼬리표는 한
+   덩어리라, 벌어지면 따로 선 두 줄이 된다.
+   숫자는 폭이 고른 꼴로 둔다 — 두 카드의 시각이 세로로 나란히 서야 한다 */
+.tcard__v{font:var(--t-title1);letter-spacing:var(--ls-title1);
   color:var(--ap-text);font-variant-numeric:tabular-nums}
 /* 아직 찍히지 않은 자리 — 빈칸으로 두면 값이 없는 것인지 아직인 것인지
    가릴 수 없다. 글자는 흐리게 둔다: 자리는 잡되 읽을 값은 아니다 */
