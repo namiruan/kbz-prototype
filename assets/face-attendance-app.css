@@ -406,6 +406,12 @@ html:has(.act--split),html:has(.act--split) body{
 }
 html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .is-app .scr.is-on{position:fixed;inset:0;height:auto}
+/* 창 밖에 남는 띠만큼 바가 제 여백을 덜어 낸다 — 띠는 이미 바와 같은
+   색이라(--ap-edge) 둘이 겹치면 바가 두 배로 두꺼워 보인다. 띠의 높이는
+   js 가 재어 --ap-band 에 적는다(기기에 물어서는 알 수 없다) */
+html{--ap-band:0px}
+.is-app .tabbar{padding-bottom:max(var(--ap-p4),calc(var(--ap-p9) - var(--ap-band)))}
+.is-app .act--end .act__b{padding-bottom:max(var(--ap-p6),calc(var(--ap-p10) - var(--ap-band)))}
 
 /* ── 내비게이션 바 ──
    흰 바탕 · 위 56(상태바 자리) · 아래 10 · 좌우 16.

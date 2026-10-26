@@ -40,6 +40,10 @@
     ['env(safe-area-inset-top)', env('safe-area-inset-top') + ' px', null],
     ['env(safe-area-inset-bottom)', env('safe-area-inset-bottom') + ' px',
       env('safe-area-inset-bottom') > 0],
+    ['창의 윗변 screenY', String(window.screenY), null],
+    ['창 밖에 남는 높이', (screen.height - window.innerHeight) + ' pt', null],
+    ['그중 아래쪽', Math.max(0, screen.height - window.innerHeight -
+      (window.screenY || 0)) + ' pt', null],
     ['초록 바의 아랫변', Math.round(pin.bottom) + ' px', null],
     ['창 높이와 같은가', Math.round(pin.bottom) === window.innerHeight ? '예' : '아니오',
       Math.round(pin.bottom) === window.innerHeight],
