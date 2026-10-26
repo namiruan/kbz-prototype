@@ -1865,8 +1865,14 @@ ul,ol{list-style:none}
    것처럼 보였다 — 이것은 고르는 칸이 아니라 '지금 어느 현장의 동의인가'
    를 적은 머리말이다.
    이름은 브랜드 색이다(primary/70 — 시안이 현장명에 쓰는 색). 면이
-   없어진 자리를 색이 대신 쥐어, 종이 위에서도 이름이 가장 먼저 읽힌다 */
-.card--head{background:none;box-shadow:none;padding:0 var(--ap-p2)}
+   없어진 자리를 색이 대신 쥐어, 종이 위에서도 이름이 가장 먼저 읽힌다.
+   가운데로 모으고 아래를 한 칸 더 띄운다 — 왼쪽에 붙여 두었더니 바로
+   밑의 '전체 동의' 와 같은 세로선에서 시작해, 동의 목록의 머리줄처럼
+   딸려 읽혔다. 이것은 그 목록의 제목이 아니라 **이 화면 전체가 어느
+   현장의 일인가**를 적은 머리말이다 */
+.card--head{align-items:center;text-align:center;
+  background:none;box-shadow:none;
+  padding:0 var(--ap-p2);margin-bottom:var(--ap-p5)}
 .agr__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
 .agr__site{font:var(--t-title3-em);letter-spacing:var(--ls-title3);color:var(--ap-primary-70);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
