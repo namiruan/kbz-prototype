@@ -675,26 +675,19 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 띠는 제 폭을 재는 **컨테이너**다 — 화면 폭이 아니라 여기를 재야 한다.
    이 화면은 끼워 보여지는 틀(iframe) 안에 있어 바깥 폭과 안쪽 폭이 다르고,
    폭에 따라 좌우 여백도 16 에서 24 로 바뀐다 */
+/* 지난 날은 **옆으로 밀어** 본다. 자리가 없으면 숨기던 것을 띠가 구르게
+   바꾼 것은, 숨은 날은 거기 있는 줄도 모르기 때문이다 — 밀면 손끝에 걸린다.
+   한 칸은 폰에서 쥐는 폭(358÷7 ≈ 51)을 바닥으로 깔고 자리가 남으면 늘어난다:
+   폰(띠 358)에서는 일곱 날이 꽉 차고 열네 날(714)은 구르며, 태블릿(띠 720)
+   에서는 늘어날 자리가 있어 열네 날이 다 서고 구를 것이 없다.
+   굴림대는 감춘다 — 날짜 아래에 띠가 하나 더 그어지면 점(기록 표시)과
+   섞인다. 띠를 켤 때 오늘이 든 주가 보이도록 끝으로 밀어 두는 일은
+   js 가 한다(assets/face-attendance-app.js 의 roll) */
 .cal__week{display:flex;align-items:flex-start;
-  container-type:inline-size;container-name:cal-week}
-.cal__d{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--ap-p2);
+  overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
+.cal__week::-webkit-scrollbar{display:none}
+.cal__d{flex:1 0 51px;min-width:0;display:flex;flex-direction:column;gap:var(--ap-p2);
   padding:4px;border-radius:var(--ap-r10)}
-/* 지난 날은 자리가 날 때만 드러난다. 한 칸이 폰에서 쥐는 폭(358÷7 ≈ 51)
-   보다 좁아지지 않는 선이 문턱이다 — 여덟째 날은 8×51, 아홉째는 9×51 …
-   열넷째는 14×51(714). 폰(띠 358)에서는 첫 문턱(408)에도 못 미쳐 일곱 날
-   그대로이고, 태블릿(띠 720)에서는 열네 날이 다 선다.
-   선택자에 > 를 두는 것은 바로 위의 .cal__d 와 특정도를 맞추기 위해서다 —
-   같으면 뒤에 오는 쪽이 이기는데, 숨기는 쪽이 뒤에 서야 한다 */
-.cal__week > .cal__d--n8,.cal__week > .cal__d--n9,.cal__week > .cal__d--n10,
-.cal__week > .cal__d--n11,.cal__week > .cal__d--n12,
-.cal__week > .cal__d--n13,.cal__week > .cal__d--n14{display:none}
-@container cal-week (min-width:408px){.cal__week > .cal__d--n8{display:flex}}
-@container cal-week (min-width:459px){.cal__week > .cal__d--n9{display:flex}}
-@container cal-week (min-width:510px){.cal__week > .cal__d--n10{display:flex}}
-@container cal-week (min-width:561px){.cal__week > .cal__d--n11{display:flex}}
-@container cal-week (min-width:612px){.cal__week > .cal__d--n12{display:flex}}
-@container cal-week (min-width:663px){.cal__week > .cal__d--n13{display:flex}}
-@container cal-week (min-width:714px){.cal__week > .cal__d--n14{display:flex}}
 .cal__w{font:var(--t-sub);letter-spacing:var(--ls-sub);height:20px;text-align:center;color:var(--ap-text)}
 .cal__w--sun{color:var(--ap-danger)}
 .cal__w--sat{color:var(--ap-primary)}

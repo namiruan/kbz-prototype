@@ -44,7 +44,21 @@
     link(hit);
     clock(hit);
     edge(hit);
+    roll(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
+  }
+
+  /* ── 날짜 띠를 끝으로 밀어 둔다 ──
+     띠에는 지난 주까지 들어 있어 폰에서는 다 보이지 않는다. 그대로 두면
+     맨 앞(지난 주)이 보이는데, 이 화면이 말하는 때는 **오늘이 든 주**라
+     그 주가 보이는 자리에서 시작해야 한다. 옆으로 밀면 지난 날이 나온다.
+     자리가 넓어 열네 날이 다 서는 폭에서는 밀 것이 없어 아무 일도 않는다.
+     (화면 안의 동작을 흉내 내는 것이 아니라, 띠를 **어디서부터 보여
+     줄지**를 정하는 일이다 — 머리말이 말한 이 파일의 몫 그대로다) */
+  function roll(scr) {
+    scr.querySelectorAll('.cal__week').forEach(function (w) {
+      w.scrollLeft = w.scrollWidth - w.clientWidth;
+    });
   }
 
   /* ── 화면 밖에 남는 띠의 색 ──
