@@ -1881,9 +1881,19 @@ ul,ol{list-style:none}
    밑의 '전체 동의' 와 같은 세로선에서 시작해, 동의 목록의 머리줄처럼
    딸려 읽혔다. 이것은 그 목록의 제목이 아니라 **이 화면 전체가 어느
    현장의 일인가**를 적은 머리말이다 */
-.card--head{align-items:center;text-align:center;
-  background:none;box-shadow:none;
-  padding:0 var(--ap-p2);margin-bottom:var(--ap-p5)}
+.card--head{align-items:center;text-align:center;box-shadow:none;
+  /* 머리말 칸은 **변까지 꽉 찬다** — 본문의 여백(16)을 음수 바깥여백으로
+     되물려 내비게이션 바로 아래에 붙이고, 그만큼을 제 안쪽 여백으로
+     되돌려 놓는다. 그래야 흰 면이 머리줄과 이어진 한 장으로 보인다 */
+  margin:calc(var(--ap-p6) * -1) calc(var(--ap-p6) * -1) var(--ap-p7);
+  padding:var(--ap-p5) var(--ap-p6) var(--ap-p8);
+  /* 위는 머리줄과 같은 흰색, 아래로 내려오며 화면 바탕으로 풀린다.
+     칸이 끝나는 자리에서 색이 이미 바탕과 같으므로 경계가 서지 않는다 —
+     '전체 동의' 부터는 그대로 바탕 위다.
+     ⚠ 끊긴 색 두 장을 위아래로 붙이지 않는다. 흰 면이 네모로 잘려
+       머리말이 또 하나의 카드가 된다 */
+  background:linear-gradient(to bottom,
+    var(--ap-g0) 0, var(--ap-g0) 38%, var(--ap-primary-5) 100%)}
 .agr__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
 .agr__site{font:var(--t-title3-em);letter-spacing:var(--ls-title3);color:var(--ap-primary-70);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
