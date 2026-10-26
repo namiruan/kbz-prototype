@@ -1993,7 +1993,15 @@ ul,ol{list-style:none}
   display:inline-flex;align-items:center;justify-content:center;
   padding:4px;border-radius:6px;color:var(--ap-g0)}
 .cam__back .ic{width:24px;height:24px}
-.cam__who{font:var(--t-sub-em);letter-spacing:var(--ls-sub);position:absolute;top:56px;left:var(--ap-p6);padding:4px 10px;border-radius:var(--ap-r-pill);background:var(--ap-scrim-pill);color:var(--ap-g0)}
+/* 근로자 앱의 카메라는 **한 사람**을 본다 — 제 얼굴이 맞는지 확인하는
+   자리라, 줄 선 사람을 이어 찍는 현장소장 앱과 달리 센 수도 종료도 없다.
+   대신 '누구를 확인하는 중인가' 를 틀 위에 붙인다: 지금 이 인증이 누구
+   것인지를 먼저 보여야, 남의 폰에 대고 찍는 일이 생기지 않는다.
+   자리는 **가운데**다 — 왼쪽 위는 뒤로 가기가 쓴다 */
+.cam__who{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
+  position:absolute;top:56px;left:50%;transform:translateX(-50%);z-index:2;
+  padding:4px 10px;border-radius:var(--ap-r-pill);
+  background:var(--ap-scrim-pill);color:var(--ap-g0);white-space:nowrap}
 /* 틀의 테는 한 가지 색으로 그은 선이 아니라 **번지는 그라데이션**이다.
    테두리(border)로는 그라데이션을 줄 수 없어, 안쪽을 도려낸 띠를 ::before
    로 깐다 — 면을 가장자리 두께(3)만큼만 남기고 가운데를 마스크로 뺀다.

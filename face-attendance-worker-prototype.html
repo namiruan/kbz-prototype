@@ -82,6 +82,19 @@
         data-why="찍은 사진을 한 번 보여 주고 등록할지 묻습니다. 현장소장 앱의 '등록 촬영 확인' 과 같은 그림입니다 — 찍는 일은 앱(Flutter)이 하는 것이라 누가 찍든 보는 화면이 같습니다."
         data-steps="'동의하고 촬영하기' 를 클릭해 얼굴을 찍은 상태"
         data-look="@{.confirm__card} 사진과 '얼굴 등록하기' 가 한 흰 카드로 묶여 어두운 막 위에 뜹니다|@{.confirm__re} 되돌리는 쪽은 카드 밖에, 면 없이 둡니다 — 같은 크기로 나란히 서면 어느 쪽이 주된 동작인지 흐려집니다|@{.confirm__ok} 클릭하면 출근이 끝난 홈으로 갑니다">얼굴 등록 — 촬영 확인</button>
+      <span class="proto-nav-group-label">근로자 앱 · 출근 인증</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam"
+        data-why="등록을 마치면 바로 이어집니다 — 등록만 하고 홈으로 돌려보내면 출근을 한 번 더 눌러야 합니다. 이미 등록한 사람은 홈의 출근 과녁에서 곧장 이 화면으로 옵니다. 현장소장 앱의 카메라와 같은 그림이되 **세는 것이 없습니다**: 저쪽은 한 번 열어 줄 선 사람을 이어 찍고, 이쪽은 제 얼굴 하나를 확인하고 끝납니다. 그래서 센 수도, 종료하는 길도 두지 않습니다."
+        data-steps="얼굴 등록을 마쳐 출근 인증으로 이어진 상태"
+        data-look="@{.cam__who} 누구를 확인하는 중인지가 틀 위 가운데에 섭니다 — 지금 이 인증이 누구 것인지를 먼저 보여야, 남의 폰에 대고 찍는 일이 생기지 않습니다|@{.cam__go} 클릭하면 인증 성공으로 갑니다|@{.cam__back} 돌아가는 길은 왼쪽 위의 뒤로 가기 하나입니다">출근 인증 — 카메라</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-ok"
+        data-why="성공은 잠깐 띄우고 홈으로 돌아갑니다. 한 사람의 인증이라 결과를 눌러 닫게 할 까닭이 없습니다 — 눌러야 닫히면 그 한 번이 매일 쌓입니다."
+        data-steps="얼굴이 인식되어 출근이 찍힌 상태"
+        data-look="@{.cam__box--ok} 틀과 글이 같은 초록으로 바뀝니다|@{.cam__sub} 찍힌 시각이 그 아래에 붙습니다 — 홈의 출근 카드에서 다시 볼 값이 여기서 한 번 먼저 섭니다">출근 인증 — 성공</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-fail"
+        data-why="등록한 얼굴과 다를 때입니다. 막고 끝내지 않고 그 자리에 다시 찍는 길을 두는 것은, 여기서 할 수 있는 일이 다시 찍기 하나뿐이기 때문입니다."
+        data-steps="등록한 얼굴과 다른 얼굴이 들어온 상태"
+        data-look="@{.cam__box--fail} 틀과 글이 붉게 바뀝니다|@{.cam__t--fail} 머리말은 한 줄에 듭니다 — 두 줄로 접히면 위의 이름표를 덮습니다(글이 틀 위에서 위로 자랍니다)|@{.cam__go} '다시 인증하기' 가 찍던 자리에 그대로 섭니다 — 클릭하면 카메라로 돌아갑니다">출근 인증 — 본인 확인 실패</button>
       <span class="proto-nav-group-label">근로자 앱 · 작업내용</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-work"
         data-why="작업내용을 적는 화면입니다. 키보드가 올라온 모습으로 두는 것은, 이 화면의 자리를 가장 많이 먹는 것이 키보드이기 때문입니다 — 키보드를 빼고 그린 화면은 실제로 쓸 때와 높이가 전혀 다릅니다. 저장을 바닥이 아니라 헤더 오른쪽에 둔 것도 같은 까닭입니다: 바닥 버튼은 적는 내내 키보드에 가려 보이지 않습니다. 바탕이 흰색인 것은 적어 넣는 화면이라서입니다 — 근로자 추가 폼과 같은 짝입니다."

@@ -35,8 +35,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=341">
-<script src="assets/face-attendance-app.js?v=341" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=342">
+<script src="assets/face-attendance-app.js?v=342" defer></script>
 </head>
 
 <body>
@@ -907,9 +907,53 @@
     <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
     <div class="confirm__card">
       <div class="confirm__pic"><img src="images/worker/01.jpg" alt=""></div>
-      <span class="confirm__ok" data-go="w-home-done">얼굴 등록하기</span>
+      <span class="confirm__ok" data-go="w-cam">얼굴 등록하기</span>
     </div>
     <span class="confirm__re"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg><b>다시 촬영하기</b></span>
+  </div>
+</section>
+
+
+<!-- ===== 근로자 앱 · 출근 인증 카메라 (앱 네이티브) =====
+     등록을 마치면 바로 이어진다. 이미 등록한 사람은 홈의 출근 과녁에서
+     곧장 이 화면으로 온다.
+     현장소장 앱의 카메라와 **같은 그림이되 세는 것이 없다** — 저쪽은 줄
+     선 사람을 이어 찍고, 이쪽은 제 얼굴 하나를 확인한다 -->
+<section class="scr" data-screen="w-cam" data-title="근로자 앱 출근 인증 — 카메라">
+  <div class="cam">
+    <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <!-- 누구를 확인하는 중인지를 먼저 보인다 -->
+    <p class="cam__who">홍길동님 본인 확인</p>
+    <div class="cam__box"></div>
+    <span class="cam__go" data-go="w-cam-ok"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근 인증하기</span>
+    <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
+  </div>
+</section>
+
+<!-- ===== 근로자 앱 · 출근 인증 성공 (앱 네이티브) ===== -->
+<section class="scr" data-screen="w-cam-ok" data-title="근로자 앱 출근 인증 — 성공">
+  <div class="cam">
+    <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home-done"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <p class="cam__who">홍길동님 본인 확인</p>
+    <div class="cam__box cam__box--ok"></div>
+    <!-- 찍힌 시각을 아래에 붙인다 — 이 화면이 사라지고 나면 홈의 출근
+         카드에서 다시 볼 값이라, 그 값이 여기서 한 번 먼저 선다 -->
+    <p class="cam__t cam__t--ok">출근 처리 완료!<span class="cam__sub">07:03:12</span></p>
+  </div>
+</section>
+
+<!-- ===== 근로자 앱 · 본인 확인 실패 (앱 네이티브) ===== -->
+<section class="scr" data-screen="w-cam-fail" data-title="근로자 앱 출근 인증 — 본인 확인 실패">
+  <div class="cam">
+    <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <p class="cam__who">홍길동님 본인 확인</p>
+    <div class="cam__box cam__box--fail"></div>
+    <!-- 다시 찍는 길을 그 자리에 둔다 — 실패를 알리고 나서 할 일이
+         '다시 찍기' 하나뿐이라, 찍던 자리에 그대로 둔다 -->
+    <span class="cam__go" data-go="w-cam"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-refresh"></use></svg>다시 인증하기</span>
+    <!-- 머리말은 한 줄에 든다 — '본인 확인에 실패했습니다' 로 두면 두 줄로
+         접히면서 위의 이름표를 덮는다(글이 틀 위에서 위로 자란다) -->
+    <p class="cam__t cam__t--fail">본인 확인 실패<span class="cam__sub">등록한 얼굴과 다릅니다</span></p>
   </div>
 </section>
 
