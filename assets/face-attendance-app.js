@@ -30,7 +30,35 @@
     all.forEach(function (s) { if (s !== hit) s.remove(); });
     hit.classList.add('is-on');
     stow(hit);
+    link(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
+  }
+
+  /* ── 화면과 화면 사이 — `data-go` ──
+     누르면 어느 화면으로 가는지를 마크업이 적어 둔다(data-go="w-work").
+     이것은 **화면 안의 동작이 아니라 어느 화면을 보여 줄지**라, 머리말이
+     말한 이 파일의 몫 그대로다 — 촬영이 되는 것을 흉내 내는 것이 아니라,
+     촬영을 누른 다음 장면을 넘겨 주는 것이다.
+
+     주소를 갈아 끼워 **다시 그린다**. 남겨 두고 숨기는 길도 있지만,
+     그러면 한 장만 남기고 덜어 내는 규칙이 깨져 화면설명의 앵커가
+     엉뚱한 화면을 짚는다(pick() 의 ⚠). 주소의 다른 값(proto-frame · w)은
+     그대로 둔다 — 틀 안에서 눌러도 폭이 이어져야 한다.
+
+     `data-go-self` 가 붙은 것은 **제 몸을 바로 눌렀을 때만** 간다. 창
+     뒤의 어두운 자리(.dim)가 그렇다 — 창 안을 누른 것까지 '닫기' 로
+     받으면 아무것도 못 누른다. */
+  function link(hit) {
+    hit.addEventListener('click', function (e) {
+      var go = e.target.closest ? e.target.closest('[data-go]') : null;
+      if (!go || !hit.contains(go)) return;
+      if (go.hasAttribute('data-go-self') && e.target !== go) return;
+      if (go.disabled) return;
+      e.preventDefault();
+      var u = new URL(location.href);
+      u.searchParams.set('screen', go.dataset.go);
+      location.href = u.toString();
+    });
   }
 
   /* 떠 있는 창(촬영 확인)은 뒤에 그 창을 띄운 화면을 둔다. 그 화면을 여기

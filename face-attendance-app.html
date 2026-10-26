@@ -35,8 +35,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=335">
-<script src="assets/face-attendance-app.js?v=335" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=336">
+<script src="assets/face-attendance-app.js?v=336" defer></script>
 </head>
 
 <body>
@@ -1166,7 +1166,7 @@
            어느 화면을 보여 줄지만 정하고 화면 안의 동작은 앱(Flutter)의
            몫이다(face-attendance-app.js 머리말). 창이 뜬 모습은 제 화면
            (w-map)으로 따로 둔다 -->
-      <span class="row row--zone">
+      <span class="row row--zone" data-go="w-map">
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
@@ -1206,7 +1206,7 @@
     <!-- 과녁의 이름 아래에 설명이 붙는다 — 현장소장 앱의 인증 시작 과녁과
          같은 짜임이다(이름 · 그 아래 설명). 본문에 따로 한 줄로 두었더니
          '눌러 주세요' 라고 적힌 자리와 실제로 누를 자리가 떨어져 있었다 -->
-    <button class="act__b act__b--on" type="button">
+    <button class="act__b act__b--on" type="button" data-go="w-face">
       <span class="cta__tx">
         <span class="cta__h">
           <span class="cta__nm">
@@ -1251,13 +1251,13 @@
        답하는 자리라 300 으로 못 박혀 화면 가운데에 뜨는데, 여기서 할 일은
        읽는 것이 아니라 보는 것이다 — 지도는 넓을수록 쓸모가 있어 폭을
        다 쓴다 -->
-  <div class="dim dim--sheet">
+  <div class="dim dim--sheet" data-go="w-home" data-go-self>
     <div class="sheet" role="dialog" aria-labelledby="wMapT">
     <div class="sheet__h">
       <p class="sheet__t" id="wMapT">인정범위</p>
       <!-- 닫는 자리는 오른쪽 위다 — 들어온 길(줄의 오른쪽 꺾쇠)과 같은 쪽이라
            되돌아 나가는 것으로 읽힌다 -->
-      <button class="sheet__x" type="button" aria-label="닫기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+      <button class="sheet__x" type="button" aria-label="닫기" data-go="w-home"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
     </div>
     <!-- 지도는 시트의 변까지 꽉 찬다 — 좌우와 아래에 흰 테를 남기면
          지도가 시트 안에 든 또 하나의 카드로 보인다.
@@ -1425,14 +1425,14 @@
   <!-- 창은 **바닥에서 올라오는 시트**다 — 인정범위 지도와 같은 꼴이다.
        한 앱에서 덮고 올라오는 것이 한 가지 꼴로 서야, 어디서 올라온
        것인지 눈이 매번 다시 잡지 않는다 -->
-  <div class="dim dim--sheet">
+  <div class="dim dim--sheet" data-go="w-home" data-go-self>
     <div class="alert alert--sheet" role="alertdialog" aria-labelledby="wFaceT">
       <!-- 시안의 'bottom sheet title' 그대로다 — 제목은 왼쪽 위, 닫기는
            오른쪽 위. 56 짜리 한 줄이고, 제목이 길면 그 안에서 두 줄이 된다
            (근거: 「근로자 삭제-미동의」 632:9794) -->
       <div class="sheet__h">
         <p class="sheet__t sheet__t--ask" id="wFaceT">얼굴 등록이 필요합니다</p>
-        <button class="sheet__x" type="button" aria-label="닫기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+        <button class="sheet__x" type="button" aria-label="닫기" data-go="w-home"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
       <!-- 그림이 **시트 전체를 채운다** — 면을 따로 두르면 시트 안에 또
            하나의 카드가 들어앉고, 그림은 그 카드 몫이 되어 글과 버튼은
@@ -1468,7 +1468,7 @@
              같은 일을 저지르는 버튼이라 두 화면에서 같은 무게로 서야 한다.
              되돌리는 쪽은 두지 않는다: 닫기(✕)가 이미 오른쪽 위에 있고,
              같은 일을 두 자리에서 할 까닭이 없다 -->
-        <button class="scan__go" type="button">얼굴 등록하고 출근하기</button>
+        <button class="scan__go" type="button" data-go="w-home-done">얼굴 등록하고 출근하기</button>
       </div>
     </div>
   </div>
@@ -1552,7 +1552,7 @@
            어느 화면을 보여 줄지만 정하고 화면 안의 동작은 앱(Flutter)의
            몫이다(face-attendance-app.js 머리말). 창이 뜬 모습은 제 화면
            (w-map)으로 따로 둔다 -->
-      <span class="row row--zone">
+      <span class="row row--zone" data-go="w-map">
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
@@ -1600,7 +1600,7 @@
          것이다.
          안쪽 짜임은 현장 카드의 '인정범위 지도보기' 와 같다: 표와 말이
          왼쪽, 꺾쇠가 오른쪽 끝 -->
-    <button class="cardb" type="button">
+    <button class="cardb" type="button" data-go="w-work">
       <span class="cardb__t">
         <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-edit"></use></svg></span>
         <span class="cardb__l">작업내용 작성하기</span>
@@ -1653,11 +1653,11 @@
          이 화면은 홈 위로 밀려 올라온 한 장이라 되돌아가는 자리가
          있다 — 시스템의 navigation bar 도 밀려 올라온 화면에는 ← 를
          둔다(atoms/icon-button · icon-back) -->
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로" data-go="w-home-done"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">작업내용 작성</h1>
     <!-- 저장은 글로 적는다 — 아이콘으로 그릴 수 없는 일이고, 바닥 버튼으로
          두면 키보드에 가려 적는 내내 보이지 않는다 -->
-    <button class="nav__tx" type="button">저장</button>
+    <button class="nav__tx" type="button" data-go="w-home-work">저장</button>
   </header>
 
   <main class="body">
@@ -1789,7 +1789,7 @@
            어느 화면을 보여 줄지만 정하고 화면 안의 동작은 앱(Flutter)의
            몫이다(face-attendance-app.js 머리말). 창이 뜬 모습은 제 화면
            (w-map)으로 따로 둔다 -->
-      <span class="row row--zone">
+      <span class="row row--zone" data-go="w-map">
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
@@ -1826,7 +1826,7 @@
     <div class="card card--note">
       <div class="wnote__h">
         <span class="wnote__k">작업내용</span>
-        <button class="wnote__e" type="button" aria-label="작업내용 수정"><svg class="ic" aria-hidden="true"><use href="#icon-edit"></use></svg></button>
+        <button class="wnote__e" type="button" aria-label="작업내용 수정" data-go="w-work"><svg class="ic" aria-hidden="true"><use href="#icon-edit"></use></svg></button>
       </div>
       <p class="wnote__t">B동 3층 슬래브 철근 배근. 오전 자재 반입 · 오후 배근 마무리</p>
       <div class="wnote__g">
