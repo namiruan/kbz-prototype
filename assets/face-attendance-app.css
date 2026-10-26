@@ -606,11 +606,14 @@ ul,ol{list-style:none}
    않았다 — 이 화면의 바탕이 이미 옅은 파랑(blue/50)이라, 그 위에 blue/100
    을 올리면 흰 카드가 주던 '종이가 떠 있다' 가 사라진다. 카드는 흰 채로 두고
    테만 두른다: 떠 있는 것은 그대로고, 그중 어느 것이 켜졌는지만 테가 말한다.
+   굵기는 1.5 다 — 체크 네모의 테와 같은 값이다. 2 로 두니 테가 카드를
+   두른 것이 아니라 카드에 덧댄 띠처럼 굵게 읽혔다. 1 로 더 내리면 목록
+   카드의 그림자와 굵기가 비슷해져 켜진 것이 테인지 그늘인지 흐려진다.
    ⚠ 테는 border 도 box-shadow 도 아니라 outline 이다. border 로 두르면
-   카드가 2 씩 커져 목록의 단이 어긋나고, inset box-shadow 는 사진과 글
+   카드가 그만큼 커져 목록의 단이 어긋나고, inset box-shadow 는 사진과 글
    칸의 면 **아래**에 깔려 카드 어디에서도 보이지 않는다. outline 을 안쪽으로
-   당기면(-2) 자리를 먹지 않으면서 자식 위에 그려지고, 모서리도 따라 돈다 */
-.card--photo:has(.chk--on){outline:2px solid var(--ap-primary);outline-offset:-2px}
+   당기면 자리를 먹지 않으면서 자식 위에 그려지고, 모서리도 따라 돈다 */
+.card--photo:has(.chk--on){outline:1.5px solid var(--ap-primary);outline-offset:-1.5px}
 .card__bd{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--ap-p4);
   padding:var(--ap-p6)}
 /* 사진이 92px 를 가져가 글 자리가 좁다. 값 둘을 한 줄에 나누면 긴 쪽이 바로
