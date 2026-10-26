@@ -283,7 +283,7 @@
      위 여백으로 쥐고 있던 값과 같다 */
   --ap-statusbar:56px;
   --ap-p1:2px; --ap-p2:4px; --ap-p3:6px; --ap-p4:10px; --ap-p5:12px;
-  --ap-p6:16px; --ap-p8:24px; --ap-p9:32px; --ap-p10:40px; --ap-p12:56px;
+  --ap-p6:16px; --ap-p7:20px; --ap-p8:24px; --ap-p9:32px; --ap-p10:40px; --ap-p12:56px;
 
   /* ── 카메라 화면 전용 ──
      앱(Flutter) 네이티브 화면이라 시안에 없다. 인식 결과를 색 하나로
@@ -1855,17 +1855,18 @@ ul,ol{list-style:none}
    덮고 올라오는 것이 한 가지 꼴로 서야, 어디서 올라온 것인지 눈이 매번
    다시 잡지 않는다. 폭을 다 쓰고 위 모서리만 둥글다 */
 .alert--sheet{width:100%;border-radius:var(--ap-r15) var(--ap-r15) 0 0}
-/* 묻는 글의 좌우 여백은 폭을 따라 넓힌다 — 300 에 맞춰 둔 16 을 그대로
-   두면 글줄이 화면 끝까지 가 한 줄이 너무 길어진다 */
-.alert--sheet .alert__bd{padding:var(--ap-p8) var(--ap-p8) var(--ap-p6)}
+/* 머리줄 아래가 곧 몸이다 — 시안의 시트도 제목 줄(56) 바로 다음에 몸이
+   붙는다. 좌우는 머리줄과 같은 16 이라 제목과 글이 한 세로 선에서
+   시작하고, 글은 가운데로 모으지 않는다(제목이 왼쪽이라서다) */
+.alert--sheet .alert__bd{align-items:stretch;text-align:left;
+  padding:var(--ap-p5) var(--ap-p6) var(--ap-p6)}
+/* 바닥 버튼도 시안의 값이다 — 되돌리는 쪽이 120 으로 못 박히고, 글자는
+   제목과 같은 22/28, 아래 여백 40 은 홈 인디케이터 자리다 */
+.alert--sheet .alert__bt span{font:var(--t-title2);letter-spacing:var(--ls-title2);
+  padding:var(--ap-p6) var(--ap-p8) var(--ap-p10)}
+.alert--sheet .alert__bt .no{flex:0 0 120px}
 .alert__bd{display:flex;flex-direction:column;align-items:center;gap:var(--ap-p5);
   padding:var(--ap-p8) var(--ap-p6);text-align:center}
-/* 묻는 말은 브랜드 색이다 — 이 창이 권하는 것(얼굴 등록)과 아래 '얼굴
-   등록하고 출근' 이 같은 색으로 묶여, 묻는 말과 그 답이 한 쌍으로 읽힌다.
-   줄은 넘기지 않는다: 시트가 폭을 다 써서 한 줄에 들어간다 — 좁던 창
-   (300)에서 손으로 끊어 두었던 <br> 은 걷었다 */
-.alert__t{font:var(--t-title2);letter-spacing:var(--ls-title2);
-  color:var(--ap-primary);word-break:keep-all}
 /* 문장마다 줄을 바꾼다 — 둘은 이어 읽는 한 문단이 아니라 '여기는 이런
    현장이다' 와 '그래서 이렇게 하면 된다' 로 따로 읽는 말이다. <br> 로
    끊지 않는 것은, 한 문장이 좁은 폭에서 다시 접힐 때 그 접힘과 문장 사이의
@@ -1893,14 +1894,29 @@ ul,ol{list-style:none}
   box-shadow:var(--ap-shadow-float)}
 /* 여백은 머리줄만 쥔다 — 지도는 시트의 변까지 꽉 찬다. 좌우와 아래에 흰
    테를 남기면 지도가 시트 안에 든 또 하나의 카드로 보인다 */
-.sheet__h{display:flex;align-items:center;justify-content:space-between;
-  gap:var(--ap-p5);padding:var(--ap-p6) var(--ap-p6) 0}
-.sheet__t{font:var(--t-title2);letter-spacing:var(--ls-title2);color:var(--ap-g95)}
+/* 시트의 머리줄 — 시안의 'bottom sheet title' 을 재어 옮긴 값이다
+   (「근로자 삭제-미동의」 530:4808 · 632:9794, 375 폭 기준).
+     · 시트 위 여백 20, 좌우 16
+     · 머리줄 한 줄의 키 56 — 제목이 길면 그 안에서 두 줄이 된다
+     · 제목은 왼쪽, Title2/Emphasized(600 22/28), 닫기는 오른쪽 30
+     · 둘은 위에 맞춘다(items-start) — 제목이 두 줄이 되어도 닫기는
+       첫 줄 옆에 그대로 있어야 한다 */
+.sheet__h{display:flex;align-items:flex-start;justify-content:space-between;
+  gap:var(--ap-p5);min-height:var(--ap-p12);
+  padding:var(--ap-p7) var(--ap-p6) 0}
+.sheet__t{font:var(--t-title2);letter-spacing:var(--ls-title2);
+  flex:1;min-width:0;color:var(--ap-g95);word-break:keep-all}
+/* 묻는 말은 브랜드 색이다 — 이 시트가 권하는 것(얼굴 등록)과 아래 '얼굴
+   등록하고 출근' 이 같은 색으로 묶여, 묻는 말과 그 답이 한 쌍으로 읽힌다.
+   ⚠ 시안의 시트 제목은 Text/static(#131416)이다. 여기만 브랜드로 두는
+   것은 이 시트가 '알리는 말' 이 아니라 '권하는 말' 이어서다 — 시안의
+   그 시트는 지우는 일을 묻고, 이쪽은 하자고 권한다.
+   바로 위 .sheet__t 다음에 둔다: 특정도가 같아 뒤에 와야 이긴다 */
+.sheet__t--ask{color:var(--ap-primary)}
 /* 닫는 자리는 오른쪽 위 — 들어온 길(줄의 오른쪽 꺾쇠)과 같은 쪽이라
    되돌아 나가는 것으로 읽힌다 */
 .sheet__x{flex:none;display:flex;align-items:center;justify-content:center;
-  padding:var(--ap-p2);margin:calc(var(--ap-p2) * -1);
-  border-radius:var(--ap-r6);color:var(--ap-g90)}
+  color:var(--ap-g95)}
 
 /* 알림창이 뜬 화면의 뒤쪽 */
 /* 적어 넣는 화면은 흰 바탕이다 — 시안 '근로자현황 (현장근로자 / 신규추가-기본)'

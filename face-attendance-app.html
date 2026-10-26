@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=301">
-<script src="assets/face-attendance-app.js?v=301" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=303">
+<script src="assets/face-attendance-app.js?v=303" defer></script>
 </head>
 
 <body>
@@ -1235,7 +1235,7 @@
       <p class="sheet__t" id="wMapT">인정범위</p>
       <!-- 닫는 자리는 오른쪽 위다 — 들어온 길(줄의 오른쪽 꺾쇠)과 같은 쪽이라
            되돌아 나가는 것으로 읽힌다 -->
-      <button class="sheet__x" type="button" aria-label="닫기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+      <button class="sheet__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
     </div>
     <!-- 지도는 시트의 변까지 꽉 찬다 — 좌우와 아래에 흰 테를 남기면
          지도가 시트 안에 든 또 하나의 카드로 보인다.
@@ -1405,6 +1405,13 @@
        것인지 눈이 매번 다시 잡지 않는다 -->
   <div class="dim dim--sheet">
     <div class="alert alert--sheet" role="alertdialog" aria-labelledby="wFaceT">
+      <!-- 시안의 'bottom sheet title' 그대로다 — 제목은 왼쪽 위, 닫기는
+           오른쪽 위. 56 짜리 한 줄이고, 제목이 길면 그 안에서 두 줄이 된다
+           (근거: 「근로자 삭제-미동의」 632:9794) -->
+      <div class="sheet__h">
+        <p class="sheet__t sheet__t--ask" id="wFaceT">얼굴 등록이 필요합니다</p>
+        <button class="sheet__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+      </div>
       <div class="alert__bd">
         <!-- 얼굴을 훑는 그림 — 현장소장 앱의 '얼굴 등록하기' 자리에 서는
              것과 같은 그림이고 같은 움직임이다(레이저가 위에서 아래로 한 번
@@ -1428,7 +1435,6 @@
           <span class="scan__beam"></span>
         </span>
         </span>
-        <p class="alert__t" id="wFaceT">얼굴 등록이 필요합니다</p>
         <!-- 문장마다 줄을 바꾼다 — 둘은 이어 읽는 한 문단이 아니라 '여기는
              이런 현장이다' 와 '그래서 이렇게 하면 된다' 로 따로 읽는 말이다 -->
         <p class="alert__d">
