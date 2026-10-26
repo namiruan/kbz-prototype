@@ -99,6 +99,10 @@
      목록 카드는 하나씩 떨어져 있어 깊은 그림자가 사이를 갈라 주지만,
      머리 카드는 화면 폭을 다 쓰는 한 장이라 갈라 줄 이웃이 없다 */
   --ap-shadow-head:0 2px 8px rgba(17,53,105,.1),0 1px 2px rgba(17,53,105,.07);
+  /* 작은 동그란 과녁(32)이 지는 그림자 — 카드의 것(번짐 14)을 그대로 쓰면
+     면보다 그림자가 넓어 자국만 번지고 테두리가 서지 않는다. 바싹 당기고
+     한 겹 짙게 둔다 */
+  --ap-shadow-chip:0 2px 6px rgba(17,53,105,.22),0 1px 2px rgba(17,53,105,.16);
   --ap-shadow-float:0 0 10px rgba(19,20,22,.08);  /* shadow-02 */
   /* 눌러야 하는 면을 띄우는 그림자. 색은 시안이 카드에 쓰는 것과 같은
      계열(primary-dark #113569)이다 — 검정 그림자를 파란 면 밑에 깔면
@@ -369,10 +373,12 @@ ul,ol{list-style:none}
    본문의 위 여백도 4 로 줄인다. 주 띠의 마지막 줄은 '기록이 있는 날' 표
    (점) 자리를 날마다 비워 두는데, 그날에 점이 없으면 그 20 이 그대로 빈칸
    으로 남는다 — 상자끼리는 16 만 떨어져 있어도 눈에는 36 으로 보이던
-   까닭이다. 점 자리는 건드리지 않는다(점이 설 자리가 날마다 같아야 한다) */
+   까닭이다. 10 으로 두면 보이는 사이가 30 이다: 4 까지 줄였더니 이번에는
+   달력과 첫 카드가 붙어 보였다. 점 자리는 건드리지 않는다(점이 설 자리가
+   날마다 같아야 한다) */
 .hd--bare{background:none;box-shadow:none;border-radius:0;
   padding-top:var(--ap-statusbar);padding-bottom:0}
-.hd--bare ~ .body{padding-top:var(--ap-p2)}
+.hd--bare ~ .body{padding-top:var(--ap-p4)}
 
 /* ── 머리 카드 밖 — 현장 ──
    탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말한다.
@@ -544,13 +550,14 @@ ul,ol{list-style:none}
      · 면 색: Icon Button 은 쉴 때 면이 없고 hover 에서만 깔린다. 여기서는
        흰 면을 늘 깐다 — 옅은 파랑 바탕(primary/5) 위에서 면이 없으면
        아이콘이 바탕에 묻어 과녁이 어디까지인지 보이지 않는다. 그림자도
-       같은 까닭으로 깐다(카드의 것과 같은 값) — 흰 원이 바탕에서 떠야
-       눌리는 것으로 읽힌다.
+       같은 까닭으로 깐다(--ap-shadow-chip) — 흰 원이 바탕에서 떠야 눌리는
+       것으로 읽힌다. 카드의 그림자를 그대로 쓰지 않는 것은 번짐(14)이
+       32 짜리 면보다 넓어, 자국만 번지고 테두리가 서지 않아서다.
    크기(32)와 아이콘(20)은 Icon Button lg 의 치수가 아니라 저 핀과 맞춘
    값이다. 옆의 '오늘' 알약(28)보다 4 크지만, 둘은 가운데로 맞춰 선다 */
 .cal__bell{flex:none;display:inline-flex;align-items:center;justify-content:center;
   width:32px;height:32px;border-radius:50%;
-  background:var(--ap-g0);color:var(--ap-primary);box-shadow:var(--ap-shadow-card)}
+  background:var(--ap-g0);color:var(--ap-primary);box-shadow:var(--ap-shadow-chip)}
 .cal__week{display:flex;align-items:flex-start}
 .cal__d{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--ap-p2);
   padding:4px;border-radius:var(--ap-r10)}
