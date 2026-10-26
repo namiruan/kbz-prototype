@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=261">
-<script src="assets/face-attendance-app.js?v=261" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=262">
+<script src="assets/face-attendance-app.js?v=262" defer></script>
 </head>
 
 <body>
@@ -1132,8 +1132,15 @@
     <p class="note">출근을 눌러 근무를 시작하세요.</p>
   </main>
 
-  <div class="act">
-    <button class="act__b act__b--on" type="button">07:03:12&nbsp;&nbsp;출근</button>
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 같은
+       꼴로 둔다 — 둘 다 '이 화면에서 할 일 하나' 다. 한쪽은 바닥에 꽉 찬
+       띠, 한쪽은 가운데에 뜬 카드라 같은 일이 서로 다른 것으로 보였다.
+       가져오는 것은 넷이다: 둥근 모서리(15) · 깊은 그림자 · 면 색(출근은
+       파랑, 퇴근은 검정) · 오른쪽 끝의 '시작' 표.
+       키는 가져오지 않는다 — 근로자 앱은 바닥 탭이 있어 과녁이 그 위에
+       줄 서야 한다 -->
+  <div class="act act--cta">
+    <button class="act__b act__b--on" type="button">07:03:12&nbsp;&nbsp;출근<span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span></button>
   </div>
 
   <nav class="tabbar" aria-label="주메뉴">
@@ -1240,8 +1247,15 @@
     <p class="note">출근을 눌러 근무를 시작하세요.</p>
   </main>
 
-  <div class="act">
-    <button class="act__b act__b--on" type="button">07:03:12&nbsp;&nbsp;출근</button>
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 같은
+       꼴로 둔다 — 둘 다 '이 화면에서 할 일 하나' 다. 한쪽은 바닥에 꽉 찬
+       띠, 한쪽은 가운데에 뜬 카드라 같은 일이 서로 다른 것으로 보였다.
+       가져오는 것은 넷이다: 둥근 모서리(15) · 깊은 그림자 · 면 색(출근은
+       파랑, 퇴근은 검정) · 오른쪽 끝의 '시작' 표.
+       키는 가져오지 않는다 — 근로자 앱은 바닥 탭이 있어 과녁이 그 위에
+       줄 서야 한다 -->
+  <div class="act act--cta">
+    <button class="act__b act__b--on" type="button">07:03:12&nbsp;&nbsp;출근<span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span></button>
   </div>
 
   <nav class="tabbar" aria-label="주메뉴">
@@ -1365,8 +1379,15 @@
     </div>
   </main>
 
-  <div class="act">
-    <button class="act__b act__b--dark" type="button">17:31:40&nbsp;&nbsp;퇴근</button>
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 같은
+       꼴로 둔다 — 둘 다 '이 화면에서 할 일 하나' 다. 한쪽은 바닥에 꽉 찬
+       띠, 한쪽은 가운데에 뜬 카드라 같은 일이 서로 다른 것으로 보였다.
+       가져오는 것은 넷이다: 둥근 모서리(15) · 깊은 그림자 · 면 색(출근은
+       파랑, 퇴근은 검정) · 오른쪽 끝의 '시작' 표.
+       키는 가져오지 않는다 — 근로자 앱은 바닥 탭이 있어 과녁이 그 위에
+       줄 서야 한다 -->
+  <div class="act act--cta">
+    <button class="act__b act__b--dark" type="button">17:31:40&nbsp;&nbsp;퇴근<span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span></button>
   </div>
 
   <nav class="tabbar" aria-label="주메뉴">
