@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=321">
-<script src="assets/face-attendance-app.js?v=321" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=323">
+<script src="assets/face-attendance-app.js?v=323" defer></script>
 </head>
 
 <body>
@@ -1166,8 +1166,8 @@
          것만 적어서(출근 전에는 출근 기준, 퇴근 전에는 퇴근 기준) 나머지
          한쪽은 어디에도 없었다 -->
     <div class="tcards">
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 07:00</span></div>
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 17:00</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b">07:00부터~</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b">17:00부터~</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
     </div>
   </main>
 
@@ -1349,8 +1349,8 @@
          것만 적어서(출근 전에는 출근 기준, 퇴근 전에는 퇴근 기준) 나머지
          한쪽은 어디에도 없었다 -->
     <div class="tcards">
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 07:00</span></div>
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 17:00</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b">07:00부터~</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b">17:00부터~</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
     </div>
   </main>
 
@@ -1556,8 +1556,8 @@
            같은 날에 앱·단말기·현장소장앱이 섞인다. 시각 아래에 두었더니
            한가운데에 서서 시각 다음으로 크게 읽혔는데, 이것은 '언제' 가
            아니라 '어디서' 라 시각에 딸린 꼬리표다 -->
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="bd bd--positive">앱 · 얼굴</span></span><span class="tcard__v">07:03</span><span class="tcard__s">기준 07:00</span></div>
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 17:00</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b">07:00부터~</span></span><span class="tcard__v">07:03</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b">17:00부터~</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
     </div>
   </main>
 
@@ -1621,6 +1621,60 @@
     <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-settings"></use></svg>마이페이지</span>
   </nav>
 </section>
+
+<!-- ===== ⑭ 근로자 앱 · 작업내용 작성 =====
+     홈의 '작업내용 작성하기' 를 클릭해 들어온 화면이다. 적는 동안의
+     모습이라 키보드가 올라와 있다 -->
+<section class="scr scr--form" data-screen="w-work" data-title="작업내용 작성">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="닫기"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    <h1 class="nav__t">작업내용 작성</h1>
+    <!-- 저장은 글로 적는다 — 아이콘으로 그릴 수 없는 일이고, 바닥 버튼으로
+         두면 키보드에 가려 적는 내내 보이지 않는다 -->
+    <button class="nav__tx" type="button">저장</button>
+  </header>
+
+  <main class="body">
+    <!-- 글칸은 종이 위에 바로 앉는다 — 테를 두르면 한 줄짜리 칸(.inp)의
+         식구로 보여, 길게 적는 자리임이 가려진다. 남는 높이는 전부 이
+         칸이 가져간다 -->
+    <div class="wr">
+      <div class="ta">
+        <p class="ta__v">B동 3층 슬래브 철근 배근.
+오전 자재 반입 · 오후 배근 마무리<span class="ta__cr" aria-hidden="true"></span></p>
+      </div>
+      <p class="ta__c">37 / 500</p>
+    </div>
+
+    <!-- 사진은 글 아래다. 위에 두면 적기도 전에 사진부터 고르게 된다 -->
+    <div class="atts">
+      <p class="atts__l">사진 첨부</p>
+      <div class="atts__g">
+        <span class="att"><span class="att__x" role="button" aria-label="사진 지우기"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg></span></span>
+        <span class="att"><span class="att__x" role="button" aria-label="사진 지우기"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg></span></span>
+        <button class="att att--add" type="button">
+          <svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>
+          <span class="att__n">2/5</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- 키보드는 **그 자리가 얼마인지 보여 주는 그림**이다. 글을 받는 일은
+       앱과 기기 자판의 몫이라 여기서 흉내 내지 않는다.
+       높이 319 는 아이폰 세로 한글 자판의 실측값으로, 이 저장소의
+       assets/kbd.css 가 웹 화면에서 쓰는 값과 같다 -->
+  <div class="kb" aria-hidden="true">
+    <div class="kb__rows">
+      <div class="kb__r"><span class="kb__k">ㅂ</span><span class="kb__k">ㅈ</span><span class="kb__k">ㄷ</span><span class="kb__k">ㄱ</span><span class="kb__k">ㅅ</span><span class="kb__k">ㅛ</span><span class="kb__k">ㅕ</span><span class="kb__k">ㅑ</span><span class="kb__k">ㅐ</span><span class="kb__k">ㅔ</span></div>
+      <div class="kb__r"><span class="kb__k">ㅁ</span><span class="kb__k">ㄴ</span><span class="kb__k">ㅇ</span><span class="kb__k">ㄹ</span><span class="kb__k">ㅎ</span><span class="kb__k">ㅗ</span><span class="kb__k">ㅓ</span><span class="kb__k">ㅏ</span><span class="kb__k">ㅣ</span></div>
+      <div class="kb__r"><span class="kb__k kb__k--fn kb__k--w15">⇧</span><span class="kb__k">ㅋ</span><span class="kb__k">ㅌ</span><span class="kb__k">ㅊ</span><span class="kb__k">ㅍ</span><span class="kb__k">ㅠ</span><span class="kb__k">ㅜ</span><span class="kb__k">ㅡ</span><span class="kb__k kb__k--fn kb__k--w15">⌫</span></div>
+      <div class="kb__r"><span class="kb__k kb__k--fn">!#1</span><span class="kb__k kb__k--fn">한/영</span><span class="kb__k kb__k--sp"></span><span class="kb__k">.</span><span class="kb__k kb__k--fn">완료</span></div>
+    </div>
+    <div class="kb__home"><i></i></div>
+  </div>
+</section>
+
 
 </body>
 </html>
