@@ -1001,6 +1001,8 @@ ul,ol{list-style:none}
   padding:2px var(--ap-p5) 2px var(--ap-p4);border-radius:var(--ap-r-pill);
   background:var(--ap-on-cta-chip);color:var(--ap-g0);
   font-variant-numeric:tabular-nums}
+/* 수가 든 칸 — js 가 1초마다 여기만 고쳐 쓴다. 굵기는 알약이 정한 대로다 */
+.cta__now{font-weight:inherit}
 /* 시각과 '얼굴 인식 필요' 는 한 줄에 나란히 선다 — 둘 다 이름 위에 붙는
    곁말이다. 다만 말하는 바가 다르다: 시각은 지금 몇 시인가(매초 바뀐다),
    저것은 이 현장이 어떤 곳인가(날이 가도 그대로다).

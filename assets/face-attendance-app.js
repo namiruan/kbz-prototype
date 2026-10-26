@@ -31,7 +31,27 @@
     hit.classList.add('is-on');
     stow(hit);
     link(hit);
+    clock(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
+  }
+
+  /* ── 과녁 위의 시계 ──
+     이것은 **흉내 내는 동작이 아니라 기기의 시계**다. 촬영·인증처럼 앱이
+     하는 일은 여기서 흉내 내지 않지만(머리말), 지금 몇 시인지는 앱의
+     일이 아니라 시계의 일이고 화면 어디서도 그것을 멈춰 둘 까닭이 없다 —
+     멈춘 수가 1초마다 바뀌는 자리에 박혀 있으면 화면이 죽은 것으로 보인다.
+     고쳐 쓰는 것은 그 수가 든 칸 하나뿐이다(아이콘은 건드리지 않는다). */
+  function clock(scr) {
+    var els = scr.querySelectorAll('.cta__now');
+    if (!els.length) return;
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+      var d = new Date();
+      var t = two(d.getHours()) + ':' + two(d.getMinutes()) + ':' + two(d.getSeconds());
+      els.forEach(function (e) { if (e.textContent !== t) e.textContent = t; });
+    }
+    tick();
+    setInterval(tick, 1000);
   }
 
   /* ── 화면과 화면 사이 — `data-go` ──
