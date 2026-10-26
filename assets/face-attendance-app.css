@@ -875,7 +875,7 @@ ul,ol{list-style:none}
   transition:transform var(--ap-dur-slow) var(--ap-ease-enter)}
 .act.is-away{transform:translateY(100%);transition-timing-function:var(--ap-ease-exit)}
 @media (prefers-reduced-motion:reduce){.act{transition:none}
-  .act--cta .act__go{animation:none}}
+  .act--cta .act__go,.cardb__c{animation:none}}
 /* 비키는 바는 목록 **위에 떠 있어야** 한다. 줄 세워 두면 내려가 봐야 제
    자리가 빈 띠로 남을 뿐, 목록은 그만큼 더 보이지 않는다. 띄우고 목록
    아래에 바 높이만큼 여백을 두면 — 그 여백은 그대로라 상자 크기가 바뀌지
@@ -934,10 +934,12 @@ ul,ol{list-style:none}
    작업내용을 쓰기 전에는 퇴근을 찍을 수 없다. 과녁을 지워 버리지 않는
    것은, 없으면 '퇴근은 어디서 하나' 를 묻게 되기 때문이다 — 자리는
    그대로 두고 **꺼 둔다**.
-   면은 옅은 회색이고 글은 disabled 색이다. 떠 있는 그림자도 거둔다 —
-   눌리는 것은 떠 있고, 꺼진 것은 바닥에 가라앉는다 */
+   면은 옅은 회색이고 글은 disabled 색이다. 그림자는 **아예 두지 않는다** —
+   눌리는 것은 떠 있고, 꺼진 것은 바닥에 가라앉는다. 더구나 이 카드는
+   아랫단이 내비게이션에 덮여 있어, 그림자를 두면 덮인 자리에서 테두리가
+   한 겹 더 비쳐 '덮였다' 가 아니라 '겹쳤다' 로 보인다 */
 .act--cta .act__b--lock{background:var(--ap-g5);color:var(--ap-text-disabled);
-  box-shadow:var(--ap-shadow-card);cursor:default}
+  box-shadow:none;cursor:default}
 /* 뱃지 둘은 짙은 면 위의 짝(흰빛 투명도)으로 그려져 있어, 옅은 면
    위에서는 보이지 않는다. 밝은 바탕의 짝으로 바꿔 끼운다 —
    시스템의 badge/normal 과 border/gray-subtler 다 */
@@ -1784,7 +1786,11 @@ ul,ol{list-style:none}
 .cardb__l{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
   color:var(--ap-g0);min-width:0;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cardb__c{flex:none;color:var(--ap-g0)}
+/* 꺾쇠는 과녁의 '시작' 표와 **같은 결로 민다** — 한 바퀴에 한 번
+   앞으로 갔다 돌아온다(ap-go). 바닥에 쌓인 두 장 가운데 지금 눌리는
+   것은 이 카드뿐이라, 움직이는 것도 이쪽 하나여야 한다 */
+.cardb__c{flex:none;color:var(--ap-g0);
+  animation:ap-go var(--ap-go-cycle) var(--ap-ease-sym) infinite}
 /* 표의 면은 흰빛을 옅게 깐 것이다 — 짙은 면 위에 얹는 것이라 불투명
    색이 아니라 투명도로 쥔다(과녁의 시각 알약과 같은 식구다) */
 .cardb__ib{background:var(--ap-on-cta-chip)}
