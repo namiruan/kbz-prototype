@@ -1848,6 +1848,25 @@ ul,ol{list-style:none}
 .ta__c{flex:none;font:var(--t-foot);letter-spacing:var(--ls-foot);
   color:var(--ap-text-gray);text-align:right;font-variant-numeric:tabular-nums}
 
+/* ── 얼굴 등록 동의 — 근로자 앱 ──
+   현장마다 한 번 받는다. 얼굴은 민감정보라 '어디에 쓰는지' 를 먼저
+   보이고 나서 카메라를 연다 — 찍고 나서 묻는 것은 묻는 것이 아니다 */
+.agr__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
+.agr__site{font:var(--t-title3-em);letter-spacing:var(--ls-title3);color:var(--ap-g95);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 줄과 줄은 금으로 가른다 — 카드의 gap 으로 띄우면 동의 항목 셋이
+   따로 선 세 덩이가 되어, 하나의 목록으로 읽히지 않는다 */
+.card--agree{gap:0;padding:var(--ap-p2) var(--ap-p6)}
+.agr{display:flex;align-items:center;gap:var(--ap-p4);width:100%;text-align:left;
+  padding:var(--ap-p5) 0;border-bottom:1px solid var(--ap-g5)}
+.agr:last-child{border-bottom:0}
+.agr__c{flex:none;color:var(--ap-primary)}
+.agr__t{font:var(--t-sub);letter-spacing:var(--ls-sub);
+  flex:1;min-width:0;color:var(--ap-text);word-break:keep-all}
+/* 전체 동의는 아래 것들을 묶는 줄이라 한 단 굵다 */
+.agr__t--all{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-g95)}
+.agr__g{flex:none;color:var(--ap-text-gray)}
+
 /* ── 써 둔 작업내용 — 홈에서 보는 꼴 ──
    오늘 한 일은 오늘 찍힌 시각 다음에 온다. 출퇴근 카드 바로 아래에
    붙여 두면 위에서 아래로 그대로 읽힌다 */
@@ -1938,6 +1957,9 @@ ul,ol{list-style:none}
 
 /* ── 안내 글 ── */
 .note{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);padding:12px var(--ap-p6);background:var(--ap-primary-5);border-radius:var(--ap-r10);color:var(--ap-primary-70)}
+/* ⚠ 안내 글의 기본 면(primary/5)은 이 화면의 **바탕과 같은 색**이라
+   깔아 봐야 보이지 않는다. 한 단 짙은 badge/positive 로 바꿔 끼운다 */
+.note--tint{background:var(--ap-badge-positive)}
 .guide{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);margin-top:auto;color:var(--ap-text-gray);text-align:center}
 
 /* ── 카메라 — 앱 네이티브 화면 ── */

@@ -35,8 +35,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=340">
-<script src="assets/face-attendance-app.js?v=340" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=341">
+<script src="assets/face-attendance-app.js?v=341" defer></script>
 </head>
 
 <body>
@@ -445,7 +445,7 @@
              같은 일을 저지르는 버튼이라 두 화면에서 같은 무게로 서야 한다.
              되돌리는 쪽은 두지 않는다: 닫기(✕)가 이미 오른쪽 위에 있고,
              같은 일을 두 자리에서 할 까닭이 없다 -->
-        <button class="scan__go" type="button" data-go="w-home-done">얼굴 등록하고 출근하기</button>
+        <button class="scan__go" type="button" data-go="w-reg">얼굴 등록하고 출근하기</button>
       </div>
     </div>
   </div>
@@ -851,5 +851,67 @@
     <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-settings"></use></svg>마이페이지</span>
   </nav>
 </section>
+
+<!-- ===== 근로자 앱 · 얼굴 등록 (동의) =====
+     현장마다 한 번 받는다. 얼굴은 민감정보라 '어디에 쓰는지' 를 먼저
+     보이고 나서 카메라를 연다 — 찍고 나서 묻는 것은 묻는 것이 아니다 -->
+<section class="scr" data-screen="w-reg" data-title="근로자 앱 얼굴 등록 — 동의">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로" data-go="w-home"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">얼굴 등록</h1>
+  </header>
+
+  <main class="body">
+    <!-- 어느 현장의 동의인지를 맨 위에 둔다 — 얼굴은 **현장마다** 따로
+         등록하는 것이라, 여기가 어느 현장인지가 동의의 범위다 -->
+    <div class="card">
+      <span class="agr__k">현장명</span>
+      <p class="agr__site">서울 마곡 A동 신축공사</p>
+    </div>
+
+    <div class="card card--agree">
+      <button class="agr" type="button">
+        <svg class="ic ic--24 agr__c" aria-hidden="true"><use href="#icon-circle-check"></use></svg>
+        <span class="agr__t agr__t--all">전체 동의</span>
+      </button>
+      <!-- 각 항목은 눌러서 본문을 펼쳐 본다 — 오른쪽 꺾쇠가 그 길이다 -->
+      <button class="agr" type="button">
+        <svg class="ic ic--24 agr__c" aria-hidden="true"><use href="#icon-circle-check"></use></svg>
+        <span class="agr__t">[필수] 민감정보(얼굴 사진 · 특징정보) 수집 · 이용</span>
+        <svg class="ic ic--16 agr__g" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+      </button>
+      <button class="agr" type="button">
+        <svg class="ic ic--24 agr__c" aria-hidden="true"><use href="#icon-circle-check"></use></svg>
+        <span class="agr__t">[필수] 개인정보 처리 위탁 안내 확인</span>
+        <svg class="ic ic--16 agr__g" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+      </button>
+    </div>
+
+    <p class="note note--tint">등록한 얼굴은 이 현장의 출퇴근 확인에만 씁니다. 안면인식기가 있는 현장이면 같은 사진이 안면인식기에도 등록됩니다. 동의하지 않으면 얼굴 출근을 할 수 없습니다.</p>
+  </main>
+
+  <div class="act act--end">
+    <button class="act__b act__b--on" type="button" data-go="w-shot">동의하고 촬영하기</button>
+  </div>
+</section>
+
+<!-- ===== 근로자 앱 · 등록 촬영 확인 (앱 네이티브) =====
+     현장소장 앱의 같은 화면(m-shot)과 **같은 그림**이다 — 찍는 일은 앱이
+     하는 것이라 누가 찍든 보는 화면이 같다.
+     뒤에는 이 창을 띄운 화면(동의)이 그대로 있다. 그 마크업을 여기 옮겨
+     적지 않는다 — js 가 data-behind 를 보고 켜기 직전에 베껴 온다 -->
+<section class="scr has-dim" data-screen="w-shot" data-title="근로자 앱 얼굴 등록 — 촬영 확인"
+  data-behind="w-reg">
+  <div class="confirm">
+    <button class="cam__back" type="button" aria-label="뒤로" data-go="w-reg"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
+    <div class="confirm__card">
+      <div class="confirm__pic"><img src="images/worker/01.jpg" alt=""></div>
+      <span class="confirm__ok" data-go="w-home-done">얼굴 등록하기</span>
+    </div>
+    <span class="confirm__re"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg><b>다시 촬영하기</b></span>
+  </div>
+</section>
+
 </body>
 </html>
