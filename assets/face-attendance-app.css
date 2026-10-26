@@ -49,7 +49,6 @@
   --ap-primary-70:#114797;         /* color/light/primary/70 — 현장명 */
   --ap-primary-90:#113569;         /* Color/Text/primary-dark — 켜진 내비 */
   --ap-primary-5:#eef4fc;          /* color/light/primary/5 — 화면 바탕 */
-  --ap-primary-20:#b7d0f5;         /* color/light/primary/20 — 옅은 브랜드 테 */
   --ap-badge-positive:#dce8f9;     /* Color/badge/positive */
   --ap-point:#e74900;              /* Color/Text/point · badge/point */
   --ap-point-bg:rgba(231,73,0,.1); /* Color/badge/negative */
@@ -1764,15 +1763,17 @@ ul,ol{list-style:none}
    두었더니 찍힌 시각과 기준이 카드의 위아래 끝으로 갈려, 늦었는지
    보려면 눈이 한 번 더 오르내렸다. 이름 바로 옆에 두면 '출근은 7시부터'
    가 한 줄로 읽히고, 그 아래 찍힌 시각이 그 줄에 대는 답이 된다.
-   '기준' 이라는 말은 뗀다 — 물결로 **열린 쪽**을 가리키면 그만이다:
-   출근은 '07:00 ~'(그때부터), 퇴근은 '~ 17:00'(그때까지). 물결이 놓인
-   자리가 곧 어느 쪽으로 열린 구간인지를 말해, 같은 꼴 두 장을 나란히
-   놓아도 둘이 반대라는 것이 한눈에 보인다.
-   글자는 이름(15)과 같은 크기에 굵기만 올린다 — 13 회색으로 두었더니
-   이름에 딸린 주석처럼 작아, 몇 시부터인지 읽으려면 눈을 한 번 더
-   가져가야 했다. 색도 한 단 짙게(Text/dark-gray) 내린다 */
-.tcard__b{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
-  color:var(--ap-text-dark);font-variant-numeric:tabular-nums;white-space:nowrap}
+   '기준' 이라는 말은 뗀다 — '부터'·'까지' 가 그 자리에서 어느 쪽으로
+   열린 구간인지를 말한다. 물결(~)로도 같은 말을 할 수 있지만, 왼쪽에
+   붙은 물결과 오른쪽에 붙은 물결을 가려 읽어야 한다.
+   **읽을 것은 수**라, 수와 말의 무게를 가른다: 수는 짙고 굵게(gray/95 ·
+   600), '부터'·'까지' 는 옅은 회색으로 물러선다. 통째로 한 색이면
+   '07:00부터' 가 한 덩어리로 뭉쳐 수가 따로 읽히지 않는다.
+   크기는 이름(15)과 같다 — 13 으로 두었더니 이름에 딸린 주석처럼 작아,
+   몇 시부터인지 읽으려면 눈을 한 번 더 가져가야 했다 */
+.tcard__b{font:var(--t-sub);letter-spacing:var(--ls-sub);
+  color:var(--ap-text-gray);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tcard__b b{margin-right:1px;color:var(--ap-g95);font-weight:600}
 /* 어느 길로 찍혔는지는 **시각 아래 한가운데**다. 이름 줄 오른쪽 끝에
    두었더니 기준 시각이 설 자리가 없었고, 그 표는 이름이 아니라 시각에
    딸린 꼬리표라 시각 밑이 제자리다 */
@@ -1841,22 +1842,15 @@ ul,ol{list-style:none}
    제목과 더하는 버튼이 한 줄에 서고, 그 아래 20 띄우고 사진이 깔린다.
    사진은 글 아래다 — 위에 두면 적기도 전에 사진부터 고르게 된다 */
 .atts{flex:none;display:flex;flex-direction:column;gap:var(--ap-p7)}
-.atts__h{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-p5)}
 /* 몇 장인지는 제목 안에 괄호로 든다 — 시안이 '사진 (4)' 로 적는다.
-   따로 적으면 한쪽만 고쳐져 어긋난다 */
+   따로 적으면 한쪽만 고쳐져 어긋난다.
+   ⚠ 시안은 이 줄 오른쪽에 '카메라'·'앨범에서 추가' 버튼 둘을 둔다.
+     여기서는 두지 않고 더하는 자리를 **사진 줄 끝의 점선 칸** 하나로
+     모았다 — 머리줄 버튼은 사진이 놓이는 자리와 더하는 자리를 화면
+     위아래로 가르는데, 점선 칸은 '여기가 빈 자리' 와 '누르면 는다' 를
+     같은 꼴로 말한다 */
 .atts__l{font:var(--t-title2);letter-spacing:var(--ls-title2);
   color:var(--ap-g95);white-space:nowrap}
-/* 더하는 길이 둘이다 — 지금 찍는 것과 이미 찍어 둔 것. 시안이 둘을
-   **꼴로 가른다**: 카메라는 옅은 브랜드 면을 깔고(primary/5 + primary/20 테),
-   앨범은 테만 두른다(primary/60). 권하는 쪽이 카메라라서다 — 작업 사진은
-   대개 그 자리에서 찍는다 */
-.atts__b{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
-  flex:none;height:44px;display:inline-flex;align-items:center;justify-content:center;
-  gap:5.5px;padding:var(--ap-p2) var(--ap-p4);
-  border:1px solid var(--ap-primary);
-  border-radius:var(--ap-r10);color:var(--ap-primary);white-space:nowrap}
-.atts__b--cam{background:var(--ap-primary-5);border-color:var(--ap-primary-20)}
-.atts__bs{display:flex;align-items:center;gap:5px}
 /* 사진은 105 정사각이 12 간격으로 깔리고, 줄이 차면 다음 줄로 넘어간다 */
 .atts__g{display:flex;flex-wrap:wrap;gap:var(--ap-p5)}
 .att{position:relative;flex:none;width:105px;height:105px;
@@ -1869,6 +1863,12 @@ ul,ol{list-style:none}
   width:28px;height:28px;border-radius:50%;
   background:var(--ap-g90);color:var(--ap-g0)}
 .att__x .ic{width:24px;height:24px}
+/* 더하는 칸 — 사진과 같은 크기·모서리이되 면은 비우고 테를 점선으로
+   둔다. 채워진 사진들 끝에서 '아직 비어 있다' 로 읽힌다 */
+.att--add{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:var(--ap-p1);background:var(--ap-g0);
+  border:1px dashed var(--ap-g20);color:var(--ap-text-gray)}
+.att__n{font:var(--t-foot);letter-spacing:var(--ls-foot)}
 
 /* ── 화면 키보드 ──
    아이폰 세로의 한글 자판이다. 높이 319 는 자동완성 줄까지 포함한 실측값으로,
