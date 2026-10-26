@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=272">
-<script src="assets/face-attendance-app.js?v=272" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=274">
+<script src="assets/face-attendance-app.js?v=274" defer></script>
 </head>
 
 <body>
@@ -33,10 +33,23 @@
     <path d="M5.4 9.2 12 14.7 18.6 9.2" fill="none" stroke="currentColor"
       stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
+  <!-- ⚠ 알림 종 — 시스템 스프라이트에 없다(가장 가까운 것이 icon-info ·
+       icon-triangle-alert 인데 둘 다 '알림' 이 아니라 '알려 줄 말이 있다'
+       쪽이다). 스프라이트의 채움 방식(fill:currentColor · 24 뷰박스)에
+       맞춰 직접 그렸다 — 디자이너에게 받으면 그것으로 갈아 끼운다 -->
+  <symbol id="icon-bell-app" viewBox="0 0 24 24">
+    <path d="M12 2.6c.6 0 1 .4 1 1v.7c2.6.5 4.5 2.7 4.5 5.4v3.2l1.3 2.2c.4.7-.1 1.5-.9 1.5H6.1c-.8 0-1.3-.8-.9-1.5l1.3-2.2V9.7c0-2.7 1.9-4.9 4.5-5.4v-.7c0-.6.4-1 1-1Z" fill="currentColor"/>
+    <path d="M9.9 18.1h4.2c-.3 1.4-1.1 2.3-2.1 2.3s-1.8-.9-2.1-2.3Z" fill="currentColor"/>
+  </symbol>
 </svg>
 
 <!-- ⚠ 시스템에 없어 다르게 둔 아이콘 — 디자이너에게 요청할 것
      · QR 코드: 아이콘이 없어 icon-camera 로 자리만 잡았다
+     · 알림 종: 시스템에 없다(가장 가까운 icon-info · icon-triangle-alert 는
+       '알려 줄 말이 있다' 쪽이지 알림이 아니다). 스프라이트의 채움 방식에
+       맞춰 직접 그렸다 — icon-bell-app
+     · 달을 펴는 꺾쇠: 시안의 것이 시스템 것과 다른 그림이다(끝이 둥근 선 ·
+       더 얕다). svg 를 받을 수 없어 재어서 그렸다 — icon-chevron-down-app
      · 인증 시작 과녁의 '시작' 표: 세모(▶)가 없어 icon-chevron-right 로
        자리만 잡았다 — 동그라미 안에 들어가 '누르면 간다'로 읽힌다
      · 얼굴 촬영 자리의 '얼굴을 훑는 그림': 시스템에 얼굴이 없다(사람은
@@ -1072,10 +1085,16 @@
           <span class="cal__num">10</span><span class="cal__dot">.</span>
           <span class="cal__num">20</span>
           <span class="cal__dow">화</span>
+          <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
+               줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
+               이어 읽히지 않는다 -->
+          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
         </div>
         <div class="cal__side">
           <button class="pill pill--dark" type="button">오늘</button>
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
+          <!-- 알림은 시스템 Icon Button md 다(아이콘 20 · 둘레 4 → 28) —
+               옆의 '오늘' 알약과 키가 같아야 한 줄로 앉는다 -->
+          <button class="cal__bell" type="button" aria-label="알림"><svg class="ic" aria-hidden="true"><use href="#icon-bell-app"></use></svg></button>
         </div>
       </div>
       <div class="cal__week">
@@ -1209,10 +1228,16 @@
           <span class="cal__num">10</span><span class="cal__dot">.</span>
           <span class="cal__num">20</span>
           <span class="cal__dow">화</span>
+          <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
+               줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
+               이어 읽히지 않는다 -->
+          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
         </div>
         <div class="cal__side">
           <button class="pill pill--dark" type="button">오늘</button>
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
+          <!-- 알림은 시스템 Icon Button md 다(아이콘 20 · 둘레 4 → 28) —
+               옆의 '오늘' 알약과 키가 같아야 한 줄로 앉는다 -->
+          <button class="cal__bell" type="button" aria-label="알림"><svg class="ic" aria-hidden="true"><use href="#icon-bell-app"></use></svg></button>
         </div>
       </div>
       <div class="cal__week">
@@ -1327,10 +1352,16 @@
           <span class="cal__num">10</span><span class="cal__dot">.</span>
           <span class="cal__num">20</span>
           <span class="cal__dow">화</span>
+          <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
+               줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
+               이어 읽히지 않는다 -->
+          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
         </div>
         <div class="cal__side">
           <button class="pill pill--dark" type="button">오늘</button>
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
+          <!-- 알림은 시스템 Icon Button md 다(아이콘 20 · 둘레 4 → 28) —
+               옆의 '오늘' 알약과 키가 같아야 한 줄로 앉는다 -->
+          <button class="cal__bell" type="button" aria-label="알림"><svg class="ic" aria-hidden="true"><use href="#icon-bell-app"></use></svg></button>
         </div>
       </div>
       <div class="cal__week">
