@@ -898,11 +898,14 @@ ul,ol{list-style:none}
    ⚠ 시스템의 Badge 는 모두 밝은 바탕에 쓰는 짝이다(badge/positive 등).
    여기는 짙은 면 위라 그중 어느 것도 맞지 않아, 흰빛을 옅게 깐 알약으로
    둔다 — 면 위에 얹는 것이라 불투명 색이 아니라 투명도로 쥔다(설명을
-   가르는 선과 같은 식구다) */
+   가르는 선과 같은 식구다).
+   글자는 17 이다 — 1초마다 바뀌는 수라 눈이 자꾸 돌아오는 자리다. 13 으로
+   두었더니 이름(32) 옆에서 주석처럼 작아, 지금 몇 시인지 읽으려면 눈을
+   한 번 더 가까이 가져가야 했다 */
 .act--cta .cta__nm{display:flex;flex-direction:column;align-items:flex-start;
   gap:var(--ap-p3);min-width:0}
-.act--cta .cta__time{font:var(--t-foot-em);letter-spacing:var(--ls-foot);
-  padding:2px var(--ap-gap3);border-radius:var(--ap-r-pill);
+.act--cta .cta__time{font:var(--t-head);letter-spacing:var(--ls-head);
+  padding:2px var(--ap-p5);border-radius:var(--ap-r-pill);
   background:var(--ap-on-cta-chip);color:var(--ap-g0);
   font-variant-numeric:tabular-nums}
 /* 표는 이름 줄에 선다 — 가운데로 맞추면 뱃지까지 품은 덩어리의 한가운데라
