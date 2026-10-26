@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=392">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=393">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=392"></script>
+<script src="assets/face-attendance-app.js?v=393"></script>
 </head>
 
 <body>
@@ -277,20 +277,10 @@
     <div class="cal">
       <div class="cal__top">
         <div class="cal__date">
-          <!-- 날짜 칸이 곧 **기기의 날짜 고르개**다. 그 위에 보이지 않는
-               <input type="date"> 를 덮어 두어, 칸을 누르면 아이폰은 제
-               휠을 안드로이드는 제 달력을 띄운다 — 휠을 그림으로 그리지
-               않는 까닭이다. 그린 휠은 돌지 않지만 이것은 진짜로 돈다.
-               고른 날로 화면이 바뀐다(js 의 jump).
-               ⚠ 프로토타입이 쥔 것은 2026년 10월 한 달이라 min·max 로
-                 그 달을 벗어나지 않게 막아 둔다 -->
-          <span class="cal__pickw">
-            <span class="cal__num">2026</span><span class="cal__dot">.</span>
-            <span class="cal__num">10</span><span class="cal__dot">.</span>
-            <span class="cal__num">20</span>
-            <span class="cal__dow">화</span>
-            <input class="cal__pick" type="date" value="2026-10-20" min="2026-10-01" max="2026-10-31" aria-label="날짜 직접 고르기">
-          </span>
+          <span class="cal__num">2026</span><span class="cal__dot">.</span>
+          <span class="cal__num">10</span><span class="cal__dot">.</span>
+          <span class="cal__num">20</span>
+          <span class="cal__dow">화</span>
           <!-- 펴 둔 동안에는 꺾쇠가 접는 손잡이다 — 거꾸로 서고, 누르면
                띠로 돌아간다 -->
           <button class="cal__more cal__more--up" type="button" aria-label="달 접기" data-go="w-home"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
@@ -347,7 +337,76 @@
 
   <!-- 달 아래는 덮는다 — 지금 할 일은 날을 고르는 것 하나다.
        어두운 자리를 클릭하면 닫힌다 -->
-  <div class="dim dim--cal" data-go="w-home" data-go-self>
+<div class="dim dim--cal" data-go="w-home" data-go-self>
+
+    <!-- ── 년·월·일 휠 ──
+         기기가 띄우는 고르개는 꼴이 기기마다 다르다 — 아이폰은 휠,
+         안드로이드는 달력이다. 어느 기기에서나 같아야 해서 **직접 만든다**.
+         칸마다 제 몸이 굴러가고(스크롤), 멎으면 가운데 띠에 든 값이 고른
+         값이다. 치수는 시안 21:2807 그대로다 — 213 · 위 모서리 13 ·
+         가운데 띠 35.
+         ⚠ 프로토타입이 쥔 것은 2026년 10월 한 달이라, 그 밖의 해와 달은
+           흐리게 두고 손을 떼면 제자리로 돌아온다(기기 고르개가
+           min·max 에서 하는 일과 같다) -->
+    <div class="wheel">
+      <div class="wheel__b">
+        <span class="wheel__band" aria-hidden="true"></span>
+      <div class="wheel__c" data-wheel="연" data-pick="2026" tabindex="0" role="listbox" aria-label="연">
+        <span class="wheel__i wheel__i--off" data-v="2024">2024년</span>
+        <span class="wheel__i wheel__i--off" data-v="2025">2025년</span>
+        <span class="wheel__i" data-v="2026">2026년</span>
+        <span class="wheel__i wheel__i--off" data-v="2027">2027년</span>
+        <span class="wheel__i wheel__i--off" data-v="2028">2028년</span>
+      </div>
+      <div class="wheel__c" data-wheel="월" data-pick="10" tabindex="0" role="listbox" aria-label="월">
+        <span class="wheel__i wheel__i--off" data-v="1">1월</span>
+        <span class="wheel__i wheel__i--off" data-v="2">2월</span>
+        <span class="wheel__i wheel__i--off" data-v="3">3월</span>
+        <span class="wheel__i wheel__i--off" data-v="4">4월</span>
+        <span class="wheel__i wheel__i--off" data-v="5">5월</span>
+        <span class="wheel__i wheel__i--off" data-v="6">6월</span>
+        <span class="wheel__i wheel__i--off" data-v="7">7월</span>
+        <span class="wheel__i wheel__i--off" data-v="8">8월</span>
+        <span class="wheel__i wheel__i--off" data-v="9">9월</span>
+        <span class="wheel__i" data-v="10">10월</span>
+        <span class="wheel__i wheel__i--off" data-v="11">11월</span>
+        <span class="wheel__i wheel__i--off" data-v="12">12월</span>
+      </div>
+      <div class="wheel__c" data-wheel="일" data-pick="20" tabindex="0" role="listbox" aria-label="일">
+        <span class="wheel__i" data-v="1">1일</span>
+        <span class="wheel__i" data-v="2">2일</span>
+        <span class="wheel__i" data-v="3">3일</span>
+        <span class="wheel__i" data-v="4">4일</span>
+        <span class="wheel__i" data-v="5">5일</span>
+        <span class="wheel__i" data-v="6">6일</span>
+        <span class="wheel__i" data-v="7">7일</span>
+        <span class="wheel__i" data-v="8">8일</span>
+        <span class="wheel__i" data-v="9">9일</span>
+        <span class="wheel__i" data-v="10">10일</span>
+        <span class="wheel__i" data-v="11">11일</span>
+        <span class="wheel__i" data-v="12">12일</span>
+        <span class="wheel__i" data-v="13">13일</span>
+        <span class="wheel__i" data-v="14">14일</span>
+        <span class="wheel__i" data-v="15">15일</span>
+        <span class="wheel__i" data-v="16">16일</span>
+        <span class="wheel__i" data-v="17">17일</span>
+        <span class="wheel__i" data-v="18">18일</span>
+        <span class="wheel__i" data-v="19">19일</span>
+        <span class="wheel__i" data-v="20">20일</span>
+        <span class="wheel__i" data-v="21">21일</span>
+        <span class="wheel__i" data-v="22">22일</span>
+        <span class="wheel__i" data-v="23">23일</span>
+        <span class="wheel__i" data-v="24">24일</span>
+        <span class="wheel__i" data-v="25">25일</span>
+        <span class="wheel__i" data-v="26">26일</span>
+        <span class="wheel__i" data-v="27">27일</span>
+        <span class="wheel__i" data-v="28">28일</span>
+        <span class="wheel__i" data-v="29">29일</span>
+        <span class="wheel__i" data-v="30">30일</span>
+        <span class="wheel__i" data-v="31">31일</span>
+      </div>
+      </div>
+    </div>
   </div>
 </section>
 

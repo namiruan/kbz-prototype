@@ -45,7 +45,7 @@
     clock(hit);
     day(hit);
     roll(hit);
-    jump(hit);
+    wheel(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -132,6 +132,10 @@
       });
     }
 
+    /* 휠의 '일' 칸도 그 날에서 시작한다 */
+    var dc = scr.querySelector('.wheel__c[data-wheel="일"]');
+    if (dc) dc.setAttribute('data-pick', String(d));
+
     /* '오늘' 은 되돌아가는 길이라, 오늘을 보는 동안에는 갈 데가 없다 */
     scr.querySelectorAll('.pill--today').forEach(function (b) {
       b.disabled = (d === TODAY);
@@ -140,33 +144,55 @@
     });
   }
 
-  /* ── 날짜 칸에서 고른 날 — 기기의 고르개 ──
-     <input type="date"> 가 띄우는 것은 **기기 제 것**이다(아이폰은 휠,
-     안드로이드는 달력). 여기서 하는 일은 고른 날로 화면을 넘기는 것뿐이라,
-     머리말이 말한 이 파일의 몫 그대로다. 그 날에 제 장면이 있으면(19·20)
-     그리로, 없으면 '아직 안 찍힌 날' 의 장면으로 간다 */
-  function jump(scr) {
-    var i = scr.querySelector('.cal__pick');
-    if (!i) return;
+  /* ── 년·월·일 휠 ──
+     기기의 고르개는 꼴이 기기마다 달라(아이폰은 휠 · 안드로이드는 달력)
+     직접 만든다. 굴리는 일은 브라우저가 하고(scroll-snap), 여기서 하는
+     일은 셋뿐이다 — 처음에 고른 값을 가운데에 세우고, 쥐지 않은 값에
+     멎으면 제자리로 되돌리고, 날이 바뀌면 그 날의 화면으로 넘긴다.
+     ⚠ 굴러가는 **동안**은 아무것도 하지 않는다. 손이 멎고 한 박자(160ms)
+       지나야 셈한다 — 굴리는 중에 화면을 넘기면 끝까지 굴릴 수가 없다. */
+  var WHEEL_H = 35;
 
-    /* 칸을 누르면 **직접 연다**. 폰은 칸을 누르면 알아서 열리지만,
-       데스크톱 브라우저는 칸이 아니라 끝의 달력 표를 눌러야 열린다 —
-       그 표를 덮어 두었으니 열리지 않았다. showPicker() 는 누른 바로
-       그 자리에서 부르는 것이라 기기가 막지 않는다(클릭이 사람의 짓임을
-       기기가 안다). 모르는 브라우저에서는 칸에 눈길만 준다 */
-    i.addEventListener('click', function () {
-      try { i.showPicker(); } catch (e) { i.focus(); }
-    });
+  function wheel(scr) {
+    scr.querySelectorAll('.wheel__c').forEach(function (c) {
+      var items = c.querySelectorAll('.wheel__i');
+      var pick = c.getAttribute('data-pick');
+      var at = 0;
+      items.forEach(function (it, n) { if (it.dataset.v === pick) at = n; });
+      c.scrollTop = at * WHEEL_H;
 
-    i.addEventListener('change', function () {
-      var d = parseInt(i.value.slice(8), 10);
-      if (!(d >= 1 && d <= 31)) return;
-      var cell = scr.querySelector('.cal__d[data-d="' + d + '"][data-go]');
-      var u = new URL(location.href);
-      u.searchParams.set('screen', cell ? cell.dataset.go : 'w-home');
-      u.searchParams.set('d', String(d));
-      location.href = u.toString();
+      var idle;
+      c.addEventListener('scroll', function () {
+        clearTimeout(idle);
+        idle = setTimeout(function () { stop(c, items); }, 160);
+      }, { passive: true });
     });
+  }
+
+  function stop(c, items) {
+    var n = Math.round(c.scrollTop / WHEEL_H);
+    if (n < 0) n = 0;
+    if (n > items.length - 1) n = items.length - 1;
+    var it = items[n];
+
+    /* 쥐지 않은 해·달이면 제자리로 되돌린다 */
+    if (it.classList.contains('wheel__i--off')) {
+      var back = 0;
+      items.forEach(function (x, i) { if (x.dataset.v === c.getAttribute('data-pick')) back = i; });
+      c.scrollTo({ top: back * WHEEL_H, behavior: 'smooth' });
+      return;
+    }
+
+    if (c.getAttribute('data-wheel') !== '일') return;
+    var d = parseInt(it.dataset.v, 10);
+    if (String(d) === c.getAttribute('data-pick')) return;
+
+    /* 그 날에 제 장면이 있으면 그리로, 없으면 아직 안 찍힌 날의 장면으로 */
+    var hit = document.querySelector('.cal__d[data-d="' + d + '"][data-go]');
+    var u = new URL(location.href);
+    u.searchParams.set('screen', hit ? hit.dataset.go : 'w-home');
+    u.searchParams.set('d', String(d));
+    location.href = u.toString();
   }
 
   /* ── 날짜 띠를 고른 날이 보이는 자리에 둔다 ──
