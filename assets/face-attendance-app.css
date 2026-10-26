@@ -1743,11 +1743,7 @@ ul,ol{list-style:none}
    단은 1fr 둘로 못 박는다 — 출근과 퇴근은 늘 둘이고 더 늘지 않는다.
    두 카드의 키는 grid 가 맞춰 준다(stretch): 한쪽에만 '앱 · 얼굴' 이
    붙는데 키가 따로 놀면 둘이 대등해 보이지 않는다 */
-/* 가운데에 물결이 선다 — 두 카드가 따로 선 값 둘이 아니라 **한 구간의
-   양 끝**임을 말한다. 칸을 셋으로 나누되 가운데는 글자만큼만 차지한다 */
-.tcards{flex:none;display:grid;grid-template-columns:1fr auto 1fr;gap:var(--ap-gap3)}
-.tcards__x{font:var(--t-title3);letter-spacing:var(--ls-title3);
-  display:flex;align-items:center;justify-content:center;color:var(--ap-text-gray)}
+.tcards{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:var(--ap-gap3)}
 /* 카드 안은 가운데로 모은다 — 카드가 쥔 것이 수 하나뿐이라, 왼쪽에
    붙여 두면 수와 꼬리표가 왼쪽 선에 매달리고 오른쪽이 통째로 빈다.
    가운데에 세우면 두 카드의 수가 각자 제 칸의 한가운데에 서서, 나란히
