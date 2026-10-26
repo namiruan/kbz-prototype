@@ -13,11 +13,27 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=264">
-<script src="assets/face-attendance-app.js?v=264" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=267">
+<script src="assets/face-attendance-app.js?v=267" defer></script>
 </head>
 
 <body>
+
+<!-- 시안의 꺾쇠 — 시스템 스프라이트의 것과 다른 그림이다.
+     시스템 것(icon-chevron-down)은 끝이 **뾰족한** 채움 도형이고, 시안 것은
+     끝이 둥근 **선**이다. 그리고 같은 상자 안에서 시안 것이 더 얕다 —
+     30 상자 안에서 17×8 인데 시스템 것은 22×11 이라, 같은 자리에 두면
+     꺾쇠만 혼자 크고 날카롭게 보인다.
+     figma.com 에서 svg 를 받을 수 없어 **재어서 같은 형태로 그린다**
+     (face-attendance-review.html 의 카메라 아이콘과 같은 사정이다).
+     잰 값(30 상자): 가로 17 · 세로 8 · 선 2 → 24 뷰박스로 0.8 배.
+     근거 노드: 「출퇴근관리 (현장선택 이후)」 580:2800 icon_size -->
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="icon-chevron-down-app" viewBox="0 0 24 24">
+    <path d="M5.4 9.2 12 14.7 18.6 9.2" fill="none" stroke="currentColor"
+      stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
 
 <!-- ⚠ 시스템에 없어 다르게 둔 아이콘 — 디자이너에게 요청할 것
      · QR 코드: 아이콘이 없어 icon-camera 로 자리만 잡았다
@@ -1040,7 +1056,9 @@
 
 <!-- ===== ⑪ 근로자 앱 · 홈 (출근 전) ===== -->
 <section class="scr" data-screen="w-home" data-title="근로자 앱 홈 — 출근 전">
-  <header class="nav"><h1 class="nav__t">출퇴근 관리</h1></header>
+  <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
+       있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
+       자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
 
   <div class="hd">
     <div class="cal">
@@ -1053,7 +1071,7 @@
         </div>
         <div class="cal__side">
           <button class="pill pill--dark" type="button">오늘</button>
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
         </div>
       </div>
       <div class="cal__week">
@@ -1104,7 +1122,7 @@
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
             <span class="zone__l">출퇴근 인정범위</span>
           </span>
-          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg>
         </summary>
         <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
              지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
@@ -1126,8 +1144,8 @@
          것만 적어서(출근 전에는 출근 기준, 퇴근 전에는 퇴근 기준) 나머지
          한쪽은 어디에도 없었다 -->
     <div class="tcards">
-      <div class="tcard"><span class="tcard__k">출근</span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 07:00</span></div>
-      <div class="tcard"><span class="tcard__k">퇴근</span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 17:00</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 07:00</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 17:00</span></div>
     </div>
   </main>
 
@@ -1161,7 +1179,9 @@
 
 <!-- ===== ⑫ 근로자 앱 · 얼굴 등록 안내 ===== -->
 <section class="scr has-dim" data-screen="w-face" data-title="얼굴 등록 안내">
-  <header class="nav"><h1 class="nav__t">출퇴근 관리</h1></header>
+  <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
+       있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
+       자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
 
   <div class="hd">
     <div class="cal">
@@ -1174,7 +1194,7 @@
         </div>
         <div class="cal__side">
           <button class="pill pill--dark" type="button">오늘</button>
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
         </div>
       </div>
       <div class="cal__week">
@@ -1225,7 +1245,7 @@
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
             <span class="zone__l">출퇴근 인정범위</span>
           </span>
-          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg>
         </summary>
         <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
              지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
@@ -1247,8 +1267,8 @@
          것만 적어서(출근 전에는 출근 기준, 퇴근 전에는 퇴근 기준) 나머지
          한쪽은 어디에도 없었다 -->
     <div class="tcards">
-      <div class="tcard"><span class="tcard__k">출근</span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 07:00</span></div>
-      <div class="tcard"><span class="tcard__k">퇴근</span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 17:00</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 07:00</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 17:00</span></div>
     </div>
   </main>
 
@@ -1291,7 +1311,9 @@
 
 <!-- ===== ⑬ 근로자 앱 · 홈 (출근 완료) ===== -->
 <section class="scr" data-screen="w-home-done" data-title="근로자 앱 홈 — 출근 완료">
-  <header class="nav"><h1 class="nav__t">출퇴근 관리</h1></header>
+  <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
+       있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
+       자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
 
   <div class="hd">
     <div class="cal">
@@ -1304,7 +1326,7 @@
         </div>
         <div class="cal__side">
           <button class="pill pill--dark" type="button">오늘</button>
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
         </div>
       </div>
       <div class="cal__week">
@@ -1355,7 +1377,7 @@
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
             <span class="zone__l">출퇴근 인정범위</span>
           </span>
-          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg>
         </summary>
         <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
              지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
@@ -1377,10 +1399,12 @@
          것만 적어서(출근 전에는 출근 기준, 퇴근 전에는 퇴근 기준) 나머지
          한쪽은 어디에도 없었다 -->
     <div class="tcards">
-      <!-- 어느 길로 찍혔는지를 시각 아래에 붙인다 — 같은 날에 앱·단말기·
-           현장소장앱이 섞인다 -->
-      <div class="tcard"><span class="tcard__k">출근</span><span class="tcard__v">07:03</span><span class="bd bd--positive">앱 · 얼굴</span><span class="tcard__s">기준 07:00</span></div>
-      <div class="tcard"><span class="tcard__k">퇴근</span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 17:00</span></div>
+      <!-- 어느 길로 찍혔는지는 **이름과 같은 줄, 반대쪽 끝**에 적는다 —
+           같은 날에 앱·단말기·현장소장앱이 섞인다. 시각 아래에 두었더니
+           한가운데에 서서 시각 다음으로 크게 읽혔는데, 이것은 '언제' 가
+           아니라 '어디서' 라 시각에 딸린 꼬리표다 -->
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="bd bd--positive">앱 · 얼굴</span></span><span class="tcard__v">07:03</span><span class="tcard__s">기준 07:00</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span><span class="tcard__s">기준 17:00</span></div>
     </div>
     <!-- 퇴근이 왜 아직 비어 있는지를 카드 밖에 적는다 — 카드 안에 넣으면
          시각이 설 자리에 문장이 들어앉아, 두 카드가 서로 다른 것을 보여

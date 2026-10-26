@@ -1542,6 +1542,12 @@ details[open] > .zone__s .zone__c{transform:rotate(180deg)}
 .tcard{display:flex;flex-direction:column;align-items:center;text-align:center;
   gap:var(--ap-p2);padding:var(--ap-p5) var(--ap-p6);background:var(--ap-g0);
   border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
+/* 이름 줄 — 이름은 왼쪽, 그 기록이 어디서 왔는지는 오른쪽 끝이다. 카드
+   안은 가운데로 모으지만 이 줄만은 양쪽으로 벌린다: 둘은 짝이 아니라
+   따로 읽는 것이고, 가운데에 모아 두면 이름과 꼬리표가 한 덩어리로
+   붙어 '출근 앱·얼굴' 이라는 한 말처럼 보인다 */
+.tcard__h{display:flex;align-items:center;justify-content:space-between;
+  gap:var(--ap-p3);align-self:stretch;min-height:22px}
 .tcard__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
 /* 숫자는 폭이 고른 꼴로 둔다 — 두 카드의 시각이 세로로 나란히 서야 한다 */
 .tcard__v{font:var(--t-title2);letter-spacing:var(--ls-title2);
