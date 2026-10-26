@@ -1490,6 +1490,25 @@ details[open] > .zone__s .zone__c{transform:rotate(180deg)}
 .log__tm{font:var(--t-foot);letter-spacing:var(--ls-foot);flex:none;
   color:var(--ap-text-gray);font-variant-numeric:tabular-nums}
 
+/* ── 오늘의 출근·퇴근 — 좌우로 선 두 카드 ── */
+/* 출근과 퇴근은 따로 선 기록이다. 한 카드에 두 줄로 쌓아 두면 한 값의
+   위아래처럼 보이는데, 좌우로 나란히 세우면 둘이 대등하고 아직 안 찍힌
+   쪽이 한눈에 보인다.
+   단은 1fr 둘로 못 박는다 — 출근과 퇴근은 늘 둘이고 더 늘지 않는다.
+   두 카드의 키는 grid 가 맞춰 준다(stretch): 한쪽에만 '앱 · 얼굴' 이
+   붙는데 키가 따로 놀면 둘이 대등해 보이지 않는다 */
+.tcards{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:var(--ap-gap3)}
+.tcard{display:flex;flex-direction:column;align-items:flex-start;gap:var(--ap-p2);
+  padding:var(--ap-p5) var(--ap-p6);background:var(--ap-g0);
+  border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
+.tcard__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
+/* 숫자는 폭이 고른 꼴로 둔다 — 두 카드의 시각이 세로로 나란히 서야 한다 */
+.tcard__v{font:var(--t-title2);letter-spacing:var(--ls-title2);
+  color:var(--ap-text);font-variant-numeric:tabular-nums}
+/* 아직 찍히지 않은 자리 — 빈칸으로 두면 값이 없는 것인지 아직인 것인지
+   가릴 수 없다. 글자는 흐리게 둔다: 자리는 잡되 읽을 값은 아니다 */
+.tcard__v--none{color:var(--ap-text-disabled)}
+
 /* ── 안내 글 ── */
 .note{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);padding:12px var(--ap-p6);background:var(--ap-primary-5);border-radius:var(--ap-r10);color:var(--ap-primary-70)}
 .guide{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);margin-top:auto;color:var(--ap-text-gray);text-align:center}

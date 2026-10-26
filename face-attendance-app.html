@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=258">
-<script src="assets/face-attendance-app.js?v=258" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=259">
+<script src="assets/face-attendance-app.js?v=259" defer></script>
 </head>
 
 <body>
@@ -1115,9 +1115,16 @@
       </details>
     </div>
 
-    <div class="rows">
-      <div class="row"><span class="row__k">출근시간</span><span class="row__v">출근을 눌러 근무를 시작하세요.</span></div>
+    <!-- 출근과 퇴근은 **따로 선 기록**이다 — 각각 제 시각과 제 경로를
+         갖는다. 한 카드에 두 줄로 쌓아 두면 한 값의 위아래처럼 보이는데,
+         좌우로 나란히 세우면 둘이 대등하고 아직 안 찍힌 쪽이 한눈에
+         보인다. 찍히지 않은 자리는 --:-- 로 둔다: 빈칸으로 두면 값이
+         없는 것인지 아직인 것인지 가릴 수 없다 -->
+    <div class="tcards">
+      <div class="tcard"><span class="tcard__k">출근</span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__k">퇴근</span><span class="tcard__v tcard__v--none">--:--</span></div>
     </div>
+    <p class="note">출근을 눌러 근무를 시작하세요.</p>
     <p class="guide">출근시간 : 07:00</p>
   </main>
 
@@ -1212,9 +1219,16 @@
       </details>
     </div>
 
-    <div class="rows">
-      <div class="row"><span class="row__k">출근시간</span><span class="row__v">출근을 눌러 근무를 시작하세요.</span></div>
+    <!-- 출근과 퇴근은 **따로 선 기록**이다 — 각각 제 시각과 제 경로를
+         갖는다. 한 카드에 두 줄로 쌓아 두면 한 값의 위아래처럼 보이는데,
+         좌우로 나란히 세우면 둘이 대등하고 아직 안 찍힌 쪽이 한눈에
+         보인다. 찍히지 않은 자리는 --:-- 로 둔다: 빈칸으로 두면 값이
+         없는 것인지 아직인 것인지 가릴 수 없다 -->
+    <div class="tcards">
+      <div class="tcard"><span class="tcard__k">출근</span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__k">퇴근</span><span class="tcard__v tcard__v--none">--:--</span></div>
     </div>
+    <p class="note">출근을 눌러 근무를 시작하세요.</p>
     <p class="guide">출근시간 : 07:00</p>
   </main>
 
@@ -1318,10 +1332,22 @@
       </details>
     </div>
 
+    <!-- 출근과 퇴근은 **따로 선 기록**이다 — 각각 제 시각과 제 경로를
+         갖는다. 한 카드에 두 줄로 쌓아 두면 한 값의 위아래처럼 보이는데,
+         좌우로 나란히 세우면 둘이 대등하고 아직 안 찍힌 쪽이 한눈에
+         보인다. 찍히지 않은 자리는 --:-- 로 둔다: 빈칸으로 두면 값이
+         없는 것인지 아직인 것인지 가릴 수 없다 -->
+    <div class="tcards">
+      <!-- 어느 길로 찍혔는지를 시각 아래에 붙인다 — 같은 날에 앱·단말기·
+           현장소장앱이 섞인다 -->
+      <div class="tcard"><span class="tcard__k">출근</span><span class="tcard__v">07:03</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <div class="tcard"><span class="tcard__k">퇴근</span><span class="tcard__v tcard__v--none">--:--</span></div>
+    </div>
+    <!-- 퇴근이 왜 아직 비어 있는지를 카드 밖에 적는다 — 카드 안에 넣으면
+         시각이 설 자리에 문장이 들어앉아, 두 카드가 서로 다른 것을 보여
+         주는 꼴이 된다 -->
+    <p class="note">작업내용 입력 후 퇴근을 눌러주세요.</p>
     <div class="rows">
-      <!-- 어느 길로 찍혔는지를 시간 옆에 붙인다 — 같은 날에 앱·단말기·현장소장앱이 섞인다 -->
-      <div class="row"><span class="row__k">출근시간</span><span class="row__v">07:03 <span class="bd bd--positive">앱 · 얼굴</span></span></div>
-      <div class="row"><span class="row__k">퇴근시간</span><span class="row__v">작업내용 입력 후 퇴근을 눌러주세요.</span></div>
       <div class="row"><span class="row__k">작업내용</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-edit"></use></svg>작성하기</button></span></div>
     </div>
     <p class="guide">퇴근시간 : 17:00</p>
