@@ -13,8 +13,8 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=245">
-<script src="assets/face-attendance-app.js?v=245" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=247">
+<script src="assets/face-attendance-app.js?v=247" defer></script>
 </head>
 
 <body>
@@ -1078,7 +1078,34 @@
         <span class="card__nm">서울 마곡 A동 신축공사</span>
         <button class="pill pill--line" type="button">현장선택</button>
       </div>
-      <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
+      <!-- 지도는 **제자리에서 펼친다**. 전체를 덮는 창으로 띄우면, '지금
+           내가 범위 안인가' 를 흘깃 보자고 화면을 한 장 덮었다가 다시
+           닫아야 한다 — 머물러서 하는 일이 아니다. 펼치면 현장 이름 바로
+           아래라 '어느 현장의 범위인가' 를 되짚을 일도 없다.
+           시스템의 Disclosure 다(레이블이 '지도 보기' ↔ '접기' 로 뒤집히고
+           꺾쇠가 돈다).
+           ⚠ 클래스가 아니라 <details> 로 짠다. Disclosure·Accordion 은 JS
+           가 여는데, 이 프로토타입의 JS 는 어느 화면을 보여 줄지만 정하고
+           화면 안의 동작은 앱(Flutter)의 몫으로 남긴다(face-attendance-app.js
+           머리말). <details> 는 흉내가 아니라 브라우저가 쥔 동작이다.
+           ⚠ 과녁은 <summary> 전체다. 그래서 오른쪽의 알약은 button 이 아니라
+           span 이다 — summary 안에 button 을 넣으면 과녁이 둘로 갈린다 -->
+      <details class="row row--zone">
+        <summary class="zone__s">
+          <span class="row__k">인정범위</span>
+          <span class="pill pill--line zone__t">
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>
+            <span class="zone__l zone__l--shut">지도 보기</span><span class="zone__l zone__l--open">접기</span>
+            <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+          </span>
+        </summary>
+        <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
+             지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
+        <div class="zone__m" role="img" aria-label="현장 위치와 인정범위">
+          <span class="zone__r"></span>
+          <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+        </div>
+      </details>
     </div>
 
     <div class="rows">
@@ -1141,7 +1168,34 @@
         <span class="card__nm">서울 마곡 A동 신축공사</span>
         <button class="pill pill--line" type="button">현장선택</button>
       </div>
-      <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
+      <!-- 지도는 **제자리에서 펼친다**. 전체를 덮는 창으로 띄우면, '지금
+           내가 범위 안인가' 를 흘깃 보자고 화면을 한 장 덮었다가 다시
+           닫아야 한다 — 머물러서 하는 일이 아니다. 펼치면 현장 이름 바로
+           아래라 '어느 현장의 범위인가' 를 되짚을 일도 없다.
+           시스템의 Disclosure 다(레이블이 '지도 보기' ↔ '접기' 로 뒤집히고
+           꺾쇠가 돈다).
+           ⚠ 클래스가 아니라 <details> 로 짠다. Disclosure·Accordion 은 JS
+           가 여는데, 이 프로토타입의 JS 는 어느 화면을 보여 줄지만 정하고
+           화면 안의 동작은 앱(Flutter)의 몫으로 남긴다(face-attendance-app.js
+           머리말). <details> 는 흉내가 아니라 브라우저가 쥔 동작이다.
+           ⚠ 과녁은 <summary> 전체다. 그래서 오른쪽의 알약은 button 이 아니라
+           span 이다 — summary 안에 button 을 넣으면 과녁이 둘로 갈린다 -->
+      <details class="row row--zone">
+        <summary class="zone__s">
+          <span class="row__k">인정범위</span>
+          <span class="pill pill--line zone__t">
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>
+            <span class="zone__l zone__l--shut">지도 보기</span><span class="zone__l zone__l--open">접기</span>
+            <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+          </span>
+        </summary>
+        <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
+             지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
+        <div class="zone__m" role="img" aria-label="현장 위치와 인정범위">
+          <span class="zone__r"></span>
+          <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+        </div>
+      </details>
     </div>
 
     <div class="rows">
@@ -1213,7 +1267,34 @@
         <span class="card__nm">서울 마곡 A동 신축공사</span>
         <button class="pill pill--line" type="button">현장선택</button>
       </div>
-      <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
+      <!-- 지도는 **제자리에서 펼친다**. 전체를 덮는 창으로 띄우면, '지금
+           내가 범위 안인가' 를 흘깃 보자고 화면을 한 장 덮었다가 다시
+           닫아야 한다 — 머물러서 하는 일이 아니다. 펼치면 현장 이름 바로
+           아래라 '어느 현장의 범위인가' 를 되짚을 일도 없다.
+           시스템의 Disclosure 다(레이블이 '지도 보기' ↔ '접기' 로 뒤집히고
+           꺾쇠가 돈다).
+           ⚠ 클래스가 아니라 <details> 로 짠다. Disclosure·Accordion 은 JS
+           가 여는데, 이 프로토타입의 JS 는 어느 화면을 보여 줄지만 정하고
+           화면 안의 동작은 앱(Flutter)의 몫으로 남긴다(face-attendance-app.js
+           머리말). <details> 는 흉내가 아니라 브라우저가 쥔 동작이다.
+           ⚠ 과녁은 <summary> 전체다. 그래서 오른쪽의 알약은 button 이 아니라
+           span 이다 — summary 안에 button 을 넣으면 과녁이 둘로 갈린다 -->
+      <details class="row row--zone">
+        <summary class="zone__s">
+          <span class="row__k">인정범위</span>
+          <span class="pill pill--line zone__t">
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>
+            <span class="zone__l zone__l--shut">지도 보기</span><span class="zone__l zone__l--open">접기</span>
+            <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+          </span>
+        </summary>
+        <!-- 자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
+             지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
+        <div class="zone__m" role="img" aria-label="현장 위치와 인정범위">
+          <span class="zone__r"></span>
+          <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+        </div>
+      </details>
     </div>
 
     <div class="rows">

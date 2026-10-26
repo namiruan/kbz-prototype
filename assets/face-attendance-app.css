@@ -76,6 +76,8 @@
   --ap-danger:#b82e2e;             /* Color/Text/danger */
 
   --ap-line:rgba(19,20,22,.15);    /* Color/action/gray-pressed */
+  --ap-zone-fill:rgba(17,90,198,.08); /* 인정범위 원의 속 — 지도 위에 얹는
+                                      면이라 불투명 색이 아니라 투명도로 둔다 */
   /* 카드를 바탕에서 떼는 그림자 — 두 겹이다. 넓게 번지는 겹(4/14)이
      카드가 떠 있다는 것을 말하고, 바싹 붙는 겹(1/3)이 카드의 아래 모서리를
      바탕과 갈라 준다. 꼴은 시스템 shadow-lg 다.
@@ -170,6 +172,7 @@
   --ap-ease-sym:ease-in-out;       /* easing-symmetric — 되풀이하는 움직임 */
   --ap-ease-enter:ease-out;        /* easing-enter — 들어오는 것 */
   --ap-ease-exit:ease-in;          /* easing-exit — 나가는 것 */
+  --ap-dur-base:150ms;             /* duration-base — 꺾쇠가 도는 길이 */
   --ap-dur-slow:200ms;             /* duration-slow — 패널이 들고 나는 길이 */
   --ap-beat:750ms;                 /* duration-pulse — 한 번 뛰는 길이 */
   --ap-go-cycle:1.6s;              /* '시작' 화살표가 한 번 밀었다 돌아오는 주기 */
@@ -575,6 +578,35 @@ ul,ol{list-style:none}
    맞춰, 선을 사이에 두고 양쪽이 같은 폭으로 벌어진다 */
 .card--site .row{padding:var(--ap-p4) 0 0;
   border-top:1px solid var(--ap-g5);border-bottom:0}
+/* 인정범위 줄은 펼친다 — <details> 라 줄이 flex 가 아니라 블록이다. 라벨과
+   과녁을 한 줄에 세우는 일은 <summary> 가 맡는다 */
+.card--site .row--zone{display:block}
+/* 과녁은 줄 전체다. 기본 삼각 표식은 걷는다 — 오른쪽 알약의 꺾쇠가 이미
+   '펼친다' 를 말하고, 둘을 다 두면 한 줄에 같은 말이 두 번 난다 */
+.zone__s{display:flex;align-items:center;justify-content:space-between;
+  gap:var(--ap-p5);list-style:none;cursor:pointer}
+.zone__s::-webkit-details-marker{display:none}
+.zone__t{display:inline-flex;align-items:center;gap:var(--ap-p2)}
+/* 레이블은 상태를 따라 뒤집힌다(시스템 Disclosure 의 data-label-expand /
+   -collapse 와 같은 일을 CSS 로 한다 — JS 를 두지 않는 자리라서다) */
+.zone__l--open{display:none}
+details[open] > .zone__s .zone__l--shut{display:none}
+details[open] > .zone__s .zone__l--open{display:inline}
+/* 핀은 접혀 있을 때만 — '지도 보기' 앞에서는 무엇을 여는지 말하지만,
+   '접기' 앞에서는 닫는 것과 아무 상관이 없다 */
+details[open] > .zone__s .zone__t > .ic:first-child{display:none}
+.zone__c{transition:transform var(--ap-dur-base) var(--ap-ease-sym)}
+details[open] > .zone__s .zone__c{transform:rotate(180deg)}
+/* 펼친 자리 — 지도가 들어올 칸이다. 지금은 자리표시자라 반경 원과 핀만
+   그린다: 지도 타일을 흉내 내면 받은 지도인 줄로 읽힌다.
+   원은 테가 점선이다 — '여기까지' 가 그어 둔 선이 아니라 **재어서 나오는
+   범위**라는 말이다 */
+.zone__m{position:relative;height:160px;margin-top:var(--ap-p4);
+  border-radius:var(--ap-r8);background:var(--ap-g5);overflow:hidden;
+  display:flex;align-items:center;justify-content:center}
+.zone__r{position:absolute;width:120px;height:120px;border-radius:50%;
+  border:1.5px dashed var(--ap-primary);background:var(--ap-zone-fill)}
+.zone__p{position:relative;color:var(--ap-primary)}
 .card__nm{font:var(--t-title3-em);letter-spacing:var(--ls-title3);flex:1;min-width:0;color:var(--ap-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .card__gr{display:flex;flex-wrap:wrap;gap:var(--ap-p2) var(--ap-p6)}
 .card__kv{flex:1 0 0;min-width:115px;display:flex;align-items:center;gap:var(--ap-p3)}
