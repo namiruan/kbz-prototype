@@ -44,6 +44,7 @@
     link(hit);
     clock(hit);
     note(hit);
+    terms(hit);
     day(hit);
     roll(hit);
     wheel(hit);
@@ -670,6 +671,21 @@
     function count() { n.textContent = String(t.value.length); }
     t.addEventListener('input', count);
     count();
+  }
+
+  /* ── 약관 펼치기 ──
+     누르면 그 줄 **바로 아래로** 본문이 펼쳐진다. 다른 화면으로 넘기면
+     동의하던 자리를 잃고, 돌아와서 어디까지 읽었는지 다시 찾아야 한다 */
+  function terms(scr) {
+    scr.querySelectorAll('.agr[aria-controls]').forEach(function (b) {
+      var d = scr.querySelector('#' + b.getAttribute('aria-controls'));
+      if (!d) return;
+      b.addEventListener('click', function () {
+        var open = b.getAttribute('aria-expanded') === 'true';
+        b.setAttribute('aria-expanded', open ? 'false' : 'true');
+        d.hidden = open;
+      });
+    });
   }
 
   /* ── 과녁 위의 시계 ──

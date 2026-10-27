@@ -2231,7 +2231,22 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   flex:1;min-width:0;color:var(--ap-text);word-break:keep-all}
 /* 전체 동의는 아래 것들을 묶는 줄이라 한 단 굵다 */
 .agr__t--all{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-g95)}
-.agr__g{flex:none;color:var(--ap-text-gray)}
+/* 꺾쇠는 **아래를 향한다** — 다른 화면으로 넘기는 것이 아니라 그 자리에서
+   펼치는 길이라, 오른쪽 꺾쇠를 두면 넘어간다는 거짓말이 된다. 펴면 뒤집혀
+   '접는 손잡이' 가 된다(달력의 .cal__more--up 과 같은 결) */
+.agr__g{flex:none;color:var(--ap-text-gray);transition:transform var(--ap-dur-base) var(--ap-ease-enter)}
+.agr[aria-expanded="true"] .agr__g{transform:rotate(180deg)}
+@media (prefers-reduced-motion:reduce){.agr__g{transition:none}}
+/* 펼쳐진 본문 — 줄 아래에 그대로 이어 붙는다. 체크 아이콘(24)과 그 옆
+   간격(10)만큼 들여써서, 제목과 같은 세로 선에서 시작한다 */
+.agr__d{padding:0 0 var(--ap-p5) calc(var(--ap-p9) + var(--ap-p1));
+  border-bottom:1px solid var(--ap-g5);
+  font:var(--t-foot);letter-spacing:var(--ls-foot);
+  color:var(--ap-text-gray);word-break:keep-all}
+.agr__d p{margin:0}
+.agr__d p + p{margin-top:var(--ap-p3)}
+.agr__d b{color:var(--ap-text-dark);font-weight:600;margin-right:var(--ap-p2)}
+.agr__d[hidden]{display:none}
 
 /* ── 써 둔 작업내용 — 홈에서 보는 꼴 ──
    오늘 한 일은 오늘 찍힌 시각 다음에 온다. 출퇴근 카드 바로 아래에
