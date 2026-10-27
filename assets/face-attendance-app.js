@@ -266,7 +266,7 @@
      멎으면 제자리로 되돌리고, 날이 바뀌면 그 날의 화면으로 넘긴다.
      ⚠ 굴러가는 **동안**은 아무것도 하지 않는다. 손이 멎고 한 박자(160ms)
        지나야 셈한다 — 굴리는 중에 화면을 넘기면 끝까지 굴릴 수가 없다. */
-  var WHEEL_H = 35;
+  var WHEEL_H = 44;   /* 칸 하나의 키 — css 의 .wheel__i 와 같아야 한다 */
 
   function wheel(scr) {
     scr.querySelectorAll('.wheel__c').forEach(function (c) {

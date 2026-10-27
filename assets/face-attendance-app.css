@@ -1184,7 +1184,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      색 가족으로 읽힌다.
    치수는 시안에서 가져온다 — 통 213 · 가운데 띠 35 · 위아래는 흐려져
    사라진다(원통이 돌아간다는 말이라 자르지 않고 지운다) */
-/* 213 = 12(위) + 4(표) + 4(사이) + 177(통) + 16(아래) */
+/* 213 = 12(위) + 4(표) + 4(사이) + 176(통) + 16(아래) */
 .wheel{flex:none;height:213px;display:flex;flex-direction:column;align-items:center;
   gap:var(--ap-p2);padding:var(--ap-p5) var(--ap-p6) var(--ap-p6);
   background:var(--ap-g0);border-radius:var(--ap-r15) var(--ap-r15) 0 0;
@@ -1192,16 +1192,22 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 쥐고 끄는 표 — 바닥에서 올라온 시트라는 말이다 */
 .wheel::before{content:"";flex:none;width:36px;height:4px;border-radius:2px;
   background:var(--ap-g20)}
-.wheel__b{position:relative;flex:none;height:177px;width:100%;max-width:297px;
+.wheel__b{position:relative;flex:none;height:176px;width:100%;max-width:297px;
   display:grid;grid-template-columns:repeat(3,1fr)}
-.wheel__band{position:absolute;left:0;right:0;top:50%;height:35px;transform:translateY(-50%);
-  border-radius:var(--ap-r8);background:var(--ap-primary-5);pointer-events:none}
-/* 한 칸이 굴러가는 통이다. 위아래로 (177-35)/2 = 71 을 비워 두어야 첫
+/* 고른 값이 앉는 자리. 칸(44)만큼 두껍고, **시트의 변까지** 넓다 —
+   세 칸(최대 297)만 덮으면 고르는 자리가 글자만 한 띠로 보인다. 시트의
+   안쪽 폭(화면 폭 - 좌우 여백 16)까지 벌리되 변에는 닿지 않는다 —
+   닿으면 둥근 모서리가 잘려 띠가 아니라 줄로 보인다 */
+.wheel__band{position:absolute;left:50%;top:50%;
+  width:calc(100vw - var(--ap-p6) * 2);
+  height:44px;transform:translate(-50%,-50%);
+  border-radius:var(--ap-r10);background:var(--ap-primary-5);pointer-events:none}
+/* 한 칸이 굴러가는 통이다. 위아래로 (176-44)/2 = 66 을 비워 두어야 첫
    값과 마지막 값도 가운데에 설 수 있다.
    ⚠ 이 값을 %로 두지 않는다 — 여백의 %는 높이가 아니라 **폭**을 재는
      값이라, 띠가 고른 값에서 한 줄 아래로 어긋났다. 굴림대는 감춘다 */
 .wheel__c{height:100%;overflow-y:auto;scroll-snap-type:y mandatory;
-  padding:71px 0;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  padding:66px 0;scrollbar-width:none;-webkit-overflow-scrolling:touch;
   -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 32%,#000 68%,transparent 100%);
   mask-image:linear-gradient(to bottom,transparent 0,#000 32%,#000 68%,transparent 100%)}
 .wheel__c::-webkit-scrollbar{display:none}
@@ -1209,13 +1215,24 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    들어오지 않는다 — 세 칸이 같은 크기로 늘어서면 가운데가 그중 하나로만
    보인다. 키(35)는 건드리지 않아 글자만 커진다: 줄이 밀리면 굴림 자리가
    어긋난다. 가운데가 어느 것인지는 js 가 표로 붙인다(--on) */
+/* 띠 안으로 들어오고 나가는 동안 **글자가 자라고 줄어든다**. 표가
+   붙는 순간 크기가 툭 바뀌면 굴러가는 것이 아니라 값이 갈아 끼워지는
+   것으로 보인다. 글꼴이 가변(Pretendard Variable)이라 굵기도 사이값으로
+   이어진다 — 400 에서 600 으로 번져 간다.
+   줄높이까지 함께 가는 것은 글자가 자라는 동안 가운데가 흔들리지 않게
+   하기 위해서다(칸의 키 44 는 그대로라 줄이 밀리지는 않는다) */
 .wheel__i{font:var(--t-body);letter-spacing:var(--ls-body);
-  height:35px;display:flex;align-items:center;justify-content:center;
+  height:44px;display:flex;align-items:center;justify-content:center;
   scroll-snap-align:center;white-space:nowrap;color:var(--ap-text-gray);
-  transition:color var(--ap-dur-fast) linear}
+  transition:font-size var(--ap-dur-base) var(--ap-ease-enter),
+             font-weight var(--ap-dur-base) var(--ap-ease-enter),
+             line-height var(--ap-dur-base) var(--ap-ease-enter),
+             letter-spacing var(--ap-dur-base) var(--ap-ease-enter),
+             color var(--ap-dur-base) linear}
+@media (prefers-reduced-motion:reduce){.wheel__i{transition:none}}
 /* 고른 값은 Title1(28/34)에 브랜드 색이다 — 띠(primary/5) · 글자 ·
    달에서 고른 날(채운 브랜드 동그라미)이 한 색 가족으로 묶인다.
-   34 는 칸의 키(35) 안에 꼭 드는 줄높이다 — 더 키우면 줄이 밀린다 */
+   칸의 키는 44 라, 28/34 가 위아래로 숨 쉴 틈을 두고 앉는다 */
 .wheel__i--on{font:var(--t-title1);letter-spacing:var(--ls-title1);color:var(--ap-primary)}
 
 /* ── 아래 내비게이션 — 주화면에만 ── */
