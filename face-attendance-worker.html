@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=416">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=418">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=416"></script>
+<script src="assets/face-attendance-app.js?v=418"></script>
 </head>
 
 <body>
@@ -1404,16 +1404,6 @@
          보려면 눈이 위아래를 오갔다. 게다가 그 한 줄은 그날 할 일 한쪽
          것만 적어서(출근 전에는 출근 기준, 퇴근 전에는 퇴근 기준) 나머지
          한쪽은 어디에도 없었다 -->
-    <!-- 왜 어제가 열려 있는지를 **그 자리에서** 적는다 — 날짜 줄만
-         보고는 앱이 잘못 띄운 것인지 일부러 둔 것인지 가릴 수 없다.
-         조건이 풀릴 때까지(퇴근을 찍을 때까지) 남아 있는 말이라 배너다 -->
-    <div class="bnr" role="status">
-      <div class="bnr__b">
-        <span>이 날의 퇴근이 아직 남아 있습니다.</span>
-        <span>날짜가 바뀐 뒤에 인증해도 이 날의 퇴근으로 기록됩니다.</span>
-      </div>
-    </div>
-
     <div class="tcards">
       <!-- 어느 길로 찍혔는지는 **이름과 같은 줄, 반대쪽 끝**에 적는다 —
            같은 날에 앱·단말기·현장소장앱이 섞인다. 시각 아래에 두었더니
@@ -1716,19 +1706,6 @@
          보려면 눈이 위아래를 오갔다. 게다가 그 한 줄은 그날 할 일 한쪽
          것만 적어서(출근 전에는 출근 기준, 퇴근 전에는 퇴근 기준) 나머지
          한쪽은 어디에도 없었다 -->
-    <!-- 어제 시작한 근무가 아직 안 끝났다. **이 자리**에 세우는 것은,
-         날짜가 바뀌면 앱이 오늘을 여는데 찍어야 할 퇴근은 어제 것이라
-         오늘 화면 어디에도 그 일이 없기 때문이다. 누르면 그 날로 간다.
-         꼴은 '작업내용 작성하기' 와 같은 줄짜리 카드다 — 둘 다 '아직
-         남은 일' 이고, 할 일이 한 꼴로 서야 눈이 매번 새로 읽지 않는다 -->
-    <button class="cardb cardb--warn" type="button" data-go="w-home-over">
-      <span class="cardb__t">
-        <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-time"></use></svg></span>
-        <span class="cardb__l">어제 근무가 아직 퇴근 전입니다</span>
-      </span>
-      <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-    </button>
-
     <div class="tcards">
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
       <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
@@ -1744,31 +1721,43 @@
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
        있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
        들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
-  <div class="act act--cta">
-    <!-- 과녁의 이름 아래에 설명이 붙는다 — 현장소장 앱의 인증 시작 과녁과
-         같은 짜임이다(이름 · 그 아래 설명). 본문에 따로 한 줄로 두었더니
-         '눌러 주세요' 라고 적힌 자리와 실제로 누를 자리가 떨어져 있었다 -->
-    <button class="act__b act__b--on" type="button" data-go="w-face">
+  <div class="act act--cta act--stack">
+    <!-- 할 일 둘이 한 자리에 쌓인다 — '작업내용 쓰기 → 퇴근' 과 같은
+         짜임이다(.act--stack). 먼저 할 일이 위에 서고, 그것이 풀려야
+         켜지는 과녁이 아래에 선다.
+         어제 시작한 근무가 아직 안 끝났다. **이 자리**에 세우는 것은,
+         날짜가 바뀌면 앱이 오늘을 여는데 찍어야 할 퇴근은 어제 것이라
+         오늘 화면 어디에도 그 일이 없기 때문이다. 누르면 그 날로 간다.
+         꼴은 '작업내용 작성하기' 와 같은 줄짜리 카드다 — 둘 다 '아직
+         남은 일' 이고, 할 일이 한 꼴로 서야 눈이 매번 새로 읽지 않는다 -->
+    <button class="cardb cardb--warn" type="button" data-go="w-home-over">
+      <span class="cardb__t">
+        <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-time"></use></svg></span>
+        <span class="cardb__l">어제 근무가 아직 퇴근 전입니다</span>
+      </span>
+      <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+    </button>
+
+    <!-- 어제 근무가 닫히기 전이라 **꺼진** 과녁이다. 한 현장에서 끝나지
+         않은 근무를 두고 또 출근을 찍으면, 앞 근무가 언제 끝났는지 셀 수
+         없다 — 퇴근이 들어오고 나서야 오늘 몫이 선다.
+         자리를 지워 버리지 않는 것은, 없으면 '오늘 출근은 어디서 하나' 를
+         묻게 되기 때문이다(작업내용 전의 퇴근 과녁과 같은 까닭) -->
+    <button class="act__b act__b--lock" type="button" disabled>
       <span class="cta__tx">
         <span class="cta__h">
           <span class="cta__nm">
-            <!-- 지금 시각은 이름 **위에 뱃지**로 앉는다. 이름과 한 줄에
-                 나란히 두었더니 '07:03:12 출근' 이 통째로 과녁의 이름처럼
-                 읽혔는데, 시각은 누를 것의 이름이 아니라 지금 몇 시인지를
-                 알려 주는 곁말이다 -->
             <span class="cta__meta">
               <span class="cta__time"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">07:03:12</b></span>
-              <!-- 이 현장이 얼굴로 찍는 곳임을 과녁 위에 적는다 — 누르면
-                   카메라가 열리는데, 누르기 전에는 그것을 알 길이 없었다.
-                   현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
-                   가른다: 시각은 채운 알약, 이것은 테만 두른 알약.
-                   '필요' 는 붙이지 않는다 — 과녁 위에 붙은 표라 이미
-                   '이 과녁에 이것이 걸린다' 로 읽힌다 -->
               <span class="cta__need">얼굴 인식</span>
             </span>
             <span class="cta__t">출근 인증하기</span>
+            <!-- 이름 아래에 **못 하는 까닭**을 한 줄 붙인다 -->
+            <span class="cta__why">어제 퇴근 인증 후 출근이 가능해요</span>
           </span>
-          <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
+          <!-- 꺾쇠 자리에 자물쇠가 선다 — 갈 데가 없는데 앞으로 미는
+               꺾쇠를 두면 거짓말이 된다 -->
+          <span class="cta__lock" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-lock"></use></svg></span>
         </span>
       </span>
     </button>
