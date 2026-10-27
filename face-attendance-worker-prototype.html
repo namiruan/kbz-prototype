@@ -151,11 +151,9 @@
         data-steps="얼굴 등록을 마쳐 출근 인증으로 이어진 상태"
         data-look="@{.cam__who} 촬영 영역 위에 누구를 확인하는 중인지 적힙니다|@{.cam__go} '출근 인증하기' 버튼을 클릭하면 인증 성공 화면으로 이동합니다|@{.cam__back} 왼쪽 위 뒤로 가기를 클릭하면 홈으로 돌아갑니다">카메라</button>
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-ok"
-        data-why="출근이 기록된 결과 화면입니다.
-
-날마다 반복되는 인증이라 잠깐 보여 주고 앱이 자동으로 홈으로 돌려보냅니다."
+        data-why="출근이 기록된 결과 화면입니다."
         data-steps="얼굴이 인식되어 출근이 기록된 상태"
-        data-look="@{.cam__sub} '출근 처리 완료!' 아래에 기록된 시각이 표시됩니다. 홈의 출근 카드에서 다시 보게 될 값입니다|@{.cam__go} '메인으로' 버튼을 클릭하면 출근 완료 상태 페이지로 이동됩니다. ⚠ 자동으로 돌아가는 동작은 앱(Flutter)이 하는 일이라 프로토타입에서는 일어나지 않습니다">성공</button>
+        data-look="@{.cam__sub} '출근 처리 완료!' 아래에 기록된 시각이 표시됩니다. 홈의 출근 카드에서 다시 보게 될 값입니다|@{.cam__go} '메인으로' 버튼을 클릭하면 출근 완료 상태 페이지로 이동됩니다. 앱은 잠깐 뒤 저절로 그 화면으로 돌아갑니다 — ⚠ 저절로 돌아가는 동작은 앱(Flutter)이 하는 일이라 프로토타입에서는 일어나지 않습니다">성공</button>
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-fail"
         data-why="등록된 얼굴과 매칭이 실패했을 때 나오는 화면입니다."
         data-steps="촬영한 얼굴이 등록된 얼굴과 매칭되지 않은 상태"
