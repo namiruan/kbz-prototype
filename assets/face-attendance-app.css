@@ -2084,6 +2084,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      1px 만큼 안쪽이 좁아져, 빈 카드와 글자 자리가 어긋난다 */
 .tcard:not(:has(.tcard__v--none)){outline:1px solid var(--ap-brand-line-on);
   outline-offset:-1px}
+/* 아직 찍히지 않은 카드는 **머리까지 물러선다** — 면만 회색으로 돌리고
+   글자는 짙은 브랜드 색으로 두었더니, 비어 있는 카드가 찍힌 카드만큼
+   또렷해 둘이 같은 무게로 섰다 */
+.tcard:has(.tcard__v--none) .tcard__k,
 .tcard:has(.tcard__v--none) .tcard__b b{color:var(--ap-text-gray)}
 /* 기준 시각은 **이름 옆**이다. 카드의 발에 '기준 07:00' 으로 따로
    두었더니 찍힌 시각과 기준이 카드의 위아래 끝으로 갈려, 늦었는지
