@@ -1169,8 +1169,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 @keyframes ap-cal-open{from{transform:translateY(-8px)} to{transform:translateY(0)}}
 /* 펴 둔 동안에는 꺾쇠가 **접는 손잡이**라 거꾸로 선다 */
 .cal__more--up{transform:rotate(180deg)}
-/* 이 달 밖의 날 — 자리는 지키되 고를 수 없다 */
-.cal__n--off{color:var(--ap-text-disabled)}
+/* 고를 수 없는 날(이 달 밖 · 앞날) — 자리는 지키되 눌리지 않는다.
+   ⚠ Text/disabled(#8a949e)로는 모자랐다. 달력의 숫자는 제 둘레에 아무
+     것도 없이 홀로 선 글자라, 옆 칸과 견주어 보지 않으면 그 한 단
+     차이가 눈에 들어오지 않는다(옅은 파랑 바탕 위에서 2.79 대 10.94).
+     한 단 더 내려 gray/30 을 쓴다(1.81) — 읽으라고 둔 글자가 아니라
+     '여기 자리는 있으나 비어 있다' 는 표다 */
+.cal__n--off{color:var(--ap-g30)}
 
 /* ── 년·월·일 휠 ──
    기기가 띄우는 고르개는 꼴이 기기마다 다르다(아이폰은 휠 · 안드로이드는
