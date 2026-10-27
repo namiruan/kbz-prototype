@@ -109,6 +109,9 @@
                   yesterday 어제다 — 익일 퇴근의 '다음 날' 이 쓴다
                   day2      이틀 전이다 — 익일 퇴근의 근무일이 쓴다
                   day3      사흘 전이다 — 지난 날 보기가 쓴다
+       data-now   이 이야기의 '오늘'. 적지 않으면 기기의 오늘이다. 익일
+                  퇴근은 아직 다음 날 새벽에 서 있어, 그 뒤의 날은 아직
+                  오지 않은 날로 막는다
        data-rec   none      쥔 날에 아직 찍힌 것이 없다(점 없음)
                   open      출근만 찍혔다(경고색 점)
                   done      하루가 닫혔다(브랜드 점)
@@ -153,7 +156,12 @@
   function num(v) { return v.y * 10000 + v.m * 100 + v.d; }
   /* 오늘보다 뒤인 날은 고를 수 없다 — 아직 오지 않은 날에는 찍을 것도
      볼 것도 없다. 달에서도 띠에서도 휠에서도 같다 */
-  function ahead(y, m, d) { return (y * 10000 + m * 100 + d) > num(TODAY); }
+  function ahead(y, m, d, now) { return (y * 10000 + m * 100 + d) > num(now || TODAY); }
+  /* **이 이야기의 오늘.** 기기의 오늘이 아니라 화면이 쥔 날이다(data-now).
+     익일 퇴근을 보는 중이면 그 이야기는 아직 26일 새벽에 서 있어, 27일은
+     아직 오지 않은 날이다 — 고를 수 있게 두면 그 뒤에 출근을 찍은 화면이
+     나와서 앞뒤가 뒤집힌다. 적지 않으면 기기의 오늘이다 */
+  function nowOf(scr) { return DAYS[SAY[scr.getAttribute('data-now')] || 0]; }
 
   /* 그 날이 쥔 장면과 점. 오늘과 어제만 제 장면이 있다.
      `rec`(data-rec)은 **이 화면이 쥔 날**의 기록이다 — 그 날이 어제면
@@ -181,6 +189,7 @@
   /* 이 화면이 어느 날에 무슨 기록을 쥐었는지 — 달 격자와 띠가 같은 것을 본다 */
   function marks(scr, sel) {
     return { sel: sel,
+             now: nowOf(scr),
              rec: scr.getAttribute('data-rec') || 'none',
              recAt: function (i) { return scr.getAttribute('data-rec-' + KEY[i]); },
              goAt: function (i) { return scr.getAttribute('data-go-' + KEY[i]); } };
@@ -188,20 +197,20 @@
 
   /* 주소가 말한 날. 아무 말이 없으면 없다고 답한다 — 그때는 화면이 제
      날(data-day)을 쥔다. 앞날을 가리키면 오늘로 내려앉는다 */
-  function seeing() {
+  function seeing(now) {
     var v = new URL(location.href).searchParams.get('d');
     if (!v) return null;
     var p = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
     if (!p) return null;
     var y = +p[1], m = +p[2], d = +p[3];
     if (m < 1 || m > 12 || d < 1 || d > inMonth(y, m)) return null;
-    if (ahead(y, m, d)) return { y: TODAY.y, m: TODAY.m, d: TODAY.d };
+    if (ahead(y, m, d, now)) return now || TODAY;
     return { y: y, m: m, d: d };
   }
 
   function shown(scr) {
     var i = SAY[scr.getAttribute('data-day')];
-    return seeing() || DAYS[i || 0];
+    return seeing(nowOf(scr)) || DAYS[i || 0];
   }
 
   /* 한 달치 칸을 낸다. 일요일에서 시작해 주 단위로 떨어지고, 달 밖의
@@ -223,14 +232,14 @@
       var head = wd ? '<div class="cal__w' +
         (w === '일' ? ' cal__w--sun' : w === '토' ? ' cal__w--sat' : '') + '">' + w + '</div>' : '';
 
-      if (!cur || ahead(y, m, d)) {
+      if (!cur || ahead(y, m, d, mk.now)) {
         out.push('<button class="cal__d" type="button" disabled>' +
           head + '<div class="cal__n cal__n--off"><b>' + d + '</b></div></button>');
         continue;
       }
       var r = role(y, m, d, mk);
       var on = iso(y, m, d) === sel ? ' cal__n--on' : '';
-      var today = (!on && y === TODAY.y && m === TODAY.m && d === TODAY.d) ? ' cal__n--today' : '';
+      var today = (!on && y === mk.now.y && m === mk.now.m && d === mk.now.d) ? ' cal__n--today' : '';
       var open = r.dot === 'open' ? ' cal__n--open' : '';
       out.push('<button class="cal__d" type="button" data-d="' + iso(y, m, d) + '" data-go="' + r.go + '">' +
         head + '<div class="cal__n' + on + today + open + '"><b>' + d + '</b>' +
@@ -243,12 +252,13 @@
   function cols(scr, v) {
     scr.querySelectorAll('.wheel__c').forEach(function (c) {
       var kind = c.getAttribute('data-wheel'), out = [], i;
+      var now = nowOf(scr);
       if (kind === '연') {
-        for (i = TODAY.y - 4; i <= TODAY.y; i++) out.push([i, i + '년']);
+        for (i = now.y - 4; i <= now.y; i++) out.push([i, i + '년']);
       } else if (kind === '월') {
-        for (i = 1; i <= 12; i++) if (!ahead(v.y, i, 1)) out.push([i, i + '월']);
+        for (i = 1; i <= 12; i++) if (!ahead(v.y, i, 1, now)) out.push([i, i + '월']);
       } else {
-        for (i = 1; i <= inMonth(v.y, v.m); i++) if (!ahead(v.y, v.m, i)) out.push([i, i + '일']);
+        for (i = 1; i <= inMonth(v.y, v.m); i++) if (!ahead(v.y, v.m, i, now)) out.push([i, i + '일']);
       }
       c.innerHTML = out.map(function (it) {
         return '<span class="wheel__i" data-v="' + it[0] + '">' + it[1] + '</span>';
@@ -290,10 +300,11 @@
 
     /* '오늘' 은 되돌아가는 길이라, 오늘을 보는 동안에는 갈 데가 없다 */
     scr.querySelectorAll('.pill--today').forEach(function (b) {
-      b.disabled = (sel === iso(TODAY.y, TODAY.m, TODAY.d));
+      var n = mk.now;
+      b.disabled = (sel === iso(n.y, n.m, n.d));
       if (b.disabled) b.removeAttribute('data-go');
       else if (!b.hasAttribute('data-go')) {
-        b.setAttribute('data-go', role(TODAY.y, TODAY.m, TODAY.d, mk).go);
+        b.setAttribute('data-go', role(n.y, n.m, n.d, mk).go);
       }
     });
   }
@@ -336,9 +347,10 @@
     function next(n) {
       var v = shown(scr), t = new Date(v.y, v.m - 1 + n, 1);
       var y = t.getFullYear(), m = t.getMonth() + 1;
-      if (ahead(y, m, 1)) return null;          /* 아직 오지 않은 달 */
+      var now = nowOf(scr);
+      if (ahead(y, m, 1, now)) return null;     /* 아직 오지 않은 달 */
       var d = Math.min(v.d, inMonth(y, m));
-      if (ahead(y, m, d)) d = TODAY.d;
+      if (ahead(y, m, d, now)) d = now.d;
       return { y: y, m: m, d: d };
     }
 
@@ -502,9 +514,10 @@
   function hop(scr, n) {
     var v = shown(scr), t = new Date(v.y, v.m - 1 + n, 1);
     var y = t.getFullYear(), m = t.getMonth() + 1;
-    if (ahead(y, m, 1)) return;
+    var now = nowOf(scr);
+    if (ahead(y, m, 1, now)) return;
     var d = Math.min(v.d, inMonth(y, m));
-    if (ahead(y, m, d)) d = TODAY.d;
+    if (ahead(y, m, d, now)) d = now.d;
     var u = new URL(location.href);
     u.searchParams.set('d', iso(y, m, d));
     try { history.replaceState(null, '', u.toString()); }
