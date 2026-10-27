@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=472">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=473">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=472"></script>
+<script src="assets/face-attendance-app.js?v=473"></script>
 </head>
 
 <body>
@@ -906,6 +906,9 @@
 
   <!-- 모드를 바꾸는 토글 — 카드 아래, 엄지가 닿는 자리에 둔다 -->
   <div class="mode" role="group" aria-label="인증 모드">
+    <!-- 켜진 자리를 알 하나가 맡는다 — 면을 버튼마다 켜고 끄면 손을 뗀
+         뒤에야 넘어가, 카드보다 한 박자 늦게 움직이는 것처럼 보인다 -->
+    <span class="mode__p" aria-hidden="true"></span>
     <button class="mode__b" type="button" data-mode="in">출근</button>
     <button class="mode__b" type="button" data-mode="out">퇴근</button>
   </div>
@@ -1162,6 +1165,9 @@
 
   <!-- 모드를 바꾸는 토글 — 카드 아래, 엄지가 닿는 자리에 둔다 -->
   <div class="mode" role="group" aria-label="인증 모드">
+    <!-- 켜진 자리를 알 하나가 맡는다 — 면을 버튼마다 켜고 끄면 손을 뗀
+         뒤에야 넘어가, 카드보다 한 박자 늦게 움직이는 것처럼 보인다 -->
+    <span class="mode__p" aria-hidden="true"></span>
     <button class="mode__b" type="button" data-mode="in">출근</button>
     <button class="mode__b" type="button" data-mode="out">퇴근</button>
   </div>
