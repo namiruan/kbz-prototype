@@ -1233,10 +1233,16 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
              letter-spacing var(--ap-dur-base) var(--ap-ease-enter),
              color var(--ap-dur-base) linear}
 @media (prefers-reduced-motion:reduce){.wheel__i{transition:none}}
+/* 첫 자리를 잡는 동안에는 전환이 없다 — js 가 한 숨 뒤에 뗀다 */
+.wheel__c.is-set .wheel__i{transition:none}
 /* 고른 값은 Title1(28/34)에 브랜드 색이다 — 띠(primary/5) · 글자 ·
    달에서 고른 날(채운 브랜드 동그라미)이 한 색 가족으로 묶인다.
    칸의 키는 44 라, 28/34 가 위아래로 숨 쉴 틈을 두고 앉는다 */
 .wheel__i--on{font:var(--t-title1);letter-spacing:var(--ls-title1);color:var(--ap-primary)}
+/* 고를 수 없는 값(앞날 · 짧은 달의 없는 날)은 칸에서 **사라진다**.
+   js 가 hidden 을 붙이지만 그것만으로는 지워지지 않는다 — 브라우저가
+   [hidden] 에 주는 display:none 은 우리가 적은 display:flex 에 진다 */
+.wheel__i[hidden]{display:none}
 
 /* ── 아래 내비게이션 — 주화면에만 ── */
 /* ⚠ 아래 여백은 **홈 화면에서 연 창인지 묻지 않고** 기기에 바로 묻는다.

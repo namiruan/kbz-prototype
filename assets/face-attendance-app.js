@@ -343,7 +343,16 @@
       items.forEach(function (it, n) { if (it.dataset.v === pick) at = n; });
       c.scrollTop = at * WHEEL_H;
 
+      /* 첫 자리는 **몸짓 없이** 잡는다. 전환을 켜 둔 채로 표를 붙이면
+         화면이 열릴 때마다(날짜를 갈아 끼운 바로 뒤가 그렇다) 고른 값이
+         작은 데서 커지는 꼴이 된다 — 굴린 것이 아니라 그냥 그 자리였다.
+         두 번 기다리는 것은, 한 번으로는 브라우저가 첫 꼴을 그리기 전에
+         표가 붙어 전환이 되살아나기 때문이다 */
+      c.classList.add('is-set');
       mark(c, items);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { c.classList.remove('is-set'); });
+      });
 
       var idle;
       c.addEventListener('scroll', function () {
