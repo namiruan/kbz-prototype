@@ -2038,7 +2038,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 이름은 머리 면에서 **먼저 읽히는 말**이다 — 회색 본문으로 두었더니
    옆의 기준 시각(짙은 수)에 가려 '무엇의 시각인지' 가 뒤에 읽혔다.
    굵기와 색을 한 단 올려 기준과 나란히 선다 */
-.tcard__k{font:var(--t-sub-em);letter-spacing:var(--ls-sub);color:var(--ap-text)}
+.tcard__k{font:var(--t-sub-em);letter-spacing:var(--ls-sub);color:var(--ap-primary-90)}
 /* 이 카드에서 읽을 것은 시각 하나다 — 시안의 꼭대기 글자(28)로 둔다.
    22 로는 이름(15)·기준(13)과 한 묶음으로 보여, 카드가 무엇을 보여 주는
    것인지가 세 줄에 흩어졌다.
