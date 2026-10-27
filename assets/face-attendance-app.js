@@ -106,14 +106,24 @@
 
      화면마다 제 날과 제 기록이 있다(마크업의 data-day · data-rec):
        data-day   today     이 화면이 보는 날은 오늘이다
-                  yesterday 지난 날 보기 — 어제다
-       data-rec   none      오늘은 아직 찍힌 것이 없다(점 없음)
+                  yesterday 어제다 — 익일 퇴근 묶음이 쓴다
+                  day2      이틀 전이다 — 지난 날 보기가 쓴다
+       data-rec   none      쥔 날에 아직 찍힌 것이 없다(점 없음)
                   open      출근만 찍혔다(경고색 점)
-                  done      하루가 닫혔다(브랜드 점) */
+                  done      하루가 닫혔다(브랜드 점)
+
+     ⚠ **시나리오끼리 날을 겹쳐 쓰지 않는다.** 같은 날에 서로 다른 기록이
+       걸리면 넘겨 볼 때 어느 이야기였는지 섞인다. 한 이야기의 여러 순간
+       (출근 전 → 출근 완료 → 퇴근 완료)만 같은 날을 쓴다.
+       기록이 걸린 날은 셋이다 — 이틀 전 · 어제 · 오늘 */
   var NOW = new Date();
   var TODAY = { y: NOW.getFullYear(), m: NOW.getMonth() + 1, d: NOW.getDate() };
   var YDAY = (function () {
     var t = new Date(TODAY.y, TODAY.m - 1, TODAY.d - 1);
+    return { y: t.getFullYear(), m: t.getMonth() + 1, d: t.getDate() };
+  })();
+  var DAY2 = (function () {
+    var t = new Date(TODAY.y, TODAY.m - 1, TODAY.d - 2);
     return { y: t.getFullYear(), m: t.getMonth() + 1, d: t.getDate() };
   })();
   var WDAY = ['일', '월', '화', '수', '목', '금', '토'];
@@ -142,6 +152,7 @@
     /* 어제는 아무 말이 없으면 **하루가 끝난 날**로 둔다 — 지난 날은 찍고
        나서 지나간 것이 예사다 */
     if (n === num(YDAY)) return { go: 'w-home-past', dot: k ? dot : 'on' };
+    if (n === num(DAY2)) return { go: 'w-home-past', dot: k ? dot : 'on' };
     return { go: 'w-home', dot: null };
   }
 
@@ -167,7 +178,8 @@
   }
 
   function shown(scr) {
-    return seeing() || (scr.getAttribute('data-day') === 'yesterday' ? YDAY : TODAY);
+    var k = scr.getAttribute('data-day');
+    return seeing() || (k === 'yesterday' ? YDAY : k === 'day2' ? DAY2 : TODAY);
   }
 
   /* 한 달치 칸을 낸다. 일요일에서 시작해 주 단위로 떨어지고, 달 밖의
