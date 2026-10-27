@@ -1180,7 +1180,14 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    ⚠ 투명도는 건드리지 않는다 — 없는 상태에서 시작하면 그 사이에 화면을
      집어 보는 눈(화면설명의 앵커 · 화면을 찍는 기계)에 달이 없는 것으로
      보인다(.calm 과 같은 까닭) */
-.calm{position:relative}
+/* 달력은 **제 폭이 곧 창**이다. 밀면 다음 달이 그 창 밖에서 들어오고,
+   나가는 달은 그 변에서 사라진다 — 폰에서는 화면(.scr)이 잘라 주어
+   그렇게 보였는데, 태블릿에서 달력을 390 으로 묶자 양옆 여백에 두 달이
+   나란히 서서 요일 줄 위를 지나갔다. 창을 제 손으로 씌운다.
+   ⚠ clip 이다(hidden 이 아니다) — hidden 은 굴림 상자를 만들어, 안의
+     것이 프로그램으로 굴려질 수 있다. 옛 사파리를 위해 hidden 을 먼저
+     적어 두고 clip 으로 덮는다 */
+.calm{position:relative;overflow:hidden;overflow:clip}
 .calm__g.is-slide{transition:transform var(--ap-dur-mon) var(--ap-ease-enter)}
 /* 들어올 달이 한 줄 더 가졌으면 바탕도 같이 자란다 — 그 몫은 js 가
    아래 여백으로 적는다(미리 세운 달은 띄워 둔 것이라 자리를 넓히지 못한다) */
