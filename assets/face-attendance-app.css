@@ -2035,7 +2035,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 값이 든 카드의 머리는 옅은 브랜드 면이다 — 아래 수가 브랜드 색이라
    머리와 수가 한 식구로 선다. 빈 카드는 회색 그대로 물러서 있는다 */
 .tcard:not(:has(.tcard__v--none)) .tcard__h{background:var(--ap-primary-5)}
-.tcard__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
+/* 이름은 머리 면에서 **먼저 읽히는 말**이다 — 회색 본문으로 두었더니
+   옆의 기준 시각(짙은 수)에 가려 '무엇의 시각인지' 가 뒤에 읽혔다.
+   굵기와 색을 한 단 올려 기준과 나란히 선다 */
+.tcard__k{font:var(--t-sub-em);letter-spacing:var(--ls-sub);color:var(--ap-text)}
 /* 이 카드에서 읽을 것은 시각 하나다 — 시안의 꼭대기 글자(28)로 둔다.
    22 로는 이름(15)·기준(13)과 한 묶음으로 보여, 카드가 무엇을 보여 주는
    것인지가 세 줄에 흩어졌다.
@@ -2106,6 +2109,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    몇 시부터인지 읽으려면 눈을 한 번 더 가져가야 했다 */
 .tcard__b{font:var(--t-sub);letter-spacing:var(--ls-sub);
   color:var(--ap-text-gray);font-variant-numeric:tabular-nums;white-space:nowrap}
+/* 기준의 수와 '익일' 은 **한 덩어리**다 — '익일 06:00' 이 함께 기준이고,
+   '까지' 만 곁말이다. '익일' 을 회색 본문으로 두면 수만 기준으로 읽혀,
+   그 수가 어느 날 것인지가 눈에 들어오지 않는다 */
 .tcard__b b{margin-right:1px;color:var(--ap-g95);font-weight:600}
 /* 어느 길로 찍혔는지는 **시각 아래 한가운데**다. 이름 줄 오른쪽 끝에
    두었더니 기준 시각이 설 자리가 없었고, 그 표는 이름이 아니라 시각에
