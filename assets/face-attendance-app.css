@@ -2039,40 +2039,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .stmp__d{font:var(--t-title2);letter-spacing:var(--ls-title2);
   color:var(--ap-text);font-variant-numeric:tabular-nums;white-space:nowrap}
 .stmp__d b{font:var(--t-head);letter-spacing:var(--ls-head);margin-left:var(--ap-p1)}
-/* 출근/퇴근과 그 시각은 **한 뱃지**다 — 같은 한 번의 인증에서 나온 짝이라
-   표를 따로 떼어 두면 읽는 사람이 둘을 다시 이어 붙여야 한다.
-   면 색이 어느 쪽인지를 말한다(.tms--in / --out) — DS Badge 의 tint 색
-   짝(Color/badge/positive · normal)을 그대로 쓰고, 목록 줄의 표와도 같은
-   색이라 줄에서 보던 것이 여기서도 그대로다.
-   ⚠ DS 를 벗어나는 곳: Badge 는 작은 인라인 레이블이라 lg 도 글자가
-   작은데, 여기서는 **시각이 주인공**이라 28 이 뱃지 안에 든다. 커진 만큼
-   여백(4/12)과 모서리(8)도 따라 키웠다 — rect 의 4 를 그대로 두면 42 키의
-   면에 모서리만 뾰족하게 남는다. 그 위(15)로 가면 아래 사진의 모서리와
-   같아져, 면이 네모라기보다 알약처럼 읽힌다 */
-.tms{display:inline-flex;align-items:center;gap:var(--ap-p4);
-  padding:var(--ap-p2) var(--ap-p5);border-radius:var(--ap-r8)}
-.tms--in{background:var(--ap-badge-positive);color:var(--ap-primary)}
-.tms--out{background:var(--ap-badge-normal);color:var(--ap-text)}
-/* '출근' 과 시각 사이의 세로 구분선(DS Divider 의 vertical) — 한 면 안에
-   들었어도 둘은 서로 다른 값이라, 선 하나가 '어느 쪽인가 | 몇 시인가' 로
-   갈라 준다.
-   ⚠ DS 를 벗어나는 곳: DS 는 선 색이 Color/border/subtle(회색)이고 키가
-   부모만큼 늘어난다(align-self:stretch). 여기서는 면이 이미 옅은 색이라
-   회색 선이 면에 묻고, 끝까지 늘리면 선이 여백을 가른다 — 뱃지의 글자색을
-   흐려 쓰고(.28) 키는 글줄만큼(20)만 둔다 */
-.tms__bar{flex:none;width:1px;height:20px;background:currentColor;opacity:.28}
-/* 라벨은 수보다 작다(17 대 28) — 뱃지 안에서 읽히는 주인공은 시각이고,
-   '출근' 은 그 시각이 어느 쪽인지를 붙여 주는 말이다. 다만 13 은 28 옆에서
-   주석처럼 작아, 출근인지 퇴근인지가 곁눈에 들어오지 않았다 — 이 화면이
-   무엇을 보여 주는지가 거기 걸려 있으니 한 단 올려 본문과 같은 크기(17)로
-   둔다. 목록 줄의 표는 40 네모 안이라 13 그대로다 */
-.tms__k{font:var(--t-head);letter-spacing:var(--ls-head);flex:none}
-/* 시각 앞의 시계 — '이 수가 시각이다' 를 아이콘이 말하므로 '출근시간'
-   이라는 라벨을 따로 적지 않는다. 색은 뱃지의 글자색을 그대로 받는다:
-   면이 이미 옅어 여기서 한 겹 더 죽이면 아이콘이 면에 묻는다 */
-.tms__v{font:var(--t-title1);letter-spacing:var(--ls-title1);flex:none;
-  display:inline-flex;align-items:center;gap:var(--ap-p3);
-  font-variant-numeric:tabular-nums}
 /* 흰 종이 위에서는 정보 줄이 카드를 벗는다 — 흰 카드를 흰 바탕에 올리면
    그림자만 남아 때처럼 보인다. 줄 사이 선도 긋지 않는다: 라벨과 값이
    좌우로 멀찍이 갈라져 있어 선이 없어도 한 줄로 읽힌다 */
@@ -2138,6 +2104,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    두 카드의 키는 grid 가 맞춰 준다(stretch): 한쪽에만 '앱 · 얼굴' 이
    붙는데 키가 따로 놀면 둘이 대등해 보이지 않는다 */
 .tcards{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:var(--ap-gap3)}
+/* 한 장만 서는 자리 — 이력 조회는 출근이나 퇴근 하나만 맡는다. 반 칸에
+   두면 카드가 쭈그러들고 옆이 통째로 빈다 */
+.tcards--one{grid-template-columns:1fr}
+.stmp .tcards{align-self:stretch}
 /* 카드 안은 가운데로 모은다 — 카드가 쥔 것이 수 하나뿐이라, 왼쪽에
    붙여 두면 수와 꼬리표가 왼쪽 선에 매달리고 오른쪽이 통째로 빈다.
    가운데에 세우면 두 카드의 수가 각자 제 칸의 한가운데에 서서, 나란히
@@ -2906,7 +2876,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   /* 폼·상세는 늘리지 않고 가운데로 모은다. 이력 조회의 제목·두 시각·
      작은 제목도 같은 칸에 든다 — 카드만 모으면 그 위의 이름이 저 혼자
      화면 끝에 서서 한 덩어리로 읽히지 않는다 */
-  .form,.rows,.note,.shot,.dt,.stmp,.photo{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
+  .form,.rows,.note,.shot,.dt,.stmp,.photo,.tcards{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
   .body{padding:var(--ap-p8)}
   /* 머리말 칸은 **본문 여백만큼** 되물린다 — 16 으로 박아 두었더니 여백이
      24 가 되는 이 폭에서 위와 옆에 8 씩 바탕이 남아, 흰 면이 머리줄에서
