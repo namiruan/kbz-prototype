@@ -43,6 +43,7 @@
     stow(hit);
     link(hit);
     clock(hit);
+    stamp(hit);
     note(hit);
     terms(hit);
     day(hit);
@@ -869,6 +870,29 @@
      일이 아니라 시계의 일이고 화면 어디서도 그것을 멈춰 둘 까닭이 없다 —
      멈춘 수가 1초마다 바뀌는 자리에 박혀 있으면 화면이 죽은 것으로 보인다.
      고쳐 쓰는 것은 그 수가 든 칸 하나뿐이다(아이콘은 건드리지 않는다). */
+  /* ── 이력 조회의 출근·퇴근 고르기 ──
+     카드를 누르면 그 쪽 사진이 아래에 선다. 찍히지 않은 쪽은 보여 줄
+     사진이 없으므로 고를 수 없다 */
+  function stamp(scr) {
+    var cards = [].slice.call(scr.querySelectorAll('.stmp .tcard'));
+    if (!cards.length) return;
+    cards.forEach(function (c) {
+      if (c.querySelector('.tcard__v--none')) {
+        c.disabled = true;
+        c.setAttribute('aria-disabled', 'true');
+        return;
+      }
+      c.addEventListener('click', function () {
+        scr.setAttribute('data-at', c.getAttribute('data-at'));
+        cards.forEach(function (o) {
+          o.classList.toggle('is-on', o === c);
+          o.setAttribute('aria-pressed', o === c ? 'true' : 'false');
+        });
+      });
+      c.setAttribute('aria-pressed', c.classList.contains('is-on') ? 'true' : 'false');
+    });
+  }
+
   function clock(scr) {
     var els = scr.querySelectorAll('.cta__now');
     if (!els.length) return;
