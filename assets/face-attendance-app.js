@@ -108,7 +108,13 @@
        data-day   today     이 화면이 보는 날은 오늘이다
                   yesterday 어제다 — 익일 퇴근의 '다음 날' 이 쓴다
                   day2      이틀 전이다 — 익일 퇴근의 근무일이 쓴다
-                  day3      사흘 전이다 — 지난 날 보기가 쓴다
+                  day3      사흘 전이다 — 익일 퇴근의 근무일이 쓴다
+                  day4      나흘 전이다 — 지난 날 보기가 쓴다
+
+     ⚠ **오늘은 언제나 '출근 전' 이다.** 어느 화면에서 오늘 칸을 눌러도
+       아직 아무것도 찍히지 않은 홈이 선다 — 하루가 흘러가는 모습(출근
+       완료 → 작업내용 → 퇴근 완료)은 어제 하루에 모아 두었다. 그래야
+       '지금 앱을 열면 무엇이 보이는가' 가 한 가지로 선다
        data-now   이 이야기의 '오늘'. 적지 않으면 기기의 오늘이다. 익일
                   퇴근은 아직 다음 날 새벽에 서 있어, 그 뒤의 날은 아직
                   오지 않은 날로 막는다
@@ -138,11 +144,15 @@
     var t = new Date(TODAY.y, TODAY.m - 1, TODAY.d - 3);
     return { y: t.getFullYear(), m: t.getMonth() + 1, d: t.getDate() };
   })();
+  var DAY4 = (function () {
+    var t = new Date(TODAY.y, TODAY.m - 1, TODAY.d - 4);
+    return { y: t.getFullYear(), m: t.getMonth() + 1, d: t.getDate() };
+  })();
   /* 기록이 걸릴 수 있는 날들 — 오늘부터 거슬러 넷. 이름은 마크업의
      data-day 값이자 data-rec-* · data-go-* 의 꼬리다 */
-  var DAYS = [TODAY, YDAY, DAY2, DAY3];
-  var KEY = ['today', 'yday', 'day2', 'day3'];
-  var SAY = { today: 0, yesterday: 1, yday: 1, day2: 2, day3: 3 };
+  var DAYS = [TODAY, YDAY, DAY2, DAY3, DAY4];
+  var KEY = ['today', 'yday', 'day2', 'day3', 'day4'];
+  var SAY = { today: 0, yesterday: 1, yday: 1, day2: 2, day3: 3, day4: 4 };
   function nth(y, m, d) {
     var n = y * 10000 + m * 100 + d;
     for (var i = 0; i < DAYS.length; i++) if (num(DAYS[i]) === n) return i;

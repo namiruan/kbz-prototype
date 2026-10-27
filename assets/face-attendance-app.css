@@ -2067,9 +2067,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    한 가지를 말하는 것으로 보인다.
    수와 **가운데를 맞춘다**(.tcard__v 가 가로로 세운다) — 글자 위에 걸치면
    수가 한쪽으로 밀려 보인다 */
-/* 어느 길로 찍혔는지는 **값에 딸린 꼬리표**다. 뱃지로 세우면 수와 같은
-   무게로 서서, 카드에서 읽을 것이 둘로 갈린다 — 조용한 한 줄로 내린다 */
-.tcard__src{font:var(--t-foot);letter-spacing:var(--ls-foot);color:var(--ap-text-gray)}
 /* 값이 아직 없으면 **카드째 물러선다** — 수만 흐려 놓았더니 빈 카드가
    찍힌 카드와 같은 흰 면·같은 그림자로 나란히 서서, 둘 다 '다 된 것'
    으로 보였다.
