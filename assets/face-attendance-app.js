@@ -131,16 +131,26 @@
      어제의 점이 그것을 따른다(익일 퇴근: 어제 출근하고 퇴근이 아직
      없으면 어제가 경고색이다). 오늘을 보는 화면에서는 어제가 쥔 날이
      아니므로 하루가 끝난 점(파랑)으로 둔다 */
-  function role(y, m, d, rec, sel, recT) {
+  function role(y, m, d, mk) {
     var n = y * 10000 + m * 100 + d;
-    var mine = sel === iso(y, m, d);
-    /* 쥔 날이면 그 날의 기록, 오늘이면 화면이 따로 적어 둔 오늘의 기록 */
-    var k = mine ? rec : (n === num(TODAY) ? recT : null);
-    if (n === num(TODAY)) {
-      return { go: 'w-home-done', dot: k === 'open' ? 'open' : k === 'done' ? 'on' : null };
-    }
-    if (n === num(YDAY)) return { go: 'w-home-past', dot: mine && k === 'open' ? 'open' : 'on' };
+    var mine = mk.sel === iso(y, m, d);
+    /* 쥔 날이면 그 날의 기록(data-rec), 아니면 화면이 그 날을 두고 따로
+       적어 둔 것(data-rec-today · data-rec-yday). 아무 말이 없으면 없다 */
+    var k = mine ? mk.rec : n === num(TODAY) ? mk.today : n === num(YDAY) ? mk.yday : null;
+    var dot = k === 'open' ? 'open' : k === 'done' ? 'on' : null;
+    if (n === num(TODAY)) return { go: 'w-home-done', dot: dot };
+    /* 어제는 아무 말이 없으면 **하루가 끝난 날**로 둔다 — 지난 날은 찍고
+       나서 지나간 것이 예사다 */
+    if (n === num(YDAY)) return { go: 'w-home-past', dot: k ? dot : 'on' };
     return { go: 'w-home', dot: null };
+  }
+
+  /* 이 화면이 어느 날에 무슨 기록을 쥐었는지 — 달 격자와 띠가 같은 것을 본다 */
+  function marks(scr, sel) {
+    return { sel: sel,
+             rec: scr.getAttribute('data-rec') || 'none',
+             today: scr.getAttribute('data-rec-today'),
+             yday: scr.getAttribute('data-rec-yday') };
   }
 
   /* 주소가 말한 날. 아무 말이 없으면 없다고 답한다 — 그때는 화면이 제
@@ -165,7 +175,8 @@
      차례로 쥐어야 요일 줄이 두 꼴에서 같은 자리에 온다.
      `wd` 가 참이면 칸마다 요일을 얹는다(띠), 거짓이면 숫자만(달 격자 —
      요일은 위에 한 줄로 따로 선다) */
-  function fill(box, v, sel, wd, rec, recT) {
+  function fill(box, v, wd, mk) {
+    var sel = mk.sel;
     var y = v.y, m = v.m;
     var lead = new Date(y, m - 1, 1).getDay();
     var n = inMonth(y, m), back = inMonth(y, m === 1 ? 12 : m - 1);
@@ -183,7 +194,7 @@
           head + '<div class="cal__n cal__n--off"><b>' + d + '</b></div></button>');
         continue;
       }
-      var r = role(y, m, d, rec, sel, recT);
+      var r = role(y, m, d, mk);
       var on = iso(y, m, d) === sel ? ' cal__n--on' : '';
       var today = (!on && y === TODAY.y && m === TODAY.m && d === TODAY.d) ? ' cal__n--today' : '';
       var open = r.dot === 'open' ? ' cal__n--open' : '';
@@ -214,13 +225,10 @@
 
   function day(scr) {
     var v = shown(scr), sel = iso(v.y, v.m, v.d);
-    var rec = scr.getAttribute('data-rec') || 'none';
-    /* 쥔 날이 오늘이 아닌 화면은 **오늘의 기록**을 따로 적어 둔다 — 적지
-       않으면 오늘 칸에 점이 없다(아직 찍힌 것이 없는 날이다) */
-    var recT = scr.getAttribute('data-rec-today') || null;
+    var mk = marks(scr, sel);
 
-    scr.querySelectorAll('.cal__week').forEach(function (b) { fill(b, v, sel, true, rec, recT); });
-    scr.querySelectorAll('.calm__g').forEach(function (b) { fill(b, v, sel, false, rec, recT); });
+    scr.querySelectorAll('.cal__week').forEach(function (b) { fill(b, v, true, mk); });
+    scr.querySelectorAll('.calm__g').forEach(function (b) { fill(b, v, false, mk); });
 
     scr.querySelectorAll('.cal__date').forEach(function (row) {
       var nums = row.querySelectorAll('.cal__num');   /* 연 · 월 · 일 */
@@ -240,7 +248,7 @@
     /* 달을 닫는 길(꺾쇠 · 어두운 자리)은 **보던 날짜를 들고 간다**.
        들고 가지 않으면 휠로 날짜를 바꿔 놓고 닫는 순간 오늘로 되돌아간다.
        갈 곳도 그 날의 것이다 — 기록이 있는 날이면 그 장면으로 */
-    var home = role(v.y, v.m, v.d, rec).go;
+    var home = role(v.y, v.m, v.d, mk).go;
     scr.querySelectorAll('[data-keep]').forEach(function (b) {
       b.setAttribute('data-go', home);
       b.setAttribute('data-d', sel);
@@ -283,7 +291,6 @@
     var x0 = 0, y0 = 0, dx = 0, axis = null, on = false;
     var peek = null, dir = 0, ate = false, until = 0, acc = 0, rest;
     var grow = 0;                             /* 들어올 달이 더 가진 키 */
-    var rec = scr.getAttribute('data-rec') || 'none';
 
     function wide() { return g.getBoundingClientRect().width; }
 
@@ -317,7 +324,7 @@
       peek.style.top = g.offsetTop + 'px';
       peek.style.left = n > 0 ? 'calc(100% + ' + MON_GAP + 'px)'
                                : 'calc(-100% - ' + MON_GAP + 'px)';
-      fill(peek, t, iso(t.y, t.m, t.d), false, rec);
+      fill(peek, t, false, marks(scr, iso(t.y, t.m, t.d)));
       wrap.appendChild(peek);
       /* 달마다 줄 수가 다르다(다섯 줄 · 여섯 줄). 들어올 달이 한 줄 더
          가졌으면 **바탕도 같이 따라 자라야** 한다 — 바탕이 제자리에
