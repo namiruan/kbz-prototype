@@ -2044,6 +2044,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 아직 찍히지 않은 자리 — 빈칸으로 두면 값이 없는 것인지 아직인 것인지
    가릴 수 없다. 글자는 흐리게 둔다: 자리는 잡되 읽을 값은 아니다 */
 .tcard__v--none{color:var(--ap-text-disabled)}
+/* 날을 넘겨 찍힌 시각 — 수 앞에 '익일' 을 작게 붙인다. 카드는 이미 그 날의
+   것이라 날짜를 통째로(10/28 06:10) 적을 것 없이 넘겼는지만 알면 되고,
+   반쪽 폭 카드에 날짜까지 넣으면 수가 작아진다. 기준 시각과 같은 꼴·같은
+   회색이라 '수에 딸린 말' 로 읽힌다 */
+.tcard__nx{margin-right:var(--ap-p2);font:var(--t-sub);letter-spacing:var(--ls-sub);
+  color:var(--ap-text-gray)}
 /* 값이 아직 없으면 **카드째 물러선다** — 수만 흐려 놓았더니 빈 카드가
    찍힌 카드와 같은 흰 면·같은 그림자로 나란히 서서, 둘 다 '다 된 것'
    으로 보였다.

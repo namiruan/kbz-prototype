@@ -126,13 +126,20 @@
      볼 것도 없다. 달에서도 띠에서도 휠에서도 같다 */
   function ahead(y, m, d) { return (y * 10000 + m * 100 + d) > num(TODAY); }
 
-  /* 그 날이 쥔 장면과 점. 오늘과 어제만 제 장면이 있다 */
-  function role(y, m, d, rec) {
+  /* 그 날이 쥔 장면과 점. 오늘과 어제만 제 장면이 있다.
+     `rec`(data-rec)은 **이 화면이 쥔 날**의 기록이다 — 그 날이 어제면
+     어제의 점이 그것을 따른다(익일 퇴근: 어제 출근하고 퇴근이 아직
+     없으면 어제가 경고색이다). 오늘을 보는 화면에서는 어제가 쥔 날이
+     아니므로 하루가 끝난 점(파랑)으로 둔다 */
+  function role(y, m, d, rec, sel, recT) {
     var n = y * 10000 + m * 100 + d;
+    var mine = sel === iso(y, m, d);
+    /* 쥔 날이면 그 날의 기록, 오늘이면 화면이 따로 적어 둔 오늘의 기록 */
+    var k = mine ? rec : (n === num(TODAY) ? recT : null);
     if (n === num(TODAY)) {
-      return { go: 'w-home-done', dot: rec === 'open' ? 'open' : rec === 'done' ? 'on' : null };
+      return { go: 'w-home-done', dot: k === 'open' ? 'open' : k === 'done' ? 'on' : null };
     }
-    if (n === num(YDAY)) return { go: 'w-home-past', dot: 'on' };
+    if (n === num(YDAY)) return { go: 'w-home-past', dot: mine && k === 'open' ? 'open' : 'on' };
     return { go: 'w-home', dot: null };
   }
 
@@ -158,7 +165,7 @@
      차례로 쥐어야 요일 줄이 두 꼴에서 같은 자리에 온다.
      `wd` 가 참이면 칸마다 요일을 얹는다(띠), 거짓이면 숫자만(달 격자 —
      요일은 위에 한 줄로 따로 선다) */
-  function fill(box, v, sel, wd, rec) {
+  function fill(box, v, sel, wd, rec, recT) {
     var y = v.y, m = v.m;
     var lead = new Date(y, m - 1, 1).getDay();
     var n = inMonth(y, m), back = inMonth(y, m === 1 ? 12 : m - 1);
@@ -176,7 +183,7 @@
           head + '<div class="cal__n cal__n--off"><b>' + d + '</b></div></button>');
         continue;
       }
-      var r = role(y, m, d, rec);
+      var r = role(y, m, d, rec, sel, recT);
       var on = iso(y, m, d) === sel ? ' cal__n--on' : '';
       var today = (!on && y === TODAY.y && m === TODAY.m && d === TODAY.d) ? ' cal__n--today' : '';
       var open = r.dot === 'open' ? ' cal__n--open' : '';
@@ -208,9 +215,12 @@
   function day(scr) {
     var v = shown(scr), sel = iso(v.y, v.m, v.d);
     var rec = scr.getAttribute('data-rec') || 'none';
+    /* 쥔 날이 오늘이 아닌 화면은 **오늘의 기록**을 따로 적어 둔다 — 적지
+       않으면 오늘 칸에 점이 없다(아직 찍힌 것이 없는 날이다) */
+    var recT = scr.getAttribute('data-rec-today') || null;
 
-    scr.querySelectorAll('.cal__week').forEach(function (b) { fill(b, v, sel, true, rec); });
-    scr.querySelectorAll('.calm__g').forEach(function (b) { fill(b, v, sel, false, rec); });
+    scr.querySelectorAll('.cal__week').forEach(function (b) { fill(b, v, sel, true, rec, recT); });
+    scr.querySelectorAll('.calm__g').forEach(function (b) { fill(b, v, sel, false, rec, recT); });
 
     scr.querySelectorAll('.cal__date').forEach(function (row) {
       var nums = row.querySelectorAll('.cal__num');   /* 연 · 월 · 일 */
