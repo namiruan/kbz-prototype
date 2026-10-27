@@ -623,6 +623,14 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .cal--log{margin:var(--ap-p6) var(--ap-p6) 0}
 /* 날짜와 두 손잡이가 한 덩어리로 줄 한가운데에 선다 */
 .cal--log .cal__top{justify-content:center}
+/* '오늘로 이동' 은 휠 아래에 제 줄로 선다 — 휠 안에 끼우면 굴리는 칸과
+   누르는 자리가 한 몸으로 보인다.
+   ⚠ 휠의 키는 시안대로 213 에 못 박혀 있다. 버튼이 들면 그만큼 자라야
+     한다 — 박아 둔 채로 두었더니 버튼이 화면 밖으로 밀려 보이지 않았다.
+   ⚠ 흰 알약(pill--today)이 아니라 테 있는 알약이다. 시트가 흰 면이라
+     흰 알약은 글자만 떠 있는 꼴이 된다 */
+.wheel:has(.wheel__today){height:auto}
+.wheel__today{flex:none;align-self:center;margin-top:var(--ap-p5)}
 /* ── 날짜 고르개 — 이력 화면 ──
    현장 **아래**에 선다: 현장을 고르고 그 안에서 날을 고르는 차례다.
    한 날씩 좌우로 옮긴다. 일자별 달력(주 띠)은 걷었다 — 띠는 '이 주의

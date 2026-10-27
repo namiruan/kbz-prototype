@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=493">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=512">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=493"></script>
+<script src="assets/face-attendance-app.js?v=512"></script>
 </head>
 
 <body>
@@ -1415,7 +1415,7 @@
            손잡이와 날짜가 따로 놀아, 무엇을 옮기는 손잡이인지가 멀어진다 -->
       <span class="day__pick">
         <button class="day__a" type="button" aria-label="앞 날짜"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
-        <div class="cal__date">
+        <div class="cal__date" data-go="m-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
           <span class="cal__num">10</span><span class="cal__dot">.</span>
           <span class="cal__num">20</span>
@@ -1563,6 +1563,34 @@
       <div class="row"><span class="row__k">직종</span><span class="row__v">형틀목공</span></div>
     </div>
   </main>
+</section>
+
+
+<!-- ===== ⑮ 현장소장 앱 · 날짜 고르기 ===== -->
+<section class="scr has-dim" data-day="day4" data-rec="done" data-screen="m-cal" data-title="날짜 고르기"
+  data-behind="m-log">
+  <!-- 근로자 앱의 날짜 고르개를 그대로 쓴다 — 기기가 띄우는 고르개는 꼴이
+       기기마다 다르므로(아이폰은 휠 · 안드로이드는 달력) 직접 만든 것을
+       두 쪽이 함께 쓴다. 저쪽은 펴진 달 위에 뜨지만 이력에는 달이 없어,
+       어두운 자리 위에 휠만 뜬다 -->
+  <div class="dim dim--cal" data-go="m-log" data-go-self data-keep>
+    <div class="wheel">
+      <div class="wheel__b">
+        <span class="wheel__band" aria-hidden="true"></span>
+      <div class="wheel__c" data-wheel="연" data-pick="2026" tabindex="0" role="listbox" aria-label="연">
+      </div>
+      <div class="wheel__c" data-wheel="월" data-pick="10" tabindex="0" role="listbox" aria-label="월">
+      </div>
+      <div class="wheel__c" data-wheel="일" data-pick="23" tabindex="0" role="listbox" aria-label="일">
+      </div>
+      </div>
+      <!-- 휠을 굴려 오늘까지 되짚는 대신 한 번에 돌아간다 — 이력에서 가장
+           자주 찾는 날이 오늘이다. 길은 js 가 아니라 여기서 박아 둔다:
+           근로자 앱에서는 '오늘' 이 날마다 다른 화면으로 가지만, 이력은
+           어느 날에서든 제 화면으로 돌아온다 -->
+      <button class="pill pill--line wheel__today" type="button" data-go="m-log">오늘로 이동</button>
+    </div>
+  </div>
 </section>
 
 
