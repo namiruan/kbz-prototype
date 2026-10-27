@@ -2709,6 +2709,14 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      화면 끝에 서서 한 덩어리로 읽히지 않는다 */
   .form,.rows,.note,.shot,.dt,.stmp,.photo{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
   .body{padding:var(--ap-p8)}
+  /* 머리말 칸은 **본문 여백만큼** 되물린다 — 16 으로 박아 두었더니 여백이
+     24 가 되는 이 폭에서 위와 옆에 8 씩 바탕이 남아, 흰 면이 머리줄에서
+     끊겨 보였다(그라데이션이 머리줄 아래에서 시작했다) */
+  .card--head{margin:calc(var(--ap-p8) * -1) calc(var(--ap-p8) * -1) var(--ap-p7)}
+  /* 달력은 **넓어진 만큼 퍼지지 않는다**. 7칸이 화면 폭을 다 쓰면 한 날에서
+     다음 날까지 손이 가는 거리가 폰의 곱절이 된다 — 고르는 일은 같은데
+     팔만 더 움직인다. 폰에서 쥐던 폭(390)으로 묶고 가운데에 세운다 */
+  .calm{width:100%;max-width:390px;margin-inline:auto}
   /* 날짜·현장 줄과 그 아래 뱃지는 제가 가리키는 목록과 세로 선이 맞아야
      한다. 하나라도 빠뜨리면 그것만 8 바깥에 서서, 한 이야기가 두 선으로
      갈린다 */
