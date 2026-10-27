@@ -106,15 +106,16 @@
 
      화면마다 제 날과 제 기록이 있다(마크업의 data-day · data-rec):
        data-day   today     이 화면이 보는 날은 오늘이다
-                  yesterday 어제다 — 익일 퇴근 묶음이 쓴다
-                  day2      이틀 전이다 — 지난 날 보기가 쓴다
+                  yesterday 어제다 — 익일 퇴근의 '다음 날' 이 쓴다
+                  day2      이틀 전이다 — 익일 퇴근의 근무일이 쓴다
+                  day3      사흘 전이다 — 지난 날 보기가 쓴다
        data-rec   none      쥔 날에 아직 찍힌 것이 없다(점 없음)
                   open      출근만 찍혔다(경고색 점)
                   done      하루가 닫혔다(브랜드 점)
-       data-rec-today · data-rec-yday — 쥐지 않은 날의 기록
-       data-go-today · data-go-yday · data-go-day2 — 그 날 칸을 누르면
-                  갈 화면. 한 날에 걸린 이야기가 시나리오마다 달라서,
-                  길도 화면이 쥔다(적지 않으면 예사 하루로 간다)
+       data-rec-today · -yday · -day2 · -day3 — 쥐지 않은 날의 기록
+       data-go-today · -yday · -day2 · -day3 — 그 날 칸을 누르면 갈 화면.
+                  한 날에 걸린 이야기가 시나리오마다 달라서, 길도 화면이
+                  쥔다(적지 않으면 예사 하루로 간다)
 
      ⚠ **시나리오끼리 날을 겹쳐 쓰지 않는다.** 같은 날에 서로 다른 기록이
        걸리면 넘겨 볼 때 어느 이야기였는지 섞인다. 한 이야기의 여러 순간
@@ -130,6 +131,20 @@
     var t = new Date(TODAY.y, TODAY.m - 1, TODAY.d - 2);
     return { y: t.getFullYear(), m: t.getMonth() + 1, d: t.getDate() };
   })();
+  var DAY3 = (function () {
+    var t = new Date(TODAY.y, TODAY.m - 1, TODAY.d - 3);
+    return { y: t.getFullYear(), m: t.getMonth() + 1, d: t.getDate() };
+  })();
+  /* 기록이 걸릴 수 있는 날들 — 오늘부터 거슬러 넷. 이름은 마크업의
+     data-day 값이자 data-rec-* · data-go-* 의 꼬리다 */
+  var DAYS = [TODAY, YDAY, DAY2, DAY3];
+  var KEY = ['today', 'yday', 'day2', 'day3'];
+  var SAY = { today: 0, yesterday: 1, yday: 1, day2: 2, day3: 3 };
+  function nth(y, m, d) {
+    var n = y * 10000 + m * 100 + d;
+    for (var i = 0; i < DAYS.length; i++) if (num(DAYS[i]) === n) return i;
+    return -1;
+  }
   var WDAY = ['일', '월', '화', '수', '목', '금', '토'];
 
   function two(n) { return (n < 10 ? '0' : '') + n; }
@@ -146,33 +161,29 @@
      없으면 어제가 경고색이다). 오늘을 보는 화면에서는 어제가 쥔 날이
      아니므로 하루가 끝난 점(파랑)으로 둔다 */
   function role(y, m, d, mk) {
-    var n = y * 10000 + m * 100 + d;
+    var i = nth(y, m, d);
+    if (i < 0) return { go: 'w-home', dot: null };
     var mine = mk.sel === iso(y, m, d);
     /* 쥔 날이면 그 날의 기록(data-rec), 아니면 화면이 그 날을 두고 따로
-       적어 둔 것(data-rec-today · data-rec-yday). 아무 말이 없으면 없다 */
-    var k = mine ? mk.rec : n === num(TODAY) ? mk.today : n === num(YDAY) ? mk.yday : null;
+       적어 둔 것(data-rec-오늘|어제|…). 아무 말이 없으면 없다 */
+    var k = mine ? mk.rec : mk.recAt(i);
     var dot = k === 'open' ? 'open' : k === 'done' ? 'on' : null;
     /* **가는 곳도 화면마다 다르다.** 한 날에 걸린 이야기가 시나리오마다
-       달라서다 — 익일 퇴근을 보는 중이면 오늘은 '아직 출근 못 한 오늘'
-       이고, 예사 하루를 보는 중이면 '출근을 찍은 오늘' 이다. 마크업이
-       말하지 않으면 예사 하루로 둔다 */
-    if (n === num(TODAY)) return { go: mk.goT || 'w-home-done', dot: dot };
-    /* 어제는 아무 말이 없으면 **하루가 끝난 날**로 둔다 — 지난 날은 찍고
-       나서 지나간 것이 예사다 */
-    if (n === num(YDAY)) return { go: mk.goY || 'w-home-past', dot: k ? dot : 'on' };
-    if (n === num(DAY2)) return { go: mk.go2 || 'w-home-past', dot: k ? dot : 'on' };
-    return { go: 'w-home', dot: null };
+       달라서다 — 익일 퇴근을 보는 중이면 그 날은 '퇴근이 남은 근무일'
+       이고, 예사 하루를 보는 중이면 그냥 지나간 날이다. 마크업이 말하지
+       않으면 예사 하루로 둔다 */
+    var go = mk.goAt(i) || (i === 0 ? 'w-home-done' : 'w-home-past');
+    /* 지난 날은 아무 말이 없으면 **하루가 끝난 날**로 둔다 — 찍고 나서
+       지나간 것이 예사다. 오늘은 그렇지 않다(아직 찍을 것이 남았다) */
+    return { go: go, dot: i === 0 ? dot : (k ? dot : 'on') };
   }
 
   /* 이 화면이 어느 날에 무슨 기록을 쥐었는지 — 달 격자와 띠가 같은 것을 본다 */
   function marks(scr, sel) {
     return { sel: sel,
              rec: scr.getAttribute('data-rec') || 'none',
-             today: scr.getAttribute('data-rec-today'),
-             yday: scr.getAttribute('data-rec-yday'),
-             goT: scr.getAttribute('data-go-today'),
-             goY: scr.getAttribute('data-go-yday'),
-             go2: scr.getAttribute('data-go-day2') };
+             recAt: function (i) { return scr.getAttribute('data-rec-' + KEY[i]); },
+             goAt: function (i) { return scr.getAttribute('data-go-' + KEY[i]); } };
   }
 
   /* 주소가 말한 날. 아무 말이 없으면 없다고 답한다 — 그때는 화면이 제
@@ -189,8 +200,8 @@
   }
 
   function shown(scr) {
-    var k = scr.getAttribute('data-day');
-    return seeing() || (k === 'yesterday' ? YDAY : k === 'day2' ? DAY2 : TODAY);
+    var i = SAY[scr.getAttribute('data-day')];
+    return seeing() || DAYS[i || 0];
   }
 
   /* 한 달치 칸을 낸다. 일요일에서 시작해 주 단위로 떨어지고, 달 밖의

@@ -2021,8 +2021,20 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    모으지만 이 줄만은 양쪽으로 벌린다: 가운데에 모으면 '출근 07:00부터~'
    가 붙어 한 말처럼 보이는데, 앞은 무엇의 시각인지이고 뒤는 몇 시부터
    쳐 주는지라 따로 읽는 둘이다 */
+/* 이름과 기준 시각은 **머리 면**에 앉는다 — 카드 안에서 바탕 위에 그대로
+   두었더니 찍힌 시각과 한 덩어리로 읽혀, 어디까지가 '정해진 것' 이고
+   어디부터가 '찍힌 것' 인지 눈이 매번 갈랐다. 면 하나로 갈라 두면 위는
+   현장이 정한 것, 아래는 그날 남은 것으로 한 번에 읽힌다.
+   카드의 변까지 꽉 채운다 — 안으로 들여 두면 머리가 아니라 카드 안의
+   또 하나의 칸이 된다(카드의 패딩을 음수 여백으로 되돌린다) */
 .tcard__h{display:flex;align-items:center;justify-content:space-between;
-  gap:var(--ap-p3);align-self:stretch;min-height:22px}
+  gap:var(--ap-p3);align-self:stretch;min-height:22px;
+  margin:calc(var(--ap-p5) * -1) calc(var(--ap-p6) * -1) var(--ap-p2);
+  padding:var(--ap-p3) var(--ap-p6);background:var(--ap-g5);
+  border-radius:var(--ap-r10) var(--ap-r10) 0 0}
+/* 값이 든 카드의 머리는 옅은 브랜드 면이다 — 아래 수가 브랜드 색이라
+   머리와 수가 한 식구로 선다. 빈 카드는 회색 그대로 물러서 있는다 */
+.tcard:not(:has(.tcard__v--none)) .tcard__h{background:var(--ap-primary-5)}
 .tcard__k{font:var(--t-sub);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
 /* 이 카드에서 읽을 것은 시각 하나다 — 시안의 꼭대기 글자(28)로 둔다.
    22 로는 이름(15)·기준(13)과 한 묶음으로 보여, 카드가 무엇을 보여 주는
@@ -2040,16 +2052,23 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    색은 브랜드다 — 검정으로 두었더니 이름(회색)·기준(회색)과 같은
    먹으로 읽혀, 카드 안에서 무엇이 값인지 크기로만 가렸다 */
 .tcard__v{font:600 32px/44px var(--ap-font);letter-spacing:var(--ls-title1);
-  color:var(--ap-primary);font-variant-numeric:tabular-nums}
+  color:var(--ap-primary);font-variant-numeric:tabular-nums;
+  display:flex;align-items:center;justify-content:center;gap:var(--ap-p2)}
 /* 아직 찍히지 않은 자리 — 빈칸으로 두면 값이 없는 것인지 아직인 것인지
    가릴 수 없다. 글자는 흐리게 둔다: 자리는 잡되 읽을 값은 아니다 */
 .tcard__v--none{color:var(--ap-text-disabled)}
-/* 날을 넘겨 찍힌 시각 — 수 앞에 '익일' 을 작게 붙인다. 카드는 이미 그 날의
+/* 날을 넘겨 찍힌 시각 — 수 앞에 '익일' 을 뱃지로 붙인다. 카드는 이미 그 날의
    것이라 날짜를 통째로(10/28 06:10) 적을 것 없이 넘겼는지만 알면 되고,
-   반쪽 폭 카드에 날짜까지 넣으면 수가 작아진다. 기준 시각과 같은 꼴·같은
-   회색이라 '수에 딸린 말' 로 읽힌다 */
-.tcard__nx{margin-right:var(--ap-p2);font:var(--t-sub);letter-spacing:var(--ls-sub);
-  color:var(--ap-text-gray)}
+   반쪽 폭 카드에 날짜까지 넣으면 수가 작아진다.
+   꼴은 시스템 뱃지(.bd)를 그대로 쓰되 면은 회색이다 — 아래의 인증 경로
+   뱃지(연한 브랜드)와 한 카드에 나란히 서는 것이라, 같은 면을 쓰면 둘이
+   한 가지를 말하는 것으로 보인다.
+   수와 **가운데를 맞춘다**(.tcard__v 가 가로로 세운다) — 글자 위에 걸치면
+   수가 한쪽으로 밀려 보인다 */
+.tcard__nx{flex:none;display:inline-flex;align-items:center;padding:2px 4px;
+  border-radius:var(--ap-r4);background:var(--ap-badge-normal);
+  color:var(--ap-text-gray);font:var(--t-foot);font-weight:600;line-height:1.5;
+  letter-spacing:var(--ls-foot)}
 /* 값이 아직 없으면 **카드째 물러선다** — 수만 흐려 놓았더니 빈 카드가
    찍힌 카드와 같은 흰 면·같은 그림자로 나란히 서서, 둘 다 '다 된 것'
    으로 보였다.
