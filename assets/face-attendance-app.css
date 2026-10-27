@@ -1262,8 +1262,15 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    .tabbar 를 올렸더니 떠 있는 창(.dim)까지 뚫고 나와, 바텀 시트 위에
    바닥 내비게이션이 비쳤다 */
 .act--stack + .tabbar{position:relative;z-index:3}
-.tabbar__b{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--ap-p2);padding:0 4px;border-radius:var(--ap-r10);color:var(--ap-text);text-align:center;white-space:nowrap}
-.tabbar__b.is-on{color:var(--ap-primary-90);font-weight:600}
+/* 켜진 칸과 꺼진 칸은 **색이 갈라야** 한다. 꺼진 칸을 Text/basic(#33363d),
+   켜진 칸을 Text/primary-dark(#113569)로 두었더니 둘 다 짙어, 굵기만으로
+   갈리는 꼴이 되어 어느 칸에 있는지 한눈에 들어오지 않았다.
+   꺼진 칸을 Text/gray 로 한 단 내리고 켜진 칸은 브랜드 색을 쥔다 —
+   ⚠ 시안의 켜진 내비는 primary-dark 지만, 그 값은 바로 옆 꺼진 칸과
+     견주어 보아야 갈린다. 아이콘도 글자색을 따라가므로(currentColor)
+     표와 말이 함께 갈린다 */
+.tabbar__b{font:var(--t-sub);letter-spacing:var(--ls-sub);flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--ap-p2);padding:0 4px;border-radius:var(--ap-r10);color:var(--ap-text-gray);text-align:center;white-space:nowrap}
+.tabbar__b.is-on{color:var(--ap-primary);font-weight:600}
 
 /* ── 빈 화면 · 안내 ── */
 /* 이 화면에서 할 일은 하나뿐이다 — 바닥에 가는 띠로 받지 않고, 한가운데에
