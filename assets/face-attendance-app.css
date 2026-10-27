@@ -2279,9 +2279,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 두 줄까지만 보이고 그 뒤는 말줄임이다 — 여기서 할 일은 '썼다' 를
    확인하는 것이지 다시 읽는 것이 아니다. 시안도 카드 안의 작업내용을
    줄여 적는다(45:1216 의 메모) */
+/* 쓴 것은 **그대로 다** 보인다. 두 줄에서 말줄임으로 끊어 두었더니
+   확인하러 와서 확인이 안 됐다 — 뒤가 가려진 글은 '썼다' 는 표일 뿐이고,
+   무엇을 썼는지는 '수정' 으로 들어가야 알 수 있었다 */
 .wnote__t{font:var(--t-body);letter-spacing:var(--ls-body);color:var(--ap-text);
-  padding:var(--ap-p3) var(--ap-p3) var(--ap-p4);
-  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+  padding:var(--ap-p3) var(--ap-p3) var(--ap-p4);white-space:pre-line}
 /* 사진은 **작게** 놓는다 — 쓰기 화면의 105 는 고르고 지우는 크기이고,
    여기서는 몇 장 붙었는지만 보이면 된다 */
 .wnote__g{display:flex;flex-wrap:wrap;gap:var(--ap-gap3);padding:0 var(--ap-p3) var(--ap-p3)}
