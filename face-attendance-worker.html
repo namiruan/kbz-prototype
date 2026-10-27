@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=439">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=440">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=439"></script>
+<script src="assets/face-attendance-app.js?v=440"></script>
 </head>
 
 <body>
@@ -967,7 +967,7 @@
   <div class="cam">
     <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <!-- 누구를 확인하는 중인지를 먼저 보인다 -->
-    <p class="cam__who">홍길동님 본인 확인</p>
+    <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box"></div>
     <span class="cam__go" data-go="w-cam-ok"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근 인증하기</span>
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
@@ -978,7 +978,7 @@
 <section class="scr" data-screen="w-cam-ok" data-title="근로자 앱 출근 인증 — 성공">
   <div class="cam">
     <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home-done"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <p class="cam__who">홍길동님 본인 확인</p>
+    <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box cam__box--ok"></div>
     <!-- 찍힌 시각을 아래에 붙인다 — 이 화면이 사라지고 나면 홈의 출근
          카드에서 다시 볼 값이라, 그 값이 여기서 한 번 먼저 선다 -->
@@ -995,7 +995,7 @@
 <section class="scr" data-screen="w-cam-fail" data-title="근로자 앱 출근 인증 — 얼굴 인증 실패">
   <div class="cam">
     <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <p class="cam__who">홍길동님 본인 확인</p>
+    <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box cam__box--fail"></div>
     <!-- 다시 찍는 길을 그 자리에 둔다 — 실패를 알리고 나서 할 일이
          '다시 찍기' 하나뿐이라, 찍던 자리에 그대로 둔다 -->
@@ -1158,7 +1158,7 @@
 <section class="scr" data-screen="w-cam-out" data-title="근로자 앱 퇴근 인증 — 카메라">
   <div class="cam">
     <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home-work"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <p class="cam__who">홍길동님 본인 확인</p>
+    <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box"></div>
     <span class="cam__go" data-go="w-cam-out-ok"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>퇴근 인증하기</span>
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
@@ -1169,7 +1169,7 @@
 <section class="scr" data-screen="w-cam-out-ok" data-title="근로자 앱 퇴근 인증 — 성공">
   <div class="cam">
     <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home-out"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <p class="cam__who">홍길동님 본인 확인</p>
+    <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box cam__box--ok"></div>
     <span class="cam__go" data-go="w-home-out"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-home"></use></svg>메인으로</span>
     <p class="cam__t cam__t--ok">퇴근 처리 완료!<span class="cam__sub">17:31:40</span></p>

@@ -2411,7 +2411,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    대신 '누구를 확인하는 중인가' 를 틀 위에 붙인다: 지금 이 인증이 누구
    것인지를 먼저 보여야, 남의 폰에 대고 찍는 일이 생기지 않는다.
    자리는 **가운데**다 — 왼쪽 위는 뒤로 가기가 쓴다 */
-.cam__who{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
+/* 머리글은 일반 화면의 헤더 제목과 **같은 크기**다(t-head 17) — 화면이
+   달라도 '지금 무엇을 하는 중인가' 를 적는 자리는 한 크기로 선다 */
+.cam__who{font:var(--t-head);letter-spacing:var(--ls-head);
   position:absolute;top:var(--ap-statusbar);left:50%;transform:translateX(-50%);z-index:2;
   padding:4px 10px;border-radius:var(--ap-r-pill);
   background:var(--ap-scrim-pill);color:var(--ap-g0);white-space:nowrap}
