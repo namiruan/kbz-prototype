@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=399">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=402">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=399"></script>
+<script src="assets/face-attendance-app.js?v=402"></script>
 </head>
 
 <body>
@@ -146,17 +146,17 @@
         <button class="cal__d" type="button" data-d="2026-10-18" data-go="w-home"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></button>
         <button class="cal__d" type="button" data-d="2026-10-19" data-go="w-home-past"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></button>
         <button class="cal__d" type="button" data-d="2026-10-20" data-go="w-home-done"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-21" data-go="w-home"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-22" data-go="w-home"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-23" data-go="w-home"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-24" data-go="w-home"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-25" data-go="w-home"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>25</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-26" data-go="w-home"><div class="cal__w">월</div><div class="cal__n"><b>26</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-27" data-go="w-home"><div class="cal__w">화</div><div class="cal__n"><b>27</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-28" data-go="w-home"><div class="cal__w">수</div><div class="cal__n"><b>28</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-29" data-go="w-home"><div class="cal__w">목</div><div class="cal__n"><b>29</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-30" data-go="w-home"><div class="cal__w">금</div><div class="cal__n"><b>30</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-31" data-go="w-home"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>31</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">수</div><div class="cal__n cal__n--off"><b>21</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">목</div><div class="cal__n cal__n--off"><b>22</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">금</div><div class="cal__n cal__n--off"><b>23</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sat">토</div><div class="cal__n cal__n--off"><b>24</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sun">일</div><div class="cal__n cal__n--off"><b>25</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">월</div><div class="cal__n cal__n--off"><b>26</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">화</div><div class="cal__n cal__n--off"><b>27</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">수</div><div class="cal__n cal__n--off"><b>28</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">목</div><div class="cal__n cal__n--off"><b>29</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">금</div><div class="cal__n cal__n--off"><b>30</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sat">토</div><div class="cal__n cal__n--off"><b>31</b></div></button>
       </div>
     </div>
   </div>
@@ -283,7 +283,7 @@
           <span class="cal__dow">화</span>
           <!-- 펴 둔 동안에는 꺾쇠가 접는 손잡이다 — 거꾸로 서고, 누르면
                띠로 돌아간다 -->
-          <button class="cal__more cal__more--up" type="button" aria-label="달 접기" data-go="w-home"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
+          <button class="cal__more cal__more--up" type="button" aria-label="달 접기" data-go="w-home" data-keep><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
         </div>
         <div class="cal__side">
           <button class="pill pill--today" type="button" disabled>오늘</button>
@@ -319,17 +319,17 @@
           <button class="cal__d" type="button" data-d="2026-10-18" data-go="w-home"><div class="cal__n"><b>18</b></div></button>
           <button class="cal__d" type="button" data-d="2026-10-19" data-go="w-home-past"><div class="cal__n"><b>19</b><i></i></div></button>
           <button class="cal__d" type="button" data-d="2026-10-20" data-go="w-home-done"><div class="cal__n cal__n--on"><b>20</b></div></button>
-          <button class="cal__d" type="button" data-d="2026-10-21" data-go="w-home"><div class="cal__n"><b>21</b></div></button>
-          <button class="cal__d" type="button" data-d="2026-10-22" data-go="w-home"><div class="cal__n"><b>22</b></div></button>
-          <button class="cal__d" type="button" data-d="2026-10-23" data-go="w-home"><div class="cal__n"><b>23</b></div></button>
-          <button class="cal__d" type="button" data-d="2026-10-24" data-go="w-home"><div class="cal__n"><b>24</b></div></button>
-          <button class="cal__d" type="button" data-d="2026-10-25" data-go="w-home"><div class="cal__n"><b>25</b></div></button>
-          <button class="cal__d" type="button" data-d="2026-10-26" data-go="w-home"><div class="cal__n"><b>26</b></div></button>
-          <button class="cal__d" type="button" data-d="2026-10-27" data-go="w-home"><div class="cal__n"><b>27</b></div></button>
-          <button class="cal__d" type="button" data-d="2026-10-28" data-go="w-home"><div class="cal__n"><b>28</b></div></button>
-          <button class="cal__d" type="button" data-d="2026-10-29" data-go="w-home"><div class="cal__n"><b>29</b></div></button>
-          <button class="cal__d" type="button" data-d="2026-10-30" data-go="w-home"><div class="cal__n"><b>30</b></div></button>
-          <button class="cal__d" type="button" data-d="2026-10-31" data-go="w-home"><div class="cal__n"><b>31</b></div></button>
+          <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>21</b></div></button>
+          <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>22</b></div></button>
+          <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>23</b></div></button>
+          <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>24</b></div></button>
+          <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>25</b></div></button>
+          <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>26</b></div></button>
+          <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>27</b></div></button>
+          <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>28</b></div></button>
+          <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>29</b></div></button>
+          <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>30</b></div></button>
+          <button class="cal__d" type="button" disabled><div class="cal__n cal__n--off"><b>31</b></div></button>
         </div>
       </div>
     </div>
@@ -337,7 +337,7 @@
 
   <!-- 달 아래는 덮는다 — 지금 할 일은 날을 고르는 것 하나다.
        어두운 자리를 클릭하면 닫힌다 -->
-<div class="dim dim--cal" data-go="w-home" data-go-self>
+<div class="dim dim--cal" data-go="w-home" data-go-self data-keep>
 
     <!-- ── 년·월·일 휠 ──
          기기가 띄우는 고르개는 꼴이 기기마다 다르다 — 아이폰은 휠,
@@ -501,17 +501,17 @@
         <button class="cal__d" type="button" data-d="2026-10-18" data-go="w-home"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></button>
         <button class="cal__d" type="button" data-d="2026-10-19" data-go="w-home-past"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></button>
         <button class="cal__d" type="button" data-d="2026-10-20" data-go="w-home-done"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-21" data-go="w-home"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-22" data-go="w-home"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-23" data-go="w-home"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-24" data-go="w-home"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-25" data-go="w-home"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>25</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-26" data-go="w-home"><div class="cal__w">월</div><div class="cal__n"><b>26</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-27" data-go="w-home"><div class="cal__w">화</div><div class="cal__n"><b>27</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-28" data-go="w-home"><div class="cal__w">수</div><div class="cal__n"><b>28</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-29" data-go="w-home"><div class="cal__w">목</div><div class="cal__n"><b>29</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-30" data-go="w-home"><div class="cal__w">금</div><div class="cal__n"><b>30</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-31" data-go="w-home"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>31</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">수</div><div class="cal__n cal__n--off"><b>21</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">목</div><div class="cal__n cal__n--off"><b>22</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">금</div><div class="cal__n cal__n--off"><b>23</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sat">토</div><div class="cal__n cal__n--off"><b>24</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sun">일</div><div class="cal__n cal__n--off"><b>25</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">월</div><div class="cal__n cal__n--off"><b>26</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">화</div><div class="cal__n cal__n--off"><b>27</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">수</div><div class="cal__n cal__n--off"><b>28</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">목</div><div class="cal__n cal__n--off"><b>29</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">금</div><div class="cal__n cal__n--off"><b>30</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sat">토</div><div class="cal__n cal__n--off"><b>31</b></div></button>
       </div>
     </div>
   </div>
@@ -724,17 +724,17 @@
         <button class="cal__d" type="button" data-d="2026-10-18" data-go="w-home"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></button>
         <button class="cal__d" type="button" data-d="2026-10-19" data-go="w-home-past"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></button>
         <button class="cal__d" type="button" data-d="2026-10-20" data-go="w-home-done"><div class="cal__w">화</div><div class="cal__n cal__n--on cal__n--open"><b>20</b><i></i></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-21" data-go="w-home"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-22" data-go="w-home"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-23" data-go="w-home"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-24" data-go="w-home"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-25" data-go="w-home"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>25</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-26" data-go="w-home"><div class="cal__w">월</div><div class="cal__n"><b>26</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-27" data-go="w-home"><div class="cal__w">화</div><div class="cal__n"><b>27</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-28" data-go="w-home"><div class="cal__w">수</div><div class="cal__n"><b>28</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-29" data-go="w-home"><div class="cal__w">목</div><div class="cal__n"><b>29</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-30" data-go="w-home"><div class="cal__w">금</div><div class="cal__n"><b>30</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-31" data-go="w-home"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>31</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">수</div><div class="cal__n cal__n--off"><b>21</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">목</div><div class="cal__n cal__n--off"><b>22</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">금</div><div class="cal__n cal__n--off"><b>23</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sat">토</div><div class="cal__n cal__n--off"><b>24</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sun">일</div><div class="cal__n cal__n--off"><b>25</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">월</div><div class="cal__n cal__n--off"><b>26</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">화</div><div class="cal__n cal__n--off"><b>27</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">수</div><div class="cal__n cal__n--off"><b>28</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">목</div><div class="cal__n cal__n--off"><b>29</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">금</div><div class="cal__n cal__n--off"><b>30</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sat">토</div><div class="cal__n cal__n--off"><b>31</b></div></button>
       </div>
     </div>
   </div>
@@ -981,17 +981,17 @@
         <button class="cal__d" type="button" data-d="2026-10-18" data-go="w-home"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></button>
         <button class="cal__d" type="button" data-d="2026-10-19" data-go="w-home-past"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></button>
         <button class="cal__d" type="button" data-d="2026-10-20" data-go="w-home-done"><div class="cal__w">화</div><div class="cal__n cal__n--on cal__n--open"><b>20</b><i></i></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-21" data-go="w-home"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-22" data-go="w-home"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-23" data-go="w-home"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-24" data-go="w-home"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-25" data-go="w-home"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>25</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-26" data-go="w-home"><div class="cal__w">월</div><div class="cal__n"><b>26</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-27" data-go="w-home"><div class="cal__w">화</div><div class="cal__n"><b>27</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-28" data-go="w-home"><div class="cal__w">수</div><div class="cal__n"><b>28</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-29" data-go="w-home"><div class="cal__w">목</div><div class="cal__n"><b>29</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-30" data-go="w-home"><div class="cal__w">금</div><div class="cal__n"><b>30</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-31" data-go="w-home"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>31</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">수</div><div class="cal__n cal__n--off"><b>21</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">목</div><div class="cal__n cal__n--off"><b>22</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">금</div><div class="cal__n cal__n--off"><b>23</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sat">토</div><div class="cal__n cal__n--off"><b>24</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sun">일</div><div class="cal__n cal__n--off"><b>25</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">월</div><div class="cal__n cal__n--off"><b>26</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">화</div><div class="cal__n cal__n--off"><b>27</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">수</div><div class="cal__n cal__n--off"><b>28</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">목</div><div class="cal__n cal__n--off"><b>29</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">금</div><div class="cal__n cal__n--off"><b>30</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sat">토</div><div class="cal__n cal__n--off"><b>31</b></div></button>
       </div>
     </div>
   </div>
@@ -1290,17 +1290,17 @@
         <button class="cal__d" type="button" data-d="2026-10-18" data-go="w-home"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></button>
         <button class="cal__d" type="button" data-d="2026-10-19" data-go="w-home-past"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></button>
         <button class="cal__d" type="button" data-d="2026-10-20" data-go="w-home-done"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b><i></i></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-21" data-go="w-home"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-22" data-go="w-home"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-23" data-go="w-home"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-24" data-go="w-home"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-25" data-go="w-home"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>25</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-26" data-go="w-home"><div class="cal__w">월</div><div class="cal__n"><b>26</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-27" data-go="w-home"><div class="cal__w">화</div><div class="cal__n"><b>27</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-28" data-go="w-home"><div class="cal__w">수</div><div class="cal__n"><b>28</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-29" data-go="w-home"><div class="cal__w">목</div><div class="cal__n"><b>29</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-30" data-go="w-home"><div class="cal__w">금</div><div class="cal__n"><b>30</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-31" data-go="w-home"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>31</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">수</div><div class="cal__n cal__n--off"><b>21</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">목</div><div class="cal__n cal__n--off"><b>22</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">금</div><div class="cal__n cal__n--off"><b>23</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sat">토</div><div class="cal__n cal__n--off"><b>24</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sun">일</div><div class="cal__n cal__n--off"><b>25</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">월</div><div class="cal__n cal__n--off"><b>26</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">화</div><div class="cal__n cal__n--off"><b>27</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">수</div><div class="cal__n cal__n--off"><b>28</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">목</div><div class="cal__n cal__n--off"><b>29</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">금</div><div class="cal__n cal__n--off"><b>30</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sat">토</div><div class="cal__n cal__n--off"><b>31</b></div></button>
       </div>
     </div>
   </div>
@@ -1493,17 +1493,17 @@
         <button class="cal__d" type="button" data-d="2026-10-18" data-go="w-home"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></button>
         <button class="cal__d" type="button" data-d="2026-10-19" data-go="w-home-past"><div class="cal__w">월</div><div class="cal__n cal__n--on"><b>19</b><i></i></div></button>
         <button class="cal__d" type="button" data-d="2026-10-20" data-go="w-home-done"><div class="cal__w">화</div><div class="cal__n cal__n--today"><b>20</b><i></i></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-21" data-go="w-home"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-22" data-go="w-home"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-23" data-go="w-home"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-24" data-go="w-home"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-25" data-go="w-home"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>25</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-26" data-go="w-home"><div class="cal__w">월</div><div class="cal__n"><b>26</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-27" data-go="w-home"><div class="cal__w">화</div><div class="cal__n"><b>27</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-28" data-go="w-home"><div class="cal__w">수</div><div class="cal__n"><b>28</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-29" data-go="w-home"><div class="cal__w">목</div><div class="cal__n"><b>29</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-30" data-go="w-home"><div class="cal__w">금</div><div class="cal__n"><b>30</b></div></button>
-        <button class="cal__d" type="button" data-d="2026-10-31" data-go="w-home"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>31</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">수</div><div class="cal__n cal__n--off"><b>21</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">목</div><div class="cal__n cal__n--off"><b>22</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">금</div><div class="cal__n cal__n--off"><b>23</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sat">토</div><div class="cal__n cal__n--off"><b>24</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sun">일</div><div class="cal__n cal__n--off"><b>25</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">월</div><div class="cal__n cal__n--off"><b>26</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">화</div><div class="cal__n cal__n--off"><b>27</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">수</div><div class="cal__n cal__n--off"><b>28</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">목</div><div class="cal__n cal__n--off"><b>29</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w">금</div><div class="cal__n cal__n--off"><b>30</b></div></button>
+        <button class="cal__d" type="button" disabled><div class="cal__w cal__w--sat">토</div><div class="cal__n cal__n--off"><b>31</b></div></button>
       </div>
     </div>
   </div>

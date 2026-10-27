@@ -112,16 +112,37 @@
   function two(n) { return (n < 10 ? '0' : '') + n; }
   function iso(y, m, d) { return y + '-' + two(m) + '-' + two(d); }
   function inMonth(y, m) { return new Date(y, m, 0).getDate(); }
+  /* 오늘보다 뒤인 날은 고를 수 없다 — 아직 오지 않은 날에는 찍을 것도
+     볼 것도 없다. 달에서도 띠에서도 휠에서도 같다 */
+  function ahead(y, m, d) {
+    return (y * 10000 + m * 100 + d) > (TODAY.y * 10000 + TODAY.m * 100 + TODAY.d);
+  }
 
-  /* 주소가 가리키는 날. 아무 말이 없으면 마크업이 쥔 날 그대로다 */
+  /* 주소가 말한 날. 아무 말이 없으면 없다고 답한다 — 그때는 마크업이
+     쥔 날이 그 화면의 날이다(지난 날 보기는 19일을 쥐고 있다).
+     앞날을 가리키면 오늘로 내려앉는다 */
   function seeing() {
     var v = new URL(location.href).searchParams.get('d');
     if (!v) return null;
     var p = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
     if (!p) return null;
     var y = +p[1], m = +p[2], d = +p[3];
-    if (m < 1 || m > 12 || d < 1 || d > inMonth(y, m)) return null;
+    var now = { y: TODAY.y, m: TODAY.m, d: TODAY.d };
+    if (m < 1 || m > 12 || d < 1 || d > inMonth(y, m)) return now;
+    if (ahead(y, m, d)) return now;
     return { y: y, m: m, d: d };
+  }
+
+  /* 이 화면이 보고 있는 날. 주소가 말하면 그 날이고, 말이 없으면 마크업이
+     고른 날(.cal__n--on)이다 — 휠과 닫는 길은 주소에 날이 적혀 있든
+     없든 그 날을 알아야 한다 */
+  function shown(scr) {
+    var v = seeing();
+    if (v) return v;
+    var on = scr.querySelector('.cal__n--on');
+    var c = on && on.closest('.cal__d');
+    var p = c && /^(\d{4})-(\d{2})-(\d{2})$/.exec(c.getAttribute('data-d') || '');
+    return p ? { y: +p[1], m: +p[2], d: +p[3] } : { y: TODAY.y, m: TODAY.m, d: TODAY.d };
   }
 
   /* 한 달치 칸을 낸다. 일요일에서 시작해 주 단위로 떨어지고, 달 밖의
@@ -142,7 +163,7 @@
         (w === '일' ? ' cal__w--sun' : w === '토' ? ' cal__w--sat' : '') + '">' + w + '</div>' : '';
       var on = cur && iso(y, m, num) === sel ? ' cal__n--on' : '';
       var today = (cur && y === TODAY.y && m === TODAY.m && num === TODAY.d && !on) ? ' cal__n--today' : '';
-      out.push(cur
+      out.push(cur && !ahead(y, m, num)
         ? '<button class="cal__d" type="button" data-d="' + iso(y, m, num) + '" data-go="w-home">' +
           head + '<div class="cal__n' + on + today + '"><b>' + num + '</b></div></button>'
         : '<button class="cal__d" type="button" disabled>' +
@@ -153,7 +174,12 @@
 
   function day(scr) {
     var v = seeing();
-    if (!v) return;
+    if (v) rewrite(scr, v);
+    limits(scr, shown(scr));
+  }
+
+  /* 주소가 말한 날로 **날이 적히는 자리**를 갈아 끼운다 */
+  function rewrite(scr, v) {
     var sel = iso(v.y, v.m, v.d);
     var other = !(v.y === BASE.y && v.m === BASE.m);
 
@@ -191,15 +217,35 @@
       }
     }
 
+  }
+
+  /* 휠과 닫는 길은 보고 있는 날에 맞춘다 — 주소가 말하지 않아도 */
+  function limits(scr, v) {
+    var sel = iso(v.y, v.m, v.d);
+
+    /* 달을 닫는 길(꺾쇠 · 어두운 자리)은 **보던 날짜를 들고 간다**.
+       들고 가지 않으면 휠로 날짜를 바꿔 놓고 닫는 순간 오늘로 되돌아간다.
+       갈 곳도 그 날의 것이다 — 기록이 있는 날이면 그 장면으로 */
+    var home = 'w-home';
+    var cell = scr.querySelector('.cal__d[data-d="' + sel + '"][data-go]');
+    if (cell) home = cell.dataset.go;
+    scr.querySelectorAll('[data-keep]').forEach(function (b) {
+      b.setAttribute('data-go', home);
+      b.setAttribute('data-d', sel);
+    });
+
     /* 휠도 그 날에서 시작한다. 짧은 달이면 없는 날은 덜어 낸다 */
     var w = { '연': v.y, '월': v.m, '일': v.d };
     scr.querySelectorAll('.wheel__c').forEach(function (c) {
       var kind = c.getAttribute('data-wheel');
-      if (kind === '일') {
-        c.querySelectorAll('.wheel__i').forEach(function (it) {
-          it.hidden = (+it.dataset.v > inMonth(v.y, v.m));
-        });
-      }
+      c.querySelectorAll('.wheel__i').forEach(function (it) {
+        var n = +it.dataset.v;
+        /* 그 칸을 그 값으로 바꿨을 때 앞날이 되면 덜어 낸다. 짧은 달의
+           없는 날(11월 31일)도 같이 걸러진다 */
+        it.hidden = kind === '연' ? ahead(n, v.m, 1)
+                  : kind === '월' ? ahead(v.y, n, 1)
+                  : (n > inMonth(v.y, v.m) || ahead(v.y, v.m, n));
+      });
       c.setAttribute('data-pick', String(w[kind]));
     });
 
@@ -233,7 +279,7 @@
       on = false;
       var t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0;
       if (Math.abs(dx) < 60 || Math.abs(dx) <= Math.abs(dy)) return;
-      move(dx < 0 ? 1 : -1);
+      move(scr, dx < 0 ? 1 : -1);
     }, { passive: true });
 
     /* 손가락이 없는 자리(브라우저)에서는 끌어서 민다 */
@@ -243,21 +289,42 @@
       on = false;
       var dx = e.clientX - x0, dy = e.clientY - y0;
       if (Math.abs(dx) < 60 || Math.abs(dx) <= Math.abs(dy)) return;
-      move(dx < 0 ? 1 : -1);
+      move(scr, dx < 0 ? 1 : -1);
     });
   }
 
   /* 달을 n 만큼 옮긴다 — **보던 화면은 그대로**다. 달을 편 채로 있어야
      앞뒤 달을 이어 넘겨볼 수 있다. 고르고 있던 날은 들고 가되 짧은 달
      이면 그 달의 마지막 날로 내려앉는다(시안 596:4064 의 주석) */
-  function move(n) {
-    var v = seeing() || { y: BASE.y, m: BASE.m, d: TODAY.d };
+  function move(scr, n) {
+    var v = shown(scr);
     var t = new Date(v.y, v.m - 1 + n, 1);
     var y = t.getFullYear(), m = t.getMonth() + 1;
+    if (ahead(y, m, 1)) return;        /* 아직 오지 않은 달로는 넘어가지 않는다 */
+    var d = Math.min(v.d, inMonth(y, m));
+    if (ahead(y, m, d)) d = TODAY.d;   /* 이 달이면 오늘까지 */
     var u = new URL(location.href);
-    u.searchParams.set('d', iso(y, m, Math.min(v.d, inMonth(y, m))));
+    u.searchParams.set('d', iso(y, m, d));
     location.href = u.toString();
   }
+
+  /* ── 휠로 갈아 끼운 바로 다음 화면 ──
+     휠을 굴려 날짜가 바뀌면 화면이 다시 그려진다. 그때마다 달이 내려오고
+     어두운 자리가 덮이는 몸짓을 되풀이하면, 값을 하나 고칠 때마다 화면이
+     통째로 들썩인다 — 고친 것은 날짜 하나뿐인데.
+     그래서 들어오는 몸짓은 끄고 **고른 자리가 한 번 깜빡인다**(css 의
+     .is-applied). 표는 화면을 건너야 해서 세션에 적어 두고, 읽자마자
+     지운다 — 다음에 그냥 열었을 때까지 따라오면 안 된다 */
+  function applied() {
+    try { sessionStorage.setItem('ap-applied', '1'); } catch (e) {}
+  }
+
+  (function () {
+    var yes;
+    try { yes = sessionStorage.getItem('ap-applied'); sessionStorage.removeItem('ap-applied'); }
+    catch (e) { yes = null; }
+    if (yes) document.documentElement.classList.add('is-applied');
+  })();
 
   /* ── 년·월·일 휠 ──
      기기의 고르개는 꼴이 기기마다 달라(아이폰은 휠 · 안드로이드는 달력)
@@ -306,7 +373,7 @@
     /* 어느 칸을 굴렸든 **달력이 그 날짜로 바뀐다**(시안 21:2807 의 주석).
        달을 편 채로 있어야 고른 날이 달의 어디인지가 보인다 — 그래서
        화면은 지금 보던 그대로 두고 날짜만 갈아 끼운다 */
-    var now = seeing() || { y: BASE.y, m: BASE.m, d: TODAY.d };
+    var now = shown(c.closest('.scr'));
     var kind = c.getAttribute('data-wheel');
     var y = kind === '연' ? +v : now.y;
     var m = kind === '월' ? +v : now.m;
@@ -315,6 +382,7 @@
 
     var u = new URL(location.href);
     u.searchParams.set('d', iso(y, m, d));
+    applied();
     location.href = u.toString();
   }
 
