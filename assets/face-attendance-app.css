@@ -535,6 +535,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    두면 면 위에 면이 겹쳐 카드 안에 카드가 든 꼴이 된다. 자리(위·좌우
    여백)만 남긴다 */
 .ctx:has(.card--site){padding:0;background:none;border-radius:0}
+/* 면과 그림자는 띠가 쓰던 것을 그대로 쓴다 — 짜임과 글자만 근로자 앱과
+   맞추고, 머리줄 바로 아래 붙는 자리라 흰 면을 띄우지는 않는다 */
+.ctx .card--site{background:var(--ap-surface-lift);box-shadow:none}
 /* ── 고르는 칸 — 시안 select-atomic(583:4117) 그대로 ──
    왼쪽 여백 16 · 오른쪽 6(꺾쇠가 제 여백 2 를 들고 있다) · 모서리 6.
    값을 고르기 전과 고른 뒤가 테와 글씨로 갈린다 — 고른 뒤에는 테가 짙어지고
