@@ -92,57 +92,65 @@
   }
   edge();
 
-  /* ── 달력 — 어느 날, 어느 달이든 ──
+  /* ── 달력 — 기기의 오늘을 가운데 두고 ──
      하이파이 화면은 **정해진 장면**이라 '아직 안 찍힌 날' 의 장면은 하나
      (w-home)뿐이다. 그 한 장면을 어느 날로도 쓸 수 있게, 보는 날을 주소에
-     싣고(`?screen=w-home&d=2026-10-21`) 날이 적히는 자리를 갈아 끼운다 —
-     날짜를 누를 때마다 20일로 되돌아가 보이던 까닭이 이것이었다.
-     갈아 끼우는 것은 **날이 적히는 자리**뿐이다: 날짜 칸 · 요일 · 띠와
-     달의 고른 날 · '오늘' · 휠. 찍힌 시각이나 작업내용 같은 그 날의
-     기록은 장면이 쥔 것이라 건드리지 않는다(기록이 있는 날은 제 장면이
-     따로 있다 — 10월 19일 · 20일).
+     싣고(`?screen=w-home&d=2026-10-27`) 날이 적히는 자리를 갈아 끼운다.
 
-     마크업이 쥔 달은 2026년 10월 하나다. **다른 달은 여기서 그린다** —
-     띠도 달도 같은 칸(.cal__d)이라 한 자리에서 낸다. 기록이 없는 달이라
-     점도 제 장면도 없고, 눌러 가면 '아직 안 찍힌 날' 이다. */
-  var BASE = { y: 2026, m: 10 };
-  var TODAY = { y: 2026, m: 10, d: 20 };
+     **날은 기기에 묻는다.** 오늘은 기기의 오늘이고, 기록이 걸린 날은
+     오늘과 어제다 — 날짜를 박아 두면 하루만 지나도 '오늘' 이 지난 날이
+     되어, 화면이 멈춰 있는 것으로 보인다(과녁 위의 시계를 기기에 묻는
+     것과 같은 까닭이다).
+     그래서 달력의 칸은 마크업이 아니라 여기서 그린다 — 띠도 달도 같은
+     칸(.cal__d)이라 한 자리에서 낸다.
+
+     화면마다 제 날과 제 기록이 있다(마크업의 data-day · data-rec):
+       data-day   today     이 화면이 보는 날은 오늘이다
+                  yesterday 지난 날 보기 — 어제다
+       data-rec   none      오늘은 아직 찍힌 것이 없다(점 없음)
+                  open      출근만 찍혔다(경고색 점)
+                  done      하루가 닫혔다(브랜드 점) */
+  var NOW = new Date();
+  var TODAY = { y: NOW.getFullYear(), m: NOW.getMonth() + 1, d: NOW.getDate() };
+  var YDAY = (function () {
+    var t = new Date(TODAY.y, TODAY.m - 1, TODAY.d - 1);
+    return { y: t.getFullYear(), m: t.getMonth() + 1, d: t.getDate() };
+  })();
   var WDAY = ['일', '월', '화', '수', '목', '금', '토'];
 
   function two(n) { return (n < 10 ? '0' : '') + n; }
   function iso(y, m, d) { return y + '-' + two(m) + '-' + two(d); }
   function inMonth(y, m) { return new Date(y, m, 0).getDate(); }
+  function num(v) { return v.y * 10000 + v.m * 100 + v.d; }
   /* 오늘보다 뒤인 날은 고를 수 없다 — 아직 오지 않은 날에는 찍을 것도
      볼 것도 없다. 달에서도 띠에서도 휠에서도 같다 */
-  function ahead(y, m, d) {
-    return (y * 10000 + m * 100 + d) > (TODAY.y * 10000 + TODAY.m * 100 + TODAY.d);
+  function ahead(y, m, d) { return (y * 10000 + m * 100 + d) > num(TODAY); }
+
+  /* 그 날이 쥔 장면과 점. 오늘과 어제만 제 장면이 있다 */
+  function role(y, m, d, rec) {
+    var n = y * 10000 + m * 100 + d;
+    if (n === num(TODAY)) {
+      return { go: 'w-home-done', dot: rec === 'open' ? 'open' : rec === 'done' ? 'on' : null };
+    }
+    if (n === num(YDAY)) return { go: 'w-home-past', dot: 'on' };
+    return { go: 'w-home', dot: null };
   }
 
-  /* 주소가 말한 날. 아무 말이 없으면 없다고 답한다 — 그때는 마크업이
-     쥔 날이 그 화면의 날이다(지난 날 보기는 19일을 쥐고 있다).
-     앞날을 가리키면 오늘로 내려앉는다 */
+  /* 주소가 말한 날. 아무 말이 없으면 없다고 답한다 — 그때는 화면이 제
+     날(data-day)을 쥔다. 앞날을 가리키면 오늘로 내려앉는다 */
   function seeing() {
     var v = new URL(location.href).searchParams.get('d');
     if (!v) return null;
     var p = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
     if (!p) return null;
     var y = +p[1], m = +p[2], d = +p[3];
-    var now = { y: TODAY.y, m: TODAY.m, d: TODAY.d };
-    if (m < 1 || m > 12 || d < 1 || d > inMonth(y, m)) return now;
-    if (ahead(y, m, d)) return now;
+    if (m < 1 || m > 12 || d < 1 || d > inMonth(y, m)) return null;
+    if (ahead(y, m, d)) return { y: TODAY.y, m: TODAY.m, d: TODAY.d };
     return { y: y, m: m, d: d };
   }
 
-  /* 이 화면이 보고 있는 날. 주소가 말하면 그 날이고, 말이 없으면 마크업이
-     고른 날(.cal__n--on)이다 — 휠과 닫는 길은 주소에 날이 적혀 있든
-     없든 그 날을 알아야 한다 */
   function shown(scr) {
-    var v = seeing();
-    if (v) return v;
-    var on = scr.querySelector('.cal__n--on');
-    var c = on && on.closest('.cal__d');
-    var p = c && /^(\d{4})-(\d{2})-(\d{2})$/.exec(c.getAttribute('data-d') || '');
-    return p ? { y: +p[1], m: +p[2], d: +p[3] } : { y: TODAY.y, m: TODAY.m, d: TODAY.d };
+    return seeing() || (scr.getAttribute('data-day') === 'yesterday' ? YDAY : TODAY);
   }
 
   /* 한 달치 칸을 낸다. 일요일에서 시작해 주 단위로 떨어지고, 달 밖의
@@ -150,44 +158,59 @@
      차례로 쥐어야 요일 줄이 두 꼴에서 같은 자리에 온다.
      `wd` 가 참이면 칸마다 요일을 얹는다(띠), 거짓이면 숫자만(달 격자 —
      요일은 위에 한 줄로 따로 선다) */
-  function fill(box, y, m, sel, wd) {
+  function fill(box, v, sel, wd, rec) {
+    var y = v.y, m = v.m;
     var lead = new Date(y, m - 1, 1).getDay();
     var n = inMonth(y, m), back = inMonth(y, m === 1 ? 12 : m - 1);
     var rows = Math.ceil((lead + n) / 7), out = [];
 
     for (var i = 0; i < rows * 7; i++) {
       var k = i - lead + 1, cur = k >= 1 && k <= n;
-      var num = cur ? k : (k < 1 ? back + k : k - n);
+      var d = cur ? k : (k < 1 ? back + k : k - n);
       var w = WDAY[i % 7];
       var head = wd ? '<div class="cal__w' +
         (w === '일' ? ' cal__w--sun' : w === '토' ? ' cal__w--sat' : '') + '">' + w + '</div>' : '';
-      var on = cur && iso(y, m, num) === sel ? ' cal__n--on' : '';
-      var today = (cur && y === TODAY.y && m === TODAY.m && num === TODAY.d && !on) ? ' cal__n--today' : '';
-      out.push(cur && !ahead(y, m, num)
-        ? '<button class="cal__d" type="button" data-d="' + iso(y, m, num) + '" data-go="w-home">' +
-          head + '<div class="cal__n' + on + today + '"><b>' + num + '</b></div></button>'
-        : '<button class="cal__d" type="button" disabled>' +
-          head + '<div class="cal__n cal__n--off"><b>' + num + '</b></div></button>');
+
+      if (!cur || ahead(y, m, d)) {
+        out.push('<button class="cal__d" type="button" disabled>' +
+          head + '<div class="cal__n cal__n--off"><b>' + d + '</b></div></button>');
+        continue;
+      }
+      var r = role(y, m, d, rec);
+      var on = iso(y, m, d) === sel ? ' cal__n--on' : '';
+      var today = (!on && y === TODAY.y && m === TODAY.m && d === TODAY.d) ? ' cal__n--today' : '';
+      var open = r.dot === 'open' ? ' cal__n--open' : '';
+      out.push('<button class="cal__d" type="button" data-d="' + iso(y, m, d) + '" data-go="' + r.go + '">' +
+        head + '<div class="cal__n' + on + today + open + '"><b>' + d + '</b>' +
+        (r.dot ? '<i></i>' : '') + '</div></button>');
     }
     box.innerHTML = out.join('');
   }
 
-  function day(scr) {
-    var v = seeing();
-    if (v) rewrite(scr, v);
-    limits(scr, shown(scr));
+  /* 휠의 칸도 여기서 낸다 — 앞날은 **아예 나오지 않는다** */
+  function cols(scr, v) {
+    scr.querySelectorAll('.wheel__c').forEach(function (c) {
+      var kind = c.getAttribute('data-wheel'), out = [], i;
+      if (kind === '연') {
+        for (i = TODAY.y - 4; i <= TODAY.y; i++) out.push([i, i + '년']);
+      } else if (kind === '월') {
+        for (i = 1; i <= 12; i++) if (!ahead(v.y, i, 1)) out.push([i, i + '월']);
+      } else {
+        for (i = 1; i <= inMonth(v.y, v.m); i++) if (!ahead(v.y, v.m, i)) out.push([i, i + '일']);
+      }
+      c.innerHTML = out.map(function (it) {
+        return '<span class="wheel__i" data-v="' + it[0] + '">' + it[1] + '</span>';
+      }).join('');
+      c.setAttribute('data-pick', String(kind === '연' ? v.y : kind === '월' ? v.m : v.d));
+    });
   }
 
-  /* 주소가 말한 날로 **날이 적히는 자리**를 갈아 끼운다 */
-  function rewrite(scr, v) {
-    var sel = iso(v.y, v.m, v.d);
-    var other = !(v.y === BASE.y && v.m === BASE.m);
+  function day(scr) {
+    var v = shown(scr), sel = iso(v.y, v.m, v.d);
+    var rec = scr.getAttribute('data-rec') || 'none';
 
-    /* 마크업이 쥔 달이 아니면 띠와 달을 다시 그린다 */
-    if (other) {
-      scr.querySelectorAll('.cal__week').forEach(function (b) { fill(b, v.y, v.m, sel, true); });
-      scr.querySelectorAll('.calm__g').forEach(function (b) { fill(b, v.y, v.m, sel, false); });
-    }
+    scr.querySelectorAll('.cal__week').forEach(function (b) { fill(b, v, sel, true, rec); });
+    scr.querySelectorAll('.calm__g').forEach(function (b) { fill(b, v, sel, false, rec); });
 
     scr.querySelectorAll('.cal__date').forEach(function (row) {
       var nums = row.querySelectorAll('.cal__num');   /* 연 · 월 · 일 */
@@ -202,51 +225,15 @@
       if (row.hasAttribute('data-go')) row.setAttribute('data-d', sel);
     });
 
-    if (!other) {
-      scr.querySelectorAll('.cal__n--on,.cal__n--today').forEach(function (n) {
-        n.classList.remove('cal__n--on');
-        n.classList.remove('cal__n--today');
-      });
-      scr.querySelectorAll('.cal__d[data-d="' + sel + '"] .cal__n').forEach(function (n) {
-        n.classList.add('cal__n--on');
-      });
-      /* 오늘이 아닌 날을 보는 동안에는 오늘이 점선 테로 남는다 */
-      if (sel !== iso(TODAY.y, TODAY.m, TODAY.d)) {
-        scr.querySelectorAll('.cal__d[data-d="' + iso(TODAY.y, TODAY.m, TODAY.d) + '"] .cal__n')
-          .forEach(function (n) { n.classList.add('cal__n--today'); });
-      }
-    }
-
-  }
-
-  /* 휠과 닫는 길은 보고 있는 날에 맞춘다 — 주소가 말하지 않아도 */
-  function limits(scr, v) {
-    var sel = iso(v.y, v.m, v.d);
+    cols(scr, v);
 
     /* 달을 닫는 길(꺾쇠 · 어두운 자리)은 **보던 날짜를 들고 간다**.
        들고 가지 않으면 휠로 날짜를 바꿔 놓고 닫는 순간 오늘로 되돌아간다.
        갈 곳도 그 날의 것이다 — 기록이 있는 날이면 그 장면으로 */
-    var home = 'w-home';
-    var cell = scr.querySelector('.cal__d[data-d="' + sel + '"][data-go]');
-    if (cell) home = cell.dataset.go;
+    var home = role(v.y, v.m, v.d, rec).go;
     scr.querySelectorAll('[data-keep]').forEach(function (b) {
       b.setAttribute('data-go', home);
       b.setAttribute('data-d', sel);
-    });
-
-    /* 휠도 그 날에서 시작한다. 짧은 달이면 없는 날은 덜어 낸다 */
-    var w = { '연': v.y, '월': v.m, '일': v.d };
-    scr.querySelectorAll('.wheel__c').forEach(function (c) {
-      var kind = c.getAttribute('data-wheel');
-      c.querySelectorAll('.wheel__i').forEach(function (it) {
-        var n = +it.dataset.v;
-        /* 그 칸을 그 값으로 바꿨을 때 앞날이 되면 덜어 낸다. 짧은 달의
-           없는 날(11월 31일)도 같이 걸러진다 */
-        it.hidden = kind === '연' ? ahead(n, v.m, 1)
-                  : kind === '월' ? ahead(v.y, n, 1)
-                  : (n > inMonth(v.y, v.m) || ahead(v.y, v.m, n));
-      });
-      c.setAttribute('data-pick', String(w[kind]));
     });
 
     /* '오늘' 은 되돌아가는 길이라, 오늘을 보는 동안에는 갈 데가 없다 */
@@ -374,7 +361,7 @@
     if (n < 0) n = 0;
     if (n > items.length - 1) n = items.length - 1;
     var it = items[n];
-    if (it.hidden) return;
+    if (!it) return;
 
     var v = String(it.dataset.v);
     if (v === c.getAttribute('data-pick')) return;
