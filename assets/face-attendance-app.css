@@ -2088,7 +2088,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    글자는 짙은 브랜드 색으로 두었더니, 비어 있는 카드가 찍힌 카드만큼
    또렷해 둘이 같은 무게로 섰다 */
 .tcard:has(.tcard__v--none) .tcard__k,
-.tcard:has(.tcard__v--none) .tcard__b b{color:var(--ap-text-gray)}
+.tcard:has(.tcard__v--none) .tcard__b b{color:var(--ap-text-dark)}
 /* 기준 시각은 **이름 옆**이다. 카드의 발에 '기준 07:00' 으로 따로
    두었더니 찍힌 시각과 기준이 카드의 위아래 끝으로 갈려, 늦었는지
    보려면 눈이 한 번 더 오르내렸다. 이름 바로 옆에 두면 '출근은 7시부터'
