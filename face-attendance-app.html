@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=512">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=513">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=512"></script>
+<script src="assets/face-attendance-app.js?v=513"></script>
 </head>
 
 <body>
@@ -87,8 +87,8 @@
 
   <div class="hd">
     <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button">출퇴근 인증</button>
-      <button class="seg__b" type="button">이력</button>
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 인증</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
       <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
     </nav>
   </div>
@@ -206,8 +206,8 @@
 
   <div class="hd">
     <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button">출퇴근 인증</button>
-      <button class="seg__b" type="button">이력</button>
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 인증</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
       <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
     </nav>
   </div>
@@ -327,8 +327,8 @@
 
   <div class="hd">
     <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button">출퇴근 인증</button>
-      <button class="seg__b" type="button">이력</button>
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 인증</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
       <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
     </nav>
   </div>
@@ -667,8 +667,8 @@
   <div class="hd">
     <nav class="seg" aria-label="안면 출퇴근 탭">
       <button class="seg__b is-on" type="button" aria-current="page">출퇴근 인증</button>
-      <button class="seg__b" type="button">이력</button>
-      <button class="seg__b" type="button">근로자 관리</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
+      <button class="seg__b" type="button" data-go="m-workers">근로자 관리</button>
     </nav>
   </div>
 
@@ -999,8 +999,8 @@
   <div class="hd">
     <nav class="seg" aria-label="안면 출퇴근 탭">
       <button class="seg__b is-on" type="button" aria-current="page">출퇴근 인증</button>
-      <button class="seg__b" type="button">이력</button>
-      <button class="seg__b" type="button">근로자 관리</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
+      <button class="seg__b" type="button" data-go="m-workers">근로자 관리</button>
     </nav>
   </div>
 
@@ -1384,9 +1384,9 @@
 
   <div class="hd">
     <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button">출퇴근 인증</button>
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 인증</button>
       <button class="seg__b is-on" type="button" aria-current="page">이력</button>
-      <button class="seg__b" type="button">근로자 관리</button>
+      <button class="seg__b" type="button" data-go="m-workers">근로자 관리</button>
     </nav>
   </div>
 
