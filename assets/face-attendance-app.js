@@ -251,6 +251,9 @@
      한 번에 60 이상 가로로 움직였고 세로보다 가로가 더 움직였을 때만
      민 것으로 친다 — 아래로 읽어 내려가다 손끝이 비뚤어진 것까지 민 것으로
      받으면 달이 제멋대로 넘어간다 */
+  var MON_WHEEL = 40;   /* 트랙패드로 쓸 때 — 끌 때(60)보다 짧다. 쓰는 손은
+                           끄는 손처럼 멀리 가지 않는다 */
+
   function swipe(scr) {
     var box = scr.querySelector('.calm__g');
     if (!box) return;
@@ -278,6 +281,26 @@
       if (Math.abs(dx) < 60 || Math.abs(dx) <= Math.abs(dy)) return;
       move(scr, dx < 0 ? 1 : -1);
     });
+
+    /* 트랙패드는 **끌지 않고 쓴다** — 두 손가락 가로 쓸기는 끄는 몸짓이
+       아니라 굴리는 몸짓(wheel)이라 위의 어느 줄에도 걸리지 않는다.
+       주간 띠는 브라우저가 굴려 주지만(가로 스크롤) 달 격자는 굴릴 것이
+       없어, 여기서 받아 달을 넘긴다.
+       ⚠ 받아서 막지 않으면 브라우저가 **뒤로 가기**로 가져간다. */
+    var acc = 0, until = 0, rest;
+    box.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault();
+      if (Date.now() < until) return;   /* 한 번 쓸면 한 달만 — 관성이 남는다 */
+      acc += e.deltaX;
+      clearTimeout(rest);
+      rest = setTimeout(function () { acc = 0; }, 160);
+      if (Math.abs(acc) < MON_WHEEL) return;
+      until = Date.now() + 600;
+      var n = acc > 0 ? 1 : -1;
+      acc = 0;
+      move(scr, n);
+    }, { passive: false });
   }
 
   /* 달을 n 만큼 옮긴다 — **보던 화면은 그대로**다. 달을 편 채로 있어야
@@ -287,13 +310,45 @@
     var v = shown(scr);
     var t = new Date(v.y, v.m - 1 + n, 1);
     var y = t.getFullYear(), m = t.getMonth() + 1;
-    if (ahead(y, m, 1)) return;        /* 아직 오지 않은 달로는 넘어가지 않는다 */
+    if (ahead(y, m, 1)) return wall(scr, n);   /* 아직 오지 않은 달로는 안 간다 */
     var d = Math.min(v.d, inMonth(y, m));
     if (ahead(y, m, d)) d = TODAY.d;   /* 이 달이면 오늘까지 */
     var u = new URL(location.href);
     u.searchParams.set('d', iso(y, m, d));
+    went(n);
     location.href = u.toString();
   }
+
+  /* ── 갈 수 없는 달 ──
+     앞날은 막혀 있는데(ahead) 막힐 때 아무 일도 일어나지 않으면, 막힌
+     것인지 고장인지 미는 사람은 가릴 수 없다. 한 뼘 따라갔다 제자리로
+     돌아오게 해서 **여기가 끝**임을 몸짓으로 답한다 — 글로 적어 띄우지
+     않는 것은, 묻지 않은 말이라 읽을 것이 하나 느는 것이기 때문이다. */
+  function wall(scr, n) {
+    var g = scr.querySelector('.calm__g');
+    if (!g) return;
+    var k = n > 0 ? 'calm__g--stop-next' : 'calm__g--stop-prev';
+    g.classList.remove('calm__g--stop-next', 'calm__g--stop-prev');
+    void g.offsetWidth;              /* 되감아 다시 튼다 — 잇따라 밀어도 답한다 */
+    g.classList.add(k);
+  }
+
+  /* ── 넘어간 달이 어느 쪽에서 들어오는지 ──
+     달을 넘기는 일은 주소를 갈아 끼우는 일이라 화면이 통째로 다시 그려진다.
+     그대로 두면 달만 소리 없이 바뀌어, 넘어간 것인지 처음부터 그 달이었는지
+     알 수 없다. 넘긴 쪽을 세션에 적어 두고 다음 화면에서 **그 쪽에서 밀려
+     들어오게** 한다(.is-month). 읽자마자 지운다 — 다음에 그냥 열었을
+     때까지 따라오면 안 된다(휠의 .is-applied 와 같은 길이다). */
+  function went(n) {
+    try { sessionStorage.setItem('ap-month', n > 0 ? 'next' : 'prev'); } catch (e) {}
+  }
+
+  (function () {
+    var w;
+    try { w = sessionStorage.getItem('ap-month'); sessionStorage.removeItem('ap-month'); }
+    catch (e) { w = null; }
+    if (w) document.documentElement.classList.add('is-month', 'is-month--' + w);
+  })();
 
   /* ── 휠로 갈아 끼운 바로 다음 화면 ──
      휠을 굴려 날짜가 바뀌면 화면이 다시 그려진다. 그때마다 달이 내려오고
