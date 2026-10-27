@@ -300,7 +300,6 @@
   --ap-cta-h-md:400px;             /* 넓은 폭에서의 키 */
   --ap-cta-w:480px;                /* 인증 시작 과녁 — 태블릿에서도 과녁답게 */
   --ap-deck-out:16px;              /* 틀이 본문 여백 밖으로 내미는 폭 */
-  --ap-deck-fade:40px;             /* 가장자리가 배경으로 녹아드는 폭 — 좁으면 뚝 끊겨 보인다 */
   --ap-deck-peek:28px;            /* 좁은 폭에서 옆 카드가 비치는 만큼 — 줄 양옆을 그만큼 들인다 */
   --ap-deck-gap:12px;              /* 미는 동안 두 카드 사이로 비치는 틈 */
   --ap-cta-h:340px;                /* 그 카드의 키 — 더 길면 빈 면만 늘어난다.
@@ -810,10 +809,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .body{scrollbar-width:none}
 .body::-webkit-scrollbar{display:none}
 .body--flat{padding:0}
-/* 가운데에 한 덩어리만 세우는 화면은 굴릴 것이 없다. 굴림 상자로 두면
-   그 상자가 카드 그림자의 아래를 잘라, 면이 각지게 끝난다 */
-.body--mid{align-items:center;justify-content:center;gap:var(--ap-gap6);text-align:center;
-  overflow:visible}
+.body--mid{align-items:center;justify-content:center;gap:var(--ap-gap6);text-align:center}
 
 /* 목록 머리줄 — 전체 선택 · 건수 · 삭제 */
 .lbar{flex:none;display:flex;align-items:center;justify-content:space-between;
@@ -1346,7 +1342,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    여기서 drop-shadow 로 그리면 마스크로 흐려진 **모양 그대로** 그림자가
    따라붙는다(필터는 마스크가 끝난 결과에 걸린다).
    색은 지금 보이는 카드를 따른다 */
-.deckw{flex:1 1 auto;min-height:260px;max-height:var(--ap-cta-h);align-self:stretch;width:100%;
+.deckw{flex:1 1 auto;min-height:200px;max-height:var(--ap-cta-h);align-self:stretch;width:100%;
   display:flex;filter:drop-shadow(0 6px 14px rgba(17,53,105,.34));
   transition:filter var(--ap-dur-mon) var(--ap-ease-enter)}
 .scr[data-mode="out"] .deckw{filter:drop-shadow(0 6px 14px rgba(19,20,22,.34))}
@@ -1362,17 +1358,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    하나 더 있는 꼴이 되는데, 틀은 보여야 할 것이 아니다 */
 .deck{position:relative;align-self:stretch;width:auto;max-width:none;
   margin-inline:calc(var(--ap-deck-out) * -1);padding-inline:var(--ap-deck-out);
-  flex:1;display:flex;align-items:stretch;touch-action:pan-y;
-  /* 가로만 흐리고 세로는 건드리지 않는다. 날로 자르면(overflow:clip) 카드
-     그림자의 아래가 통째로 잘려 면이 각지게 끊긴다 — 자르는 일을 마스크
-     하나에 맡기고, 마스크를 세로로 넉넉히 펼쳐 그림자가 지나갈 자리를 둔다 */
-  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 var(--ap-deck-fade),
-    #000 calc(100% - var(--ap-deck-fade)),transparent 100%);
-  mask-image:linear-gradient(to right,transparent 0,#000 var(--ap-deck-fade),
-    #000 calc(100% - var(--ap-deck-fade)),transparent 100%);
-  -webkit-mask-size:100% 400%;mask-size:100% 400%;
-  -webkit-mask-position:center;mask-position:center;
-  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+  flex:1;display:flex;align-items:stretch;touch-action:pan-y}
 /* 두 장 사이에 틈을 둔다 — 맞붙여 두면 미는 동안 한 장이 잘린 것처럼
    보이고, 어디까지가 이 카드인지 눈이 한 번 더 가른다 */
 /* 줄을 양옆에서 들인다 — 옆 카드가 비쳐야 밀 것이 더 있다는 말이 된다.
