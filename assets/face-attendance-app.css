@@ -298,7 +298,8 @@
   --ap-tog-yes:36px;  --ap-tog-no:66px;  /* 예·아니오 알의 폭 — 정수로 떨어뜨린다 */
   --ap-confirm-w:320px;            /* 촬영 확인 카드의 폭 */
   --ap-cta-w:480px;                /* 인증 시작 과녁 — 태블릿에서도 과녁답게 */
-  --ap-deck-out:16px;              /* 틀이 본문 여백 밖으로 내미는 폭 — 가장자리가 흐려지는 자리 */
+  --ap-deck-out:16px;              /* 틀이 본문 여백 밖으로 내미는 폭 */
+  --ap-deck-fade:40px;             /* 가장자리가 배경으로 녹아드는 폭 — 좁으면 뚝 끊겨 보인다 */
   --ap-deck-peek:28px;            /* 좁은 폭에서 옆 카드가 비치는 만큼 — 줄 양옆을 그만큼 들인다 */
   --ap-deck-gap:12px;              /* 미는 동안 두 카드 사이로 비치는 틈 */
   --ap-cta-h:420px;                /* 그 과녁의 키 — 더 길면 빈 면만 늘어난다 */
@@ -807,7 +808,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .body{scrollbar-width:none}
 .body::-webkit-scrollbar{display:none}
 .body--flat{padding:0}
-.body--mid{align-items:center;justify-content:center;gap:var(--ap-gap6);text-align:center}
+/* 가운데에 한 덩어리만 세우는 화면은 굴릴 것이 없다. 굴림 상자로 두면
+   그 상자가 카드 그림자의 아래를 잘라, 면이 각지게 끝난다 */
+.body--mid{align-items:center;justify-content:center;gap:var(--ap-gap6);text-align:center;
+  overflow:visible}
 
 /* 목록 머리줄 — 전체 선택 · 건수 · 삭제 */
 .lbar{flex:none;display:flex;align-items:center;justify-content:space-between;
@@ -1350,10 +1354,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   /* 가로만 흐리고 세로는 건드리지 않는다. 날로 자르면(overflow:clip) 카드
      그림자의 아래가 통째로 잘려 면이 각지게 끊긴다 — 자르는 일을 마스크
      하나에 맡기고, 마스크를 세로로 넉넉히 펼쳐 그림자가 지나갈 자리를 둔다 */
-  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 var(--ap-deck-out),
-    #000 calc(100% - var(--ap-deck-out)),transparent 100%);
-  mask-image:linear-gradient(to right,transparent 0,#000 var(--ap-deck-out),
-    #000 calc(100% - var(--ap-deck-out)),transparent 100%);
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 var(--ap-deck-fade),
+    #000 calc(100% - var(--ap-deck-fade)),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 var(--ap-deck-fade),
+    #000 calc(100% - var(--ap-deck-fade)),transparent 100%);
   -webkit-mask-size:100% 400%;mask-size:100% 400%;
   -webkit-mask-position:center;mask-position:center;
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
@@ -1385,6 +1389,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .deck .cta{flex:none;width:100%;max-width:none;
   min-height:0;max-height:none;aspect-ratio:auto}
 @media (prefers-reduced-motion:reduce){.deck__t{transition:none}}
+
+/* 두 모드가 함께 쓰는 설명 — 카드 밖, 카드와 토글 사이에 한 번만 선다 */
+.deck__d{flex:none;font:var(--t-body);letter-spacing:var(--ls-body);word-break:keep-all;
+  margin:0 auto;max-width:var(--ap-cta-w);color:var(--ap-text-gray)}
 
 .mode{flex:none;align-self:center;display:inline-flex;gap:var(--ap-p2);
   margin:0 auto var(--ap-p8);padding:var(--ap-p2);
@@ -2540,12 +2548,21 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    시작해 568 에서는 52 가 겹쳤다(실측).
    200 은 두 줄짜리 안내 글(40×2)과 틀 사이 24, 이름표 아래 12 를 더한
    값이다. 화면이 길면 24% 가 이기므로 넓은 기기에서는 전과 같다 */
-.cam:has(.cam__who){--ap-cam-top:max(24%,200px)}
-/* ⚠ 바닥을 **이름표가 있는 화면에만** 건다. 현장소장 앱의 카메라는 틀
-   아래에 '지금까지 N명' 과 '인증 종료하기' 가 더 서는데, 틀을 내려
-   주면 그것들과 부딪힌다(568 에서 6 겹쳤다). 저쪽은 위에 이름표가 없어
-   덮을 것도 없다 */
+/* ⚠ 바닥은 **틀 아래가 비어 있는 화면에만** 건다. 현장소장 앱의 카메라는
+   틀 아래에 '지금까지 N명' 과 '인증 종료하기' 가 더 서는데, 틀을 내려
+   주면 그것들과 부딪힌다(568 에서 6 겹쳤다 — 그쪽에 이름표를 붙이고 다시
+   재어 본 값이다). 두 앱 모두 이름표를 쓰므로 이름표로는 가릴 수 없다 */
+.cam:has(.cam__who):not(:has(.cam__stop)){--ap-cam-top:max(24%,200px)}
 .cam{--ap-cam-top:24%}
+/* 현장소장 카메라는 틀 **위에** 이름표와 안내 글이, **아래에** 센 수와
+   '인증 종료하기' 가 선다. 틀의 키를 비율로 박아 두면 짧은 화면에서 어느
+   한쪽이 밀려난다 — 내리면 아래가 부딪히고(568 에서 6), 안 내리면 위가
+   부딪힌다(568 에서 54). 위아래 자리를 먼저 떼어 두고 남는 만큼을 틀이
+   쓴다. 긴 화면에서는 비율이 이기므로 전과 같은 키다.
+   ⚠ 윗자리는 **변수**로 내린다. 틀에만 top 을 박으면 안내 글은 제 자리에
+     남는다 — 글이 그 변수를 보고 틀 위에 붙기 때문이다 */
+.cam:has(.cam__who):has(.cam__stop){--ap-cam-top:max(24%,202px)}
+.cam:has(.cam__who):has(.cam__stop) .cam__box{height:auto;bottom:max(34%,204px)}
 .cam__box{--ap-cam-edge:var(--ap-g0);--ap-cam-wash:rgba(255,255,255,.45);
   position:absolute;left:var(--ap-cam-side);right:var(--ap-cam-side);
   top:var(--ap-cam-top);height:42%;

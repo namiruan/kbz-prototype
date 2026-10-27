@@ -572,7 +572,10 @@
         axis = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
       }
       if (axis !== 'x') return false;
-      dx = mx;
+      /* 한 틀 폭 넘게는 따라가지 않는다 — 끝까지 밀면 두 장 다 화면 밖으로
+         나가, 아무것도 없는 자리를 끌고 있게 된다 */
+      var lim = tray.children[0].offsetWidth + gap();
+      dx = Math.max(-lim, Math.min(lim, mx));
       var now = Date.now();
       if (now > pt) { vx = (dx - px) / (now - pt); px = dx; pt = now; }
       if (Math.abs(dx) > 4) ate = true;         /* 민 뒤의 클릭 한 번은 삼킨다 */
