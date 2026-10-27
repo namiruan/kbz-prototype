@@ -260,6 +260,7 @@
   /* 안전모 — 파란 카드(#115ac6)와 검은 카드(#131416) 사이, 양쪽 어느 쪽과도
      한 걸음씩 떨어진 남색이다. 한쪽에 맞추면 다른 쪽에서 가라앉는다 */
   --ap-hat:#21497f;
+  --ap-hat-dirt:#16304f;           /* 모자에 묻은 자국 — 모자보다 한 단 짙다 */
   --ap-hat-dark:#16325c;           /* 그 챙 — 껍데기보다 한 단만 짙다.
                                       두 단 벌어지면 챙이 따로 논다 */
   --ap-hat-edge:#4b82c4;           /* 모자의 테 — 검은 카드 위에서 모자가
@@ -1735,6 +1736,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    또렷하게 두면 점이나 수염처럼 '그 사람의 생김' 으로 읽힌다 */
 .scan__dust{opacity:.4}
 .scan__drip{opacity:.68}
+/* 모자에 묻은 자국은 **모자보다 짙게** 깐다 — 얼굴은 흰 면이라 옅은
+   파랑이 자국으로 읽히지만, 모자는 이미 짙어 옅은 색을 얹으면 빛이
+   닿은 자리처럼 보인다 */
+.scan__smudge{fill:var(--ap-hat-dirt);opacity:.34}
 
 /* 이름과 설명은 붙어 있고(한 덩어리), 그림과만 멀다 */
 .cta__tx{display:flex;flex-direction:column;align-self:stretch;gap:var(--ap-p5)}
