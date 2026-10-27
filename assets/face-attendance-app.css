@@ -1026,8 +1026,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .act{flex:none;display:flex;width:100%;
   transition:transform var(--ap-dur-slow) var(--ap-ease-enter)}
 .act.is-away{transform:translateY(100%);transition-timing-function:var(--ap-ease-exit)}
-@media (prefers-reduced-motion:reduce){.act{transition:none}
-  .act--cta .act__go,.cardb__c{animation:none}}
+@media (prefers-reduced-motion:reduce){.act{transition:none}}
 /* 비키는 바는 목록 **위에 떠 있어야** 한다. 줄 세워 두면 내려가 봐야 제
    자리가 빈 띠로 남을 뿐, 목록은 그만큼 더 보이지 않는다. 띄우고 목록
    아래에 바 높이만큼 여백을 두면 — 그 여백은 그대로라 상자 크기가 바뀌지
@@ -1148,6 +1147,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* '시작' 표는 한 바퀴에 한 번 앞으로 민다 — 저쪽 과녁의 것과 같다 */
 .act--cta .act__go{flex:none;display:flex;align-items:center;justify-content:center;
   animation:ap-go var(--ap-go-cycle) var(--ap-ease-sym) infinite}
+@media (prefers-reduced-motion:reduce){.act--cta .act__go{animation:none}}
 
 /* ── 펴진 달 ─────────────────────────────────────────────
    띠에서 날짜를 누르면 **띠가 서 있던 자리에서** 달이 펴진다. 머리줄
@@ -2155,6 +2155,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    것은 이 카드뿐이라, 움직이는 것도 이쪽 하나여야 한다 */
 .cardb__c{flex:none;color:var(--ap-g0);
   animation:ap-go var(--ap-go-cycle) var(--ap-ease-sym) infinite}
+@media (prefers-reduced-motion:reduce){.cardb__c{animation:none}}
 /* 표의 면은 흰빛을 옅게 깐 것이다 — 짙은 면 위에 얹는 것이라 불투명
    색이 아니라 투명도로 쥔다(과녁의 시각 알약과 같은 식구다) */
 .cardb__ib{background:var(--ap-on-cta-chip)}
