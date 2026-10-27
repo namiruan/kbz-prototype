@@ -163,7 +163,6 @@
   --ap-sun:#d61414;                /* 일요일 — red/500 과 600 사이 */
   --ap-sat:#1566d8;                /* 토요일 — blue/500 과 600 사이 */
   --ap-cal-gap:9px;                /* 요일과 날짜 사이 — 띠와 달이 같다 */
-  --ap-kb-bg:#d1d4d9;              /* 기기 자판 바탕 — 화면 밖 띠도 이 색이다 */
   --ap-scrim-dim-deep:rgba(19,20,22,.75); /* color/background/dim — 달을 편 뒤 (21:2649) */
 
   /* ── 현장 밑으로 들어가는 목록의 끝 ──
@@ -419,9 +418,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    가 이미 비워 두었으므로 56(표시줄을 흉내 내던 값)을 또 비우면 머리줄이
    두 번 내려간다. 창 안에서 숨 쉴 틈만 둔다 */
 .is-app{--ap-statusbar:var(--ap-p5)}
-/* 자판이 그려 둔 홈 인디케이터는 **그림**이다. 홈 화면에서 연 창은 그
-   자리가 기기 것과 겹치므로 그림을 걷는다 — 자리는 그대로 둔다 */
-.is-app .kb__home i{visibility:hidden}
 
 /* ── 내비게이션 바 ──
    흰 바탕 · 위 56(상태바 자리) · 아래 10 · 좌우 16.
@@ -2169,23 +2165,20 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    면색 하나다. 꺾쇠도 그대로 민다: 물러선 길이 아니라 아직 남은 일이다 */
 .cardb--warn{background:var(--ap-point)}
 
-/* ── 작업내용 쓰기 — 글칸 · 첨부 · 키보드 ──
+/* ── 작업내용 쓰기 — 글칸 · 첨부 ──
    하루치 작업을 적는 화면이다. 글칸이 화면의 주인이라 남는 높이를 전부
-   가져가고(flex:1), 첨부와 키보드가 그 아래에 차례로 앉는다.
+   가져가고(flex:1), 첨부가 그 아래에 앉는다. 자판 자리는 잡아 두지
+   않는다 — 기기가 자판을 올리면 그만큼 글칸이 줄어든다.
    ⚠ 글칸을 카드로 두르지 않는다 — 흰 종이 위에 바로 적는 꼴이다. 테를
    두르면 '한 줄짜리 칸'(.inp)의 식구로 보여, 길게 적는 자리임이 가려진다 */
 .wr{flex:1;min-height:0;display:flex;flex-direction:column;gap:var(--ap-p3)}
-.ta{flex:1;min-height:0;overflow-y:auto}
-.ta__v{font:var(--t-body);letter-spacing:var(--ls-body);
-  color:var(--ap-text);white-space:pre-wrap;word-break:keep-all}
-.ta__v--ph{color:var(--ap-text-gray)}
-/* 깜박이는 막대 — 지금 이 칸에 쓰고 있다는 표다. 글자 높이(22)에 맞춘
-   1.5 두께의 선이고, 글 끝에 바로 이어 붙는다 */
-.ta__cr{display:inline-block;width:1.5px;height:19px;margin-left:1px;
-  vertical-align:-3px;background:var(--ap-primary);
-  animation:ap-caret 1.06s step-end infinite}
-@keyframes ap-caret{0%,50%{opacity:1} 50.01%,100%{opacity:0}}
-@media (prefers-reduced-motion:reduce){.ta__cr{animation:none}}
+/* 진짜 입력칸이다 — 테도 면도 없이 종이 위에 바로 앉고, 자판은 기기가
+   띄운다(올라오면 그만큼 글칸이 줄어든다).
+   ⚠ 글꼴과 크기를 적어 둔다 — textarea 는 두면 브라우저 기본 글꼴로 선다 */
+.ta{flex:1;min-height:0;width:100%;resize:none;border:0;outline:0;padding:0;
+  background:none;font:var(--t-body);font-family:var(--ap-font);
+  letter-spacing:var(--ls-body);color:var(--ap-text);word-break:keep-all}
+.ta::placeholder{color:var(--ap-text-gray)}
 /* 글자 수는 칸의 오른쪽 발치에 작게 — 적는 동안 눈이 가는 자리가 아니라
    한계에 가까워졌을 때만 찾는 값이다 */
 .ta__c{flex:none;font:var(--t-foot);letter-spacing:var(--ls-foot);
@@ -2321,26 +2314,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   border:1px dashed var(--ap-g20);color:var(--ap-text-gray)}
 .att__n{font:var(--t-foot);letter-spacing:var(--ls-foot)}
 
-/* ── 화면 키보드 ──
-   아이폰 세로의 한글 자판이다. 높이 319 는 자동완성 줄까지 포함한 실측값으로,
-   이 저장소의 assets/kbd.css 가 웹 화면에서 쓰는 값과 같다 — 두 곳이 다른
-   높이를 쓰면 '키보드가 먹는 자리' 가 화면마다 달라진다.
-   ⚠ 누를 수 있는 판이 아니라 **그 자리가 얼마인지 보여 주는 그림**이다.
-     글을 받는 일은 앱(Flutter)과 기기 자판의 몫이라 여기서 흉내 내지 않는다 */
-.kb{flex:none;height:319px;display:flex;flex-direction:column;
-  background:var(--ap-kb-bg);box-shadow:0 -1px 0 rgba(0,0,0,.14);
-  user-select:none;-webkit-user-select:none}
-.kb__rows{flex:1;display:flex;flex-direction:column;gap:6px;padding:6px 3px 8px}
-.kb__r{flex:1;display:flex;gap:5px;justify-content:center;padding:0 3px}
-.kb__k{font:400 20px/1 var(--ap-font);flex:1;min-width:0;
-  display:flex;align-items:center;justify-content:center;
-  background:#fff;border-radius:5px;box-shadow:0 1px 0 rgba(0,0,0,.28);color:#000}
-.kb__k--fn{font-size:13px;background:#adb3bd;color:#111}
-.kb__k--w15{flex:1.5}
-.kb__k--sp{flex:4}
-/* 홈 인디케이터 자리 — 자판 아래에 남는 띠다 */
-.kb__home{flex:none;height:22px;display:flex;align-items:center;justify-content:center}
-.kb__home i{width:134px;height:5px;border-radius:3px;background:rgba(19,20,22,.55)}
 
 /* ── 안내 글 ── */
 .note{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);padding:12px var(--ap-p6);background:var(--ap-primary-5);border-radius:var(--ap-r10);color:var(--ap-primary-70)}

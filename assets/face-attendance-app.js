@@ -43,6 +43,7 @@
     stow(hit);
     link(hit);
     clock(hit);
+    note(hit);
     day(hit);
     roll(hit);
     wheel(hit);
@@ -656,6 +657,19 @@
          잡아 둔 조상(.scr)에서 재는 값이라 띠의 굴림 값과 다르다 */
       w.scrollLeft += head.getBoundingClientRect().left - w.getBoundingClientRect().left;
     });
+  }
+
+  /* ── 작업내용 글칸 ──
+     **진짜 입력칸이다.** 자판을 그림으로 그려 두었더니 '여기에 적는다'
+     는 것만 보여 주고 적을 수는 없었다 — 자판은 기기가 제 설정대로
+     띄우는 것이라, 칸을 진짜로 두면 그 기기의 자판이 올라온다.
+     여기서 하는 일은 글자 수를 세는 것 하나뿐이다(칸이 500 에서 끊는다) */
+  function note(scr) {
+    var t = scr.querySelector('.ta'), n = scr.querySelector('.ta__c b');
+    if (!t || !n) return;
+    function count() { n.textContent = String(t.value.length); }
+    t.addEventListener('input', count);
+    count();
   }
 
   /* ── 과녁 위의 시계 ──
