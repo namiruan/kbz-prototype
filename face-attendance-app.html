@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=516">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=517">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=516"></script>
+<script src="assets/face-attendance-app.js?v=517"></script>
 </head>
 
 <body>
@@ -1433,8 +1433,8 @@
        수는 js 가 센다(assets/face-attendance-app.js 의 tally) — 줄을
        고치면 수도 따라간다. 색은 목록 줄의 표와 같다 -->
   <div class="day">
-    <button class="cnt cnt--in is-on" type="button" data-at="in"><span class="cnt__k">출근</span><span class="cnt__n">0</span></button>
-    <button class="cnt cnt--out is-on" type="button" data-at="out"><span class="cnt__k">퇴근</span><span class="cnt__n">0</span></button>
+    <button class="cnt cnt--in is-on" type="button" data-at="in"><svg class="ic ic--16 cnt__c" aria-hidden="true"><use href="#icon-check"></use></svg><span class="cnt__k">출근</span><span class="cnt__n">0</span></button>
+    <button class="cnt cnt--out is-on" type="button" data-at="out"><svg class="ic ic--16 cnt__c" aria-hidden="true"><use href="#icon-check"></use></svg><span class="cnt__k">퇴근</span><span class="cnt__n">0</span></button>
   </div>
 
   <main class="body">
@@ -1482,8 +1482,8 @@
     <div class="stmp">
       <p class="stmp__d">2026. 10. 20<b>(화)</b></p>
       <div class="tcards">
-        <button class="tcard is-on" type="button" data-at="in"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:05:19</span></button>
-        <button class="tcard" type="button" data-at="out"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v">17:32:08</span></button>
+        <button class="tcard is-on" type="button" data-at="in"><span class="tcard__h"><svg class="ic ic--16 tcard__c" aria-hidden="true"><use href="#icon-check"></use></svg><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:05:19</span></button>
+        <button class="tcard" type="button" data-at="out"><span class="tcard__h"><svg class="ic ic--16 tcard__c" aria-hidden="true"><use href="#icon-check"></use></svg><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v">17:32:08</span></button>
       </div>
     </div>
 
@@ -1541,8 +1541,8 @@
     <div class="stmp">
       <p class="stmp__d">2026. 10. 20<b>(화)</b></p>
       <div class="tcards">
-        <button class="tcard is-on" type="button" data-at="in"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:05:19</span></button>
-        <button class="tcard" type="button" data-at="out"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></button>
+        <button class="tcard is-on" type="button" data-at="in"><span class="tcard__h"><svg class="ic ic--16 tcard__c" aria-hidden="true"><use href="#icon-check"></use></svg><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:05:19</span></button>
+        <button class="tcard" type="button" data-at="out"><span class="tcard__h"><svg class="ic ic--16 tcard__c" aria-hidden="true"><use href="#icon-check"></use></svg><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></button>
       </div>
     </div>
 
