@@ -1026,8 +1026,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 인증 카드 위에 선 뱃지는 그 카드와 같은 가운데 선에 둔다 */
 .body--mid > .bds{flex:none;justify-content:center;margin:0}
 /* 퇴근 모드에는 밀린 것이 없다 — 자리는 지킨 채 보이지만 않는다.
-   덜어 내면 카드가 그만큼 올라가, 모드를 바꿀 때마다 카드가 위아래로 뛴다 */
-.scr[data-mode="out"] .bds{visibility:hidden}
+   덜어 내면 카드가 그만큼 올라가, 모드를 바꿀 때마다 카드가 위아래로 뛴다.
+   꺼지고 켜지는 것이 아니라 **미는 만큼 흐려진다** — 카드와 토글은 손끝을
+   따라오는데 이것만 끝에서 툭 꺼지면 한 박자 어긋나 보인다 */
+.body--mid > .bds{opacity:calc(1 - var(--ap-mode-at,0));
+  transition:opacity var(--ap-dur-mon) var(--ap-ease-enter)}
 
 /* ── 바닥 버튼 바 ──
    화면 폭을 다 쓴다. 모서리도 여백도 없다 — 시안이 그렇다 */
@@ -1406,7 +1409,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   background:var(--ap-g0);border-radius:var(--ap-r-pill);
   transform:translateX(calc(var(--ap-mode-at,0) * (100% + var(--ap-p2))));
   transition:transform var(--ap-dur-mon) var(--ap-ease-enter)}
-.mode__p.is-grab{transition:none}
+.scr.is-grab .mode__p,.scr.is-grab .bds{transition:none}
 .mode__b{position:relative;z-index:1;
   font:var(--t-sub-em);letter-spacing:var(--ls-sub);min-width:var(--ap-tog-no);
   display:inline-flex;align-items:center;justify-content:center;

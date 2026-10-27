@@ -536,7 +536,6 @@
     if (!box) return;
     var tray = box.querySelector('.deck__t');
     var btns = [].slice.call(scr.querySelectorAll('.mode__b'));
-    var pill = scr.querySelector('.mode__p');
     var n = tray.children.length;
     var at = scr.getAttribute('data-mode') === 'out' ? 1 : 0;
     var x0 = 0, y0 = 0, dx = 0, axis = null, on = false, ate = false;
@@ -554,7 +553,7 @@
     /* 토글의 알은 카드가 움직이는 **비율만큼** 따라간다 — 손을 뗀 뒤에
        옮기면 카드보다 한 박자 늦게 가는 것처럼 보인다 */
     function slide(p) {
-      if (pill) pill.style.setProperty('--ap-mode-at', p);
+      scr.style.setProperty('--ap-mode-at', p);
       var near = Math.round(p);
       btns.forEach(function (b, i) {
         b.classList.toggle('is-on', i === near);
@@ -564,7 +563,7 @@
     function put() {
       tray.style.setProperty('--ap-at', to(at));
       tray.style.setProperty('--ap-kick', '0px');
-      if (pill) pill.classList.remove('is-grab');
+      scr.classList.remove('is-grab');
       slide(at);
       scr.setAttribute('data-mode', at ? 'out' : 'in');
     }
@@ -593,7 +592,7 @@
       tray.classList.add('is-grab');
       tray.style.setProperty('--ap-at', to(at));
       tray.style.setProperty('--ap-kick', (dx * k) + 'px');
-      if (pill) pill.classList.add('is-grab');
+      scr.classList.add('is-grab');
       slide(Math.max(0, Math.min(n - 1, at - dx * k / lim)));
       return true;
     }
