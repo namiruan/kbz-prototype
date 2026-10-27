@@ -288,6 +288,13 @@
     scr.querySelectorAll('.cal__week').forEach(function (b) { fill(b, v, true, mk); });
     scr.querySelectorAll('.calm__g').forEach(function (b) { fill(b, v, false, mk); });
 
+    /* 이력 조회의 날짜도 같은 날을 가리킨다 — 목록에서 고른 날을 열고
+       들어온 자리라, 둘이 다른 날을 적으면 같은 날인지 되짚어야 한다 */
+    scr.querySelectorAll('.stmp__d').forEach(function (e) {
+      e.innerHTML = v.y + '. ' + two(v.m) + '. ' + two(v.d) +
+        '<b>(' + WDAY[new Date(v.y, v.m - 1, v.d).getDay()] + ')</b>';
+    });
+
     scr.querySelectorAll('.cal__date').forEach(function (row) {
       var nums = row.querySelectorAll('.cal__num');   /* 연 · 월 · 일 */
       if (nums.length === 3) {

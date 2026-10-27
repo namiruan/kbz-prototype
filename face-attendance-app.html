@@ -1376,7 +1376,7 @@
 
 
 <!-- ===== ⑨ 현장소장 앱 · 이력 ===== -->
-<section class="scr" data-screen="m-log" data-title="이력">
+<section class="scr" data-day="day4" data-rec="done" data-screen="m-log" data-title="이력">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
@@ -1401,19 +1401,30 @@
     </div>
   </div>
 
-  <!-- 날짜는 현장 **아래**에 선다 — 현장을 고르고 그 안에서 날을 고르는
-       차례다. 위에 두면 날을 먼저 고른 뒤 현장이 바뀌는 꼴이 된다.
-       일자별 달력(주 띠)은 걷었다. 날을 옮기는 길이 좌우 화살표로 바뀌어
-       띠가 하는 일이 없어졌다 — 띠는 '이 주의 어디쯤' 을 보여 주는 것이고
-       화살표는 '한 날씩' 옮기는 것이라, 둘을 같이 두면 같은 일을 두 번 한다.
-       날짜를 숫자 칸으로 두지 않는 것도 같은 까닭이다. 칸은 '적어 넣어라'
-       라고 말하는데 이제 바꾸는 길은 화살표다 -->
+  <!-- 날짜 UI 는 근로자 앱의 것을 그대로 쓴다 — 한 앱의 두 쪽이라 같은 것
+       (어느 날을 보고 있나)을 다른 꼴로 보여 주지 않는다. 알림 벨은 이
+       앱에 없고, 달을 펴는 화면도 없어 꺾쇠도 두지 않는다. 주 띠도 두지
+       않는다 — 저쪽은 '이 주의 어디쯤' 을 보며 날을 옮기는 자리지만, 이력은
+       고른 한 날을 보는 자리다.
+       날짜는 현장 **아래**에 선다 — 현장을 고르고 그 안에서 날을 고르는
+       차례다. 위에 두면 날을 먼저 고른 뒤 현장이 바뀌는 꼴이 된다 -->
+  <div class="cal cal--log">
+    <div class="cal__top">
+      <div class="cal__date">
+        <span class="cal__num">2026</span><span class="cal__dot">.</span>
+        <span class="cal__num">10</span><span class="cal__dot">.</span>
+        <span class="cal__num">20</span>
+        <span class="cal__dow">화</span>
+      </div>
+      <div class="cal__side">
+        <button class="pill pill--today" type="button">오늘</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 거르개는 띠 아래 제 줄에 선다 — 날짜 줄에 끼워 두면 '언제' 와
+       '무엇만' 이 한 줄에서 겨룬다 -->
   <div class="day">
-    <span class="day__pick">
-      <button class="day__a" type="button" aria-label="앞 날짜"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
-      <span class="day__v">2026. 10. 20<b>(화)</b></span>
-      <button class="day__a" type="button" aria-label="뒤 날짜"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
-    </span>
     <button class="sel sel--inline sel--ghost" type="button"><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
   </div>
 
@@ -1434,7 +1445,7 @@
 
 
 <!-- ===== ⑩ 현장소장 앱 · 이력 사진보기 ===== -->
-<section class="scr scr--paper" data-at="in" data-screen="m-log-photo" data-title="출퇴근 이력보기 — 둘 다">
+<section class="scr scr--paper" data-at="in" data-day="day4" data-rec="done" data-screen="m-log-photo" data-title="출퇴근 이력보기 — 둘 다">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">출퇴근 이력보기</h1>
@@ -1493,7 +1504,7 @@
 
 
 <!-- ===== ⑭ 현장소장 앱 · 출퇴근 이력보기(출근만 찍힌 경우) ===== -->
-<section class="scr scr--paper" data-at="in" data-screen="m-log-photo-in" data-title="출퇴근 이력보기 — 출근만">
+<section class="scr scr--paper" data-at="in" data-day="day4" data-rec="done" data-screen="m-log-photo-in" data-title="출퇴근 이력보기 — 출근만">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">출퇴근 이력보기</h1>
