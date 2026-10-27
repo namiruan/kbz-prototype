@@ -248,107 +248,200 @@
      달 격자를 좌우로 밀면 앞뒤 달로 간다(시안 596:4064 의 주석 — '캘린더
      좌우 스와이프 시 이전·이후 달로 이동'). 고르고 있던 날은 그대로 들고
      간다: 짧은 달이면 그 달의 마지막 날로 내려앉는다.
-     한 번에 60 이상 가로로 움직였고 세로보다 가로가 더 움직였을 때만
-     민 것으로 친다 — 아래로 읽어 내려가다 손끝이 비뚤어진 것까지 민 것으로
-     받으면 달이 제멋대로 넘어간다 */
-  var MON_WHEEL = 40;   /* 트랙패드로 쓸 때 — 끌 때(60)보다 짧다. 쓰는 손은
-                           끄는 손처럼 멀리 가지 않는다 */
+
+     **미는 동안 달이 손끝을 따라온다.** 문턱을 넘자마자 갈아 끼우면,
+     민 사람은 달이 바뀌는 것을 보지 못하고 바뀌어 있는 것만 본다 —
+     눈에는 깜빡인 것으로 남는다. 그래서 손이 가는 만큼 달이 따라가고,
+     **손을 떼었을 때** 반쯤 넘어왔으면 마저 넘어가고 아니면 제자리로
+     돌아온다. 끝까지 밀지 않으면 아무 일도 일어나지 않는다.
+
+     갈 수 없는 쪽(앞날)은 뻑뻑하게 따라온다 — 움직이기는 하되 네 몫의
+     한 자밖에 가지 않고 놓으면 돌아온다. 막힌 것을 글로 띄우지 않고
+     손에 쥐여 주는 셈이다.
+
+     ⚠ 세로보다 가로가 더 움직였을 때만 민 것으로 친다. 아래로 읽어
+       내려가다 손끝이 비뚤어진 것까지 받으면 달이 제멋대로 넘어간다 */
+  var MON_TAKE = 0.3;    /* 넘어가는 문턱 — 달 너비의 이만큼 */
+  var MON_HOLD = 0.25;   /* 갈 수 없는 쪽이 따라오는 몫 */
+  var MON_GAP  = 16;     /* 미리 세워 둔 달과의 틈 */
+  var MON_AXIS = 6;      /* 이만큼 움직여야 가로인지 세로인지 가른다 */
 
   function swipe(scr) {
-    var box = scr.querySelector('.calm__g');
-    if (!box) return;
-    var x0 = 0, y0 = 0, on = false;
+    var g = scr.querySelector('.calm__g');
+    if (!g) return;
+    var x0 = 0, y0 = 0, dx = 0, axis = null, on = false;
+    var peek = null, dir = 0, ate = false, until = 0, acc = 0, rest;
+    var rec = scr.getAttribute('data-rec') || 'none';
 
-    box.addEventListener('touchstart', function (e) {
+    function wide() { return g.getBoundingClientRect().width; }
+
+    /* n 달 뒤(앞)의 날 — 고르고 있던 날을 들고 가되 짧은 달이면 마지막
+       날로, 이 달이면 오늘로 내려앉는다. 미리 세우는 달과 넘어간 뒤의
+       달이 **같은 셈**을 써야 넘어가는 순간에 날짜가 튀지 않는다 */
+    function next(n) {
+      var v = shown(scr), t = new Date(v.y, v.m - 1 + n, 1);
+      var y = t.getFullYear(), m = t.getMonth() + 1;
+      if (ahead(y, m, 1)) return null;          /* 아직 오지 않은 달 */
+      var d = Math.min(v.d, inMonth(y, m));
+      if (ahead(y, m, d)) d = TODAY.d;
+      return { y: y, m: m, d: d };
+    }
+
+    /* 들어올 달을 옆에 미리 세운다 — 밀면서 **무엇이 들어오는지** 보여야
+       끝까지 밀지 말지를 정할 수 있다.
+       ⚠ 진짜 격자 **뒤에** 세운다. 화면설명의 앵커는 첫 `.calm__g` 를
+         짚는데 앞에 세우면 미리 세운 쪽을 짚는다(규칙 15).
+       ⚠ 손을 떼면 지운다. 화면을 집어 보는 눈(앵커 · 찍는 기계)에
+         남아 있어서는 안 되는 것은, 미는 동안에만 있는 달이기 때문이다 */
+    function stand(n) {
+      if (dir === n) return;
+      clear();
+      dir = n;
+      var t = next(n);
+      if (!t) return;                           /* 갈 수 없는 쪽엔 세울 달이 없다 */
+      peek = document.createElement('div');
+      peek.className = 'calm__g calm__g--peek';
+      peek.setAttribute('aria-hidden', 'true');
+      peek.style.top = g.offsetTop + 'px';
+      peek.style.left = n > 0 ? 'calc(100% + ' + MON_GAP + 'px)'
+                               : 'calc(-100% - ' + MON_GAP + 'px)';
+      fill(peek, t, iso(t.y, t.m, t.d), false, rec);
+      g.parentNode.appendChild(peek);
+    }
+    function clear() { if (peek) peek.parentNode.removeChild(peek); peek = null; dir = 0; }
+
+    function put(x) {
+      var t = x ? 'translateX(' + x + 'px)' : '';
+      g.style.transform = t;
+      if (peek) peek.style.transform = t;
+    }
+
+    function pull(ax, ay) {
+      if (axis === null) {
+        if (Math.abs(ax) < MON_AXIS && Math.abs(ay) < MON_AXIS) return false;
+        axis = Math.abs(ax) > Math.abs(ay) ? 'x' : 'y';
+      }
+      if (axis !== 'x') return false;
+      var n = ax < 0 ? 1 : -1;
+      stand(n);
+      dx = peek ? ax : ax * MON_HOLD;           /* 갈 수 없는 쪽은 뻑뻑하다 */
+      put(dx);
+      return true;
+    }
+
+    /* 손을 뗀다 — 반쯤 넘어왔으면 마저 보내고, 아니면 제자리로 */
+    function drop() {
+      if (!on) return;
+      on = false;
+      until = Date.now() + 400;                 /* 쓸고 난 뒤의 관성은 받지 않는다 */
+      acc = 0;
+      ate = (axis === 'x' && Math.abs(dx) > MON_AXIS);   /* 민 끝의 클릭은 삼킨다 */
+      var w = wide();
+      var go = !!peek && Math.abs(dx) >= w * MON_TAKE;
+      var n = dx < 0 ? 1 : -1;
+      var to = go ? (n > 0 ? -(w + MON_GAP) : (w + MON_GAP)) : 0;
+      axis = null;
+      slide(to, function () {
+        if (go) hop(scr, n);
+        clear();
+        g.classList.remove('is-slide');
+        put(0);
+        dx = 0;
+      });
+    }
+
+    /* 마저 가는 길(또는 돌아오는 길). 전환이 끝나면 한 번만 부른다 —
+       갈 거리가 0 이면 전환이 아예 일어나지 않으므로 받침을 둔다 */
+    function slide(to, done) {
+      g.classList.add('is-slide');
+      if (peek) peek.classList.add('is-slide');
+      var over = false;
+      function fin() {
+        if (over) return;
+        over = true;
+        g.removeEventListener('transitionend', fin);
+        done();
+      }
+      g.addEventListener('transitionend', fin);
+      setTimeout(fin, 400);
+      requestAnimationFrame(function () { put(to); });
+    }
+
+    function grab(x, y) { x0 = x; y0 = y; on = true; axis = null; dx = 0; ate = false; }
+
+    g.addEventListener('touchstart', function (e) {
       var t = e.changedTouches[0];
-      x0 = t.clientX; y0 = t.clientY; on = true;
+      grab(t.clientX, t.clientY);
     }, { passive: true });
 
-    box.addEventListener('touchend', function (e) {
+    g.addEventListener('touchmove', function (e) {
       if (!on) return;
-      on = false;
-      var t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0;
-      if (Math.abs(dx) < 60 || Math.abs(dx) <= Math.abs(dy)) return;
-      move(scr, dx < 0 ? 1 : -1);
-    }, { passive: true });
+      var t = e.changedTouches[0];
+      /* 가로로 미는 동안에는 화면이 따라 굴러가지 않게 막는다 */
+      if (pull(t.clientX - x0, t.clientY - y0) && e.cancelable) e.preventDefault();
+    }, { passive: false });
 
-    /* 손가락이 없는 자리(브라우저)에서는 끌어서 민다 */
-    box.addEventListener('mousedown', function (e) { x0 = e.clientX; y0 = e.clientY; on = true; });
-    box.addEventListener('mouseup', function (e) {
-      if (!on) return;
-      on = false;
-      var dx = e.clientX - x0, dy = e.clientY - y0;
-      if (Math.abs(dx) < 60 || Math.abs(dx) <= Math.abs(dy)) return;
-      move(scr, dx < 0 ? 1 : -1);
+    g.addEventListener('touchend', drop, { passive: true });
+    g.addEventListener('touchcancel', drop, { passive: true });
+
+    /* 손가락이 없는 자리(브라우저)에서는 끌어서 민다. 받는 자리를 문서에
+       두는 것은, 끌다가 격자 밖으로 나가도 끌던 것이 이어져야 하기 때문이다 */
+    g.addEventListener('mousedown', function (e) {
+      grab(e.clientX, e.clientY);
+      e.preventDefault();                       /* 글자가 잡히는 것을 막는다 */
     });
+    document.addEventListener('mousemove', function (e) { if (on) pull(e.clientX - x0, e.clientY - y0); });
+    document.addEventListener('mouseup', drop);
+
+    /* 민 끝에서 손을 뗀 자리가 날짜 칸이면 그 날로 넘어가 버린다 —
+       민 것과 누른 것은 다른 일이라 **민 뒤의 한 번**은 삼킨다 */
+    g.addEventListener('click', function (e) {
+      if (!ate) return;
+      ate = false;
+      e.preventDefault();
+      e.stopPropagation();
+    }, true);
 
     /* 트랙패드는 **끌지 않고 쓴다** — 두 손가락 가로 쓸기는 끄는 몸짓이
        아니라 굴리는 몸짓(wheel)이라 위의 어느 줄에도 걸리지 않는다.
        주간 띠는 브라우저가 굴려 주지만(가로 스크롤) 달 격자는 굴릴 것이
-       없어, 여기서 받아 달을 넘긴다.
+       없어, 여기서 받아 끄는 것과 같은 길로 보낸다.
        ⚠ 받아서 막지 않으면 브라우저가 **뒤로 가기**로 가져간다. */
-    var acc = 0, until = 0, rest;
-    box.addEventListener('wheel', function (e) {
+    g.addEventListener('wheel', function (e) {
       if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
       e.preventDefault();
-      if (Date.now() < until) return;   /* 한 번 쓸면 한 달만 — 관성이 남는다 */
-      acc += e.deltaX;
+      if (Date.now() < until) return;
+      if (!on) { on = true; axis = 'x'; acc = 0; dx = 0; }
+      acc -= e.deltaX;                          /* 쓰는 쪽과 달이 가는 쪽은 반대다 */
+      pull(acc, 0);
       clearTimeout(rest);
-      rest = setTimeout(function () { acc = 0; }, 160);
-      if (Math.abs(acc) < MON_WHEEL) return;
-      until = Date.now() + 600;
-      var n = acc > 0 ? 1 : -1;
-      acc = 0;
-      move(scr, n);
+      rest = setTimeout(drop, 120);             /* 손이 멎으면 뗀 것으로 본다 */
     }, { passive: false });
   }
 
-  /* 달을 n 만큼 옮긴다 — **보던 화면은 그대로**다. 달을 편 채로 있어야
-     앞뒤 달을 이어 넘겨볼 수 있다. 고르고 있던 날은 들고 가되 짧은 달
-     이면 그 달의 마지막 날로 내려앉는다(시안 596:4064 의 주석) */
-  function move(scr, n) {
-    var v = shown(scr);
-    var t = new Date(v.y, v.m - 1 + n, 1);
+  /* ── 달을 n 만큼 갈아 끼운다 ──
+     **보던 화면은 그대로**다 — 달을 편 채로 있어야 앞뒤 달을 이어 넘겨
+     볼 수 있다. 주소를 새로 열지 않고 바꿔 끼우는 것은(replaceState),
+     여는 순간 화면이 통째로 다시 그려져 깜빡이기 때문이다. 바뀌는 것은
+     달 하나인데 화면 전체가 새로 서면 그것이 눈에 남는다.
+     주소를 고쳐 두는 까닭은 둘이다 — 이 화면이 날을 주소에서 읽고(shown),
+     주소를 복사해 가면 그 달이 열려야 한다.
+     뒤로 가기 목록에는 쌓지 않는다. 달을 다섯 번 넘겼다고 뒤로 가기를
+     다섯 번 눌러야 하는 것은 민 사람이 바란 일이 아니다 */
+  function hop(scr, n) {
+    var v = shown(scr), t = new Date(v.y, v.m - 1 + n, 1);
     var y = t.getFullYear(), m = t.getMonth() + 1;
-    if (ahead(y, m, 1)) return wall(scr, n);   /* 아직 오지 않은 달로는 안 간다 */
+    if (ahead(y, m, 1)) return;
     var d = Math.min(v.d, inMonth(y, m));
-    if (ahead(y, m, d)) d = TODAY.d;   /* 이 달이면 오늘까지 */
+    if (ahead(y, m, d)) d = TODAY.d;
     var u = new URL(location.href);
     u.searchParams.set('d', iso(y, m, d));
-    went(n);
-    location.href = u.toString();
+    try { history.replaceState(null, '', u.toString()); }
+    catch (e) { location.href = u.toString(); return; }
+    day(scr);     /* 달 · 띠 · 머리줄의 날짜 · 휠의 칸 · 닫는 길 */
+    roll(scr);    /* 띠를 고른 주로 */
+    wheel(scr);   /* 휠을 고른 값으로 — 받는 자리는 다시 달지 않는다 */
   }
-
-  /* ── 갈 수 없는 달 ──
-     앞날은 막혀 있는데(ahead) 막힐 때 아무 일도 일어나지 않으면, 막힌
-     것인지 고장인지 미는 사람은 가릴 수 없다. 한 뼘 따라갔다 제자리로
-     돌아오게 해서 **여기가 끝**임을 몸짓으로 답한다 — 글로 적어 띄우지
-     않는 것은, 묻지 않은 말이라 읽을 것이 하나 느는 것이기 때문이다. */
-  function wall(scr, n) {
-    var g = scr.querySelector('.calm__g');
-    if (!g) return;
-    var k = n > 0 ? 'calm__g--stop-next' : 'calm__g--stop-prev';
-    g.classList.remove('calm__g--stop-next', 'calm__g--stop-prev');
-    void g.offsetWidth;              /* 되감아 다시 튼다 — 잇따라 밀어도 답한다 */
-    g.classList.add(k);
-  }
-
-  /* ── 넘어간 달이 어느 쪽에서 들어오는지 ──
-     달을 넘기는 일은 주소를 갈아 끼우는 일이라 화면이 통째로 다시 그려진다.
-     그대로 두면 달만 소리 없이 바뀌어, 넘어간 것인지 처음부터 그 달이었는지
-     알 수 없다. 넘긴 쪽을 세션에 적어 두고 다음 화면에서 **그 쪽에서 밀려
-     들어오게** 한다(.is-month). 읽자마자 지운다 — 다음에 그냥 열었을
-     때까지 따라오면 안 된다(휠의 .is-applied 와 같은 길이다). */
-  function went(n) {
-    try { sessionStorage.setItem('ap-month', n > 0 ? 'next' : 'prev'); } catch (e) {}
-  }
-
-  (function () {
-    var w;
-    try { w = sessionStorage.getItem('ap-month'); sessionStorage.removeItem('ap-month'); }
-    catch (e) { w = null; }
-    if (w) document.documentElement.classList.add('is-month', 'is-month--' + w);
-  })();
 
   /* ── 휠로 갈아 끼운 바로 다음 화면 ──
      휠을 굴려 날짜가 바뀌면 화면이 다시 그려진다. 그때마다 달이 내려오고
@@ -379,29 +472,40 @@
 
   function wheel(scr) {
     scr.querySelectorAll('.wheel__c').forEach(function (c) {
-      var items = c.querySelectorAll('.wheel__i');
-      var pick = c.getAttribute('data-pick');
-      var at = 0;
-      items.forEach(function (it, n) { if (it.dataset.v === pick) at = n; });
-      c.scrollTop = at * WHEEL_H;
-
-      /* 첫 자리는 **몸짓 없이** 잡는다. 전환을 켜 둔 채로 표를 붙이면
-         화면이 열릴 때마다(날짜를 갈아 끼운 바로 뒤가 그렇다) 고른 값이
-         작은 데서 커지는 꼴이 된다 — 굴린 것이 아니라 그냥 그 자리였다.
-         두 번 기다리는 것은, 한 번으로는 브라우저가 첫 꼴을 그리기 전에
-         표가 붙어 전환이 되살아나기 때문이다 */
-      c.classList.add('is-set');
-      mark(c, items);
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () { c.classList.remove('is-set'); });
-      });
+      place(c);
+      /* 받는 자리는 **한 번만** 단다. 달을 갈아 끼우면 칸은 다시 나지만
+         칸을 담은 기둥은 그대로라, 여기서 또 달면 굴릴 때마다 두 번씩
+         셈한다 */
+      if (c.getAttribute('data-on')) return;
+      c.setAttribute('data-on', '1');
 
       var idle;
       c.addEventListener('scroll', function () {
+        /* 칸은 달이 바뀔 때마다 새로 난다 — 그때그때 다시 집는다 */
+        var items = c.querySelectorAll('.wheel__i');
         mark(c, items);                 /* 굴러가는 동안에도 가운데는 표시한다 */
         clearTimeout(idle);
         idle = setTimeout(function () { stop(c, items); }, 160);
       }, { passive: true });
+    });
+  }
+
+  /* 고른 값을 가운데에 세운다.
+     첫 자리는 **몸짓 없이** 잡는다. 전환을 켜 둔 채로 표를 붙이면 화면이
+     열릴 때마다(날짜를 갈아 끼운 바로 뒤가 그렇다) 고른 값이 작은 데서
+     커지는 꼴이 된다 — 굴린 것이 아니라 그냥 그 자리였다.
+     두 번 기다리는 것은, 한 번으로는 브라우저가 첫 꼴을 그리기 전에 표가
+     붙어 전환이 되살아나기 때문이다 */
+  function place(c) {
+    var items = c.querySelectorAll('.wheel__i');
+    var pick = c.getAttribute('data-pick');
+    var at = 0;
+    items.forEach(function (it, n) { if (it.dataset.v === pick) at = n; });
+    c.classList.add('is-set');
+    c.scrollTop = at * WHEEL_H;
+    mark(c, items);
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { c.classList.remove('is-set'); });
     });
   }
 
