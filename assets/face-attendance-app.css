@@ -1731,6 +1731,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .scan__f--4{animation-delay:calc(var(--ap-scan-time) * 3)}
 .scan__f--5{animation-delay:calc(var(--ap-scan-time) * 4)}
 @keyframes ap-face{0%{opacity:1} 20%{opacity:0}}
+/* 퇴근 얼굴에만 얹는 흙자국과 땀 — 얼굴과 같은 색이되 옅게 깐다.
+   또렷하게 두면 점이나 수염처럼 '그 사람의 생김' 으로 읽힌다 */
+.scan__dust{opacity:.4}
+.scan__drip{opacity:.68}
 
 /* 이름과 설명은 붙어 있고(한 덩어리), 그림과만 멀다 */
 .cta__tx{display:flex;flex-direction:column;align-self:stretch;gap:var(--ap-p5)}

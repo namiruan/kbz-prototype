@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=477">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=479">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=477"></script>
+<script src="assets/face-attendance-app.js?v=479"></script>
 </head>
 
 <body>
@@ -862,33 +862,43 @@
                 <!-- 레이저가 한 번 훑을 때마다 다른 사람이 선다. 사람을 가르는 것은
                      **면으로 둔 특징(콧수염·앞머리)과 얼굴 생김과 표정**이다 —
                      가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
+                <!-- 퇴근 얼굴은 **일을 마치고 온 얼굴**이다. 출근 쪽과 같은 다섯
+                     사람이되, 입이 덜 펴지고 볼에 흙자국이, 더러는 관자놀이에
+                     땀이 남는다 — 자국은 사람마다 다른 자리에 앉는다 -->
                 <!-- ① 기본 -->
                 <g class="scan__f">
                   <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
-                  <path class="scan__smile" d="M28 47C31.5 51.5 40.5 51.5 44 47"/>
+                  <path class="scan__smile" d="M30 48.5h12"/>
+                  <g class="scan__dust"><ellipse cx="22" cy="45" rx="3.1" ry="1.3" transform="rotate(-20 22 45)"/><ellipse cx="50" cy="47.5" rx="2.2" ry="1.1" transform="rotate(14 50 47.5)"/></g>
+                  <path class="scan__drip" d="M54 32q2.3 3.6 0 4.9-2.3-1.3 0-4.9Z"/>
                 </g>
                 <!-- ② 다문 입 — 수염을 걷은 자리다 -->
                 <g class="scan__f scan__f--2">
                   <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
                   <path class="scan__smile" d="M31 48h10"/>
+                  <g class="scan__dust"><ellipse cx="49" cy="44" rx="3.3" ry="1.4" transform="rotate(16 49 44)"/><ellipse cx="25" cy="49" rx="2" ry="1" transform="rotate(-10 25 49)"/></g>
                 </g>
                 <!-- ③ 점 — 볼에 하나 -->
                 <g class="scan__f scan__f--3">
                   <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
-                  <path class="scan__smile" d="M29 48C32 51.5 40 51.5 43 48"/>
+                  <path class="scan__smile" d="M30 48C33 50 39 50 42 48"/>
                   <circle cx="51" cy="43" r="2"/>
+                  <g class="scan__dust"><ellipse cx="23" cy="47" rx="2.8" ry="1.2" transform="rotate(-24 23 47)"/></g>
                 </g>
                 <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
                 <g class="scan__f scan__f--4">
                   <g class="scan__eyes"><circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/></g>
                   <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
-                  <path class="scan__smile" d="M31 52C33 54.5 39 54.5 41 52"/>
+                  <path class="scan__smile" d="M32 52.5h8"/>
+                  <g class="scan__dust"><ellipse cx="21" cy="43" rx="2.6" ry="1.2" transform="rotate(-18 21 43)"/></g>
+                  <path class="scan__drip" d="M18 33q2.3 3.6 0 4.9-2.3-1.3 0-4.9Z"/>
                 </g>
                 <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
                 <g class="scan__f scan__f--5">
                   <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
                   <g class="scan__eyes"><circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/></g>
-                  <path class="scan__smile" d="M28 49C31.5 53.5 40.5 53.5 44 49"/>
+                  <path class="scan__smile" d="M30 50C33 51.8 39 51.8 42 50"/>
+                  <g class="scan__dust"><ellipse cx="51" cy="48" rx="3" ry="1.3" transform="rotate(18 51 48)"/><ellipse cx="22" cy="46" rx="2.1" ry="1" transform="rotate(-14 22 46)"/></g>
                 </g>
               </svg>
               <span class="scan__beam"></span>
@@ -1121,33 +1131,43 @@
                 <!-- 레이저가 한 번 훑을 때마다 다른 사람이 선다. 사람을 가르는 것은
                      **면으로 둔 특징(콧수염·앞머리)과 얼굴 생김과 표정**이다 —
                      가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
+                <!-- 퇴근 얼굴은 **일을 마치고 온 얼굴**이다. 출근 쪽과 같은 다섯
+                     사람이되, 입이 덜 펴지고 볼에 흙자국이, 더러는 관자놀이에
+                     땀이 남는다 — 자국은 사람마다 다른 자리에 앉는다 -->
                 <!-- ① 기본 -->
                 <g class="scan__f">
                   <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
-                  <path class="scan__smile" d="M28 47C31.5 51.5 40.5 51.5 44 47"/>
+                  <path class="scan__smile" d="M30 48.5h12"/>
+                  <g class="scan__dust"><ellipse cx="22" cy="45" rx="3.1" ry="1.3" transform="rotate(-20 22 45)"/><ellipse cx="50" cy="47.5" rx="2.2" ry="1.1" transform="rotate(14 50 47.5)"/></g>
+                  <path class="scan__drip" d="M54 32q2.3 3.6 0 4.9-2.3-1.3 0-4.9Z"/>
                 </g>
                 <!-- ② 다문 입 — 수염을 걷은 자리다 -->
                 <g class="scan__f scan__f--2">
                   <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
                   <path class="scan__smile" d="M31 48h10"/>
+                  <g class="scan__dust"><ellipse cx="49" cy="44" rx="3.3" ry="1.4" transform="rotate(16 49 44)"/><ellipse cx="25" cy="49" rx="2" ry="1" transform="rotate(-10 25 49)"/></g>
                 </g>
                 <!-- ③ 점 — 볼에 하나 -->
                 <g class="scan__f scan__f--3">
                   <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
-                  <path class="scan__smile" d="M29 48C32 51.5 40 51.5 43 48"/>
+                  <path class="scan__smile" d="M30 48C33 50 39 50 42 48"/>
                   <circle cx="51" cy="43" r="2"/>
+                  <g class="scan__dust"><ellipse cx="23" cy="47" rx="2.8" ry="1.2" transform="rotate(-24 23 47)"/></g>
                 </g>
                 <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
                 <g class="scan__f scan__f--4">
                   <g class="scan__eyes"><circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/></g>
                   <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
-                  <path class="scan__smile" d="M31 52C33 54.5 39 54.5 41 52"/>
+                  <path class="scan__smile" d="M32 52.5h8"/>
+                  <g class="scan__dust"><ellipse cx="21" cy="43" rx="2.6" ry="1.2" transform="rotate(-18 21 43)"/></g>
+                  <path class="scan__drip" d="M18 33q2.3 3.6 0 4.9-2.3-1.3 0-4.9Z"/>
                 </g>
                 <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
                 <g class="scan__f scan__f--5">
                   <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
                   <g class="scan__eyes"><circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/></g>
-                  <path class="scan__smile" d="M28 49C31.5 53.5 40.5 53.5 44 49"/>
+                  <path class="scan__smile" d="M30 50C33 51.8 39 51.8 42 50"/>
+                  <g class="scan__dust"><ellipse cx="51" cy="48" rx="3" ry="1.3" transform="rotate(18 51 48)"/><ellipse cx="22" cy="46" rx="2.1" ry="1" transform="rotate(-14 22 46)"/></g>
                 </g>
               </svg>
               <span class="scan__beam"></span>
