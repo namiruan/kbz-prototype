@@ -2102,7 +2102,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 기준의 수와 '익일' 은 **한 덩어리**다 — '익일 06:00' 이 함께 기준이고,
    '까지' 만 곁말이다. '익일' 을 회색 본문으로 두면 수만 기준으로 읽혀,
    그 수가 어느 날 것인지가 눈에 들어오지 않는다 */
-.tcard__b b{margin-right:1px;color:var(--ap-g95);font-weight:600}
+.tcard__b b{margin-right:1px;color:var(--ap-primary-90);font-weight:600}
 /* 어느 길로 찍혔는지는 **시각 아래 한가운데**다. 이름 줄 오른쪽 끝에
    두었더니 기준 시각이 설 자리가 없었고, 그 표는 이름이 아니라 시각에
    딸린 꼬리표라 시각 밑이 제자리다 */
