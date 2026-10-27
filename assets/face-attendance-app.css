@@ -1340,16 +1340,14 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    줄 세우고 틀이 한 장만 내보인다 — 바닥의 토글이나 좌우 스와이프가 줄을
    민다. 모서리를 틀이 쥐는 것은, 미는 동안 옆 장이 틀 밖으로 비어져
    나가지 않게 잘라야 하기 때문이다 */
-/* 그림자를 그리는 자리 — 틀 **밖**이다. 카드가 제 box-shadow 로 그리면
-   틀의 가장자리 마스크에 좌우가 깎여, 아래 그림자가 각지게 끊긴다.
-   여기서 drop-shadow 로 그리면 마스크로 흐려진 **모양 그대로** 그림자가
-   따라붙는다(필터는 마스크가 끝난 결과에 걸린다).
-   색은 지금 보이는 카드를 따른다 */
+/* 세로 셈을 쥐는 자리 — 틀은 가로로 꽉 차고, 자라고 멈추는 셈은 여기가 한다.
+   ⚠ 그림자를 여기서 filter:drop-shadow 로 그려 봤다가 되돌렸다. 기기의
+     브라우저(WebKit)에서 **스와이프를 몇 번 하고 나면** 그림자가 통째로
+     잘렸다 — 안의 줄이 transform 으로 움직이며 합성 레이어로 올라가면,
+     그 레이어 경계에서 바깥의 filter 가 끊긴다. 그림자는 카드가 제
+     box-shadow 로 그린다(가장자리 마스크를 걷은 뒤로는 깎일 일도 없다) */
 .deckw{flex:1 1 auto;min-height:200px;max-height:var(--ap-cta-h);align-self:stretch;width:100%;
-  display:flex;filter:drop-shadow(0 6px 14px rgba(17,53,105,.34));
-  transition:filter var(--ap-dur-mon) var(--ap-ease-enter)}
-.scr[data-mode="out"] .deckw{filter:drop-shadow(0 6px 14px rgba(19,20,22,.34))}
-@media (prefers-reduced-motion:reduce){.deckw{transition:none}}
+  display:flex}
 
 /* 자라고 멈추는 셈은 **틀**이 쥔다 — 카드가 쥐고 있으면 줄(가로 flex)
    안에서 그 flex 가 가로로 작동해 세로 키를 잃고, 그림 칸이 0 으로
@@ -1376,14 +1374,23 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    돌릴 수 있어야 제자리를 잃지 않는다 */
 @property --ap-kick{syntax:"<length>";inherits:false;initial-value:0px}
 .deck__t{transform:translateX(var(--ap-at,0px)) translateX(var(--ap-kick,0px))}
-/* 갈 데가 없는 쪽에서 놓으면 **곧바로** 제자리로 돌아온다 — 막혔다는
-   말은 끄는 동안의 뻑뻑함이 이미 했다. 한 번 더 튕기면 그만큼 기다리게
-   된다 */
-.deck__t.is-snap{transition:transform var(--ap-dur-base) var(--ap-ease-exit)}
+/* 갈 데가 없는 쪽으로는 **밀리지 않는다**. 조금 따라왔다 돌아오면 '갈 수
+   있나' 를 손이 한 번 더 묻게 되는데, 답은 처음부터 정해져 있다.
+   대신 제자리에서 좌우로 짧게 흔들어 막혔다고 말한다 — 밀리는 것이
+   아니므로 기다릴 것도 없다 */
+.deck__t.is-shake{animation:ap-deck-shake var(--ap-dur-mon) var(--ap-ease-sym)}
+@keyframes ap-deck-shake{
+  0%,100%{--ap-kick:0px}
+  18%{--ap-kick:-9px}
+  40%{--ap-kick:7px}
+  62%{--ap-kick:-4px}
+  82%{--ap-kick:2px}
+}
+@media (prefers-reduced-motion:reduce){.deck__t.is-shake{animation:none}}
 /* 폭은 줄이 쥔다 — 카드는 줄을 꽉 채운다. 모서리와 그림자는 카드가 도로
    가진다: 틀이 날로 자르지 않으므로 그림자가 잘릴 일이 없다 */
 .deck .cta{flex:none;width:100%;max-width:none;
-  min-height:0;max-height:none;aspect-ratio:auto;box-shadow:none}
+  min-height:0;max-height:none;aspect-ratio:auto}
 @media (prefers-reduced-motion:reduce){.deck__t{transition:none}}
 
 /* 두 모드가 함께 쓰는 설명 — 카드 밖, 카드와 토글 사이에 한 번만 선다 */

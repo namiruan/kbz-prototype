@@ -540,6 +540,7 @@
     var x0 = 0, y0 = 0, dx = 0, axis = null, on = false, ate = false;
     var acc = 0, rest;
     var px = 0, pt = 0, vx = 0;          /* 마지막 걸음의 빠르기(px/ms) */
+    var shook = false;                   /* 한 몸짓에 한 번만 흔든다 */
 
     function wide() { return box.getBoundingClientRect().width || 1; }
     /* 카드 사이의 틈만큼 더 밀어야 다음 장이 틀에 꼭 맞게 선다 */
@@ -587,20 +588,26 @@
       if (now > pt) { vx = (dx - px) / (now - pt); px = dx; pt = now; }
       if (Math.abs(dx) > 4) ate = true;         /* 민 뒤의 클릭 한 번은 삼킨다 */
       var want = at + (dx < 0 ? 1 : -1);
-      var k = (want < 0 || want >= n) ? 0.25 : 1;
+      if (want < 0 || want >= n) {              /* 갈 데가 없다 */
+        if (!shook && Math.abs(dx) > 10) { shook = true; shake(); }
+        return true;                            /* 막되, 화면은 굴리지 않는다 */
+      }
       tray.classList.add('is-grab');
       tray.style.setProperty('--ap-at', to(at));
-      tray.style.setProperty('--ap-kick', (dx * k) + 'px');
+      tray.style.setProperty('--ap-kick', dx + 'px');
       scr.classList.add('is-grab');
-      slide(Math.max(0, Math.min(n - 1, at - dx * k / lim)));
+      slide(Math.max(0, Math.min(n - 1, at - dx / lim)));
       return true;
     }
-    /* 갈 데가 없는 쪽에서 놓으면 곧바로 제자리로 — 막혔다는 말은 끄는
-       동안의 뻑뻑함(0.25)이 이미 했다 */
-    function snap() {
-      tray.classList.add('is-snap');
+    /* 갈 데가 없는 쪽 — 밀리지 않고 제자리에서 좌우로 짧게 흔든다.
+       한 몸짓에 한 번만 흔든다: 미는 내내 떨고 있으면 말이 아니라 소음이다.
+       애니메이션을 다시 걸려면 한 번 떼었다 붙여야 한다 */
+    function shake() {
+      tray.classList.remove('is-shake');
+      void tray.offsetWidth;
+      tray.classList.add('is-shake');
     }
-    tray.addEventListener('transitionend', function () { tray.classList.remove('is-snap'); });
+    tray.addEventListener('animationend', function () { tray.classList.remove('is-shake'); });
 
     function drop() {
       if (!on) return;
@@ -617,8 +624,7 @@
         var far = Math.abs(dx) > wide() * 0.3 ||
                   (Math.abs(vx) > DECK_FLICK && (vx < 0) === (dx < 0));
         if (want < 0 || want >= n) {
-          if (Math.abs(dx) > 4) snap();
-          put();
+          put();                                /* 밀린 적이 없으니 제자리다 */
         } else {
           if (far) go(want);
           put();                                /* 문턱을 못 넘겼으면 제자리로 */
@@ -630,7 +636,7 @@
     }
     function grab(x, y) {
       x0 = x; y0 = y; on = true; axis = null; dx = 0; ate = false;
-      px = 0; pt = Date.now(); vx = 0;
+      px = 0; pt = Date.now(); vx = 0; shook = false;
     }
 
     btns.forEach(function (b, i) {
