@@ -2032,7 +2032,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    쥘 자리가 거기뿐이고, 목록 줄의 표와 같은 것이라 줄에서 보던 것이
    여기서도 그대로다.
    숫자는 폭이 고른 꼴로 둔다(tabular-nums) */
-.stmp{display:flex;flex-direction:column;align-items:center;gap:var(--ap-p3);
+.stmp{display:flex;flex-direction:column;align-items:center;gap:var(--ap-p6);
   align-self:stretch;margin:var(--ap-p5) 0 var(--ap-p6)}
 /* 날짜 표기는 날짜별 인증의 .day__v 와 같은 꼴이다 — 거기서 날을 고르고
    줄을 열어 들어온 자리라, 같은 날이 두 화면에서 같게 읽혀야 한다 */
@@ -2104,10 +2104,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    두 카드의 키는 grid 가 맞춰 준다(stretch): 한쪽에만 '앱 · 얼굴' 이
    붙는데 키가 따로 놀면 둘이 대등해 보이지 않는다 */
 .tcards{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:var(--ap-gap3)}
-/* 한 장만 서는 자리 — 이력 조회는 출근이나 퇴근 하나만 맡는다. 반 칸에
-   두면 카드가 쭈그러들고 옆이 통째로 빈다 */
-.tcards--one{grid-template-columns:1fr}
 .stmp .tcards{align-self:stretch}
+/* 이력의 시각은 **초까지** 적는다 — 여덟 자다. 홈의 다섯 자(07:03)에
+   맞춘 크기로 두면 좁은 기기에서 카드 안쪽을 꽉 채우다 넘친다(360 에서
+   값 131 · 안쪽 131 로 여유가 0 이었다). 한 단 내려 자리를 둔다 */
+.stmp .tcard__v{font:var(--t-title2);letter-spacing:var(--ls-title2)}
 /* 카드 안은 가운데로 모은다 — 카드가 쥔 것이 수 하나뿐이라, 왼쪽에
    붙여 두면 수와 꼬리표가 왼쪽 선에 매달리고 오른쪽이 통째로 빈다.
    가운데에 세우면 두 카드의 수가 각자 제 칸의 한가운데에 서서, 나란히

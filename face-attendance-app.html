@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=491">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=493">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=491"></script>
+<script src="assets/face-attendance-app.js?v=493"></script>
 </head>
 
 <body>
@@ -1437,7 +1437,7 @@
 <section class="scr scr--paper" data-screen="m-log-photo" data-title="이력 조회">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <h1 class="nav__t">출근 이력보기</h1>
+    <h1 class="nav__t">출퇴근 이력보기</h1>
   </header>
 
   <main class="body">
@@ -1453,13 +1453,14 @@
          같다: 현장이 정한 기준 · 그날 찍힌 시각 · 어느 길로 찍혔나.
          뱃지 하나에 '출근' 과 시각만 담던 때에는 기준도 경로도 적을 자리가
          없었다.
-         카드는 하나다 — 출근과 퇴근은 따로 쌓이는 이력이라, 한 화면이
-         맡는 것도 그중 하나다. 퇴근은 목록의 제 줄에서 따로 연다.
+         출근과 퇴근을 나란히 둔다 — 목록에서는 따로 쌓이지만, 한 사람의
+         하루는 둘이 짝이다. 사진은 그중 **출근 때 찍힌 얼굴**이다.
          시각은 초까지 적는다 — 목록 줄에서 고른 그 값이다 -->
     <div class="stmp">
       <p class="stmp__d">2026. 10. 20<b>(화)</b></p>
-      <div class="tcards tcards--one">
+      <div class="tcards">
         <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:05:19</span><span class="bd bd--positive">현장소장앱 · 얼굴</span></div>
+        <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v">17:32:08</span><span class="bd bd--positive">현장소장앱 · 얼굴</span></div>
       </div>
     </div>
 
