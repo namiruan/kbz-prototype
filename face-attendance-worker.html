@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=445">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=446">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=445"></script>
+<script src="assets/face-attendance-app.js?v=446"></script>
 </head>
 
 <body>
@@ -717,6 +717,22 @@
     </div>
   </main>
 
+  <!-- 자판이 **없는 기기**에서만 선다 — 데스크톱에는 화면 자판이 없어,
+       글칸이 화면 끝까지 차 '자판이 먹는 자리' 를 가늠할 수 없다. 그
+       자리를 그림으로 보여 준다(누르는 판이 아니다).
+       폰·태블릿에서는 걷는다 — 거기서는 기기가 제 자판을 올리고, 그림과
+       진짜가 겹치면 두 겹이 된다.
+       높이 319 는 아이폰 세로 한글 자판의 실측값으로, 이 저장소의
+       assets/kbd.css 가 웹 화면에서 쓰는 값과 같다 -->
+  <div class="kb" aria-hidden="true">
+    <div class="kb__rows">
+      <div class="kb__r"><span class="kb__k">ㅂ</span><span class="kb__k">ㅈ</span><span class="kb__k">ㄷ</span><span class="kb__k">ㄱ</span><span class="kb__k">ㅅ</span><span class="kb__k">ㅛ</span><span class="kb__k">ㅕ</span><span class="kb__k">ㅑ</span><span class="kb__k">ㅐ</span><span class="kb__k">ㅔ</span></div>
+      <div class="kb__r"><span class="kb__k">ㅁ</span><span class="kb__k">ㄴ</span><span class="kb__k">ㅇ</span><span class="kb__k">ㄹ</span><span class="kb__k">ㅎ</span><span class="kb__k">ㅗ</span><span class="kb__k">ㅓ</span><span class="kb__k">ㅏ</span><span class="kb__k">ㅣ</span></div>
+      <div class="kb__r"><span class="kb__k kb__k--fn kb__k--w15">⇧</span><span class="kb__k">ㅋ</span><span class="kb__k">ㅌ</span><span class="kb__k">ㅊ</span><span class="kb__k">ㅍ</span><span class="kb__k">ㅠ</span><span class="kb__k">ㅜ</span><span class="kb__k">ㅡ</span><span class="kb__k kb__k--fn kb__k--w15">⌫</span></div>
+      <div class="kb__r"><span class="kb__k kb__k--fn">!#1</span><span class="kb__k kb__k--fn">한/영</span><span class="kb__k kb__k--sp"></span><span class="kb__k">.</span><span class="kb__k kb__k--fn">완료</span></div>
+    </div>
+    <div class="kb__home"><i></i></div>
+  </div>
 </section>
 
 <!-- ===== ⑮ 근로자 앱 · 홈 (작업내용 작성 완료) =====

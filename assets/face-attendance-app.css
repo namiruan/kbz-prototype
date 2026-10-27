@@ -50,6 +50,7 @@
   --ap-primary-90:#113569;         /* Color/Text/primary-dark — 켜진 내비 */
   --ap-primary-5:#eef4fc;          /* color/light/primary/5 — 화면 바탕 */
   --ap-badge-positive:#dce8f9;     /* Color/badge/positive */
+  --ap-kb-bg:#d1d4d9;              /* 자판 그림의 바닥 */
   --ap-point:#e74900;              /* Color/Text/point · badge/point */
   --ap-point-bg:rgba(231,73,0,.1); /* Color/badge/negative */
   --ap-badge-normal:#e6e8ea;       /* Color/badge/normal */
@@ -2343,6 +2344,34 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   border:1px dashed var(--ap-g20);color:var(--ap-text-gray)}
 .att__n{font:var(--t-foot);letter-spacing:var(--ls-foot)}
 
+
+
+/* ── 화면 자판 그림 — 자판이 없는 기기에서만 ──
+   아이폰 세로의 한글 자판이다. 높이 319 는 자동완성 줄까지 포함한 실측값으로,
+   이 저장소의 assets/kbd.css 가 웹 화면에서 쓰는 값과 같다 — 두 곳이 다른
+   높이를 쓰면 '키보드가 먹는 자리' 가 화면마다 달라진다.
+   ⚠ 누를 수 있는 판이 아니라 **그 자리가 얼마인지 보여 주는 그림**이다.
+     글을 받는 것은 진짜 입력칸(.ta)이 한다.
+   ⚠ 손가락으로 쓰는 기기(폰·태블릿)에서는 걷는다 — 거기서는 기기가 제
+     자판을 올리므로 그림과 진짜가 겹쳐 두 겹이 된다. 자판이 없는
+     기기에서만 서서 '자판이 먹는 자리' 를 가늠하게 한다 */
+.kb{display:none}
+@media (hover:hover) and (pointer:fine){
+.kb{flex:none;height:319px;display:flex;flex-direction:column;
+  background:var(--ap-kb-bg);box-shadow:0 -1px 0 rgba(0,0,0,.14);
+  user-select:none;-webkit-user-select:none}
+.kb__rows{flex:1;display:flex;flex-direction:column;gap:6px;padding:6px 3px 8px}
+.kb__r{flex:1;display:flex;gap:5px;justify-content:center;padding:0 3px}
+.kb__k{font:400 20px/1 var(--ap-font);flex:1;min-width:0;
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;border-radius:5px;box-shadow:0 1px 0 rgba(0,0,0,.28);color:#000}
+.kb__k--fn{font-size:13px;background:#adb3bd;color:#111}
+.kb__k--w15{flex:1.5}
+.kb__k--sp{flex:4}
+/* 홈 인디케이터 자리 — 자판 아래에 남는 띠다 */
+.kb__home{flex:none;height:22px;display:flex;align-items:center;justify-content:center}
+.kb__home i{width:134px;height:5px;border-radius:3px;background:rgba(19,20,22,.55)}
+}
 
 /* ── 안내 글 ── */
 .note{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);padding:12px var(--ap-p6);background:var(--ap-primary-5);border-radius:var(--ap-r10);color:var(--ap-primary-70)}
