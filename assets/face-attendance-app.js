@@ -340,6 +340,8 @@
      ⚠ 세로보다 가로가 더 움직였을 때만 민 것으로 친다. 아래로 읽어
        내려가다 손끝이 비뚤어진 것까지 받으면 달이 제멋대로 넘어간다 */
   var MON_TAKE = 0.3;    /* 넘어가는 문턱 — 달 너비의 이만큼 */
+  var DECK_BUMP = 28;   /* 막힌 쪽으로 튕기는 거리 */
+  var DECK_FLICK = 0.4; /* 떨쳤다고 보는 빠르기 — px/ms */
   var MON_HOLD = 0.25;   /* 갈 수 없는 쪽이 따라오는 몫 */
   var MON_GAP  = 16;     /* 미리 세워 둔 달과의 틈 */
   var MON_AXIS = 6;      /* 이만큼 움직여야 가로인지 세로인지 가른다 */
@@ -538,6 +540,7 @@
     var at = scr.getAttribute('data-mode') === 'out' ? 1 : 0;
     var x0 = 0, y0 = 0, dx = 0, axis = null, on = false, ate = false;
     var acc = 0, rest;
+    var px = 0, pt = 0, vx = 0;          /* 마지막 걸음의 빠르기(px/ms) */
 
     function wide() { return box.getBoundingClientRect().width || 1; }
     /* 카드 사이의 틈만큼 더 밀어야 다음 장이 틀에 꼭 맞게 선다 */
@@ -548,7 +551,8 @@
 
     /* 줄을 제자리에 놓고, 토글과 화면의 표를 맞춘다 */
     function put() {
-      tray.style.transform = 'translateX(' + to(at) + ')';
+      tray.style.setProperty('--ap-at', to(at));
+      tray.style.setProperty('--ap-kick', '0px');
       btns.forEach(function (b, i) {
         b.classList.toggle('is-on', i === at);
         b.setAttribute('aria-pressed', i === at ? 'true' : 'false');
@@ -569,22 +573,57 @@
       }
       if (axis !== 'x') return false;
       dx = mx;
+      var now = Date.now();
+      if (now > pt) { vx = (dx - px) / (now - pt); px = dx; pt = now; }
       if (Math.abs(dx) > 4) ate = true;         /* 민 뒤의 클릭 한 번은 삼킨다 */
       var want = at + (dx < 0 ? 1 : -1);
       var k = (want < 0 || want >= n) ? 0.25 : 1;
       tray.classList.add('is-grab');
-      tray.style.transform = 'translateX(calc(' + to(at) + ' + ' + (dx * k) + 'px))';
+      tray.style.setProperty('--ap-at', to(at));
+      tray.style.setProperty('--ap-kick', (dx * k) + 'px');
       return true;
     }
+    /* 갈 데가 없는 쪽으로 밀었다 — 그쪽으로 한 번 더 밀렸다 돌아온다.
+       미는 동안의 저항(0.25)만으로는 '뻑뻑하다' 와 '막혔다' 가 가려지지
+       않는다. 애니메이션을 다시 걸려면 한 번 떼었다 붙여야 한다 */
+    function bump(way) {
+      tray.style.setProperty('--ap-bump', (way < 0 ? -1 : 1) * DECK_BUMP + 'px');
+      tray.classList.remove('is-bump');
+      void tray.offsetWidth;
+      tray.classList.add('is-bump');
+    }
+    tray.addEventListener('animationend', function () { tray.classList.remove('is-bump'); });
+
     function drop() {
       if (!on) return;
       on = false;
+      /* 전환을 되살린 **뒤에** 끌린 자리를 한 번 못 박는다. 같은 프레임에
+         값까지 바꾸면 브라우저가 전환을 한 박자 늦게 시작해, 카드가 잠깐
+         멎었다 가는 것처럼 보인다 */
       tray.classList.remove('is-grab');
-      if (axis === 'x' && Math.abs(dx) > wide() * 0.3) go(at + (dx < 0 ? 1 : -1));
-      put();                                    /* 문턱을 못 넘겼으면 제자리로 */
+      void tray.offsetWidth;
+      if (axis === 'x') {
+        var want = at + (dx < 0 ? 1 : -1);
+        /* 멀리 밀었거나, 짧아도 빠르게 떨쳤으면(플릭) 넘어간다 — 세게
+           밀어야만 넘어가면 손이 가볍게 쓸고 지나갈 수가 없다 */
+        var far = Math.abs(dx) > wide() * 0.3 ||
+                  (Math.abs(vx) > DECK_FLICK && (vx < 0) === (dx < 0));
+        if (want < 0 || want >= n) {
+          put();
+          if (Math.abs(dx) > 8) bump(dx);       /* 조금만 밀어도 막힌 줄 안다 */
+        } else {
+          if (far) go(want);
+          put();                                /* 문턱을 못 넘겼으면 제자리로 */
+        }
+      } else {
+        put();
+      }
       axis = null; dx = 0; acc = 0;
     }
-    function grab(x, y) { x0 = x; y0 = y; on = true; axis = null; dx = 0; ate = false; }
+    function grab(x, y) {
+      x0 = x; y0 = y; on = true; axis = null; dx = 0; ate = false;
+      px = 0; pt = Date.now(); vx = 0;
+    }
 
     btns.forEach(function (b, i) {
       b.addEventListener('click', function () { go(i); });
@@ -612,10 +651,21 @@
     /* 민 끝에서 손을 뗀 자리가 카드면 카메라가 열려 버린다 — 민 것과
        누른 것은 다른 일이다 */
     box.addEventListener('click', function (e) {
-      if (!ate) return;
-      ate = false;
+      if (ate) {
+        ate = false;
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      /* 옆에 비치는 카드를 누르면 그리로 넘어간다 — 눌린 것이 지금 카드가
+         아닌데 카메라가 열리면, 보이지도 않던 쪽의 인증이 시작된다 */
+      var card = e.target.closest && e.target.closest('.deck .cta');
+      if (!card) return;
+      var i = [].indexOf.call(tray.children, card);
+      if (i < 0 || i === at) return;
       e.preventDefault();
       e.stopPropagation();
+      go(i);
     }, true);
 
     /* 트랙패드의 두 손가락 가로 쓸기는 끄는 몸짓이 아니라 굴리는 몸짓이라
