@@ -1376,15 +1376,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    돌릴 수 있어야 제자리를 잃지 않는다 */
 @property --ap-kick{syntax:"<length>";inherits:false;initial-value:0px}
 .deck__t{transform:translateX(var(--ap-at,0px)) translateX(var(--ap-kick,0px))}
-/* 갈 데가 없는 쪽으로 밀고 놓으면 그쪽으로 한 번 더 밀렸다 돌아온다 —
-   저항만으로는 '뻑뻑하다' 와 '막혔다' 가 가려지지 않는다 */
-.deck__t.is-bump{animation:ap-deck-bump var(--ap-dur-slow) var(--ap-ease-sym)}
-@keyframes ap-deck-bump{
-  0%{--ap-kick:0px}
-  35%{--ap-kick:var(--ap-bump)}
-  100%{--ap-kick:0px}
-}
-@media (prefers-reduced-motion:reduce){.deck__t.is-bump{animation:none}}
+/* 갈 데가 없는 쪽에서 놓으면 **곧바로** 제자리로 돌아온다 — 막혔다는
+   말은 끄는 동안의 뻑뻑함이 이미 했다. 한 번 더 튕기면 그만큼 기다리게
+   된다 */
+.deck__t.is-snap{transition:transform var(--ap-dur-base) var(--ap-ease-exit)}
 /* 폭은 줄이 쥔다 — 카드는 줄을 꽉 채운다. 모서리와 그림자는 카드가 도로
    가진다: 틀이 날로 자르지 않으므로 그림자가 잘릴 일이 없다 */
 .deck .cta{flex:none;width:100%;max-width:none;

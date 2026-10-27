@@ -340,7 +340,6 @@
      ⚠ 세로보다 가로가 더 움직였을 때만 민 것으로 친다. 아래로 읽어
        내려가다 손끝이 비뚤어진 것까지 받으면 달이 제멋대로 넘어간다 */
   var MON_TAKE = 0.3;    /* 넘어가는 문턱 — 달 너비의 이만큼 */
-  var DECK_BUMP = 28;   /* 막힌 쪽으로 튕기는 거리 */
   var DECK_FLICK = 0.4; /* 떨쳤다고 보는 빠르기 — px/ms */
   var MON_HOLD = 0.25;   /* 갈 수 없는 쪽이 따라오는 몫 */
   var MON_GAP  = 16;     /* 미리 세워 둔 달과의 틈 */
@@ -596,16 +595,12 @@
       slide(Math.max(0, Math.min(n - 1, at - dx * k / lim)));
       return true;
     }
-    /* 갈 데가 없는 쪽으로 밀었다 — 그쪽으로 한 번 더 밀렸다 돌아온다.
-       미는 동안의 저항(0.25)만으로는 '뻑뻑하다' 와 '막혔다' 가 가려지지
-       않는다. 애니메이션을 다시 걸려면 한 번 떼었다 붙여야 한다 */
-    function bump(way) {
-      tray.style.setProperty('--ap-bump', (way < 0 ? -1 : 1) * DECK_BUMP + 'px');
-      tray.classList.remove('is-bump');
-      void tray.offsetWidth;
-      tray.classList.add('is-bump');
+    /* 갈 데가 없는 쪽에서 놓으면 곧바로 제자리로 — 막혔다는 말은 끄는
+       동안의 뻑뻑함(0.25)이 이미 했다 */
+    function snap() {
+      tray.classList.add('is-snap');
     }
-    tray.addEventListener('animationend', function () { tray.classList.remove('is-bump'); });
+    tray.addEventListener('transitionend', function () { tray.classList.remove('is-snap'); });
 
     function drop() {
       if (!on) return;
@@ -622,8 +617,8 @@
         var far = Math.abs(dx) > wide() * 0.3 ||
                   (Math.abs(vx) > DECK_FLICK && (vx < 0) === (dx < 0));
         if (want < 0 || want >= n) {
+          if (Math.abs(dx) > 4) snap();
           put();
-          if (Math.abs(dx) > 8) bump(dx);       /* 조금만 밀어도 막힌 줄 안다 */
         } else {
           if (far) go(want);
           put();                                /* 문턱을 못 넘겼으면 제자리로 */
