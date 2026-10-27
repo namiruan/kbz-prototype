@@ -531,12 +531,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   @keyframes ap-fade{from{--ap-fade-h:0px} to{--ap-fade-h:var(--ap-fade-deep)}}
 }
 
-.site{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-gap3)}
-/* '현장' 이라는 이름표는 달지 않는다 — 이 줄에 들 수 있는 것이 현장
-   이름뿐이라, 이름표가 가려 줄 것이 없다. 오른쪽 끝의 '변경' 이 무엇을
-   바꾸는 줄인지도 함께 말한다 */
-.site__v{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;min-width:0;color:var(--ap-primary-70);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
+/* 현장 카드가 든 띠는 제 면을 버린다 — 카드가 제 면을 가졌으므로, 그대로
+   두면 면 위에 면이 겹쳐 카드 안에 카드가 든 꼴이 된다. 자리(위·좌우
+   여백)만 남긴다 */
+.ctx:has(.card--site){padding:0;background:none;border-radius:0}
 /* ── 고르는 칸 — 시안 select-atomic(583:4117) 그대로 ──
    왼쪽 여백 16 · 오른쪽 6(꺾쇠가 제 여백 2 를 들고 있다) · 모서리 6.
    값을 고르기 전과 고른 뒤가 테와 글씨로 갈린다 — 고른 뒤에는 테가 짙어지고
