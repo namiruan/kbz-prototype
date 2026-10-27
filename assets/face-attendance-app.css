@@ -1864,7 +1864,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 움직임을 줄여 달라고 한 기기에서는 멈춘다 — 시스템 규약이다 */
 @media (prefers-reduced-motion:reduce){
   /* 멈춰 서면 사람만 남는다 — 레이저는 제 바탕값(opacity 0)으로 돌아가 숨는다 */
-  .scan__beam,.wave i,.cta__go,.cam__box::before,.cam__box::after{animation:none}
+  /* 띄우는 쪽 선택자를 그대로 되짚는다 — `.wave i` 한 마디로는
+     `.shot__box:not(…) .wave i` 에 명시도로 밀려 멈추지 못한다 */
+  .shot__box:not(.shot__box--done) .wave i,.scan--alert .wave i,
+  .shot__box:not(.shot__box--done) .scan__beam,.scan--alert .scan__beam,
+  .scan__beam,.wave i,.cta__go{animation:none}
   /* 얼굴은 바뀌지 않는다 — 첫 사람만 남는다. 눈·코·입은 애니메이션이
      띄우던 것이라(바탕값이 opacity:0), 멈추면 도로 보이게 해 준다 */
   .scan--hat .scan__plate,.scan--hat svg,.scan__f,.scan__hat-r{animation:none}
@@ -2488,6 +2492,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    얼굴을 맞출지 알 수 없다 */
 @keyframes ap-cam-pulse{0%,100%{opacity:.5} 50%{opacity:1}}
 .cam__box--ok{--ap-cam-edge:var(--ap-cam-ok);--ap-cam-wash:rgba(123,227,139,.5)}
+/* 숨 쉬기도 움직임이다 — 위의 공통 블록은 이 규칙보다 앞에 있어 덮지 못한다 */
+@media (prefers-reduced-motion:reduce){
+  .cam__box::before,.cam__box::after{animation:none}}
 /* 주된 동작은 바닥에 둔다 — 한 손으로 드는 기기에서 엄지가 닿는 자리다.
    틀과 좌우를 맞춘다 */
 .cam__go{cursor:pointer;font:var(--t-title2);letter-spacing:var(--ls-title2);
