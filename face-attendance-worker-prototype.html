@@ -65,124 +65,128 @@
 
     <nav class="proto-nav" aria-label="시나리오 선택">
 
-            <span class="proto-nav-group-label">근로자 앱 · 홈</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home"
+                  <span class="proto-nav-group-label">근로자 앱 · 홈</span>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">당일 퇴근</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home"
         data-why="근로자가 이 앱에서 하는 일은 하루치 출퇴근을 찍고 확인하는 것입니다.
 
 홈은 그날의 상태를 보여 주고, 지금 할 수 있는 동작 하나로 이어 줍니다. 출근 전에는 그 동작이 출근 인증입니다."
         data-steps="근로자 앱을 열고 오늘 날짜를 보고 있는 상태 — 아직 출근 인증을 하지 않았습니다. 날짜는 기기의 날짜를 따릅니다"
-        data-look="@sm @md @{.cal__week} 띠에는 한 달치 날짜가 들어 있습니다. 좁은 폭에서는 한 주, 넓어지면 두 주가 보이고, 스와이프는 주 단위로 멈춰 요일 자리가 흐트러지지 않습니다|@{.cal__week .cal__n--on} 날짜를 클릭하면 그날의 홈으로 가고 헤더 날짜도 함께 바뀝니다. 오늘 이후는 흐리게 막힙니다|@{.tcard__v--none} 아직 찍히지 않은 시각은 빈칸이 아니라 '--:--' 로 표시됩니다|@{.cta__now} '출근 인증하기' 버튼 위의 시각은 기기 시계를 그대로 받아 1초마다 바뀝니다|@{.cta__need} 얼굴 인증을 쓰는 현장이면 시각 옆에 '얼굴 인식' 이 함께 표시됩니다. '출근 인증하기' 버튼을 누르면 카메라가 열린다는 것을 미리 알려 줍니다|@{.row--zone} '인정범위 지도보기' 를 클릭하면 인정범위 지도가 바텀시트로 열립니다|@{.act__b--on} '출근 인증하기' 버튼을 클릭하면 얼굴 등록 안내로 이동합니다|@{.act__go} '출근 인증하기' 버튼 오른쪽 끝의 화살표가 일정 간격으로 한 번씩 움직입니다">홈 — 출근 전</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cal"
-        data-why="주간 띠에는 한 달치 날짜만 들어 있습니다. 다른 달로 가려면 이 화면에서 고릅니다.
-
-고르는 동안에도 홈을 벗어나지 않습니다. 날짜 하나 고르자고 화면을 옮기면, 보고 있던 자리로 돌아오는 길이 또 필요합니다."
-        data-steps="홈에서 날짜 영역을 클릭해 월 달력을 펼친 상태"
-        data-look="@{.calm__g} 날짜 칸을 스와이프하면 달이 손끝을 따라오고, 충분히 스와이프한 뒤 놓아야 그 달로 바뀝니다(트랙패드로 가로 스와이프해도 됩니다). 고르고 있던 날짜는 그대로 따라갑니다 — 그 달에 없는 날짜면 마지막 날이, 아직 오지 않은 날짜면 오늘이 선택됩니다|@{.calm__g} 오늘이 속한 달에서 다음 달로 스와이프하면, 달이 뻑뻑하게 조금만 따라오다 제자리로 돌아옵니다. 아직 오지 않은 달로는 넘어가지 않습니다|@{.cal__more--up} 펼친 동안에는 화살표가 위를 향합니다. 클릭하면 주간 달력으로 돌아갑니다|@{.calm__g .cal__n--off} 흐리게 표시된 날짜는 클릭되지 않습니다. 이번 달이 아닌 날짜와 오늘 이후 날짜입니다|@{.calm .cal__n--on} 채워진 원이 선택한 날짜입니다. 오늘이 아닌 날짜를 고르면 오늘 자리에 점선 테두리가 생깁니다|@{.calm .cal__n--on} 날짜를 클릭하면 그날의 홈으로 이동합니다. 기록이 있는 날짜는 숫자 아래에 점이 표시됩니다|@{.wheel} 년·월·일 휠은 각각 따로 스크롤되고, 손을 떼면 가운데 영역에 맞춰 멈춥니다. 멈춘 값으로 달력이 바뀌며 월 달력은 펼친 상태로 남습니다. 오늘 이후의 연·월·일은 휠에 나오지 않습니다|@{.dim--cal} 어두운 영역을 클릭하면 닫힙니다. 화살표로 닫을 때와 마찬가지로 보고 있던 날짜는 유지됩니다">홈 — 날짜 고르기</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-done"
+        data-look="@sm @md @{.cal__week} 띠에는 한 달치 날짜가 들어 있습니다. 좁은 폭에서는 한 주, 넓어지면 두 주가 보이고, 스와이프는 주 단위로 멈춰 요일 자리가 흐트러지지 않습니다|@{.cal__week .cal__n--on} 날짜를 클릭하면 그날의 홈으로 가고 헤더 날짜도 함께 바뀝니다. 오늘 이후는 흐리게 막힙니다|@{.tcard__v--none} 아직 찍히지 않은 시각은 빈칸이 아니라 '--:--' 로 표시됩니다|@{.cta__now} '출근 인증하기' 버튼 위의 시각은 기기 시계를 그대로 받아 1초마다 바뀝니다|@{.cta__need} 얼굴 인증을 쓰는 현장이면 시각 옆에 '얼굴 인식' 이 함께 표시됩니다. '출근 인증하기' 버튼을 누르면 카메라가 열린다는 것을 미리 알려 줍니다|@{.row--zone} '인정범위 지도보기' 를 클릭하면 인정범위 지도가 바텀시트로 열립니다|@{.act__b--on} '출근 인증하기' 버튼을 클릭하면 얼굴 등록 안내로 이동합니다|@{.act__go} '출근 인증하기' 버튼 오른쪽 끝의 화살표가 일정 간격으로 한 번씩 움직입니다">출근 전</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-done"
         data-why="출근은 찍혔고 퇴근은 아직인 상태입니다.
 
 퇴근은 작업내용을 쓴 뒤에만 찍을 수 있습니다. 그래서 지금 할 일은 작업내용 작성입니다."
         data-steps="얼굴 인증으로 출근이 기록되어 홈으로 돌아온 상태 — 작업내용은 아직 작성하지 않았습니다"
-        data-look="@{.bd--positive} 시각 아래의 '앱 · 얼굴' 뱃지는 그 기록이 어느 경로로 들어왔는지 보여 줍니다|@{.cal__n--open} 캘린더의 선택한 날짜 아래에 점이 경고색입니다 — 출근만 찍히고 퇴근이 없는 날입니다. 하루가 끝난 날은 파란 점입니다|@{.cardb} 클릭하면 작업내용 작성 화면으로 갑니다. 이 화면에서 누를 수 있는 것은 이것 하나입니다|@{.cardb__c} '작업내용 작성하기' 오른쪽 끝의 화살표가 일정 간격으로 한 번씩 움직입니다|@{.act__b--lock} '퇴근 인증하기' 는 잠겨 있어 눌리지 않고, 오른쪽 끝에 화살표 대신 자물쇠가 섭니다|@{.cta__why} 그 아래에 '작업내용 작성 후 퇴근이 가능해요' 가 붙습니다">홈 — 출근 완료</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-work"
+        data-look="@{.bd--positive} 시각 아래의 '앱 · 얼굴' 뱃지는 그 기록이 어느 경로로 들어왔는지 보여 줍니다|@{.cal__n--open} 캘린더의 선택한 날짜 아래에 점이 경고색입니다 — 출근만 찍히고 퇴근이 없는 날입니다. 하루가 끝난 날은 파란 점입니다|@{.cardb} 클릭하면 작업내용 작성 화면으로 갑니다. 이 화면에서 누를 수 있는 것은 이것 하나입니다|@{.cardb__c} '작업내용 작성하기' 오른쪽 끝의 화살표가 일정 간격으로 한 번씩 움직입니다|@{.act__b--lock} '퇴근 인증하기' 는 잠겨 있어 눌리지 않고, 오른쪽 끝에 화살표 대신 자물쇠가 섭니다|@{.cta__why} 그 아래에 '작업내용 작성 후 퇴근이 가능해요' 가 붙습니다">출근 완료</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-work"
         data-why="작업내용까지 작성한 상태입니다.
 
 이제 퇴근을 찍을 수 있습니다."
         data-steps="작업내용을 저장하고 홈으로 돌아온 상태"
-        data-look="@{.wnote__e} '수정' 을 클릭하면 작업내용 작성 화면으로 돌아갑니다|@{.act__b--dark} '퇴근 인증하기' 버튼이 활성화되고, 오른쪽 끝이 자물쇠 아이콘에서 화살표로 바뀝니다">홈 — 작업내용 작성 완료</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-out"
+        data-look="@{.wnote__e} '수정' 을 클릭하면 작업내용 작성 화면으로 돌아갑니다|@{.act__b--dark} '퇴근 인증하기' 버튼이 활성화되고, 오른쪽 끝이 자물쇠 아이콘에서 화살표로 바뀝니다">작업내용 작성 완료</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-out"
         data-why="하루가 끝난 상태입니다.
 
 기록된 시각이 잘못되었을 때 고치는 버튼만 남습니다."
         data-steps="퇴근 인증까지 끝나 홈으로 돌아온 상태"
-        data-look="@{.tcards} 출근과 퇴근 모두 시각 아래에 인증 경로가 함께 표시됩니다|@{.cardb--quiet} 아래쪽의 '퇴근시간 변경' 은 화살표가 움직이지 않습니다. 지금 하라고 권하는 기능이 아니기 때문입니다">홈 — 퇴근 완료</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-past"
-        data-why="지난 날짜의 기록을 확인하는 화면입니다.
-
-지난 날짜에는 인증할 것이 없습니다. 오늘로 돌아가는 '오늘' 버튼과 '퇴근시간 변경' 버튼만 둡니다."
-        data-steps="주간 달력에서 지난 날짜를 클릭한 상태"
-        data-look="@{.pill--today} '오늘' 이 흰 면에 짙은 글자로 켜집니다. 클릭하면 오늘 날짜로 이동합니다. 오늘을 선택한 화면에서는 회색 면에 흐린 글자로 꺼집니다|@{.cardb--quiet} 지난 날짜에서 할 수 있는 것은 '퇴근시간 변경' 뿐입니다">홈 — 지난 날 보기</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-over-today"
+        data-look="@{.tcards} 출근과 퇴근 모두 시각 아래에 인증 경로가 함께 표시됩니다|@{.cardb--quiet} 아래쪽의 '퇴근시간 변경' 은 화살표가 움직이지 않습니다. 지금 하라고 권하는 기능이 아니기 때문입니다">퇴근 완료</button>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">익일 퇴근</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-over-today"
         data-why="이전 근무를 닫지 못한 채 날짜가 바뀌었을 때 화면입니다.
 
 이전 날 끝나지 않은 근무가 있는 경우 다음 출근 인증이 잠기고, 이전 근무 퇴근 인증 바로가기 버튼이 생깁니다."
         data-steps="이전 날 22:00에 출근하고 퇴근을 찍지 않은 채 날짜가 바뀌어, 그 다음 날 홈을 연 상태"
-        data-look="@{.cardb--warn} &#39;이전 근무 퇴근 인증하기&#39; 는 면째 주의색입니다. 클릭하면 그 근무의 날로 가고, 퇴근은 거기서 찍습니다|@{.act__b--lock} 출근 버튼은 잠겨 있고, 이름 아래에 &#39;이전 근무 퇴근 인증 후 출근이 가능해요&#39; 가 붙습니다. 오른쪽 끝은 화살표가 자물쇠 아이콘으로 대체됩니다">홈 — 이전 근무 퇴근 전</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-over"
+        data-look="@{.cardb--warn} &#39;이전 근무 퇴근 인증하기&#39; 는 면째 주의색입니다. 클릭하면 그 근무의 날로 가고, 퇴근은 거기서 찍습니다|@{.act__b--lock} 출근 버튼은 잠겨 있고, 이름 아래에 &#39;이전 근무 퇴근 인증 후 출근이 가능해요&#39; 가 붙습니다. 오른쪽 끝은 화살표가 자물쇠 아이콘으로 대체됩니다">이전 근무 퇴근 전</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-over"
         data-why="익일 퇴근이 발생할 때 화면입니다.
 
 출퇴근 한 건은 출근한 날에 기록되므로, 날짜가 바뀐 뒤에 찍은 퇴근도 이 날의 기록이 됩니다."
         data-steps="22:00에 출근해 작업내용까지 쓰고 퇴근을 찍지 않은 채 날짜가 바뀌어, 다음 날 홈의 알림을 눌러 그 날짜로 돌아온 상태"
-        data-look="@{.cal__n--open} 캘린더의 선택한 날짜 아래에 점이 경고색입니다. 출근만 찍히고 퇴근이 아직 없다는 뜻입니다|@{.pill--today} 오늘이 아닌 날짜를 선택해 &#39;오늘&#39;이 켜져 있습니다. 클릭하면 오늘 날짜로 이동합니다">홈 — 익일 퇴근 (퇴근 전)</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-over-out"
+        data-look="@{.cal__n--open} 캘린더의 선택한 날짜 아래에 점이 경고색입니다. 출근만 찍히고 퇴근이 아직 없다는 뜻입니다|@{.pill--today} 오늘이 아닌 날짜를 선택해 &#39;오늘&#39;이 켜져 있습니다. 클릭하면 오늘 날짜로 이동합니다">퇴근 전</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-over-out"
         data-why="출근과 퇴근이 다른 날일 때 화면입니다.
 
 익일 퇴근인 경우 출근일 기준 날짜에 퇴근 시각이 함께 표기됩니다."
         data-steps="22:00에 출근해 다음 날 06:10에 퇴근한 날짜를 열어 본 상태"
-        data-look="@{.tcards .tcard:last-child .tcard__k} 퇴근 카드의 이름이 &#39;익일 퇴근&#39; 입니다. 날을 넘겼다는 것은 이름이 알려 주고, 시각에는 수만 적힙니다|@{.cal__n--on} 점은 출근한 날에만 찍힙니다. 퇴근만 걸친 날에 또 찍으면 이틀 일한 것으로 읽힙니다|@{.cardb--quiet} 출근과 퇴근이 모두 찍힌 날이라 &#39;퇴근시간 변경&#39; 만 할 수 있습니다">홈 — 익일 퇴근 완료</button>
+        data-look="@{.tcards .tcard:last-child .tcard__k} 퇴근 카드의 이름이 &#39;익일 퇴근&#39; 입니다. 날을 넘겼다는 것은 이름이 알려 주고, 시각에는 수만 적힙니다|@{.cal__n--on} 점은 출근한 날에만 찍힙니다. 퇴근만 걸친 날에 또 찍으면 이틀 일한 것으로 읽힙니다|@{.cardb--quiet} 출근과 퇴근이 모두 찍힌 날이라 &#39;퇴근시간 변경&#39; 만 할 수 있습니다">퇴근 완료</button>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">날짜 옮기기</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cal"
+        data-why="주간 띠에는 한 달치 날짜만 들어 있습니다. 다른 달로 가려면 이 화면에서 고릅니다.
+
+고르는 동안에도 홈을 벗어나지 않습니다. 날짜 하나 고르자고 화면을 옮기면, 보고 있던 자리로 돌아오는 길이 또 필요합니다."
+        data-steps="홈에서 날짜 영역을 클릭해 월 달력을 펼친 상태"
+        data-look="@{.calm__g} 날짜 칸을 스와이프하면 달이 손끝을 따라오고, 충분히 스와이프한 뒤 놓아야 그 달로 바뀝니다(트랙패드로 가로 스와이프해도 됩니다). 고르고 있던 날짜는 그대로 따라갑니다 — 그 달에 없는 날짜면 마지막 날이, 아직 오지 않은 날짜면 오늘이 선택됩니다|@{.calm__g} 오늘이 속한 달에서 다음 달로 스와이프하면, 달이 뻑뻑하게 조금만 따라오다 제자리로 돌아옵니다. 아직 오지 않은 달로는 넘어가지 않습니다|@{.cal__more--up} 펼친 동안에는 화살표가 위를 향합니다. 클릭하면 주간 달력으로 돌아갑니다|@{.calm__g .cal__n--off} 흐리게 표시된 날짜는 클릭되지 않습니다. 이번 달이 아닌 날짜와 오늘 이후 날짜입니다|@{.calm .cal__n--on} 채워진 원이 선택한 날짜입니다. 오늘이 아닌 날짜를 고르면 오늘 자리에 점선 테두리가 생깁니다|@{.calm .cal__n--on} 날짜를 클릭하면 그날의 홈으로 이동합니다. 기록이 있는 날짜는 숫자 아래에 점이 표시됩니다|@{.wheel} 년·월·일 휠은 각각 따로 스크롤되고, 손을 떼면 가운데 영역에 맞춰 멈춥니다. 멈춘 값으로 달력이 바뀌며 월 달력은 펼친 상태로 남습니다. 오늘 이후의 연·월·일은 휠에 나오지 않습니다|@{.dim--cal} 어두운 영역을 클릭하면 닫힙니다. 화살표로 닫을 때와 마찬가지로 보고 있던 날짜는 유지됩니다">날짜 고르기</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-past"
+        data-why="지난 날짜의 기록을 확인하는 화면입니다.
+
+지난 날짜에는 인증할 것이 없습니다. 오늘로 돌아가는 '오늘' 버튼과 '퇴근시간 변경' 버튼만 둡니다."
+        data-steps="주간 달력에서 지난 날짜를 클릭한 상태"
+        data-look="@{.pill--today} '오늘' 이 흰 면에 짙은 글자로 켜집니다. 클릭하면 오늘 날짜로 이동합니다. 오늘을 선택한 화면에서는 회색 면에 흐린 글자로 꺼집니다|@{.cardb--quiet} 지난 날짜에서 할 수 있는 것은 '퇴근시간 변경' 뿐입니다">지난 날 보기</button>
       <span class="proto-nav-group-label">근로자 앱 · 얼굴 등록</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-face"
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-face"
         data-why="얼굴 인증을 쓰는 현장인데 이 현장에 등록된 얼굴이 없는 경우입니다.
 
 등록을 마쳐야 출근을 찍을 수 있어, 출근 대신 등록으로 넘깁니다."
         data-steps="홈에서 '출근 인증하기' 를 클릭한 상태 — 이 현장에 등록된 얼굴이 없습니다"
-        data-look="@{.scan--alert} 얼굴을 스캔하는 일러스트가 반복 재생됩니다. 스캔 선이 위에서 아래로 지나가고 파장이 퍼집니다|@{.scan__go} '얼굴 등록하고 출근하기' 를 클릭하면 바텀시트가 내려가지 않고 바로 동의 화면으로 넘어갑니다. 내려가는 몸짓은 '취소하고 나간다' 는 뜻이라 닫기(✕)와 어두운 영역에만 씁니다|@{.dim} 어두운 영역이나 닫기(✕)를 클릭하면 홈으로 돌아갑니다">얼굴 등록 안내</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-reg"
+        data-look="@{.scan--alert} 얼굴을 스캔하는 일러스트가 반복 재생됩니다. 스캔 선이 위에서 아래로 지나가고 파장이 퍼집니다|@{.scan__go} '얼굴 등록하고 출근하기' 를 클릭하면 바텀시트가 내려가지 않고 바로 동의 화면으로 넘어갑니다. 내려가는 몸짓은 '취소하고 나간다' 는 뜻이라 닫기(✕)와 어두운 영역에만 씁니다|@{.dim} 어두운 영역이나 닫기(✕)를 클릭하면 홈으로 돌아갑니다">안내</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-reg"
         data-why="얼굴은 민감정보라 촬영 전에 동의를 받는 단계입니다.
 
 등록한 얼굴은 그 현장의 출퇴근 확인에만 쓰기 때문에 동의도 현장마다 한 번씩 받습니다."
         data-steps="얼굴 등록 안내에서 '얼굴 등록하고 출근하기' 를 클릭한 상태"
-        data-look="@{.card--agree} '전체 동의' 를 선택하면 아래 두 항목이 함께 선택됩니다. 각 항목 오른쪽 화살표를 클릭하면 약관 본문으로 들어갑니다|@{.bnr} 등록한 얼굴을 어디에 쓰는지, 동의하지 않으면 어떻게 되는지를 적습니다|@{.act__b--on} '동의하고 촬영하기' 를 클릭하면 촬영 확인 화면으로 이동합니다">얼굴 등록 — 동의</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-shot"
+        data-look="@{.card--agree} '전체 동의' 를 선택하면 아래 두 항목이 함께 선택됩니다. 각 항목 오른쪽 화살표를 클릭하면 약관 본문으로 들어갑니다|@{.bnr} 등록한 얼굴을 어디에 쓰는지, 동의하지 않으면 어떻게 되는지를 적습니다|@{.act__b--on} '동의하고 촬영하기' 를 클릭하면 촬영 확인 화면으로 이동합니다">동의</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-shot"
         data-why="촬영한 사진을 등록하기 전에 한 번 확인하는 단계입니다.
 
 여기서 등록하면 출근 인증까지 그대로 이어집니다."
         data-steps="'동의하고 촬영하기' 를 클릭해 얼굴을 촬영한 상태"
-        data-look="@{.confirm__ok} '등록하고 출근 인증하기' 를 클릭하면 등록이 끝나고 바로 출근 인증 카메라가 열립니다 — 이름이 두 동작을 함께 적고 있습니다|@{.confirm__re} '다시 촬영하기' 를 클릭하면 카메라로 돌아갑니다">얼굴 등록 — 촬영 확인</button>
-      <span class="proto-nav-group-label">근로자 앱 · 출근 인증</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam"
+        data-look="@{.confirm__ok} '등록하고 출근 인증하기' 를 클릭하면 등록이 끝나고 바로 출근 인증 카메라가 열립니다 — 이름이 두 동작을 함께 적고 있습니다|@{.confirm__re} '다시 촬영하기' 를 클릭하면 카메라로 돌아갑니다">촬영 확인</button>
+      <span class="proto-nav-group-label">근로자 앱 · 출퇴근 인증</span>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">출근 인증</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam"
         data-why="출근 인증을 위해 얼굴을 촬영하는 화면입니다.
 
 누구를 확인하는 중인지 먼저 보여 주어야, 다른 사람의 휴대폰으로 대신 찍는 일을 막을 수 있습니다."
         data-steps="얼굴 등록을 마쳐 출근 인증으로 이어진 상태"
-        data-look="@{.cam__who} 촬영 영역 위에 누구를 확인하는 중인지 적힙니다|@{.cam__go} '출근 인증하기' 버튼을 클릭하면 인증 성공 화면으로 이동합니다|@{.cam__back} 왼쪽 위 뒤로 가기를 클릭하면 홈으로 돌아갑니다">출근 인증 — 카메라</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-ok"
+        data-look="@{.cam__who} 촬영 영역 위에 누구를 확인하는 중인지 적힙니다|@{.cam__go} '출근 인증하기' 버튼을 클릭하면 인증 성공 화면으로 이동합니다|@{.cam__back} 왼쪽 위 뒤로 가기를 클릭하면 홈으로 돌아갑니다">카메라</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-ok"
         data-why="출근이 기록된 결과 화면입니다.
 
 날마다 반복되는 인증이라 잠깐 보여 주고 앱이 자동으로 홈으로 돌려보냅니다."
         data-steps="얼굴이 인식되어 출근이 기록된 상태"
-        data-look="@{.cam__sub} '출근 처리 완료!' 아래에 기록된 시각이 표시됩니다. 홈의 출근 카드에서 다시 보게 될 값입니다|@{.cam__go} '메인으로' 를 클릭하면 홈으로 이동합니다. ⚠ 자동으로 돌아가는 동작은 앱(Flutter)이 하는 일이라 프로토타입에서는 일어나지 않습니다">출근 인증 — 성공</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-fail"
+        data-look="@{.cam__sub} '출근 처리 완료!' 아래에 기록된 시각이 표시됩니다. 홈의 출근 카드에서 다시 보게 될 값입니다|@{.cam__go} '메인으로' 를 클릭하면 홈으로 이동합니다. ⚠ 자동으로 돌아가는 동작은 앱(Flutter)이 하는 일이라 프로토타입에서는 일어나지 않습니다">성공</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-fail"
         data-why="등록된 얼굴과 다른 사람이 촬영된 경우입니다.
 
 여기서 할 수 있는 일은 다시 찍는 것뿐입니다."
         data-steps="등록된 얼굴과 다른 얼굴이 촬영된 상태"
-        data-look="@{.cam__t--fail} '본인 확인 실패' 는 한 줄에 들어가 위의 이름 표시를 가리지 않습니다|@{.cam__go} '다시 인증하기' 를 클릭하면 카메라로 돌아갑니다">출근 인증 — 본인 확인 실패</button>
-      <span class="proto-nav-group-label">근로자 앱 · 퇴근 인증</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-out"
+        data-look="@{.cam__t--fail} '본인 확인 실패' 는 한 줄에 들어가 위의 이름 표시를 가리지 않습니다|@{.cam__go} '다시 인증하기' 를 클릭하면 카메라로 돌아갑니다">본인 확인 실패</button>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">퇴근 인증</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-out"
         data-why="퇴근 인증을 위해 얼굴을 촬영하는 화면입니다.
 
 출근 인증과 같은 화면을 쓰고, 기록되는 값만 다릅니다."
         data-steps="작업내용을 작성한 홈에서 '퇴근 인증하기' 를 클릭한 상태"
-        data-look="@{.cam__go} 버튼 문구만 '퇴근 인증하기' 로 바뀝니다. 클릭하면 인증 성공 화면으로 이동합니다|@{.cam__back} 뒤로 가면 작업내용을 작성한 홈으로 돌아갑니다">퇴근 인증 — 카메라</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-out-ok"
+        data-look="@{.cam__go} 버튼 문구만 '퇴근 인증하기' 로 바뀝니다. 클릭하면 인증 성공 화면으로 이동합니다|@{.cam__back} 뒤로 가면 작업내용을 작성한 홈으로 돌아갑니다">카메라</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-out-ok"
         data-why="퇴근이 기록된 결과 화면입니다."
         data-steps="얼굴이 인식되어 퇴근이 기록된 상태"
-        data-look="@{.cam__t--ok} '퇴근 처리 완료!' 아래에 기록된 시각이 표시됩니다|@{.cam__go} '메인으로' 를 클릭하면 홈으로 이동합니다">퇴근 인증 — 성공</button>
+        data-look="@{.cam__t--ok} '퇴근 처리 완료!' 아래에 기록된 시각이 표시됩니다|@{.cam__go} '메인으로' 를 클릭하면 홈으로 이동합니다">성공</button>
       <span class="proto-nav-group-label">근로자 앱 · 작업내용</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-work"
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-work"
         data-why="그날 한 일을 적는 화면입니다.
 
 퇴근 인증을 열려면 이 작성을 거쳐야 합니다."
         data-steps="홈에서 '작업내용 작성하기' 를 클릭하고 입력칸에 커서가 들어간 상태"
-        data-look="@{.kb} ⚠ 키보드는 이미지입니다. 글자를 입력받는 것은 앱과 기기 키보드가 하는 일이라 프로토타입에서는 동작하지 않습니다|@{.nav__tx} '저장' 을 클릭하면 작업내용이 표시된 홈으로 이동합니다|@{.ta} 입력칸은 키보드와 사진 첨부 영역이 쓰고 남은 높이를 모두 차지합니다|@{.att--add} 사진은 목록 끝의 점선 칸('사진 추가')에서 더합니다">작업내용 작성</button>
+        data-look="@{.kb} ⚠ 키보드는 이미지입니다. 글자를 입력받는 것은 앱과 기기 키보드가 하는 일이라 프로토타입에서는 동작하지 않습니다|@{.nav__tx} '저장' 을 클릭하면 작업내용이 표시된 홈으로 이동합니다|@{.ta} 입력칸은 키보드와 사진 첨부 영역이 쓰고 남은 높이를 모두 차지합니다|@{.att--add} 사진은 목록 끝의 점선 칸('사진 추가')에서 더합니다">작성</button>
       <span class="proto-nav-group-label">근로자 앱 · 인정범위</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-map"
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-map"
         data-why="지금 내가 인정범위 안에 있는지 확인하는 화면입니다.
 
 한 번 보고 닫는 기능이라 홈을 벗어나지 않고 바텀시트로 띄웁니다."
         data-steps="홈에서 '인정범위 지도보기' 를 클릭한 상태"
-        data-look="@{.sheet} 바텀시트가 아래에서 올라오고 뒤쪽 화면도 함께 어두워집니다|@{.zone__m} ⚠ 지도는 플레이스홀더입니다. 반경 원과 핀만 그리고 실제 지도 타일은 넣지 않습니다|@{.dim} 지도 안을 클릭해도 닫히지 않습니다. 어두운 영역이나 닫기(✕)를 클릭하면 홈으로 돌아갑니다">인정범위 지도</button>
+        data-look="@{.sheet} 바텀시트가 아래에서 올라오고 뒤쪽 화면도 함께 어두워집니다|@{.zone__m} ⚠ 지도는 플레이스홀더입니다. 반경 원과 핀만 그리고 실제 지도 타일은 넣지 않습니다|@{.dim} 지도 안을 클릭해도 닫히지 않습니다. 어두운 영역이나 닫기(✕)를 클릭하면 홈으로 돌아갑니다">지도</button>
 
     </nav>
   </aside>
