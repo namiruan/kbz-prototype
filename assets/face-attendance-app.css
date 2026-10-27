@@ -1734,8 +1734,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 @keyframes ap-face{0%{opacity:1} 20%{opacity:0}}
 /* 퇴근 얼굴에만 얹는 흙자국과 땀 — 얼굴과 같은 색이되 옅게 깐다.
    또렷하게 두면 점이나 수염처럼 '그 사람의 생김' 으로 읽힌다 */
-.scan__dust{opacity:.4}
-.scan__drip{opacity:.68}
+/* 얼굴에 맺힌 땀 — 알 하나를 자리마다 옮겨 크기만 달리 쓴다.
+   흙자국(면)으로 두었더니 점이나 수염처럼 '그 사람의 생김' 으로 읽혔다 */
+.scan__drip{opacity:.58}
 /* 모자에 묻은 자국은 **모자보다 짙게** 깐다 — 얼굴은 흰 면이라 옅은
    파랑이 자국으로 읽히지만, 모자는 이미 짙어 옅은 색을 얹으면 빛이
    닿은 자리처럼 보인다 */
