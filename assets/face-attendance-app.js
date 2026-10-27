@@ -49,6 +49,7 @@
     roll(hit);
     wheel(hit);
     swipe(hit);
+    deck(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -523,6 +524,116 @@
      주소를 복사해 가면 그 달이 열려야 한다.
      뒤로 가기 목록에는 쌓지 않는다. 달을 다섯 번 넘겼다고 뒤로 가기를
      다섯 번 눌러야 하는 것은 민 사람이 바란 일이 아니다 */
+  /* ── 출근·퇴근 모드 ──
+     카드 줄을 민다. 달 넘기기(swipe)와 같은 결이다 — 손끝을 따라가다가,
+     틀 폭의 30% 를 넘겨야 넘어가고, 갈 데가 없는 쪽은 0.25 만 따라온다.
+     달과 다른 것은 **미리 세울 것이 없다**는 점이다: 카드 두 장이 이미
+     한 줄에 나란히 있어, 미는 동안 들어올 장이 그대로 보인다 */
+  function deck(scr) {
+    var box = scr.querySelector('.deck');
+    if (!box) return;
+    var tray = box.querySelector('.deck__t');
+    var btns = [].slice.call(scr.querySelectorAll('.mode__b'));
+    var n = tray.children.length;
+    var at = scr.getAttribute('data-mode') === 'out' ? 1 : 0;
+    var x0 = 0, y0 = 0, dx = 0, axis = null, on = false, ate = false;
+    var acc = 0, rest;
+
+    function wide() { return box.getBoundingClientRect().width || 1; }
+    /* 카드 사이의 틈만큼 더 밀어야 다음 장이 틀에 꼭 맞게 선다 */
+    function gap() {
+      return parseFloat(getComputedStyle(tray).columnGap) || 0;
+    }
+    function to(i) { return 'calc(' + (-i * 100) + '% - ' + (i * gap()) + 'px)'; }
+
+    /* 줄을 제자리에 놓고, 토글과 화면의 표를 맞춘다 */
+    function put() {
+      tray.style.transform = 'translateX(' + to(at) + ')';
+      btns.forEach(function (b, i) {
+        b.classList.toggle('is-on', i === at);
+        b.setAttribute('aria-pressed', i === at ? 'true' : 'false');
+      });
+      scr.setAttribute('data-mode', at ? 'out' : 'in');
+    }
+    function go(i) {
+      if (i < 0 || i >= n || i === at) return false;
+      at = i; put(); return true;
+    }
+
+    /* 손끝을 따라간다. 막힌 쪽은 덜 따라와 '여기가 끝' 이라고 말한다 */
+    function pull(mx, my) {
+      if (!on) return false;
+      if (!axis) {
+        if (Math.abs(mx) < 6 && Math.abs(my) < 6) return false;
+        axis = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
+      }
+      if (axis !== 'x') return false;
+      dx = mx;
+      if (Math.abs(dx) > 4) ate = true;         /* 민 뒤의 클릭 한 번은 삼킨다 */
+      var want = at + (dx < 0 ? 1 : -1);
+      var k = (want < 0 || want >= n) ? 0.25 : 1;
+      tray.classList.add('is-grab');
+      tray.style.transform = 'translateX(calc(' + to(at) + ' + ' + (dx * k) + 'px))';
+      return true;
+    }
+    function drop() {
+      if (!on) return;
+      on = false;
+      tray.classList.remove('is-grab');
+      if (axis === 'x' && Math.abs(dx) > wide() * 0.3) go(at + (dx < 0 ? 1 : -1));
+      put();                                    /* 문턱을 못 넘겼으면 제자리로 */
+      axis = null; dx = 0; acc = 0;
+    }
+    function grab(x, y) { x0 = x; y0 = y; on = true; axis = null; dx = 0; ate = false; }
+
+    btns.forEach(function (b, i) {
+      b.addEventListener('click', function () { go(i); });
+    });
+
+    box.addEventListener('touchstart', function (e) {
+      var t = e.changedTouches[0]; grab(t.clientX, t.clientY);
+    }, { passive: true });
+    box.addEventListener('touchmove', function (e) {
+      var t = e.changedTouches[0];
+      if (pull(t.clientX - x0, t.clientY - y0) && e.cancelable) e.preventDefault();
+    }, { passive: false });
+    box.addEventListener('touchend', drop, { passive: true });
+    box.addEventListener('touchcancel', drop, { passive: true });
+
+    /* 손가락이 없는 자리에서는 끌어서 민다. 받는 자리를 문서에 두는 것은,
+       끌다가 틀 밖으로 나가도 끌던 것이 이어져야 하기 때문이다 */
+    box.addEventListener('mousedown', function (e) {
+      grab(e.clientX, e.clientY);
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', function (e) { if (on) pull(e.clientX - x0, e.clientY - y0); });
+    document.addEventListener('mouseup', drop);
+
+    /* 민 끝에서 손을 뗀 자리가 카드면 카메라가 열려 버린다 — 민 것과
+       누른 것은 다른 일이다 */
+    box.addEventListener('click', function (e) {
+      if (!ate) return;
+      ate = false;
+      e.preventDefault();
+      e.stopPropagation();
+    }, true);
+
+    /* 트랙패드의 두 손가락 가로 쓸기는 끄는 몸짓이 아니라 굴리는 몸짓이라
+       위의 어느 줄에도 걸리지 않는다. 받아서 끄는 것과 같은 길로 보낸다 —
+       막지 않으면 브라우저가 뒤로 가기로 가져간다 */
+    box.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault();
+      if (!on) { on = true; axis = 'x'; acc = 0; dx = 0; ate = false; }
+      acc -= e.deltaX;
+      pull(acc, 0);
+      clearTimeout(rest);
+      rest = setTimeout(drop, 120);             /* 손이 멎으면 뗀 것으로 본다 */
+    }, { passive: false });
+
+    put();
+  }
+
   function hop(scr, n) {
     var v = shown(scr), t = new Date(v.y, v.m - 1 + n, 1);
     var y = t.getFullYear(), m = t.getMonth() + 1;
