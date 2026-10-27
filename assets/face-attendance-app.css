@@ -616,6 +616,8 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    이 줄이 제 여백을 쥔 머리칸(.hd--bare) 안에 들지만, 여기서는 현장 카드와
    거르개 사이에 끼어 그 둘과 좌우를 맞춰야 한다 */
 .cal--log{margin:var(--ap-p6) var(--ap-p6) 0}
+/* 날짜와 두 손잡이가 한 덩어리로 줄 한가운데에 선다 */
+.cal--log .cal__top{justify-content:center}
 /* ── 날짜 고르개 — 이력 화면 ──
    현장 **아래**에 선다: 현장을 고르고 그 안에서 날을 고르는 차례다.
    한 날씩 좌우로 옮긴다. 일자별 달력(주 띠)은 걷었다 — 띠는 '이 주의
