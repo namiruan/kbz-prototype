@@ -269,8 +269,10 @@
   function swipe(scr) {
     var g = scr.querySelector('.calm__g');
     if (!g) return;
+    var wrap = g.parentNode;                  /* .calm — 달을 담은 자리 */
     var x0 = 0, y0 = 0, dx = 0, axis = null, on = false;
     var peek = null, dir = 0, ate = false, until = 0, acc = 0, rest;
+    var grow = 0;                             /* 들어올 달이 더 가진 키 */
     var rec = scr.getAttribute('data-rec') || 'none';
 
     function wide() { return g.getBoundingClientRect().width; }
@@ -306,14 +308,28 @@
       peek.style.left = n > 0 ? 'calc(100% + ' + MON_GAP + 'px)'
                                : 'calc(-100% - ' + MON_GAP + 'px)';
       fill(peek, t, iso(t.y, t.m, t.d), false, rec);
-      g.parentNode.appendChild(peek);
+      wrap.appendChild(peek);
+      /* 달마다 줄 수가 다르다(다섯 줄 · 여섯 줄). 들어올 달이 한 줄 더
+         가졌으면 **바탕도 같이 따라 자라야** 한다 — 바탕이 제자리에
+         있으면 들어온 달의 마지막 줄이 바탕 밖, 어두운 자리 위에 선다.
+         미리 세운 달은 띄워 둔 것이라 자리를 넓히지 못하므로, 그 차이를
+         담은 자리(.calm)의 아래 여백으로 준다 */
+      grow = peek.offsetHeight - g.offsetHeight;
     }
-    function clear() { if (peek) peek.parentNode.removeChild(peek); peek = null; dir = 0; }
+    function clear() {
+      if (peek) peek.parentNode.removeChild(peek);
+      peek = null; dir = 0; grow = 0;
+      wrap.style.marginBottom = '';
+    }
 
     function put(x) {
       var t = x ? 'translateX(' + x + 'px)' : '';
       g.style.transform = t;
       if (peek) peek.style.transform = t;
+      /* 바탕은 **민 만큼** 자란다 — 밀기 시작하자마자 한 줄 몫이 열리면
+         아직 오지도 않은 달 때문에 바탕이 들썩인 꼴이 된다 */
+      wrap.style.marginBottom = grow
+        ? (grow * Math.min(1, Math.abs(x) / wide())) + 'px' : '';
     }
 
     function pull(ax, ay) {
@@ -345,6 +361,7 @@
         if (go) hop(scr, n);
         clear();
         g.classList.remove('is-slide');
+        wrap.classList.remove('is-slide');
         put(0);
         dx = 0;
       });
@@ -354,6 +371,7 @@
        갈 거리가 0 이면 전환이 아예 일어나지 않으므로 받침을 둔다 */
     function slide(to, done) {
       g.classList.add('is-slide');
+      wrap.classList.add('is-slide');
       if (peek) peek.classList.add('is-slide');
       var over = false;
       function fin() {
