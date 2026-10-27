@@ -111,6 +111,10 @@
        data-rec   none      쥔 날에 아직 찍힌 것이 없다(점 없음)
                   open      출근만 찍혔다(경고색 점)
                   done      하루가 닫혔다(브랜드 점)
+       data-rec-today · data-rec-yday — 쥐지 않은 날의 기록
+       data-go-today · data-go-yday · data-go-day2 — 그 날 칸을 누르면
+                  갈 화면. 한 날에 걸린 이야기가 시나리오마다 달라서,
+                  길도 화면이 쥔다(적지 않으면 예사 하루로 간다)
 
      ⚠ **시나리오끼리 날을 겹쳐 쓰지 않는다.** 같은 날에 서로 다른 기록이
        걸리면 넘겨 볼 때 어느 이야기였는지 섞인다. 한 이야기의 여러 순간
@@ -148,11 +152,15 @@
        적어 둔 것(data-rec-today · data-rec-yday). 아무 말이 없으면 없다 */
     var k = mine ? mk.rec : n === num(TODAY) ? mk.today : n === num(YDAY) ? mk.yday : null;
     var dot = k === 'open' ? 'open' : k === 'done' ? 'on' : null;
-    if (n === num(TODAY)) return { go: 'w-home-done', dot: dot };
+    /* **가는 곳도 화면마다 다르다.** 한 날에 걸린 이야기가 시나리오마다
+       달라서다 — 익일 퇴근을 보는 중이면 오늘은 '아직 출근 못 한 오늘'
+       이고, 예사 하루를 보는 중이면 '출근을 찍은 오늘' 이다. 마크업이
+       말하지 않으면 예사 하루로 둔다 */
+    if (n === num(TODAY)) return { go: mk.goT || 'w-home-done', dot: dot };
     /* 어제는 아무 말이 없으면 **하루가 끝난 날**로 둔다 — 지난 날은 찍고
        나서 지나간 것이 예사다 */
-    if (n === num(YDAY)) return { go: 'w-home-past', dot: k ? dot : 'on' };
-    if (n === num(DAY2)) return { go: 'w-home-past', dot: k ? dot : 'on' };
+    if (n === num(YDAY)) return { go: mk.goY || 'w-home-past', dot: k ? dot : 'on' };
+    if (n === num(DAY2)) return { go: mk.go2 || 'w-home-past', dot: k ? dot : 'on' };
     return { go: 'w-home', dot: null };
   }
 
@@ -161,7 +169,10 @@
     return { sel: sel,
              rec: scr.getAttribute('data-rec') || 'none',
              today: scr.getAttribute('data-rec-today'),
-             yday: scr.getAttribute('data-rec-yday') };
+             yday: scr.getAttribute('data-rec-yday'),
+             goT: scr.getAttribute('data-go-today'),
+             goY: scr.getAttribute('data-go-yday'),
+             go2: scr.getAttribute('data-go-day2') };
   }
 
   /* 주소가 말한 날. 아무 말이 없으면 없다고 답한다 — 그때는 화면이 제
@@ -270,7 +281,9 @@
     scr.querySelectorAll('.pill--today').forEach(function (b) {
       b.disabled = (sel === iso(TODAY.y, TODAY.m, TODAY.d));
       if (b.disabled) b.removeAttribute('data-go');
-      else if (!b.hasAttribute('data-go')) b.setAttribute('data-go', 'w-home-done');
+      else if (!b.hasAttribute('data-go')) {
+        b.setAttribute('data-go', role(TODAY.y, TODAY.m, TODAY.d, mk).go);
+      }
     });
   }
 

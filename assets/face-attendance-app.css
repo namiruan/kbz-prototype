@@ -2135,13 +2135,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .cardb--quiet .cardb__c{animation:none}
 /* 밀린 일 — 오늘 할 일(파란 과녁)과 **같은 면을 쓰지 않는다**. 둘 다
    파랗게 서면 어느 것이 지금 누를 것인지 가려지고, 이 줄은 오늘 것이
-   아니라 지난 날에서 넘어온 일이다. 색은 달력에서 그 날을 가리키는
-   경고 점과 같다 — 띠의 점과 이 줄이 같은 것을 말한다.
-   꺾쇠는 그대로 민다: 물러선 길이 아니라 아직 남은 일이다 */
-.cardb--warn{background:var(--ap-g0)}
-.cardb--warn .cardb__l,.cardb--warn .cardb__c{color:var(--ap-point)}
-.cardb--warn .cardb__ib{background:var(--ap-point-bg)}
-.cardb--warn .cardb__i{color:var(--ap-point)}
+   아니라 지난 날에서 넘어온 일이다. 면째 주의색을 쥔다 — 달력에서 그
+   날을 가리키는 경고 점과 같은 색이라, 띠의 점과 이 줄이 한 가지를
+   말하는 것으로 이어 읽힌다(숫자 뱃지 .bd--point 와 같은 짝이다).
+   글과 표는 파란 카드에서 쓰던 흰색·흰빛 면을 그대로 쓴다 — 바뀐 것은
+   면색 하나다. 꺾쇠도 그대로 민다: 물러선 길이 아니라 아직 남은 일이다 */
+.cardb--warn{background:var(--ap-point)}
 
 /* ── 작업내용 쓰기 — 글칸 · 첨부 · 키보드 ──
    하루치 작업을 적는 화면이다. 글칸이 화면의 주인이라 남는 높이를 전부

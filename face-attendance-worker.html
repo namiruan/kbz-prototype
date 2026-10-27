@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=418">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=421">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=418"></script>
+<script src="assets/face-attendance-app.js?v=421"></script>
 </head>
 
 <body>
@@ -82,7 +82,7 @@
      ================================================================ -->
 
 <!-- ===== ⑪ 근로자 앱 · 홈 (출근 전) ===== -->
-<section class="scr" data-screen="w-home" data-day="today" data-rec="none" data-title="근로자 앱 홈 — 출근 전">
+<section class="scr" data-screen="w-home" data-day="today" data-rec="none" data-go-today="w-home" data-title="근로자 앱 홈 — 출근 전">
   <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
        있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
        자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
@@ -507,7 +507,7 @@
 </section>
 
 <!-- ===== ⑬ 근로자 앱 · 홈 (출근 완료) ===== -->
-<section class="scr" data-screen="w-home-done" data-day="today" data-rec="open" data-title="근로자 앱 홈 — 출근 완료">
+<section class="scr" data-screen="w-home-done" data-day="today" data-rec="open" data-go-today="w-home-done" data-title="근로자 앱 홈 — 출근 완료">
   <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
        있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
        자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
@@ -730,7 +730,7 @@
 <!-- ===== ⑮ 근로자 앱 · 홈 (작업내용 작성 완료) =====
      작업내용을 쓰고 돌아온 홈이다. 쓴 것이 출퇴근 카드 바로 아래에
      붙고, 그때서야 퇴근 과녁이 켜진다 -->
-<section class="scr" data-screen="w-home-work" data-day="today" data-rec="open" data-title="근로자 앱 홈 — 작업내용 작성 완료">
+<section class="scr" data-screen="w-home-work" data-day="today" data-rec="open" data-go-today="w-home-work" data-title="근로자 앱 홈 — 작업내용 작성 완료">
   <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
        있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
        자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
@@ -1005,7 +1005,7 @@
 
 <!-- ===== 근로자 앱 · 홈 (퇴근 완료) =====
      하루가 닫힌 홈이다. 출근과 퇴근이 모두 찍혀 과녁이 할 일을 잃는다 -->
-<section class="scr" data-screen="w-home-out" data-day="today" data-rec="done" data-title="근로자 앱 홈 — 퇴근 완료">
+<section class="scr" data-screen="w-home-out" data-day="today" data-rec="done" data-go-today="w-home-out" data-title="근로자 앱 홈 — 퇴근 완료">
   <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
        있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
        자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
@@ -1173,7 +1173,7 @@
 <!-- ===== 근로자 앱 · 홈 (지난 날 보기) =====
      띠에서 어제를 눌러 본 홈이다. 오늘이 아닌 날을 보는 동안에만
      '오늘' 이 켜진다 — 되돌아갈 데가 그때 생긴다 -->
-<section class="scr" data-screen="w-home-past" data-day="day2" data-rec="done" data-rec-today="done" data-title="근로자 앱 홈 — 지난 날 보기">
+<section class="scr" data-screen="w-home-past" data-day="day2" data-rec="done" data-rec-today="done" data-go-today="w-home-out" data-title="근로자 앱 홈 — 지난 날 보기">
   <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
        있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
        자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
@@ -1320,7 +1320,7 @@
      찍기 전까지 홈은 그 날을 계속 쥔다 — 날짜가 바뀌었다고 오늘로
      넘겨 버리면 근로자는 '어제로 옮겨서 퇴근을 찍어야 한다' 를 스스로
      알아내야 한다 -->
-<section class="scr" data-screen="w-home-over" data-day="yesterday" data-rec="open" data-title="근로자 앱 홈 — 익일 퇴근 (퇴근 전)">
+<section class="scr" data-screen="w-home-over" data-day="yesterday" data-rec="open" data-go-today="w-home-over-today" data-go-yday="w-home-over" data-title="근로자 앱 홈 — 익일 퇴근 (퇴근 전)">
   <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
        있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
        자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
@@ -1343,7 +1343,7 @@
           <span class="cal__more" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-down-app"></use></svg></span>
         </div>
         <div class="cal__side">
-          <button class="pill pill--today" type="button" data-go="w-home">오늘</button>
+          <button class="pill pill--today" type="button" data-go="w-home-over-today">오늘</button>
           <!-- 알림은 시스템 Icon Button md 다(아이콘 20 · 둘레 4 → 28) —
                옆의 '오늘' 알약과 키가 같아야 한 줄로 앉는다 -->
           <button class="cal__bell" type="button" aria-label="새 알림 3개"><svg class="ic" aria-hidden="true"><use href="#icon-bell-app"></use></svg><span class="cal__bell__n" aria-hidden="true">3</span></button>
@@ -1477,7 +1477,7 @@
      날에만 찍힌다. 퇴근 시각 앞의 '익일' 이 그 한 건이 날을 넘겼다는
      표다: 카드가 이미 그 날의 것이라 날짜를 통째로 적을 것 없이,
      넘겼는지만 알면 된다 -->
-<section class="scr" data-screen="w-home-over-out" data-day="yesterday" data-rec="done" data-title="근로자 앱 홈 — 익일 퇴근 완료">
+<section class="scr" data-screen="w-home-over-out" data-day="yesterday" data-rec="done" data-go-today="w-home" data-go-yday="w-home-over-out" data-title="근로자 앱 홈 — 익일 퇴근 완료">
   <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
        있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
        자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
@@ -1622,7 +1622,7 @@
      날짜가 바뀌었는데 어제 근무의 퇴근이 아직 없다. 오늘은 오늘대로
      출근 전이고, 어제 것은 어제 날짜로 가서 찍는다 — 한 건은 출근한
      날에 매달리므로 오늘 찍어 봐야 오늘의 퇴근이 된다 -->
-<section class="scr" data-screen="w-home-over-today" data-day="today" data-rec="none" data-rec-yday="open" data-title="근로자 앱 홈 — 어제 근무가 퇴근 전">
+<section class="scr" data-screen="w-home-over-today" data-day="today" data-rec="none" data-rec-yday="open" data-go-today="w-home-over-today" data-go-yday="w-home-over" data-title="근로자 앱 홈 — 어제 근무가 퇴근 전">
   <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
        있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
        자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
@@ -1733,7 +1733,7 @@
     <button class="cardb cardb--warn" type="button" data-go="w-home-over">
       <span class="cardb__t">
         <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-time"></use></svg></span>
-        <span class="cardb__l">어제 근무가 아직 퇴근 전입니다</span>
+        <span class="cardb__l">어제 퇴근 인증하기</span>
       </span>
       <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
     </button>
