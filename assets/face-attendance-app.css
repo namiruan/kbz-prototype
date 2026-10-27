@@ -297,12 +297,14 @@
   --ap-step-w:50px;                /* 단가 ＋·－ 의 최소 폭 — 시안 min-width */
   --ap-tog-yes:36px;  --ap-tog-no:66px;  /* 예·아니오 알의 폭 — 정수로 떨어뜨린다 */
   --ap-confirm-w:320px;            /* 촬영 확인 카드의 폭 */
+  --ap-cta-h-md:400px;             /* 넓은 폭에서의 키 */
   --ap-cta-w:480px;                /* 인증 시작 과녁 — 태블릿에서도 과녁답게 */
   --ap-deck-out:16px;              /* 틀이 본문 여백 밖으로 내미는 폭 */
   --ap-deck-fade:40px;             /* 가장자리가 배경으로 녹아드는 폭 — 좁으면 뚝 끊겨 보인다 */
   --ap-deck-peek:28px;            /* 좁은 폭에서 옆 카드가 비치는 만큼 — 줄 양옆을 그만큼 들인다 */
   --ap-deck-gap:12px;              /* 미는 동안 두 카드 사이로 비치는 틈 */
-  --ap-cta-h:420px;                /* 그 과녁의 키 — 더 길면 빈 면만 늘어난다 */
+  --ap-cta-h:340px;                /* 그 카드의 키 — 더 길면 빈 면만 늘어난다.
+                                      설명을 카드 밖으로 내보낸 뒤 그만큼 줄였다 */
   --ap-sel-w:110px;                /* select-atomic 의 기본 폭 — 글자가 짧아도 이만큼은 둔다 */
   --ap-form-w:560px;               /* 폼·상세가 가운데로 모이는 폭 */
   --ap-face:112px;                 /* 근로자 카드의 얼굴 — 정방형이다 */
@@ -1339,6 +1341,17 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    줄 세우고 틀이 한 장만 내보인다 — 바닥의 토글이나 좌우 스와이프가 줄을
    민다. 모서리를 틀이 쥐는 것은, 미는 동안 옆 장이 틀 밖으로 비어져
    나가지 않게 잘라야 하기 때문이다 */
+/* 그림자를 그리는 자리 — 틀 **밖**이다. 카드가 제 box-shadow 로 그리면
+   틀의 가장자리 마스크에 좌우가 깎여, 아래 그림자가 각지게 끊긴다.
+   여기서 drop-shadow 로 그리면 마스크로 흐려진 **모양 그대로** 그림자가
+   따라붙는다(필터는 마스크가 끝난 결과에 걸린다).
+   색은 지금 보이는 카드를 따른다 */
+.deckw{flex:1 1 auto;min-height:260px;max-height:var(--ap-cta-h);align-self:stretch;width:100%;
+  display:flex;filter:drop-shadow(0 6px 14px rgba(17,53,105,.34));
+  transition:filter var(--ap-dur-mon) var(--ap-ease-enter)}
+.scr[data-mode="out"] .deckw{filter:drop-shadow(0 6px 14px rgba(19,20,22,.34))}
+@media (prefers-reduced-motion:reduce){.deckw{transition:none}}
+
 /* 자라고 멈추는 셈은 **틀**이 쥔다 — 카드가 쥐고 있으면 줄(가로 flex)
    안에서 그 flex 가 가로로 작동해 세로 키를 잃고, 그림 칸이 0 으로
    주저앉는다(그림이 사라지고 꺾쇠만 남던 까닭이다).
@@ -1349,8 +1362,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    하나 더 있는 꼴이 되는데, 틀은 보여야 할 것이 아니다 */
 .deck{position:relative;align-self:stretch;width:auto;max-width:none;
   margin-inline:calc(var(--ap-deck-out) * -1);padding-inline:var(--ap-deck-out);
-  flex:1 1 auto;min-height:260px;max-height:var(--ap-cta-h);
-  display:flex;align-items:stretch;touch-action:pan-y;
+  flex:1;display:flex;align-items:stretch;touch-action:pan-y;
   /* 가로만 흐리고 세로는 건드리지 않는다. 날로 자르면(overflow:clip) 카드
      그림자의 아래가 통째로 잘려 면이 각지게 끊긴다 — 자르는 일을 마스크
      하나에 맡기고, 마스크를 세로로 넉넉히 펼쳐 그림자가 지나갈 자리를 둔다 */
@@ -1387,12 +1399,15 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 폭은 줄이 쥔다 — 카드는 줄을 꽉 채운다. 모서리와 그림자는 카드가 도로
    가진다: 틀이 날로 자르지 않으므로 그림자가 잘릴 일이 없다 */
 .deck .cta{flex:none;width:100%;max-width:none;
-  min-height:0;max-height:none;aspect-ratio:auto}
+  min-height:0;max-height:none;aspect-ratio:auto;box-shadow:none}
 @media (prefers-reduced-motion:reduce){.deck__t{transition:none}}
 
 /* 두 모드가 함께 쓰는 설명 — 카드 밖, 카드와 토글 사이에 한 번만 선다 */
 .deck__d{flex:none;font:var(--t-body);letter-spacing:var(--ls-body);word-break:keep-all;
   margin:0 auto;max-width:var(--ap-cta-w);color:var(--ap-text-gray)}
+/* 두 문장을 한 줄씩 끊는다 — 흘려 두면 둘째 줄에 몇 자만 남아 글이
+   가운데에서 들쭉날쭉해진다 */
+.deck__d span{display:block}
 
 .mode{flex:none;align-self:center;display:inline-flex;gap:var(--ap-p2);
   margin:0 auto var(--ap-p8);padding:var(--ap-p2);
@@ -2862,9 +2877,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      만큼 키도 따라 커져야 과녁이 납작해지지 않는다. 카드가 틀에 들었으면
      그 셈은 틀이 한다 */
   .cta{flex:none;aspect-ratio:1;max-height:none}
-  /* 틀은 폭이 카드보다 넓으므로 비율이 아니라 키를 못 박는다 — 카드가
-     480 정방형이니 틀의 키도 480 이다. 내미는 폭도 본문 여백을 따른다 */
-  .deck{flex:none;height:var(--ap-cta-w);max-height:none;--ap-deck-out:var(--ap-p8)}
+  /* 틀은 폭이 카드보다 넓으므로 비율이 아니라 키를 못 박는다. 정방형
+     (480)은 설명이 카드 밖으로 나간 지금 빈 면만 남으므로, 가로로 조금
+     긴 꼴로 둔다. 내미는 폭도 본문 여백을 따른다 */
+  .deck{--ap-deck-out:var(--ap-p8)}
+  .deckw{flex:none;height:var(--ap-cta-h-md);max-height:none}
   .deck .cta{aspect-ratio:auto}
 
   /* 단이 둘로 갈리는 폭에서는 카드 사이도 조금 벌린다 */
