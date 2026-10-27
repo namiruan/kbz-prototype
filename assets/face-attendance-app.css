@@ -1740,6 +1740,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    파랑이 자국으로 읽히지만, 모자는 이미 짙어 옅은 색을 얹으면 빛이
    닿은 자리처럼 보인다 */
 .scan__smudge{fill:var(--ap-hat-dirt);opacity:.34}
+/* 긁힌 자국은 **가는 선**이다 — 면으로 두면 흙과 가려지지 않는다. 색은
+   밝은 쪽이다: 칠이 벗겨져 속이 드러난 자리라 둘레보다 환하다 */
+.scan__scratch{fill:none;stroke:#fff;stroke-opacity:.26;stroke-width:1.1;stroke-linecap:round}
 
 /* 이름과 설명은 붙어 있고(한 덩어리), 그림과만 멀다 */
 .cta__tx{display:flex;flex-direction:column;align-self:stretch;gap:var(--ap-p5)}
