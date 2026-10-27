@@ -44,6 +44,7 @@
     link(hit);
     clock(hit);
     stamp(hit);
+    tally(hit);
     note(hit);
     terms(hit);
     day(hit);
@@ -880,6 +881,46 @@
   /* ── 이력 조회의 출근·퇴근 고르기 ──
      카드를 누르면 그 쪽 사진이 아래에 선다. 찍히지 않은 쪽은 보여 줄
      사진이 없으므로 고를 수 없다 */
+  /* ── 센 수가 곧 거르개다 ──
+     출근과 퇴근을 따로 세어 적고, 누르면 그쪽만 남긴다. 수는 **줄을 세어**
+     적는다 — 마크업에 박아 두면 줄을 고칠 때마다 따로 늙는다.
+     둘 다 켜진 데서 하나를 누르면 그것만, 켜진 하나를 다시 누르면 둘 다로
+     돌아온다 — 끄고 켜는 길이 하나라 '무엇만 볼까' 한 번으로 끝난다 */
+  function tally(scr) {
+    var chips = [].slice.call(scr.querySelectorAll('.cnt'));
+    if (!chips.length) return;
+    var rows = [].slice.call(scr.querySelectorAll('.log'));
+
+    function at(row) { return row.querySelector('.log__t--in') ? 'in' : 'out'; }
+
+    function sync() {
+      var on = chips.filter(function (c) { return c.classList.contains('is-on'); })
+                    .map(function (c) { return c.getAttribute('data-at'); });
+      rows.forEach(function (r) { r.hidden = on.indexOf(at(r)) < 0; });
+      chips.forEach(function (c) {
+        c.setAttribute('aria-pressed', c.classList.contains('is-on') ? 'true' : 'false');
+      });
+    }
+
+    chips.forEach(function (c) {
+      var k = c.getAttribute('data-at');
+      var n = rows.filter(function (r) { return at(r) === k; }).length;
+      var box = c.querySelector('.cnt__n');
+      if (box) box.textContent = n;
+
+      c.addEventListener('click', function () {
+        var lit = chips.filter(function (x) { return x.classList.contains('is-on'); });
+        if (lit.length === 1 && lit[0] === c) {
+          chips.forEach(function (x) { x.classList.add('is-on'); });   /* 다시 눌러 전체로 */
+        } else {
+          chips.forEach(function (x) { x.classList.toggle('is-on', x === c); });
+        }
+        sync();
+      });
+    });
+    sync();
+  }
+
   function stamp(scr) {
     var cards = [].slice.call(scr.querySelectorAll('.stmp .tcard'));
     if (!cards.length) return;
