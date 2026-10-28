@@ -225,15 +225,15 @@
     if (!demos.length) return;
     var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-    /* 근로내역 대조 — 단말기 기록과 현장 출역을 나란히 놓고 돋보기가 훑는다.
-       한 칸이 어긋나 있고, 돋보기가 그 위에 멈추면 드러나 바로잡힌다 */
+    /* 근로내역 대조 — 단말기가 찍은 것과 현장이 손으로 적은 출역기록을
+       돋보기가 견준다. 서류에만 있는 한 줄이 드러나고, 바로잡히면 단말기
+       화면의 짧던 줄도 함께 찬다. 글자는 쓰지 않는다 — 기호 하나로만 말한다 */
     function match(root) {
       var scan = root.querySelector('.p2d-scan');
-      var srcs = [].slice.call(root.querySelectorAll('.p2d-src'));
-      var miss = root.querySelector('.grid i.miss');
+      var dev = root.querySelector('.p2d-dev .body');
+      var doc = root.querySelector('.p2d-doc .sheet');
+      var miss = root.querySelector('.ln.gap');
       var lens = root.querySelector('.lens');
-      var tag = root.querySelector('.p2d-tag');
-      var btn = root.querySelector('.p2d-btn');
       var timers = [], on = false;
       function T(ms, fn) { timers.push(setTimeout(fn, ms)); }
       function clear() { timers.forEach(clearTimeout); timers = []; }
@@ -246,34 +246,23 @@
       function reset() {
         clear();
         scan.classList.remove('scanning', 'off', 'fixed');
-        tag.textContent = '';
         lens.style.transition = 'none';
-        moveTo(srcs[0]);
+        moveTo(dev);
         void lens.offsetWidth;
         lens.style.transition = '';
-        btn.classList.remove('armed', 'done');
-        btn.textContent = '신고';
       }
       function settle() {           /* 끝난 모습 — 동작 줄이기용 */
         scan.classList.add('fixed');
-        tag.textContent = '1일 바로잡음';
-        btn.classList.add('done');
-        btn.textContent = '신고 완료';
       }
       function run() {
         reset();
         T(300, function () { scan.classList.add('scanning'); });
-        T(900, function () { moveTo(srcs[1]); });               /* 현장 출역 쪽으로 */
-        T(1800, function () { moveTo(miss); });                  /* 어긋난 칸으로 되돌아온다 */
-        T(2500, function () { scan.classList.add('off'); tag.textContent = '1일 어긋남'; });
-        T(3500, function () {
-          scan.classList.remove('off');
-          scan.classList.add('fixed');
-          tag.textContent = '1일 바로잡음';
-        });
-        T(3900, function () { scan.classList.remove('scanning'); btn.classList.add('armed'); });
-        T(4900, function () { btn.classList.remove('armed'); btn.classList.add('done'); btn.textContent = '신고 완료'; });
-        T(6600, run);
+        T(900, function () { moveTo(doc); });                    /* 출역기록 쪽으로 건너간다 */
+        T(1800, function () { moveTo(miss); });                  /* 어긋난 줄 위에 멈춘다 */
+        T(2500, function () { scan.classList.add('off'); });     /* 빨갛게 — 느낌표 */
+        T(3600, function () { scan.classList.remove('off'); scan.classList.add('fixed'); });
+        T(4100, function () { scan.classList.remove('scanning'); });
+        T(6200, run);
       }
       return {
         play: function () { if (on) return; on = true; if (reduce) settle(); else run(); },

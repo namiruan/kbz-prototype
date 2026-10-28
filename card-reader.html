@@ -72,20 +72,22 @@
               <!-- 사진 대신 짧은 루프 데모 — index.html 의 .ui-demo 와 같은 방식이다.
                    그림이 아니라 진짜 DOM 이라 한글이 또렷하고 폭에 따라 줄어든다 -->
               <div class="p2d" data-p2d="match" aria-hidden="true">
-                <div class="p2d-card">
                 <div class="p2d-scan">
-                  <div class="p2d-src">
-                    <span class="lb">단말기 기록</span>
-                    <div class="grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="miss"></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                  </div>
-                  <div class="p2d-src">
-                    <span class="lb">현장 출역</span>
-                    <div class="grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                  </div>
+                  <!-- 단말기가 찍은 것 -->
+                  <figure class="p2d-dev"><span class="body">
+                    <span class="scr"><i></i><i></i></span>
+                    <span class="keys"><i></i><i></i><i></i></span>
+                    <span class="card"></span>
+                  </span></figure>
+                  <!-- 현장이 손으로 적은 출역기록 -->
+                  <figure class="p2d-doc"><span class="sheet">
+                    <span class="hd"></span>
+                    <span class="ln"></span>
+                    <span class="ln gap"></span>
+                    <span class="ln"></span>
+                  </span></figure>
                   <i class="lens"></i>
-                </div>
-                <span class="p2d-tag"></span>
-                <div class="p2d-foot"><span class="due">다음 달 15일까지</span><span class="p2d-btn">신고</span></div>
+                  <i class="p2d-mark"></i>
                 </div>
               </div>
             </div>
