@@ -126,17 +126,22 @@
           </div>
           <div class="group-1-1-right">
             <div class="img-group">
-              <!-- 고지된 금액과 신고한 내용을 나란히 놓고 길이가 맞는지 본다 -->
-              <div class="p2d" data-p2d="bill" aria-hidden="true">
-                <div class="p2d-bill">
-                  <span class="sheet">
-                    <span class="hd"></span>
-                    <span class="amt a"><i></i></span>
-                    <span class="amt b"><i></i></span>
-                    <span class="ln"></span>
-                  </span>
-                  <i class="bill-ok"></i>
+              <!-- 검증을 거쳐야 납부로 넘어간다 — 그 순서가 이 칸의 내용이다 -->
+              <div class="p2d" data-p2d="pay" aria-hidden="true">
+                <div class="p2d-pay">
+                  <figure class="bl-doc">
+                    <span class="sheet">
+                      <span class="hd"></span>
+                      <span class="amt"></span>
+                      <span class="ln"></span>
+                    </span>
+                    <i class="bl-ok"></i>
+                  </figure>
+                  <span class="bl-path"><i></i></span>
+                  <span class="bl-coins"><i></i><i></i><i></i></span>
                 </div>
+              </div>
+            </div>
               </div>
             </div>
           </div>

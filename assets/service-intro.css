@@ -253,31 +253,48 @@ body.intro-page{word-break:keep-all}
 .dl-list li.on .ck{background:var(--main-blue)}
 .dl-list li.on .ck::before{transform:rotate(45deg) scale(1)}
 
-/* ── ③ 고지서 검증 — 고지된 금액과 신고한 내용을 나란히 놓는다 ──
-   막대 둘의 길이가 같아지면 맞은 것이다. 여기서는 끝을 체크로 맺는다 —
-   글이 '검증합니다' 라고 끝나므로 '검증 완료' 는 그림이 말해도 되는 몫이다 */
-.p2d-bill{position:relative;display:flex;align-items:center;justify-content:center}
-.p2d-bill .sheet{position:relative;display:flex;flex-direction:column;gap:1.3em;
-  width:21em;height:17.6em;padding:2.2em 2em;background:var(--main-white);
+/* ── ③ 고지서 검증 — 검증을 거쳐야 납부로 넘어간다 ──
+   앞서는 고지서 한 장 안에 금액 막대 둘을 놓고 길이가 맞아떨어지게 했는데,
+   그림에 '납부' 가 없어서 '납부 전에' 라는 순서가 보이지 않았다. 막대가
+   같아지는 것은 검증의 추상적 표현일 뿐이다.
+
+   순서를 그대로 그린다: 고지서에 체크가 붙기 전에는 납부로 가는 길과 돈이
+   흐릿하다. 체크가 붙어야 길이 살아나고 돈이 간다 */
+.p2d-pay{display:flex;align-items:center;justify-content:center;gap:1.6em;
+  width:30.8em;height:17.6em}
+
+/* 고지서 — 금액 한 줄이 크게 박힌 종이 */
+.bl-doc{position:relative;margin:0;flex:0 0 auto}
+.bl-doc .sheet{display:flex;flex-direction:column;gap:1.3em;
+  width:11.4em;height:14em;padding:1.8em 1.5em;background:var(--main-white);
   border:.15em solid var(--main-gray);border-radius:.3em;
-  box-shadow:0 .9em 2em -1em rgba(var(--color-black-rgb),.4)}
-.p2d-bill .hd{display:block;width:46%;height:.8em;border-radius:.4em;background:var(--main-navy)}
-.p2d-bill .ln{display:block;width:70%;height:.6em;border-radius:.3em;background:var(--main-gray);opacity:.5}
-/* 금액 막대 둘 — 위가 공제회가 보낸 고지, 아래가 우리가 신고한 내용 */
-.p2d-bill .amt{display:block;height:1.8em;border-radius:.3em;background:var(--sub-w-gray)}
-.p2d-bill .amt i{display:block;height:100%;border-radius:.3em;transition:width .9s cubic-bezier(.4,0,.5,1)}
-.p2d-bill .amt.a i{width:78%;background:var(--main-navy)}
-.p2d-bill .amt.b i{width:0;background:var(--main-blue)}
-.p2d-bill.checking .amt.b i{width:78%}
-/* 길이가 맞으면 두 막대가 한 번 밝아진다 */
-.p2d-bill.ok .amt{box-shadow:0 0 0 .22em rgba(var(--color-blue-rgb),.28)}
-.p2d-bill .amt{transition:box-shadow .3s}
+  box-shadow:0 .8em 1.8em -1em rgba(var(--color-black-rgb),.4)}
+.bl-doc .hd{display:block;width:52%;height:.8em;border-radius:.4em;background:var(--main-navy)}
+.bl-doc .amt{display:block;height:2.1em;border-radius:.3em;background:var(--main-navy);opacity:.88}
+.bl-doc .ln{display:block;width:68%;height:.65em;border-radius:.35em;background:var(--main-gray);opacity:.55}
 /* 검증 완료 */
-.bill-ok{position:absolute;right:-1.4em;bottom:-1.2em;width:3.8em;height:3.8em;border-radius:50%;
+.bl-ok{position:absolute;right:-1.3em;bottom:-1.1em;width:3.8em;height:3.8em;border-radius:50%;
   background:var(--main-blue);opacity:0;transform:scale(.4);z-index:3;
   box-shadow:0 .4em 1.2em -.3em rgba(var(--color-black-rgb),.35);
   transition:opacity .22s,transform .3s cubic-bezier(.34,1.7,.5,1)}
-.p2d-bill.ok .bill-ok{opacity:1;transform:scale(1)}
-.bill-ok::before{content:"";position:absolute;left:50%;top:50%;width:.85em;height:1.45em;
+.p2d-pay.ok .bl-ok{opacity:1;transform:scale(1)}
+.bl-ok::before{content:"";position:absolute;left:50%;top:50%;width:.85em;height:1.45em;
   margin:-.95em 0 0 -.48em;border:solid var(--main-white);border-width:0 .38em .38em 0;
   transform:rotate(45deg)}
+
+/* 납부로 가는 길 — 검증 전에는 흐리다 */
+.bl-path{position:relative;flex:0 0 5em;height:.7em;border-radius:.35em;
+  background:var(--main-gray);opacity:.4;transition:opacity .35s,background .35s}
+.bl-path i{position:absolute;right:-.1em;top:50%;width:1.3em;height:1.3em;margin-top:-.65em;
+  border:solid var(--main-gray);border-width:.35em .35em 0 0;transform:rotate(45deg);
+  transition:border-color .35s}
+.p2d-pay.paid .bl-path{opacity:1;background:var(--main-blue)}
+.p2d-pay.paid .bl-path i{border-color:var(--main-blue)}
+
+/* 돈 — 검증을 거쳐야 간다 */
+.bl-coins{display:flex;flex-direction:column;gap:.6em;flex:0 0 auto}
+.bl-coins i{display:block;width:6.4em;height:1.8em;border-radius:.9em;background:var(--main-gray);
+  opacity:.4;transition:opacity .35s,background .35s,transform .35s cubic-bezier(.34,1.5,.5,1)}
+.p2d-pay.paid .bl-coins i{opacity:1;background:var(--main-blue);transform:translateX(.5em)}
+.p2d-pay.paid .bl-coins i:nth-child(2){transition-delay:.07s}
+.p2d-pay.paid .bl-coins i:nth-child(3){transition-delay:.14s}

@@ -283,20 +283,20 @@
       };
     }
 
-    /* 고지서 검증 — 공제회가 보낸 고지 금액 아래로 우리가 신고한 내용이
-       자라 올라와 길이가 맞는다. 맞으면 검증 완료 */
-    function bill(root) {
-      var box = root.querySelector('.p2d-bill');
+    /* 고지서 검증 — 체크가 붙기 전에는 납부로 가는 길도 돈도 흐리다.
+       검증을 거쳐야 넘어간다는 순서가 이 칸의 내용이다 */
+    function pay(root) {
+      var box = root.querySelector('.p2d-pay');
       var timers = [], on = false;
       function T(ms, fn) { timers.push(setTimeout(fn, ms)); }
       function clear() { timers.forEach(clearTimeout); timers = []; }
-      function reset() { clear(); box.classList.remove('checking', 'ok'); }
-      function settle() { box.classList.add('checking', 'ok'); }
+      function reset() { clear(); box.classList.remove('ok', 'paid'); }
+      function settle() { box.classList.add('ok', 'paid'); }
       function run() {
         reset();
-        T(600, function () { box.classList.add('checking'); });  /* 신고한 내용이 자란다 */
-        T(1800, function () { box.classList.add('ok'); });       /* 길이가 맞는다 */
-        T(4600, run);
+        T(700, function () { box.classList.add('ok'); });    /* 검증 */
+        T(1500, function () { box.classList.add('paid'); }); /* 그제서야 납부 */
+        T(4400, run);
       }
       return {
         play: function () { if (on) return; on = true; if (reduce) settle(); else run(); },
@@ -304,7 +304,7 @@
       };
     }
 
-    var make = { match: match, due: due, bill: bill };
+    var make = { match: match, due: due, pay: pay };
     var list = [];
     demos.forEach(function (el) {
       var f = make[el.getAttribute('data-p2d')];
