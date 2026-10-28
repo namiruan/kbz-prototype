@@ -1003,6 +1003,19 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
 .card--photo > .chk{position:absolute;left:8px;top:8px;z-index:1;
   box-shadow:var(--ap-shadow-chk)}
+/* ── 어디서 더한 근로자인가 ──
+   고르는 네모 옆, 사진 왼쪽 위 구석이다. 글 칸에 끼우면 주민번호·직종과
+   같은 '받은 값' 으로 읽히는데, 이것은 사람의 값이 아니라 기록이 어디서
+   왔는지다.
+   면은 흰색이다 — 사진이 저마다 달라, 옅은 색 면으로는 밝은 사진 위에서
+   글자만 뜬다. 옆의 네모와 같은 그늘을 져 둘이 한 짝으로 보인다.
+   가르는 것은 **글자색**이다: 앱은 브랜드, PC 는 본문색. 면까지 가르면
+   사진 위에 서로 다른 색 조각이 둘 떠 목록이 어수선해진다 */
+.card--photo > .bd--src{position:absolute;left:34px;top:8px;z-index:1;
+  height:20px;padding:0 6px;background:var(--ap-g0);
+  box-shadow:var(--ap-shadow-chk)}
+.bd--src-app{color:var(--ap-primary)}
+.bd--src-pc{color:var(--ap-text)}
 /* 고른 카드는 카드째 켜진다 — 20 짜리 체크 네모 하나가 카드 한 장의 상태를
    혼자 말하고 있었다. 목록을 훑으며 '누구를 골랐나' 를 보는 자리라, 눈이
    사진 왼쪽 위 구석까지 따라가야 하는 것은 과녁이 너무 작다.

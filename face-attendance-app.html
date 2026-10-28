@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=525">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=526">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=525"></script>
+<script src="assets/face-attendance-app.js?v=526"></script>
 </head>
 
 <body>
@@ -114,9 +114,13 @@
     <div class="list">
       <!-- 얼굴이 등록된 근로자는 그 얼굴이 카드에 그대로 있다 —
            등록 여부가 이 화면에서 갈리는 유일한 값이다 -->
+      <!-- 어디서 더한 근로자인지는 사진 왼쪽 위, 고르는 네모 옆에 뱃지로
+           둔다. 글 칸에 끼우면 주민번호·직종과 같은 '받은 값' 으로 읽히는데,
+           이것은 사람의 값이 아니라 **기록이 어디서 왔는지**다 -->
       <article class="card card--photo">
         <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">홍길동</span>
@@ -131,6 +135,7 @@
       <article class="card card--photo">
         <span class="face"><img src="images/worker/02.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="김철수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">김철수</span>
@@ -145,6 +150,7 @@
       <article class="card card--photo">
         <span class="face"><img src="images/worker/03.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">이영희</span>
@@ -159,6 +165,7 @@
       <article class="card card--photo">
         <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">박민수</span>
@@ -174,6 +181,7 @@
       <article class="card card--photo">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">NGUYEN VAN A</span>
@@ -238,6 +246,7 @@
       <article class="card card--photo">
         <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk chk--on" type="button" aria-label="홍길동 선택" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></button>
+        <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">홍길동</span>
@@ -252,6 +261,7 @@
       <article class="card card--photo">
         <span class="face"><img src="images/worker/02.jpg" alt=""></span>
         <button class="chk chk--on" type="button" aria-label="김철수 선택" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">김철수</span>
@@ -266,6 +276,7 @@
       <article class="card card--photo">
         <span class="face"><img src="images/worker/03.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">이영희</span>
@@ -280,6 +291,7 @@
       <article class="card card--photo">
         <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">박민수</span>
@@ -295,6 +307,7 @@
       <article class="card card--photo">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">NGUYEN VAN A</span>
@@ -356,6 +369,7 @@
       <article class="card card--photo">
         <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">홍길동</span>
@@ -370,6 +384,7 @@
       <article class="card card--photo">
         <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">박민수</span>
