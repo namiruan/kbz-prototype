@@ -225,48 +225,39 @@
     if (!demos.length) return;
     var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-    /* 근로내역 대조 — 단말기가 찍은 것과 현장이 손으로 적은 출역기록을
-       돋보기가 견준다. 서류에만 있는 한 줄이 드러나고, 바로잡히면 단말기
-       화면의 짧던 줄도 함께 찬다. 글자는 쓰지 않는다 — 기호 하나로만 말한다 */
+    /* 근로내역 대조 — 단말기가 찍은 것과 현장이 손으로 적은 출역기록
+       사이를 돋보기가 오간다. 그뿐이다. 무엇이 잘못됐다고도, 무엇이
+       만들어졌다고도 말하지 않는다 — 글이 말하는 것이 '맞춰 본다' 까지다 */
     function match(root) {
       var scan = root.querySelector('.p2d-scan');
       var dev = root.querySelector('.p2d-dev .body');
       var doc = root.querySelector('.p2d-doc .sheet');
-      var miss = root.querySelector('.ln.gap');
       var lens = root.querySelector('.lens');
-      var timers = [], on = false;
+      var timers = [], on = false, cur = dev;
       function T(ms, fn) { timers.push(setTimeout(fn, ms)); }
       function clear() { timers.forEach(clearTimeout); timers = []; }
-      /* 돋보기를 어느 요소 가운데로 — 자리를 재서 옮긴다(폭이 바뀌어도 맞는다) */
-      function moveTo(el) {
+      /* 자리를 재서 옮긴다 — 좌표를 박아 두지 않아 폭이 바뀌어도 맞는다 */
+      function moveTo(el, jump) {
+        cur = el;
+        if (jump) lens.style.transition = 'none';
         var r = el.getBoundingClientRect(), s = scan.getBoundingClientRect();
         lens.style.left = (r.left - s.left + r.width / 2) + 'px';
         lens.style.top = (r.top - s.top + r.height / 2) + 'px';
+        if (jump) { void lens.offsetWidth; lens.style.transition = ''; }
       }
-      function reset() {
-        clear();
-        scan.classList.remove('scanning', 'off', 'fixed');
-        lens.style.transition = 'none';
-        moveTo(dev);
-        void lens.offsetWidth;
-        lens.style.transition = '';
-      }
-      function settle() {           /* 끝난 모습 — 동작 줄이기용 */
-        scan.classList.add('fixed');
-      }
-      function run() {
-        reset();
-        T(300, function () { scan.classList.add('scanning'); });
-        T(900, function () { moveTo(doc); });                    /* 출역기록 쪽으로 건너간다 */
-        T(1800, function () { moveTo(miss); });                  /* 어긋난 줄 위에 멈춘다 */
-        T(2500, function () { scan.classList.add('off'); });     /* 빨갛게 — 느낌표 */
-        T(3600, function () { scan.classList.remove('off'); scan.classList.add('fixed'); });
-        T(4100, function () { scan.classList.remove('scanning'); });
-        T(6200, run);
-      }
+      /* 폭이 바뀌면 재 둔 자리가 어긋난다 — 그 자리로 다시 잡는다 */
+      addEventListener('resize', function () { if (on) moveTo(cur, true); });
+      function step() { moveTo(cur === dev ? doc : dev); T(1400, step); }
       return {
-        play: function () { if (on) return; on = true; if (reduce) settle(); else run(); },
-        stop: function () { on = false; clear(); }
+        play: function () {
+          if (on) return;
+          on = true;
+          moveTo(dev, true);
+          scan.classList.add('scanning');
+          if (reduce) { moveTo(doc); return; }   /* 움직이지 않고 한 자리에 둔다 */
+          T(900, step);
+        },
+        stop: function () { on = false; clear(); scan.classList.remove('scanning'); }
       };
     }
 
