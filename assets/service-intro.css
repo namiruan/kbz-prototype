@@ -273,65 +273,47 @@ body.intro-page{word-break:keep-all}
 .dl-list li.on .ck{background:var(--main-blue)}
 .dl-list li.on .ck::before{transform:rotate(45deg) scale(1)}
 
-/* ── ③ 고지서 검증 — 검증을 거쳐야 납부로 넘어간다 ──
-   앞서는 고지서 한 장 안에 금액 막대 둘을 놓고 길이가 맞아떨어지게 했는데,
-   그림에 '납부' 가 없어서 '납부 전에' 라는 순서가 보이지 않았다. 막대가
-   같아지는 것은 검증의 추상적 표현일 뿐이다.
-
-   순서를 그대로 그린다: 고지서에 체크가 붙기 전에는 납부로 가는 길과 돈이
-   흐릿하다. 체크가 붙어야 길이 살아나고 돈이 간다 */
-.p2d-pay{display:flex;align-items:center;justify-content:center;gap:1.6em;
+/* ── ③ 고지서 검증 — 고지서가 줄지어 흘러온다 ──
+   앞서는 '고지서 → 체크 → 돈' 한 차례를 보여 주고 전부 꺼졌다 다시 켰다.
+   되감기는 순간이 보인다. 첫째 칸과 같은 수를 쓴다 — 창에 가두고 흘려보내되,
+   돈은 오른쪽에 두어 '검증이 납부보다 앞' 이라는 순서를 자리로 지킨다 */
+.p2d-pay{display:flex;align-items:center;justify-content:center;gap:2em;
   width:30.8em;height:17.6em}
+.bl-win{flex:1;min-width:0;height:100%;overflow:hidden;display:flex;align-items:center}
+.bl-track{display:flex;align-items:center;gap:2.6em;will-change:transform}
 
 /* 고지서 — 금액 한 줄이 크게 박힌 종이 */
 .bl-doc{position:relative;margin:0;flex:0 0 auto}
-.bl-doc .sheet{display:flex;flex-direction:column;gap:1.3em;
-  width:11.4em;height:14em;padding:1.8em 1.5em;background:var(--main-white);
+.bl-doc .sheet{display:flex;flex-direction:column;gap:1.1em;
+  width:9.6em;height:12.4em;padding:1.5em 1.3em;background:var(--main-white);
   border:.15em solid var(--main-gray);border-radius:.3em;
-  box-shadow:0 .8em 1.8em -1em rgba(var(--color-black-rgb),.4)}
-.bl-doc .hd{display:block;width:52%;height:.8em;border-radius:.4em;background:var(--main-navy)}
-.bl-doc .amt{display:block;height:2.1em;border-radius:.3em;background:var(--main-navy);opacity:.88}
-.bl-doc .ln{display:block;width:68%;height:.65em;border-radius:.35em;background:var(--main-gray);opacity:.55}
-/* 검증 완료 */
-.bl-ok{position:absolute;right:-1.3em;bottom:-1.1em;width:3.8em;height:3.8em;border-radius:50%;
+  box-shadow:0 .7em 1.6em -.9em rgba(var(--color-black-rgb),.4)}
+.bl-doc .hd{display:block;width:52%;height:.75em;border-radius:.4em;background:var(--main-navy)}
+.bl-doc .amt{display:block;height:1.9em;border-radius:.3em;background:var(--main-navy);opacity:.88}
+.bl-doc .ln{display:block;width:68%;height:.6em;border-radius:.3em;background:var(--main-gray);opacity:.55}
+
+/* 검증 도장 — 돈에 닿기 전, 가운데를 지날 때 찍힌다 */
+.bl-ok{position:absolute;right:-1.1em;bottom:-1em;width:3.4em;height:3.4em;border-radius:50%;
   background:var(--main-blue);opacity:0;transform:scale(.4);z-index:3;
   box-shadow:0 .4em 1.2em -.3em rgba(var(--color-black-rgb),.35);
   transition:opacity .22s,transform .3s cubic-bezier(.34,1.7,.5,1)}
-.p2d-pay.ok .bl-ok{opacity:1;transform:scale(1)}
-.bl-ok::before{content:"";position:absolute;left:50%;top:50%;width:.85em;height:1.45em;
-  margin:-.95em 0 0 -.48em;border:solid var(--main-white);border-width:0 .38em .38em 0;
+.bl-doc.on .bl-ok{opacity:1;transform:scale(1)}
+.bl-ok::before{content:"";position:absolute;left:50%;top:50%;width:.78em;height:1.3em;
+  margin:-.85em 0 0 -.44em;border:solid var(--main-white);border-width:0 .34em .34em 0;
   transform:rotate(45deg)}
 
-/* 납부로 가는 길 — 검증 전에는 흐리다 */
-.bl-path{position:relative;flex:0 0 5em;height:.7em;border-radius:.35em;
-  background:var(--main-gray);opacity:.4;transition:opacity .35s,background .35s}
-.bl-path i{position:absolute;right:-.1em;top:50%;width:1.3em;height:1.3em;margin-top:-.65em;
-  border:solid var(--main-gray);border-width:.35em .35em 0 0;transform:rotate(45deg);
-  transition:border-color .35s}
-.p2d-pay.paid .bl-path{opacity:1;background:var(--main-blue)}
-.p2d-pay.paid .bl-path i{border-color:var(--main-blue)}
-
-/* 돈 — 검증을 거쳐야 간다 */
+/* 돈 — 흘러온 고지서가 닿는 곳 */
 .bl-coins{display:flex;flex-direction:column;gap:.6em;flex:0 0 auto}
-.bl-coins i{display:block;width:6.4em;height:1.8em;border-radius:.9em;background:var(--main-gray);
-  opacity:.4;transition:opacity .35s,background .35s,transform .35s cubic-bezier(.34,1.5,.5,1)}
-.p2d-pay.paid .bl-coins i{opacity:1;background:var(--main-blue);transform:translateX(.5em)}
-.p2d-pay.paid .bl-coins i:nth-child(2){transition-delay:.07s}
-.p2d-pay.paid .bl-coins i:nth-child(3){transition-delay:.14s}
+.bl-coins i{display:block;width:6.4em;height:1.8em;border-radius:.9em;background:var(--main-blue)}
 
 /* ── JS 가 돌지 않을 때 ─────────────────────────────────────
-   세 데모는 '시작 전' 이 기본 상태다. 스크립트가 막히거나 실패하면 그
-   상태로 멈춘다 — ①은 고리가 비고 업무가 회색, ②는 돋보기가 없고,
-   ③은 길과 돈이 흐려 고지서 한 장만 보인다. 셋 다 덜 그려진 그림이고,
-   ③은 특히 왼쪽에 붙은 것처럼 보인다.
+   세 데모는 '흐르기 전' 이 기본 상태다. 스크립트가 막히거나 실패하면 그
+   상태로 멈춘다 — ①은 업무가 전부 회색, ②는 돋보기가 제자리, ③은 어느
+   고지서에도 검증 도장이 없다. 셋 다 덜 그려진 그림이다.
 
-   그래서 끝난 모습을 기본으로 둔다. 스크립트가 붙으면 .is-live 가 달리고
-   그때부터 처음 상태에서 시작한다 */
+   그래서 한 차례 지나간 모습을 기본으로 둔다. 스크립트가 붙으면 .is-live
+   가 달리고 그때부터 처음 상태에서 시작한다 */
 .p2d:not(.is-live) .dl-list .t{background:rgba(var(--color-blue-rgb),.3)}
 .p2d:not(.is-live) .dl-list .ck{background:var(--main-blue)}
 .p2d:not(.is-live) .dl-list .ck::before{transform:rotate(45deg) scale(1)}
-.p2d:not(.is-live) .lens{opacity:1}
-.p2d:not(.is-live) .bl-ok{opacity:1;transform:scale(1)}
-.p2d:not(.is-live) .bl-path{opacity:1;background:var(--main-blue)}
-.p2d:not(.is-live) .bl-path i{border-color:var(--main-blue)}
-.p2d:not(.is-live) .bl-coins i{opacity:1;background:var(--main-blue)}
+.p2d:not(.is-live) .bl-doc:nth-child(2) .bl-ok{opacity:1;transform:scale(1)}

@@ -318,23 +318,57 @@
       };
     }
 
-    /* 고지서 검증 — 체크가 붙기 전에는 납부로 가는 길도 돈도 흐리다.
-       검증을 거쳐야 넘어간다는 순서가 이 칸의 내용이다 */
+    /* 고지서 검증 — 고지서가 줄지어 오른쪽으로 흐른다. 돈에 닿기 전
+       가운데를 지날 때 검증 도장이 찍힌다. 끝나는 자리가 없으니 되감기지
+       않는다 — 첫째 칸의 컨베이어와 같은 수다 */
     function pay(root) {
-      var box = root.querySelector('.p2d-pay');
+      var track = root.querySelector('.bl-track');
       var timers = [], on = false;
+      var EASE = 'transform .6s cubic-bezier(.4,0,.3,1)';
       function T(ms, fn) { timers.push(setTimeout(fn, ms)); }
       function clear() { timers.forEach(clearTimeout); timers = []; }
-      function reset() { clear(); box.classList.remove('ok', 'paid'); }
-      function settle() { box.classList.add('ok', 'paid'); }
-      function run() {
-        reset();
-        T(700, function () { box.classList.add('ok'); });    /* 검증 */
-        T(1500, function () { box.classList.add('paid'); }); /* 그제서야 납부 */
-        T(4400, run);
+      /* 한 칸 = 고지서 폭 + 사이 틈. 재서 쓰므로 폭이 바뀌어도 맞는다 */
+      function stepPx() {
+        var c = track.children;
+        return c.length > 1 ? c[1].offsetLeft - c[0].offsetLeft : 0;
+      }
+      function place(px, jump) {
+        if (jump) track.style.transition = 'none';
+        track.style.transform = 'translateX(' + px + 'px)';
+        if (jump) { void track.offsetWidth; track.style.transition = EASE; }
+      }
+      function reset() {
+        clear();
+        [].forEach.call(track.children, function (d) { d.classList.remove('on'); });
+        track.style.transition = EASE;
+        place(-stepPx(), true);     /* 한 칸 왼쪽에서 시작해 오른쪽으로 흐른다 */
+      }
+      function settle() {           /* 동작 줄이기용 — 멈춘 채 검증된 모습 */
+        var mid = track.children[1];
+        if (mid) mid.classList.add('on');
+      }
+      function tick() {
+        var mid = track.children[1];          /* 가운데를 지나는 고지서 */
+        if (mid) mid.classList.add('on');
+        T(700, function () {
+          place(0);                            /* 한 칸 오른쪽으로 */
+          T(620, function () {                 /* 맨 뒤를 맨 앞으로 */
+            var last = track.lastElementChild;
+            last.classList.remove('on');
+            track.insertBefore(last, track.firstElementChild);
+            place(-stepPx(), true);
+          });
+        });
+        T(1800, tick);
       }
       return {
-        play: function () { if (on) return; on = true; if (reduce) settle(); else run(); },
+        play: function () {
+          if (on) return;
+          on = true;
+          reset();
+          if (reduce) { settle(); return; }
+          T(500, tick);
+        },
         stop: function () { on = false; clear(); }
       };
     }
