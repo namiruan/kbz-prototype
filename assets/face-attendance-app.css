@@ -1846,10 +1846,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   border-top:1px solid var(--ap-line);text-align:left}
 /* 글 앞의 점 하나로 **윗줄에 딸린 줄**임을 말한다. 점은 윗줄 글의 왼쪽
    끝에 서고 글만 한 칸 들어가므로, 들여쓴 것이 어긋난 것이 아니라 단이
-   다른 것으로 읽힌다 */
-.ask__opt-t{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-text);
+   다른 것으로 읽힌다.
+   글자도 한 단 내린다(17 → 15) — 이 줄은 '예' 를 고른 뒤에야 생기는 줄이라
+   묻는 줄과 같은 크기로 두면 둘이 나란한 물음 둘로 읽힌다. 무게는 semibold
+   로 남긴다: 크기까지 내리고 무게도 빼면 누르는 줄이 아니라 주석이 된다 */
+.ask__opt-t{font:var(--t-sub-em);letter-spacing:var(--ls-sub);color:var(--ap-text);
   display:flex;align-items:center;gap:var(--ap-p4)}
-.ask__opt-t::before{content:"";flex:none;width:5px;height:5px;
+.ask__opt-t::before{content:"";flex:none;width:4px;height:4px;
   border-radius:50%;background:var(--ap-text-gray)}
 /* 목록에서 사람을 고르는 네모(20)보다 한 단 키운다 — 여기는 옆에 선 토글이
    36 이라, 같은 20 으로는 오른쪽 열이 아래로 갈수록 야위어 보인다.
