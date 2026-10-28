@@ -189,10 +189,11 @@ body.intro-page{word-break:keep-all}
 .p2d-dev .scr{display:flex;flex-direction:column;justify-content:center;gap:.9em;
   height:8.5em;padding:0 1.4em;border-radius:1em;background:var(--main-blue)}
 .p2d-dev .scr i{display:block;height:.7em;border-radius:.4em;background:rgba(var(--color-white-rgb),.85)}
-/* 둘째 줄이 짧다 — 단말기가 하루를 덜 받아 적었다는 표시다 */
-.p2d-dev .scr i:last-child{width:52%;background:rgba(var(--color-white-rgb),.45);
-  transition:width .45s ease,background .45s ease}
-.p2d-scan.fixed .p2d-dev .scr i:last-child{width:100%;background:rgba(var(--color-white-rgb),.85)}
+/* 둘째 줄이 짧다 — 단말기가 하루를 덜 받아 적었다는 표시다.
+   대조가 끝나도 이 줄은 그대로 둔다. 저절로 차오르면 '우리가 기록을
+   채워 넣었다' 로 읽히는데, 하는 일은 어긋난 데를 짚어 드리는 것이지
+   기록을 고치는 것이 아니다 */
+.p2d-dev .scr i:last-child{width:52%;background:rgba(var(--color-white-rgb),.45)}
 .p2d-dev .keys{display:flex;justify-content:center;gap:1.2em;margin-top:2.1em}
 .p2d-dev .keys i{display:block;width:1.5em;height:1.5em;border-radius:50%;background:var(--main-gray)}
 /* ── 출역기록 서류 — 현장에서 손으로 적는 종이 ── */
@@ -202,15 +203,19 @@ body.intro-page{word-break:keep-all}
   border:.15em solid var(--main-gray);border-radius:.3em;
   box-shadow:0 .8em 1.8em -1em rgba(var(--color-black-rgb),.4)}
 .p2d-doc .hd{display:block;width:58%;height:.8em;border-radius:.4em;background:var(--main-navy)}
-.p2d-doc .ln{display:block;height:.7em;border-radius:.4em;background:var(--main-gray)}
+.p2d-doc .ln{position:relative;display:block;height:.7em;border-radius:.4em;background:var(--main-gray)}
 .p2d-doc .ln:last-of-type{width:62%}
 /* 어긋난 한 줄 — 서류에는 있는데 단말기에는 없다 */
 .p2d-doc .ln.gap{background:rgba(var(--color-blue-rgb),.3);transition:background .3s}
 .p2d-scan.off .ln.gap{background:var(--danger);animation:p2dMiss .9s ease-in-out infinite}
 @keyframes p2dMiss{0%,100%{box-shadow:0 0 0 0 rgba(var(--danger-rgb),.5)}
   50%{box-shadow:0 0 0 .6em rgba(var(--danger-rgb),0)}}
-.p2d-scan.fixed .ln.gap{background:var(--main-blue);animation:p2dPop .36s cubic-bezier(.34,1.6,.5,1)}
-@keyframes p2dPop{0%{transform:scaleX(.3)}100%{transform:scaleX(1)}}
+/* 대조가 끝난 뒤 — 파랗게 바꾸면 '고쳐졌다' 가 된다. 짚어 둔 표시로 남긴다 */
+.p2d-scan.fixed .ln.gap{background:var(--sun)}
+.p2d-scan.fixed .ln.gap::after{content:"";position:absolute;right:-1.1em;top:50%;
+  width:.55em;height:.55em;margin-top:-.28em;border-radius:50%;background:var(--sun);
+  animation:p2dPop .3s cubic-bezier(.34,1.6,.5,1)}
+@keyframes p2dPop{0%{transform:scale(.2)}100%{transform:scale(1)}}
 
 /* ── 돋보기 ── */
 .lens{position:absolute;top:0;left:0;width:7em;height:7em;margin:-3.5em 0 0 -3.5em;
