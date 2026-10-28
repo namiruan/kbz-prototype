@@ -1113,7 +1113,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    목록이 비친다. 높이는 js 가 재어 --ap-act-h 에 적는다.
    바닥 탭이 있는 화면(근로자 앱)은 바가 그 위에 줄 서 있어야 해서 뺀다 */
 .has-float-act .act{position:absolute;left:0;right:0;bottom:0;z-index:2}
-.has-float-act .body{padding-bottom:var(--ap-act-h)}
+/* ⚠ 바 높이만 주면 본문이 제 **아래 여백(16)을 잃는다** — 마지막 칸의
+   아래 테가 바의 윗변에 그대로 닿아, 떠 있는 바가 칸을 덮은 것처럼 보였다.
+   바 높이에 그 여백을 **더한다**: 좌우가 16 이니 아래도 16 이다 */
+.has-float-act .body{padding-bottom:calc(var(--ap-act-h) + var(--ap-p6))}
 .act__b{font:var(--t-title2);letter-spacing:var(--ls-title2);flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:var(--ap-p2);padding:var(--ap-p6) var(--ap-p8)}
 .act__b--on{background:var(--ap-primary);color:var(--ap-g0)}
 .act__b--dark{background:var(--ap-g95);color:var(--ap-g0)}
