@@ -61,17 +61,21 @@
           </div>
           <div class="group-1-1-right">
             <div class="img-group">
-              <!-- 현장 하나가 열리고 닫히는 동안 양 끝에 신고가 하나씩 -->
-              <div class="p2d" data-p2d="span" aria-hidden="true">
-                <div class="p2d-span">
-                  <figure class="sp-doc" data-at="start"><span class="sheet">
-                    <span class="hd"></span><span class="ln"></span><span class="ln"></span>
-                  </span></figure>
-                  <span class="sp-bar"><i></i></span>
-                  <figure class="sp-doc" data-at="end"><span class="sheet">
-                    <span class="hd"></span><span class="ln"></span><span class="ln"></span>
-                  </span></figure>
+              <!-- 기한이 다 가기 전에 여러 업무가 차례로 끝난다 -->
+              <div class="p2d" data-p2d="due" aria-hidden="true">
+                <div class="p2d-due">
+                  <svg class="dl-ring" viewBox="0 0 100 100" aria-hidden="true">
+                    <circle class="trk" cx="50" cy="50" r="42"></circle>
+                    <circle class="arc" cx="50" cy="50" r="42"></circle>
+                  </svg>
+                  <ul class="dl-list">
+                    <li><span class="t"></span><i class="ck"></i></li>
+                    <li><span class="t"></span><i class="ck"></i></li>
+                    <li><span class="t"></span><i class="ck"></i></li>
+                  </ul>
                 </div>
+              </div>
+            </div>
               </div>
             </div>
           </div>

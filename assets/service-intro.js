@@ -261,23 +261,21 @@
       };
     }
 
-    /* 건설공사 신고 — 현장이 열리고 닫히는 동안 양 끝에 신고가 하나씩.
-       띠가 차오르는 것이 공사 기간이고, 양 끝 서류가 차례로 선다 */
-    function span(root) {
-      var wrap = root.querySelector('.p2d-span');
-      var s1 = root.querySelector('.sp-doc[data-at="start"]');
-      var s2 = root.querySelector('.sp-doc[data-at="end"]');
+    /* 건설공사 신고 — 기한 고리가 도는 동안 업무 셋이 차례로 끝난다.
+       고리는 끝까지 차지 않는다. 기한을 넘기지 않았다는 뜻이다 */
+    function due(root) {
+      var box = root.querySelector('.p2d-due');
+      var items = [].slice.call(root.querySelectorAll('.dl-list li'));
       var timers = [], on = false;
       function T(ms, fn) { timers.push(setTimeout(fn, ms)); }
       function clear() { timers.forEach(clearTimeout); timers = []; }
-      function reset() { clear(); wrap.classList.remove('running'); s1.classList.remove('on'); s2.classList.remove('on'); }
-      function settle() { wrap.classList.add('running'); s1.classList.add('on'); s2.classList.add('on'); }
+      function reset() { clear(); box.classList.remove('running'); items.forEach(function (i) { i.classList.remove('on'); }); }
+      function settle() { box.classList.add('running'); items.forEach(function (i) { i.classList.add('on'); }); }
       function run() {
         reset();
-        T(450, function () { s1.classList.add('on'); });     /* 성립신고 */
-        T(900, function () { wrap.classList.add('running'); }); /* 공사가 흐른다 */
-        T(3300, function () { s2.classList.add('on'); });    /* 준공신고 */
-        T(5400, run);
+        T(300, function () { box.classList.add('running'); });
+        items.forEach(function (it, i) { T(800 + i * 750, function () { it.classList.add('on'); }); });
+        T(5200, run);
       }
       return {
         play: function () { if (on) return; on = true; if (reduce) settle(); else run(); },
@@ -306,7 +304,7 @@
       };
     }
 
-    var make = { match: match, span: span, bill: bill };
+    var make = { match: match, due: due, bill: bill };
     var list = [];
     demos.forEach(function (el) {
       var f = make[el.getAttribute('data-p2d')];

@@ -220,32 +220,38 @@ body.intro-page{word-break:keep-all}
   border-radius:.3em;background:var(--main-blue);transform:rotate(45deg)}
 .p2d-scan.scanning .lens{opacity:1}
 
-/* ── ① 건설공사 신고 — 현장이 열리고 닫히는 동안 양 끝에 신고 하나씩 ──
-   가운데 칸이 '두 물건을 돋보기로 견주기' 이므로 여기는 다른 동작을 쓴다.
-   띠가 왼쪽에서 오른쪽으로 차고, 양 끝의 서류가 차례로 도장 찍히듯 선다 */
-.p2d-span{display:flex;align-items:center;justify-content:center;gap:1.4em;width:30.8em}
-.sp-doc{margin:0;flex:0 0 auto}
-/* 높이 17.6em 은 가운데 칸의 단말기·서류와 같다. 셋이 나란히 섰을 때
-   덩치가 들쭉날쭉하지 않게 맞춘다 */
-.sp-doc .sheet{position:relative;display:flex;flex-direction:column;gap:1.2em;
-  width:10.5em;height:17.6em;padding:1.8em 1.5em;background:var(--main-white);
-  border:.15em solid var(--main-gray);border-radius:.3em;
-  box-shadow:0 .7em 1.6em -.9em rgba(var(--color-black-rgb),.4);
-  transition:border-color .3s,box-shadow .3s,transform .3s cubic-bezier(.34,1.5,.5,1)}
-.sp-doc .hd{display:block;width:58%;height:.8em;border-radius:.4em;background:var(--main-gray);
-  transition:background .3s,width .3s}
-.sp-doc .ln{display:block;height:.7em;border-radius:.4em;background:var(--main-gray);opacity:.55}
-.sp-doc .ln:last-of-type{width:64%}
-/* 신고가 들어간 서류 — 머리줄이 남색으로 서고 테두리가 파래진다 */
-.p2d-span .sp-doc.on .sheet{border-color:var(--main-blue);transform:translateY(-.4em);
-  box-shadow:0 1.1em 2.2em -.9em rgba(var(--color-black-rgb),.45)}
-.p2d-span .sp-doc.on .hd{background:var(--main-navy)}
-/* 공사 기간 띠 */
-.sp-bar{position:relative;flex:1 1 auto;height:.8em;border-radius:.4em;background:var(--main-gray);
-  overflow:hidden}
-.sp-bar i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:.4em;background:var(--main-blue);
-  transition:width 2.2s cubic-bezier(.4,0,.5,1)}
-.p2d-span.running .sp-bar i{width:100%}
+/* ── ① 건설공사 신고 — 기한이 다 가기 전에 여러 업무가 끝난다 ──
+   서류를 주인공으로 두면 '종이 두 장' 이야기가 된다. 이 칸이 말하는 것은
+   성립부터 준공까지 현장 단위로 내야 할 것을 '기한 안에' 전부 맡는다는
+   것이다. 그래서 남은 기한(고리)과 끝나는 업무(줄)로 바꿨다 */
+/* 높이를 17.6em 으로 박는다 — 나머지 두 칸과 덩치를 맞추기 위해서다 */
+.p2d-due{display:flex;align-items:center;justify-content:center;gap:2.6em;
+  width:30.8em;height:17.6em}
+/* 기한 고리 — conic-gradient 는 @property 없이는 매끄럽게 못 움직인다.
+   stroke-dashoffset 은 그냥 전환되므로 SVG 로 그린다 */
+.dl-ring{width:13.4em;height:13.4em;flex:0 0 auto;transform:rotate(-90deg)}
+.dl-ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.dl-ring .trk{stroke:var(--main-gray);opacity:.55}
+.dl-ring .arc{stroke:var(--main-blue);stroke-dasharray:264;stroke-dashoffset:264;
+  transition:stroke-dashoffset 3.4s linear}
+/* 끝까지 채우지 않는다 — 기한이 남은 채로 업무가 끝났다는 뜻이다 */
+.p2d-due.running .arc{stroke-dashoffset:70}
+
+/* 업무 줄 — 차례로 체크가 들어온다 */
+.dl-list{flex:1;min-width:0;list-style:none;margin:0;padding:0;
+  display:flex;flex-direction:column;gap:3.8em}
+.dl-list li{display:flex;align-items:center;gap:1.3em}
+.dl-list .t{flex:1;min-width:0;height:1.5em;border-radius:.75em;background:var(--sub-w-gray);
+  transition:background .3s}
+.dl-list .ck{position:relative;flex:0 0 2.9em;width:2.9em;height:2.9em;border-radius:50%;
+  background:var(--main-gray);transition:background .25s}
+.dl-list .ck::before{content:"";position:absolute;left:50%;top:50%;width:.68em;height:1.15em;
+  margin:-.75em 0 0 -.38em;border:solid var(--main-white);border-width:0 .3em .3em 0;
+  transform:rotate(45deg) scale(0);
+  transition:transform .26s cubic-bezier(.34,1.6,.5,1)}
+.dl-list li.on .t{background:rgba(var(--color-blue-rgb),.3)}
+.dl-list li.on .ck{background:var(--main-blue)}
+.dl-list li.on .ck::before{transform:rotate(45deg) scale(1)}
 
 /* ── ③ 고지서 검증 — 고지된 금액과 신고한 내용을 나란히 놓는다 ──
    막대 둘의 길이가 같아지면 맞은 것이다. 여기서는 끝을 체크로 맺는다 —
