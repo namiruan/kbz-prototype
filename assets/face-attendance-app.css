@@ -1822,7 +1822,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    면은 gray/5 다. 흰 폼 위에서 한 끗만 내려앉아 '여기는 다른 줄' 이라고만
    알린다 */
 .ask{display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:var(--ap-p5);
+  flex-wrap:wrap;column-gap:var(--ap-p5);row-gap:var(--ap-p6);
   padding:var(--ap-p6);background:var(--ap-g5);border-radius:var(--ap-r10)}
 .ask__t{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-text)}
 .ask .tog{align-self:auto}
@@ -1836,11 +1836,20 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    가름선은 둘을 섞지 않으면서도 한 카드에 묶어 둔다 — 윗줄의 답이 아랫줄을
    불렀다는 것이 카드 하나로 읽힌다.
    100% 를 쥐어 줄을 넘기고(wrap), 선은 카드 양 끝까지 긋는다 — 안쪽 여백만큼
-   들여 그으면 가름이 아니라 글 밑줄로 보인다 */
-.ask__opt{flex:1 0 100%;display:flex;align-items:center;gap:var(--ap-p5);
-  margin-inline:calc(var(--ap-p6) * -1);padding:var(--ap-p5) var(--ap-p6) 0;
-  border-top:1px solid var(--ap-g20);text-align:left}
+   들여 그으면 가름이 아니라 글 밑줄로 보인다.
+   줄의 짜임은 **윗줄과 같다** — 글이 왼쪽, 누르는 것이 오른쪽이다. 네모를
+   글 앞에 두었더니 글의 왼쪽 끝이 윗줄보다 들어가 두 줄이 어긋나 보였고,
+   오른쪽은 통째로 비어 한쪽으로 쏠렸다 */
+.ask__opt{flex:1 0 100%;display:flex;align-items:center;justify-content:space-between;
+  gap:var(--ap-p5);
+  margin-inline:calc(var(--ap-p6) * -1);padding:var(--ap-p6) var(--ap-p6) 0;
+  border-top:1px solid var(--ap-line);text-align:left}
 .ask__opt-t{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-text)}
+/* 목록에서 사람을 고르는 네모(20)보다 한 단 키운다 — 여기는 옆에 선 토글이
+   36 이라, 같은 20 으로는 오른쪽 열이 아래로 갈수록 야위어 보인다.
+   장갑 낀 손이 누르는 자리이기도 하다 */
+.ask__opt .chk{width:24px;height:24px;border-radius:var(--ap-r6)}
+.ask__opt .chk .ic{width:18px;height:18px}
 .fld__l{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-g60)}
 .fld__l b{color:var(--ap-danger);font-weight:600}
 .inp{font:var(--t-body);letter-spacing:var(--ls-body);display:flex;align-items:center;
