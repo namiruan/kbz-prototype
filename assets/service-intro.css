@@ -178,8 +178,11 @@ body.intro-page{word-break:keep-all}
    높이가 없어 390px 에서 92px 로 눌렸다 */
 .p2d{width:100%;aspect-ratio:355/250;max-height:280px;margin:auto;
   display:flex;align-items:center;justify-content:center;container-type:inline-size}
-.p2d-scan{position:relative;display:flex;gap:4em;align-items:center;justify-content:center;
-  font-size:clamp(6px,2.82cqw,10px)}
+/* 기준 글자 크기는 자식에 건다. 컨테이너는 자기 자신을 질의하지 못해서
+   .p2d 에 cqw 를 쓰면 풀리지 않고 상한(10px)에 박힌다 — 그러면 좁은 폭에서
+   묶음이 틀 밖으로 나간다 */
+.p2d>*{font-size:clamp(6px,2.82cqw,10px)}
+.p2d-scan{position:relative;display:flex;gap:4em;align-items:center;justify-content:center}
 
 /* ── 단말기 — 벽에 붙는 전자카드 리더 ── */
 .p2d-dev{margin:0}
@@ -216,3 +219,59 @@ body.intro-page{word-break:keep-all}
 .lens::after{content:"";position:absolute;right:-1.2em;bottom:-1em;width:1.9em;height:.5em;
   border-radius:.3em;background:var(--main-blue);transform:rotate(45deg)}
 .p2d-scan.scanning .lens{opacity:1}
+
+/* ── ① 건설공사 신고 — 현장이 열리고 닫히는 동안 양 끝에 신고 하나씩 ──
+   가운데 칸이 '두 물건을 돋보기로 견주기' 이므로 여기는 다른 동작을 쓴다.
+   띠가 왼쪽에서 오른쪽으로 차고, 양 끝의 서류가 차례로 도장 찍히듯 선다 */
+.p2d-span{display:flex;align-items:center;justify-content:center;gap:1.4em;width:30.8em}
+.sp-doc{margin:0;flex:0 0 auto}
+/* 높이 17.6em 은 가운데 칸의 단말기·서류와 같다. 셋이 나란히 섰을 때
+   덩치가 들쭉날쭉하지 않게 맞춘다 */
+.sp-doc .sheet{position:relative;display:flex;flex-direction:column;gap:1.2em;
+  width:10.5em;height:17.6em;padding:1.8em 1.5em;background:var(--main-white);
+  border:.15em solid var(--main-gray);border-radius:.3em;
+  box-shadow:0 .7em 1.6em -.9em rgba(var(--color-black-rgb),.4);
+  transition:border-color .3s,box-shadow .3s,transform .3s cubic-bezier(.34,1.5,.5,1)}
+.sp-doc .hd{display:block;width:58%;height:.8em;border-radius:.4em;background:var(--main-gray);
+  transition:background .3s,width .3s}
+.sp-doc .ln{display:block;height:.7em;border-radius:.4em;background:var(--main-gray);opacity:.55}
+.sp-doc .ln:last-of-type{width:64%}
+/* 신고가 들어간 서류 — 머리줄이 남색으로 서고 테두리가 파래진다 */
+.p2d-span .sp-doc.on .sheet{border-color:var(--main-blue);transform:translateY(-.4em);
+  box-shadow:0 1.1em 2.2em -.9em rgba(var(--color-black-rgb),.45)}
+.p2d-span .sp-doc.on .hd{background:var(--main-navy)}
+/* 공사 기간 띠 */
+.sp-bar{position:relative;flex:1 1 auto;height:.8em;border-radius:.4em;background:var(--main-gray);
+  overflow:hidden}
+.sp-bar i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:.4em;background:var(--main-blue);
+  transition:width 2.2s cubic-bezier(.4,0,.5,1)}
+.p2d-span.running .sp-bar i{width:100%}
+
+/* ── ③ 고지서 검증 — 고지된 금액과 신고한 내용을 나란히 놓는다 ──
+   막대 둘의 길이가 같아지면 맞은 것이다. 여기서는 끝을 체크로 맺는다 —
+   글이 '검증합니다' 라고 끝나므로 '검증 완료' 는 그림이 말해도 되는 몫이다 */
+.p2d-bill{position:relative;display:flex;align-items:center;justify-content:center}
+.p2d-bill .sheet{position:relative;display:flex;flex-direction:column;gap:1.3em;
+  width:21em;height:17.6em;padding:2.2em 2em;background:var(--main-white);
+  border:.15em solid var(--main-gray);border-radius:.3em;
+  box-shadow:0 .9em 2em -1em rgba(var(--color-black-rgb),.4)}
+.p2d-bill .hd{display:block;width:46%;height:.8em;border-radius:.4em;background:var(--main-navy)}
+.p2d-bill .ln{display:block;width:70%;height:.6em;border-radius:.3em;background:var(--main-gray);opacity:.5}
+/* 금액 막대 둘 — 위가 공제회가 보낸 고지, 아래가 우리가 신고한 내용 */
+.p2d-bill .amt{display:block;height:1.8em;border-radius:.3em;background:var(--sub-w-gray)}
+.p2d-bill .amt i{display:block;height:100%;border-radius:.3em;transition:width .9s cubic-bezier(.4,0,.5,1)}
+.p2d-bill .amt.a i{width:78%;background:var(--main-navy)}
+.p2d-bill .amt.b i{width:0;background:var(--main-blue)}
+.p2d-bill.checking .amt.b i{width:78%}
+/* 길이가 맞으면 두 막대가 한 번 밝아진다 */
+.p2d-bill.ok .amt{box-shadow:0 0 0 .22em rgba(var(--color-blue-rgb),.28)}
+.p2d-bill .amt{transition:box-shadow .3s}
+/* 검증 완료 */
+.bill-ok{position:absolute;right:-1.4em;bottom:-1.2em;width:3.8em;height:3.8em;border-radius:50%;
+  background:var(--main-blue);opacity:0;transform:scale(.4);z-index:3;
+  box-shadow:0 .4em 1.2em -.3em rgba(var(--color-black-rgb),.35);
+  transition:opacity .22s,transform .3s cubic-bezier(.34,1.7,.5,1)}
+.p2d-bill.ok .bill-ok{opacity:1;transform:scale(1)}
+.bill-ok::before{content:"";position:absolute;left:50%;top:50%;width:.85em;height:1.45em;
+  margin:-.95em 0 0 -.48em;border:solid var(--main-white);border-width:0 .38em .38em 0;
+  transform:rotate(45deg)}

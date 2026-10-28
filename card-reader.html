@@ -61,7 +61,18 @@
           </div>
           <div class="group-1-1-right">
             <div class="img-group">
-              <span class="ph"><b class="ph-cap">성립·준공 신고 화면</b><i class="ph-spec">투명 PNG · 가로 300 이상</i></span>
+              <!-- 현장 하나가 열리고 닫히는 동안 양 끝에 신고가 하나씩 -->
+              <div class="p2d" data-p2d="span" aria-hidden="true">
+                <div class="p2d-span">
+                  <figure class="sp-doc" data-at="start"><span class="sheet">
+                    <span class="hd"></span><span class="ln"></span><span class="ln"></span>
+                  </span></figure>
+                  <span class="sp-bar"><i></i></span>
+                  <figure class="sp-doc" data-at="end"><span class="sheet">
+                    <span class="hd"></span><span class="ln"></span><span class="ln"></span>
+                  </span></figure>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -94,7 +105,7 @@
             <div class="group-txt-sub"><span class="sub-txt contents-marque">근로내역 확정</span></div>
             <div class="group-txt-main">
               <h2 class="title-txt partition-conetents-head">매달 15일까지<br>빠짐없이 신고</h2>
-              <span class="content-txt partition-contents">전자카드 등록과 단말기 기록을 현장 출역과 맞춰 보고, 산출한 근로내역을 토대로 다음 달 15일까지 정확하게 신고해 드립니다.</span>
+              <span class="content-txt partition-contents">전자카드 등록과 단말기 기록을 현장 출역과 맞춰 보고, 산출한 근로내역을 토대로 정확하게 신고해 드립니다.</span>
             </div>
           </div>
         </div>
@@ -111,7 +122,18 @@
           </div>
           <div class="group-1-1-right">
             <div class="img-group">
-              <span class="ph"><b class="ph-cap">공제부금 고지서 검증 화면</b><i class="ph-spec">투명 PNG · 가로 300 이상</i></span>
+              <!-- 고지된 금액과 신고한 내용을 나란히 놓고 길이가 맞는지 본다 -->
+              <div class="p2d" data-p2d="bill" aria-hidden="true">
+                <div class="p2d-bill">
+                  <span class="sheet">
+                    <span class="hd"></span>
+                    <span class="amt a"><i></i></span>
+                    <span class="amt b"><i></i></span>
+                    <span class="ln"></span>
+                  </span>
+                  <i class="bill-ok"></i>
+                </div>
+              </div>
             </div>
           </div>
         </div>
