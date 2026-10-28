@@ -77,6 +77,8 @@
   --ap-danger:#b82e2e;             /* Color/Text/danger */
 
   --ap-line:rgba(19,20,22,.15);    /* Color/action/gray-pressed */
+  --ap-line-soft:rgba(19,20,22,.07);/* 면 위에 긋는 가름선 — 옅은 회색 면(gray/5)
+                                      위에서는 .15 가 가름이 아니라 흠처럼 보인다 */
   --ap-zone-fill:rgba(17,90,198,.08); /* 인정범위 원의 속 — 지도 위에 얹는
                                       면이라 불투명 색이 아니라 투명도로 둔다 */
   --ap-zone-chip:rgba(17,90,198,.1);/* 핀을 담는 옅은 브랜드 면 */
@@ -1855,7 +1857,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .ask__opt{flex:1 0 100%;display:flex;align-items:center;justify-content:space-between;
   gap:var(--ap-p5);
   margin-inline:calc(var(--ap-p6) * -1);padding:var(--ap-p6) var(--ap-p6) 0;
-  border-top:1px solid var(--ap-line);text-align:left}
+  border-top:1px solid var(--ap-line-soft);text-align:left}
 /* 글 앞의 점 하나로 **윗줄에 딸린 줄**임을 말한다. 점은 윗줄 글의 왼쪽
    끝에 서고 글만 한 칸 들어가므로, 들여쓴 것이 어긋난 것이 아니라 단이
    다른 것으로 읽힌다.
