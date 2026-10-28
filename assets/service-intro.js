@@ -225,47 +225,55 @@
     if (!demos.length) return;
     var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-    /* 근로내역 대조 — 단말기가 찍은 날수와 현장 출역을 나란히 놓는다.
-       둘은 맞고 하나가 어긋난다. 그 하나를 바로잡고 신고한다 */
+    /* 근로내역 대조 — 단말기 기록과 현장 출역을 나란히 놓고 돋보기가 훑는다.
+       한 칸이 어긋나 있고, 돋보기가 그 위에 멈추면 드러나 바로잡힌다 */
     function match(root) {
-      var rows = [].slice.call(root.querySelectorAll('.p2d-row'));
-      var gap = root.querySelector('.p2d-row.is-gap');
-      var a = gap.querySelector('.v.a');
+      var scan = root.querySelector('.p2d-scan');
+      var srcs = [].slice.call(root.querySelectorAll('.p2d-src'));
+      var miss = root.querySelector('.grid i.miss');
+      var lens = root.querySelector('.lens');
+      var tag = root.querySelector('.p2d-tag');
       var btn = root.querySelector('.p2d-btn');
-      var WRONG = '17일', RIGHT = '18일';
       var timers = [], on = false;
       function T(ms, fn) { timers.push(setTimeout(fn, ms)); }
       function clear() { timers.forEach(clearTimeout); timers = []; }
+      /* 돋보기를 어느 요소 가운데로 — 자리를 재서 옮긴다(폭이 바뀌어도 맞는다) */
+      function moveTo(el) {
+        var r = el.getBoundingClientRect(), s = scan.getBoundingClientRect();
+        lens.style.left = (r.left - s.left + r.width / 2) + 'px';
+        lens.style.top = (r.top - s.top + r.height / 2) + 'px';
+      }
       function reset() {
         clear();
-        rows.forEach(function (r) { r.classList.remove('ok', 'off', 'fixed'); });
-        a.textContent = WRONG;
+        scan.classList.remove('scanning', 'off', 'fixed');
+        tag.textContent = '';
+        lens.style.transition = 'none';
+        moveTo(srcs[0]);
+        void lens.offsetWidth;
+        lens.style.transition = '';
         btn.classList.remove('armed', 'done');
         btn.textContent = '신고';
       }
       function settle() {           /* 끝난 모습 — 동작 줄이기용 */
-        rows.forEach(function (r) { r.classList.add('ok'); });
-        gap.classList.add('fixed');
-        a.textContent = RIGHT;
+        scan.classList.add('fixed');
+        tag.textContent = '1일 바로잡음';
         btn.classList.add('done');
         btn.textContent = '신고 완료';
       }
       function run() {
         reset();
-        /* 위에서부터 맞춰 본다 */
-        T(400, function () { rows[0].classList.add('ok'); });
-        T(700, function () { rows[1].classList.add('ok'); });
-        /* 셋째에서 어긋난다 — 단말기 17일, 현장 출역 18일 */
-        T(1050, function () { gap.classList.add('off'); });
-        /* 바로잡는다 */
-        T(1950, function () {
-          gap.classList.remove('off');
-          gap.classList.add('fixed', 'ok');
-          a.textContent = RIGHT;
+        T(300, function () { scan.classList.add('scanning'); });
+        T(900, function () { moveTo(srcs[1]); });               /* 현장 출역 쪽으로 */
+        T(1800, function () { moveTo(miss); });                  /* 어긋난 칸으로 되돌아온다 */
+        T(2500, function () { scan.classList.add('off'); tag.textContent = '1일 어긋남'; });
+        T(3500, function () {
+          scan.classList.remove('off');
+          scan.classList.add('fixed');
+          tag.textContent = '1일 바로잡음';
         });
-        T(2350, function () { btn.classList.add('armed'); });
-        T(3350, function () { btn.classList.remove('armed'); btn.classList.add('done'); btn.textContent = '신고 완료'; });
-        T(5300, run);
+        T(3900, function () { scan.classList.remove('scanning'); btn.classList.add('armed'); });
+        T(4900, function () { btn.classList.remove('armed'); btn.classList.add('done'); btn.textContent = '신고 완료'; });
+        T(6600, run);
       }
       return {
         play: function () { if (on) return; on = true; if (reduce) settle(); else run(); },
