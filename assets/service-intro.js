@@ -308,7 +308,11 @@
     var list = [];
     demos.forEach(function (el) {
       var f = make[el.getAttribute('data-p2d')];
-      if (f) list.push({ el: el, ctl: f(el) });
+      if (!f) return;
+      /* CSS 의 기본 상태는 '끝난 모습' 이다. 스크립트가 여기까지 왔으니
+         처음 상태에서 시작해도 된다고 알린다 */
+      el.classList.add('is-live');
+      list.push({ el: el, ctl: f(el) });
     });
     if (!('IntersectionObserver' in window)) { list.forEach(function (d) { d.ctl.play(); }); return; }
     var io = new IntersectionObserver(function (es) {

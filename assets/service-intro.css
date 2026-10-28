@@ -217,7 +217,9 @@ body.intro-page{word-break:keep-all}
 .p2d-doc .ln{position:relative;display:block;height:.7em;border-radius:.4em;background:var(--main-gray)}
 .p2d-doc .ln:last-of-type{width:62%}
 /* ── 돋보기 ── */
-.lens{position:absolute;top:0;left:0;width:7em;height:7em;margin:-3.5em 0 0 -3.5em;
+/* 기본 자리를 가운데로 둔다 — JS 가 안 돌면 left/top 이 0 이라 왼쪽 위
+   구석에 붙는다. 스크립트는 인라인 style 로 덮으므로 영향이 없다 */
+.lens{position:absolute;top:50%;left:50%;width:7em;height:7em;margin:-3.5em 0 0 -3.5em;
   border:.4em solid var(--main-blue);border-radius:50%;
   background:rgba(var(--color-white-rgb),.2);
   box-shadow:0 .7em 1.8em -.7em rgba(var(--color-black-rgb),.45),
@@ -306,3 +308,21 @@ body.intro-page{word-break:keep-all}
 .p2d-pay.paid .bl-coins i{opacity:1;background:var(--main-blue);transform:translateX(.5em)}
 .p2d-pay.paid .bl-coins i:nth-child(2){transition-delay:.07s}
 .p2d-pay.paid .bl-coins i:nth-child(3){transition-delay:.14s}
+
+/* ── JS 가 돌지 않을 때 ─────────────────────────────────────
+   세 데모는 '시작 전' 이 기본 상태다. 스크립트가 막히거나 실패하면 그
+   상태로 멈춘다 — ①은 고리가 비고 업무가 회색, ②는 돋보기가 없고,
+   ③은 길과 돈이 흐려 고지서 한 장만 보인다. 셋 다 덜 그려진 그림이고,
+   ③은 특히 왼쪽에 붙은 것처럼 보인다.
+
+   그래서 끝난 모습을 기본으로 둔다. 스크립트가 붙으면 .is-live 가 달리고
+   그때부터 처음 상태에서 시작한다 */
+.p2d:not(.is-live) .dl-ring .arc{stroke-dashoffset:70}
+.p2d:not(.is-live) .dl-list .t{background:rgba(var(--color-blue-rgb),.3)}
+.p2d:not(.is-live) .dl-list .ck{background:var(--main-blue)}
+.p2d:not(.is-live) .dl-list .ck::before{transform:rotate(45deg) scale(1)}
+.p2d:not(.is-live) .lens{opacity:1}
+.p2d:not(.is-live) .bl-ok{opacity:1;transform:scale(1)}
+.p2d:not(.is-live) .bl-path{opacity:1;background:var(--main-blue)}
+.p2d:not(.is-live) .bl-path i{border-color:var(--main-blue)}
+.p2d:not(.is-live) .bl-coins i{opacity:1;background:var(--main-blue)}
