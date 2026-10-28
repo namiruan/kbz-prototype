@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>안면 출퇴근 · 김반장</title>
-<meta name="description" content="안면 출퇴근 앱 화면 — 소장 앱(kpmManager)과 근로자 앱(kpmUser) 홈. 디자인은 [현장소장] 앱 디자인 리뉴얼 시안을 따른다.">
+<title>안면 출퇴근 현장소장 앱 · 김반장</title>
+<meta name="description" content="안면 출퇴근 현장소장 앱(kpmManager) 화면. 근로자 앱은 face-attendance-worker.html 에 따로 있다. 디자인은 [현장소장] 앱 디자인 리뉴얼 시안을 따른다.">
 
 <!-- 시안이 쓰는 글꼴은 Pretendard 하나다 (typo/font/type) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -13,52 +13,94 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=10">
-<script src="assets/face-attendance-app.js?v=10" defer></script>
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=537">
+<!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
+     집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
+     (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
+     DOMContentLoaded 를 기다린다 -->
+<script src="assets/face-attendance-app.js?v=537"></script>
 </head>
 
 <body>
 
+<!-- 시안의 꺾쇠 — 시스템 스프라이트의 것과 다른 그림이다.
+     시스템 것(icon-chevron-down)은 끝이 **뾰족한** 채움 도형이고, 시안 것은
+     끝이 둥근 **선**이다. 그리고 같은 상자 안에서 시안 것이 더 얕다 —
+     30 상자 안에서 17×8 인데 시스템 것은 22×11 이라, 같은 자리에 두면
+     꺾쇠만 혼자 크고 날카롭게 보인다.
+     figma.com 에서 svg 를 받을 수 없어 **재어서 같은 형태로 그린다**
+     (face-attendance-review.html 의 카메라 아이콘과 같은 사정이다).
+     잰 값(30 상자): 가로 17 · 세로 8 · 선 2 → 24 뷰박스로 0.8 배.
+     근거 노드: 「출퇴근관리 (현장선택 이후)」 580:2800 icon_size -->
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="icon-chevron-down-app" viewBox="0 0 24 24">
+    <path d="M5.4 9.2 12 14.7 18.6 9.2" fill="none" stroke="currentColor"
+      stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <!-- ⚠ 알림 종 — 시스템 스프라이트에 없다(가장 가까운 것이 icon-info ·
+       icon-triangle-alert 인데 둘 다 '알림' 이 아니라 '알려 줄 말이 있다'
+       쪽이다). 스프라이트의 채움 방식(fill:currentColor · 24 뷰박스)에
+       맞춰 직접 그렸다 — 디자이너에게 받으면 그것으로 갈아 끼운다 -->
+  <symbol id="icon-bell-app" viewBox="0 0 24 24">
+    <path d="M12 2.6c.6 0 1 .4 1 1v.7c2.6.5 4.5 2.7 4.5 5.4v3.2l1.3 2.2c.4.7-.1 1.5-.9 1.5H6.1c-.8 0-1.3-.8-.9-1.5l1.3-2.2V9.7c0-2.7 1.9-4.9 4.5-5.4v-.7c0-.6.4-1 1-1Z" fill="currentColor"/>
+    <path d="M9.9 18.1h4.2c-.3 1.4-1.1 2.3-2.1 2.3s-1.8-.9-2.1-2.3Z" fill="currentColor"/>
+  </symbol>
+</svg>
+
 <!-- ⚠ 시스템에 없어 다르게 둔 아이콘 — 디자이너에게 요청할 것
-     · 뒤로 가기: 시안은 화살표(←)지만 3.0 스프라이트에는 꺾쇠(‹)뿐이라
-       icon-chevron-left 를 쓴다
      · QR 코드: 아이콘이 없어 icon-camera 로 자리만 잡았다
+     · 알림 종: 시스템에 없다(가장 가까운 icon-info · icon-triangle-alert 는
+       '알려 줄 말이 있다' 쪽이지 알림이 아니다). 스프라이트의 채움 방식에
+       맞춰 직접 그렸다 — icon-bell-app
+     · 달을 펴는 꺾쇠: 시안의 것이 시스템 것과 다른 그림이다(끝이 둥근 선 ·
+       더 얕다). svg 를 받을 수 없어 재어서 그렸다 — icon-chevron-down-app
+     · 인증 시작 과녁의 '시작' 표: 세모(▶)가 없어 icon-chevron-right 로
+       자리만 잡았다 — 동그라미 안에 들어가 '누르면 간다'로 읽힌다
+     · 얼굴 촬영 자리의 '얼굴을 훑는 그림': 시스템에 얼굴이 없다(사람은
+       icon-employee 뿐이고 그것은 메뉴 아이콘이다). 이 자리에서만 쓰는
+       그림으로 직접 그렸다 — 로티를 받게 되면 그걸로 갈아 끼운다
+     뒤로 가기는 2026-10-21 에 시안의 화살표(←)가 icon-back 으로 들어와
+     꺾쇠(‹) 자리표시를 걷었다
      ================================================================ -->
 
 <!-- ================================================================
-     화면 열세 장이 한 문서에 있고, 주소의 ?screen= 이 가리키는 한 장만 켜진다.
+     화면을 모두 한 문서에 담고, 주소의 ?screen= 이 가리키는 한 장만 켠다.
      켜는 일은 assets/face-attendance-app.js 가 한다.
 
-     앱 셸은 세 종류다.
-       ① 소장 앱 하위 화면 — 뒤로 가기가 있어 바닥 내비게이션이 없다
+     앱 셸은 두 종류다.
+       ① 현장소장 앱 하위 화면 — 뒤로 가기가 있어 바닥 내비게이션이 없다
           (시안 '현장근로자' 와 같다). 바닥은 버튼 바가 끝까지 쓴다
        ② 앱 네이티브 카메라 — 앱이 직접 그리는 화면이라 셸이 없다
-       ③ 근로자 앱 주화면 — 바닥 내비게이션이 있다 (시안 '출퇴근관리')
+     근로자 앱(kpmUser)은 **face-attendance-worker.html** 에 따로 있다 —
+     css·js 는 같은 것을 쓴다. 파일을 가른 까닭은 시나리오 목록이 길어서이지
+     생김새의 기준이 달라서가 아니다.
      ================================================================ -->
 
 
-<!-- ===== ① 소장 앱 · 근로자 관리 ===== -->
+<!-- ===== ① 현장소장 앱 · 근로자 관리 ===== -->
 <section class="scr" data-screen="m-workers" data-title="근로자 관리">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
     <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
   </header>
 
   <div class="hd">
     <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button">출근</button>
-      <button class="seg__b" type="button">퇴근</button>
-      <button class="seg__b" type="button">이력</button>
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 인증</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
       <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
     </nav>
   </div>
 
   <div class="ctx">
-    <div class="site">
-      <span class="site__k">현장 :</span>
-      <span class="site__v">서울 마곡 A동 신축공사</span>
-      <button class="pill pill--line" type="button">변경</button>
+    <!-- 근로자 앱의 현장 카드와 같은 카드다 — 한 앱의 두 쪽이라 같은 것을
+         다른 꼴로 보이게 두지 않는다. 인정범위 줄은 근로자의 몫이라 뺀다 -->
+    <div class="card card--site">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장선택</button>
+      </div>
     </div>
   </div>
 
@@ -66,65 +108,71 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <button class="sel sel--inline" type="button">전체<svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        <button class="sel sel--inline sel--ghost" type="button"><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </span>
-      <b class="lbar__n">5명</b>
     </div>
     <div class="list">
       <!-- 얼굴이 등록된 근로자는 그 얼굴이 카드에 그대로 있다 —
            등록 여부가 이 화면에서 갈리는 유일한 값이다 -->
+      <!-- 어디서 더한 근로자인지는 사진 왼쪽 위, 고르는 네모 옆에 뱃지로
+           둔다. 글 칸에 끼우면 주민번호·직종과 같은 '받은 값' 으로 읽히는데,
+           이것은 사람의 값이 아니라 **기록이 어디서 왔는지**다 -->
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">홍길동</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/02.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="김철수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">김철수</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">750512 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">750512-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
           </div>
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">이영희</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
           </div>
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">박민수</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
@@ -133,13 +181,14 @@
       <article class="card card--photo">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">NGUYEN VAN A</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">여권번호</span><span class="card__v">C1234567</span></span>
+            <span class="card__kv"><span class="card__k card__k--foreign">여권번호</span><span class="card__v">C1234567</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
           </div>
         </div>
@@ -155,28 +204,30 @@
 </section>
 
 
-<!-- ===== ①-3 소장 앱 · 근로자 관리(고른 뒤) ===== -->
+<!-- ===== ①-3 현장소장 앱 · 근로자 관리(고른 뒤) ===== -->
 <section class="scr" data-screen="m-workers-pick" data-title="근로자 관리 — 고른 뒤">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
     <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
   </header>
 
   <div class="hd">
     <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button">출근</button>
-      <button class="seg__b" type="button">퇴근</button>
-      <button class="seg__b" type="button">이력</button>
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 인증</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
       <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
     </nav>
   </div>
 
   <div class="ctx">
-    <div class="site">
-      <span class="site__k">현장 :</span>
-      <span class="site__v">서울 마곡 A동 신축공사</span>
-      <button class="pill pill--line" type="button">변경</button>
+    <!-- 근로자 앱의 현장 카드와 같은 카드다 — 한 앱의 두 쪽이라 같은 것을
+         다른 꼴로 보이게 두지 않는다. 인정범위 줄은 근로자의 몫이라 뺀다 -->
+    <div class="card card--site">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장선택</button>
+      </div>
     </div>
   </div>
 
@@ -184,64 +235,70 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <button class="sel sel--inline" type="button">전체<svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        <button class="sel sel--inline sel--ghost" type="button"><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </span>
-      <b class="lbar__n">5명</b>
+      <!-- 오른쪽 끝의 수는 **고른 수**다 — 거르개 옆의 수(목록에 남은 수)와
+           다른 것을 센다. 둘을 한 자리에 둘 수 없는 까닭이다 -->
+      <b class="lbar__n lbar__n--on">선택 2명</b>
     </div>
     <div class="list">
       <!-- 고른 카드는 체크박스가 사진 위에서 파랗게 채워진다 -->
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk chk--on" type="button" aria-label="홍길동 선택" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></button>
+        <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">홍길동</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/02.jpg" alt=""></span>
         <button class="chk chk--on" type="button" aria-label="김철수 선택" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">김철수</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">750512 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">750512-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
           </div>
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">이영희</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
           </div>
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">박민수</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
@@ -250,13 +307,14 @@
       <article class="card card--photo">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">NGUYEN VAN A</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">여권번호</span><span class="card__v">C1234567</span></span>
+            <span class="card__kv"><span class="card__k card__k--foreign">여권번호</span><span class="card__v">C1234567</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
           </div>
         </div>
@@ -272,28 +330,30 @@
 </section>
 
 
-<!-- ===== ①-2 소장 앱 · 근로자 관리(직종을 고른 뒤) ===== -->
+<!-- ===== ①-2 현장소장 앱 · 근로자 관리(직종을 고른 뒤) ===== -->
 <section class="scr" data-screen="m-workers-job" data-title="근로자 관리 — 직종을 고른 뒤">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
     <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
   </header>
 
   <div class="hd">
     <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button">출근</button>
-      <button class="seg__b" type="button">퇴근</button>
-      <button class="seg__b" type="button">이력</button>
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 인증</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
       <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
     </nav>
   </div>
 
   <div class="ctx">
-    <div class="site">
-      <span class="site__k">현장 :</span>
-      <span class="site__v">서울 마곡 A동 신축공사</span>
-      <button class="pill pill--line" type="button">변경</button>
+    <!-- 근로자 앱의 현장 카드와 같은 카드다 — 한 앱의 두 쪽이라 같은 것을
+         다른 꼴로 보이게 두지 않는다. 인정범위 줄은 근로자의 몫이라 뺀다 -->
+    <div class="card card--site">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장선택</button>
+      </div>
     </div>
   </div>
 
@@ -301,36 +361,37 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <button class="sel sel--inline" type="button">형틀목공<svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        <button class="sel sel--inline sel--ghost sel--selected" type="button"><span class="sel__t">형틀목공</span><span class="sel__n">2</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </span>
-      <b class="lbar__n">2명</b>
     </div>
     <div class="list">
       <!-- 고른 직종만 남는다. 머리줄의 수도 걸러진 뒤의 수다 -->
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">홍길동</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">박민수</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715 - *******</span></span>
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
@@ -346,51 +407,258 @@
 </section>
 
 
-<!-- ===== ② 소장 앱 · 근로자 등록 ===== -->
-<section class="scr" data-screen="m-worker-new" data-title="근로자 등록">
+<!-- ===== ② 현장소장 앱 · 근로자 추가 ===== -->
+<section class="scr scr--form" data-screen="m-worker-new" data-title="근로자 추가">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
-    <h1 class="nav__t">얼굴 근로자 등록</h1>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근 근로자 추가</h1>
   </header>
 
   <main class="body">
     <div class="shot">
       <button class="shot__box" type="button">
-        <svg class="ic ic--56" aria-hidden="true"><use href="#icon-camera"></use></svg>
-        얼굴 촬영
+        <!-- 얼굴을 훑는 그림 — 스프라이트의 아이콘이 아니라 이 자리에서만 쓰는
+             그림이다. 시스템에 얼굴 아이콘이 없다(사람은 icon-employee 뿐이고
+             그것은 메뉴 아이콘이다). 움직임은 assets 쪽에 있다 -->
+        <span class="scan" aria-hidden="true">
+          <!-- 파장은 그림 안에 둔다 — 아이콘이 동그라미 한가운데에 서야 한다.
+               셋이 1초 간격으로 떠난다 -->
+          <span class="wave"><i></i><i></i><i></i></span>
+          <!-- 얼굴이 앉는 동그란 면. 면이 그림 밖에 있는 것은 빛과 그늘을
+               입히기 위해서다 — SVG 안에서는 CSS 로 면색을 그라데이션으로
+               못 준다. 파장은 이 면 뒤에서 번져 나온다 -->
+          <span class="scan__plate"></span>
+          <!-- 그림이 쓰는 자리만 잘라 담는다(가로 4~68 · 세로 12~60).
+               72 네모 그대로 두면 사람 아래위로 빈 자리가 남아 글자가 멀어진다 -->
+          <svg viewBox="4 12 64 48">
+            <!-- 얼굴은 눈 둘과 웃음 하나다. 모서리 테는 두지 않는다 -->
+            <g class="scan__face">
+              <circle cx="24" cy="29" r="4"/>
+              <circle cx="48" cy="29" r="4"/>
+              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
+            </g>
+          </svg>
+          <!-- 읽는 레이저 — 위에서 아래로 한 번 훑고 다시 위에서 시작한다.
+               그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
+          <span class="scan__beam"></span>
+        </span>
+        <b class="shot__t">얼굴 등록하기</b>
+        <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
       </button>
-      <span class="shot__hint">사진을 터치해 얼굴을 촬영해주세요.</span>
     </div>
 
     <form class="form">
-      <div class="fld">
-        <span class="fld__l">외국인 여부</span>
+      <!-- 묻는 한 줄이라 칸으로 두지 않는다. 묻는 말 옆에 답이 붙는 카드다 -->
+      <div class="ask">
+        <span class="ask__t">외국인 근로자인가요?</span>
         <span class="tog"><span>예</span><span class="is-on">아니오</span></span>
       </div>
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
-        <div class="inp inp--ph">이름</div>
+        <div class="inp inp--ph">이름을 입력해주세요</div>
       </div>
       <div class="fld">
         <label class="fld__l">주민번호 <b>(필수)</b></label>
-        <div class="inp inp--ph">주민번호</div>
+        <div class="inp inp--ph">주민번호를 입력해주세요</div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp inp--ph">연락처</div>
+        <div class="inp inp--ph">연락처를 입력해주세요</div>
       </div>
       <div class="fld">
         <label class="fld__l">직종</label>
-        <div class="inp inp--ph">직종 선택</div>
+        <button class="sel" type="button"><span class="sel__t">직종 선택</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </div>
-      <!-- 단가는 시안의 +·− 버튼을 그대로 쓴다 — 손으로 고치는 수가 아니라 올리고 내리는 수다 -->
+      <!-- 금액이라 값은 오른쪽으로 붙인다. 시안('근로자현황 (현장근로자 /
+           신규추가-기본)' 486:4990)에는 칸 오른쪽에 ＋·－ 가 있으나 여기서는
+           두지 않는다 — 단가는 칸에 적어 받는다 -->
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="fld__row">
-          <div class="inp inp--num inp--ph">0 원</div>
-          <button class="step" type="button" aria-label="단가 내리기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-minus"></use></svg></button>
-          <button class="step" type="button" aria-label="단가 올리기"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-plus"></use></svg></button>
-        </div>
+        <div class="inp inp--num inp--ph">0 원</div>
+      </div>
+    </form>
+  </main>
+
+  <div class="act act--end">
+    <button class="act__b act__b--on" type="button">저장</button>
+  </div>
+</section>
+
+<!-- ===== ②-2 현장소장 앱 · 근로자 추가(외국인) =====
+     외국인이라고 바로 여권번호를 받지는 않는다 — 외국인등록증을 받은 사람은
+     주민번호 꼴의 등록번호를 가지고 있어, 그대로 적는 쪽이 맞다. '예' 는
+     '여권번호 등록' 이라는 **고를 거리**를 하나 더 열 뿐이고, 받는 칸을
+     바꾸는 것은 그 체크다.
+     이 프로토타입은 화면 안의 동작을 흉내 내지 않으므로 체크한 뒤를 한 장
+     더 둔다(m-worker-new-passport) -->
+<section class="scr scr--form" data-screen="m-worker-new-foreign" data-title="근로자 추가 — 외국인">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근 근로자 추가</h1>
+  </header>
+
+  <main class="body">
+    <div class="shot">
+      <button class="shot__box" type="button">
+        <!-- 얼굴을 훑는 그림 — 스프라이트의 아이콘이 아니라 이 자리에서만 쓰는
+             그림이다. 시스템에 얼굴 아이콘이 없다(사람은 icon-employee 뿐이고
+             그것은 메뉴 아이콘이다). 움직임은 assets 쪽에 있다 -->
+        <span class="scan" aria-hidden="true">
+          <!-- 파장은 그림 안에 둔다 — 아이콘이 동그라미 한가운데에 서야 한다.
+               셋이 1초 간격으로 떠난다 -->
+          <span class="wave"><i></i><i></i><i></i></span>
+          <!-- 얼굴이 앉는 동그란 면. 면이 그림 밖에 있는 것은 빛과 그늘을
+               입히기 위해서다 — SVG 안에서는 CSS 로 면색을 그라데이션으로
+               못 준다. 파장은 이 면 뒤에서 번져 나온다 -->
+          <span class="scan__plate"></span>
+          <!-- 그림이 쓰는 자리만 잘라 담는다(가로 4~68 · 세로 12~60).
+               72 네모 그대로 두면 사람 아래위로 빈 자리가 남아 글자가 멀어진다 -->
+          <svg viewBox="4 12 64 48">
+            <!-- 얼굴은 눈 둘과 웃음 하나다. 모서리 테는 두지 않는다 -->
+            <g class="scan__face">
+              <circle cx="24" cy="29" r="4"/>
+              <circle cx="48" cy="29" r="4"/>
+              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
+            </g>
+          </svg>
+          <!-- 읽는 레이저 — 위에서 아래로 한 번 훑고 다시 위에서 시작한다.
+               그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
+          <span class="scan__beam"></span>
+        </span>
+        <b class="shot__t">얼굴 등록하기</b>
+        <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
+      </button>
+    </div>
+
+    <form class="form">
+      <!-- 묻는 한 줄이라 칸으로 두지 않는다. 묻는 말 옆에 답이 붙는 카드다 -->
+      <div class="ask">
+        <span class="ask__t">외국인 근로자인가요?</span>
+        <span class="tog"><span class="is-on">예</span><span>아니오</span></span>
+        <!-- '예' 가 여는 것은 칸이 아니라 이 체크다. 같은 카드 안에 두되
+             줄 하나로 가른다 — 묻는 줄과 나란히 두었을 때는 체크가 그 물음의
+             보기처럼 읽혔고, 카드를 따로 세웠을 때는 '예' 와의 끈이 끊겼다 -->
+        <button class="ask__opt" type="button" aria-pressed="false">
+          <span class="ask__opt-t">여권번호로 등록하기</span>
+          <span class="chk" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></span>
+        </button>
+      </div>
+      <div class="fld">
+        <label class="fld__l">이름 <b>(필수)</b></label>
+        <div class="inp inp--ph">이름을 입력해주세요</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">주민번호 <b>(필수)</b></label>
+        <div class="inp inp--ph">주민번호를 입력해주세요</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">연락처 <b>(필수)</b></label>
+        <div class="inp inp--ph">연락처를 입력해주세요</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">직종</label>
+        <button class="sel" type="button"><span class="sel__t">직종 선택</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </div>
+      <!-- 금액이라 값은 오른쪽으로 붙인다. 시안('근로자현황 (현장근로자 /
+           신규추가-기본)' 486:4990)에는 칸 오른쪽에 ＋·－ 가 있으나 여기서는
+           두지 않는다 — 단가는 칸에 적어 받는다 -->
+      <div class="fld">
+        <label class="fld__l">단가</label>
+        <div class="inp inp--num inp--ph">0 원</div>
+      </div>
+    </form>
+  </main>
+
+  <div class="act act--end">
+    <button class="act__b act__b--on" type="button">저장</button>
+  </div>
+</section>
+
+<!-- ===== ②-3 현장소장 앱 · 근로자 추가(여권번호 등록) =====
+     '여권번호 등록' 을 체크한 뒤다. 주민번호 칸이 빠지고 여권번호와
+     생년월일이 그 자리에 든다 — 셋이 한꺼번에 서지는 않는다 -->
+<section class="scr scr--form" data-screen="m-worker-new-passport" data-title="근로자 추가 — 여권번호 등록">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근 근로자 추가</h1>
+  </header>
+
+  <main class="body">
+    <div class="shot">
+      <button class="shot__box" type="button">
+        <!-- 얼굴을 훑는 그림 — 스프라이트의 아이콘이 아니라 이 자리에서만 쓰는
+             그림이다. 시스템에 얼굴 아이콘이 없다(사람은 icon-employee 뿐이고
+             그것은 메뉴 아이콘이다). 움직임은 assets 쪽에 있다 -->
+        <span class="scan" aria-hidden="true">
+          <!-- 파장은 그림 안에 둔다 — 아이콘이 동그라미 한가운데에 서야 한다.
+               셋이 1초 간격으로 떠난다 -->
+          <span class="wave"><i></i><i></i><i></i></span>
+          <!-- 얼굴이 앉는 동그란 면. 면이 그림 밖에 있는 것은 빛과 그늘을
+               입히기 위해서다 — SVG 안에서는 CSS 로 면색을 그라데이션으로
+               못 준다. 파장은 이 면 뒤에서 번져 나온다 -->
+          <span class="scan__plate"></span>
+          <!-- 그림이 쓰는 자리만 잘라 담는다(가로 4~68 · 세로 12~60).
+               72 네모 그대로 두면 사람 아래위로 빈 자리가 남아 글자가 멀어진다 -->
+          <svg viewBox="4 12 64 48">
+            <!-- 얼굴은 눈 둘과 웃음 하나다. 모서리 테는 두지 않는다 -->
+            <g class="scan__face">
+              <circle cx="24" cy="29" r="4"/>
+              <circle cx="48" cy="29" r="4"/>
+              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
+            </g>
+          </svg>
+          <!-- 읽는 레이저 — 위에서 아래로 한 번 훑고 다시 위에서 시작한다.
+               그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
+          <span class="scan__beam"></span>
+        </span>
+        <b class="shot__t">얼굴 등록하기</b>
+        <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
+      </button>
+    </div>
+
+    <form class="form">
+      <!-- 묻는 한 줄이라 칸으로 두지 않는다. 묻는 말 옆에 답이 붙는 카드다 -->
+      <div class="ask">
+        <span class="ask__t">외국인 근로자인가요?</span>
+        <span class="tog"><span class="is-on">예</span><span>아니오</span></span>
+        <!-- '예' 가 여는 것은 칸이 아니라 이 체크다. 같은 카드 안에 두되
+             줄 하나로 가른다 — 묻는 줄과 나란히 두었을 때는 체크가 그 물음의
+             보기처럼 읽혔고, 카드를 따로 세웠을 때는 '예' 와의 끈이 끊겼다 -->
+        <button class="ask__opt" type="button" aria-pressed="true">
+          <span class="ask__opt-t">여권번호로 등록하기</span>
+          <span class="chk chk--on" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></span>
+        </button>
+      </div>
+      <div class="fld">
+        <label class="fld__l">이름 <b>(필수)</b></label>
+        <div class="inp inp--ph">이름을 입력해주세요</div>
+      </div>
+      <!-- 주민번호 칸은 '바뀌는' 것이 아니라 **사라진다** — 둘 다 적게 두면
+           어느 쪽으로 사람을 가리는지가 흐려진다.
+           생년월일을 함께 받는 것은 여권번호에 나이가 들어 있지 않아서다.
+           주민번호 하나가 하던 일(누구인가 · 몇 살인가)을 둘이 나눠 받는다 -->
+      <div class="fld">
+        <label class="fld__l fld__l--foreign">여권번호 <b>(필수)</b></label>
+        <div class="inp inp--ph">여권번호를 입력해주세요</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l fld__l--birth">생년월일 <b>(필수)</b></label>
+        <div class="inp inp--ph">생년월일 8자리를 입력해주세요</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">연락처 <b>(필수)</b></label>
+        <div class="inp inp--ph">연락처를 입력해주세요</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">직종</label>
+        <button class="sel" type="button"><span class="sel__t">직종 선택</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </div>
+      <!-- 금액이라 값은 오른쪽으로 붙인다. 시안('근로자현황 (현장근로자 /
+           신규추가-기본)' 486:4990)에는 칸 오른쪽에 ＋·－ 가 있으나 여기서는
+           두지 않는다 — 단가는 칸에 적어 받는다 -->
+      <div class="fld">
+        <label class="fld__l">단가</label>
+        <div class="inp inp--num inp--ph">0 원</div>
       </div>
     </form>
   </main>
@@ -401,227 +669,988 @@
 </section>
 
 
-<!-- ===== ③ 소장 앱 · 등록 촬영 확인 (앱 네이티브) ===== -->
-<section class="scr" data-screen="m-shot" data-title="등록 촬영 확인">
-  <div class="cam">
-    <div class="confirm">
-      <div class="confirm__pic"><svg class="ic" aria-hidden="true"><use href="#icon-employee"></use></svg></div>
-      <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
-      <div class="confirm__bt"><span class="re">다시 촬영</span><span class="ok">이 사진으로 등록</span></div>
+<!-- ===== ③ 현장소장 앱 · 등록 촬영 확인 (앱 네이티브) ===== -->
+<!-- 뒤에는 이 창을 띄운 화면('근로자 추가')이 그대로 있다. 그 마크업을 여기
+     옮겨 적지 않는다 — assets/face-attendance-app.js 가 data-behind 를 보고
+     켜기 직전에 베껴 온다. 옮겨 적으면 둘이 따로 늙는다 -->
+<section class="scr has-dim" data-screen="m-shot" data-title="등록 촬영 확인"
+  data-behind="m-worker-new">
+  <div class="confirm">
+    <!-- 돌아가는 길은 왼쪽 위에 둔다 — 카메라 화면과 같은 자리다.
+         여기서 뒤로 가면 찍기 전으로, 즉 '근로자 추가' 로 돌아간다 -->
+    <button class="cam__back" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <!-- 묻는 말은 카드 위에 큰 글씨로 세운다. 카드 안에 넣으면 사진과
+         버튼 사이에 끼어 묻는 말이 아니라 사진 설명으로 읽힌다 -->
+    <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
+    <!-- 사진과 저지르는 버튼은 한 덩어리다. 흰 카드로 묶어 어두운 막 위에 띄운다 -->
+    <div class="confirm__card">
+      <div class="confirm__pic"><img src="images/worker/01.jpg" alt=""></div>
+      <span class="confirm__ok">얼굴 등록하기</span>
     </div>
+    <!-- 되돌리는 쪽은 카드 밖에, 면 없이 둔다 — 같은 크기로 나란히 서면
+         어느 쪽이 주된 동작인지 흐려진다 -->
+    <span class="confirm__re"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg><b>다시 촬영하기</b></span>
   </div>
 </section>
 
 
-<!-- ===== ④ 소장 앱 · 근로자 상세 ===== -->
-<section class="scr" data-screen="m-worker" data-title="근로자 상세">
+<!-- ===== ④ 현장소장 앱 · 근로자 상세(여기서 바로 고친다) =====
+     보는 화면과 고치는 화면을 따로 두지 않는다. 시안 '근로자현황
+     (현장근로자 / 근로자 수정-기본)'(530:4116)과 같은 꼴이다 —
+     값이 채워진 폼, 삭제는 머리줄 오른쪽 검은 알약, 바닥은 저장 하나 -->
+<section class="scr scr--form" data-screen="m-worker" data-title="근로자 상세">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
-    <h1 class="nav__t">얼굴 근로자</h1>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근 근로자 수정</h1>
   </header>
 
   <main class="body">
     <div class="shot">
-      <div class="shot__box shot__box--done"><svg class="ic ic--56" aria-hidden="true"><use href="#icon-employee"></use></svg></div>
+      <!-- 사진 자리 전체가 누르는 자리다. 오른쪽 아래 아이콘은 '여기를 눌러
+           고친다' 고 알리는 표지다 — 버튼 안에 버튼을 넣지 않는다 -->
+      <button class="shot__box shot__box--done" type="button" aria-label="얼굴 사진 다시 촬영">
+        <img src="images/worker/01.jpg" alt="">
+        <!-- 연필이 아니라 카메라다 — 누르면 글을 고치는 것이 아니라 다시 찍는다 -->
+        <span class="shot__edit" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg></span>
+      </button>
     </div>
-    <div class="rows">
-      <div class="row"><span class="row__k">이름</span><span class="row__v">홍길동</span></div>
-      <div class="row"><span class="row__k">주민번호</span><span class="row__v">800101-1******</span></div>
-      <div class="row"><span class="row__k">연락처</span><span class="row__v">010-1234-5678</span></div>
-      <div class="row"><span class="row__k">직종</span><span class="row__v">형틀목공</span></div>
-      <div class="row"><span class="row__k">등록일</span><span class="row__v">2026-10-02</span></div>
-    </div>
+
+    <form class="form">
+      <!-- 묻는 한 줄이라 칸으로 두지 않는다. 묻는 말 옆에 답이 붙는 카드다 -->
+      <div class="ask">
+        <span class="ask__t">외국인 근로자인가요?</span>
+        <span class="tog"><span>예</span><span class="is-on">아니오</span></span>
+      </div>
+      <div class="fld">
+        <label class="fld__l">이름 <b>(필수)</b></label>
+        <div class="inp">홍길동</div>
+      </div>
+      <div class="fld">
+        <!-- 목록에서는 뒷자리를 가리지만(남이 보는 자리다), 이 칸은 본인 것을
+             고쳐 넣는 자리라 가리지 않는다 — 가려 두면 고쳐 넣을 수가 없다 -->
+        <label class="fld__l">주민번호 <b>(필수)</b></label>
+        <div class="inp">800101-1234567</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">연락처 <b>(필수)</b></label>
+        <div class="inp">010-1234-5678</div>
+      </div>
+      <!-- 값을 고른 뒤라 테가 짙고 글씨가 굵다 — 비어 있는 등록 화면과 갈린다 -->
+      <div class="fld">
+        <label class="fld__l">직종</label>
+        <button class="sel sel--selected" type="button"><span class="sel__t">형틀목공</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </div>
+      <div class="fld">
+        <label class="fld__l">단가</label>
+        <div class="inp inp--num">180,000 원</div>
+      </div>
+    </form>
+
   </main>
 
-  <!-- 시안의 버튼 색에 위험(빨강)이 없다. 되돌릴 수 없는 쪽을 검정으로 세우고
-       왼쪽 끝에 둔다 — 시안 '반려 · 승인' 과 같은 자리다 -->
-  <div class="act act--end">
+  <!-- 삭제는 바닥 바에 둔다. 머리줄에 두면 추가 화면과 머리줄이 달라지는데,
+       두 화면은 같은 폼이라 다른 데가 적을수록 좋다. 시안의 버튼 색에 위험을
+       뜻하는 빨강이 없어, 되돌릴 수 없는 쪽을 검정으로 세운다 -->
+  <div class="act act--end act--split">
     <button class="act__b act__b--dark" type="button">삭제</button>
-    <button class="act__b act__b--on" type="button">수정</button>
+    <!-- 고친 데가 없으면 저장할 것도 없다. 열자마자 켜져 있으면 눌러야 하는지를
+         매번 가늠하게 된다 — 지우는 쪽은 고친 것과 상관없으므로 늘 켜져 있다 -->
+    <button class="act__b act__b--off" type="button" disabled aria-disabled="true">저장</button>
   </div>
 </section>
 
 
-<!-- ===== ⑤ 소장 앱 · 출근 인증 대기 ===== -->
-<section class="scr" data-screen="m-in" data-title="출근 인증 대기">
+<!-- ===== ⑤ 현장소장 앱 · 출퇴근 인증(출근 모드) ===== -->
+<section class="scr" data-mode="in" data-screen="m-in" data-title="출퇴근 인증 — 출근 모드">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
   </header>
 
   <div class="hd">
     <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b is-on" type="button" aria-current="page">출근</button>
-      <button class="seg__b" type="button">퇴근</button>
-      <button class="seg__b" type="button">이력</button>
-      <button class="seg__b" type="button">근로자 관리</button>
+      <button class="seg__b is-on" type="button" aria-current="page">출퇴근 인증</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
+      <button class="seg__b" type="button" data-go="m-workers">근로자 관리</button>
     </nav>
   </div>
 
   <div class="ctx">
-    <div class="site">
-      <span class="site__k">현장 :</span>
-      <span class="site__v">서울 마곡 A동 신축공사</span>
-      <button class="pill pill--line" type="button">변경</button>
+    <!-- 근로자 앱의 현장 카드와 같은 카드다 — 한 앱의 두 쪽이라 같은 것을
+         다른 꼴로 보이게 두지 않는다. 인정범위 줄은 근로자의 몫이라 뺀다 -->
+    <div class="card card--site">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장선택</button>
+      </div>
     </div>
-    <!-- 보내지 못한 인증과 반영되지 않은 인증 — 소장이 손을 써야 하는 수다 -->
+  </div>
+
+  <main class="body body--mid">
+    <!-- 밀린 수는 출근과 퇴근이 따로 센다 — 인증 카드 바로 위에, 그 카드와
+         같은 가운데 선에 둔다. 현장 카드 아래에 두었더니 어느 현장의 것인지는
+         말해도 어느 모드의 것인지는 말하지 못했다 -->
     <div class="bds">
       <span class="bd bd--negative">미전송 2</span>
       <span class="bd bd--point">반영불가 1</span>
     </div>
-  </div>
 
-  <main class="body body--mid">
-    <div class="blank">
-      <span class="blank__ic"><svg class="ic ic--56" aria-hidden="true"><use href="#icon-camera"></use></svg></span>
-      <p class="blank__t">출근 인증 시작을 누르면 카메라가 열립니다.<br>한 번 열면 다음 사람까지 계속 인식합니다.</p>
+    <!-- 출근과 퇴근은 한 탭 안의 두 모드다 — 현장소장은 아침에 출근만, 저녁에
+         퇴근만 찍으므로 둘을 나란히 두면 늘 한쪽은 쓰이지 않는다. 카드를 겹쳐
+         두고 바닥의 토글이나 좌우 스와이프로 바꾼다 -->
+    <!-- 그림자는 틀 **밖에서** 그린다. 카드가 제 box-shadow 로 그리면 틀의
+         가장자리 마스크에 좌우가 깎여, 아래 그림자가 각지게 끊긴다.
+         감싼 자리에서 drop-shadow 로 그리면 마스크로 흐려진 모양을 그대로
+         따라간다 -->
+    <div class="deckw">
+    <div class="deck">
+      <div class="deck__t">
+    <button class="cta cta--in" type="button">
+          <!-- 이름과 설명은 한 덩어리다 — 그림은 위로, 이 덩어리는 아래로 간다.
+               버튼 안이라 제 이름을 다시 부르지 않는다 — '출근 인증 시작을
+               누르면' 이 아니라 '누르면' 이다 -->
+          <span class="cta__tx">
+            <!-- '시작' 표는 이름과 한 줄에 선다 — 멀리 떨어진 귀퉁이에 두면
+                 무엇을 시작한다는 것인지 글과 이어 읽히지 않는다 -->
+            <span class="cta__h">
+              <span class="cta__t">출근 인증 시작</span>
+              <span class="cta__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
+            </span>
+          </span>
+          <!-- 얼굴을 읽는 그림 — 근로자 추가의 것과 같은 짜임(파장 · 면 · 레이저)
+               이되, 여기 서는 사람은 **현장 사람**이라 안전모를 썼다. 레이저가
+               한 번 훑을 때마다 다른 얼굴이 선다(세 사람이 돌아간다) — 줄 선
+               사람을 이어서 읽는다는 말을 그림이 함께 한다 -->
+          <span class="cta__art" aria-hidden="true">
+            <!-- 카메라가 잡는 틀 — 네 귀퉁이 꺾쇠다. 사람과 함께 흔들린다:
+                 흔들리는 것은 사람이 아니라 틀을 든 손이다.
+                 테는 한 색이 아니라 밝은 데와 옅은 데가 도는 그라데이션이다
+                 (카메라 인식 화면의 틀과 같은 어법). 두 카드에 같은 그림이
+                 들어가므로 id 는 카드마다 다르게 둔다 — 같으면 뒤의 것이
+                 앞의 것을 가리킨다 -->
+            <svg class="scan__corner" viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="ctaEdgeIn" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#fff" stop-opacity=".7"/>
+                  <stop offset=".28" stop-color="#fff" stop-opacity=".18"/>
+                  <stop offset=".52" stop-color="#fff" stop-opacity=".7"/>
+                  <stop offset=".76" stop-color="#fff" stop-opacity=".18"/>
+                  <stop offset="1" stop-color="#fff" stop-opacity=".7"/>
+                </linearGradient>
+              </defs>
+              <path d="M6 28V12a6 6 0 0 1 6-6h16M72 6h16a6 6 0 0 1 6 6v16M94 72v16a6 6 0 0 1-6 6H72M28 94H12a6 6 0 0 1-6-6V72"/>
+            </svg>
+            <!-- 사람이 뛰노는 자리. 틀 바깥에서 들어오므로 여기서 잘라 준다 —
+                 자르지 않으면 카드 밖까지 비어져 나간다. 꺾쇠는 이 밖에 있어
+                 제 빛이 잘리지 않는다 -->
+            <span class="cta__stage">
+            <span class="scan scan--hat">
+              <span class="wave"><i></i><i></i><i></i></span>
+              <span class="scan__plate"></span>
+              <svg viewBox="4 12 64 48">
+                <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 크고,
+                     동그라미가 아니라 조금 각졌다: 꼭대기는 눌린 듯 평평하고
+                     옆으로 내려오며 꺾여, 챙 바로 위에서 다시 벌어진다.
+                     얼굴 면(지름 54)보다 크다 — 챙까지 치면 67 이다. 챙은 면
+                     한가운데(36)보다 **위**에 걸친다 — 더 내려오면 얼굴의 반을
+                     가져간다. 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
+                     넣은 것이 아니다 -->
+                <g class="scan__hat">
+                  <!-- 껍데기는 둘이다 — 얼굴을 따라간다. 동그란 얼굴에는 동그란
+                       안전모가, 각진 얼굴에는 각진 안전모가 선다 -->
+                  <path class="scan__hat-r" d="M3 29A33 33 0 0 1 69 29Z"/>
+                  <path class="scan__hat-s" d="M3 29 6.5 14Q19 0 36 0 53 0 65.5 14l3.5 15Z"/>
+                  <!-- 골 두 줄과 챙은 둘이 함께 쓴다 — 이것이 있어야 모자가 아니라
+                       **안전모**로 읽힌다 -->
+                  <path class="scan__hat-d" d="M28 4V27M44 4V27"/>
+                  <rect class="scan__hat-b" x="1.5" y="26" width="69" height="6" rx="3"/>
+                </g>
+                <!-- 레이저가 한 번 훑을 때마다 다른 사람이 선다. 사람을 가르는 것은
+                     **면으로 둔 특징(콧수염·앞머리)과 얼굴 생김과 표정**이다 —
+                     가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
+                <!-- ① 기본 -->
+                <g class="scan__f">
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M28 47C31.5 51.5 40.5 51.5 44 47"/>
+                </g>
+                <!-- ② 다문 입 — 수염을 걷은 자리다 -->
+                <g class="scan__f scan__f--2">
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M31 48h10"/>
+                </g>
+                <!-- ③ 점 — 볼에 하나 -->
+                <g class="scan__f scan__f--3">
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M29 48C32 51.5 40 51.5 43 48"/>
+                  <circle cx="51" cy="43" r="2"/>
+                </g>
+                <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
+                <g class="scan__f scan__f--4">
+                  <g class="scan__eyes"><circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/></g>
+                  <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
+                  <path class="scan__smile" d="M31 52C33 54.5 39 54.5 41 52"/>
+                </g>
+                <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
+                <g class="scan__f scan__f--5">
+                  <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
+                  <g class="scan__eyes"><circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/></g>
+                  <path class="scan__smile" d="M28 49C31.5 53.5 40.5 53.5 44 49"/>
+                </g>
+              </svg>
+              <span class="scan__beam"></span>
+            </span>
+            </span>
+          </span>
+        </button>
+    <button class="cta cta--out" type="button">
+          <!-- 이름과 설명은 한 덩어리다 — 그림은 위로, 이 덩어리는 아래로 간다.
+               버튼 안이라 제 이름을 다시 부르지 않는다 — '퇴근 인증 시작을
+               누르면' 이 아니라 '누르면' 이다 -->
+          <span class="cta__tx">
+            <!-- '시작' 표는 이름과 한 줄에 선다 — 멀리 떨어진 귀퉁이에 두면
+                 무엇을 시작한다는 것인지 글과 이어 읽히지 않는다 -->
+            <span class="cta__h">
+              <span class="cta__t">퇴근 인증 시작</span>
+              <span class="cta__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
+            </span>
+          </span>
+          <!-- 얼굴을 읽는 그림 — 근로자 추가의 것과 같은 짜임(파장 · 면 · 레이저)
+               이되, 여기 서는 사람은 **현장 사람**이라 안전모를 썼다. 레이저가
+               한 번 훑을 때마다 다른 얼굴이 선다(세 사람이 돌아간다) — 줄 선
+               사람을 이어서 읽는다는 말을 그림이 함께 한다 -->
+          <span class="cta__art" aria-hidden="true">
+            <!-- 카메라가 잡는 틀 — 네 귀퉁이 꺾쇠다. 사람과 함께 흔들린다:
+                 흔들리는 것은 사람이 아니라 틀을 든 손이다.
+                 테는 한 색이 아니라 밝은 데와 옅은 데가 도는 그라데이션이다
+                 (카메라 인식 화면의 틀과 같은 어법). 두 카드에 같은 그림이
+                 들어가므로 id 는 카드마다 다르게 둔다 — 같으면 뒤의 것이
+                 앞의 것을 가리킨다 -->
+            <svg class="scan__corner" viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="ctaEdgeOut" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#fff" stop-opacity=".7"/>
+                  <stop offset=".28" stop-color="#fff" stop-opacity=".18"/>
+                  <stop offset=".52" stop-color="#fff" stop-opacity=".7"/>
+                  <stop offset=".76" stop-color="#fff" stop-opacity=".18"/>
+                  <stop offset="1" stop-color="#fff" stop-opacity=".7"/>
+                </linearGradient>
+              </defs>
+              <path d="M6 28V12a6 6 0 0 1 6-6h16M72 6h16a6 6 0 0 1 6 6v16M94 72v16a6 6 0 0 1-6 6H72M28 94H12a6 6 0 0 1-6-6V72"/>
+            </svg>
+            <!-- 사람이 뛰노는 자리. 틀 바깥에서 들어오므로 여기서 잘라 준다 —
+                 자르지 않으면 카드 밖까지 비어져 나간다. 꺾쇠는 이 밖에 있어
+                 제 빛이 잘리지 않는다 -->
+            <span class="cta__stage">
+            <span class="scan scan--hat">
+              <span class="wave"><i></i><i></i><i></i></span>
+              <span class="scan__plate"></span>
+              <svg viewBox="4 12 64 48">
+                <defs>
+                  <!-- 볼에 도는 기운 — 가운데가 짙고 가장자리로 가며 사라진다.
+                       테를 가진 면으로 두면 볼에 붙인 딱지처럼 보인다 -->
+                  <radialGradient id="ctaBlushOut">
+                    <stop offset="0" stop-color="var(--ap-blush)" stop-opacity=".38"/>
+                    <stop offset=".55" stop-color="var(--ap-blush)" stop-opacity=".17"/>
+                    <stop offset="1" stop-color="var(--ap-blush)" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 크고,
+                     동그라미가 아니라 조금 각졌다: 꼭대기는 눌린 듯 평평하고
+                     옆으로 내려오며 꺾여, 챙 바로 위에서 다시 벌어진다.
+                     얼굴 면(지름 54)보다 크다 — 챙까지 치면 67 이다. 챙은 면
+                     한가운데(36)보다 **위**에 걸친다 — 더 내려오면 얼굴의 반을
+                     가져간다. 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
+                     넣은 것이 아니다 -->
+                <g class="scan__hat">
+                  <!-- 껍데기는 둘이다 — 얼굴을 따라간다. 동그란 얼굴에는 동그란
+                       안전모가, 각진 얼굴에는 각진 안전모가 선다 -->
+                  <path class="scan__hat-r" d="M3 29A33 33 0 0 1 69 29Z"/>
+                  <path class="scan__hat-s" d="M3 29 6.5 14Q19 0 36 0 53 0 65.5 14l3.5 15Z"/>
+                  <!-- 골 두 줄과 챙은 둘이 함께 쓴다 — 이것이 있어야 모자가 아니라
+                       **안전모**로 읽힌다 -->
+                  <path class="scan__hat-d" d="M28 4V27M44 4V27"/>
+                  <rect class="scan__hat-b" x="1.5" y="26" width="69" height="6" rx="3"/>
+                </g>
+                <!-- 레이저가 한 번 훑을 때마다 다른 사람이 선다. 사람을 가르는 것은
+                     **면으로 둔 특징(콧수염·앞머리)과 얼굴 생김과 표정**이다 —
+                     가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
+                <!-- 퇴근 얼굴은 **일을 마치고 온 얼굴**이다. 출근 쪽과 같은 다섯
+                     사람이되, 입이 덜 펴지고 볼에 흙자국이, 더러는 관자놀이에
+                     땀이 남는다 — 자국은 사람마다 다른 자리에 앉는다 -->
+                <!-- ① 기본 -->
+                <g class="scan__f">
+                  <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M30 48.5h12"/>
+                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(15 34) scale(1.15)"/><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(54 47) scale(0.92)"/></g>
+                  <!-- 모자에 묻은 자국 — 이 사람의 것이다. 껍데기가 둘(둥근 것·
+                       각진 것)이라 둘 다에 드는 안쪽에만 둔다 -->
+                  <g class="scan__smudge">
+                    <ellipse cx="19" cy="18" rx="7" ry="3.3" transform="rotate(-24 19 18)"/>
+                    <ellipse cx="24.5" cy="22" rx="4" ry="2" transform="rotate(-10 24.5 22)"/>
+                    <ellipse cx="16" cy="29" rx="7.5" ry="1.5"/>
+                  </g>
+                  <!-- 쓰다 보면 긁힌다 — 흙은 면, 기스는 가는 선이다 -->
+                  <g class="scan__scratch">
+                    <path d="M13 13.5 23.5 18"/>
+                    <path d="M44 7.5 51 12"/>
+                    <path d="M31 20.5 38 22"/>
+                  </g>
+                </g>
+                <!-- ② 다문 입 — 수염을 걷은 자리다 -->
+                <g class="scan__f scan__f--2">
+                  <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M31 48h10"/>
+                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(56 34) scale(1.2)"/></g>
+                  <g class="scan__smudge">
+                    <ellipse cx="51" cy="14" rx="6.4" ry="3" transform="rotate(28 51 14)"/>
+                    <ellipse cx="45" cy="19" rx="3.6" ry="1.7" transform="rotate(10 45 19)"/>
+                    <ellipse cx="33" cy="24" rx="3" ry="1.3" transform="rotate(-6 33 24)"/>
+                  </g>
+                  <g class="scan__scratch">
+                    <path d="M20 9 27 14.5"/>
+                    <path d="M55 20 62 23.5"/>
+                  </g>
+                </g>
+                <!-- ③ 점 — 볼에 하나 -->
+                <g class="scan__f scan__f--3">
+                  <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M30 48C33 50 39 50 42 48"/>
+                  <circle cx="51" cy="43" r="2"/>
+                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(14 39) scale(1.15)"/><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(43 53) scale(0.88)"/></g>
+                  <g class="scan__smudge">
+                    <ellipse cx="36" cy="11" rx="6.8" ry="3.1" transform="rotate(8 36 11)"/>
+                    <ellipse cx="22" cy="23" rx="4.4" ry="1.9" transform="rotate(-18 22 23)"/>
+                    <ellipse cx="57" cy="29" rx="6" ry="1.5"/>
+                  </g>
+                  <g class="scan__scratch">
+                    <path d="M12 20 21 25"/>
+                    <path d="M42 6 49.5 10"/>
+                    <path d="M55 16 60 21"/>
+                  </g>
+                </g>
+                <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
+                <g class="scan__f scan__f--4">
+                  <g class="scan__blush"><circle cx="22" cy="44" r="6.4"/><circle cx="50" cy="44" r="6.4"/></g>
+                  <g class="scan__eyes"><circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/></g>
+                  <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
+                  <path class="scan__smile" d="M32 52.5h8"/>
+                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(56 36) scale(1.2)"/></g>
+                  <g class="scan__smudge">
+                    <ellipse cx="17" cy="22" rx="7.2" ry="3.2" transform="rotate(-14 17 22)"/>
+                    <ellipse cx="54" cy="22" rx="4" ry="1.8" transform="rotate(16 54 22)"/>
+                    <ellipse cx="60" cy="29" rx="7" ry="1.5"/>
+                  </g>
+                  <g class="scan__scratch">
+                    <path d="M26 7 34 11.5"/>
+                    <path d="M48 16 57 19"/>
+                  </g>
+                </g>
+                <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
+                <g class="scan__f scan__f--5">
+                  <g class="scan__blush"><circle cx="22" cy="46.5" r="6.4"/><circle cx="50" cy="46.5" r="6.4"/></g>
+                  <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
+                  <g class="scan__eyes"><circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/></g>
+                  <path class="scan__smile" d="M30 50C33 51.8 39 51.8 42 50"/>
+                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(16 37) scale(1.1)"/><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(56 46) scale(0.92)"/></g>
+                  <g class="scan__smudge">
+                    <ellipse cx="55" cy="13" rx="6" ry="2.9" transform="rotate(30 55 13)"/>
+                    <ellipse cx="38" cy="19" rx="4.6" ry="2" transform="rotate(-8 38 19)"/>
+                    <ellipse cx="26" cy="13" rx="3.2" ry="1.5" transform="rotate(-26 26 13)"/>
+                  </g>
+                  <g class="scan__scratch">
+                    <path d="M14 18.5 22 23"/>
+                    <path d="M33 8 41 11"/>
+                    <path d="M58 22 64 26"/>
+                  </g>
+                </g>
+              </svg>
+              <span class="scan__beam"></span>
+            </span>
+            </span>
+          </span>
+        </button>
+      </div>
     </div>
+    </div>
+    <!-- 두 모드가 같은 말을 한다 — 카드마다 적으면 모드를 바꿀 때마다 같은
+         글이 한 번 더 그려진다. 카드 밖, 두 장이 함께 쓰는 자리에 한 번만 둔다 -->
+    <p class="deck__d"><span>누르면 카메라가 열립니다.</span><span>다음 사람까지 이어서 인식합니다.</span></p>
   </main>
 
-  <div class="act act--end">
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>출근 인증 시작</button>
+  <!-- 모드를 바꾸는 토글 — 카드 아래, 엄지가 닿는 자리에 둔다 -->
+  <div class="mode" role="group" aria-label="인증 모드">
+    <!-- 켜진 자리를 알 하나가 맡는다 — 면을 버튼마다 켜고 끄면 손을 뗀
+         뒤에야 넘어가, 카드보다 한 박자 늦게 움직이는 것처럼 보인다 -->
+    <span class="mode__p" aria-hidden="true"></span>
+    <button class="mode__b" type="button" data-mode="in">출근</button>
+    <button class="mode__b" type="button" data-mode="out">퇴근</button>
   </div>
+
 </section>
 
 
-<!-- ===== ⑥ 소장 앱 · 퇴근 인증 대기 ===== -->
-<section class="scr" data-screen="m-out" data-title="퇴근 인증 대기">
+<!-- ===== ⑥ 현장소장 앱 · 출퇴근 인증(퇴근 모드) ===== -->
+<section class="scr" data-mode="out" data-screen="m-out" data-title="출퇴근 인증 — 퇴근 모드">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
   </header>
 
   <div class="hd">
     <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button">출근</button>
-      <button class="seg__b is-on" type="button" aria-current="page">퇴근</button>
-      <button class="seg__b" type="button">이력</button>
-      <button class="seg__b" type="button">근로자 관리</button>
+      <button class="seg__b is-on" type="button" aria-current="page">출퇴근 인증</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
+      <button class="seg__b" type="button" data-go="m-workers">근로자 관리</button>
     </nav>
   </div>
 
   <div class="ctx">
-    <div class="site">
-      <span class="site__k">현장 :</span>
-      <span class="site__v">서울 마곡 A동 신축공사</span>
-      <button class="pill pill--line" type="button">변경</button>
+    <!-- 근로자 앱의 현장 카드와 같은 카드다 — 한 앱의 두 쪽이라 같은 것을
+         다른 꼴로 보이게 두지 않는다. 인정범위 줄은 근로자의 몫이라 뺀다 -->
+    <div class="card card--site">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장선택</button>
+      </div>
     </div>
   </div>
 
   <main class="body body--mid">
-    <div class="blank">
-      <span class="blank__ic"><svg class="ic ic--56" aria-hidden="true"><use href="#icon-camera"></use></svg></span>
-      <p class="blank__t">퇴근 인증 시작을 누르면 카메라가 열립니다.<br>한 번 열면 다음 사람까지 계속 인식합니다.</p>
+    <!-- 밀린 수는 출근과 퇴근이 따로 센다 — 인증 카드 바로 위에, 그 카드와
+         같은 가운데 선에 둔다. 현장 카드 아래에 두었더니 어느 현장의 것인지는
+         말해도 어느 모드의 것인지는 말하지 못했다 -->
+    <div class="bds">
+      <span class="bd bd--negative">미전송 2</span>
+      <span class="bd bd--point">반영불가 1</span>
     </div>
+
+    <!-- 출근과 퇴근은 한 탭 안의 두 모드다 — 현장소장은 아침에 출근만, 저녁에
+         퇴근만 찍으므로 둘을 나란히 두면 늘 한쪽은 쓰이지 않는다. 카드를 겹쳐
+         두고 바닥의 토글이나 좌우 스와이프로 바꾼다 -->
+    <!-- 그림자는 틀 **밖에서** 그린다. 카드가 제 box-shadow 로 그리면 틀의
+         가장자리 마스크에 좌우가 깎여, 아래 그림자가 각지게 끊긴다.
+         감싼 자리에서 drop-shadow 로 그리면 마스크로 흐려진 모양을 그대로
+         따라간다 -->
+    <div class="deckw">
+    <div class="deck">
+      <div class="deck__t">
+    <button class="cta cta--in" type="button">
+          <!-- 이름과 설명은 한 덩어리다 — 그림은 위로, 이 덩어리는 아래로 간다.
+               버튼 안이라 제 이름을 다시 부르지 않는다 — '출근 인증 시작을
+               누르면' 이 아니라 '누르면' 이다 -->
+          <span class="cta__tx">
+            <!-- '시작' 표는 이름과 한 줄에 선다 — 멀리 떨어진 귀퉁이에 두면
+                 무엇을 시작한다는 것인지 글과 이어 읽히지 않는다 -->
+            <span class="cta__h">
+              <span class="cta__t">출근 인증 시작</span>
+              <span class="cta__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
+            </span>
+          </span>
+          <!-- 얼굴을 읽는 그림 — 근로자 추가의 것과 같은 짜임(파장 · 면 · 레이저)
+               이되, 여기 서는 사람은 **현장 사람**이라 안전모를 썼다. 레이저가
+               한 번 훑을 때마다 다른 얼굴이 선다(세 사람이 돌아간다) — 줄 선
+               사람을 이어서 읽는다는 말을 그림이 함께 한다 -->
+          <span class="cta__art" aria-hidden="true">
+            <!-- 카메라가 잡는 틀 — 네 귀퉁이 꺾쇠다. 사람과 함께 흔들린다:
+                 흔들리는 것은 사람이 아니라 틀을 든 손이다.
+                 테는 한 색이 아니라 밝은 데와 옅은 데가 도는 그라데이션이다
+                 (카메라 인식 화면의 틀과 같은 어법). 두 카드에 같은 그림이
+                 들어가므로 id 는 카드마다 다르게 둔다 — 같으면 뒤의 것이
+                 앞의 것을 가리킨다 -->
+            <svg class="scan__corner" viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="ctaEdgeIn" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#fff" stop-opacity=".7"/>
+                  <stop offset=".28" stop-color="#fff" stop-opacity=".18"/>
+                  <stop offset=".52" stop-color="#fff" stop-opacity=".7"/>
+                  <stop offset=".76" stop-color="#fff" stop-opacity=".18"/>
+                  <stop offset="1" stop-color="#fff" stop-opacity=".7"/>
+                </linearGradient>
+              </defs>
+              <path d="M6 28V12a6 6 0 0 1 6-6h16M72 6h16a6 6 0 0 1 6 6v16M94 72v16a6 6 0 0 1-6 6H72M28 94H12a6 6 0 0 1-6-6V72"/>
+            </svg>
+            <!-- 사람이 뛰노는 자리. 틀 바깥에서 들어오므로 여기서 잘라 준다 —
+                 자르지 않으면 카드 밖까지 비어져 나간다. 꺾쇠는 이 밖에 있어
+                 제 빛이 잘리지 않는다 -->
+            <span class="cta__stage">
+            <span class="scan scan--hat">
+              <span class="wave"><i></i><i></i><i></i></span>
+              <span class="scan__plate"></span>
+              <svg viewBox="4 12 64 48">
+                <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 크고,
+                     동그라미가 아니라 조금 각졌다: 꼭대기는 눌린 듯 평평하고
+                     옆으로 내려오며 꺾여, 챙 바로 위에서 다시 벌어진다.
+                     얼굴 면(지름 54)보다 크다 — 챙까지 치면 67 이다. 챙은 면
+                     한가운데(36)보다 **위**에 걸친다 — 더 내려오면 얼굴의 반을
+                     가져간다. 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
+                     넣은 것이 아니다 -->
+                <g class="scan__hat">
+                  <!-- 껍데기는 둘이다 — 얼굴을 따라간다. 동그란 얼굴에는 동그란
+                       안전모가, 각진 얼굴에는 각진 안전모가 선다 -->
+                  <path class="scan__hat-r" d="M3 29A33 33 0 0 1 69 29Z"/>
+                  <path class="scan__hat-s" d="M3 29 6.5 14Q19 0 36 0 53 0 65.5 14l3.5 15Z"/>
+                  <!-- 골 두 줄과 챙은 둘이 함께 쓴다 — 이것이 있어야 모자가 아니라
+                       **안전모**로 읽힌다 -->
+                  <path class="scan__hat-d" d="M28 4V27M44 4V27"/>
+                  <rect class="scan__hat-b" x="1.5" y="26" width="69" height="6" rx="3"/>
+                </g>
+                <!-- 레이저가 한 번 훑을 때마다 다른 사람이 선다. 사람을 가르는 것은
+                     **면으로 둔 특징(콧수염·앞머리)과 얼굴 생김과 표정**이다 —
+                     가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
+                <!-- ① 기본 -->
+                <g class="scan__f">
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M28 47C31.5 51.5 40.5 51.5 44 47"/>
+                </g>
+                <!-- ② 다문 입 — 수염을 걷은 자리다 -->
+                <g class="scan__f scan__f--2">
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M31 48h10"/>
+                </g>
+                <!-- ③ 점 — 볼에 하나 -->
+                <g class="scan__f scan__f--3">
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M29 48C32 51.5 40 51.5 43 48"/>
+                  <circle cx="51" cy="43" r="2"/>
+                </g>
+                <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
+                <g class="scan__f scan__f--4">
+                  <g class="scan__eyes"><circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/></g>
+                  <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
+                  <path class="scan__smile" d="M31 52C33 54.5 39 54.5 41 52"/>
+                </g>
+                <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
+                <g class="scan__f scan__f--5">
+                  <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
+                  <g class="scan__eyes"><circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/></g>
+                  <path class="scan__smile" d="M28 49C31.5 53.5 40.5 53.5 44 49"/>
+                </g>
+              </svg>
+              <span class="scan__beam"></span>
+            </span>
+            </span>
+          </span>
+        </button>
+    <button class="cta cta--out" type="button">
+          <!-- 이름과 설명은 한 덩어리다 — 그림은 위로, 이 덩어리는 아래로 간다.
+               버튼 안이라 제 이름을 다시 부르지 않는다 — '퇴근 인증 시작을
+               누르면' 이 아니라 '누르면' 이다 -->
+          <span class="cta__tx">
+            <!-- '시작' 표는 이름과 한 줄에 선다 — 멀리 떨어진 귀퉁이에 두면
+                 무엇을 시작한다는 것인지 글과 이어 읽히지 않는다 -->
+            <span class="cta__h">
+              <span class="cta__t">퇴근 인증 시작</span>
+              <span class="cta__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
+            </span>
+          </span>
+          <!-- 얼굴을 읽는 그림 — 근로자 추가의 것과 같은 짜임(파장 · 면 · 레이저)
+               이되, 여기 서는 사람은 **현장 사람**이라 안전모를 썼다. 레이저가
+               한 번 훑을 때마다 다른 얼굴이 선다(세 사람이 돌아간다) — 줄 선
+               사람을 이어서 읽는다는 말을 그림이 함께 한다 -->
+          <span class="cta__art" aria-hidden="true">
+            <!-- 카메라가 잡는 틀 — 네 귀퉁이 꺾쇠다. 사람과 함께 흔들린다:
+                 흔들리는 것은 사람이 아니라 틀을 든 손이다.
+                 테는 한 색이 아니라 밝은 데와 옅은 데가 도는 그라데이션이다
+                 (카메라 인식 화면의 틀과 같은 어법). 두 카드에 같은 그림이
+                 들어가므로 id 는 카드마다 다르게 둔다 — 같으면 뒤의 것이
+                 앞의 것을 가리킨다 -->
+            <svg class="scan__corner" viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="ctaEdgeOut" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#fff" stop-opacity=".7"/>
+                  <stop offset=".28" stop-color="#fff" stop-opacity=".18"/>
+                  <stop offset=".52" stop-color="#fff" stop-opacity=".7"/>
+                  <stop offset=".76" stop-color="#fff" stop-opacity=".18"/>
+                  <stop offset="1" stop-color="#fff" stop-opacity=".7"/>
+                </linearGradient>
+              </defs>
+              <path d="M6 28V12a6 6 0 0 1 6-6h16M72 6h16a6 6 0 0 1 6 6v16M94 72v16a6 6 0 0 1-6 6H72M28 94H12a6 6 0 0 1-6-6V72"/>
+            </svg>
+            <!-- 사람이 뛰노는 자리. 틀 바깥에서 들어오므로 여기서 잘라 준다 —
+                 자르지 않으면 카드 밖까지 비어져 나간다. 꺾쇠는 이 밖에 있어
+                 제 빛이 잘리지 않는다 -->
+            <span class="cta__stage">
+            <span class="scan scan--hat">
+              <span class="wave"><i></i><i></i><i></i></span>
+              <span class="scan__plate"></span>
+              <svg viewBox="4 12 64 48">
+                <defs>
+                  <!-- 볼에 도는 기운 — 가운데가 짙고 가장자리로 가며 사라진다.
+                       테를 가진 면으로 두면 볼에 붙인 딱지처럼 보인다 -->
+                  <radialGradient id="ctaBlushOut">
+                    <stop offset="0" stop-color="var(--ap-blush)" stop-opacity=".38"/>
+                    <stop offset=".55" stop-color="var(--ap-blush)" stop-opacity=".17"/>
+                    <stop offset="1" stop-color="var(--ap-blush)" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 크고,
+                     동그라미가 아니라 조금 각졌다: 꼭대기는 눌린 듯 평평하고
+                     옆으로 내려오며 꺾여, 챙 바로 위에서 다시 벌어진다.
+                     얼굴 면(지름 54)보다 크다 — 챙까지 치면 67 이다. 챙은 면
+                     한가운데(36)보다 **위**에 걸친다 — 더 내려오면 얼굴의 반을
+                     가져간다. 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
+                     넣은 것이 아니다 -->
+                <g class="scan__hat">
+                  <!-- 껍데기는 둘이다 — 얼굴을 따라간다. 동그란 얼굴에는 동그란
+                       안전모가, 각진 얼굴에는 각진 안전모가 선다 -->
+                  <path class="scan__hat-r" d="M3 29A33 33 0 0 1 69 29Z"/>
+                  <path class="scan__hat-s" d="M3 29 6.5 14Q19 0 36 0 53 0 65.5 14l3.5 15Z"/>
+                  <!-- 골 두 줄과 챙은 둘이 함께 쓴다 — 이것이 있어야 모자가 아니라
+                       **안전모**로 읽힌다 -->
+                  <path class="scan__hat-d" d="M28 4V27M44 4V27"/>
+                  <rect class="scan__hat-b" x="1.5" y="26" width="69" height="6" rx="3"/>
+                </g>
+                <!-- 레이저가 한 번 훑을 때마다 다른 사람이 선다. 사람을 가르는 것은
+                     **면으로 둔 특징(콧수염·앞머리)과 얼굴 생김과 표정**이다 —
+                     가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
+                <!-- 퇴근 얼굴은 **일을 마치고 온 얼굴**이다. 출근 쪽과 같은 다섯
+                     사람이되, 입이 덜 펴지고 볼에 흙자국이, 더러는 관자놀이에
+                     땀이 남는다 — 자국은 사람마다 다른 자리에 앉는다 -->
+                <!-- ① 기본 -->
+                <g class="scan__f">
+                  <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M30 48.5h12"/>
+                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(15 34) scale(1.15)"/><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(54 47) scale(0.92)"/></g>
+                  <!-- 모자에 묻은 자국 — 이 사람의 것이다. 껍데기가 둘(둥근 것·
+                       각진 것)이라 둘 다에 드는 안쪽에만 둔다 -->
+                  <g class="scan__smudge">
+                    <ellipse cx="19" cy="18" rx="7" ry="3.3" transform="rotate(-24 19 18)"/>
+                    <ellipse cx="24.5" cy="22" rx="4" ry="2" transform="rotate(-10 24.5 22)"/>
+                    <ellipse cx="16" cy="29" rx="7.5" ry="1.5"/>
+                  </g>
+                  <!-- 쓰다 보면 긁힌다 — 흙은 면, 기스는 가는 선이다 -->
+                  <g class="scan__scratch">
+                    <path d="M13 13.5 23.5 18"/>
+                    <path d="M44 7.5 51 12"/>
+                    <path d="M31 20.5 38 22"/>
+                  </g>
+                </g>
+                <!-- ② 다문 입 — 수염을 걷은 자리다 -->
+                <g class="scan__f scan__f--2">
+                  <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M31 48h10"/>
+                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(56 34) scale(1.2)"/></g>
+                  <g class="scan__smudge">
+                    <ellipse cx="51" cy="14" rx="6.4" ry="3" transform="rotate(28 51 14)"/>
+                    <ellipse cx="45" cy="19" rx="3.6" ry="1.7" transform="rotate(10 45 19)"/>
+                    <ellipse cx="33" cy="24" rx="3" ry="1.3" transform="rotate(-6 33 24)"/>
+                  </g>
+                  <g class="scan__scratch">
+                    <path d="M20 9 27 14.5"/>
+                    <path d="M55 20 62 23.5"/>
+                  </g>
+                </g>
+                <!-- ③ 점 — 볼에 하나 -->
+                <g class="scan__f scan__f--3">
+                  <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M30 48C33 50 39 50 42 48"/>
+                  <circle cx="51" cy="43" r="2"/>
+                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(14 39) scale(1.15)"/><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(43 53) scale(0.88)"/></g>
+                  <g class="scan__smudge">
+                    <ellipse cx="36" cy="11" rx="6.8" ry="3.1" transform="rotate(8 36 11)"/>
+                    <ellipse cx="22" cy="23" rx="4.4" ry="1.9" transform="rotate(-18 22 23)"/>
+                    <ellipse cx="57" cy="29" rx="6" ry="1.5"/>
+                  </g>
+                  <g class="scan__scratch">
+                    <path d="M12 20 21 25"/>
+                    <path d="M42 6 49.5 10"/>
+                    <path d="M55 16 60 21"/>
+                  </g>
+                </g>
+                <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
+                <g class="scan__f scan__f--4">
+                  <g class="scan__blush"><circle cx="22" cy="44" r="6.4"/><circle cx="50" cy="44" r="6.4"/></g>
+                  <g class="scan__eyes"><circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/></g>
+                  <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
+                  <path class="scan__smile" d="M32 52.5h8"/>
+                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(56 36) scale(1.2)"/></g>
+                  <g class="scan__smudge">
+                    <ellipse cx="17" cy="22" rx="7.2" ry="3.2" transform="rotate(-14 17 22)"/>
+                    <ellipse cx="54" cy="22" rx="4" ry="1.8" transform="rotate(16 54 22)"/>
+                    <ellipse cx="60" cy="29" rx="7" ry="1.5"/>
+                  </g>
+                  <g class="scan__scratch">
+                    <path d="M26 7 34 11.5"/>
+                    <path d="M48 16 57 19"/>
+                  </g>
+                </g>
+                <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
+                <g class="scan__f scan__f--5">
+                  <g class="scan__blush"><circle cx="22" cy="46.5" r="6.4"/><circle cx="50" cy="46.5" r="6.4"/></g>
+                  <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
+                  <g class="scan__eyes"><circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/></g>
+                  <path class="scan__smile" d="M30 50C33 51.8 39 51.8 42 50"/>
+                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(16 37) scale(1.1)"/><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(56 46) scale(0.92)"/></g>
+                  <g class="scan__smudge">
+                    <ellipse cx="55" cy="13" rx="6" ry="2.9" transform="rotate(30 55 13)"/>
+                    <ellipse cx="38" cy="19" rx="4.6" ry="2" transform="rotate(-8 38 19)"/>
+                    <ellipse cx="26" cy="13" rx="3.2" ry="1.5" transform="rotate(-26 26 13)"/>
+                  </g>
+                  <g class="scan__scratch">
+                    <path d="M14 18.5 22 23"/>
+                    <path d="M33 8 41 11"/>
+                    <path d="M58 22 64 26"/>
+                  </g>
+                </g>
+              </svg>
+              <span class="scan__beam"></span>
+            </span>
+            </span>
+          </span>
+        </button>
+      </div>
+    </div>
+    </div>
+    <!-- 두 모드가 같은 말을 한다 — 카드마다 적으면 모드를 바꿀 때마다 같은
+         글이 한 번 더 그려진다. 카드 밖, 두 장이 함께 쓰는 자리에 한 번만 둔다 -->
+    <p class="deck__d"><span>누르면 카메라가 열립니다.</span><span>다음 사람까지 이어서 인식합니다.</span></p>
   </main>
 
-  <!-- 출근과 퇴근은 색으로 가른다. 시안에 주황이 없어 검정을 쓴다 —
-       시안이 강한 둘째 동작에 쓰는 색이다 -->
-  <div class="act act--end">
-    <button class="act__b act__b--dark" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>퇴근 인증 시작</button>
+  <!-- 모드를 바꾸는 토글 — 카드 아래, 엄지가 닿는 자리에 둔다 -->
+  <div class="mode" role="group" aria-label="인증 모드">
+    <!-- 켜진 자리를 알 하나가 맡는다 — 면을 버튼마다 켜고 끄면 손을 뗀
+         뒤에야 넘어가, 카드보다 한 박자 늦게 움직이는 것처럼 보인다 -->
+    <span class="mode__p" aria-hidden="true"></span>
+    <button class="mode__b" type="button" data-mode="in">출근</button>
+    <button class="mode__b" type="button" data-mode="out">퇴근</button>
   </div>
+
 </section>
 
 
-<!-- ===== ⑦ 소장 앱 · 카메라 인식 (앱 네이티브) ===== -->
+<!-- ===== ⑦ 현장소장 앱 · 카메라 인식 (앱 네이티브) ===== -->
 <section class="scr" data-screen="m-cam" data-title="카메라 인식">
   <div class="cam">
-    <button class="cam__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    <button class="cam__back" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <!-- 무엇을 찍는 중인지를 틀 위에 붙인다 — 근로자 앱과 같은 자리·같은 꼴이다.
+         저쪽은 '누구' 를 적고(제 얼굴 하나뿐이라), 이쪽은 '무엇' 을 적는다 -->
+    <p class="cam__who">현장소장 출근 인증</p>
     <div class="cam__box"></div>
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
-    <span class="cam__mode">출근 인증</span>
+    <!-- 틀 아래에 둘이 세로로 선다 — 끝내는 길이 먼저고, 지금까지 몇을
+         찍었는지가 그 아래다 -->
+    <div class="cam__under">
+      <!-- 끝내는 쪽은 글자만으로 — 촬영 확인의 '다시 촬영하기' 와 같은 결이다 -->
+      <span class="cam__stop"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg><b>인증 종료하기</b></span>
+      <!-- 한 번 열면 줄 선 사람을 이어서 찍는다. 몇 사람째인지는 찍는 사람만
+           아는 수라 끝내는 길 바로 아래에 둔다 — 틀에서 눈을 떼면 먼저 지나는
+           자리다. 시스템의 Tooltip 패널(atoms/tooltip.md)이되 늘 떠 있는
+           pinned 꼴이다: 폰에는 호버가 없고, 이 수는 물어봐야 나오는 설명이
+           아니라 계속 바뀌는 값이다. 라벨은 한 겹 죽이고 수만 흰색으로
+           세운다(tokens/color 의 text-inverse-alpha ↔ text-inverse) -->
+      <p class="cam__tip" role="status">지금까지 <b>2명</b> 인증 완료</p>
+    </div>
+    <!-- 바닥은 왼쪽이 '무엇을 찍는 중인가', 오른쪽이 '어느 렌즈로 찍는가'다
+         — 둘 다 찍는 일 자체를 바꾸는 손잡이라 한 줄에 두고, 가운데는 비운다 -->
+    <div class="cam__foot">
+      <!-- 출퇴근 인증 바닥에 선 그 토글이다 — 찍는 중에도 모드를 바꾼다 -->
+      <div class="mode mode--cam" role="group" aria-label="인증 모드">
+        <span class="mode__p" aria-hidden="true"></span>
+        <button class="mode__b is-on" type="button" data-mode="in" aria-pressed="true">출근</button>
+        <button class="mode__b" type="button" data-mode="out" aria-pressed="false">퇴근</button>
+      </div>
+      <!-- 앞뒤 렌즈를 바꾼다. 시스템 스프라이트에 없는 그림이라 이 자리에서만
+           그린다(얼굴을 훑는 .scan 과 같은 까닭이다) — 도는 화살표 둘이다 -->
+      <button class="camsw" type="button" aria-label="카메라 전환">
+        <svg class="swic" viewBox="0 0 24 24" aria-hidden="true"
+          fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7.18 6.26A7.5 7.5 0 0 1 19.47 11.35"/>
+          <path d="M16.82 17.74A7.5 7.5 0 0 1 4.53 12.65"/>
+          <path d="M19.71 14.14 16.5 10.7 22.28 10.2Z" fill="currentColor" stroke-width=".8"/>
+          <path d="M4.29 9.86 7.5 13.3 1.72 13.8Z" fill="currentColor" stroke-width=".8"/>
+        </svg>
+      </button>
+    </div>
   </div>
+
 </section>
 
 
-<!-- ===== ⑧ 소장 앱 · 인식 결과 (앱 네이티브) ===== -->
+<!-- ===== ⑧ 현장소장 앱 · 인식 결과 (앱 네이티브) ===== -->
 <section class="scr" data-screen="m-cam-ok" data-title="인식 결과">
   <div class="cam">
-    <button class="cam__x" type="button" aria-label="닫기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    <button class="cam__back" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <!-- 무엇을 찍는 중인지를 틀 위에 붙인다 — 근로자 앱과 같은 자리·같은 꼴이다.
+         저쪽은 '누구' 를 적고(제 얼굴 하나뿐이라), 이쪽은 '무엇' 을 적는다 -->
+    <p class="cam__who">현장소장 출근 인증</p>
     <div class="cam__box cam__box--ok"></div>
-    <p class="cam__t cam__t--ok">홍길동님 출근 처리되었습니다.</p>
-    <span class="cam__mode">출근 인증</span>
+    <p class="cam__t cam__t--ok">홍길동님<span class="cam__sub">출근 처리 완료!</span></p>
+    <!-- 틀 아래에 둘이 세로로 선다 — 끝내는 길이 먼저고, 지금까지 몇을
+         찍었는지가 그 아래다 -->
+    <div class="cam__under">
+      <!-- 끝내는 쪽은 글자만으로 — 촬영 확인의 '다시 촬영하기' 와 같은 결이다 -->
+      <span class="cam__stop"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg><b>인증 종료하기</b></span>
+      <!-- 한 번 열면 줄 선 사람을 이어서 찍는다. 몇 사람째인지는 찍는 사람만
+           아는 수라 끝내는 길 바로 아래에 둔다 — 틀에서 눈을 떼면 먼저 지나는
+           자리다. 시스템의 Tooltip 패널(atoms/tooltip.md)이되 늘 떠 있는
+           pinned 꼴이다: 폰에는 호버가 없고, 이 수는 물어봐야 나오는 설명이
+           아니라 계속 바뀌는 값이다. 라벨은 한 겹 죽이고 수만 흰색으로
+           세운다(tokens/color 의 text-inverse-alpha ↔ text-inverse) -->
+      <p class="cam__tip" role="status">지금까지 <b>3명</b> 인증 완료</p>
+    </div>
+    <!-- 바닥은 왼쪽이 '무엇을 찍는 중인가', 오른쪽이 '어느 렌즈로 찍는가'다
+         — 둘 다 찍는 일 자체를 바꾸는 손잡이라 한 줄에 두고, 가운데는 비운다 -->
+    <div class="cam__foot">
+      <!-- 출퇴근 인증 바닥에 선 그 토글이다 — 찍는 중에도 모드를 바꾼다 -->
+      <div class="mode mode--cam" role="group" aria-label="인증 모드">
+        <span class="mode__p" aria-hidden="true"></span>
+        <button class="mode__b is-on" type="button" data-mode="in" aria-pressed="true">출근</button>
+        <button class="mode__b" type="button" data-mode="out" aria-pressed="false">퇴근</button>
+      </div>
+      <!-- 앞뒤 렌즈를 바꾼다. 시스템 스프라이트에 없는 그림이라 이 자리에서만
+           그린다(얼굴을 훑는 .scan 과 같은 까닭이다) — 도는 화살표 둘이다 -->
+      <button class="camsw" type="button" aria-label="카메라 전환">
+        <svg class="swic" viewBox="0 0 24 24" aria-hidden="true"
+          fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7.18 6.26A7.5 7.5 0 0 1 19.47 11.35"/>
+          <path d="M16.82 17.74A7.5 7.5 0 0 1 4.53 12.65"/>
+          <path d="M19.71 14.14 16.5 10.7 22.28 10.2Z" fill="currentColor" stroke-width=".8"/>
+          <path d="M4.29 9.86 7.5 13.3 1.72 13.8Z" fill="currentColor" stroke-width=".8"/>
+        </svg>
+      </button>
+    </div>
   </div>
+
 </section>
 
 
-<!-- ===== ⑨ 소장 앱 · 이력 ===== -->
-<section class="scr" data-screen="m-log" data-title="이력">
+<!-- ===== ⑨ 현장소장 앱 · 이력 ===== -->
+<section class="scr" data-day="day4" data-rec="done" data-screen="m-log" data-title="이력">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
   </header>
 
   <div class="hd">
     <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button">출근</button>
-      <button class="seg__b" type="button">퇴근</button>
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 인증</button>
       <button class="seg__b is-on" type="button" aria-current="page">이력</button>
-      <button class="seg__b" type="button">근로자 관리</button>
+      <button class="seg__b" type="button" data-go="m-workers">근로자 관리</button>
     </nav>
-    <!-- 날짜는 시안의 달력 카드를 그대로 쓴다. 숫자 칸을 직접 고치거나
-         주를 훑어 고르거나 '오늘' 로 돌아온다 -->
-    <div class="cal">
-      <div class="cal__top">
-        <div class="cal__date">
+  </div>
+
+  <div class="ctx">
+    <!-- 근로자 앱의 현장 카드와 같은 카드다 — 한 앱의 두 쪽이라 같은 것을
+         다른 꼴로 보이게 두지 않는다. 인정범위 줄은 근로자의 몫이라 뺀다 -->
+    <div class="card card--site">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장선택</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 날짜 UI 는 근로자 앱의 것을 그대로 쓴다 — 한 앱의 두 쪽이라 같은 것
+       (어느 날을 보고 있나)을 다른 꼴로 보여 주지 않는다. 알림 벨은 이
+       앱에 없고, 달을 펴는 화면도 없어 꺾쇠도 두지 않는다. 주 띠도 두지
+       않는다 — 저쪽은 '이 주의 어디쯤' 을 보며 날을 옮기는 자리지만, 이력은
+       고른 한 날을 보는 자리다. 띠가 없으니 날을 옮기는 길은 좌우 화살표가
+       맡는다. '오늘' 도 두지 않는다 — 돌아갈 자리를 띠가 보여 주지 않는다.
+       날짜는 현장 **아래**에 선다 — 현장을 고르고 그 안에서 날을 고르는
+       차례다. 위에 두면 날을 먼저 고른 뒤 현장이 바뀌는 꼴이 된다 -->
+  <div class="cal cal--log">
+    <div class="cal__top">
+      <!-- 화살표는 날짜 **바로 옆**에 붙는다 — 줄의 양 끝으로 밀어 두면
+           손잡이와 날짜가 따로 놀아, 무엇을 옮기는 손잡이인지가 멀어진다 -->
+      <span class="day__pick">
+        <button class="day__a" type="button" aria-label="앞 날짜"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-left"></use></svg></button>
+        <div class="cal__date" data-go="m-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
           <span class="cal__num">10</span><span class="cal__dot">.</span>
           <span class="cal__num">20</span>
           <span class="cal__dow">화</span>
         </div>
-        <div class="cal__side">
-          <button class="pill pill--dark" type="button">오늘</button>
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
-        </div>
-      </div>
-      <div class="cal__week">
-        <div class="cal__d"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></div>
-        <div class="cal__d"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></div>
-        <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b><i></i></div></div>
-        <div class="cal__d"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></div>
-        <div class="cal__d"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></div>
-        <div class="cal__d"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></div>
-        <div class="cal__d"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></div>
-      </div>
+        <button class="day__a" type="button" aria-label="뒤 날짜"><svg class="ic" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
+      </span>
     </div>
   </div>
 
-  <div class="ctx">
-    <div class="site">
-      <span class="site__k">현장 :</span>
-      <span class="site__v">서울 마곡 A동 신축공사</span>
-      <button class="pill pill--line" type="button">변경</button>
-    </div>
+  <!-- 센 수가 곧 거르개다 — '전체 5' 한 덩어리로는 그 안에 출근이 몇이고
+       퇴근이 몇인지 알 수 없었고, 수가 하는 일도 '줄이 다섯' 뿐이라 읽을
+       것이 없었다. 둘로 갈라 세면 그 수가 그날의 모양을 말하고, 그대로
+       누르는 자리가 된다.
+       수는 js 가 센다(assets/face-attendance-app.js 의 tally) — 줄을
+       고치면 수도 따라간다. 색은 목록 줄의 표와 같다 -->
+  <div class="day">
+    <button class="cnt cnt--in is-on" type="button" data-at="in"><svg class="ic ic--16 cnt__c" aria-hidden="true"><use href="#icon-check"></use></svg><span class="cnt__k">출근</span><span class="cnt__n">0</span></button>
+    <button class="cnt cnt--out is-on" type="button" data-at="out"><svg class="ic ic--16 cnt__c" aria-hidden="true"><use href="#icon-check"></use></svg><span class="cnt__k">퇴근</span><span class="cnt__n">0</span></button>
   </div>
 
   <main class="body">
-    <div class="lbar">
-      <span class="lbar__l">인증 <b class="lbar__n">5</b></span>
-    </div>
+    <!-- 줄 하나가 통째로 과녁이다. 얼굴로 찍는 제품이라 **모든 줄에 사진이
+         있어**, 「사진보기」 버튼은 줄마다 똑같이 붙어 가르는 것이 없었다.
+         게다가 그 버튼이 여는 것은 사진만이 아니라 이력 조회 한 화면이다.
+         버튼을 떼면 과녁이 줄 전체로 커진다 — 장갑 낀 손이 누르는 자리다 -->
     <div class="list">
-      <article class="log"><span class="log__t log__t--out">퇴근</span><span class="log__m"><span class="log__nm">홍길동</span><br><span class="log__tm">17:32:08</span></span><button class="pill pill--line" type="button">사진보기</button></article>
-      <article class="log"><span class="log__t log__t--out">퇴근</span><span class="log__m"><span class="log__nm">김철수</span><br><span class="log__tm">17:30:41</span></span><button class="pill pill--line" type="button">사진보기</button></article>
-      <article class="log"><span class="log__t log__t--in">출근</span><span class="log__m"><span class="log__nm">이영희</span><br><span class="log__tm">07:12:55</span></span><button class="pill pill--line" type="button">사진보기</button></article>
-      <article class="log"><span class="log__t log__t--in">출근</span><span class="log__m"><span class="log__nm">홍길동</span><br><span class="log__tm">07:05:19</span></span><button class="pill pill--line" type="button">사진보기</button></article>
-      <article class="log"><span class="log__t log__t--in">출근</span><span class="log__m"><span class="log__nm">김철수</span><br><span class="log__tm">06:58:02</span></span><button class="pill pill--line" type="button">사진보기</button></article>
+      <button class="log" type="button"><span class="log__t log__t--out">퇴근</span><span class="log__tm">17:32:08</span><span class="log__nm">홍길동</span><svg class="ic ic--16 log__go" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
+      <button class="log" type="button"><span class="log__t log__t--out">퇴근</span><span class="log__tm">17:30:41</span><span class="log__nm">김철수</span><svg class="ic ic--16 log__go" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
+      <button class="log" type="button"><span class="log__t log__t--in">출근</span><span class="log__tm">07:12:55</span><span class="log__nm">이영희</span><svg class="ic ic--16 log__go" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
+      <button class="log" type="button"><span class="log__t log__t--in">출근</span><span class="log__tm">07:05:19</span><span class="log__nm">홍길동</span><svg class="ic ic--16 log__go" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
+      <button class="log" type="button"><span class="log__t log__t--in">출근</span><span class="log__tm">06:58:02</span><span class="log__nm">김철수</span><svg class="ic ic--16 log__go" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
     </div>
   </main>
 </section>
 
 
-<!-- ===== ⑩ 소장 앱 · 이력 사진보기 ===== -->
-<section class="scr" data-screen="m-log-photo" data-title="이력 사진보기">
+<!-- ===== ⑩ 현장소장 앱 · 이력 사진보기 ===== -->
+<section class="scr scr--paper" data-at="in" data-day="day4" data-rec="done" data-screen="m-log-photo" data-title="출퇴근 이력보기 — 둘 다">
   <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="닫기"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg></button>
-    <h1 class="nav__t">이력 조회</h1>
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">출퇴근 이력보기</h1>
   </header>
 
   <main class="body">
-    <div class="photo"><svg class="ic" aria-hidden="true"><use href="#icon-employee"></use></svg></div>
-    <div class="rows">
-      <div class="row"><span class="row__k">인증 유형</span><span class="row__v"><span class="bd bd--positive">출근</span></span></div>
-      <div class="row"><span class="row__k">인증 시간</span><span class="row__v">2026-10-20 07:05:19</span></div>
-      <div class="row"><span class="row__k">이름</span><span class="row__v">홍길동</span></div>
+    <!-- 언제의 기록인가를 화면 맨 위에 세운다 — 날짜 위에 시각, 둘 다
+         가운데. 머리줄은 '출근 이력보기' 로 어느 화면인지만 말하므로,
+         이 기록이 언제 것인지는 본문이 쥔다.
+         날짜 표기는 날짜별 인증의 것과 같다 — 거기서 날을 고르고 줄을 열어
+         들어온 자리라, 같은 날을 두 화면이 다른 꼴로 적으면 같은 날인지
+         되짚어야 한다.
+         시각은 **근로자 앱의 출퇴근 카드와 같은 꼴**로 둔다. 한 앱의 두
+         쪽이라 같은 것(언제 찍혔나)을 다른 꼴로 보여 주지 않는다 — 저쪽은
+         제 기록을 보는 자리고 이쪽은 남의 기록을 보는 자리지만, 읽을 것은
+         같다: 현장이 정한 기준과 그날 찍힌 시각. 뱃지 하나에 '출근' 과
+         시각만 담던 때에는 기준을 적을 자리가 없었다.
+         어느 길로 찍혔는지는 적지 않는다 — 근로자 앱에서는 앱·단말기·현장
+         소장앱이 한 날에 섞이지만, 이 이력은 **이 앱에서 찍힌 것**만 모은
+         자리라 경로가 갈릴 일이 없다. 갈리지 않는 값은 뱃지로 두어도
+         말해 주는 것이 없다.
+         출근과 퇴근을 나란히 둔다 — 목록에서는 따로 쌓이지만, 한 사람의
+         하루는 둘이 짝이다. 사진은 그중 **출근 때 찍힌 얼굴**이다.
+         시각은 초까지 적는다 — 목록 줄에서 고른 그 값이다 -->
+    <div class="stmp">
+      <p class="stmp__d">2026. 10. 20<b>(화)</b></p>
+      <div class="tcards">
+        <button class="tcard is-on" type="button" data-at="in"><span class="tcard__h"><svg class="ic ic--16 tcard__c" aria-hidden="true"><use href="#icon-check"></use></svg><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:05:19</span></button>
+        <button class="tcard" type="button" data-at="out"><span class="tcard__h"><svg class="ic ic--16 tcard__c" aria-hidden="true"><use href="#icon-check"></use></svg><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v">17:32:08</span></button>
+      </div>
+    </div>
+
+    <!-- 사진은 언제 바로 아래, 누구인지 위다 — '이 시각에 찍힌 얼굴' 과
+         '그 얼굴이 누구인가' 를 잇는 자리다. 정방형이라 얼굴이 가운데
+         오고, 가로세로가 같아 폰과 태블릿에서 같은 꼴로 읽힌다 -->
+    <div class="photo">
+      <!-- 출근과 퇴근은 **다른 사진**이다 — 같은 사람을 하루에 두 번 찍은
+           것이라, 고른 쪽에 따라 바뀌는 것이 눈에 보여야 한다 -->
+      <img src="images/worker/01-in.jpg" alt="" data-for="in">
+      <img src="images/worker/01.jpg" alt="" data-for="out">
+    </div>
+
+    <!-- 이름은 **사람 정보를 이끄는 제목**이다. 위의 시각과 사진이 '언제
+         어떻게 찍혔나' 를 말하고 나면, 그 아래는 '누구이고 어떤 사람인가'
+         다 — 이름이 그 묶음의 머리에 선다. 주민번호·연락처·직종은 이름이
+         없으면 누구의 것인지 알 수 없는 값들이다 -->
+    <h2 class="dt">홍길동</h2>
+
+    <div class="rows rows--bare">
       <div class="row"><span class="row__k">주민번호</span><span class="row__v">800101-1******</span></div>
       <div class="row"><span class="row__k">연락처</span><span class="row__v">010-1234-5678</span></div>
       <div class="row"><span class="row__k">직종</span><span class="row__v">형틀목공</span></div>
@@ -630,188 +1659,92 @@
 </section>
 
 
-<!-- ===== ⑪ 근로자 앱 · 홈 (출근 전) ===== -->
-<section class="scr" data-screen="w-home" data-title="근로자 앱 홈 — 출근 전">
-  <header class="nav"><h1 class="nav__t">출퇴근 관리</h1></header>
-
-  <div class="hd">
-    <div class="cal">
-      <div class="cal__top">
-        <div class="cal__date">
-          <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">20</span>
-          <span class="cal__dow">화</span>
-        </div>
-        <div class="cal__side">
-          <button class="pill pill--dark" type="button">오늘</button>
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
-        </div>
-      </div>
-      <div class="cal__week">
-        <div class="cal__d"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></div>
-        <div class="cal__d"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></div>
-        <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b></div></div>
-        <div class="cal__d"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></div>
-        <div class="cal__d"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></div>
-        <div class="cal__d"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></div>
-        <div class="cal__d"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></div>
-      </div>
-    </div>
-  </div>
+<!-- ===== ⑭ 현장소장 앱 · 출퇴근 이력보기(출근만 찍힌 경우) ===== -->
+<section class="scr scr--paper" data-at="in" data-day="day4" data-rec="done" data-screen="m-log-photo-in" data-title="출퇴근 이력보기 — 출근만">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">출퇴근 이력보기</h1>
+  </header>
 
   <main class="body">
-    <div class="card">
-      <div class="card__top">
-        <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+    <!-- 언제의 기록인가를 화면 맨 위에 세운다 — 날짜 위에 시각, 둘 다
+         가운데. 머리줄은 '출근 이력보기' 로 어느 화면인지만 말하므로,
+         이 기록이 언제 것인지는 본문이 쥔다.
+         날짜 표기는 날짜별 인증의 것과 같다 — 거기서 날을 고르고 줄을 열어
+         들어온 자리라, 같은 날을 두 화면이 다른 꼴로 적으면 같은 날인지
+         되짚어야 한다.
+         시각은 **근로자 앱의 출퇴근 카드와 같은 꼴**로 둔다. 한 앱의 두
+         쪽이라 같은 것(언제 찍혔나)을 다른 꼴로 보여 주지 않는다 — 저쪽은
+         제 기록을 보는 자리고 이쪽은 남의 기록을 보는 자리지만, 읽을 것은
+         같다: 현장이 정한 기준과 그날 찍힌 시각. 뱃지 하나에 '출근' 과
+         시각만 담던 때에는 기준을 적을 자리가 없었다.
+         어느 길로 찍혔는지는 적지 않는다 — 근로자 앱에서는 앱·단말기·현장
+         소장앱이 한 날에 섞이지만, 이 이력은 **이 앱에서 찍힌 것**만 모은
+         자리라 경로가 갈릴 일이 없다. 갈리지 않는 값은 뱃지로 두어도
+         말해 주는 것이 없다.
+         출근과 퇴근을 나란히 둔다 — 목록에서는 따로 쌓이지만, 한 사람의
+         하루는 둘이 짝이다. 사진은 그중 **출근 때 찍힌 얼굴**이다.
+         시각은 초까지 적는다 — 목록 줄에서 고른 그 값이다 -->
+    <div class="stmp">
+      <p class="stmp__d">2026. 10. 20<b>(화)</b></p>
+      <div class="tcards">
+        <button class="tcard is-on" type="button" data-at="in"><span class="tcard__h"><svg class="ic ic--16 tcard__c" aria-hidden="true"><use href="#icon-check"></use></svg><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:05:19</span></button>
+        <button class="tcard" type="button" data-at="out"><span class="tcard__h"><svg class="ic ic--16 tcard__c" aria-hidden="true"><use href="#icon-check"></use></svg><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></button>
       </div>
     </div>
-    <div class="rows">
-      <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
-      <div class="row"><span class="row__k">출근시간</span><span class="row__v">출근을 눌러 근무를 시작하세요.</span></div>
+
+    <!-- 사진은 언제 바로 아래, 누구인지 위다 — '이 시각에 찍힌 얼굴' 과
+         '그 얼굴이 누구인가' 를 잇는 자리다. 정방형이라 얼굴이 가운데
+         오고, 가로세로가 같아 폰과 태블릿에서 같은 꼴로 읽힌다 -->
+    <div class="photo">
+      <!-- 출근과 퇴근은 **다른 사진**이다 — 같은 사람을 하루에 두 번 찍은
+           것이라, 고른 쪽에 따라 바뀌는 것이 눈에 보여야 한다 -->
+      <img src="images/worker/01-in.jpg" alt="" data-for="in">
+      <img src="images/worker/01.jpg" alt="" data-for="out">
     </div>
-    <p class="guide">출근시간 : 07:00</p>
+
+    <!-- 이름은 **사람 정보를 이끄는 제목**이다. 위의 시각과 사진이 '언제
+         어떻게 찍혔나' 를 말하고 나면, 그 아래는 '누구이고 어떤 사람인가'
+         다 — 이름이 그 묶음의 머리에 선다. 주민번호·연락처·직종은 이름이
+         없으면 누구의 것인지 알 수 없는 값들이다 -->
+    <h2 class="dt">홍길동</h2>
+
+    <div class="rows rows--bare">
+      <div class="row"><span class="row__k">주민번호</span><span class="row__v">800101-1******</span></div>
+      <div class="row"><span class="row__k">연락처</span><span class="row__v">010-1234-5678</span></div>
+      <div class="row"><span class="row__k">직종</span><span class="row__v">형틀목공</span></div>
+    </div>
   </main>
-
-  <div class="act">
-    <button class="act__b act__b--on" type="button">07:03:12&nbsp;&nbsp;출근</button>
-  </div>
-
-  <nav class="tabbar" aria-label="주메뉴">
-    <!-- ⚠ QR 코드 아이콘이 스프라이트에 없다. 읽는 수단이 카메라라 icon-camera 로
-         자리만 잡아 두었다 — icons/categories.json 에 추가를 요청할 것 -->
-    <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
-    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>QR 코드</span>
-    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-settings"></use></svg>마이페이지</span>
-  </nav>
 </section>
 
 
-<!-- ===== ⑫ 근로자 앱 · 얼굴 등록 안내 ===== -->
-<section class="scr has-dim" data-screen="w-face" data-title="얼굴 등록 안내">
-  <header class="nav"><h1 class="nav__t">출퇴근 관리</h1></header>
-
-  <div class="hd">
-    <div class="cal">
-      <div class="cal__top">
-        <div class="cal__date">
-          <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">20</span>
-          <span class="cal__dow">화</span>
-        </div>
-        <div class="cal__side">
-          <button class="pill pill--dark" type="button">오늘</button>
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
-        </div>
+<!-- ===== ⑮ 현장소장 앱 · 날짜 고르기 ===== -->
+<section class="scr has-dim" data-day="day4" data-rec="done" data-screen="m-cal" data-title="날짜 고르기"
+  data-behind="m-log">
+  <!-- 근로자 앱의 날짜 고르개를 그대로 쓴다 — 기기가 띄우는 고르개는 꼴이
+       기기마다 다르므로(아이폰은 휠 · 안드로이드는 달력) 직접 만든 것을
+       두 쪽이 함께 쓴다. 저쪽은 펴진 달 위에 뜨지만 이력에는 달이 없어,
+       어두운 자리 위에 휠만 뜬다 -->
+  <div class="dim dim--cal" data-go="m-log" data-go-self data-keep>
+    <div class="wheel">
+      <div class="wheel__b">
+        <span class="wheel__band" aria-hidden="true"></span>
+      <div class="wheel__c" data-wheel="연" data-pick="2026" tabindex="0" role="listbox" aria-label="연">
       </div>
-      <div class="cal__week">
-        <div class="cal__d"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></div>
-        <div class="cal__d"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></div>
-        <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b></div></div>
-        <div class="cal__d"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></div>
-        <div class="cal__d"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></div>
-        <div class="cal__d"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></div>
-        <div class="cal__d"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></div>
+      <div class="wheel__c" data-wheel="월" data-pick="10" tabindex="0" role="listbox" aria-label="월">
       </div>
-    </div>
-  </div>
-
-  <main class="body">
-    <div class="card">
-      <div class="card__top">
-        <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+      <div class="wheel__c" data-wheel="일" data-pick="23" tabindex="0" role="listbox" aria-label="일">
       </div>
-    </div>
-    <div class="rows">
-      <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
-      <div class="row"><span class="row__k">출근시간</span><span class="row__v">출근을 눌러 근무를 시작하세요.</span></div>
-    </div>
-    <p class="guide">출근시간 : 07:00</p>
-  </main>
-
-  <div class="act">
-    <button class="act__b act__b--on" type="button">07:03:12&nbsp;&nbsp;출근</button>
-  </div>
-
-  <nav class="tabbar" aria-label="주메뉴">
-    <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
-    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>QR 코드</span>
-    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-settings"></use></svg>마이페이지</span>
-  </nav>
-
-  <!-- 안면인식 현장인데 이 현장에 등록된 얼굴이 없을 때 출근을 누르면 뜬다 -->
-  <div class="dim">
-    <div class="alert" role="alertdialog" aria-labelledby="wFaceT">
-      <div class="alert__bd">
-        <p class="alert__t" id="wFaceT">얼굴 등록이<br>필요합니다</p>
-        <p class="alert__d">이 현장은 얼굴 인증으로 출근합니다. 얼굴을 한 번 등록하면 바로 출근할 수 있습니다.</p>
       </div>
-      <div class="alert__bt"><span class="no">취소</span><span class="yes">얼굴 등록하고 출근</span></div>
+      <!-- 휠을 굴려 오늘까지 되짚는 대신 한 번에 돌아간다 — 이력에서 가장
+           자주 찾는 날이 오늘이다. 길은 js 가 아니라 여기서 박아 둔다:
+           근로자 앱에서는 '오늘' 이 날마다 다른 화면으로 가지만, 이력은
+           어느 날에서든 제 화면으로 돌아온다 -->
+      <button class="pill pill--line wheel__today" type="button" data-go="m-log">오늘로 이동</button>
     </div>
   </div>
 </section>
 
-
-<!-- ===== ⑬ 근로자 앱 · 홈 (출근 완료) ===== -->
-<section class="scr" data-screen="w-home-done" data-title="근로자 앱 홈 — 출근 완료">
-  <header class="nav"><h1 class="nav__t">출퇴근 관리</h1></header>
-
-  <div class="hd">
-    <div class="cal">
-      <div class="cal__top">
-        <div class="cal__date">
-          <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">20</span>
-          <span class="cal__dow">화</span>
-        </div>
-        <div class="cal__side">
-          <button class="pill pill--dark" type="button">오늘</button>
-          <button class="cal__more" type="button" aria-label="달 전체 보기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
-        </div>
-      </div>
-      <div class="cal__week">
-        <div class="cal__d"><div class="cal__w cal__w--sun">일</div><div class="cal__n"><b>18</b></div></div>
-        <div class="cal__d"><div class="cal__w">월</div><div class="cal__n"><b>19</b><i></i></div></div>
-        <div class="cal__d"><div class="cal__w">화</div><div class="cal__n cal__n--on"><b>20</b><i></i></div></div>
-        <div class="cal__d"><div class="cal__w">수</div><div class="cal__n"><b>21</b></div></div>
-        <div class="cal__d"><div class="cal__w">목</div><div class="cal__n"><b>22</b></div></div>
-        <div class="cal__d"><div class="cal__w">금</div><div class="cal__n"><b>23</b></div></div>
-        <div class="cal__d"><div class="cal__w cal__w--sat">토</div><div class="cal__n"><b>24</b></div></div>
-      </div>
-    </div>
-  </div>
-
-  <main class="body">
-    <div class="card">
-      <div class="card__top">
-        <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
-      </div>
-    </div>
-    <div class="rows">
-      <div class="row"><span class="row__k">인정범위</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-pin"></use></svg>지도 보기</button></span></div>
-      <!-- 어느 길로 찍혔는지를 시간 옆에 붙인다 — 같은 날에 앱·단말기·소장앱이 섞인다 -->
-      <div class="row"><span class="row__k">출근시간</span><span class="row__v">07:03 <span class="bd bd--positive">앱 · 얼굴</span></span></div>
-      <div class="row"><span class="row__k">퇴근시간</span><span class="row__v">작업내용 입력 후 퇴근을 눌러주세요.</span></div>
-      <div class="row"><span class="row__k">작업내용</span><span class="row__v"><button class="pill pill--line" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-edit"></use></svg>작성하기</button></span></div>
-    </div>
-    <p class="guide">퇴근시간 : 17:00</p>
-  </main>
-
-  <div class="act">
-    <button class="act__b act__b--dark" type="button">17:31:40&nbsp;&nbsp;퇴근</button>
-  </div>
-
-  <nav class="tabbar" aria-label="주메뉴">
-    <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
-    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>QR 코드</span>
-    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-settings"></use></svg>마이페이지</span>
-  </nav>
-</section>
 
 </body>
 </html>

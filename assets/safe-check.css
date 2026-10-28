@@ -1,0 +1,29 @@
+/* safe-check.css — 바닥에 남는 띠가 **무엇의 색인지** 가리는 페이지.
+   색을 셋으로 갈라 둔다. 화면을 찍으면 어느 것이 변까지 닿는지 보인다.
+     분홍  문서 바탕(html·body) — 창 **밖**이다. 여기가 보이면 창이 기기
+           화면보다 짧다는 뜻이고, 그 자리는 어느 요소도 칠하지 못한다
+     흰색  100svh 상자 — 앱 화면(.scr)이 쓰는 높이
+     파랑  그 상자의 끝
+     초록  position:fixed; bottom:0 — 창의 바닥 */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;
+  background:#ff3d8b;color:#131416}
+
+.box{height:100svh;display:flex;flex-direction:column;background:#fff;
+  padding-top:max(20px,env(safe-area-inset-top,0px))}
+h1{font:700 22px/28px inherit;padding:8px 20px 4px}
+.how{font:400 15px/22px inherit;color:#5b6168;padding:0 20px 12px}
+
+dl{flex:1;min-height:0;overflow-y:auto;padding:0 20px 12px;
+  display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-content:start}
+dt{font:400 15px/20px inherit;color:#5b6168}
+dd{font:700 15px/20px ui-monospace,SFMono-Regular,Menlo,monospace;text-align:right}
+dd.no{color:#c0392b}
+dd.yes{color:#115ac6}
+
+.bar{font:700 14px/20px inherit;padding:10px 20px;text-align:center;color:#fff}
+.bar--svh{background:#115ac6}
+/* 오른쪽 절반만 덮는다 — 둘이 같은 자리면 초록이 파랑을 반만 가리고,
+   100svh 가 짧으면 파랑이 초록 **위로** 올라와 나란히 보인다 */
+.bar--pin{position:fixed;right:0;bottom:0;width:58%;background:#1f9d55}

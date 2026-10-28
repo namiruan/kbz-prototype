@@ -1,12 +1,12 @@
 <!-- design-system: v1.0.0 -->
-<!-- prototype: 안면 출퇴근 앱 — 화면별 모아보기 -->
+<!-- prototype: 안면 출퇴근 현장소장 앱 — 화면별 모아보기 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>안면 출퇴근 앱 프로토타입</title>
-<meta name="description" content="안면 출퇴근 앱 화면을 시나리오별로 모아 본다. 소장 앱 전체와 근로자 앱 홈이다.">
+<title>안면 출퇴근 현장소장 앱 프로토타입</title>
+<meta name="description" content="안면 출퇴근 현장소장 앱(kpmManager) 화면을 시나리오별로 모아 본다. 근로자 앱은 face-attendance-worker-prototype.html 에 따로 있다.">
 <!-- 김반장 3.0 디자인 시스템. 크롬(사이드바·설명·폭·비교·링크 복사·원본 링크)은
      proto-chrome.js 의 initProtoChrome 이 맡는다 — 이 파일이 따로 만들지 않는다.
      주소가 절대경로인 것은 시스템 규약이다 -->
@@ -14,9 +14,21 @@
 <link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/tokens.css">
 <link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/proto-chrome.css">
 <style>
-/* 이 파일이 갖는 것은 '화면을 끼우는 자리' 하나뿐이다. 나머지 생김새는 전부 시스템이 낸다 */
+/* 이 파일이 갖는 것은 '화면을 끼우는 자리' 와 '언제 것인지 적는 줄' 뿐이다.
+   나머지 생김새는 전부 시스템이 낸다 */
 #screen{display:block;width:100%;height:100dvh}
+.proto-stamp{margin:var(--space-stack-sm) var(--space-16) 0;
+  font-size:var(--font-size-12);line-height:1.4;color:var(--color-text-subtle)}
 #screen iframe{display:block;width:100%;height:100%;border:0;background:var(--color-surface-base)}
+/* 설명(data-why)은 말하려는 것마다 줄을 바꿔 적는다. 크롬은 그 값을 한
+   문단으로 내므로 줄바꿈이 살아 있게 한다 — 한 덩어리로 이어 붙으면 어디서
+   다음 이야기가 시작되는지 읽는 사람이 찾아야 한다.
+   다만 빈 줄은 한 줄 높이를 통째로 가져가 사이가 너무 벌어진다. 아래
+   스크립트가 빈 줄을 걷어내고 문단마다 블록으로 끊으므로 사이는 여기서
+   잡는다 — 스크립트가 못 돌아도 pre-line 이 받쳐 준다 */
+.proto-brief__why{white-space:pre-line}
+.proto-brief__wp{display:block}
+.proto-brief__wp + .proto-brief__wp{margin-top:var(--space-8)}
 </style>
 
   <!-- 다음 겹을 미리 당겨 둔다 — 틀 안은 문서가 겹겹이 차례로 선다 -->
@@ -27,7 +39,7 @@
 </head>
 <body>
 
-<div class="proto-layout" data-proto-sub="안면 출퇴근 앱 — 화면별 모아보기">
+<div class="proto-layout" data-proto-sub="현장소장 앱 — 화면별 모아보기">
   <aside class="proto-sidebar">
     <!-- 접기 손잡이와 폭 컨트롤은 여기 적지만, 크롬이 툴바(화면 바로 위)로 옮긴다 -->
     <button class="proto-nav-toggle" type="button" aria-expanded="true" aria-label="시나리오 목록 접기">
@@ -42,77 +54,120 @@
       <button class="proto-viewport__btn" type="button" data-viewport="compare" aria-pressed="false">비교</button>
     </div>
 
+    <!-- **언제 받은 페이지인지** 적는다. 화면은 틀 안에 있어 주소에 ?r= 을 실어
+         늘 새로 받지만, 이 바깥 페이지에는 그런 장치가 없어 브라우저가 쥐고 있던
+         것을 그대로 내놓을 수 있다 — 「고친 게 안 보인다」가 거기서 나온다.
+         document.lastModified 는 **이 문서를 받은 시각**이라, 캐시에서 나온
+         페이지면 옛 시각이 적힌다 -->
+    <p class="proto-stamp" id="protoStamp"></p>
+
     <div class="proto-nav-divider"></div>
 
     <nav class="proto-nav" aria-label="시나리오 선택">
 
-      <span class="proto-nav-group-label">소장 앱 · 인증</span>
+      <span class="proto-nav-group-label">현장소장 앱 · 출퇴근 인증</span>
       <button class="proto-nav-btn proto-nav-sub is-active" type="button" data-scenario="m-in"
-        data-why="얼굴을 찍기 전의 화면입니다. 인증을 여는 버튼은 바닥 바에 둡니다 — 시안은 한 화면의 주된 동작을 폭을 다 쓰는 바닥 바 하나로 받습니다. 탭은 흰 머리 카드에, 현장은 그 아래 목록 바로 위에 둡니다 — 탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말합니다."
-        data-steps="안면 출퇴근 메뉴에 들어와 출근 탭이 열린 상태 — 보내지 못한 인증이 있습니다"
-        data-look="@{.bds} 미전송·반영불가는 현장 이름 아래에 붙습니다|@md @{.body} 태블릿에서는 좌우 여백만 넓어지고 안내 글은 가운데에 그대로 있습니다">출근 인증 대기</button>
+        data-why="현장소장이 줄 선 근로자를 이어서 찍는 화면입니다.
+
+인증할 수 있는 카드는 한 번에 하나입니다. 출근과 퇴근은 한 탭 안의 두 모드라, 카드를 바꿔 가며 씁니다."
+        data-steps="안면 출퇴근 메뉴에 들어와 출근 모드로 열린 상태 — 보내지 못한 인증이 있습니다"
+        data-look="@{.cta__art} '출근 인증 시작' 카드 안에서 얼굴을 잡는 모습이 움직입니다|@{.cta--in .cta__go} 카드 오른쪽 끝의 화살표도 일정 간격으로 한 번씩 움직입니다. 움직임을 줄인 기기에서는 둘 다 재생되지 않습니다|@{.mode} 바닥의 토글로 모드를 바꿉니다. 카드를 좌우로 스와이프하거나, 옆에 비치는 카드를 눌러도 같습니다|@{.deck} 미는 동안 들어올 카드가 손끝을 따라 들어옵니다. 틀 폭의 30% 를 넘기거나, 짧아도 빠르게 떨치면 넘어갑니다|@{.deck__t} 갈 데가 없는 쪽으로는 밀리지 않습니다. 밀려고 하면 카드가 제자리에서 좌우로 한 번 흔들립니다|@{.bds} 미전송·반영불가 뱃지는 인증 카드 바로 위, 카드와 같은 가운데 선에 놓입니다. 출근과 퇴근은 따로 세므로, 퇴근 모드로 미는 만큼 흐려집니다 — 자리는 그대로 지킵니다|@md @lg @{.cta--in} 넓은 폭에서는 카드가 더 커지지 않고 멈춥니다 — 남는 자리는 좌우 여백이 됩니다">출근 모드</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-out"
-        data-why="출근과 퇴근은 색으로 가릅니다. 시안의 버튼 색에 주황이 없어, 둘째로 강한 색인 검정을 퇴근에 줍니다. 찍는 사람도 보는 자리도 출근과 같아 구성은 그대로 둡니다."
-        data-steps="퇴근 탭을 연 상태 — 보내지 못한 인증은 없습니다"
-        data-look="@{.act__b--dark} 퇴근 인증 시작은 검정입니다. 출근은 파랑입니다|@{.ctx} 보내지 못한 인증이 없으면 현장 이름 아래 뱃지 줄이 통째로 빠집니다">퇴근 인증 대기</button>
+        data-why="출근과 퇴근은 같은 화면을 씁니다.
+
+하루에 둘을 섞어 찍으므로, 지금 무엇을 찍는 중인지가 한눈에 갈려야 합니다."
+        data-steps="출퇴근 인증에서 퇴근 모드로 바꾼 상태 — 보내지 못한 인증은 없습니다"
+        data-look="@{.cta--out} '퇴근 인증 시작' 카드의 바탕은 검정입니다 — 출근은 파랑입니다. 카드를 감싼 그림자도 그 색을 따릅니다">퇴근 모드</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-cam"
-        data-why="앱(Flutter)이 직접 그리는 화면입니다. 웹 화면이 아니라 시안의 머리·바닥 셸을 쓰지 않고, 얼굴을 맞출 자리와 지금 무엇을 찍는지만 남깁니다."
-        data-steps="출근 인증 시작을 눌러 카메라가 열린 상태"
-        data-look="@{.cam__t} 안내는 '얼굴을 사각형 안에 맞춰주세요.' 입니다|@{.cam__mode} 지금 찍는 것이 출근인지 퇴근인지는 아래 알약이 답합니다|@md @{.cam__box} 태블릿에서는 가이드 사각형이 좌우로 더 들어옵니다">카메라 인식</button>
+        data-why="줄 선 사람을 이어서 찍는 카메라입니다.
+
+몇을 찍었는지 화면에 남지 않으면 찍는 사람이 속으로 세고 있어야 합니다."
+        data-steps="출근 인증 시작을 클릭해 카메라가 열린 상태"
+        data-look="@{.cam__tip} '인증 종료하기' 바로 아래에서 지금까지 몇을 찍었는지 셉니다|@{.mode--cam} 출퇴근 인증 토글과 같은 스타일이며, 카메라 내부에서 출퇴근 모드를 변경할 수 있습니다|@{.camsw} 오른쪽 끝은 앞뒤 렌즈를 바꾸는 버튼입니다|@md @lg @{.cam__foot} 넓은 폭에서는 바닥 줄이 가운데로 모입니다 — 토글과 전환이 화면 양 끝으로 흩어지지 않습니다|@{.cam__stop} 끝내는 '인증 종료하기' 는 틀 바로 아래에 면 없이 놓입니다">카메라 인식</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-cam-ok"
-        data-why="결과를 잠깐 띄우고 다음 사람으로 넘어갑니다. 한 번 열면 줄 선 사람을 이어서 찍기 때문에, 결과를 클릭해 닫게 하면 줄이 그때마다 멈춥니다."
+        data-why="인증이 된 결과를 보여 주는 화면입니다.
+
+잠깐 띄우고 다음 사람으로 넘어갑니다 — 눌러 닫게 하면 줄이 그때마다 멈춥니다."
         data-steps="홍길동의 얼굴이 인식된 상태"
-        data-look="@{.cam__box--ok} 가이드 사각형이 초록으로 바뀌고, 결과 문구도 같은 초록입니다|@{.cam__t--ok} 문구에 인식된 사람의 이름이 들어갑니다 — '홍길동님 출근 처리되었습니다.'">인식 결과</button>
+        data-look="@{.cam__box--ok} 가이드 사각형이 초록으로 바뀌고 결과 문구도 같은 초록입니다. 사각형 테가 움직입니다 — 움직임을 줄인 기기에서는 재생되지 않습니다|@{.cam__t--ok} 이름이 먼저 크게, 무슨 일이 되었는지가 그 아래 한 단 작게 적힙니다 — '홍길동님 / 출근 처리 완료!'|@{.cam__tip} 방금 한 사람이 끝나 센 수가 하나 올라갔습니다">인식 결과</button>
 
-      <span class="proto-nav-group-label">소장 앱 · 근로자</span>
+      <span class="proto-nav-group-label">현장소장 앱 · 근로자 관리</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers"
-        data-why="얼굴을 등록한 근로자를 현장별로 봅니다. 카드에 사진을 함께 두는 것은 이 목록에서 얼굴 등록 여부가 갈리기 때문입니다. 거를 것이 직종 하나뿐이라 필터 줄을 따로 두지 않고, 목록 머리줄의 '전체' 가 그 필터를 겸합니다. 수는 고를 대상이 몇인지를 말하므로 체크박스 옆에 두고, 거르는 필터는 반대쪽 끝에 둡니다. 근로자를 더하는 버튼은 바닥 바에 둡니다 — 시안은 떠다니는 둥근 버튼을 쓰지 않습니다."
-        data-steps="근로자 관리 탭을 연 상태"
-        data-look="@{.face--none} 얼굴이 없는 근로자는 사진 자리가 회색입니다|@{.act__b--off} 삭제는 바닥 바 왼쪽에 있고, 고른 근로자가 없으면 꺼져 있습니다|@{.card__k} 외국인은 주민번호 자리가 '여권번호' 로 바뀝니다|@md @{.list} 태블릿에서는 카드가 두 단으로 놓입니다">근로자 관리</button>
+        data-why="얼굴을 등록한 근로자를 현장별로 봅니다.
+
+카드에 사진을 함께 두는 것은 이 목록에서 얼굴 등록 여부가 갈리기 때문입니다."
+        data-steps="근로자 관리 탭에서 현장을 고른 상태"
+        data-look="@{.face--none} 얼굴을 등록하지 않은 근로자도 목록에 있습니다 — 사진 자리가 빈 상태입니다|@{.act__b--off} 아무도 고르지 않았으므로 삭제는 꺼져 있습니다|@{.card__k--foreign} 여권번호로 등록한 근로자는 주민번호 자리에 여권번호가 적힙니다|@{.bd--src} 사진 왼쪽 위의 '앱' · 'PC' 는 그 근로자를 어디서 더했는지입니다 — 현장소장 앱에서 더했으면 '앱', 관리자 PC 에서 더했으면 'PC' 입니다|@{.list} 목록이 한 화면을 넘으면, 스크롤할 때 현장 카드 밑으로 들어가는 카드가 옅어지며 사라집니다|@{.act} 아래로 읽어 내려가는 동안 바닥 버튼은 내려가 있다가, 멈추면 올라옵니다|@md @{.list} 태블릿에서는 카드가 두 단으로 놓입니다">현장 선택 시</button>
+
+      <!-- 아래 둘은 이 목록에서 무엇을 고른 뒤의 모습이라, 한 단 들여 묶는다.
+           이름표의 단계는 셸이 세어 적는다(--sub 이면 2단) -->
+      <span class="proto-nav-group-label proto-nav-group-label--sub">목록에서 고르면</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-job"
-        data-why="거른 값을 필터에 그대로 적습니다. 거를 것이 직종 하나라 무엇으로 걸렀는지 따로 물을 자리가 없고, 머리줄만 읽어도 지금 무엇을 보고 있는지 알 수 있습니다."
+        data-why="거른 뒤에도 무엇으로 걸렀는지가 머리줄에 남습니다.
+
+필터를 다시 열지 않아도 지금 보고 있는 것을 알 수 있습니다."
         data-steps="근로자 관리에서 직종을 '형틀목공' 으로 고른 상태"
-        data-look="@{.sel--inline} 필터에는 고른 직종이 적힙니다. 고르기 전에는 전체입니다|@{.lbar__n} 수도 걸러진 뒤의 수로 바뀝니다">직종을 고르면</button>
+        data-look="@{.sel--selected} 고르고 나면 필터의 글씨가 굵고 짙어집니다 — 고르기 전에는 '전체' 에 보통 굵기입니다|@{.sel__n} 그 옆의 수도 걸러진 뒤의 수로 바뀝니다">직종을 고르면</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-pick"
-        data-why="고른 사람이 있어야 지울 수 있습니다. 삭제를 바닥 바에 두되 꺼 두는 것은, 누를 수 있는 자리에 그냥 두면 고르지도 않고 누른 뒤에야 무엇이 빠졌는지 알게 되기 때문입니다."
+        data-why="삭제는 되돌릴 수 없어, 고른 사람이 있을 때만 켜집니다."
         data-steps="근로자 관리에서 홍길동과 김철수를 고른 상태"
-        data-look="@{.chk--on} 고른 카드는 체크박스가 사진 위에서 파랗게 채워집니다|@{.act__b--dark} 삭제가 켜집니다 — 되돌릴 수 없는 쪽이라 검정입니다">근로자를 고르면</button>
+        data-look="@{.card--photo:has(.chk--on)} 고른 카드는 카드째 파란 테를 두릅니다. 면은 흰색 그대로라, 고르지 않은 카드와 테만 갈립니다|@{.lbar__n} 오른쪽 끝에 '선택 2명' 이 적힙니다 — 고르기 전에는 그 자리가 비어 있습니다. 필터 옆의 수는 목록에 남은 수라 세는 것이 다릅니다|@{.act__b--dark} 삭제가 켜집니다">근로자를 선택하면</button>
+      <span class="proto-nav-group-label">현장소장 앱 · 근로자 추가</span>
+      <!-- 셋은 같은 폼의 세 모습이다 — 외국인 여부와 '여권번호 등록' 체크에 따라
+           받는 칸이 갈린다. 구역 이름이 이미 '근로자 추가' 라, 그 아래 2단계
+           이름표를 한 겹 더 두면 같은 말을 두 번 하게 된다 -->
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new"
-        data-why="얼굴 한 장과 기본 정보를 한 화면에서 받습니다. 사진이 맨 위인 것은 이 등록의 목적이 얼굴이기 때문입니다."
-        data-steps="근로자 추가를 눌러 등록 화면이 열린 상태 — 아직 아무것도 채우지 않았습니다"
-        data-look="@{.tog} 외국인 여부는 예·아니오 토글입니다|@{.step} 단가는 칸에 적는 대신 ＋·－ 로 올리고 내립니다|@{.fld__l} 필수 항목은 이름 옆에 '(필수)' 가 붙습니다|@md @{.form} 태블릿에서는 폼이 늘어나지 않고 가운데로 모입니다">근로자 등록</button>
+        data-why="근로자를 새로 등록하는 화면입니다.
+
+얼굴 한 장과 기본 정보를 한 화면에서 받습니다. 사진이 맨 위인 것은 이 등록의 목적이 얼굴이기 때문입니다."
+        data-steps="근로자 추가를 클릭해 열린 상태 — 아직 아무것도 채우지 않았습니다"
+        data-look="@{.scan} 사진 자리 안에서 얼굴을 스캔하는 그림이 움직입니다 — 움직임을 줄인 기기에서는 재생되지 않습니다|@{.ask} 외국인인지는 '외국인 근로자인가요?' 한 줄로 묻고, 답은 그 옆 예·아니오 토글입니다|@{.fld__l b} 필수 항목은 라벨 옆에 '(필수)' 가 붙습니다|@md @{.form} 태블릿에서는 폼이 늘어나지 않고 가운데로 모입니다">처음 열면</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new-foreign"
+        data-why="외국인등록번호는 주민번호와 같은 꼴이라, 외국인이어도 그 칸에 그대로 적습니다.
+
+'예' 는 받는 칸을 바꾸지 않고 '여권번호 등록' 이라는 고를 거리를 하나 엽니다 — 여권으로 등록할 사람만 체크합니다."
+        data-steps="근로자 추가에서 외국인 여부를 '예' 로 바꾼 상태 — '여권번호 등록' 은 아직 체크하지 않았습니다"
+        data-look="@{.ask__opt} '여권번호로 등록하기' 는 외국인 여부가 '예' 일 때만 나타나고, 묻는 줄과는 가름선으로 갈립니다 — 네모와 글자 어디를 클릭해도 체크됩니다">외국인이면</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new-passport"
+        data-why="주민번호 대신 여권번호와 생년월일을 받습니다.
+
+여권번호에는 나이가 들어 있지 않아, 주민번호 하나가 하던 일을 둘이 나눠 받습니다."
+        data-steps="외국인 여부를 '예' 로 바꾸고 '여권번호 등록' 을 체크한 상태"
+        data-look="@{.fld__l--foreign} 주민번호 칸이 빠지고 여권번호가 그 자리에 듭니다 — 둘을 함께 받지는 않습니다|@{.fld__l--birth} 생년월일 칸이 하나 더 늡니다|@{.ask__opt} 체크를 풀면 주민번호 칸으로 돌아갑니다">여권번호로 등록하면</button>
+      <span class="proto-nav-group-label">현장소장 앱 · 등록 촬영·근로자 수정</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-shot"
-        data-why="찍은 얼굴로 등록할지 묻고 나서 저장합니다. 흐린 사진 한 장이 그 뒤의 출근 인증을 내내 막기 때문에, 다시 찍을 기회를 이 자리에서 줍니다."
-        data-steps="얼굴 촬영을 눌러 한 장 찍은 상태"
-        data-look="@{.confirm} 찍은 사진 위에 어두운 막이 덮이고 그 위에서 묻습니다|@{.confirm__bt .ok} '이 사진으로 등록' 이 오른쪽이고, 되돌리는 '다시 촬영' 이 왼쪽입니다">등록 촬영 확인</button>
+        data-why="찍은 얼굴을 등록하기 전에 확인하는 화면입니다.
+
+흐린 사진 한 장이 그 뒤의 출근 인증을 내내 막습니다. 다시 찍을 기회를 여기서 줍니다."
+        data-steps="얼굴 등록하기를 클릭해 한 장 찍은 상태"
+        data-look="@{.confirm} 화면을 바꾸지 않고 띄운 창입니다 — 뒤에는 이 창을 띄운 '근로자 추가' 가 흐리게 남습니다|@{.confirm__card} 사진과 '얼굴 등록하기' 가 한 카드에 묶입니다|@{.confirm__re} 되돌리는 '다시 촬영하기' 는 카드 밖에 면 없이 놓입니다">등록 촬영 확인</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker"
-        data-why="등록해 둔 얼굴이 누구 것인지 확인하는 자리입니다. 사진을 맨 위에 크게 두는 것은 이름보다 사진이 먼저 확인되어야 하기 때문입니다."
+        data-why="등록된 근로자를 고치는 화면입니다.
+
+보던 자리에서 바로 고칩니다 — 고치는 것은 대개 한두 칸인데, 화면을 한 번 더 여는 값은 그때마다 똑같이 치러야 합니다."
         data-steps="근로자 관리에서 홍길동을 연 상태"
-        data-look="@{.rows} 값은 읽기만 하는 줄입니다. 고치려면 수정을 클릭합니다|@{.act__b--dark} 삭제는 검정이고 왼쪽 끝입니다 — 시안의 버튼 색에 위험을 뜻하는 빨강이 없습니다">근로자 상세</button>
+        data-look="@{.shot__edit} 사진 오른쪽 아래의 아이콘을 클릭하면 다시 촬영으로 갑니다 — 사진 자리 어디를 눌러도 같습니다|@{.inp} 칸이 값으로 채워진 채 열립니다|@{.act__b--off} 저장은 꺼진 채로 열립니다 — 고친 데가 있어야 켜집니다|@{.act__b--dark} 삭제는 고친 것과 상관없이 켜져 있습니다">근로자 상세</button>
 
-      <span class="proto-nav-group-label">소장 앱 · 이력</span>
+      <span class="proto-nav-group-label">현장소장 앱 · 이력</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-log"
-        data-why="날짜 하나를 잡고 그날 찍힌 인증을 봅니다. 날짜는 시안의 달력 카드를 그대로 씁니다 — 숫자 칸을 고치거나, 주를 훑어 고르거나, '오늘' 로 돌아올 수 있습니다."
-        data-steps="이력 탭에서 2026.10.20 을 고른 상태"
-        data-look="@{.cal__n--on} 고른 날은 파란 동그라미입니다|@{.cal__n i} 인증이 있는 날은 숫자 아래에 점이 붙습니다|@{.log__t--in} 출근은 옅은 파랑, 퇴근은 회색으로 가릅니다|@md @{.list} 태블릿에서는 이력 줄도 두 단으로 놓입니다">날짜별 인증</button>
+        data-why="선택한 현장에서 인증된 출퇴근 기록을 날짜별로 노출합니다."
+        data-steps="이력 탭에서 나흘 전 날짜를 고른 상태"
+        data-look="@{.cal__date} 날짜는 근로자 앱 홈과 같은 꼴로 적힙니다 — 연·월·일이 칸에 들고 그 옆에 요일이 붙습니다|@{.day__pick} 좌우 화살표로 한 날씩 옮깁니다|@{.cal__date} 날짜를 클릭하면 날짜 고르개가 올라옵니다|@{.cnt} 출근과 퇴근을 따로 세어 적고, 클릭하면 그쪽만 남습니다. 걸러 둔 쪽은 체크와 면이 빠지고 테만 남되 수는 그대로 보입니다 — 켜진 쪽을 다시 클릭하면 둘 다 돌아옵니다|@{.log} 줄 하나가 통째로 클릭 영역입니다. 클릭하면 이력 조회가 열립니다|@{.log__t--in} 출근과 퇴근은 정방형 면으로 가릅니다 — 출근은 옅은 파랑, 퇴근은 회색입니다. 줄마다 같은 크기라 그 칸만 따라 내려가며 훑을 수 있습니다|@md @{.list} 태블릿에서는 이력 줄도 두 단으로 놓입니다">날짜별 인증</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-cal"
+        data-why="연·월·일을 골라 그날의 이력으로 이동합니다. 화살표가 한 날씩 옮기는 데 비해, 멀리 떨어진 날로 한 번에 갑니다."
+        data-steps="날짜별 인증에서 날짜를 클릭한 상태"
+        data-look="@{.wheel} 연·월·일 세 칸이 각자 굴러가고, 멎으면 가운데 띠에 든 값이 고른 값입니다|@{.wheel__today} \'오늘로 이동\' 을 클릭하면 오늘 날짜의 이력으로 돌아갑니다 — 휠을 굴려 되짚지 않아도 됩니다|@{.dim} 어두운 자리를 클릭하면 고르개가 닫힙니다">날짜 고르기</button>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">이력 조회</span>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-log-photo-in"
+        data-why="출근 인증 때 근로자를 인식한 사진과 정보를 노출합니다."
+        data-steps="이력에서 홍길동 07:05:19 줄을 클릭한 상태 — 아직 퇴근은 인증하지 않았습니다"
+        data-look="@{.tcard} 근로자 앱의 출퇴근 카드와 같은 꼴입니다 — 머리에 '출근' 과 기준 시각이, 그 아래에 인증 시각이 초까지 노출됩니다|@{.tcard__v--none} 아직 인증하지 않은 쪽은 '--:--' 이고, 카드가 disabled 스타일로 보입니다|@{.stmp .tcard} 카드를 클릭하면 selected 상태로 변경되며 인증 사진이 아래에 노출됩니다|@{.tcard:disabled} 인증하지 않은 '퇴근' 카드는 클릭하지 못합니다|@md @lg @{.photo} 넓은 폭에서는 사진이 본문과 같은 폭에서 멈추고 가운데로 모입니다 — 화면이 넓어져도 사진만 커지지 않습니다">출근만 찍힌 경우</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-log-photo"
-        data-why="그때 찍힌 사진과 그 사람의 정보를 함께 봅니다. 인증이 맞게 들어갔는지는 사진을 봐야 가려집니다."
-        data-steps="이력에서 홍길동 07:05:19 줄의 사진보기를 클릭한 상태"
-        data-look="@{.bd--positive} 인증 유형은 뱃지로 적습니다|@md @{.photo} 태블릿에서는 사진이 커집니다">이력 사진보기</button>
+        data-why="퇴근까지 인증되면 두 시각을 견주어 볼 수 있습니다.
 
-      <span class="proto-nav-group-label">근로자 앱 · 홈</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home"
-        data-why="근로자 앱의 첫 화면입니다. 안면인식 현장이어도 이 화면은 달라지지 않습니다 — 근로자는 그대로 출근을 클릭하고, 그 현장이 안면인식 현장이면 카메라가 뒤이어 열립니다."
-        data-steps="근로자 앱을 열고 오늘(2026.10.20)을 보는 상태 — 아직 출근하지 않았습니다"
-        data-look="@{.act__b--on} 출근 버튼에 지금 시각이 함께 적힙니다|@{.tabbar} 아래 내비게이션은 주화면에만 있습니다. 뒤로 가기가 있는 소장 앱 화면에는 없습니다">홈 — 출근 전</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-face"
-        data-why="안면인식이 켜진 현장인데 이 현장에 등록된 얼굴이 없으면 출근이 바로 되지 않습니다. 막는 말로 끝내지 않고 등록으로 데려가는 것은, 근로자가 그 자리에서 할 수 있는 일이 등록뿐이기 때문입니다."
-        data-steps="출근을 클릭한 상태 — 이 현장에 등록된 얼굴이 없습니다"
-        data-look="@{.alert} 알림창은 시안의 modal_alert 입니다 — 버튼이 창 아래 끝까지 붙습니다|@{.alert__bt .yes} 오른쪽이 '얼굴 등록하고 출근' 입니다|@{.dim} 뒤 화면은 어두워지고 조작할 수 없습니다">얼굴 등록 안내</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-done"
-        data-why="출근이 끝난 뒤의 홈입니다. 출근시간 옆에 어느 길로 찍혔는지를 함께 적는 것은, 같은 날 기록이 앱·단말기·소장 앱으로 섞여 들어오기 때문입니다."
-        data-steps="얼굴 인증으로 출근 처리가 끝나 홈으로 돌아온 상태"
-        data-look="@{.bd--positive} 출근시간 옆 '앱 · 얼굴' 이 그 기록이 어디서 왔는지 적습니다|@{.act__b--dark} 퇴근 버튼은 검정입니다. 출근 전의 파랑과 가릅니다|@{.rows} 퇴근시간 자리에는 '작업내용 입력 후 퇴근을 눌러주세요.' 가 적힙니다">홈 — 출근 완료</button>
+출근만 찍힌 경우와 같은 화면이고, 퇴근 카드가 채워진 것만 다릅니다."
+        data-steps="퇴근까지 인증된 날의 줄을 클릭한 상태"
+        data-look="@{.tcard__v} 퇴근 카드에도 인증 시각이 초까지 노출되고, disabled 스타일이 풀려 클릭할 수 있게 됩니다|@{.photo} 출근과 퇴근은 다른 사진이라, 카드를 바꾸면 사진도 바뀝니다">출퇴근이 다 찍힌 경우</button>
 
     </nav>
   </aside>
@@ -155,6 +210,9 @@
   });
   var first=document.querySelector('.proto-nav-btn.is-active')||document.querySelector('.proto-nav-btn');
   if(first) open(first.dataset.scenario);
+
+  var stamp=$('#protoStamp');
+  if(stamp) stamp.textContent='이 페이지 '+document.lastModified;
 })();
 </script>
 <script src="https://namiruan.github.io/kbz_3.0_ui_stytem/proto-chrome.js"></script>
@@ -181,8 +239,29 @@
     if (!want && !/^(md|sm|compare)$/.test(kept || '')) sessionStorage.setItem('protoView','sm');
   } catch (e) {}
 
+  /* 설명(why)의 문단 사이를 좁힌다. 크롬은 why 를 한 <p> 로 내고 pre-line 이
+     빈 줄을 그대로 살리는데, 빈 줄은 한 줄 높이(21px)를 통째로 가져간다.
+     빈 줄을 걷어내고 문단마다 블록으로 끊어, 사이를 CSS 로 잡게 한다.
+     크롬이 시나리오를 옮길 때마다 다시 그리므로 그려진 뒤에 집는다 */
+  function splitWhy() {
+    var p = document.querySelector('.proto-brief__why:not([data-wp])');
+    if (!p) return;
+    p.setAttribute('data-wp', '');   /* 먼저 표시한다 — 아래 조작이 감시기를 다시 부른다 */
+    var parts = p.textContent.split(/\n{2,}/);
+    if (parts.length < 2) return;
+    p.textContent = '';
+    for (var i = 0; i < parts.length; i++) {
+      var s = document.createElement('span');
+      s.className = 'proto-brief__wp';
+      s.textContent = parts[i];
+      p.appendChild(s);
+    }
+  }
+  new MutationObserver(splitWhy).observe(document.body, { childList: true, subtree: true });
+
   /* proto-chrome.js 는 초기화 함수를 등록만 한다 — 크롬은 여기서 켠다 */
   if (typeof initProtoChrome === 'function') initProtoChrome(document);
+  splitWhy();
 </script>
 </body>
 </html>

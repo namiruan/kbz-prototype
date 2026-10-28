@@ -1,0 +1,282 @@
+<!-- design-system: v1.0.0 -->
+<!-- prototype: 안면 출퇴근 근로자 앱 — 화면별 모아보기 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>안면 출퇴근 근로자 앱 프로토타입</title>
+<meta name="description" content="안면 출퇴근 근로자 앱(kpmUser) 화면을 시나리오별로 모아 본다. 현장소장 앱은 face-attendance-app-prototype.html 에 따로 있다.">
+<!-- 김반장 3.0 디자인 시스템. 크롬(사이드바·설명·폭·비교·링크 복사·원본 링크)은
+     proto-chrome.js 의 initProtoChrome 이 맡는다 — 이 파일이 따로 만들지 않는다.
+     주소가 절대경로인 것은 시스템 규약이다 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/tokens.css">
+<link rel="stylesheet" href="https://namiruan.github.io/kbz_3.0_ui_stytem/proto-chrome.css">
+<style>
+/* 이 파일이 갖는 것은 '화면을 끼우는 자리' 와 '언제 것인지 적는 줄' 뿐이다.
+   나머지 생김새는 전부 시스템이 낸다 */
+#screen{display:block;width:100%;height:100dvh}
+.proto-stamp{margin:var(--space-stack-sm) var(--space-16) 0;
+  font-size:var(--font-size-12);line-height:1.4;color:var(--color-text-subtle)}
+#screen iframe{display:block;width:100%;height:100%;border:0;background:var(--color-surface-base)}
+/* 설명(data-why)은 말하려는 것마다 줄을 바꿔 적는다. 크롬은 그 값을 한
+   문단으로 내므로 줄바꿈이 살아 있게 한다 — 한 덩어리로 이어 붙으면 어디서
+   다음 이야기가 시작되는지 읽는 사람이 찾아야 한다.
+   다만 빈 줄은 한 줄 높이를 통째로 가져가 사이가 너무 벌어진다. 아래
+   스크립트가 빈 줄을 걷어내고 문단마다 블록으로 끊으므로 사이는 여기서
+   잡는다 — 스크립트가 못 돌아도 pre-line 이 받쳐 준다 */
+.proto-brief__why{white-space:pre-line}
+.proto-brief__wp{display:block}
+.proto-brief__wp + .proto-brief__wp{margin-top:var(--space-8)}
+</style>
+
+  <!-- 다음 겹을 미리 당겨 둔다 — 틀 안은 문서가 겹겹이 차례로 선다 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="prefetch" href="assets/face-attendance-app.css" as="style">
+  <link rel="prefetch" href="assets/face-attendance-app.js" as="script">
+  <link rel="prefetch" href="face-attendance-worker.html" as="document">
+</head>
+<body>
+
+<div class="proto-layout" data-proto-sub="근로자 앱 — 화면별 모아보기">
+  <aside class="proto-sidebar">
+    <!-- 접기 손잡이와 폭 컨트롤은 여기 적지만, 크롬이 툴바(화면 바로 위)로 옮긴다 -->
+    <button class="proto-nav-toggle" type="button" aria-expanded="true" aria-label="시나리오 목록 접기">
+      <svg aria-hidden="true"><use href="#icon-sidebar-collapse"></use></svg>
+    </button>
+    <!-- ⚠ 폭은 둘뿐이다 — 이 화면들은 앱이라 데스크톱이 없다.
+         lg 버튼을 지우는 것만으로는 모자라 아래 스크립트에서 비교 모드의 폭 목록과
+         처음 열리는 폭도 함께 내려 잡는다 -->
+    <div class="proto-viewport" role="group" aria-label="화면 폭">
+      <button class="proto-viewport__btn" type="button" data-viewport="md" aria-pressed="false">md</button>
+      <button class="proto-viewport__btn is-active" type="button" data-viewport="sm" aria-pressed="true">sm</button>
+      <button class="proto-viewport__btn" type="button" data-viewport="compare" aria-pressed="false">비교</button>
+    </div>
+
+    <!-- **언제 받은 페이지인지** 적는다. 화면은 틀 안에 있어 주소에 ?r= 을 실어
+         늘 새로 받지만, 이 바깥 페이지에는 그런 장치가 없어 브라우저가 쥐고 있던
+         것을 그대로 내놓을 수 있다 — 「고친 게 안 보인다」가 거기서 나온다.
+         document.lastModified 는 **이 문서를 받은 시각**이라, 캐시에서 나온
+         페이지면 옛 시각이 적힌다 -->
+    <p class="proto-stamp" id="protoStamp"></p>
+
+    <div class="proto-nav-divider"></div>
+
+    <nav class="proto-nav" aria-label="시나리오 선택">
+
+                  <span class="proto-nav-group-label">근로자 앱 · 홈</span>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">당일 퇴근</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home"
+        data-why="근로자가 이 앱에서 하는 일은 하루치 출퇴근을 찍고 확인하는 것입니다.
+
+홈은 그날의 상태를 보여 주고, 지금 할 수 있는 동작 하나로 이어 줍니다. 출근 전에는 그 동작이 출근 인증입니다."
+        data-steps="근로자 앱을 열고 오늘 날짜를 보고 있는 상태 — 아직 출근 인증을 하지 않았습니다. 날짜는 기기의 날짜를 따릅니다"
+        data-look="@sm @md @{.cal__week} 띠에는 한 달치 날짜가 들어 있습니다. 좁은 폭에서는 한 주, 넓어지면 두 주가 보이고, 스와이프는 주 단위로 멈춰 요일 자리가 흐트러지지 않습니다|@{.cal__week .cal__n--on} 날짜를 클릭하면 그날의 홈으로 가고 헤더 날짜도 함께 바뀝니다. 오늘 이후는 흐리게 막힙니다|@{.tcard__v--none} 아직 찍히지 않은 시각은 빈칸이 아니라 '--:--' 로 표시됩니다|@{.cta__now} '출근 인증하기' 버튼 위의 시각은 기기 시계를 그대로 받아 1초마다 바뀝니다|@{.cta__need} 얼굴 인증을 쓰는 현장이면 시각 옆에 '얼굴 인식' 이 함께 표시됩니다. '출근 인증하기' 버튼을 클릭하면 카메라가 열린다는 것을 미리 알려 줍니다|@{.row--zone} '인정범위 지도보기' 를 클릭하면 인정범위 지도가 바텀시트로 열립니다|@{.act__b--on} '출근 인증하기' 버튼을 클릭하면 얼굴 등록 안내로 이동합니다|@{.act__go} '출근 인증하기' 버튼 오른쪽 끝의 화살표가 일정 간격으로 한 번씩 움직입니다 — 움직임을 줄인 기기에서는 재생되지 않습니다">출근 전</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-done"
+        data-why="출근은 찍혔고 퇴근은 아직인 상태입니다.
+
+퇴근은 작업내용을 쓴 뒤에만 찍을 수 있습니다. 그래서 지금 할 일은 작업내용 작성입니다."
+        data-steps="얼굴 인증으로 출근이 기록되어 홈으로 돌아온 상태 — 작업내용은 아직 작성하지 않았습니다"
+        data-look="@{.bd--positive} 시각 아래의 '앱 · 얼굴' 뱃지는 그 기록이 어느 경로로 들어왔는지 보여 줍니다|@{.cal__n--open} 캘린더의 선택한 날짜 아래에 점이 경고색입니다 — 출근만 찍히고 퇴근이 없는 날입니다. 하루가 끝난 날은 파란 점입니다|@{.cardb} 클릭하면 작업내용 작성 화면으로 갑니다. 이 화면에서 누를 수 있는 것은 이것 하나입니다|@{.cardb__c} '작업내용 작성하기' 오른쪽 끝의 화살표가 일정 간격으로 한 번씩 움직입니다|@{.act__b--lock} '퇴근 인증하기' 는 잠겨 있어 눌리지 않고, 오른쪽 끝의 화살표가 자물쇠로 바뀝니다|@{.cta__why} 그 아래에 '작업내용 작성 후 퇴근이 가능해요' 가 붙습니다">출근 완료</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-work"
+        data-why="작업내용까지 작성한 상태입니다.
+
+이제 퇴근을 찍을 수 있습니다."
+        data-steps="작업내용을 저장하고 홈으로 돌아온 상태"
+        data-look="@{.wnote__e} '수정' 을 클릭하면 작업내용 작성 화면으로 돌아갑니다|@{.act__b--dark} '퇴근 인증하기' 버튼이 활성화되고, 오른쪽 끝이 자물쇠 아이콘에서 화살표로 바뀝니다">작업내용 작성 완료</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-out"
+        data-why="하루가 끝난 상태입니다.
+
+기록된 시각이 잘못되었을 때 고치는 버튼만 남습니다."
+        data-steps="퇴근 인증까지 끝나 홈으로 돌아온 상태"
+        data-look="@{.tcards} 출근과 퇴근 모두 시각 아래에 인증 경로가 함께 표시됩니다|@{.cardb--quiet} 아래쪽의 '퇴근시간 변경' 은 화살표가 움직이지 않습니다. 지금 하라고 권하는 기능이 아니기 때문입니다">퇴근 완료</button>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">익일 퇴근</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-over-today"
+        data-why="이전 근무를 닫지 못한 채 날짜가 바뀌었을 때 화면입니다.
+
+이전 날 끝나지 않은 근무가 있는 경우 다음 출근 인증이 잠기고, 이전 근무 퇴근 인증 바로가기 버튼이 생깁니다."
+        data-steps="이전 날 22:00에 출근하고 퇴근을 찍지 않은 채 날짜가 바뀌어, 그 다음 날 홈을 연 상태"
+        data-look="@{.cardb--warn} &#39;이전 근무 퇴근 인증하기&#39; 는 면째 주의색입니다. 클릭하면 그 근무의 날로 가고, 퇴근은 거기서 찍습니다|@{.act__b--lock} 출근 버튼은 잠겨 있고, 이름 아래에 &#39;이전 근무 퇴근 인증 후 출근이 가능해요&#39; 가 붙습니다. 오른쪽 끝은 화살표가 자물쇠 아이콘으로 대체됩니다">이전 근무 퇴근 전</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-over"
+        data-why="익일 퇴근이 발생할 때 화면입니다.
+
+출퇴근 한 건은 출근한 날에 기록되므로, 날짜가 바뀐 뒤에 찍은 퇴근도 이 날의 기록이 됩니다."
+        data-steps="22:00에 출근해 작업내용까지 쓰고 퇴근을 찍지 않은 채 날짜가 바뀌어, 다음 날 홈의 알림을 눌러 그 날짜로 돌아온 상태"
+        data-look="@{.cal__n--open} 캘린더의 선택한 날짜 아래에 점이 경고색입니다. 출근만 찍히고 퇴근이 아직 없다는 뜻입니다|@{.pill--today} 오늘이 아닌 날짜를 선택해 &#39;오늘&#39;이 켜져 있습니다. 클릭하면 오늘 날짜로 이동합니다">퇴근 전</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-over-out"
+        data-why="출근과 퇴근이 다른 날일 때 화면입니다.
+
+익일 퇴근인 경우 출근일 기준 날짜에 퇴근 시각이 함께 표기됩니다."
+        data-steps="22:00에 출근해 다음 날 06:10에 퇴근한 날짜를 열어 본 상태"
+        data-look="@{.tcards .tcard:last-child .tcard__k} 퇴근 카드의 이름이 &#39;익일 퇴근&#39; 입니다. 날을 넘겼다는 것은 이름이 알려 주고, 시각에는 수만 적힙니다|@{.cal__n--on} 점은 출근한 날에만 찍힙니다. 퇴근만 걸친 날에 또 찍으면 이틀 일한 것으로 읽힙니다|@{.cardb--quiet} 출근과 퇴근이 모두 찍힌 날이라 &#39;퇴근시간 변경&#39; 만 할 수 있습니다">퇴근 완료</button>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">날짜 옮기기</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cal"
+        data-why="주간 띠에는 한 달치 날짜만 들어 있습니다. 다른 달로 가려면 이 화면에서 고릅니다.
+
+고르는 동안에도 홈을 벗어나지 않습니다. 날짜 하나 고르자고 화면을 옮기면, 보고 있던 자리로 돌아오는 길이 또 필요합니다."
+        data-steps="홈에서 날짜 영역을 클릭해 월 달력을 펼친 상태"
+        data-look="@{.calm__g} 날짜 칸을 스와이프하면 달이 손끝을 따라오고, 충분히 스와이프한 뒤 놓아야 그 달로 바뀝니다(트랙패드로 가로 스와이프해도 됩니다). 고르고 있던 날짜는 그대로 따라갑니다 — 그 달에 없는 날짜면 마지막 날이, 아직 오지 않은 날짜면 오늘이 선택됩니다|@{.calm__g} 오늘이 속한 달에서 다음 달로 스와이프하면, 달이 뻑뻑하게 조금만 따라오다 제자리로 돌아옵니다. 아직 오지 않은 달로는 넘어가지 않습니다|@{.cal__more--up} 펼친 동안에는 화살표가 위를 향합니다. 클릭하면 주간 달력으로 돌아갑니다|@{.calm__g .cal__n--off} 흐리게 표시된 날짜는 클릭되지 않습니다. 이번 달이 아닌 날짜와 오늘 이후 날짜입니다|@{.calm .cal__n--on} 채워진 원이 선택한 날짜입니다. 오늘이 아닌 날짜를 고르면 오늘 자리에 점선 테두리가 생깁니다|@{.calm .cal__n--on} 날짜를 클릭하면 그날의 홈으로 이동합니다. 기록이 있는 날짜는 숫자 아래에 점이 표시됩니다|@{.wheel} 년·월·일 휠은 각각 따로 스크롤되고, 손을 떼면 가운데 영역에 맞춰 멈춥니다. 멈춘 값으로 달력이 바뀌며 월 달력은 펼친 상태로 남습니다. 오늘 이후의 연·월·일은 휠에 나오지 않습니다|@{.dim--cal} 어두운 영역을 클릭하면 닫힙니다. 화살표로 닫을 때와 마찬가지로 보고 있던 날짜는 유지됩니다">날짜 고르기</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-past"
+        data-why="지난 날짜의 기록을 확인하는 화면입니다.
+
+지난 날짜에는 인증할 것이 없습니다. 오늘로 돌아가는 '오늘' 버튼과 '퇴근시간 변경' 버튼만 둡니다."
+        data-steps="주간 달력에서 지난 날짜를 클릭한 상태"
+        data-look="@{.pill--today} '오늘' 이 흰 면에 짙은 글자로 켜집니다. 클릭하면 오늘 날짜로 이동합니다. 오늘을 선택한 화면에서는 disabled 상태가 됩니다|@{.cardb--quiet} 지난 날짜에서 할 수 있는 것은 '퇴근시간 변경' 뿐입니다">지난 날 보기</button>
+      <span class="proto-nav-group-label">근로자 앱 · 얼굴 등록</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-face"
+        data-why="얼굴 인증을 쓰는 현장인데 이 현장에 등록된 얼굴이 없는 경우입니다.
+
+등록을 마쳐야 출근을 찍을 수 있어, 출근 대신 등록으로 넘깁니다."
+        data-steps="현장에 얼굴이 미등록된 상태에서 '출근 인증하기' 를 클릭한 상태"
+        data-look="@{.scan--alert} 얼굴을 스캔하는 그림이 움직입니다 — 움직임을 줄인 기기에서는 재생되지 않습니다|@{.scan__go} '얼굴 등록하고 출근하기' 를 클릭하면 바텀시트가 내려가지 않고 바로 동의 화면으로 넘어갑니다. 내려가는 몸짓은 '취소하고 나간다' 는 뜻이라 닫기(✕)와 어두운 영역에만 씁니다|@{.dim} 어두운 영역이나 닫기(✕)를 클릭하면 홈으로 돌아갑니다">안내</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-reg"
+        data-why="얼굴은 민감정보라 촬영 전에 동의를 받는 단계입니다.
+
+등록한 얼굴은 그 현장의 출퇴근 확인에만 쓰기 때문에 동의도 현장마다 한 번씩 받습니다."
+        data-steps="얼굴 등록 안내에서 '얼굴 등록하고 출근하기' 를 클릭한 상태"
+        data-look="@{.card--agree} '전체 동의' 를 선택하면 아래 두 항목이 함께 선택됩니다|@{.agr[aria-controls]} [필수] 항목을 클릭하면 약관 본문이 그 줄 아래로 펼쳐지고, 꺾쇠가 뒤집힙니다. 다시 클릭하면 접힙니다|@{.bnr} 등록한 얼굴을 어디에 쓰는지, 동의하지 않으면 어떻게 되는지를 적습니다|@{.act__b--on} '동의하고 촬영하기' 를 클릭하면 촬영 확인 화면으로 이동합니다">동의</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-shot"
+        data-why="촬영한 사진을 등록하기 전에 한 번 확인하는 단계입니다.
+
+여기서 등록하면 출근 인증까지 그대로 이어집니다."
+        data-steps="'동의하고 촬영하기' 를 클릭해 얼굴을 촬영한 상태"
+        data-look="@{.confirm__ok} '등록하고 출근 인증하기' 를 클릭하면 등록이 끝나고 바로 출근 인증 카메라가 열립니다 — 이름이 두 동작을 함께 적고 있습니다|@{.confirm__re} '다시 촬영하기' 를 클릭하면 카메라로 돌아갑니다">촬영 확인</button>
+      <span class="proto-nav-group-label">근로자 앱 · 출퇴근 인증</span>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">출근 인증</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam"
+        data-why="출근 인증을 위해 얼굴을 촬영하는 화면입니다.
+
+촬영한 얼굴을 등록된 얼굴과 매칭해 본인인지 확인합니다."
+        data-steps="얼굴 등록을 마쳐 출근 인증으로 이어진 상태"
+        data-look="@{.cam__who} 촬영 영역 위에 누구의 얼굴을 인증하는 중인지 적힙니다|@{.cam__go} '출근 인증하기' 버튼을 클릭하면 인증 성공 화면으로 이동합니다|@{.cam__back} 왼쪽 위 뒤로 가기를 클릭하면 홈으로 돌아갑니다">카메라</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-ok"
+        data-why="출근이 기록된 결과 화면입니다."
+        data-steps="얼굴이 인식되어 출근이 기록된 상태"
+        data-look="@{.cam__sub} '출근 처리 완료!' 아래에 기록된 시각이 초까지 표시됩니다. 홈의 출근 카드에는 분까지만 적힙니다|@{.cam__go} '메인으로' 버튼을 클릭하면 출근 완료 상태 페이지로 이동됩니다">성공</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-fail"
+        data-why="등록된 얼굴과 매칭이 실패했을 때 나오는 화면입니다."
+        data-steps="촬영한 얼굴이 등록된 얼굴과 매칭되지 않은 상태"
+        data-look="@{.cam__t--fail} '얼굴 인증 실패' 는 한 줄에 들어가 위의 이름 표시를 가리지 않습니다|@{.cam__go} '다시 인증하기' 를 클릭하면 카메라로 돌아갑니다">얼굴 인증 실패</button>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">퇴근 인증</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-out"
+        data-why="퇴근 인증을 위해 얼굴을 촬영하는 화면입니다.
+
+출근 인증과 같은 화면을 쓰고, 기록되는 값만 다릅니다."
+        data-steps="작업내용을 작성한 홈에서 '퇴근 인증하기' 를 클릭한 상태"
+        data-look="@{.cam__go} '퇴근 인증하기' 버튼을 클릭하면 인증 성공 화면으로 이동합니다|@{.cam__back} 왼쪽 위 뒤로 가기를 클릭하면 작업내용을 작성한 홈으로 돌아갑니다">카메라</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-out-ok"
+        data-why="퇴근이 기록된 결과 화면입니다."
+        data-steps="얼굴이 인식되어 퇴근이 기록된 상태"
+        data-look="@{.cam__sub} '퇴근 처리 완료!' 아래에 기록된 시각이 초까지 표시됩니다. 홈의 퇴근 카드에는 분까지만 적힙니다|@{.cam__go} '메인으로' 버튼을 클릭하면 퇴근 완료 상태 페이지로 이동됩니다">성공</button>
+      <span class="proto-nav-group-label">근로자 앱 · 작업내용</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-work"
+        data-why="그날 한 일을 적는 화면입니다.
+
+퇴근 인증을 열려면 이 작성을 거쳐야 합니다."
+        data-steps="홈에서 '작업내용 작성하기' 를 클릭하고 입력칸에 커서가 들어간 상태"
+        data-look="@{.ta} 클릭하면 글을 적을 수 있습니다. 키보드는 사용하는 디바이스가 설정한 값에 따릅니다|자판 그림은 자판이 없는 기기(데스크톱)에서만 보입니다 — 자판이 먹는 자리를 가늠하라고 둔 그림입니다. 폰·태블릿에서는 기기가 제 자판을 올립니다|@{.ta__c} 글자 수는 적는 대로 세어지고, 500자에서 멈춥니다|@{.nav__tx} '저장' 을 클릭하면 작업내용이 표시된 홈으로 이동합니다|@{.att--add} 사진은 목록 끝의 점선 칸('사진 추가')에서 더합니다">작성</button>
+      <span class="proto-nav-group-label">근로자 앱 · 인정범위</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-map"
+        data-why="지금 내가 인정범위 안에 있는지 확인하는 화면입니다.
+
+한 번 보고 닫는 기능이라 홈을 벗어나지 않고 바텀시트로 띄웁니다."
+        data-steps="홈에서 '인정범위 지도보기' 를 클릭한 상태"
+        data-look="@{.sheet} 바텀시트가 아래에서 올라오고 뒤쪽 화면도 함께 어두워집니다|@{.dim} 지도 안을 클릭해도 닫히지 않습니다. 어두운 영역이나 닫기(✕)를 클릭하면 홈으로 돌아갑니다">지도</button>
+
+    </nav>
+  </aside>
+
+  <main class="proto-content">
+    <div id="screen"><iframe title="화면 미리보기"></iframe></div>
+  </main>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $=function(s,r){return (r||document).querySelector(s);};
+  var APP='face-attendance-worker.html';
+
+  /* **새로고침이 틀 안까지 닿게 한다.** 화면은 iframe 안에 들어 있어, 바깥을
+     강력 새로고침해도 안쪽 문서는 캐시에서 그대로 나온다 — 고친 것이 올라갔는데
+     안 보인다는 말이 거기서 나온다. 한 번 열 때 정한 값을 주소에 실어, 페이지를
+     새로 열면 안쪽도 새로 받게 한다.
+     ⚠ 시나리오를 옮길 때마다 바꾸지는 않는다. 매번 바꾸면 화면과 자산을 통째로
+       다시 받아, 목록을 훑는 동안 캐시가 한 번도 쓰이지 않는다 */
+  var LOAD = Date.now();
+
+  /* 시나리오 이름이 곧 화면 이름이다 — 화면 파일이 ?screen= 으로 한 장을 켠다.
+     여기서 더 할 일(클릭·스크롤)이 없다: 앱 화면은 한 장이 통째로 한 상태라,
+     열어 놓고 무언가를 눌러 만들 상태가 없다 */
+  function open(name){
+    var f=$('#screen iframe'); if(!f) return;
+    f.src = APP + '?screen=' + encodeURIComponent(name) + '&r=' + LOAD;
+  }
+
+  /* 크롬이 틀 안에서 ?scenario= 를 읽어 해당 버튼을 눌러 준다 — 그 누름을 여기서 받는다.
+     DOMContentLoaded 보다 먼저 붙어 있어야 그 클릭을 놓치지 않는다 */
+  document.querySelectorAll('.proto-nav-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.proto-nav-btn').forEach(function(o){
+        o.classList.toggle('is-active', o===b); });
+      open(b.dataset.scenario);
+    });
+  });
+  var first=document.querySelector('.proto-nav-btn.is-active')||document.querySelector('.proto-nav-btn');
+  if(first) open(first.dataset.scenario);
+
+  var stamp=$('#protoStamp');
+  if(stamp) stamp.textContent='이 페이지 '+document.lastModified;
+})();
+</script>
+<script src="https://namiruan.github.io/kbz_3.0_ui_stytem/proto-chrome.js"></script>
+<script>
+  /* 아이콘은 스프라이트를 주입해 쓴다 (시스템 규약: 원격 절대 URL) */
+  fetch('https://namiruan.github.io/kbz_3.0_ui_stytem/icons/sprite.svg')
+    .then(function(r){ return r.text(); })
+    .then(function(svg){
+      var d=document.createElement('div');
+      d.style.cssText='position:absolute;width:0;height:0;overflow:hidden';
+      d.innerHTML=svg;
+      document.body.insertBefore(d, document.body.firstChild);
+    }).catch(function(){});
+
+  /* 폭을 모바일·태블릿으로 내려 잡는다 — 이 프로토타입에만 해당한다.
+     크롬은 lg 를 기본으로 열고 비교 모드에서 lg·md·sm 셋을 나란히 놓는데,
+     이 화면들은 앱이라 lg 에서 잴 것이 없다. 크롬 파일은 고치지 않고
+     크롬이 읽는 값만 켜기 전에 바꾼다 */
+  if (window.ProtoChrome) window.ProtoChrome.COMPARE = ['md','sm'];
+  try {
+    var want = new URL(location.href).searchParams.get('proto-view');
+    var kept = sessionStorage.getItem('protoView');
+    /* 다른 프로토타입에서 lg 로 보다 넘어오면 그 폭이 이어진다 — 여기엔 그 버튼이 없다 */
+    if (!want && !/^(md|sm|compare)$/.test(kept || '')) sessionStorage.setItem('protoView','sm');
+  } catch (e) {}
+
+  /* 설명(why)의 문단 사이를 좁힌다. 크롬은 why 를 한 <p> 로 내고 pre-line 이
+     빈 줄을 그대로 살리는데, 빈 줄은 한 줄 높이(21px)를 통째로 가져간다.
+     빈 줄을 걷어내고 문단마다 블록으로 끊어, 사이를 CSS 로 잡게 한다.
+     크롬이 시나리오를 옮길 때마다 다시 그리므로 그려진 뒤에 집는다 */
+  function splitWhy() {
+    var p = document.querySelector('.proto-brief__why:not([data-wp])');
+    if (!p) return;
+    p.setAttribute('data-wp', '');   /* 먼저 표시한다 — 아래 조작이 감시기를 다시 부른다 */
+    var parts = p.textContent.split(/\n{2,}/);
+    if (parts.length < 2) return;
+    p.textContent = '';
+    for (var i = 0; i < parts.length; i++) {
+      var s = document.createElement('span');
+      s.className = 'proto-brief__wp';
+      s.textContent = parts[i];
+      p.appendChild(s);
+    }
+  }
+  new MutationObserver(splitWhy).observe(document.body, { childList: true, subtree: true });
+
+  /* proto-chrome.js 는 초기화 함수를 등록만 한다 — 크롬은 여기서 켠다 */
+  if (typeof initProtoChrome === 'function') initProtoChrome(document);
+  splitWhy();
+</script>
+</body>
+</html>
