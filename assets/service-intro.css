@@ -195,16 +195,6 @@ body.intro-page{word-break:keep-all}
 .p2d-scan.fixed .p2d-dev .scr i:last-child{width:100%;background:rgba(var(--color-white-rgb),.85)}
 .p2d-dev .keys{display:flex;justify-content:center;gap:1.2em;margin-top:2.1em}
 .p2d-dev .keys i{display:block;width:1.5em;height:1.5em;border-radius:50%;background:var(--main-gray)}
-/* 태그되는 전자카드 — 맨 사각형이면 무엇인지 안 읽힌다. 칩과 줄무늬를
-   넣어 카드로 보이게 하고, 화면 높이에 걸치게 올려 '대는 중' 으로 읽힌다 */
-.p2d-dev .card{position:absolute;right:-2.4em;bottom:7.6em;width:5.7em;height:3.7em;border-radius:.5em;
-  background:var(--sub-cyan);border:.2em solid var(--main-white);transform:rotate(-13deg);
-  box-shadow:0 .5em 1.2em -.4em rgba(var(--color-black-rgb),.45)}
-.p2d-dev .card::before{content:"";position:absolute;left:.65em;top:.85em;width:1.2em;height:1em;
-  border-radius:.2em;background:rgba(var(--color-white-rgb),.92)}
-.p2d-dev .card::after{content:"";position:absolute;left:.65em;bottom:.65em;right:.75em;height:.32em;
-  border-radius:.2em;background:rgba(var(--color-white-rgb),.55)}
-
 /* ── 출역기록 서류 — 현장에서 손으로 적는 종이 ── */
 .p2d-doc{margin:0}
 .p2d-doc .sheet{position:relative;display:flex;flex-direction:column;gap:1.2em;
@@ -236,9 +226,7 @@ body.intro-page{word-break:keep-all}
 
 /* ── 상태 표시 — 글자 없이 기호 하나로. 견주는 자리인 두 물건 사이에 선다.
    아래에 자리를 비워 두면 기호가 없는 동안 묶음이 위로 떠 보인다 ── */
-/* 80% 인 까닭: 전자카드가 49~70% 를 지난다. 68% 에 두었더니 기호가
-   카드 위에 겹쳤다. 카드는 화면 쪽으로 올리고 기호는 아래로 내렸다 */
-.p2d-mark{position:absolute;left:50%;top:80%;width:4em;height:4em;margin:-2em 0 0 -2em;
+.p2d-mark{position:absolute;left:50%;top:74%;width:4em;height:4em;margin:-2em 0 0 -2em;
   border-radius:50%;z-index:4;opacity:0;transform:scale(.5);
   box-shadow:0 .4em 1.2em -.3em rgba(var(--color-black-rgb),.35);
   transition:opacity .22s,transform .22s cubic-bezier(.34,1.6,.5,1);
