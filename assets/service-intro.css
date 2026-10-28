@@ -257,7 +257,11 @@ body.intro-page{word-break:keep-all}
 /* 업무 줄 — 차례로 체크가 들어온다 */
 /* 창은 세 줄만 보여 준다. 줄은 넷이라 한 칸 올린 뒤 맨 위를 맨 아래로
    돌려 보내면 처음으로 되돌아가는 순간이 없다 */
-.dl-win{flex:1;min-width:0;overflow:hidden;height:16.3em}
+/* 가장자리를 그라데이션으로 지운다 — overflow 로만 자르면 줄이 칼로 벤 듯
+   끊긴다. 마스크를 모르는 브라우저는 지금처럼 그냥 잘릴 뿐이라 안전하다 */
+.dl-win{flex:1;min-width:0;overflow:hidden;height:16.3em;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 9%,#000 91%,transparent 100%);
+          mask-image:linear-gradient(180deg,transparent 0,#000 9%,#000 91%,transparent 100%)}
 .dl-list{list-style:none;margin:0;padding:0;
   display:flex;flex-direction:column;gap:3.8em;will-change:transform}
 .dl-list li{display:flex;align-items:center;gap:1.3em}
@@ -281,7 +285,9 @@ body.intro-page{word-break:keep-all}
    ①② 도 결과물이나 목적지를 그리지 않는다. '납부 전에' 는 머리글이 말한다 */
 .p2d-pay{display:flex;align-items:center;justify-content:center;
   width:30.8em;height:17.6em}
-.bl-win{flex:1;min-width:0;height:100%;overflow:hidden;display:flex;align-items:center}
+.bl-win{flex:1;min-width:0;height:100%;overflow:hidden;display:flex;align-items:center;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 11%,#000 89%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 0,#000 11%,#000 89%,transparent 100%)}
 .bl-track{display:flex;align-items:center;gap:2.6em;will-change:transform}
 
 /* 고지서 — 금액 한 줄이 크게 박힌 종이 */
