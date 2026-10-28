@@ -1821,31 +1821,26 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    적어 넣는 자리로 읽힌다 — 묻는 말 옆에 답이 붙는 카드로 둔다.
    면은 gray/5 다. 흰 폼 위에서 한 끗만 내려앉아 '여기는 다른 줄' 이라고만
    알린다 */
-.ask{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-p5);
+.ask{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:var(--ap-p5);
   padding:var(--ap-p6);background:var(--ap-g5);border-radius:var(--ap-r10)}
 .ask__t{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-text)}
 .ask .tog{align-self:auto}
 /* ── 칸을 바꾸는 고르기 ──
-   '여권번호로 등록하기' 는 묻는 카드 **아래에 한 장 더** 들어오는 카드다.
-   두 자리를 먼저 써 보고 고른 자리다:
-   - 묻는 카드 **안**: '외국인인가' 라는 물음과 '어느 번호를 받을까' 라는
-     고르기가 한 면에 섞여, 체크가 그 물음의 보기처럼 읽혔다
+   '여권번호로 등록하기' 는 묻는 카드 **안**에, 줄 하나로 갈라 둔다.
+   세 자리를 써 보고 고른 자리다:
+   - 묻는 줄과 **나란히**: 물음과 고르기가 한 면에 섞여, 체크가 그 물음의
+     보기처럼 읽혔다
    - 칸의 라벨 줄 **오른쪽**: 작은 글씨가 입력칸 끝에 밀려 눈에 걸리지 않았다
-   카드로 두면 묻는 카드와 같은 무게를 갖고, '예' 를 누른 자리 바로 아래에
-   생기므로 그 답이 부른 것임도 읽힌다 */
-/* 묻는 카드와는 폼의 칸 사이(20)보다 가깝게 붙인다 — 20 으로 두면 이름·
-   연락처와 같은 간격이라 '폼의 칸 하나' 로 보이고, 이 카드가 '예' 때문에
-   생겼다는 것이 끊긴다 */
-.ask + .ask--opt{margin-top:calc(var(--ap-gap3) - var(--ap-gap6))}
-.ask--opt{justify-content:flex-start;width:100%;text-align:left;
-  border:1px solid transparent;
-  transition:background var(--ap-dur-base) var(--ap-ease-sym),
-             border-color var(--ap-dur-base) var(--ap-ease-sym)}
-/* 체크한 카드는 옅은 브랜드 면과 테로 바뀐다 — 네모 안의 체크만으로는
-   카드 한 장이 통째로 '켜졌다' 는 것이 멀리서 읽히지 않는다 */
-.ask--opt[aria-pressed="true"]{background:var(--ap-primary-5);
-  border-color:var(--ap-brand-line)}
-@media (prefers-reduced-motion:reduce){.ask--opt{transition:none}}
+   - 카드를 **따로 한 장**: 눈에는 걸리나 '예' 와의 끈이 끊겼다
+   가름선은 둘을 섞지 않으면서도 한 카드에 묶어 둔다 — 윗줄의 답이 아랫줄을
+   불렀다는 것이 카드 하나로 읽힌다.
+   100% 를 쥐어 줄을 넘기고(wrap), 선은 카드 양 끝까지 긋는다 — 안쪽 여백만큼
+   들여 그으면 가름이 아니라 글 밑줄로 보인다 */
+.ask__opt{flex:1 0 100%;display:flex;align-items:center;gap:var(--ap-p5);
+  margin-inline:calc(var(--ap-p6) * -1);padding:var(--ap-p5) var(--ap-p6) 0;
+  border-top:1px solid var(--ap-g20);text-align:left}
+.ask__opt-t{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-text)}
 .fld__l{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-g60)}
 .fld__l b{color:var(--ap-danger);font-weight:600}
 .inp{font:var(--t-body);letter-spacing:var(--ls-body);display:flex;align-items:center;
