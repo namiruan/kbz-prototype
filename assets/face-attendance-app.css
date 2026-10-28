@@ -2768,6 +2768,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    이번에는 54 짜리 동그라미가 모서리에 걸린 것처럼 보였다. 그 사이다 */
 .cam__foot{position:absolute;left:var(--ap-p8);right:var(--ap-p8);
   bottom:var(--ap-p10);z-index:2;
+  max-width:420px;margin-inline:auto;
   display:flex;align-items:center;justify-content:space-between;gap:var(--ap-p5)}
 /* 출퇴근 인증 바닥의 그 토글 그대로다 — 거기서는 줄에 서서 제 여백을 쥐지만,
    여기서는 바닥 줄의 한 칸이라 여백을 내려놓는다.
@@ -3064,4 +3065,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   .card__kv{flex:1 0 100%}
   /* 바닥 바의 글자는 그대로 두고 바만 넓어진다 */
   .cam__box{--ap-cam-side:26%}
+  /* 바닥 줄은 **틀과 같은 선**으로 좁힌다. 좁은 화면에서는 가장자리(24)가
+     손잡이 둘을 알맞게 벌려 주지만, 넓은 화면에서 그대로 두면 토글과 전환이
+     화면 양 끝으로 흩어져 한 줄로 읽히지 않는다 — 틀이 가운데로 모이는 만큼
+     바닥 줄도 함께 모인다. 틀이 420 보다 넓어지는 데서는 줄이 더 벌어지지
+     않도록 max-width 가 받는다(기본 규칙) */
+  .cam__foot{left:26%;right:26%}
 }
