@@ -296,7 +296,6 @@
   /* ── 모서리 ── */
   --ap-r4:4px;                     /* radius/small1 */
   --ap-r6:6px;                     /* radius/medium1 — select-atomic */
-  --ap-step-w:50px;                /* 단가 ＋·－ 의 최소 폭 — 시안 min-width */
   --ap-tog-yes:36px;  --ap-tog-no:66px;  /* 예·아니오 알의 폭 — 정수로 떨어뜨린다 */
   --ap-confirm-w:320px;            /* 촬영 확인 카드의 폭 */
   --ap-cta-h-md:400px;             /* 넓은 폭에서의 키 */
@@ -1867,17 +1866,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .inp--ph{color:var(--ap-text-gray)}
 .inp--num{justify-content:flex-end}
 
-/* ── 단가의 ＋·－ ──
-   시안 '근로자현황 (현장근로자 / 신규추가-기본)'(486:4990) 의 button
-   (624:8716 · 624:8581) 그대로다 — 바탕과 테는 고른 탭과 같은 짝,
-   모서리 10 · 안쪽 여백 10 · 최소 폭 50 · 아이콘 30 · 둘 사이 4.
-   높이는 제가 정하지 않고 옆 칸을 따라 늘어난다(stretch) */
-.fld__row{display:flex;align-items:stretch;gap:var(--ap-gap3)}
-.fld__row .inp{flex:1;min-width:0}
-.steps{flex:none;display:flex;align-items:stretch;gap:var(--ap-p2)}
-.step{min-width:var(--ap-step-w);display:flex;align-items:center;justify-content:center;
-  padding:var(--ap-p4);background:var(--ap-point-light);
-  border:1px solid var(--ap-point-line);border-radius:var(--ap-r10);color:var(--ap-primary)}
 
 /* 예 · 아니오 — 시안 Toggle(600:3777) 그대로.
    바탕 #33363d · 안쪽 여백 4 · 알 사이 4 · 알은 위아래 4 좌우 10 */

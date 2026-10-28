@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=524">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=525">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=524"></script>
+<script src="assets/face-attendance-app.js?v=525"></script>
 </head>
 
 <body>
@@ -454,17 +454,12 @@
         <label class="fld__l">직종</label>
         <button class="sel" type="button"><span class="sel__t">직종 선택</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </div>
-      <!-- 단가는 시안 '근로자현황 (현장근로자 / 신규추가-기본)'(486:4990) 과 같이
-           칸 오른쪽에 ＋·－ 를 둔다. 금액이라 값은 오른쪽으로 붙인다 -->
+      <!-- 금액이라 값은 오른쪽으로 붙인다. 시안('근로자현황 (현장근로자 /
+           신규추가-기본)' 486:4990)에는 칸 오른쪽에 ＋·－ 가 있으나 여기서는
+           두지 않는다 — 단가는 칸에 적어 받는다 -->
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="fld__row">
-          <div class="inp inp--num inp--ph">0 원</div>
-          <div class="steps">
-            <button class="step" type="button" aria-label="단가 내리기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-minus"></use></svg></button>
-            <button class="step" type="button" aria-label="단가 올리기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-plus"></use></svg></button>
-          </div>
-        </div>
+        <div class="inp inp--num inp--ph">0 원</div>
       </div>
     </form>
   </main>
@@ -549,17 +544,12 @@
         <label class="fld__l">직종</label>
         <button class="sel" type="button"><span class="sel__t">직종 선택</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </div>
-      <!-- 단가는 시안 '근로자현황 (현장근로자 / 신규추가-기본)'(486:4990) 과 같이
-           칸 오른쪽에 ＋·－ 를 둔다. 금액이라 값은 오른쪽으로 붙인다 -->
+      <!-- 금액이라 값은 오른쪽으로 붙인다. 시안('근로자현황 (현장근로자 /
+           신규추가-기본)' 486:4990)에는 칸 오른쪽에 ＋·－ 가 있으나 여기서는
+           두지 않는다 — 단가는 칸에 적어 받는다 -->
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="fld__row">
-          <div class="inp inp--num inp--ph">0 원</div>
-          <div class="steps">
-            <button class="step" type="button" aria-label="단가 내리기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-minus"></use></svg></button>
-            <button class="step" type="button" aria-label="단가 올리기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-plus"></use></svg></button>
-          </div>
-        </div>
+        <div class="inp inp--num inp--ph">0 원</div>
       </div>
     </form>
   </main>
@@ -648,17 +638,12 @@
         <label class="fld__l">직종</label>
         <button class="sel" type="button"><span class="sel__t">직종 선택</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </div>
-      <!-- 단가는 시안 '근로자현황 (현장근로자 / 신규추가-기본)'(486:4990) 과 같이
-           칸 오른쪽에 ＋·－ 를 둔다. 금액이라 값은 오른쪽으로 붙인다 -->
+      <!-- 금액이라 값은 오른쪽으로 붙인다. 시안('근로자현황 (현장근로자 /
+           신규추가-기본)' 486:4990)에는 칸 오른쪽에 ＋·－ 가 있으나 여기서는
+           두지 않는다 — 단가는 칸에 적어 받는다 -->
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="fld__row">
-          <div class="inp inp--num inp--ph">0 원</div>
-          <div class="steps">
-            <button class="step" type="button" aria-label="단가 내리기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-minus"></use></svg></button>
-            <button class="step" type="button" aria-label="단가 올리기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-plus"></use></svg></button>
-          </div>
-        </div>
+        <div class="inp inp--num inp--ph">0 원</div>
       </div>
     </form>
   </main>
@@ -742,13 +727,7 @@
       </div>
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="fld__row">
-          <div class="inp inp--num">180,000 원</div>
-          <div class="steps">
-            <button class="step" type="button" aria-label="단가 내리기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-minus"></use></svg></button>
-            <button class="step" type="button" aria-label="단가 올리기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-plus"></use></svg></button>
-          </div>
-        </div>
+        <div class="inp inp--num">180,000 원</div>
       </div>
     </form>
 
