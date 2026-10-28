@@ -158,3 +158,61 @@ body.intro-page{word-break:keep-all}
   .panel-track{transition:none}
   .partition-5-img-area{transform:none;opacity:1;transition:none}
 }
+
+/* ── partition-2 짧은 루프 데모 ───────────────────────────────
+   사진 자리에 그림 대신 진짜 DOM 을 둔다. index.html 의 .ui-demo 와 같은
+   방식이다 — 글자가 진짜라 또렷하고, 폭에 따라 줄어들고, 문구를 고칠 때
+   사진을 다시 뽑지 않아도 된다.
+
+   라이브 partition-2 의 사진은 600x500 이고 우리 자리는 넓은 화면에서
+   355x250 이다. 비율을 박아 둬야 좁은 폭에서 납작해지지 않는다 — 스켈레톤
+   때는 고유 높이가 없어 390px 에서 92px 로 눌렸다 */
+.p2d{width:100%;aspect-ratio:355/250;max-height:280px;display:flex;align-items:center;justify-content:center;
+  container-type:inline-size}
+.p2d-card{width:100%;max-width:330px;padding:14px;border-radius:14px;
+  background:var(--main-white);border:1px solid var(--main-gray);
+  box-shadow:0 10px 24px -14px rgba(var(--color-black-rgb),.28);
+  font-family:var(--font-body);font-size:13px;line-height:1.35;color:var(--main-black)}
+.p2d-head{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.p2d-head b{font-size:14px;font-weight:700}
+.p2d-chip{padding:2px 8px;border-radius:999px;background:var(--pastel-blue);color:var(--main-blue);
+  font-size:11px;font-weight:600}
+
+.p2d-rows{display:flex;flex-direction:column;gap:1px;background:var(--main-gray);
+  border:1px solid var(--main-gray);border-radius:8px;overflow:hidden}
+.p2d-row{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--main-white);
+  transition:background .25s}
+.p2d-row .nm{flex:1;min-width:0}
+.p2d-row .dy{font-variant-numeric:tabular-nums;color:var(--sub-d-gray)}
+/* 빠진 날은 비어 있다가 채워진다 — 이 칸만 색으로 집어 준다 */
+.p2d-row.is-gap .dy{color:var(--danger-text);font-weight:700}
+.p2d-row.is-gap.filled{background:rgba(var(--color-blue-rgb),.06)}
+.p2d-row.is-gap.filled .dy{color:var(--main-blue)}
+/* 체크는 그려지듯 나타난다 */
+.p2d-row .ck{width:15px;height:15px;flex:0 0 15px;border-radius:50%;
+  background:var(--main-gray);position:relative;transition:background .2s}
+.p2d-row .ck::after{content:"";position:absolute;left:4px;top:3.5px;width:4px;height:7px;
+  border:solid var(--main-white);border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);
+  transition:transform .22s cubic-bezier(.34,1.5,.5,1)}
+.p2d-row.on .ck{background:var(--main-blue)}
+.p2d-row.on .ck::after{transform:rotate(45deg) scale(1)}
+
+.p2d-foot{display:flex;align-items:center;gap:8px;margin-top:10px}
+.p2d-foot .due{flex:1;min-width:0;font-size:11.5px;color:var(--sub-d-gray)}
+.p2d-btn{padding:5px 14px;border-radius:7px;background:var(--main-blue);color:var(--main-white);
+  font-size:12px;font-weight:700;white-space:nowrap}
+.p2d-btn.armed{animation:p2dPulse 1.1s ease-in-out infinite}
+@keyframes p2dPulse{0%,100%{box-shadow:0 0 0 0 rgba(var(--color-blue-rgb),.45)}
+  50%{box-shadow:0 0 0 7px rgba(var(--color-blue-rgb),0)}}
+.p2d-btn.done{background:var(--sub-d-blue);animation:none}
+
+/* 좁은 자리에서는 글자를 한 단 줄인다 */
+@container (max-width:300px){
+  .p2d-card{padding:11px;font-size:12px}
+  .p2d-head b{font-size:13px}
+}
+
+/* 움직임을 줄여 달라고 한 사람에게는 끝난 모습만 보여 준다 */
+@media (prefers-reduced-motion:reduce){
+  .p2d-btn.armed{animation:none}
+}

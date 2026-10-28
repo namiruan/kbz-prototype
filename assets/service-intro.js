@@ -212,4 +212,71 @@
       } catch (err) {}
     });
   })();
+
+  /* ── partition-2 짧은 루프 데모 ─────────────────────────────
+     index.html 의 .ui-demo 와 같은 짜임이되 훨씬 짧게 줄였다. 한 칸이
+     대여섯 걸음, 한 바퀴 5초 안쪽이다. 보일 때만 돌고 벗어나면 멈춘다 —
+     화면 밖에서 타이머가 도는 것을 막는다.
+
+     동작 줄이기를 켠 사람에게는 돌리지 않고 끝난 모습만 세워 둔다.
+     여기 데모는 본문을 돕는 그림이지 본문 자체가 아니라서다 ─────── */
+  (function () {
+    var demos = [].slice.call(document.querySelectorAll('[data-p2d]'));
+    if (!demos.length) return;
+    var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+    /* 근로내역 — 둘은 이미 찍혔고 하나가 비었다. 그 하나를 메우고 신고한다 */
+    function work(root) {
+      var rows = [].slice.call(root.querySelectorAll('.p2d-row'));
+      var gap = root.querySelector('.p2d-row.is-gap');
+      var day = gap.querySelector('.dy');
+      var btn = root.querySelector('.p2d-btn');
+      var timers = [], on = false;
+      function T(ms, fn) { timers.push(setTimeout(fn, ms)); }
+      function clear() { timers.forEach(clearTimeout); timers = []; }
+      function reset() {
+        clear();
+        rows.forEach(function (r) { r.classList.remove('on'); });
+        gap.classList.remove('filled');
+        day.textContent = '—';
+        btn.classList.remove('armed', 'done');
+        btn.textContent = '신고';
+      }
+      function settle() {           /* 끝난 모습 — 동작 줄이기용 */
+        rows.forEach(function (r) { r.classList.add('on'); });
+        gap.classList.add('filled');
+        day.textContent = '18일';
+        btn.classList.add('done');
+        btn.textContent = '신고 완료';
+      }
+      function run() {
+        reset();
+        T(400, function () { rows[0].classList.add('on'); });
+        T(700, function () { rows[1].classList.add('on'); });
+        T(1150, function () { gap.classList.add('filled'); day.textContent = '18일'; });
+        T(1500, function () { rows[2].classList.add('on'); btn.classList.add('armed'); });
+        T(2500, function () { btn.classList.remove('armed'); btn.classList.add('done'); btn.textContent = '신고 완료'; });
+        T(4400, run);
+      }
+      return {
+        play: function () { if (on) return; on = true; if (reduce) settle(); else run(); },
+        stop: function () { on = false; clear(); }
+      };
+    }
+
+    var make = { work: work };
+    var list = [];
+    demos.forEach(function (el) {
+      var f = make[el.getAttribute('data-p2d')];
+      if (f) list.push({ el: el, ctl: f(el) });
+    });
+    if (!('IntersectionObserver' in window)) { list.forEach(function (d) { d.ctl.play(); }); return; }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var d = list.filter(function (x) { return x.el === e.target; })[0];
+        if (d) (e.isIntersecting ? d.ctl.play() : d.ctl.stop());
+      });
+    }, { threshold: 0.3 });
+    list.forEach(function (d) { io.observe(d.el); });
+  })();
 })();

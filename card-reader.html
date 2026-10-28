@@ -69,7 +69,19 @@
         <div class="group-1-1">
           <div class="group-1-2-left">
             <div class="img-group2">
-              <span class="ph"><b class="ph-cap">전자카드 근무관리시스템 근로내역 화면</b><i class="ph-spec">투명 PNG · 가로 300 이상</i></span>
+              <!-- 사진 대신 짧은 루프 데모 — index.html 의 .ui-demo 와 같은 방식이다.
+                   그림이 아니라 진짜 DOM 이라 한글이 또렷하고 폭에 따라 줄어든다 -->
+              <div class="p2d" data-p2d="work" aria-hidden="true">
+                <div class="p2d-card">
+                  <div class="p2d-head"><b>근로내역</b><span class="p2d-chip">10월</span></div>
+                  <div class="p2d-rows">
+                    <div class="p2d-row"><span class="nm">김○수</span><span class="dy">22일</span><i class="ck"></i></div>
+                    <div class="p2d-row"><span class="nm">이○민</span><span class="dy">19일</span><i class="ck"></i></div>
+                    <div class="p2d-row is-gap"><span class="nm">박○호</span><span class="dy">—</span><i class="ck"></i></div>
+                  </div>
+                  <div class="p2d-foot"><span class="due">다음 달 15일까지</span><span class="p2d-btn">신고</span></div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="group-1-2-right">
