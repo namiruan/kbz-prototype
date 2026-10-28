@@ -293,7 +293,9 @@ body.intro-page{word-break:keep-all}
 .bl-doc .ln{display:block;width:68%;height:.6em;border-radius:.3em;background:var(--main-gray);opacity:.55}
 
 /* 검증 도장 — 돈에 닿기 전, 가운데를 지날 때 찍힌다 */
-.bl-ok{position:absolute;right:-1.1em;bottom:-1em;width:3.4em;height:3.4em;border-radius:50%;
+/* 종이 밖에 걸쳐 두면 창 가장자리에서 반쯤 잘린다. 안쪽에 찍는다 —
+   서류에 찍힌 도장으로 읽혀 뜻도 더 맞는다 */
+.bl-ok{position:absolute;right:.7em;bottom:.7em;width:3.2em;height:3.2em;border-radius:50%;
   background:var(--main-blue);opacity:0;transform:scale(.4);z-index:3;
   box-shadow:0 .4em 1.2em -.3em rgba(var(--color-black-rgb),.35);
   transition:opacity .22s,transform .3s cubic-bezier(.34,1.7,.5,1)}
@@ -302,9 +304,18 @@ body.intro-page{word-break:keep-all}
   margin:-.85em 0 0 -.44em;border:solid var(--main-white);border-width:0 .34em .34em 0;
   transform:rotate(45deg)}
 
-/* 돈 — 흘러온 고지서가 닿는 곳 */
-.bl-coins{display:flex;flex-direction:column;gap:.6em;flex:0 0 auto}
-.bl-coins i{display:block;width:6.4em;height:1.8em;border-radius:.9em;background:var(--main-blue)}
+/* 돈 — 흘러온 고지서가 닿는 곳.
+   둥근 막대를 띄엄띄엄 쌓았더니 '세 줄짜리 목록' 으로 읽혔다. 타원을 겹쳐
+   쌓아 동전 더미로 그린다 — 글자나 기호 없이도 돈으로 읽힌다 */
+.bl-coins{position:relative;flex:0 0 auto;width:7.6em;height:6.2em}
+.bl-coins i{position:absolute;left:0;width:7.6em;height:2.7em;border-radius:50%;
+  background:var(--main-blue);
+  box-shadow:inset 0 -.35em 0 rgba(var(--color-black-rgb),.18)}
+/* 아래에서부터 쌓는다. 겹치는 만큼 두께로 보인다 */
+.bl-coins i:nth-child(1){bottom:0}
+.bl-coins i:nth-child(2){bottom:1.75em}
+/* 맨 위 동전은 윗면이라 그늘을 빼고 한 단 밝게 */
+.bl-coins i:nth-child(3){bottom:3.5em;background:var(--sub-cyan);box-shadow:none}
 
 /* ── JS 가 돌지 않을 때 ─────────────────────────────────────
    세 데모는 '흐르기 전' 이 기본 상태다. 스크립트가 막히거나 실패하면 그
