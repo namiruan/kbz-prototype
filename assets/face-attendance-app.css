@@ -2762,10 +2762,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    거기에 손을 두면 틀 안의 얼굴을 가린다.
    센 수는 이 줄 **위**에 띄운다. 줄에 매달아 두면 줄의 키가 어떻게 바뀌든
    사이(12)가 그대로다 */
-/* 가장자리는 **뒤로 가기와 같은 선**이다(12). 틀의 좌우(14%)에 맞추었더니
-   화면 네 귀퉁이 가운데 아래 둘만 안으로 들어와, 손잡이가 떠 있는 것처럼
-   보였다 — 바닥 줄은 틀에 딸린 것이 아니라 화면이 쥔 것이다 */
-.cam__foot{position:absolute;left:calc(var(--ap-p6) - 4px);right:calc(var(--ap-p6) - 4px);
+/* 가장자리는 24 다. 틀의 좌우(14%)에 맞추었더니 화면 네 귀퉁이 가운데
+   아래 둘만 안으로 들어와 손잡이가 떠 있는 것처럼 보였고 — 바닥 줄은 틀에
+   딸린 것이 아니라 화면이 쥔 것이다 — 뒤로 가기와 같은 선(12)까지 내리니
+   이번에는 54 짜리 동그라미가 모서리에 걸린 것처럼 보였다. 그 사이다 */
+.cam__foot{position:absolute;left:var(--ap-p8);right:var(--ap-p8);
   bottom:var(--ap-p10);z-index:2;
   display:flex;align-items:center;justify-content:space-between;gap:var(--ap-p5)}
 /* 출퇴근 인증 바닥의 그 토글 그대로다 — 거기서는 줄에 서서 제 여백을 쥐지만,
