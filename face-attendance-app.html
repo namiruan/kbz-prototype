@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=517">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=518">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=517"></script>
+<script src="assets/face-attendance-app.js?v=518"></script>
 </head>
 
 <body>
@@ -475,9 +475,12 @@
 </section>
 
 <!-- ===== ②-2 현장소장 앱 · 근로자 추가(외국인) =====
-     외국인은 주민번호가 없어 여권번호를 받는다. 앱에서는 토글 하나로 칸이
-     바뀌지만, 이 프로토타입은 화면 안의 동작을 흉내 내지 않으므로 바뀐 뒤를
-     한 장 더 둔다 -->
+     외국인이라고 바로 여권번호를 받지는 않는다 — 외국인등록증을 받은 사람은
+     주민번호 꼴의 등록번호를 가지고 있어, 그대로 적는 쪽이 맞다. '예' 는
+     '여권번호 등록' 이라는 **고를 거리**를 하나 더 열 뿐이고, 받는 칸을
+     바꾸는 것은 그 체크다.
+     이 프로토타입은 화면 안의 동작을 흉내 내지 않으므로 체크한 뒤를 한 장
+     더 둔다(m-worker-new-passport) -->
 <section class="scr scr--form" data-screen="m-worker-new-foreign" data-title="근로자 추가 — 외국인">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
@@ -522,14 +525,116 @@
       <div class="ask">
         <span class="ask__t">외국인 근로자인가요?</span>
         <span class="tog"><span class="is-on">예</span><span>아니오</span></span>
+        <!-- '예' 가 여는 것은 칸이 아니라 이 체크다. 묻는 줄과 같은 카드 안에
+             두어, 이것이 그 답에 딸린 것임을 자리로 말한다 -->
+        <button class="ask__opt" type="button" aria-pressed="false">
+          <span class="chk" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></span>
+          <span class="ask__opt-t">여권번호 등록</span>
+        </button>
       </div>
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
         <div class="inp inp--ph">이름을 입력해주세요</div>
       </div>
       <div class="fld">
+        <label class="fld__l">주민번호 <b>(필수)</b></label>
+        <div class="inp inp--ph">주민번호를 입력해주세요</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">연락처 <b>(필수)</b></label>
+        <div class="inp inp--ph">연락처를 입력해주세요</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">직종</label>
+        <button class="sel" type="button"><span class="sel__t">직종 선택</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </div>
+      <!-- 단가는 시안 '근로자현황 (현장근로자 / 신규추가-기본)'(486:4990) 과 같이
+           칸 오른쪽에 ＋·－ 를 둔다. 금액이라 값은 오른쪽으로 붙인다 -->
+      <div class="fld">
+        <label class="fld__l">단가</label>
+        <div class="fld__row">
+          <div class="inp inp--num inp--ph">0 원</div>
+          <div class="steps">
+            <button class="step" type="button" aria-label="단가 내리기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-minus"></use></svg></button>
+            <button class="step" type="button" aria-label="단가 올리기"><svg class="ic ic--30" aria-hidden="true"><use href="#icon-plus"></use></svg></button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <div class="act act--end">
+    <button class="act__b act__b--on" type="button">저장</button>
+  </div>
+</section>
+
+<!-- ===== ②-3 현장소장 앱 · 근로자 추가(여권번호 등록) =====
+     '여권번호 등록' 을 체크한 뒤다. 주민번호 칸이 빠지고 여권번호와
+     생년월일이 그 자리에 든다 — 셋이 한꺼번에 서지는 않는다 -->
+<section class="scr scr--form" data-screen="m-worker-new-passport" data-title="근로자 추가 — 여권번호 등록">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근 근로자 추가</h1>
+  </header>
+
+  <main class="body">
+    <div class="shot">
+      <button class="shot__box" type="button">
+        <!-- 얼굴을 훑는 그림 — 스프라이트의 아이콘이 아니라 이 자리에서만 쓰는
+             그림이다. 시스템에 얼굴 아이콘이 없다(사람은 icon-employee 뿐이고
+             그것은 메뉴 아이콘이다). 움직임은 assets 쪽에 있다 -->
+        <span class="scan" aria-hidden="true">
+          <!-- 파장은 그림 안에 둔다 — 아이콘이 동그라미 한가운데에 서야 한다.
+               셋이 1초 간격으로 떠난다 -->
+          <span class="wave"><i></i><i></i><i></i></span>
+          <!-- 얼굴이 앉는 동그란 면. 면이 그림 밖에 있는 것은 빛과 그늘을
+               입히기 위해서다 — SVG 안에서는 CSS 로 면색을 그라데이션으로
+               못 준다. 파장은 이 면 뒤에서 번져 나온다 -->
+          <span class="scan__plate"></span>
+          <!-- 그림이 쓰는 자리만 잘라 담는다(가로 4~68 · 세로 12~60).
+               72 네모 그대로 두면 사람 아래위로 빈 자리가 남아 글자가 멀어진다 -->
+          <svg viewBox="4 12 64 48">
+            <!-- 얼굴은 눈 둘과 웃음 하나다. 모서리 테는 두지 않는다 -->
+            <g class="scan__face">
+              <circle cx="24" cy="29" r="4"/>
+              <circle cx="48" cy="29" r="4"/>
+              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
+            </g>
+          </svg>
+          <!-- 읽는 레이저 — 위에서 아래로 한 번 훑고 다시 위에서 시작한다.
+               그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
+          <span class="scan__beam"></span>
+        </span>
+        <b class="shot__t">얼굴 등록하기</b>
+        <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
+      </button>
+    </div>
+
+    <form class="form">
+      <!-- 묻는 한 줄이라 칸으로 두지 않는다. 묻는 말 옆에 답이 붙는 카드다 -->
+      <div class="ask">
+        <span class="ask__t">외국인 근로자인가요?</span>
+        <span class="tog"><span class="is-on">예</span><span>아니오</span></span>
+        <button class="ask__opt" type="button" aria-pressed="true">
+          <span class="chk chk--on" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></span>
+          <span class="ask__opt-t">여권번호 등록</span>
+        </button>
+      </div>
+      <div class="fld">
+        <label class="fld__l">이름 <b>(필수)</b></label>
+        <div class="inp inp--ph">이름을 입력해주세요</div>
+      </div>
+      <!-- 주민번호 칸은 '바뀌는' 것이 아니라 **사라진다** — 둘 다 적게 두면
+           어느 쪽으로 사람을 가리는지가 흐려진다.
+           생년월일을 함께 받는 것은 여권번호에 나이가 들어 있지 않아서다.
+           주민번호 하나가 하던 일(누구인가 · 몇 살인가)을 둘이 나눠 받는다 -->
+      <div class="fld">
         <label class="fld__l fld__l--foreign">여권번호 <b>(필수)</b></label>
         <div class="inp inp--ph">여권번호를 입력해주세요</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l fld__l--birth">생년월일 <b>(필수)</b></label>
+        <div class="inp inp--ph">생년월일 8자리를 입력해주세요</div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>

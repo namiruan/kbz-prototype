@@ -1821,10 +1821,19 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    적어 넣는 자리로 읽힌다 — 묻는 말 옆에 답이 붙는 카드로 둔다.
    면은 gray/5 다. 흰 폼 위에서 한 끗만 내려앉아 '여기는 다른 줄' 이라고만
    알린다 */
-.ask{display:flex;align-items:center;justify-content:space-between;gap:var(--ap-p5);
+.ask{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:var(--ap-p5);
   padding:var(--ap-p6);background:var(--ap-g5);border-radius:var(--ap-r10)}
 .ask__t{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-text)}
 .ask .tog{align-self:auto}
+/* '예' 에 딸린 고를 거리는 묻는 줄 **아래**, 같은 카드 안에 선다 — 폼의
+   칸으로 내보내면 이름·연락처와 나란해져 '적는 자리' 로 읽히고, 무엇에
+   딸린 것인지도 끊긴다. 100% 를 쥐어 줄을 넘긴다(wrap) */
+.ask__opt{flex:1 0 100%;display:flex;align-items:center;gap:var(--ap-p4);
+  padding:0;text-align:left}
+.ask__opt-t{font:var(--t-body);letter-spacing:var(--ls-body);color:var(--ap-text)}
+/* 체크한 쪽만 글씨가 짙어지는 식으로 더 꾸미지 않는다 — 네모 안의 체크가
+   이미 켜짐을 말한다 */
 .fld__l{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-g60)}
 .fld__l b{color:var(--ap-danger);font-weight:600}
 .inp{font:var(--t-body);letter-spacing:var(--ls-body);display:flex;align-items:center;
