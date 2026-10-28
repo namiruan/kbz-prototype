@@ -169,39 +169,40 @@ body.intro-page{word-break:keep-all}
    비율을 박아 둬야 좁은 폭에서 납작해지지 않는다 — 스켈레톤 때는 고유
    높이가 없어 390px 에서 92px 로 눌렸다 */
 .p2d{width:100%;aspect-ratio:355/250;max-height:280px;display:flex;align-items:center;justify-content:center}
-.p2d-scan{position:relative;display:flex;gap:26px;align-items:center;justify-content:center;
-  padding:26px 0 30px}
+.p2d-scan{position:relative;display:flex;gap:30px;align-items:center;justify-content:center;
+  padding:8px 0 48px}
 
 /* ── 단말기 — 벽에 붙는 전자카드 리더 ── */
 .p2d-dev{margin:0}
-.p2d-dev .body{position:relative;display:block;width:86px;height:118px;padding:10px;
-  border-radius:13px;background:var(--main-white);border:1.5px solid var(--main-gray);
+.p2d-dev .body{position:relative;display:block;width:116px;height:158px;padding:13px;
+  border-radius:17px;background:var(--main-white);border:1.5px solid var(--main-gray);
   box-shadow:0 8px 18px -10px rgba(var(--color-black-rgb),.4)}
-.p2d-dev .scr{display:flex;flex-direction:column;justify-content:center;gap:6px;
-  height:56px;padding:0 10px;border-radius:7px;background:var(--main-blue)}
-.p2d-dev .scr i{display:block;height:5px;border-radius:3px;background:rgba(var(--color-white-rgb),.85)}
+.p2d-dev .scr{display:flex;flex-direction:column;justify-content:center;gap:8px;
+  height:76px;padding:0 13px;border-radius:9px;background:var(--main-blue)}
+.p2d-dev .scr i{display:block;height:7px;border-radius:4px;background:rgba(var(--color-white-rgb),.85)}
 /* 둘째 줄이 짧다 — 단말기가 하루를 덜 받아 적었다는 표시다 */
 .p2d-dev .scr i:last-child{width:52%;background:rgba(var(--color-white-rgb),.45);transition:width .45s ease,background .45s ease}
 .p2d-scan.fixed .p2d-dev .scr i:last-child{width:100%;background:rgba(var(--color-white-rgb),.85)}
-.p2d-dev .keys{display:flex;justify-content:center;gap:8px;margin-top:13px}
-.p2d-dev .keys i{display:block;width:11px;height:11px;border-radius:50%;background:var(--main-gray)}
-/* 태그되는 카드 — 오른쪽 아래에 비스듬히 걸친다 */
-.p2d-dev .card{position:absolute;right:-15px;bottom:18px;width:36px;height:24px;border-radius:4px;
-  background:var(--sub-cyan);border:1.5px solid var(--main-white);transform:rotate(-14deg);
-  box-shadow:0 4px 9px -4px rgba(var(--color-black-rgb),.45)}
+.p2d-dev .keys{display:flex;justify-content:center;gap:11px;margin-top:18px}
+.p2d-dev .keys i{display:block;width:14px;height:14px;border-radius:50%;background:var(--main-gray)}
+/* 태그되는 전자카드 — 맨 사각형이면 무엇인지 안 읽힌다. 칩과 줄무늬를
+   넣어 카드로 보이게 하고, 화면 높이에 걸치게 올려 '대는 중' 으로 읽힌다 */
+.p2d-dev .card{position:absolute;right:-22px;bottom:46px;width:52px;height:34px;border-radius:5px;
+  background:var(--sub-cyan);border:2px solid var(--main-white);transform:rotate(-13deg);
+  box-shadow:0 5px 12px -4px rgba(var(--color-black-rgb),.45)}
+.p2d-dev .card::before{content:"";position:absolute;left:6px;top:8px;width:11px;height:9px;
+  border-radius:2px;background:rgba(var(--color-white-rgb),.92)}
+.p2d-dev .card::after{content:"";position:absolute;left:6px;bottom:6px;right:7px;height:3px;
+  border-radius:2px;background:rgba(var(--color-white-rgb),.55)}
 
 /* ── 출역기록 서류 — 현장에서 손으로 적는 종이 ── */
 .p2d-doc{margin:0}
-.p2d-doc .sheet{position:relative;display:flex;flex-direction:column;gap:9px;
-  width:94px;height:118px;padding:14px 12px;background:var(--main-white);
+.p2d-doc .sheet{position:relative;display:flex;flex-direction:column;gap:12px;
+  width:128px;height:158px;padding:18px 16px;background:var(--main-white);
   border:1.5px solid var(--main-gray);border-radius:3px;
   box-shadow:0 8px 18px -10px rgba(var(--color-black-rgb),.4)}
-/* 접힌 모서리 */
-.p2d-doc .sheet::after{content:"";position:absolute;right:0;top:0;width:16px;height:16px;
-  background:linear-gradient(225deg,var(--sub-w-gray) 50%,transparent 50%);
-  border-left:1.5px solid var(--main-gray);border-bottom:1.5px solid var(--main-gray)}
-.p2d-doc .hd{display:block;width:58%;height:6px;border-radius:3px;background:var(--main-navy)}
-.p2d-doc .ln{display:block;height:5px;border-radius:3px;background:var(--main-gray)}
+.p2d-doc .hd{display:block;width:58%;height:8px;border-radius:4px;background:var(--main-navy)}
+.p2d-doc .ln{display:block;height:7px;border-radius:4px;background:var(--main-gray)}
 .p2d-doc .ln:last-of-type{width:62%}
 /* 어긋난 한 줄 — 서류에는 있는데 단말기에는 없다 */
 .p2d-doc .ln.gap{background:rgba(var(--color-blue-rgb),.3);transition:background .3s}
@@ -212,36 +213,36 @@ body.intro-page{word-break:keep-all}
 @keyframes p2dPop{0%{transform:scaleX(.3)}100%{transform:scaleX(1)}}
 
 /* ── 돋보기 ── */
-.lens{position:absolute;top:0;left:0;width:50px;height:50px;margin:-25px 0 0 -25px;
-  border:3.5px solid var(--main-blue);border-radius:50%;
+.lens{position:absolute;top:0;left:0;width:64px;height:64px;margin:-32px 0 0 -32px;
+  border:4px solid var(--main-blue);border-radius:50%;
   background:rgba(var(--color-white-rgb),.2);
   box-shadow:0 7px 18px -7px rgba(var(--color-black-rgb),.45), inset 0 0 0 2px rgba(var(--color-white-rgb),.7);
   transition:left .75s cubic-bezier(.45,.05,.3,1),top .75s cubic-bezier(.45,.05,.3,1),opacity .3s;
   opacity:0;pointer-events:none;z-index:3}
-.lens::after{content:"";position:absolute;right:-10px;bottom:-8px;width:15px;height:4.5px;border-radius:3px;
+.lens::after{content:"";position:absolute;right:-12px;bottom:-10px;width:19px;height:5px;border-radius:3px;
   background:var(--main-blue);transform:rotate(45deg)}
 .p2d-scan.scanning .lens{opacity:1}
 
 /* ── 상태 표시 — 글자 없이 기호 하나로. 아래 가운데에 선다 ── */
-.p2d-mark{position:absolute;left:50%;bottom:0;width:30px;height:30px;margin-left:-15px;
+.p2d-mark{position:absolute;left:50%;bottom:2px;width:38px;height:38px;margin-left:-19px;
   border-radius:50%;z-index:4;opacity:0;transform:scale(.5);
   transition:opacity .22s,transform .22s cubic-bezier(.34,1.6,.5,1);
   background:var(--danger)}
 .p2d-scan.off .p2d-mark,.p2d-scan.fixed .p2d-mark{opacity:1;transform:scale(1)}
 .p2d-scan.fixed .p2d-mark{background:var(--main-blue)}
 /* 느낌표 — 막대와 점 */
-.p2d-mark::before{content:"";position:absolute;left:50%;top:7px;width:3px;height:10px;margin-left:-1.5px;
+.p2d-mark::before{content:"";position:absolute;left:50%;top:9px;width:4px;height:13px;margin-left:-2px;
   border-radius:2px;background:var(--main-white)}
-.p2d-mark::after{content:"";position:absolute;left:50%;bottom:7px;width:3px;height:3px;margin-left:-1.5px;
+.p2d-mark::after{content:"";position:absolute;left:50%;bottom:8px;width:4px;height:4px;margin-left:-2px;
   border-radius:50%;background:var(--main-white)}
 /* 체크 — 느낌표 막대를 ㄴ 자로 바꿔 눕힌다. 두 조각을 각각 돌려 맞추면
    획이 어긋나므로 테두리 두 변으로 한 번에 그린다 */
-.p2d-scan.fixed .p2d-mark::before{left:50%;top:50%;width:7px;height:12px;
-  margin:-8px 0 0 -4px;border-radius:0;background:none;
-  border:solid var(--main-white);border-width:0 3px 3px 0;transform:rotate(45deg)}
+.p2d-scan.fixed .p2d-mark::before{left:50%;top:50%;width:9px;height:15px;
+  margin:-10px 0 0 -5px;border-radius:0;background:none;
+  border:solid var(--main-white);border-width:0 4px 4px 0;transform:rotate(45deg)}
 .p2d-scan.fixed .p2d-mark::after{display:none}
 
 /* 좁은 자리에서는 물건을 한 단 줄인다 */
 @media (max-width:533px){
-  .p2d-scan{gap:20px}
+  .p2d-scan{gap:22px}
 }
