@@ -261,24 +261,59 @@
       };
     }
 
-    /* 건설공사 신고 — 기한 고리가 도는 동안 업무 셋이 차례로 끝난다.
-       고리는 끝까지 차지 않는다. 기한을 넘기지 않았다는 뜻이다 */
+    /* 건설공사 신고 — 업무가 아래에서 올라와 가운데에서 체크되고 위로 빠진다.
+       창은 셋만 보여 주고 줄은 넷이다. 한 칸 올린 뒤 맨 위를 맨 아래로 돌려
+       보내면 처음으로 되돌아가는 순간이 없어 이음매가 안 보인다.
+       (저장소의 후기 캐러셀이 쓰는 방법과 같다) */
     function due(root) {
-      var box = root.querySelector('.p2d-due');
-      var items = [].slice.call(root.querySelectorAll('.dl-list li'));
+      var win = root.querySelector('.dl-win');
+      var list = root.querySelector('.dl-list');
       var timers = [], on = false;
+      var EASE = 'transform .5s cubic-bezier(.4,0,.3,1)';
       function T(ms, fn) { timers.push(setTimeout(fn, ms)); }
       function clear() { timers.forEach(clearTimeout); timers = []; }
-      function reset() { clear(); box.classList.remove('running'); items.forEach(function (i) { i.classList.remove('on'); }); }
-      function settle() { box.classList.add('running'); items.forEach(function (i) { i.classList.add('on'); }); }
-      function run() {
-        reset();
-        T(300, function () { box.classList.add('running'); });
-        items.forEach(function (it, i) { T(800 + i * 750, function () { it.classList.add('on'); }); });
-        T(5200, run);
+      /* 한 칸 = 줄 높이 + 사이 틈. 재서 쓰므로 폭이 바뀌어도 맞는다 */
+      function stepPx() {
+        var li = list.children;
+        return li.length > 1 ? li[1].offsetTop - li[0].offsetTop : 0;
+      }
+      function place(px, jump) {
+        if (jump) list.style.transition = 'none';
+        list.style.transform = 'translateY(' + px + 'px)';
+        if (jump) { void list.offsetHeight; list.style.transition = EASE; }
+      }
+      function reset() {
+        clear();
+        [].forEach.call(list.children, function (li) { li.classList.remove('on'); });
+        list.style.transition = EASE;
+        place(0, true);
+      }
+      function settle() {           /* 동작 줄이기용 — 멈춘 채 끝난 모습 */
+        [].forEach.call(list.children, function (li) { li.classList.add('on'); });
+      }
+      function tick() {
+        /* 가운데 줄에 체크가 들어오고, 잠시 뒤 한 칸 올라간다 */
+        var mid = list.children[1];
+        if (mid) mid.classList.add('on');
+        T(600, function () {
+          place(-stepPx());
+          T(520, function () {                 /* 다 올라가면 맨 위를 뒤로 */
+            var first = list.firstElementChild;
+            first.classList.remove('on');
+            list.appendChild(first);
+            place(0, true);
+          });
+        });
+        T(1500, tick);
       }
       return {
-        play: function () { if (on) return; on = true; if (reduce) settle(); else run(); },
+        play: function () {
+          if (on) return;
+          on = true;
+          reset();
+          if (reduce) { settle(); return; }
+          T(500, tick);
+        },
         stop: function () { on = false; clear(); }
       };
     }
