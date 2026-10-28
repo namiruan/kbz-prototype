@@ -178,24 +178,36 @@ body.intro-page{word-break:keep-all}
 .p2d-chip{padding:2px 8px;border-radius:999px;background:var(--pastel-blue);color:var(--main-blue);
   font-size:11px;font-weight:600}
 
-.p2d-rows{display:flex;flex-direction:column;gap:1px;background:var(--main-gray);
-  border:1px solid var(--main-gray);border-radius:8px;overflow:hidden}
-.p2d-row{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--main-white);
-  transition:background .25s}
-.p2d-row .nm{flex:1;min-width:0}
-.p2d-row .dy{font-variant-numeric:tabular-nums;color:var(--sub-d-gray)}
-/* 빠진 날은 비어 있다가 채워진다 — 이 칸만 색으로 집어 준다 */
-.p2d-row.is-gap .dy{color:var(--danger-text);font-weight:700}
-.p2d-row.is-gap.filled{background:rgba(var(--color-blue-rgb),.06)}
-.p2d-row.is-gap.filled .dy{color:var(--main-blue)}
-/* 체크는 그려지듯 나타난다 */
-.p2d-row .ck{width:15px;height:15px;flex:0 0 15px;border-radius:50%;
-  background:var(--main-gray);position:relative;transition:background .2s}
-.p2d-row .ck::after{content:"";position:absolute;left:4px;top:3.5px;width:4px;height:7px;
+/* 두 줄기를 나란히 — 왼쪽이 단말기가 찍은 것, 오른쪽이 현장 출역이다.
+   본문이 말하는 '맞춰 보고' 가 눈에 보여야 하므로 두 값을 한 행에 둔다 */
+.p2d-tbl{border:1px solid var(--main-gray);border-radius:8px;overflow:hidden}
+.p2d-hrow,.p2d-row{display:flex;align-items:center;gap:6px;padding:6px 9px}
+.p2d-hrow{background:var(--sub-w-gray);font-size:10.5px;font-weight:600;color:var(--sub-d-gray)}
+.p2d-row{background:var(--main-white);border-top:1px solid var(--main-gray);transition:background .25s}
+.p2d-row .nm,.p2d-hrow .nm{flex:1;min-width:0}
+.p2d-row .v,.p2d-hrow .v{width:52px;flex:0 0 52px;text-align:right;font-variant-numeric:tabular-nums}
+.p2d-row .v{color:var(--sub-d-gray);transition:color .2s}
+/* 어긋난 행 — 단말기 쪽 숫자가 틀렸다. 그 숫자 하나만 빨갛게 집어 준다 */
+.p2d-row.is-gap.off{background:rgba(var(--danger-rgb),.06)}
+.p2d-row.is-gap.off .v.a{color:var(--danger-text);font-weight:700}
+/* 바로잡힌 뒤 */
+.p2d-row.is-gap.fixed{background:rgba(var(--color-blue-rgb),.06)}
+.p2d-row.is-gap.fixed .v.a{color:var(--main-blue);font-weight:700}
+.p2d-row .v.a{position:relative}
+.p2d-row.is-gap.fixed .v.a{animation:p2dFlip .34s cubic-bezier(.34,1.5,.5,1)}
+@keyframes p2dFlip{0%{transform:translateY(-6px);opacity:.2}100%{transform:translateY(0);opacity:1}}
+
+/* 맞으면 체크, 어긋나면 느낌표 */
+.p2d-row .st,.p2d-hrow .st{width:15px;height:15px;flex:0 0 15px;border-radius:50%;position:relative}
+.p2d-row .st{background:var(--main-gray);transition:background .2s}
+.p2d-row .st::after{content:"";position:absolute;left:4px;top:3.5px;width:4px;height:7px;
   border:solid var(--main-white);border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);
   transition:transform .22s cubic-bezier(.34,1.5,.5,1)}
-.p2d-row.on .ck{background:var(--main-blue)}
-.p2d-row.on .ck::after{transform:rotate(45deg) scale(1)}
+.p2d-row.ok .st{background:var(--main-blue)}
+.p2d-row.ok .st::after{transform:rotate(45deg) scale(1)}
+.p2d-row.is-gap.off .st{background:var(--danger)}
+.p2d-row.is-gap.off .st::after{left:6.5px;top:3px;width:2px;height:9px;border:0;
+  background:var(--main-white);border-radius:1px;transform:none}
 
 .p2d-foot{display:flex;align-items:center;gap:8px;margin-top:10px}
 .p2d-foot .due{flex:1;min-width:0;font-size:11.5px;color:var(--sub-d-gray)}
