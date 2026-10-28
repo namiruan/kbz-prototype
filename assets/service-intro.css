@@ -275,9 +275,11 @@ body.intro-page{word-break:keep-all}
 
 /* ── ③ 고지서 검증 — 고지서가 줄지어 흘러온다 ──
    앞서는 '고지서 → 체크 → 돈' 한 차례를 보여 주고 전부 꺼졌다 다시 켰다.
-   되감기는 순간이 보인다. 첫째 칸과 같은 수를 쓴다 — 창에 가두고 흘려보내되,
-   돈은 오른쪽에 두어 '검증이 납부보다 앞' 이라는 순서를 자리로 지킨다 */
-.p2d-pay{display:flex;align-items:center;justify-content:center;gap:2em;
+   되감기는 순간이 보인다. 첫째 칸과 같은 수를 쓴다 — 창에 가두고 흘려보낸다.
+
+   돈(동전 더미)은 뺐다. 납부는 고객이 하는 일이지 우리가 맡는 일이 아니고,
+   ①② 도 결과물이나 목적지를 그리지 않는다. '납부 전에' 는 머리글이 말한다 */
+.p2d-pay{display:flex;align-items:center;justify-content:center;
   width:30.8em;height:17.6em}
 .bl-win{flex:1;min-width:0;height:100%;overflow:hidden;display:flex;align-items:center}
 .bl-track{display:flex;align-items:center;gap:2.6em;will-change:transform}
@@ -303,19 +305,6 @@ body.intro-page{word-break:keep-all}
 .bl-ok::before{content:"";position:absolute;left:50%;top:50%;width:.78em;height:1.3em;
   margin:-.85em 0 0 -.44em;border:solid var(--main-white);border-width:0 .34em .34em 0;
   transform:rotate(45deg)}
-
-/* 돈 — 흘러온 고지서가 닿는 곳.
-   둥근 막대를 띄엄띄엄 쌓았더니 '세 줄짜리 목록' 으로 읽혔다. 타원을 겹쳐
-   쌓아 동전 더미로 그린다 — 글자나 기호 없이도 돈으로 읽힌다 */
-.bl-coins{position:relative;flex:0 0 auto;width:7.6em;height:6.2em}
-.bl-coins i{position:absolute;left:0;width:7.6em;height:2.7em;border-radius:50%;
-  background:var(--main-blue);
-  box-shadow:inset 0 -.35em 0 rgba(var(--color-black-rgb),.18)}
-/* 아래에서부터 쌓는다. 겹치는 만큼 두께로 보인다 */
-.bl-coins i:nth-child(1){bottom:0}
-.bl-coins i:nth-child(2){bottom:1.75em}
-/* 맨 위 동전은 윗면이라 그늘을 빼고 한 단 밝게 */
-.bl-coins i:nth-child(3){bottom:3.5em;background:var(--sub-cyan);box-shadow:none}
 
 /* ── JS 가 돌지 않을 때 ─────────────────────────────────────
    세 데모는 '흐르기 전' 이 기본 상태다. 스크립트가 막히거나 실패하면 그
