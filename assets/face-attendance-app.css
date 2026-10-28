@@ -336,8 +336,7 @@
   --ap-cam-ok:#7be38b; --ap-cam-fail:#f26d6a;
   --ap-cam-soft:rgba(255,255,255,.3);  /* 틀의 테가 옅어지는 쪽 */
   --ap-cam-blink:1.8s;                 /* 테가 한 번 숨 쉬는 길이 */
-  --ap-cam-go-h:56px;                  /* 바닥 버튼의 키 — 그 위에 붙는 것이
-                                          자리를 셀 때 같은 값을 본다 */
+  --ap-cam-go-h:56px;                  /* 근로자 앱 카메라의 바닥 버튼 키 */
   --ap-photo-1:#c9b8a6; --ap-photo-2:#8c7562;
 }
 
@@ -2738,7 +2737,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    값을 가르는 시스템의 방식이다(text-inverse-alpha ↔ text-inverse) */
 .cam__tip{font:var(--t-tip);letter-spacing:0;
   position:absolute;left:50%;transform:translateX(-50%);z-index:2;
-  bottom:calc(var(--ap-p10) + var(--ap-cam-go-h) + var(--ap-p5));
+  bottom:calc(100% + var(--ap-p5));
   width:max-content;max-width:min(300px,calc(100% - var(--ap-p6) * 2));
   padding:4px 8px;border-radius:var(--ap-r8);text-align:center;word-break:keep-all;
   background:var(--ap-surface-dark);color:var(--ap-on-dark-sub);
@@ -2757,6 +2756,24 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   display:flex;align-items:center;justify-content:center;gap:var(--ap-p3);
   color:var(--ap-g0);text-shadow:var(--ap-shadow-cam-text)}
 .cam__stop b{font-weight:inherit;text-decoration:underline;text-underline-offset:3px}
+/* ── 카메라 바닥 줄 ──
+   왼쪽이 '무엇을 찍는 중인가'(출근·퇴근), 오른쪽이 '어느 렌즈로 찍는가'다.
+   둘 다 찍는 일 자체를 바꾸는 손잡이라 한 줄에 두고, 가운데는 비운다 —
+   거기에 손을 두면 틀 안의 얼굴을 가린다.
+   센 수는 이 줄 **위**에 띄운다. 줄에 매달아 두면 줄의 키가 어떻게 바뀌든
+   사이(12)가 그대로다 */
+.cam__foot{position:absolute;left:var(--ap-cam-side);right:var(--ap-cam-side);
+  bottom:var(--ap-p10);z-index:2;
+  display:flex;align-items:center;justify-content:space-between;gap:var(--ap-p5)}
+/* 출퇴근 인증 바닥의 그 토글 그대로다 — 거기서는 줄에 서서 제 여백을 쥐지만,
+   여기서는 바닥 줄의 한 칸이라 여백을 내려놓는다 */
+.mode--cam{margin:0;align-self:auto}
+/* 앞뒤 렌즈를 바꾸는 버튼. 이름표(.cam__who)와 같은 어두운 면이다 — 카메라
+   위에 얹는 것은 모두 이 면을 쓴다. 둥근 꼴인 것은 글이 아니라 그림 하나만
+   들어서다 */
+.camsw{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  padding:0;border-radius:50%;background:var(--ap-scrim-pill);color:var(--ap-g0)}
+.swic{width:24px;height:24px;flex:none}
 .cam__box--fail{--ap-cam-edge:var(--ap-cam-fail);--ap-cam-wash:rgba(242,109,106,.5)}
 /* 묻고 시키는 말은 **틀 바로 위**(24)에 선다 — 화면 꼭대기에 못 박아
    두면 태블릿처럼 화면이 길어질 때 틀과 멀어져 따로 노는 글이 된다.

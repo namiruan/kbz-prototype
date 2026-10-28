@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=529">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=530">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=529"></script>
+<script src="assets/face-attendance-app.js?v=530"></script>
 </head>
 
 <body>
@@ -1432,20 +1432,41 @@
          저쪽은 '누구' 를 적고(제 얼굴 하나뿐이라), 이쪽은 '무엇' 을 적는다 -->
     <p class="cam__who">현장소장 출근 인증</p>
     <div class="cam__box"></div>
-    <!-- 지금 무엇을 찍는지는 틀 바로 밑에서 말한다 — 촬영 확인에서
-         사진과 '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다 -->
-    <!-- 한 번 열면 줄 선 사람을 이어서 찍는다. 몇 사람째인지는 찍는 사람만
-         아는 수라, '인증하기' 바로 위에 붙여 센다 — 누르기 전에 눈이 지나는
-         자리다. 시스템의 Tooltip 패널(atoms/tooltip.md)이되 늘 떠 있는
-         pinned 꼴이다: 폰에는 호버가 없고, 이 수는 물어봐야 나오는 설명이
-         아니라 계속 바뀌는 값이다. 라벨은 한 겹 죽이고 수만 흰색으로
-         세운다(tokens/color 의 text-inverse-alpha ↔ text-inverse) -->
-    <p class="cam__tip" role="status">지금까지 <b>2명</b> 인증 완료</p>
-    <span class="cam__go"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근 인증하기</span>
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
     <!-- 끝내는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와
          같은 자리·같은 결이다 -->
     <span class="cam__stop"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg><b>인증 종료하기</b></span>
+    <!-- 바닥은 왼쪽이 '무엇을 찍는 중인가', 오른쪽이 '어느 렌즈로 찍는가'다
+         — 둘 다 찍는 일 자체를 바꾸는 손잡이라 한 줄에 둔다. 가운데는
+         비워 두고 센 수만 그 위에 띄운다 -->
+    <div class="cam__foot">
+      <!-- 한 번 열면 줄 선 사람을 이어서 찍는다. 몇 사람째인지는 찍는 사람만
+           아는 수라, 바닥 줄 바로 위에 붙여 센다. 시스템의 Tooltip 패널
+           (atoms/tooltip.md)이되 늘 떠 있는 pinned 꼴이다: 폰에는 호버가 없고,
+           이 수는 물어봐야 나오는 설명이 아니라 계속 바뀌는 값이다. 라벨은 한 겹
+           죽이고 수만 흰색으로 세운다(tokens/color 의 text-inverse-alpha ↔
+           text-inverse) -->
+      <p class="cam__tip" role="status">지금까지 <b>2명</b> 인증 완료</p>
+      <!-- 출퇴근 인증 바닥에 선 그 토글이다 — 찍는 중에도 모드를 바꾼다 -->
+      <div class="mode mode--cam" role="group" aria-label="인증 모드">
+        <span class="mode__p" aria-hidden="true"></span>
+        <button class="mode__b is-on" type="button" data-mode="in" aria-pressed="true">출근</button>
+        <button class="mode__b" type="button" data-mode="out" aria-pressed="false">퇴근</button>
+      </div>
+      <!-- 앞뒤 렌즈를 바꾼다. 시스템 스프라이트에 없는 그림이라 이 자리에서만
+           그린다(얼굴을 훑는 .scan 과 같은 까닭이다) — 도는 화살표 둘이
+           렌즈를 감싼 꼴이다 -->
+      <button class="camsw" type="button" aria-label="카메라 전환">
+        <svg class="swic" viewBox="0 0 24 24" aria-hidden="true"
+          fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5.89 9.78A6.5 6.5 0 0 1 18.5 12"/>
+          <path d="M16.87 10.37 18.5 12 20.13 10.37"/>
+          <path d="M18.11 14.22A6.5 6.5 0 0 1 5.5 12"/>
+          <path d="M7.13 13.63 5.5 12 3.87 13.63"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
 </section>
@@ -1459,20 +1480,41 @@
          저쪽은 '누구' 를 적고(제 얼굴 하나뿐이라), 이쪽은 '무엇' 을 적는다 -->
     <p class="cam__who">현장소장 출근 인증</p>
     <div class="cam__box cam__box--ok"></div>
-    <!-- 지금 무엇을 찍는지는 틀 바로 밑에서 말한다 — 촬영 확인에서
-         사진과 '얼굴 등록하기' 가 붙어 서는 것과 같은 자리다 -->
-    <!-- 한 번 열면 줄 선 사람을 이어서 찍는다. 몇 사람째인지는 찍는 사람만
-         아는 수라, '인증하기' 바로 위에 붙여 센다 — 누르기 전에 눈이 지나는
-         자리다. 시스템의 Tooltip 패널(atoms/tooltip.md)이되 늘 떠 있는
-         pinned 꼴이다: 폰에는 호버가 없고, 이 수는 물어봐야 나오는 설명이
-         아니라 계속 바뀌는 값이다. 라벨은 한 겹 죽이고 수만 흰색으로
-         세운다(tokens/color 의 text-inverse-alpha ↔ text-inverse) -->
-    <p class="cam__tip" role="status">지금까지 <b>3명</b> 인증 완료</p>
-    <span class="cam__go"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근 인증하기</span>
     <p class="cam__t cam__t--ok">홍길동님<span class="cam__sub">출근 처리 완료!</span></p>
     <!-- 끝내는 쪽은 바닥에, 글자만으로 — 촬영 확인의 '다시 촬영하기' 와
          같은 자리·같은 결이다 -->
     <span class="cam__stop"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg><b>인증 종료하기</b></span>
+    <!-- 바닥은 왼쪽이 '무엇을 찍는 중인가', 오른쪽이 '어느 렌즈로 찍는가'다
+         — 둘 다 찍는 일 자체를 바꾸는 손잡이라 한 줄에 둔다. 가운데는
+         비워 두고 센 수만 그 위에 띄운다 -->
+    <div class="cam__foot">
+      <!-- 한 번 열면 줄 선 사람을 이어서 찍는다. 몇 사람째인지는 찍는 사람만
+           아는 수라, 바닥 줄 바로 위에 붙여 센다. 시스템의 Tooltip 패널
+           (atoms/tooltip.md)이되 늘 떠 있는 pinned 꼴이다: 폰에는 호버가 없고,
+           이 수는 물어봐야 나오는 설명이 아니라 계속 바뀌는 값이다. 라벨은 한 겹
+           죽이고 수만 흰색으로 세운다(tokens/color 의 text-inverse-alpha ↔
+           text-inverse) -->
+      <p class="cam__tip" role="status">지금까지 <b>3명</b> 인증 완료</p>
+      <!-- 출퇴근 인증 바닥에 선 그 토글이다 — 찍는 중에도 모드를 바꾼다 -->
+      <div class="mode mode--cam" role="group" aria-label="인증 모드">
+        <span class="mode__p" aria-hidden="true"></span>
+        <button class="mode__b is-on" type="button" data-mode="in" aria-pressed="true">출근</button>
+        <button class="mode__b" type="button" data-mode="out" aria-pressed="false">퇴근</button>
+      </div>
+      <!-- 앞뒤 렌즈를 바꾼다. 시스템 스프라이트에 없는 그림이라 이 자리에서만
+           그린다(얼굴을 훑는 .scan 과 같은 까닭이다) — 도는 화살표 둘이
+           렌즈를 감싼 꼴이다 -->
+      <button class="camsw" type="button" aria-label="카메라 전환">
+        <svg class="swic" viewBox="0 0 24 24" aria-hidden="true"
+          fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5.89 9.78A6.5 6.5 0 0 1 18.5 12"/>
+          <path d="M16.87 10.37 18.5 12 20.13 10.37"/>
+          <path d="M18.11 14.22A6.5 6.5 0 0 1 5.5 12"/>
+          <path d="M7.13 13.63 5.5 12 3.87 13.63"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
 </section>
