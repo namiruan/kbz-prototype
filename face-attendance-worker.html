@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=556">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=557">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=556"></script>
+<script src="assets/face-attendance-app.js?v=557"></script>
 </head>
 
 <body>
@@ -934,9 +934,9 @@
             <g class="scan__eyes"><circle cx="24" cy="29" r="4"/><circle cx="48" cy="29" r="4"/></g>
             <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
           </g>
-          <!-- 가리는 것 셋이 차례로 얼굴에 얹힌다. 차례는 아래 글의 차례와
-               같다(마스크 · 모자 · 선글라스) — 그림과 글이 어긋나면 읽는
-               사람이 둘을 짝지으려 눈을 오가게 된다 -->
+          <!-- 가리는 것 둘이 차례로 얼굴에 얹힌다. 차례는 아래 글의 차례와
+               같다(마스크 · 선글라스) — 그림과 글이 어긋나면 읽는 사람이
+               둘을 짝지으려 눈을 오가게 된다 -->
           <!-- ① 마스크 — 코 아래부터 턱 밑까지. 귀끈은 얼굴 면 밖으로
                나간다: 귀에 거는 것이지 얼굴에 그려 넣은 것이 아니다 -->
           <g class="scan__on scan__mask">
@@ -944,16 +944,7 @@
             <path class="scan__mask-b" d="M13.5 36.5Q36 30 58.5 36.5L58 47Q36 64 14 47Z"/>
             <path class="scan__mask-p" d="M18 41H54M20 46.5Q36 50.5 52 46.5"/>
           </g>
-          <!-- ② 안전모 — 현장에서 쓰는 모자라 안전모로 그린다. 골 두 줄과
-               챙이 있어야 모자가 아니라 안전모로 읽힌다(근로자 추가 과녁의
-               것과 같은 어법이되, 이 얼굴은 눈이 위에 있어 치수가 다르다).
-               챙은 눈썹 위에서 끝난다 — 더 내려오면 눈을 가져간다 -->
-          <g class="scan__on scan__cap">
-            <path class="scan__cap-s" d="M12 21A24 14 0 0 1 60 21Z"/>
-            <path class="scan__cap-d" d="M27 9.5V20M45 9.5V20"/>
-            <rect class="scan__cap-b" x="8" y="19.5" width="56" height="5" rx="2.5"/>
-          </g>
-          <!-- ③ 선글라스 — 알 둘이 눈을 덮고 다리는 얼굴 밖으로 뻗는다 -->
+          <!-- ② 선글라스 — 알 둘이 눈을 덮고 다리는 얼굴 밖으로 뻗는다 -->
           <g class="scan__on scan__sun">
             <path class="scan__sun-t" d="M13.5 25.5 6.5 23M58.5 25.5 65.5 23"/>
             <rect class="scan__sun-l" x="13" y="22.5" width="21" height="13" rx="5"/>
@@ -967,14 +958,16 @@
         </svg>
       </span>
     </div>
-    <p class="cam__t">정면을 보고 틀 안에 맞춰주세요</p>
-    <!-- 벗을 것의 이름만 갈아 끼운다 — 셋을 한 줄에 늘어놓으면 읽는 데
-         시간이 걸리고, 그림이 지금 무엇을 벗는 중인지와 짝지어지지도
-         않는다. '를 벗어 주세요' 는 붙박이라 눈이 그 자리를 다시 찾지
-         않는다: 셋 다 '를' 을 받으므로 조사는 밖에 둔다.
+    <!-- 묻고 시키는 말은 한 문장이다 — 벗을 것과 맞출 자리를 따로 적어
+         두었더니 하나는 틀 위, 하나는 틀 아래로 갈라져 눈이 틀을 가운데
+         두고 오르내렸다.
+         벗을 것의 이름만 갈아 끼운다: 둘을 한 줄에 늘어놓으면 그림이 지금
+         무엇을 벗는 중인지와 짝지어지지 않는다. 뒤따르는 말은 붙박이라
+         눈이 그 자리를 다시 찾지 않는다 — 둘 다 '를' 을 받으므로 조사는
+         밖에 둔다.
          이름이 앉는 칸은 가장 긴 '선글라스' 만큼이고 오른쪽에 붙는다 —
          칸을 고정하지 않으면 이름이 바뀔 때마다 뒤의 글자가 밀린다 -->
-    <p class="cam__off"><span class="cam__w"><span class="cam__wi">마스크</span><span class="cam__wi">모자</span><span class="cam__wi">선글라스</span></span>를 벗어 주세요</p>
+    <p class="cam__t"><span class="cam__w"><span class="cam__wi">마스크</span><span class="cam__wi">선글라스</span></span>를 벗고 틀 안에 얼굴을 정면으로 맞춰주세요</p>
     <span class="cam__go cam__go--wait" data-go="w-shot"><b class="cam__go__t">바로 촬영하기</b></span>
   </div>
 </section>

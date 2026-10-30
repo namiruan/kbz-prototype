@@ -287,8 +287,8 @@
   --ap-glass:#2f3a4d;
   --ap-glass-edge:#121922;         /* 알과 다리를 두르는 테 */
   --ap-item:1.65s;                 /* 가리는 것 하나가 얹혔다 사라지는 데
-                                      걸리는 길이. 셋이 한 바퀴다 */
-  --ap-ready-cycle:calc(var(--ap-item) * 3);
+                                      걸리는 길이. 둘이 한 바퀴다 */
+  --ap-ready-cycle:calc(var(--ap-item) * 2);
   /* 카메라가 잡는 틀 — 사람(120)보다 한참 넓다. 꽉 끼면 틀이 아니라
      테두리가 된다. 그림 칸이 허락하는 데까지 벌린다 */
   --ap-scan-frame:calc(var(--ap-scan) * 1.7);
@@ -354,8 +354,8 @@
   --ap-cam-soft:rgba(255,255,255,.3);  /* 틀의 테가 옅어지는 쪽 */
   --ap-cam-blink:1.8s;                 /* 테가 한 번 숨 쉬는 길이 */
   --ap-cam-go-h:56px;                  /* 근로자 앱 카메라의 바닥 버튼 키 */
-  --ap-ready-wait:5s;                  /* 촬영 준비 화면을 지나는 데 걸리는
-                                          길이. 가리는 것 셋이 한 바퀴(4.95초)
+  --ap-ready-wait:4s;                  /* 촬영 준비 화면을 지나는 데 걸리는
+                                          길이. 가리는 것 둘이 한 바퀴(3.3초)
                                           도는 것보다 길어야 한 가지도 빠뜨리지
                                           않고 보인다 */
   --ap-wait-fill:rgba(255,255,255,.24); /* 그동안 버튼을 채워 가는 면 */
@@ -2903,12 +2903,21 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    사람 얼굴 위에 사람 그림을 얹으면 어느 쪽을 보라는 말인지 흐려진다 */
 .cam--ready{background:radial-gradient(ellipse at 50% 40%,
   var(--ap-cam-bg-1) 0%,var(--ap-cam-bg-2) 70%)}
-/* 틀 아래에 한 줄이 더 선다 — 카메라 화면에는 없던 것이라 틀의 키를
-   그대로 두면 짧은 화면에서 그 줄이 바닥 버튼을 덮는다(568 에서 35 가
-   겹쳤다 — 실측). 아래 자리를 **먼저 떼어 두고** 남는 만큼을 틀이 쓴다:
-   버튼(40+56) · 버튼과 글 사이(16) · 한 줄짜리 글(22) · 글과 틀 사이(24).
+/* 시키는 말이 카메라 화면보다 길다 — 벗을 것과 맞출 자리를 한 문장으로
+   적으니 32 로는 좁은 화면에서 네 줄이 되어 이름표(.cam__who)를 덮는다.
+   한 단 내려 Title2 로 적는다: 글이 틀 위에 그대로 앉고, 320 에서도 줄이
+   늘어 이름표에 닿지 않는다 */
+.cam--ready .cam__t{font:var(--t-title2);letter-spacing:var(--ls-title2)}
+/* 그래도 좁은 화면에서는 세 줄이라, 틀을 조금 더 내려 글이 자랄 자리를
+   준다 — 200 이면 320×568 에서 글머리와 이름표 사이가 6 뿐이다(실측).
+   ⚠ 선택자의 무게를 카메라 쪽 규칙(.cam:has(.cam__who):not(…))과 맞춘다 —
+     `.cam--ready` 한 마디로는 밀려 값이 바뀌지 않는다 */
+.cam:has(.cam__who).cam--ready{--ap-cam-top:max(24%,212px)}
+/* 틀의 키는 **바닥 버튼 자리를 떼어 두고** 남는 만큼이다 — 비율로만
+   두면 짧은 화면에서 틀이 버튼을 덮는다. 떼어 두는 것은 버튼(40+56)과
+   버튼과 틀 사이(16)다.
    화면이 길면 42% 가 이기므로 넓은 기기에서는 카메라 화면과 같은 키다 */
-.cam--ready{--ap-ready-foot:158px;
+.cam--ready{--ap-ready-foot:112px;
   --ap-ready-box:min(42%,calc(100% - var(--ap-cam-top) - var(--ap-ready-foot)))}
 .cam--ready .cam__box{height:var(--ap-ready-box)}
 /* 그림은 틀 한가운데다 — 얼굴을 놓을 자리가 거기라는 말을 그림이 선 자리가
@@ -2920,19 +2929,14 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    등록이 필요합니다' 창의 것과 같은 짜임이다 — 흰 면에 눈 둘과 웃음).
    쓴 채로 찍고 나서야 '벗어 주세요' 를 읽는 일이 잦다. 그림이 먼저 보여
    준다 — 무엇을 쓴 모습이 안 되는지를, 쓴 모습과 ✕ 로.
-   셋을 한꺼번에 얹지 않는다. 한꺼번에 얹힌 얼굴은 '이 사람' 이 되어
-   버려, 벗을 것이 셋이라는 말로 읽히지 않는다.
+   둘을 한꺼번에 얹지 않는다. 한꺼번에 얹힌 얼굴은 '이 사람' 이 되어
+   버려, 벗을 것이 둘이라는 말로 읽히지 않는다.
    훑는 레이저도 파장도 두지 않는다 — 아직 읽는 중이 아니라 **읽기 전**이고,
    움직이는 것이 여럿이면 어느 쪽도 보이지 않는다 */
 .scan__mask-b{fill:var(--ap-mask);stroke:var(--ap-mask-edge);
   stroke-width:1.2;stroke-linejoin:round}
 .scan__mask-s{fill:none;stroke:var(--ap-mask-edge);stroke-width:1.6;stroke-linecap:round}
 .scan__mask-p{fill:none;stroke:var(--ap-mask-fold);stroke-width:1.4;stroke-linecap:round}
-/* 안전모는 근로자 추가 과녁의 것과 같은 색을 쓴다 — 한 앱에서 안전모가
-   두 가지 색으로 서면 같은 물건으로 읽히지 않는다 */
-.scan__cap-s{fill:var(--ap-hat);stroke:var(--ap-hat-edge);stroke-width:1.2}
-.scan__cap-b{fill:var(--ap-hat-dark);stroke:var(--ap-hat-edge);stroke-width:1.2}
-.scan__cap-d{fill:none;stroke:var(--ap-hat-groove);stroke-width:1.8;stroke-linecap:round}
 .scan__sun-l{fill:var(--ap-glass);stroke:var(--ap-glass-edge);stroke-width:1.2}
 .scan__sun-t,.scan__sun-br{fill:none;stroke:var(--ap-glass-edge);
   stroke-width:1.8;stroke-linecap:round}
@@ -2943,17 +2947,16 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .scan__no{fill:none;stroke:var(--ap-cam-fail);stroke-width:4;stroke-linecap:round}
 /* 위에서 내려와 얹히고, 아래로 벗겨지며 사라진다 — 나가는 쪽이 늘 아래인
    것은 그것이 벗는 방향이기 때문이다.
-   셋은 같은 움직임을 **한 칸씩 늦게** 시작한다. 한 바퀴의 삼분의 일 동안만
-   보이므로, 늦추는 것만으로 차례가 선다 */
+   둘은 같은 움직임을 **한 칸씩 늦게** 시작한다. 한 바퀴의 반 동안만
+   보이므로, 늦추는 것만으로 차례가 갈린다 */
 .scan__on,.cam__wi{opacity:0;
   animation:ap-wear var(--ap-ready-cycle) var(--ap-ease-sym) infinite}
 .scan__on{transform-box:fill-box;transform-origin:center}
-.scan__cap,.cam__wi:nth-child(2){animation-delay:var(--ap-item)}
-.scan__sun,.cam__wi:nth-child(3){animation-delay:calc(var(--ap-item) * 2)}
+.scan__sun,.cam__wi:nth-child(2){animation-delay:var(--ap-item)}
 @keyframes ap-wear{
   0%{opacity:0;transform:translateY(-7px) scale(.95)}
-  6%,26%{opacity:1;transform:translateY(0) scale(1)}
-  32%,100%{opacity:0;transform:translateY(7px) scale(.95)}
+  9%,39%{opacity:1;transform:translateY(0) scale(1)}
+  48%,100%{opacity:0;transform:translateY(7px) scale(.95)}
 }
 /* ✕ 는 **한 칸마다 한 번**이라, 한 바퀴가 아니라 한 칸을 주기로 돈다 —
    셋을 따라다니는 세 벌을 두지 않아도 저절로 맞아떨어진다.
@@ -2966,17 +2969,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   90%,100%{opacity:0;transform:scale(1)}
 }
 /* 이름이 앉는 칸 — 가장 긴 '선글라스' 만큼 잡고 **오른쪽에 붙인다**.
-   셋을 한 칸에 겹쳐 두어야 칸의 폭이 긴 것으로 고정되고, 오른쪽에 붙여야
+   둘을 한 칸에 겹쳐 두어야 칸의 폭이 긴 것으로 고정되고, 오른쪽에 붙여야
    뒤따르는 '를 벗어 주세요' 가 이름이 바뀌어도 제자리에 남는다 */
 .cam__w{display:inline-grid;justify-items:end;vertical-align:top}
 .cam__wi{grid-area:1/1}
-/* 틀 아래 한 줄 — 그림이 벗는 것은 마스크뿐이라, 모자와 선글라스는 글이
-   맡는다. 틀 위의 큰 글씨가 주인이므로 한 단 죽여 적는다 */
-.cam__off{font:var(--t-body);letter-spacing:var(--ls-body);word-break:keep-all;
-  position:absolute;left:0;right:0;
-  top:calc(var(--ap-cam-top) + var(--ap-ready-box) + var(--ap-p8));
-  padding:0 var(--ap-p8);text-align:center;color:var(--ap-on-dark-sub);
-  text-shadow:var(--ap-shadow-cam-text)}
 /* ── 저절로 눌리는 버튼 ──
    바가 다 차면 카메라가 스스로 열린다. 남은 시간을 따로 세어 보이지
    않는다 — 숫자가 줄어드는 것은 '놓치면 안 되는 것' 의 말투이고, 여기서
@@ -2994,15 +2990,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 @media (prefers-reduced-motion:reduce){
   .scan__on,.scan__no{animation:none;opacity:0}
   .cam__go--wait::before{display:none}
-  /* 이름은 **셋을 한 줄에 펴서** 보인다. 겹쳐 둔 칸을 그대로 멈춰 세우면
-     셋이 한자리에 포개져 아무것도 읽히지 않고, 하나만 남기면 나머지 둘을
+  /* 이름은 **둘을 한 줄에 펴서** 보인다. 겹쳐 둔 칸을 그대로 멈춰 세우면
+     둘이 한자리에 포개져 아무것도 읽히지 않고, 하나만 남기면 나머지 하나를
      이 사람만 못 읽는다 */
   .cam__w{display:inline}
   .cam__wi{display:inline;animation:none;opacity:1;transform:none}
   .cam__wi + .cam__wi::before{content:" · "}
-  /* 셋이 한 줄에 펴지면 좁은 화면에서 두 줄이 된다 — 떼어 둘 아래 자리도
-     그만큼 넓힌다(320×568 에서 6 이 겹쳤다 — 실측) */
-  .cam--ready{--ap-ready-foot:180px}
 }
 
 /* 촬영 확인 — 찍은 얼굴을 덮어 놓고 묻는다 */
