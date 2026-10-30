@@ -1171,13 +1171,15 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .go > .cardb{margin-bottom:var(--ap-p6)}
 /* ── 과녁 카드 ──
    꼴은 바닥에 띄워 두었을 때 그대로다 — 네 변에서 들어온 떠 있는 카드,
-   모서리 15, 같은 그림자, 같은 면 색(출근 primary · 퇴근 g95).
+   모서리 15, 같은 그림자.
    바뀐 것은 **안의 차례**다: 시각이 맨 위에 제일 크게 오고, 이름이 그
-   아래, 인증 방식이 그 아래다 */
+   아래, 인증 방식이 그 아래다.
+   면은 출근도 퇴근도 브랜드 색이다 — 퇴근을 검정으로 두었더니 같은 자리의
+   같은 일(오늘 할 일 하나)이 날의 앞뒤에 따라 다른 것처럼 보였다. 무엇을
+   찍는지는 이름이 적고 있다 */
 .go__card{display:block;text-align:left;width:100%;
   padding:var(--ap-p6) var(--ap-p6) var(--ap-p5);
   border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-cta)}
-.go__card.act__b--dark{box-shadow:var(--ap-shadow-cta-out)}
 /* ── 꺼진 과녁 — 아직 할 수 없는 일 ──
    지워 버리지 않는 것은, 없으면 '그 일은 어디서 하나' 를 묻게 되기
    때문이다. 자리는 그대로 두고 꺼 둔다.
@@ -1251,8 +1253,16 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   margin-bottom:calc(var(--ap-p5) + 6px);
   padding:var(--ap-p4) var(--ap-p6);border-radius:var(--ap-r8);
   background:var(--ap-surface-dark);color:var(--ap-g0);
-  box-shadow:var(--ap-shadow-tip);word-break:keep-all;text-align:center;
+  box-shadow:var(--ap-shadow-tip);word-break:keep-all;
+  display:flex;align-items:center;gap:var(--ap-p4);
   animation:ap-bob var(--ap-bob-cycle) var(--ap-ease-sym) infinite}
+/* 닫는 ✕ 는 글 오른쪽 끝이다. 글보다 한 겹 죽인 흰빛으로 둔다 — 읽을
+   것은 글이고 이것은 다 읽은 뒤에 쓰는 손잡이다.
+   짚을 자리는 4 를 둘러 24 로 넓히되, 그만큼 바깥으로 물려 말풍선이
+   커지지 않게 한다 */
+.tip__t{min-width:0}
+.tip__x{flex:none;display:flex;align-items:center;justify-content:center;
+  padding:4px;margin:-4px -4px -4px 0;color:var(--ap-on-dark-sub)}
 .tip::after{content:"";position:absolute;top:100%;left:50%;
   width:0;height:0;margin-left:-6px;
   border:6px solid transparent;border-bottom:0;
