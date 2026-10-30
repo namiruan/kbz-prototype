@@ -218,6 +218,9 @@
   --ap-ease-sheet:cubic-bezier(.17,.84,.44,1);
   --ap-beat:750ms;                 /* duration-pulse — 한 번 뛰는 길이 */
   --ap-go-cycle:1.6s;              /* '시작' 화살표가 한 번 밀었다 돌아오는 주기 */
+  --ap-bob-cycle:2.4s;             /* 말풍선이 한 번 튀었다 가라앉는 주기 —
+                                      화살표보다 길다. 읽는 글이라 자주
+                                      움직이면 되레 읽기 어렵다 */
   --ap-beat-cycle:3s;              /* 뛰고 나서 쉬는 참까지. 750 뛰고 2250 쉰다 */
   --ap-scan-time:1.9s;             /* 레이저가 위에서 아래까지 한 번 훑는 데 걸리는 길이 */
   --ap-scan-base:120px;            /* 얼굴을 훑는 그림의 본디 크기 */
@@ -1231,25 +1234,40 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .go__card .cta__need{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
   padding:2px var(--ap-p4);border-radius:var(--ap-r4);
   box-shadow:inset 0 0 0 1px var(--ap-on-cta-line)}
-/* ── 못 하는 까닭 — 과녁 위의 말풍선 ──
+/* ── 못 하는 까닭 — 눌러야 하는 것 위의 말풍선 ──
    꺼진 과녁 **안**에 한 줄로 두었을 때는, 흐린 면 위의 흐린 글이라 눈에
    걸리지 않았다 — 정작 먼저 읽혀야 할 말인데 가장 늦게 읽혔다.
-   밖으로 꺼내 짙은 면에 얹는다. 꼴은 카메라의 센 수(.cam__tip)와 같은
-   시스템 Tooltip 패널이다(atoms/tooltip.md — surface-dark 면 · radius 8).
-   다만 글은 13 이 아니라 15 다: 저쪽은 흘끗 보는 수지만 이쪽은 **읽어야
-   다음 할 일을 아는 문장**이다.
-   꼬리가 아래를 가리켜 어느 것에 걸린 말인지 자리로 말한다. 꼬리 몫(6)을
-   아래 여백에 더해, 꼬리 끝과 과녁 사이가 다른 사이(12)와 같아진다 */
+   밖으로 꺼내 짙은 면에 얹고, **눌러야 하는 카드 위**에 띄운다. 꼬리가 그
+   카드를 가리켜, 읽고 나서 눈이 머문 자리가 곧 누를 자리가 된다 — 잠긴
+   과녁 위에 두면 말은 보여도 '그럼 어디를 누르나' 가 한 칸 더 떨어진다.
+   꼴은 카메라의 센 수(.cam__tip)와 같은 시스템 Tooltip 패널이다
+   (atoms/tooltip.md — surface-dark 면 · radius 8). 다만 글은 13 이 아니라
+   15 다: 저쪽은 흘끗 보는 수지만 이쪽은 **읽어야 다음 할 일을 아는
+   문장**이다.
+   꼬리 몫(6)을 아래 여백에 더해, 꼬리 끝과 카드 사이가 다른 사이(12)와
+   같아진다 */
 .tip{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
   position:relative;align-self:center;max-width:100%;
   margin-bottom:calc(var(--ap-p5) + 6px);
   padding:var(--ap-p4) var(--ap-p6);border-radius:var(--ap-r8);
   background:var(--ap-surface-dark);color:var(--ap-g0);
-  box-shadow:var(--ap-shadow-tip);word-break:keep-all;text-align:center}
+  box-shadow:var(--ap-shadow-tip);word-break:keep-all;text-align:center;
+  animation:ap-bob var(--ap-bob-cycle) var(--ap-ease-sym) infinite}
 .tip::after{content:"";position:absolute;top:100%;left:50%;
   width:0;height:0;margin-left:-6px;
   border:6px solid transparent;border-bottom:0;
   border-top-color:var(--ap-surface-dark)}
+/* 한 바퀴에 한 번 짧게 튄다 — '시작' 화살표(ap-go)와 같은 결이다. 쉬지
+   않고 흔들면 읽는 글이 흔들려 되레 읽기 어렵다. 떴다가 바닥을 한 번 더
+   스치는 것이 튀는 꼴로 읽힌다 */
+@keyframes ap-bob{
+  0%,60%{transform:translateY(0)}
+  72%{transform:translateY(-6px)}
+  84%{transform:translateY(0)}
+  91%{transform:translateY(-2px)}
+  100%{transform:translateY(0)}
+}
+@media (prefers-reduced-motion:reduce){.tip{animation:none}}
 /* 오른쪽 끝의 표는 꺾쇠가 아니라 자물쇠다 — 같은 자리에 서되, 미는 그림은
    두지 않는다. 갈 데가 없는데 앞으로 미는 표는 거짓말이다 */
 .go__card .cta__lock{flex:none;display:flex;align-items:center;justify-content:center;
