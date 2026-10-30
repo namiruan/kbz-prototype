@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=555">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=556">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=555"></script>
+<script src="assets/face-attendance-app.js?v=556"></script>
 </head>
 
 <body>
@@ -688,16 +688,30 @@
             <g class="scan__eyes"><circle cx="24" cy="29" r="4"/><circle cx="48" cy="29" r="4"/></g>
             <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
           </g>
-          <g class="scan__mask">
+          <!-- 가리는 것 셋 — 치수와 까닭은 근로자 앱(w-ready)의 같은 그림에
+               적어 두었다. 두 곳에 적으면 따로 늙는다 -->
+          <g class="scan__on scan__mask">
             <path class="scan__mask-s" d="M14 36.5 7 31M58 36.5 65 31"/>
             <path class="scan__mask-b" d="M13.5 36.5Q36 30 58.5 36.5L58 47Q36 64 14 47Z"/>
             <path class="scan__mask-p" d="M18 41H54M20 46.5Q36 50.5 52 46.5"/>
           </g>
+          <g class="scan__on scan__cap">
+            <path class="scan__cap-s" d="M12 21A24 14 0 0 1 60 21Z"/>
+            <path class="scan__cap-d" d="M27 9.5V20M45 9.5V20"/>
+            <rect class="scan__cap-b" x="8" y="19.5" width="56" height="5" rx="2.5"/>
+          </g>
+          <g class="scan__on scan__sun">
+            <path class="scan__sun-t" d="M13.5 25.5 6.5 23M58.5 25.5 65.5 23"/>
+            <rect class="scan__sun-l" x="13" y="22.5" width="21" height="13" rx="5"/>
+            <rect class="scan__sun-l" x="38" y="22.5" width="21" height="13" rx="5"/>
+            <path class="scan__sun-br" d="M34 26.5h4"/>
+          </g>
+          <path class="scan__no" d="M21 21 51 51M51 21 21 51"/>
         </svg>
       </span>
     </div>
     <p class="cam__t">정면을 보고 틀 안에 맞춰주세요</p>
-    <p class="cam__off">마스크 · 모자 · 선글라스는 벗어 주세요</p>
+    <p class="cam__off"><span class="cam__w"><span class="cam__wi">마스크</span><span class="cam__wi">모자</span><span class="cam__wi">선글라스</span></span>를 벗어 주세요</p>
     <span class="cam__go cam__go--wait" data-go="m-shot"><b class="cam__go__t">바로 촬영하기</b></span>
   </div>
 </section>
