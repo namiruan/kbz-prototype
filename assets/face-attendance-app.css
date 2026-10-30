@@ -1189,6 +1189,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   color:var(--ap-text-gray)}
 .go__card .cta__nm{display:flex;flex-direction:column;align-items:flex-start;
   gap:var(--ap-p3);min-width:0}
+/* 시각과 이름은 **한 줄**에 선다 — 둘을 위아래로 쌓았더니 카드가 길어지고,
+   읽는 눈이 세 번(시각 · 이름 · 방식) 꺾였다. 밑줄을 맞춰 세운다
+   (baseline): 크기가 다른 둘을 가운데로 맞추면 작은 쪽이 떠 보인다 */
+.go__card .cta__lead{display:flex;align-items:baseline;gap:var(--ap-p5);
+  min-width:0;flex-wrap:wrap}
 /* 시각이 이 카드에서 제일 크다(32) — 전에는 이름 위에 붙은 17 짜리 알약
    이어서, 32 짜리 이름 옆에서 곁말로 읽혔다. 머리글이 된 수에 알약까지
    두르면 뱃지 하나가 통째로 커진 꼴이 되므로 면은 걷고 수만 세운다.
