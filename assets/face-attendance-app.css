@@ -501,6 +501,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
     animation-range:calc(100% - var(--ap-fade-deep)) 100%}
   @keyframes ap-fade-foot{from{--ap-fade-b:32px} to{--ap-fade-b:0px}}
 }
+/* ⚠ 과녁이 본문 **안으로** 들어온 화면에서는 발을 흐리지 않는다. 흐려지는
+   마지막 한 겹에 바닥에 붙은 과녁이 들어, 제 발이 바탕으로 녹아 버렸다 —
+   파란 면이 아래로 갈수록 옅어져 과녁 안에 그라데이션이 깔린 것처럼 보였다.
+   그 몫은 과녁 제 위의 .go::before 가 맡는다: 굴러 올라온 카드는 거기서
+   흐려지고, 과녁은 또렷한 채로 남는다 */
+.hd--bare ~ .body:has(.go){--ap-fade-b:0px;animation:none}
 
 /* ── 머리 카드 밖 — 현장 ──
    탭은 화면을 가르고, 현장은 그 아래 내용이 어느 현장 것인지를 말한다.
