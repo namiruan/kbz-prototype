@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=539">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=540">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=539"></script>
+<script src="assets/face-attendance-app.js?v=540"></script>
 </head>
 
 <body>
@@ -178,9 +178,18 @@
          묶여 '지금 몇 시인가' 의 곁말처럼 읽혔는데, 이것은 과녁에 걸리는
          조건이지 시각에 딸린 말이 아니다 -->
     <div class="go">
-      <b class="go__now"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg><span class="cta__now">07:03:12</span></b>
-      <button class="go__b" type="button" data-go="w-face">출근하기<svg class="ic ic--24 go__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
-      <span class="go__way">얼굴 인증</span>
+      <button class="act__b act__b--on go__card" type="button" data-go="w-face">
+        <span class="cta__tx">
+          <span class="cta__h">
+            <span class="cta__nm">
+              <span class="cta__time"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">07:03:12</b></span>
+              <span class="cta__t">출근하기</span>
+              <span class="cta__need">얼굴 인증</span>
+            </span>
+            <span class="act__go" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></span>
+          </span>
+        </span>
+      </button>
     </div>
   </main>
 
@@ -397,9 +406,18 @@
          묶여 '지금 몇 시인가' 의 곁말처럼 읽혔는데, 이것은 과녁에 걸리는
          조건이지 시각에 딸린 말이 아니다 -->
     <div class="go">
-      <b class="go__now"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg><span class="cta__now">07:03:12</span></b>
-      <button class="go__b" type="button">출근하기<svg class="ic ic--24 go__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
-      <span class="go__way">얼굴 인증</span>
+      <button class="act__b act__b--on go__card" type="button">
+        <span class="cta__tx">
+          <span class="cta__h">
+            <span class="cta__nm">
+              <span class="cta__time"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">07:03:12</b></span>
+              <span class="cta__t">출근하기</span>
+              <span class="cta__need">얼굴 인증</span>
+            </span>
+            <span class="act__go" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></span>
+          </span>
+        </span>
+      </button>
     </div>
   </main>
 
@@ -580,10 +598,19 @@
         </span>
         <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
       </button>
-      <b class="go__now"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg><span class="cta__now">17:31:40</span></b>
-      <button class="go__b go__b--lock" type="button" disabled>퇴근하기<svg class="ic ic--24 go__lock" aria-hidden="true"><use href="#icon-lock"></use></svg></button>
-      <span class="go__way">얼굴 인증</span>
-      <p class="go__why">작업내용을 작성해야 퇴근할 수 있습니다</p>
+      <button class="act__b act__b--lock go__card" type="button" disabled>
+        <span class="cta__tx">
+          <span class="cta__h">
+            <span class="cta__nm">
+              <span class="cta__time"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">17:31:40</b></span>
+              <span class="cta__t">퇴근하기</span>
+              <span class="cta__need">얼굴 인증</span>
+              <span class="cta__why">작업내용을 작성해야 퇴근할 수 있습니다</span>
+            </span>
+            <span class="cta__lock" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-lock"></use></svg></span>
+          </span>
+        </span>
+      </button>
     </div>
   </main>
 
@@ -799,9 +826,18 @@
          묶여 '지금 몇 시인가' 의 곁말처럼 읽혔는데, 이것은 과녁에 걸리는
          조건이지 시각에 딸린 말이 아니다 -->
     <div class="go">
-      <b class="go__now"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg><span class="cta__now">17:31:40</span></b>
-      <button class="go__b go__b--dark" type="button" data-go="w-cam-out">퇴근하기<svg class="ic ic--24 go__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
-      <span class="go__way">얼굴 인증</span>
+      <button class="act__b act__b--dark go__card" type="button" data-go="w-cam-out">
+        <span class="cta__tx">
+          <span class="cta__h">
+            <span class="cta__nm">
+              <span class="cta__time"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">17:31:40</b></span>
+              <span class="cta__t">퇴근하기</span>
+              <span class="cta__need">얼굴 인증</span>
+            </span>
+            <span class="act__go" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></span>
+          </span>
+        </span>
+      </button>
     </div>
   </main>
 
@@ -1394,9 +1430,18 @@
          묶여 '지금 몇 시인가' 의 곁말처럼 읽혔는데, 이것은 과녁에 걸리는
          조건이지 시각에 딸린 말이 아니다 -->
     <div class="go">
-      <b class="go__now"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg><span class="cta__now">17:31:40</span></b>
-      <button class="go__b go__b--dark" type="button" data-go="w-cam-out">퇴근하기<svg class="ic ic--24 go__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></button>
-      <span class="go__way">얼굴 인증</span>
+      <button class="act__b act__b--dark go__card" type="button" data-go="w-cam-out">
+        <span class="cta__tx">
+          <span class="cta__h">
+            <span class="cta__nm">
+              <span class="cta__time"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">17:31:40</b></span>
+              <span class="cta__t">퇴근하기</span>
+              <span class="cta__need">얼굴 인증</span>
+            </span>
+            <span class="act__go" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></span>
+          </span>
+        </span>
+      </button>
     </div>
   </main>
 
@@ -1671,10 +1716,19 @@
         </span>
         <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
       </button>
-      <b class="go__now"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg><span class="cta__now">07:03:12</span></b>
-      <button class="go__b go__b--lock" type="button" disabled>출근하기<svg class="ic ic--24 go__lock" aria-hidden="true"><use href="#icon-lock"></use></svg></button>
-      <span class="go__way">얼굴 인증</span>
-      <p class="go__why">이전 근무를 퇴근해야 출근할 수 있습니다</p>
+      <button class="act__b act__b--lock go__card" type="button" disabled>
+        <span class="cta__tx">
+          <span class="cta__h">
+            <span class="cta__nm">
+              <span class="cta__time"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">07:03:12</b></span>
+              <span class="cta__t">출근하기</span>
+              <span class="cta__need">얼굴 인증</span>
+              <span class="cta__why">이전 근무를 퇴근해야 출근할 수 있습니다</span>
+            </span>
+            <span class="cta__lock" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-lock"></use></svg></span>
+          </span>
+        </span>
+      </button>
     </div>
   </main>
 
