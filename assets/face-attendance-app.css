@@ -1188,12 +1188,15 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .go__card.act__b--lock .cta__need{box-shadow:inset 0 0 0 1px var(--ap-g20);
   color:var(--ap-text-gray)}
 .go__card .cta__nm{display:flex;flex-direction:column;align-items:flex-start;
-  gap:var(--ap-p3);min-width:0}
-/* 시각과 이름은 **한 줄**에 선다 — 둘을 위아래로 쌓았더니 카드가 길어지고,
-   읽는 눈이 세 번(시각 · 이름 · 방식) 꺾였다. 밑줄을 맞춰 세운다
-   (baseline): 크기가 다른 둘을 가운데로 맞추면 작은 쪽이 떠 보인다 */
+  gap:var(--ap-p3);align-self:stretch;min-width:0}
+/* 시각 · 이름 · '시작' 표가 **한 줄**에 선다 — 셋을 위아래로 흩어 두면
+   눈이 그만큼 꺾이고, 표가 두 줄 사이에 떠 어느 쪽에도 맞지 않는다.
+   밑줄을 맞춰 세운다(baseline): 크기가 다른 둘(32 · 22)을 가운데로 맞추면
+   작은 쪽이 떠 보인다. 표는 밑줄이 없는 그림이라 따로 가운데로 맞춘다 */
 .go__card .cta__lead{display:flex;align-items:baseline;gap:var(--ap-p5);
-  min-width:0;flex-wrap:wrap}
+  align-self:stretch;min-width:0;flex-wrap:wrap}
+.go__card .cta__lead > .act__go,
+.go__card .cta__lead > .cta__lock{margin-left:auto;align-self:center}
 /* 시각이 이 카드에서 제일 크다(32) — 전에는 이름 위에 붙은 17 짜리 알약
    이어서, 32 짜리 이름 옆에서 곁말로 읽혔다. 머리글이 된 수에 알약까지
    두르면 뱃지 하나가 통째로 커진 꼴이 되므로 면은 걷고 수만 세운다.
@@ -1216,8 +1219,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    클릭해 보고서야 막힌 줄 안다 */
 .go__card .cta__why{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);
   color:var(--ap-text-gray);word-break:keep-all}
-/* 표는 덩어리의 한가운데에 선다 */
-.go__card .cta__h{align-items:center}
 /* 오른쪽 끝의 표는 꺾쇠가 아니라 자물쇠다 — 같은 자리에 서되, 미는 그림은
    두지 않는다. 갈 데가 없는데 앞으로 미는 표는 거짓말이다 */
 .go__card .cta__lock{flex:none;display:flex;align-items:center;justify-content:center;
