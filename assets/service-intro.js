@@ -212,4 +212,184 @@
       } catch (err) {}
     });
   })();
+
+  /* ── partition-2 짧은 루프 데모 ─────────────────────────────
+     index.html 의 .ui-demo 와 같은 짜임이되 훨씬 짧게 줄였다. 한 칸이
+     대여섯 걸음, 한 바퀴 5초 안쪽이다. 보일 때만 돌고 벗어나면 멈춘다 —
+     화면 밖에서 타이머가 도는 것을 막는다.
+
+     동작 줄이기를 켠 사람에게는 돌리지 않고 끝난 모습만 세워 둔다.
+     여기 데모는 본문을 돕는 그림이지 본문 자체가 아니라서다 ─────── */
+  (function () {
+    var demos = [].slice.call(document.querySelectorAll('[data-p2d]'));
+    if (!demos.length) return;
+    var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+    /* 근로내역 대조 — 단말기가 찍은 것과 현장이 손으로 적은 출역기록
+       사이를 돋보기가 오간다. 그뿐이다. 무엇이 잘못됐다고도, 무엇이
+       만들어졌다고도 말하지 않는다 — 글이 말하는 것이 '맞춰 본다' 까지다 */
+    function match(root) {
+      var scan = root.querySelector('.p2d-scan');
+      var dev = root.querySelector('.p2d-dev .body');
+      var doc = root.querySelector('.p2d-doc .sheet');
+      var lens = root.querySelector('.lens');
+      var timers = [], on = false, cur = dev;
+      function T(ms, fn) { timers.push(setTimeout(fn, ms)); }
+      function clear() { timers.forEach(clearTimeout); timers = []; }
+      /* 자리를 재서 옮긴다 — 좌표를 박아 두지 않아 폭이 바뀌어도 맞는다 */
+      function moveTo(el, jump) {
+        cur = el;
+        if (jump) lens.style.transition = 'none';
+        var r = el.getBoundingClientRect(), s = scan.getBoundingClientRect();
+        lens.style.left = (r.left - s.left + r.width / 2) + 'px';
+        lens.style.top = (r.top - s.top + r.height / 2) + 'px';
+        if (jump) { void lens.offsetWidth; lens.style.transition = ''; }
+      }
+      /* 폭이 바뀌면 재 둔 자리가 어긋난다 — 그 자리로 다시 잡는다 */
+      addEventListener('resize', function () { if (on) moveTo(cur, true); });
+      function step() { moveTo(cur === dev ? doc : dev); T(1400, step); }
+      return {
+        play: function () {
+          if (on) return;
+          on = true;
+          moveTo(dev, true);
+          scan.classList.add('scanning');
+          if (reduce) { moveTo(doc); return; }   /* 움직이지 않고 한 자리에 둔다 */
+          T(900, step);
+        },
+        stop: function () { on = false; clear(); scan.classList.remove('scanning'); }
+      };
+    }
+
+    /* 건설공사 신고 — 업무가 아래에서 올라와 가운데에서 체크되고 위로 빠진다.
+       창은 셋만 보여 주고 줄은 넷이다. 한 칸 올린 뒤 맨 위를 맨 아래로 돌려
+       보내면 처음으로 되돌아가는 순간이 없어 이음매가 안 보인다.
+       (저장소의 후기 캐러셀이 쓰는 방법과 같다) */
+    function due(root) {
+      var win = root.querySelector('.dl-win');
+      var list = root.querySelector('.dl-list');
+      var timers = [], on = false;
+      var EASE = 'transform .5s cubic-bezier(.4,0,.3,1)';
+      function T(ms, fn) { timers.push(setTimeout(fn, ms)); }
+      function clear() { timers.forEach(clearTimeout); timers = []; }
+      /* 한 칸 = 줄 높이 + 사이 틈. 재서 쓰므로 폭이 바뀌어도 맞는다 */
+      function stepPx() {
+        var li = list.children;
+        return li.length > 1 ? li[1].offsetTop - li[0].offsetTop : 0;
+      }
+      function place(px, jump) {
+        if (jump) list.style.transition = 'none';
+        list.style.transform = 'translateY(' + px + 'px)';
+        if (jump) { void list.offsetHeight; list.style.transition = EASE; }
+      }
+      function reset() {
+        clear();
+        [].forEach.call(list.children, function (li) { li.classList.remove('on'); });
+        list.style.transition = EASE;
+        place(0, true);
+      }
+      function settle() {           /* 동작 줄이기용 — 멈춘 채 끝난 모습 */
+        [].forEach.call(list.children, function (li) { li.classList.add('on'); });
+      }
+      function tick() {
+        /* 가운데 줄에 체크가 들어오고, 잠시 뒤 한 칸 올라간다 */
+        var mid = list.children[1];
+        if (mid) mid.classList.add('on');
+        T(600, function () {
+          place(-stepPx());
+          T(520, function () {                 /* 다 올라가면 맨 위를 뒤로 */
+            var first = list.firstElementChild;
+            first.classList.remove('on');
+            list.appendChild(first);
+            place(0, true);
+          });
+        });
+        T(1500, tick);
+      }
+      return {
+        play: function () {
+          if (on) return;
+          on = true;
+          reset();
+          if (reduce) { settle(); return; }
+          T(500, tick);
+        },
+        stop: function () { on = false; clear(); }
+      };
+    }
+
+    /* 고지서 검증 — 고지서가 줄지어 오른쪽으로 흐른다. 돈에 닿기 전
+       가운데를 지날 때 검증 도장이 찍힌다. 끝나는 자리가 없으니 되감기지
+       않는다 — 첫째 칸의 컨베이어와 같은 수다 */
+    function pay(root) {
+      var track = root.querySelector('.bl-track');
+      var timers = [], on = false;
+      var EASE = 'transform .6s cubic-bezier(.4,0,.3,1)';
+      function T(ms, fn) { timers.push(setTimeout(fn, ms)); }
+      function clear() { timers.forEach(clearTimeout); timers = []; }
+      /* 한 칸 = 고지서 폭 + 사이 틈. 재서 쓰므로 폭이 바뀌어도 맞는다 */
+      function stepPx() {
+        var c = track.children;
+        return c.length > 1 ? c[1].offsetLeft - c[0].offsetLeft : 0;
+      }
+      function place(px, jump) {
+        if (jump) track.style.transition = 'none';
+        track.style.transform = 'translateX(' + px + 'px)';
+        if (jump) { void track.offsetWidth; track.style.transition = EASE; }
+      }
+      function reset() {
+        clear();
+        [].forEach.call(track.children, function (d) { d.classList.remove('on'); });
+        track.style.transition = EASE;
+        place(-stepPx(), true);     /* 한 칸 왼쪽에서 시작해 오른쪽으로 흐른다 */
+      }
+      function settle() {           /* 동작 줄이기용 — 멈춘 채 검증된 모습 */
+        var mid = track.children[1];
+        if (mid) mid.classList.add('on');
+      }
+      function tick() {
+        var mid = track.children[1];          /* 가운데를 지나는 고지서 */
+        if (mid) mid.classList.add('on');
+        T(700, function () {
+          place(0);                            /* 한 칸 오른쪽으로 */
+          T(620, function () {                 /* 맨 뒤를 맨 앞으로 */
+            var last = track.lastElementChild;
+            last.classList.remove('on');
+            track.insertBefore(last, track.firstElementChild);
+            place(-stepPx(), true);
+          });
+        });
+        T(1800, tick);
+      }
+      return {
+        play: function () {
+          if (on) return;
+          on = true;
+          reset();
+          if (reduce) { settle(); return; }
+          T(500, tick);
+        },
+        stop: function () { on = false; clear(); }
+      };
+    }
+
+    var make = { match: match, due: due, pay: pay };
+    var list = [];
+    demos.forEach(function (el) {
+      var f = make[el.getAttribute('data-p2d')];
+      if (!f) return;
+      /* CSS 의 기본 상태는 '끝난 모습' 이다. 스크립트가 여기까지 왔으니
+         처음 상태에서 시작해도 된다고 알린다 */
+      el.classList.add('is-live');
+      list.push({ el: el, ctl: f(el) });
+    });
+    if (!('IntersectionObserver' in window)) { list.forEach(function (d) { d.ctl.play(); }); return; }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var d = list.filter(function (x) { return x.el === e.target; })[0];
+        if (d) (e.isIntersecting ? d.ctl.play() : d.ctl.stop());
+      });
+    }, { threshold: 0.3 });
+    list.forEach(function (d) { io.observe(d.el); });
+  })();
 })();
