@@ -1372,7 +1372,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .wheel::before{content:"";flex:none;width:36px;height:4px;border-radius:2px;
   background:var(--ap-g20)}
 .wheel__b{position:relative;flex:none;height:176px;width:100%;max-width:297px;
-  display:grid;grid-template-columns:repeat(3,1fr)}
+  display:grid;grid-auto-flow:column;grid-auto-columns:1fr}
+/* 칸이 둘뿐인 휠(근로자 앱 — 연 · 월)은 상자도 그만큼 좁힌다. 셋 몫(297)을
+   그대로 두면 두 칸이 좌우로 흩어져, 가운데 띠 안이 텅 빈다.
+   세는 것은 `div` 다 — 띠(.wheel__band)는 `span` 이라 nth-of-type 에 끼지
+   않는다 */
+.wheel__b:not(:has(.wheel__c:nth-of-type(3))){max-width:198px}
 /* 고른 값이 앉는 자리. 칸(44)만큼 두껍고, **시트의 변까지** 넓다 —
    세 칸(최대 297)만 덮으면 고르는 자리가 글자만 한 띠로 보인다. 시트의
    안쪽 폭(화면 폭 - 좌우 여백 16)까지 벌리되 변에는 닿지 않는다 —

@@ -297,11 +297,13 @@
     });
 
     scr.querySelectorAll('.cal__date').forEach(function (row) {
-      var nums = row.querySelectorAll('.cal__num');   /* 연 · 월 · 일 */
-      if (nums.length === 3) {
+      /* 근로자 앱의 머리줄은 연 · 월만 쥔다(날은 띠와 달이 고른다).
+         현장소장 앱의 이력 줄은 하루치 목록이라 날까지 적는다 */
+      var nums = row.querySelectorAll('.cal__num');   /* 연 · 월 [· 일] */
+      if (nums.length >= 2) {
         nums[0].textContent = String(v.y);
         nums[1].textContent = two(v.m);
-        nums[2].textContent = two(v.d);
+        if (nums[2]) nums[2].textContent = two(v.d);
       }
       var dow = row.querySelector('.cal__dow');
       if (dow) dow.textContent = WDAY[new Date(v.y, v.m - 1, v.d).getDay()];
