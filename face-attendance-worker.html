@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=563">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=564">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=563"></script>
+<script src="assets/face-attendance-app.js?v=564"></script>
 </head>
 
 <body>
@@ -973,9 +973,10 @@
                가리는 것들보다 **뒤에 그린다** — 보안경은 챙 밑으로
                들어가는 것이지 챙 위에 얹히는 것이 아니다 -->
           <g class="scan__hat">
-            <path class="scan__hat-r" d="M9.6 20.8A26.4 26.4 0 0 1 62.4 20.8Z"/>
-            <path class="scan__hat-d" d="M29.6.8V19.2M42.4.8V19.2"/>
-            <rect class="scan__hat-b" x="8.4" y="18.4" width="55.2" height="4.8" rx="2.4"/>
+            <path class="scan__hat-r" d="M5.64 20.64A30.36 30.36 0 0 1 66.36 20.64Z"/>
+            <path class="scan__hat-s" d="M5.64 20.64 8.86 6.84Q20.36-6.04 36-6.04 51.64-6.04 63.14 6.84L66.36 20.64Z"/>
+            <path class="scan__hat-d" d="M28.64-2.36V18.8M43.36-2.36V18.8"/>
+            <rect class="scan__hat-b" x="4.26" y="17.88" width="63.48" height="5.52" rx="2.76"/>
           </g>
           <path class="scan__no" d="M23 27.5 49 53.5M49 27.5 23 53.5"/>
         </svg>
