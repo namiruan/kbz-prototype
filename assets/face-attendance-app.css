@@ -283,9 +283,12 @@
      여기만 선을 두르면 그 선이 먼저 읽힌다 */
   --ap-mask:#ccd9ef;               /* 빛을 받는 쪽(오른 면) */
   --ap-mask-2:#b3c5e2;             /* 꺾여 그늘진 쪽(왼 면) · 귀끈 */
-  /* 선글라스 알 — 눈을 덮는 것이라 짙어야 하지만 검정까지 가지는 않는다.
+  /* 보안경 알 — 눈을 덮는 것이라 짙어야 하지만 검정까지 가지는 않는다.
      흰 면 위의 순검정은 구멍처럼 보인다 */
-  --ap-glass:#2a3342;
+  --ap-glass:#37435a;
+  --ap-glass-rim:#1d2430;          /* 눈썹대와 다리 — 알보다 한참 짙다.
+                                      이 한 단이 있어야 '알 한 장짜리 고글'
+                                      이 아니라 테를 두른 보안경으로 읽힌다 */
   --ap-glass-glint:rgba(255,255,255,.34); /* 알을 비스듬히 가로지르는 빛.
                                       이것이 있어야 검은 면이 뚫린 구멍이
                                       아니라 유리로 읽힌다 */
@@ -2952,7 +2955,8 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .scan__mask-r{fill:var(--ap-mask)}
 .scan__mask-s{fill:none;stroke:var(--ap-mask-2);stroke-width:1.8;stroke-linecap:round}
 .scan__sun-b{fill:var(--ap-glass)}
-.scan__sun-t{fill:none;stroke:var(--ap-glass);stroke-width:2;stroke-linecap:round}
+.scan__sun-w{fill:none;stroke:var(--ap-glass-rim);stroke-width:3.2;stroke-linecap:round}
+.scan__sun-t{fill:none;stroke:var(--ap-glass-rim);stroke-width:2.4;stroke-linecap:round}
 .scan__sun-g{fill:none;stroke:var(--ap-glass-glint);stroke-width:2.2;stroke-linecap:round}
 /* ✕ 는 얼굴 인증이 **실패했을 때의 색**과 같다(--ap-cam-fail) — 이 앱에서
    '안 된다' 를 말하는 색이 화면마다 다르면 색이 뜻을 잃는다 */
