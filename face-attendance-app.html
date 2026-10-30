@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=558">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=559">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=558"></script>
+<script src="assets/face-attendance-app.js?v=559"></script>
 </head>
 
 <body>
@@ -691,15 +691,14 @@
           <!-- 가리는 것 둘 — 치수와 까닭은 근로자 앱(w-ready)의 같은 그림에
                적어 두었다. 두 곳에 적으면 따로 늙는다 -->
           <g class="scan__on scan__mask">
-            <path class="scan__mask-s" d="M14 36.5 7 31M58 36.5 65 31"/>
-            <path class="scan__mask-b" d="M13.5 36.5Q36 30 58.5 36.5L58 47Q36 64 14 47Z"/>
-            <path class="scan__mask-p" d="M18 41H54M20 46.5Q36 50.5 52 46.5"/>
+            <path class="scan__mask-s" d="M13 39C9.2 37.6 7 36 5.5 34.5M59 39C62.8 37.6 65 36 66.5 34.5"/>
+            <path class="scan__mask-l" d="M13 39Q22.5 34.5 36 33.5V55C30.6 55 25.6 54 21.6 51.4 17.3 48.5 14.2 44.2 13 39Z"/>
+            <path class="scan__mask-r" d="M59 39Q49.5 34.5 36 33.5V55C41.4 55 46.4 54 50.4 51.4 54.7 48.5 57.8 44.2 59 39Z"/>
           </g>
           <g class="scan__on scan__sun">
-            <path class="scan__sun-t" d="M13.5 25.5 6.5 23M58.5 25.5 65.5 23"/>
-            <rect class="scan__sun-l" x="13" y="22.5" width="21" height="13" rx="5"/>
-            <rect class="scan__sun-l" x="38" y="22.5" width="21" height="13" rx="5"/>
-            <path class="scan__sun-br" d="M34 26.5h4"/>
+            <path class="scan__sun-t" d="M11 25.5 4.5 23.2M61 25.5 67.5 23.2"/>
+            <path class="scan__sun-b" d="M11 24.5h50v3.5c0 5.5-4.5 8.5-11 8.5s-10-2.5-11.4-6.7c-.6-1.8-2-2.2-3.6-2.2s-3 .4-3.6 2.2C30 34 26.5 36.5 22 36.5s-11-3-11-8.5Z"/>
+            <path class="scan__sun-g" d="M16.5 33 22.5 26.3M46.5 33 52.5 26.3"/>
           </g>
           <path class="scan__no" d="M21 21 51 51M51 21 21 51"/>
         </svg>

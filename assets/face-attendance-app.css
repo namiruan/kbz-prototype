@@ -277,15 +277,18 @@
   --ap-face-cycle:calc(var(--ap-scan-time) * 5); /* 다섯 사람이 한 바퀴 */
   /* 마스크 — 얼굴(#457ed2)과 같은 파랑 계열에서 한참 옅은 쪽이다. 흰 면
      위에 앉는 것이라 회색으로 두면 때가 탄 것처럼 보이고, 얼굴만큼 짙으면
-     벗기 전에도 마스크가 아니라 턱으로 읽힌다 */
-  --ap-mask:#cfdbec;
-  --ap-mask-edge:#8da6c6;          /* 그 테 — 흰 면과 가르는 한 올 */
-  --ap-mask-fold:rgba(69,126,210,.3); /* 접힌 주름 두 줄. 주름이 있어야
-                                      천 조각이 아니라 마스크로 읽힌다 */
+     벗기 전에도 마스크가 아니라 턱으로 읽힌다.
+     둘인 것은 **입체형 마스크의 꺾인 두 면**이라서다. 테를 두르는 대신
+     한 단 차이로 마루를 세운다 — 얼굴 면도 테가 아니라 빛으로 서는 그림이라,
+     여기만 선을 두르면 그 선이 먼저 읽힌다 */
+  --ap-mask:#ccd9ef;               /* 빛을 받는 쪽(오른 면) */
+  --ap-mask-2:#b3c5e2;             /* 꺾여 그늘진 쪽(왼 면) · 귀끈 */
   /* 선글라스 알 — 눈을 덮는 것이라 짙어야 하지만 검정까지 가지는 않는다.
      흰 면 위의 순검정은 구멍처럼 보인다 */
-  --ap-glass:#2f3a4d;
-  --ap-glass-edge:#121922;         /* 알과 다리를 두르는 테 */
+  --ap-glass:#2a3342;
+  --ap-glass-glint:rgba(255,255,255,.34); /* 알을 비스듬히 가로지르는 빛.
+                                      이것이 있어야 검은 면이 뚫린 구멍이
+                                      아니라 유리로 읽힌다 */
   --ap-item:1.65s;                 /* 가리는 것 하나가 얹혔다 사라지는 데
                                       걸리는 길이. 둘이 한 바퀴다 */
   --ap-ready-cycle:calc(var(--ap-item) * 2);
@@ -2943,13 +2946,14 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    버려, 벗을 것이 둘이라는 말로 읽히지 않는다.
    훑는 레이저도 파장도 두지 않는다 — 아직 읽는 중이 아니라 **읽기 전**이고,
    움직이는 것이 여럿이면 어느 쪽도 보이지 않는다 */
-.scan__mask-b{fill:var(--ap-mask);stroke:var(--ap-mask-edge);
-  stroke-width:1.2;stroke-linejoin:round}
-.scan__mask-s{fill:none;stroke:var(--ap-mask-edge);stroke-width:1.6;stroke-linecap:round}
-.scan__mask-p{fill:none;stroke:var(--ap-mask-fold);stroke-width:1.4;stroke-linecap:round}
-.scan__sun-l{fill:var(--ap-glass);stroke:var(--ap-glass-edge);stroke-width:1.2}
-.scan__sun-t,.scan__sun-br{fill:none;stroke:var(--ap-glass-edge);
-  stroke-width:1.8;stroke-linecap:round}
+/* 빛은 얼굴 면과 같은 쪽에서 온다 — 면의 그라데이션이 160deg 라 흰 쪽이
+   오른쪽 위다. 마루를 사이에 두고 오른 면이 밝고 왼 면이 그늘진다 */
+.scan__mask-l{fill:var(--ap-mask-2)}
+.scan__mask-r{fill:var(--ap-mask)}
+.scan__mask-s{fill:none;stroke:var(--ap-mask-2);stroke-width:1.8;stroke-linecap:round}
+.scan__sun-b{fill:var(--ap-glass)}
+.scan__sun-t{fill:none;stroke:var(--ap-glass);stroke-width:2;stroke-linecap:round}
+.scan__sun-g{fill:none;stroke:var(--ap-glass-glint);stroke-width:2.2;stroke-linecap:round}
 /* ✕ 는 얼굴 인증이 **실패했을 때의 색**과 같다(--ap-cam-fail) — 이 앱에서
    '안 된다' 를 말하는 색이 화면마다 다르면 색이 뜻을 잃는다 */
 /* 가늘게 긋고 얼굴보다 작게 잡는다 — 굵게 지르면 ✕ 밑에서 무엇을 쓴

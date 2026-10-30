@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=558">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=559">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=558"></script>
+<script src="assets/face-attendance-app.js?v=559"></script>
 </head>
 
 <body>
@@ -937,19 +937,24 @@
           <!-- 가리는 것 둘이 차례로 얼굴에 얹힌다. 차례는 아래 글의 차례와
                같다(마스크 · 선글라스) — 그림과 글이 어긋나면 읽는 사람이
                둘을 짝지으려 눈을 오가게 된다 -->
-          <!-- ① 마스크 — 코 아래부터 턱 밑까지. 귀끈은 얼굴 면 밖으로
-               나간다: 귀에 거는 것이지 얼굴에 그려 넣은 것이 아니다 -->
+          <!-- ① 마스크 — 주름 잡힌 납작한 수술용이 아니라 **입체형**이다.
+               코에서 턱으로 내려오는 마루 하나를 두고 두 면이 꺾이고,
+               꺾인 두 면은 한 단 다른 색이다 — 테두리를 두르지 않아도
+               꺾임이 보인다(얼굴 면도 테 없이 빛으로만 선다).
+               귀끈은 곧은 막대가 아니라 귀 쪽으로 휜다 -->
           <g class="scan__on scan__mask">
-            <path class="scan__mask-s" d="M14 36.5 7 31M58 36.5 65 31"/>
-            <path class="scan__mask-b" d="M13.5 36.5Q36 30 58.5 36.5L58 47Q36 64 14 47Z"/>
-            <path class="scan__mask-p" d="M18 41H54M20 46.5Q36 50.5 52 46.5"/>
+            <path class="scan__mask-s" d="M13 39C9.2 37.6 7 36 5.5 34.5M59 39C62.8 37.6 65 36 66.5 34.5"/>
+            <path class="scan__mask-l" d="M13 39Q22.5 34.5 36 33.5V55C30.6 55 25.6 54 21.6 51.4 17.3 48.5 14.2 44.2 13 39Z"/>
+            <path class="scan__mask-r" d="M59 39Q49.5 34.5 36 33.5V55C41.4 55 46.4 54 50.4 51.4 54.7 48.5 57.8 44.2 59 39Z"/>
           </g>
-          <!-- ② 선글라스 — 알 둘이 눈을 덮고 다리는 얼굴 밖으로 뻗는다 -->
+          <!-- ② 선글라스 — 알 둘을 따로 그리지 않는다. 위로 이어진 한 덩이에
+               코 자리만 파낸 꼴이다. 테를 두르지 않고 면으로만 두되, 알마다
+               빗금 빛을 하나씩 둔다 — 그 빛이 있어야 검은 면이 구멍이 아니라
+               유리로 읽힌다 -->
           <g class="scan__on scan__sun">
-            <path class="scan__sun-t" d="M13.5 25.5 6.5 23M58.5 25.5 65.5 23"/>
-            <rect class="scan__sun-l" x="13" y="22.5" width="21" height="13" rx="5"/>
-            <rect class="scan__sun-l" x="38" y="22.5" width="21" height="13" rx="5"/>
-            <path class="scan__sun-br" d="M34 26.5h4"/>
+            <path class="scan__sun-t" d="M11 25.5 4.5 23.2M61 25.5 67.5 23.2"/>
+            <path class="scan__sun-b" d="M11 24.5h50v3.5c0 5.5-4.5 8.5-11 8.5s-10-2.5-11.4-6.7c-.6-1.8-2-2.2-3.6-2.2s-3 .4-3.6 2.2C30 34 26.5 36.5 22 36.5s-11-3-11-8.5Z"/>
+            <path class="scan__sun-g" d="M16.5 33 22.5 26.3M46.5 33 52.5 26.3"/>
           </g>
           <!-- 얹힌 뒤에 ✕ 가 찍힌다 — '이 모습으로는 안 됩니다' 다. 가린
                것만 긋지 않고 얼굴을 가로지르는 것은, 안 되는 것이 마스크
