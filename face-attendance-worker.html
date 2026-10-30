@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=537">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=538">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=537"></script>
+<script src="assets/face-attendance-app.js?v=538"></script>
 </head>
 
 <body>
@@ -128,14 +128,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -149,7 +149,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -175,7 +175,7 @@
   <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
@@ -200,10 +200,13 @@
                    현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
                    가른다: 시각은 채운 알약, 이것은 테만 두른 알약.
                    '필요' 는 붙이지 않는다 — 과녁 위에 붙은 표라 이미
-                   '이 과녁에 이것이 걸린다' 로 읽힌다 -->
-              <span class="cta__need">얼굴 인식</span>
+                   '이 과녁에 이것이 걸린다' 로 읽힌다.
+                   말은 '얼굴 인증' 이다 — 같은 앱이 '얼굴 인증으로 출퇴근하는
+                   현장입니다' 라고 적고 있어, 여기만 '인식' 이면 둘이 다른
+                   것인지 되짚게 된다 -->
+              <span class="cta__need">얼굴 인증</span>
             </span>
-            <span class="cta__t">출근 인증하기</span>
+            <span class="cta__t">출근하기</span>
           </span>
           <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
         </span>
@@ -220,7 +223,7 @@
   </nav>
 </section>
 
-<!-- ===== ⑪-1 근로자 앱 · 인정범위 지도 (창) ===== -->
+<!-- ===== ⑪-1 근로자 앱 · 출퇴근 범위 지도 (창) ===== -->
 <!-- 뒤에는 이 창을 띄운 화면(홈)이 그대로 있다. 그 마크업을 여기 옮겨
      적지 않는다 — js 가 data-behind 를 보고 켜기 직전에 베껴 온다 -->
 <!-- ── 날짜 고르기 ─────────────────────────────────────────────
@@ -291,7 +294,7 @@
   </div>
 </section>
 
-<section class="scr has-dim" data-screen="w-map" data-day="today" data-rec="none" data-title="인정범위 지도"
+<section class="scr has-dim" data-screen="w-map" data-day="today" data-rec="none" data-title="출퇴근 범위 지도"
   data-behind="w-home">
   <!-- 알림창(.alert)이 아니라 **바닥에서 올라오는 시트**다. 알림창은 묻고
        답하는 자리라 300 으로 못 박혀 화면 가운데에 뜨는데, 여기서 할 일은
@@ -300,7 +303,7 @@
   <div class="dim dim--sheet" data-go="w-home" data-go-self>
     <div class="sheet" role="dialog" aria-labelledby="wMapT">
     <div class="sheet__h">
-      <p class="sheet__t" id="wMapT">인정범위</p>
+      <p class="sheet__t" id="wMapT">출퇴근 범위</p>
       <!-- 닫는 자리는 오른쪽 위다 — 들어온 길(줄의 오른쪽 꺾쇠)과 같은 쪽이라
            되돌아 나가는 것으로 읽힌다 -->
       <button class="sheet__x" type="button" aria-label="닫기" data-go="w-home"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
@@ -309,7 +312,7 @@
          지도가 시트 안에 든 또 하나의 카드로 보인다.
          자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
          지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
-    <div class="zone__m" role="img" aria-label="현장 위치와 인정범위">
+    <div class="zone__m" role="img" aria-label="현장 위치와 출퇴근 범위">
       <span class="zone__r"></span>
       <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
     </div>
@@ -364,14 +367,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -385,7 +388,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -411,7 +414,7 @@
   <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
@@ -436,10 +439,13 @@
                    현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
                    가른다: 시각은 채운 알약, 이것은 테만 두른 알약.
                    '필요' 는 붙이지 않는다 — 과녁 위에 붙은 표라 이미
-                   '이 과녁에 이것이 걸린다' 로 읽힌다 -->
-              <span class="cta__need">얼굴 인식</span>
+                   '이 과녁에 이것이 걸린다' 로 읽힌다.
+                   말은 '얼굴 인증' 이다 — 같은 앱이 '얼굴 인증으로 출퇴근하는
+                   현장입니다' 라고 적고 있어, 여기만 '인식' 이면 둘이 다른
+                   것인지 되짚게 된다 -->
+              <span class="cta__need">얼굴 인증</span>
             </span>
-            <span class="cta__t">출근 인증하기</span>
+            <span class="cta__t">출근하기</span>
           </span>
           <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
         </span>
@@ -454,7 +460,7 @@
   </nav>
 
   <!-- 안면인식 현장인데 이 현장에 등록된 얼굴이 없을 때 출근을 누르면 뜬다 -->
-  <!-- 창은 **바닥에서 올라오는 시트**다 — 인정범위 지도와 같은 꼴이다.
+  <!-- 창은 **바닥에서 올라오는 시트**다 — 출퇴근 범위 지도와 같은 꼴이다.
        한 앱에서 덮고 올라오는 것이 한 가지 꼴로 서야, 어디서 올라온
        것인지 눈이 매번 다시 잡지 않는다 -->
   <div class="dim dim--sheet" data-go="w-home" data-go-self>
@@ -492,7 +498,7 @@
              이런 현장이다' 와 '그래서 이렇게 하면 된다' 로 따로 읽는 말이다 -->
         <p class="alert__d">
           <span>얼굴 인증으로 출퇴근하는 현장입니다.</span>
-          <span>얼굴 등록 후 출근 인증을 진행해 보세요.</span>
+          <span>얼굴을 등록하면 출근할 수 있습니다.</span>
         </p>
         <!-- 채운 버튼은 제가 버튼임을 제 꼴로 말한다 — 글만 얹어 두었더니
              그림의 이름표처럼 읽혔다.
@@ -553,14 +559,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -574,7 +580,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -604,7 +610,7 @@
   <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
@@ -616,7 +622,7 @@
          뒤에 선 것이 되어 오늘 남은 할 일로 읽히지 않았다. 여기서 읽을
          값은 없다 — 아직 쓰지 않았다는 것뿐이고, 할 일은 쓰러 가는
          것이다.
-         안쪽 짜임은 현장 카드의 '인정범위 지도보기' 와 같다: 표와 말이
+         안쪽 짜임은 현장 카드의 '출퇴근 범위 확인하기' 와 같다: 표와 말이
          왼쪽, 꺾쇠가 오른쪽 끝 -->
     <button class="cardb" type="button" data-go="w-work">
       <span class="cardb__t">
@@ -638,14 +644,17 @@
                    현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
                    가른다: 시각은 채운 알약, 이것은 테만 두른 알약.
                    '필요' 는 붙이지 않는다 — 과녁 위에 붙은 표라 이미
-                   '이 과녁에 이것이 걸린다' 로 읽힌다 -->
-              <span class="cta__need">얼굴 인식</span>
+                   '이 과녁에 이것이 걸린다' 로 읽힌다.
+                   말은 '얼굴 인증' 이다 — 같은 앱이 '얼굴 인증으로 출퇴근하는
+                   현장입니다' 라고 적고 있어, 여기만 '인식' 이면 둘이 다른
+                   것인지 되짚게 된다 -->
+              <span class="cta__need">얼굴 인증</span>
             </span>
-            <span class="cta__t">퇴근 인증하기</span>
+            <span class="cta__t">퇴근하기</span>
             <!-- 이름 아래에 **못 하는 까닭**을 한 줄 붙인다. 꺼진 과녁에
                  이름만 두면 왜 안 되는지가 어디에도 없어, 눌러 보고서야
                  막힌 줄 안다 -->
-            <span class="cta__why">작업내용 작성 후 퇴근이 가능해요</span>
+            <span class="cta__why">작업내용을 작성해야 퇴근할 수 있습니다</span>
           </span>
           <!-- 꺾쇠 자리에 자물쇠가 선다 — 갈 데가 없는데 앞으로 미는
                꺾쇠를 두면 거짓말이 된다 -->
@@ -784,14 +793,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -805,7 +814,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -854,7 +863,7 @@
   <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
@@ -874,10 +883,13 @@
                    현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
                    가른다: 시각은 채운 알약, 이것은 테만 두른 알약.
                    '필요' 는 붙이지 않는다 — 과녁 위에 붙은 표라 이미
-                   '이 과녁에 이것이 걸린다' 로 읽힌다 -->
-              <span class="cta__need">얼굴 인식</span>
+                   '이 과녁에 이것이 걸린다' 로 읽힌다.
+                   말은 '얼굴 인증' 이다 — 같은 앱이 '얼굴 인증으로 출퇴근하는
+                   현장입니다' 라고 적고 있어, 여기만 '인식' 이면 둘이 다른
+                   것인지 되짚게 된다 -->
+              <span class="cta__need">얼굴 인증</span>
             </span>
-            <span class="cta__t">퇴근 인증하기</span>
+            <span class="cta__t">퇴근하기</span>
           </span>
           <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
         </span>
@@ -927,7 +939,7 @@
         <p><b>수집 항목</b> 얼굴 사진, 얼굴 특징정보</p>
         <p><b>이용 목적</b> 이 현장의 출퇴근 본인 확인</p>
         <p><b>보유 기간</b> 현장 종료 후 3년. 기간이 지나면 지웁니다</p>
-        <p><b>거부할 수 있습니다</b> 다만 동의하지 않으면 얼굴 출근을 할 수 없습니다</p>
+        <p><b>거부할 수 있습니다</b> 다만 동의하지 않으면 얼굴로 출근할 수 없습니다</p>
       </div>
       <button class="agr agr--last" type="button" aria-expanded="false" aria-controls="agrD2">
         <svg class="ic ic--24 agr__c" aria-hidden="true"><use href="#icon-circle-check"></use></svg>
@@ -948,7 +960,7 @@
       <div class="bnr__b">
         <span>등록한 얼굴은 이 현장의 출퇴근 확인에만 씁니다.</span>
         <span>안면인식기가 있는 현장이면 같은 사진이 안면인식기에도 등록됩니다.</span>
-        <span>동의하지 않으면 얼굴 출근을 할 수 없습니다.</span>
+        <span>동의하지 않으면 얼굴로 출근할 수 없습니다.</span>
       </div>
     </div>
   </main>
@@ -973,7 +985,7 @@
       <!-- 이름이 두 몫을 적는다 — 이 버튼 하나로 등록이 끝나고 곧바로
            출근 인증 카메라가 열린다. '얼굴 등록하기' 로만 두면 등록만
            되고 출근은 다시 눌러야 하는 줄 안다 -->
-      <span class="confirm__ok" data-go="w-cam">등록하고 출근 인증하기</span>
+      <span class="confirm__ok" data-go="w-cam">등록하고 출근하기</span>
     </div>
     <span class="confirm__re"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg><b>다시 촬영하기</b></span>
   </div>
@@ -991,7 +1003,7 @@
     <!-- 누구를 확인하는 중인지를 먼저 보인다 -->
     <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box"></div>
-    <span class="cam__go" data-go="w-cam-ok"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근 인증하기</span>
+    <span class="cam__go" data-go="w-cam-ok"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근하기</span>
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
   </div>
 </section>
@@ -1009,7 +1021,7 @@
          일이 저절로 되더라도, 그 사이에 할 수 있는 것이 아무것도 없으면
          화면이 멈춘 것처럼 보인다 -->
     <span class="cam__go" data-go="w-home-done"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-home"></use></svg>메인으로</span>
-    <p class="cam__t cam__t--ok">출근 처리 완료!<span class="cam__sub">07:03:12</span></p>
+    <p class="cam__t cam__t--ok">출근이 등록되었습니다<span class="cam__sub">07:03:12</span></p>
   </div>
 </section>
 
@@ -1021,7 +1033,7 @@
     <div class="cam__box cam__box--fail"></div>
     <!-- 다시 찍는 길을 그 자리에 둔다 — 실패를 알리고 나서 할 일이
          '다시 찍기' 하나뿐이라, 찍던 자리에 그대로 둔다 -->
-    <span class="cam__go" data-go="w-cam"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-refresh"></use></svg>다시 인증하기</span>
+    <span class="cam__go" data-go="w-cam"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-refresh"></use></svg>다시 시도하기</span>
     <!-- 머리말은 한 줄에 든다 — '얼굴 인증에 실패했습니다' 로 두면 두 줄로
          접히면서 위의 이름표를 덮는다(글이 틀 위에서 위로 자란다) -->
     <p class="cam__t cam__t--fail">얼굴 인증 실패<span class="cam__sub">등록한 얼굴과 다릅니다</span></p>
@@ -1076,14 +1088,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -1097,7 +1109,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -1146,7 +1158,7 @@
   <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
@@ -1160,7 +1172,7 @@
     <button class="cardb cardb--quiet" type="button">
       <span class="cardb__t">
         <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-time"></use></svg></span>
-        <span class="cardb__l">퇴근시간 변경</span>
+        <span class="cardb__l">퇴근 시간 변경</span>
       </span>
       <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
     </button>
@@ -1182,7 +1194,7 @@
     <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home-work"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box"></div>
-    <span class="cam__go" data-go="w-cam-out-ok"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>퇴근 인증하기</span>
+    <span class="cam__go" data-go="w-cam-out-ok"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>퇴근하기</span>
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
   </div>
 </section>
@@ -1194,7 +1206,7 @@
     <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box cam__box--ok"></div>
     <span class="cam__go" data-go="w-home-out"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-home"></use></svg>메인으로</span>
-    <p class="cam__t cam__t--ok">퇴근 처리 완료!<span class="cam__sub">17:31:40</span></p>
+    <p class="cam__t cam__t--ok">퇴근이 등록되었습니다<span class="cam__sub">17:31:40</span></p>
   </div>
 </section>
 
@@ -1248,14 +1260,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -1269,7 +1281,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -1315,7 +1327,7 @@
   <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
@@ -1329,7 +1341,7 @@
     <button class="cardb cardb--quiet" type="button">
       <span class="cardb__t">
         <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-time"></use></svg></span>
-        <span class="cardb__l">퇴근시간 변경</span>
+        <span class="cardb__l">퇴근 시간 변경</span>
       </span>
       <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
     </button>
@@ -1394,14 +1406,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -1415,7 +1427,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -1461,7 +1473,7 @@
   <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
@@ -1481,10 +1493,13 @@
                    현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
                    가른다: 시각은 채운 알약, 이것은 테만 두른 알약.
                    '필요' 는 붙이지 않는다 — 과녁 위에 붙은 표라 이미
-                   '이 과녁에 이것이 걸린다' 로 읽힌다 -->
-              <span class="cta__need">얼굴 인식</span>
+                   '이 과녁에 이것이 걸린다' 로 읽힌다.
+                   말은 '얼굴 인증' 이다 — 같은 앱이 '얼굴 인증으로 출퇴근하는
+                   현장입니다' 라고 적고 있어, 여기만 '인식' 이면 둘이 다른
+                   것인지 되짚게 된다 -->
+              <span class="cta__need">얼굴 인증</span>
             </span>
-            <span class="cta__t">퇴근 인증하기</span>
+            <span class="cta__t">퇴근하기</span>
           </span>
           <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
         </span>
@@ -1552,14 +1567,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -1573,7 +1588,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -1619,7 +1634,7 @@
   <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
@@ -1633,7 +1648,7 @@
     <button class="cardb cardb--quiet" type="button">
       <span class="cardb__t">
         <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-time"></use></svg></span>
-        <span class="cardb__l">퇴근시간 변경</span>
+        <span class="cardb__l">퇴근 시간 변경</span>
       </span>
       <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
     </button>
@@ -1696,14 +1711,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -1717,7 +1732,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -1743,7 +1758,7 @@
   <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
@@ -1761,7 +1776,7 @@
     <button class="cardb cardb--warn" type="button" data-go="w-home-over">
       <span class="cardb__t">
         <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-time"></use></svg></span>
-        <span class="cardb__l">이전 근무 퇴근 인증하기</span>
+        <span class="cardb__l">이전 근무 퇴근하기</span>
       </span>
       <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
     </button>
@@ -1777,11 +1792,11 @@
           <span class="cta__nm">
             <span class="cta__meta">
               <span class="cta__time"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">07:03:12</b></span>
-              <span class="cta__need">얼굴 인식</span>
+              <span class="cta__need">얼굴 인증</span>
             </span>
-            <span class="cta__t">출근 인증하기</span>
+            <span class="cta__t">출근하기</span>
             <!-- 이름 아래에 **못 하는 까닭**을 한 줄 붙인다 -->
-            <span class="cta__why">이전 근무 퇴근 인증 후 출근이 가능해요</span>
+            <span class="cta__why">이전 근무를 퇴근해야 출근할 수 있습니다</span>
           </span>
           <!-- 꺾쇠 자리에 자물쇠가 선다 — 갈 데가 없는데 앞으로 미는
                꺾쇠를 두면 거짓말이 된다 -->
