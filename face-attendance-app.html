@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=557">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=558">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=557"></script>
+<script src="assets/face-attendance-app.js?v=558"></script>
 </head>
 
 <body>
@@ -679,7 +679,7 @@
 <section class="scr" data-screen="m-ready" data-title="등록 촬영 준비">
   <div class="cam cam--ready">
     <button class="cam__back" type="button" aria-label="뒤로" data-go="m-worker-new"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <p class="cam__who">근로자 얼굴 등록</p>
+    <p class="cam__who">얼굴 등록 방법</p>
     <div class="cam__box">
       <span class="scan scan--ready" aria-hidden="true">
         <span class="scan__plate"></span>
@@ -705,7 +705,7 @@
         </svg>
       </span>
     </div>
-    <p class="cam__t"><span class="cam__w"><span class="cam__wi">마스크</span><span class="cam__wi">선글라스</span></span>를 벗고 틀 안에 얼굴을 정면으로 맞춰주세요</p>
+    <p class="cam__t"><span class="cam__tl"><span class="cam__w"><span class="cam__wi">마스크</span><span class="cam__wi">선글라스</span></span>를 벗고 틀 안에</span><span class="cam__tl">얼굴을 정면으로 맞춰주세요</span></p>
     <span class="cam__go cam__go--wait" data-go="m-shot"><b class="cam__go__t">바로 촬영하기</b></span>
   </div>
 </section>
