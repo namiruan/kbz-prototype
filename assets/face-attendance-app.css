@@ -1223,10 +1223,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .go__card .cta__t{font:var(--t-title2);letter-spacing:var(--ls-title2)}
 /* 인증 방식은 이름 **아래**다 — 이 현장이 어떤 곳인가이지, 지금 몇 시인가에
    딸린 말이 아니다. 시각과 한 줄에 묶여 있을 때는 그 곁말로 읽혔다.
-   꼴은 테만 두른 알약 그대로다: 면을 채우면 카드 안에 또 하나의 누를
-   것이 선 것처럼 보인다 */
+   모서리는 위 출근 카드의 '앱 · 얼굴'(.bd)과 같은 4 다 — 둘 다 '어떻게
+   찍(었)나' 를 말하는 표라, 한 화면에서 서로 다른 꼴로 서면 다른 종류로
+   읽힌다. 알약으로 두었더니 그 표보다 누를 것처럼 보이기도 했다.
+   면은 채우지 않고 테만 두른다: 채우면 카드 안에 또 하나의 과녁이 선 것
+   처럼 보인다 */
 .go__card .cta__need{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
-  padding:2px var(--ap-p5);border-radius:var(--ap-r-pill);
+  padding:2px var(--ap-p4);border-radius:var(--ap-r4);
   box-shadow:inset 0 0 0 1px var(--ap-on-cta-line)}
 /* 꺼진 과녁의 **못 하는 까닭**. 이름만 두면 왜 안 되는지가 어디에도 없어,
    클릭해 보고서야 막힌 줄 안다 */
