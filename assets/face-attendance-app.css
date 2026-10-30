@@ -2958,10 +2958,16 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .scan__sun-w{fill:none;stroke:var(--ap-glass-rim);stroke-width:3.2;stroke-linecap:round}
 .scan__sun-t{fill:none;stroke:var(--ap-glass-rim);stroke-width:2.4;stroke-linecap:round}
 .scan__sun-g{fill:none;stroke:var(--ap-glass-glint);stroke-width:2.2;stroke-linecap:round}
+/* 안전모는 여기서 **바뀌지 않는다** — 저쪽 과녁은 다섯 사람이 돌아가며
+   둥근 머리와 각진 머리에 번갈아 쓰지만, 이 얼굴은 하나다. 껍데기를
+   갈아 끼우던 움직임만 멈춘다(그림도 색도 그대로 빌려 쓴다) */
+.scan--ready .scan__hat-r{animation:none}
 /* ✕ 는 얼굴 인증이 **실패했을 때의 색**과 같다(--ap-cam-fail) — 이 앱에서
    '안 된다' 를 말하는 색이 화면마다 다르면 색이 뜻을 잃는다 */
 /* 가늘게 긋고 얼굴보다 작게 잡는다 — 굵게 지르면 ✕ 밑에서 무엇을 쓴
-   모습인지가 읽히지 않아, 벗으라는 말의 목적어가 사라진다 */
+   모습인지가 읽히지 않아, 벗으라는 말의 목적어가 사라진다.
+   **안전모에는 걸치지 않는다** — 안전모는 벗을 것이 아닌데 ✕ 가 그 위를
+   지나면 그것까지 벗으라는 말이 된다. 챙 아래에서 시작한다 */
 .scan__no{fill:none;stroke:var(--ap-cam-fail);stroke-width:4;stroke-linecap:round}
 /* 위에서 내려와 얹히고, 아래로 벗겨지며 사라진다 — 나가는 쪽이 늘 아래인
    것은 그것이 벗는 방향이기 때문이다.

@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=560">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=561">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=560"></script>
+<script src="assets/face-attendance-app.js?v=561"></script>
 </head>
 
 <body>
@@ -965,7 +965,19 @@
           <!-- 얹힌 뒤에 ✕ 가 찍힌다 — '이 모습으로는 안 됩니다' 다. 가린
                것만 긋지 않고 얼굴을 가로지르는 것은, 안 되는 것이 마스크
                자체가 아니라 그것을 쓴 채 찍는 일이기 때문이다 -->
-          <path class="scan__no" d="M21 21 51 51M51 21 21 51"/>
+          <!-- 안전모 — 현장소장 앱의 출퇴근 과녁에서 돌아가는 그 안전모다
+               (.scan__hat). 같은 꼴 · 같은 색을 그대로 쓰되, 이 얼굴은
+               눈이 위에 있어 챙이 눈썹 위에서 끝나도록 줄여 내려 잡았다.
+               **벗을 것에 들지 않는다** — 안전모는 얼굴을 가리지 않아
+               쓴 채로 찍어도 된다. 그 말을 그림이 대신 한다.
+               가리는 것들보다 **뒤에 그린다** — 보안경은 챙 밑으로
+               들어가는 것이지 챙 위에 얹히는 것이 아니다 -->
+          <g class="scan__hat">
+            <path class="scan__hat-r" d="M9 20A27 16.5 0 0 1 63 20Z"/>
+            <path class="scan__hat-d" d="M28.5 6V19M43.5 6V19"/>
+            <rect class="scan__hat-b" x="7.5" y="18.6" width="57" height="4.8" rx="2.4"/>
+          </g>
+          <path class="scan__no" d="M23 27.5 49 53.5M49 27.5 23 53.5"/>
         </svg>
       </span>
     </div>
