@@ -926,28 +926,27 @@
 
     function at(row) { return row.querySelector('.log__t--in') ? 'in' : 'out'; }
 
+    /* 켜지는 것은 **늘 하나**다. 알약이 둘뿐이던 때에는 하나를 걸러 둔 뒤
+       둘 다로 돌아오려면 켜진 알약을 다시 눌러야 했는데, 눌러 보기 전에는
+       알 수 없는 규칙이라 되돌리는 길이 화면에 없었다. '전체' 가 그 길이다 */
     function sync() {
-      var on = chips.filter(function (c) { return c.classList.contains('is-on'); })
-                    .map(function (c) { return c.getAttribute('data-at'); });
-      rows.forEach(function (r) { r.hidden = on.indexOf(at(r)) < 0; });
+      var on = chips.filter(function (c) { return c.classList.contains('is-on'); })[0];
+      var k = on ? on.getAttribute('data-at') : 'all';
+      rows.forEach(function (r) { r.hidden = k !== 'all' && at(r) !== k; });
       chips.forEach(function (c) {
-        c.setAttribute('aria-pressed', c.classList.contains('is-on') ? 'true' : 'false');
+        c.setAttribute('aria-pressed', c === on ? 'true' : 'false');
       });
     }
 
     chips.forEach(function (c) {
       var k = c.getAttribute('data-at');
-      var n = rows.filter(function (r) { return at(r) === k; }).length;
+      var n = k === 'all' ? rows.length
+                          : rows.filter(function (r) { return at(r) === k; }).length;
       var box = c.querySelector('.cnt__n');
       if (box) box.textContent = n;
 
       c.addEventListener('click', function () {
-        var lit = chips.filter(function (x) { return x.classList.contains('is-on'); });
-        if (lit.length === 1 && lit[0] === c) {
-          chips.forEach(function (x) { x.classList.add('is-on'); });   /* 다시 눌러 전체로 */
-        } else {
-          chips.forEach(function (x) { x.classList.toggle('is-on', x === c); });
-        }
+        chips.forEach(function (x) { x.classList.toggle('is-on', x === c); });
         sync();
       });
     });
