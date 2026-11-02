@@ -277,18 +277,14 @@
   --ap-face-cycle:calc(var(--ap-scan-time) * 5); /* 다섯 사람이 한 바퀴 */
   /* 마스크 — 얼굴(#457ed2)과 같은 파랑 계열에서 한참 옅은 쪽이다. 흰 면
      위에 앉는 것이라 회색으로 두면 때가 탄 것처럼 보이고, 얼굴만큼 짙으면
-     벗기 전에도 마스크가 아니라 턱으로 읽힌다.
-     둘인 것은 **면 하나와 그 위의 코 선**이라서다. 테를 두르지 않는다 —
-     얼굴 면도 테가 아니라 빛으로 서는 그림이라, 여기만 선을 두르면 그
-     선이 먼저 읽힌다 */
+     벗기 전에도 마스크가 아니라 턱으로 읽힌다 */
   --ap-mask:#a9c7ea;               /* 마스크 한 면 */
-  --ap-mask-2:#6e96cb;             /* 코 선 — 한 단 짙은 조각 */
-  /* 보안경 알 — 눈을 덮는 것이라 짙어야 하지만 검정까지 가지는 않는다.
-     흰 면 위의 순검정은 구멍처럼 보인다 */
-  --ap-glass:#37435a;
-  --ap-glass-rim:#1d2430;          /* 눈썹대와 다리 — 알보다 한참 짙다.
-                                      이 한 단이 있어야 '알 한 장짜리 고글'
-                                      이 아니라 테를 두른 보안경으로 읽힌다 */
+  --ap-mask-2:#6e96cb;             /* 코 선과 귀끈 — 한 단 짙은 조각 */
+  /* 작업용 보안경 — 알은 눈을 덮는 것이라 짙고, 눈썹대는 알보다 **밝다**.
+     짙게 두면 이 작은 그림에서 알에 먹혀 눈을 가린 띠 한 장으로만 읽힌다.
+     밝은 테와 짙은 알의 두 겹이 작업용 보안경의 표다 */
+  --ap-glass:#2f3a4d;
+  --ap-glass-rim:#9fb0c9;
   /* 카메라가 잡는 틀 — 사람(120)보다 한참 넓다. 꽉 끼면 틀이 아니라
      테두리가 된다. 그림 칸이 허락하는 데까지 벌린다 */
   --ap-scan-frame:calc(var(--ap-scan) * 1.7);
@@ -363,10 +359,12 @@
      밝다. 카메라의 가이드 틀처럼 빛을 번지게 하지 않는다(그 틀은 과녁이고
      이 칸은 액자다) */
   --ap-dont-fill:rgba(255,255,255,.05);
-  /* 카드를 가로지르는 ✕ — 실패의 빨강(--ap-cam-fail)이되 한 겹 비친다.
-     카드를 덮을 만큼 크게 긋는 금이라, 꽉 찬 색으로 두면 카드에서 그것만
-     보이고 무엇을 쓴 모습인지가 뒤로 밀린다 */
-  --ap-dont-x:rgba(242,109,106,.5);
+  /* 금지 표지의 테와 빗금 — 길에서 보는 표지의 **꼴**만 빌리고 색은
+     빌리지 않는다. 빨강은 이 어두운 화면에서 저 혼자 튀고, 여기서 막는
+     것은 위험이 아니라 '이렇게 찍으면 안 된다' 는 일러두기다.
+     카드보다 **연한** 회청색 한 겹이면 족하다 — 어두운 카드 위에서는
+     밝게 서고, 흰 얼굴 면 위를 지날 때도 묻히지 않는다 */
+  --ap-sign:#8e9cb0;
   --ap-camsw:54px;                     /* 렌즈 전환 버튼 — 옆에 선 토글과 같은 키 */
   --ap-photo-1:#c9b8a6; --ap-photo-2:#8c7562;
 }
@@ -2926,70 +2924,61 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   font:var(--t-title2);letter-spacing:var(--ls-title2)}
 
 /* ── 안 되는 것은 한 번에 늘어놓는다 ──
-   전에는 한 자리에서 마스크와 보안경이 번갈아 얹혔다. 번갈아 보이는 것은
-   **둘을 견줄 수 없다** — 앞엣것을 기억해 뒤엣것과 맞춰 봐야 하고, 화면이
-   4초 만에 지나가므로 늦게 본 사람은 한 가지만 보고 넘어간다.
-   칸을 나눠 나란히 두면 한눈에 둘 다 들어오고, 몇 가지가 안 되는지도
-   세지 않고 보인다 */
+   한 자리에서 번갈아 보이면 둘을 견줄 수 없다 — 앞엣것을 기억해 뒤엣것과
+   맞춰 봐야 하고, 화면이 4초 만에 지나가므로 늦게 본 사람은 한 가지만
+   보고 넘어간다. 칸을 나눠 나란히 두면 한눈에 둘 다 들어오고, 몇 가지가
+   안 되는지도 세지 않고 보인다 */
 .dont{display:flex;gap:var(--ap-p5);width:100%;max-width:420px}
 /* 테는 두르지 않는다 — 선을 그으면 그것이 '여기에 맞춰라' 는 과녁으로
    읽힌다. 면 한 겹만 깔아 어두운 바탕에서 제가 한 칸임을 말한다.
-   칸은 위부터 아래로 **그림 · 안내** 다 */
+   칸은 위부터 아래로 **표지 · 이름표** 다 */
 .dont__f{position:relative;flex:1;
   display:flex;flex-direction:column;align-items:center;gap:var(--ap-p4);
   padding:var(--ap-p5);border-radius:var(--ap-r15);background:var(--ap-dont-fill)}
-/* 그림이 앉는 네모. ✕ 가 이 네모를 덮으므로 자리를 여기서 잡는다 */
+/* 표지가 앉는 네모. 그림이 이 폭을 따라 줄어든다 */
 .dont__p{position:relative;width:100%;aspect-ratio:1;
   display:flex;align-items:center;justify-content:center;
   container-type:inline-size}
-/* 그림은 칸이 정한다 — 폭이 좁아지면 함께 줄어, 어느 기기에서도 같은
-   비율로 앉는다. 사람은 **작게** 둔다: 이 카드가 보이는 것은 사람이
-   아니라 '쓰면 안 되는 것' 이고, 크게 두면 ✕ 가 사람 얼굴에만 그은
-   금으로 보인다. 80 은 안전모를 걷고 남은 얼굴이 칸에서 길을 잃지 않는
-   가장 작은 값이다 — 70 으로 두니 네모 한가운데 점처럼 떴다 */
-.dont__p .scan--ready{--ap-scan:80cqw}
-/* ✕ 는 그림이 아니라 **칸을 덮는 겹**이다. 얼굴에만 그으면 얼굴이 작아진
-   만큼 함께 작아져, 가리키는 것이 '이 사람' 인지 '이 카드' 인지 흐려진다.
-   색은 얼굴 인증이 실패했을 때의 것과 같다(--ap-cam-fail) — 이 앱에서
-   '안 된다' 를 말하는 색이 화면마다 다르면 색이 뜻을 잃는다 */
-.dont__x{position:absolute;inset:0;width:100%;height:100%;
-  fill:none;stroke:var(--ap-dont-x);stroke-width:4.2;stroke-linecap:round}
-/* 벗으라는 말은 카드가 제 안에서 한다 — 그림만 두면 ✕ 가 무엇을 가리키는지
-   사람마다 다르게 읽는다.
+/* 벗으라는 말은 카드가 제 안에서 한다 — 표지만 두면 그것이 무엇을
+   가리키는지 사람마다 다르게 읽는다.
    머리말보다 작고 **가늘게** 적는다: 시키는 말은 위에 하나이고, 이것은 그
    안에서 갈리는 두 가지에 붙인 이름표다. 굵게 두면 이름표가 머리말과
    같은 무게로 읽혀 시키는 말이 셋으로 보인다 */
 .dont__t{font:var(--t-sub);letter-spacing:var(--ls-sub);
   text-align:center;color:var(--ap-g0);word-break:keep-all}
+
+/* ── 금지 표지 ──
+   웃는 얼굴 그림 위에 ✕ 를 긋던 것을 **표지**로 바꾼다. 긋는 금은 그림
+   위를 지나 무엇을 쓴 모습인지를 가렸고, 두 칸이 나란히 서니 큰 획이
+   넷이라 화면이 어지러웠다. 표지는 **테와 빗금이 '안 된다' 를, 가운데
+   도안이 '무엇이' 를** 맡아 둘이 서로를 가리지 않는다.
+   꼴만 길에서 보는 금지 표지에서 빌린다 — 둥근 테와, 왼쪽 위에서 오른쪽
+   아래로 내리긋는 빗금 하나(ISO 7010 의 방향이다). 흰 바탕과 선명한
+   빨강은 두지 않는다: 어두운 화면에서 저 혼자 튄다. 어두운 카드 위에
+   **선으로** 그려 이 화면의 결에 맞춘다 */
+/* 테와 빗금은 그림을 **덮는 겹**이다 — 그림 칸을 가득 채워 얹힌다 */
+.sign{position:absolute;inset:0;width:100%;height:100%}
+/* 그림은 테 안에 든다 — 얼굴 면은 그림 폭의 54/64 라, 72 면 면이 테
+   안쪽에서 한 뼘 떨어져 앉는다 */
+.dont__p .scan--ready{--ap-scan:72cqw}
+/* 마스크 · 보안경은 **한 면과 한 단 짙은(또는 밝은) 조각 하나**로 그린다.
+   이 그림판의 규칙이 '색은 한 겹' 이라서다(안전모 주석 참고) — 꺾인 면을
+   두 색으로 칠하거나 알에 빗금 빛을 그으면 작은 그림에서 번들거린다 */
+.scan__mask-b{fill:var(--ap-mask)}
+.scan__mask-n{fill:none;stroke:var(--ap-mask-2);stroke-width:3.2;stroke-linecap:round}
+/* 귀끈은 짧고 굵게 — 가늘고 길게 빼면 수염처럼 보인다 */
+.scan__mask-s{fill:none;stroke:var(--ap-mask-2);stroke-width:2.6;stroke-linecap:round}
+.scan__sun-b{fill:var(--ap-glass)}
+.scan__sun-t{fill:none;stroke:var(--ap-glass);stroke-width:2.8;stroke-linecap:round}
+.scan__sun-w{fill:none;stroke:var(--ap-glass-rim);stroke-width:2.4;stroke-linecap:round}
 /* 눈은 두 칸이 **엇갈려** 깜빡인다 — 한날한시에 감으면 두 사람이 아니라
    한 사람을 두 번 그린 것으로 보인다 */
 .dont__f + .dont__f .scan__eyes{animation-delay:calc(var(--ap-scan-time) / -2)}
-/* ── 그림 ──
-   시스템 스프라이트에 없는 그림이라 이 자리에서 그린다(얼굴은 '얼굴
-   등록이 필요합니다' 창의 것과 같은 짜임이다 — 흰 면에 눈 둘과 웃음).
-   쓴 채로 찍고 나서야 '벗어 주세요' 를 읽는 일이 잦다. 그림이 먼저 보여
-   준다 — 무엇을 쓴 모습이 안 되는지를, 쓴 모습과 ✕ 로.
-   훑는 레이저도 파장도 두지 않는다 — 아직 읽는 중이 아니라 **읽기 전**이고,
-   움직이는 것이 여럿이면 어느 쪽도 보이지 않는다 */
-/* 색은 **한 겹**이다 — 이 그림판의 규칙이다(안전모 주석 참고: 작은
-   그림에 그라데이션을 깔면 번들거려 촌스러워진다). 두 쪽을 다른 색으로
-   꺾어 입체를 내던 마스크도, 알에 빗금 빛을 긋던 보안경도 그래서 걷었다.
-   입체는 **한 단 짙은 조각 하나**가 맡는다 — 안전모의 챙이 하는 일을
-   마스크는 코 선이, 보안경은 눈썹대가 한다 */
-.scan__mask-b{fill:var(--ap-mask)}
-.scan__mask-n{fill:none;stroke:var(--ap-mask-2);stroke-width:3.2;stroke-linecap:round}
-/* 귀끈은 **짧고 굵게** 둔다 — 가늘고 길게 빼면 수염처럼 보인다. 볼을
-   가로질러 귀에 닿는 두 마디면 마스크로 읽히는 데 족하다 */
-.scan__mask-s{fill:none;stroke:var(--ap-mask-2);stroke-width:2.6;stroke-linecap:round}
-.scan__sun-b{fill:var(--ap-glass)}
-.scan__sun-w{fill:none;stroke:var(--ap-glass-rim);stroke-width:2.4;stroke-linecap:round}
-/* 두 칸은 다른 사람이다 — 같은 얼굴에 물건만 갈아 끼우면 '이 사람은
-   이것도 저것도 쓴다' 로 읽혀, 벗을 것이 둘이라는 말이 흐려진다.
-   얼굴에서 번지는 빛(box-shadow)은 그대로 둔다 — 어두운 바탕에서 그
-   빛이 얼굴을 띄운다. 그래서 저쪽처럼 clip-path 로 꼴을 깎지 않고
-   테두리 반지름만 갈아 끼운다 */
-.dont__f--sq .scan__plate{border-radius:30%}
-.dont__f--sq .scan--ready svg{transform:scale(1.04,1);transform-origin:center}
+/* 테와 빗금은 한 굵기(지름의 5%)다. 길에서 보는 표지보다 가늘다 — 저것은
+   멀리서 읽히라고 굵고, 이것은 손에 든 화면에서 읽힌다 */
+.sign__r,.sign__s{fill:none;stroke:var(--ap-sign);stroke-width:5}
+.sign__s{stroke-linecap:round}
+
 /* ── 저절로 눌리는 버튼 ──
    바가 다 차면 카메라가 스스로 열린다. 남은 시간을 따로 세어 보이지
    않는다 — 숫자가 줄어드는 것은 '놓치면 안 되는 것' 의 말투이고, 여기서
@@ -3001,7 +2990,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   transform-origin:left;transform:scaleX(0);background:var(--ap-wait-fill);
   animation:ap-wait var(--ap-ready-wait) linear forwards}
 @keyframes ap-wait{to{transform:scaleX(1)}}
-/* 움직임을 줄여 달라고 한 기기에서는 멈춘다 — 그림은 움직이는 것이 없어
+/* 움직임을 줄여 달라고 한 기기에서는 멈춘다 — 표지는 움직이는 것이 없어
    그대로 있고, 차오르는 면만 셀 것이 없어지므로 걷는다 */
 @media (prefers-reduced-motion:reduce){
   .cam__go--wait::before{display:none}
