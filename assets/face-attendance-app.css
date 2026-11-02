@@ -383,7 +383,17 @@
      여기서 보여야 할 것은 얼굴이 아니라 **얼굴에 얹힌 것**이라, 면이
      희게 빛나면 그것이 먼저 읽힌다. 카드 면(.05)보다 한 단 연한 데까지만
      올려 바탕에서 떼어 둔다 */
-  --ap-dont-face:rgba(190,208,236,.46); /* 흰빛이 아니라 **푸른 흰빛**이다 —
+  /* 얼굴 면은 **공처럼** 칠한다 — 위에서 빛을 받아 위가 밝고 아래로
+     갈수록 한 단 내려앉는다. 평평한 한 색으로 두면 면이 아니라 구멍으로
+     보인다(다른 화면의 얼굴 면도 같은 어법이다 — 거기서는 흰 공이고
+     여기서는 흐린 공일 뿐이다) */
+  --ap-dont-face-hi:rgba(203,220,246,.56); /* 빛을 받는 윗녘 */
+  --ap-dont-face:rgba(185,203,232,.36);    /* 빛이 덜 드는 아랫녘 */
+  --ap-dont-face-in:rgba(8,12,20,.5);      /* 안쪽 아래에 도는 그늘 */
+  /* 캐릭터가 카드에 드리우는 그늘 — 얼굴 면만이 아니라 귀끈 · 다리까지
+     한 덩어리로 드리운다. 어두운 카드 위라 깊게 잡는다: 옅게 두면
+     그늘이 있는지도 모른다 */
+  --ap-dont-lift:0 4px 10px rgba(0,0,0,.55); /* 흰빛이 아니라 **푸른 흰빛**이다 —
                                       이 앱의 면은 어디서나 파랑 쪽으로 기운다.
                                       얹힌 것이 이 면보다 어두우므로, 면은
                                       그 바탕 노릇을 할 만큼은 들어야 한다 */
@@ -2997,9 +3007,15 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   filter:drop-shadow(var(--ap-sign-lift2))}
 /* 그림은 칸의 폭을 따른다 */
 .dont__p{--ap-scan:72cqw}
-/* 얼굴 면은 흐리게. 빛도 그림자도 두르지 않는다 — 다른 화면의 면은 흰
-   빛으로 떠 있지만, 여기서는 얹힌 것이 주인이다 */
-.dont__p .scan__plate{background:var(--ap-dont-face);box-shadow:none}
+/* 얼굴 면은 흐리게. 다른 화면의 면이 두르는 **흰 빛**은 걷는다 — 여기서는
+   얹힌 것이 주인이라, 면이 희게 빛나면 그것이 먼저 읽힌다 */
+.dont__p .scan__plate{
+  background:linear-gradient(165deg,var(--ap-dont-face-hi) 0,
+    var(--ap-dont-face-hi) 38%,var(--ap-dont-face) 100%);
+  box-shadow:inset 0 -9px 13px -7px var(--ap-dont-face-in)}
+/* 그늘은 면이 아니라 **캐릭터 한 덩어리**가 드리운다 — 면에만 걸면
+   밖으로 나간 귀끈과 다리가 그늘 없이 떠 다닌다 */
+.dont__p .scan--ready{filter:drop-shadow(var(--ap-dont-lift))}
 .dont__p .scan__face{fill:var(--ap-dont-ink)}
 .dont__p .scan__smile{stroke:var(--ap-dont-ink)}
 /* 마스크 · 보안경은 **한 면과 한 단 짙은(또는 밝은) 조각 하나**로 그린다.
