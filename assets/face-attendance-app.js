@@ -974,25 +974,31 @@
     });
   }
 
-  /* ── 최초 등록 사진 ──
-     이력에서 따지는 것은 '이 얼굴이 등록된 그 사람인가' 다. 그날 찍힌
-     얼굴과 맨 처음 등록한 얼굴을 **같은 자리에서 번갈아** 보여 준다.
-     이름을 바꿔 다는 것은 버튼이 **다음에 보여 줄 것**을 적기 때문이다 —
-     지금 보는 것의 이름을 달면, 눌렀을 때 무엇이 나올지를 읽는 사람이
-     거꾸로 셈해야 한다. 지금 무엇을 보고 있는지는 켜진 면이 말한다.
-     출근·퇴근 카드를 다시 고르면 **그 카드의 사진으로 돌아간다** — 카드를
-     고르는 일은 '그때 찍힌 얼굴을 보자' 는 말인데, 등록 사진이 켜진 채면
-     눌러도 그림이 그대로라 고르는 일이 먹히지 않은 것으로 읽힌다 */
+  /* ── 겹쳐 둔 최초 등록 사진 ──
+     이력에서 따지는 것은 '이 얼굴이 등록된 그 사람인가' 다. 맨 처음 등록한
+     얼굴을 작은 사진으로 **늘 띄워** 두 얼굴이 한 눈에 들게 한다.
+     토글로 갈아 끼워 봤으나 두 쪽이 대등할 때 쓰는 꼴이라 이 화면의 관계와
+     어긋났다 — 등록 사진은 출근이든 퇴근이든 한 장이고, 출퇴근 사진은 위의
+     카드를 따른다. 겹쳐 두면 카드가 큰 사진만 바꾸고 작은 사진은 그대로라,
+     그 관계가 꼴로 드러난다.
+     누르면 **자리가 바뀐다** — 작은 쪽에서 가리기 어려운 것을 크게 본다.
+     이름은 사진을 따라간다: 두 이름이 늘 제 사진 위에 있어 무엇을 보고
+     있는지 셈할 것이 없다.
+     출퇴근 카드를 고르면 큰 쪽이 그 카드의 사진으로 돌아온다 — 카드를
+     고르는 일은 '그때 찍힌 얼굴을 보자' 는 말인데, 등록 사진이 큰 채면
+     눌러도 큰 그림이 그대로라 고르는 일이 먹히지 않은 것으로 읽힌다 */
   function regshot(scr) {
-    var btn = scr.querySelector('.photo__b');
+    var btn = scr.querySelector('.photo__ref');
     if (!btn) return;
-    var box = btn.querySelector('.photo__b__t');
-    var OTHER = { off: '최초 등록 사진', on: '출퇴근 사진' };
+    var big = scr.querySelector('.photo__k');
+    var small = btn.querySelector('.photo__ref__k');
+    var LOG = '출퇴근 사진', REG = '최초 등록 사진';
 
     function paint(on) {
       scr.classList.toggle('is-reg', on);
-      btn.classList.toggle('is-on', on);
-      if (box) box.textContent = on ? OTHER.on : OTHER.off;
+      if (big) big.textContent = on ? REG : LOG;
+      if (small) small.textContent = on ? LOG : REG;
+      btn.setAttribute('aria-label', (on ? LOG : REG) + ' 크게 보기');
     }
 
     btn.addEventListener('click', function () {
@@ -1001,6 +1007,7 @@
     scr.querySelectorAll('.stmp .tcard').forEach(function (c) {
       c.addEventListener('click', function () { paint(false); });
     });
+    paint(false);
   }
 
   function clock(scr) {

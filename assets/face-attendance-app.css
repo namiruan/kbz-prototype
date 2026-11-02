@@ -315,6 +315,10 @@
   --ap-on-cta-line:rgba(255,255,255,.28); /* 그 설명을 한 줄씩 가르는 선 */
   --ap-on-cta-chip:rgba(255,255,255,.18); /* 그 면 위에 얹는 뱃지의 면 */
   --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
+  --ap-ref:96px;                   /* 이력 사진 위에 겹쳐 두는 최초 등록 사진 —
+                                      390 의 사진(358)에서 1/4 쯤이다. 더 키우면
+                                      큰 쪽의 얼굴을 먹고, 더 줄이면 작은 쪽에서
+                                      얼굴을 가릴 수 없다 */
 
   /* ── 모서리 ── */
   --ap-r4:4px;                     /* radius/small1 */
@@ -2287,7 +2291,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   width:100%;aspect-ratio:1;border-radius:var(--ap-r15);margin-bottom:var(--ap-p6);
   background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   display:flex;align-items:center;justify-content:center;color:var(--ap-on-photo)}
-.photo img{position:absolute;inset:0}
+.photo > img{position:absolute;inset:0}
 .photo > .ic{width:72px;height:72px}   /* 사진이 없을 때 서는 그림 — 손잡이 안의 아이콘까지 걸리지 않게 바로 밑만 */
 
 /* ── 이력 줄 ── */
@@ -2379,23 +2383,35 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 사진은 고른 쪽의 것 하나만 선다. 최초 등록 사진을 켜면(is-reg) 고른
    쪽과 상관없이 그 한 장이 대신 선다 — 겹쳐 띄우지 않고 **갈아 끼운다**:
    띄우면 아래 사진이 비쳐 두 얼굴이 섞여 보인다 */
-.photo img[data-for]{display:none}
-.scr:not(.is-reg)[data-at="in"] .photo img[data-for="in"],
-.scr:not(.is-reg)[data-at="out"] .photo img[data-for="out"],
-.scr.is-reg .photo img[data-for="reg"]{display:block}
-/* 사진 위에 얹는 손잡이 — 오른쪽 아래다. 왼쪽 위는 얼굴이 앉는 자리이고,
-   아래쪽은 어깨와 바탕이라 글자가 덜 묻힌다.
+.photo > img[data-for]{display:none}
+.scr:not(.is-reg)[data-at="in"] .photo > img[data-for="in"],
+.scr:not(.is-reg)[data-at="out"] .photo > img[data-for="out"],
+.scr.is-reg .photo > img[data-for="reg"]{display:block}
+/* 사진의 이름 — 왼쪽 아래다. 얼굴은 위쪽에 앉으므로 아래가 덜 가린다.
    면은 시스템의 어두운 면(surface-dark) 그대로다 — 사진 위라 반투명으로
-   두면 밑 사진에 따라 글자가 읽혔다 안 읽혔다 한다(색은 한 겹).
-   켜면 브랜드 색으로 바뀐다. 지금 보는 것이 그날 찍힌 얼굴이 아니라는
-   표가 화면 어디에도 없으면, 눌러 둔 것을 잊은 채 다른 날 사진으로 읽는다 */
-.photo__b{cursor:pointer;font:var(--t-tip);letter-spacing:0;
-  position:absolute;right:var(--ap-p5);bottom:var(--ap-p5);z-index:1;
-  display:flex;align-items:center;gap:var(--ap-p2);
-  padding:var(--ap-p3) var(--ap-p5);border-radius:var(--ap-r-pill);
-  background:var(--ap-surface-dark);color:var(--ap-g0);
-  box-shadow:var(--ap-shadow-tip)}
-.photo__b.is-on{background:var(--ap-primary)}
+   두면 밑 사진에 따라 글자가 읽혔다 안 읽혔다 한다(색은 한 겹) */
+.photo__k,.photo__ref__k{font:var(--t-foot-em);letter-spacing:var(--ls-foot);
+  padding:var(--ap-p1) var(--ap-p4);border-radius:var(--ap-r-pill);
+  background:var(--ap-surface-dark);color:var(--ap-g0);white-space:nowrap}
+.photo__k{position:absolute;left:var(--ap-p5);bottom:var(--ap-p5);z-index:1}
+/* 겹쳐 둔 작은 사진 — 오른쪽 아래. 이름은 그림 **위에** 올린다: 96 짜리
+   그림 안에 넣으면 '최초 등록 사진' 이 그 폭을 넘고(실측 91+여백), 얼굴을
+   덮는 만큼 견줄 것이 줄어든다.
+   흰 테를 두르는 것은 사진 위의 사진이기 때문이다 — 테가 없으면 두 그림의
+   가장자리가 서로 섞여 어디까지가 작은 쪽인지 흐려진다 */
+.photo__ref{cursor:pointer;position:absolute;right:var(--ap-p5);bottom:var(--ap-p5);z-index:1;
+  display:flex;flex-direction:column;align-items:flex-end;gap:var(--ap-p3)}
+.photo__ref__p{position:relative;overflow:hidden;
+  width:var(--ap-ref);height:var(--ap-ref);border-radius:var(--ap-r10);
+  background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
+  box-shadow:0 0 0 2px var(--ap-g0),var(--ap-shadow-card)}
+.photo__ref__p img{position:absolute;inset:0}
+/* 작은 쪽은 늘 **나머지 한 장**이다 — 큰 쪽이 등록 사진이면 작은 쪽이
+   그날 찍힌 얼굴이 된다. 둘이 자리를 바꿀 뿐 화면에서 빠지는 것은 없다 */
+.photo__ref__p img{display:none}
+.scr:not(.is-reg) .photo__ref__p img[data-ref="reg"],
+.scr.is-reg[data-at="in"] .photo__ref__p img[data-ref="in"],
+.scr.is-reg[data-at="out"] .photo__ref__p img[data-ref="out"]{display:block}
 /* 카드 안은 가운데로 모은다 — 카드가 쥔 것이 수 하나뿐이라, 왼쪽에
    붙여 두면 수와 꼬리표가 왼쪽 선에 매달리고 오른쪽이 통째로 빈다.
    가운데에 세우면 두 카드의 수가 각자 제 칸의 한가운데에 서서, 나란히
