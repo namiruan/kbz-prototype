@@ -2960,9 +2960,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   padding:calc(var(--ap-statusbar) + 54px) var(--ap-p6)
           calc(var(--ap-p10) + var(--ap-cam-go-h) + var(--ap-p4) + 18px + var(--ap-p8))}
 /* 시키는 말은 틀 위에 못 박아 두던 것을 흐름 안으로 들인다 — 가리킬 틀이
-   없어졌다. 카메라 화면보다 긴 문장이라 글자는 한 단 내린 채 둔다 */
+   없어졌다. 크기는 **촬영 확인의 머리말과 같다**(32/40) — 묻거나 시키는
+   가장 큰 글이 이어지는 두 화면에서 같은 키로 서야, 넘어갈 때 눈이
+   다시 자리를 잡지 않는다 */
 .cam--ready .cam__t{position:static;bottom:auto;padding:0;
-  font:var(--t-title2);letter-spacing:var(--ls-title2)}
+  font:var(--t-cta);word-break:keep-all}
 /* 머리말과 그 아래 한 줄은 **한 덩어리**다 — 둘 사이는 바싹(6), 덩어리와
    카드 사이는 그 흐름의 사이(24)다. 묶지 않으면 셋이 같은 사이로 벌어져
    설명이 카드 쪽에 붙어 보인다 */
