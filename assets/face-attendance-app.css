@@ -3356,6 +3356,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      함께 서는 '작업내용 작성하기' 도 같은 폭으로 모은다 — 둘이 위아래로
      붙는데 하나만 늘어나면 어긋나 보인다 */
   .go__card .cta__nm,.go > .cardb{max-width:420px;margin-inline:auto}
+  /* 묶음을 가운데로 모았으면 그 안의 뱃지도 가운데다 — 왼쪽에 붙여 두면
+     위의 한 줄만 가운데에 서고 뱃지는 혼자 비켜선다.
+     한 줄(.cta__lead)은 align-self:stretch 라 이 맞춤에 끌려가지 않는다 */
+  .go__card .cta__nm{align-items:center}
   /* 필터는 한 칸이라 늘리지 않는다 — 폭을 다 쓰면 고를 것이 하나인데 줄만 길어진다 */
   /* ⚠ 여기에 .sel 로 폭을 걸지 않는다. 폼 안의 고르는 칸까지 걸리는데, 폼의
      .fld 는 **세로 줄**이라 flex-basis 가 폭이 아니라 **높이**가 된다 —
