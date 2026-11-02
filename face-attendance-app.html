@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=565">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=566">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=565"></script>
+<script src="assets/face-attendance-app.js?v=566"></script>
 </head>
 
 <body>
@@ -680,56 +680,62 @@
   <div class="cam cam--ready">
     <button class="cam__back" type="button" aria-label="뒤로" data-go="m-worker-new"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <p class="cam__who">얼굴 등록 방법</p>
-    <p class="cam__t"><span class="cam__tl">마스크와 선글라스를 벗고 틀 안에</span><span class="cam__tl">얼굴을 정면으로 맞춰주세요</span></p>
+    <p class="cam__t">틀 안에 얼굴을 정면으로 맞춰주세요</p>
     <!-- 안 되는 것 둘을 나란히 둔다 — 치수와 까닭은 근로자 앱(w-ready)과
          assets 쪽에 적어 두었다 -->
     <div class="dont">
       <div class="dont__f">
         <!-- ① 마스크를 쓴 얼굴 — 둥근 얼굴에는 둥근 안전모 -->
-        <span class="scan scan--ready" aria-hidden="true">
-          <span class="scan__plate"></span>
-          <svg viewBox="4 12 64 48">
-          <g class="scan__face">
-            <g class="scan__eyes"><circle cx="24" cy="29" r="4"/><circle cx="48" cy="29" r="4"/></g>
-            <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
-          </g>
-          <g class="scan__mask">
-            <path class="scan__mask-s" d="M13 39C9.2 37.6 7 36 5.5 34.5M59 39C62.8 37.6 65 36 66.5 34.5"/>
-            <path class="scan__mask-l" d="M13 39Q22.5 34.5 36 33.5V55C30.6 55 25.6 54 21.6 51.4 17.3 48.5 14.2 44.2 13 39Z"/>
-            <path class="scan__mask-r" d="M59 39Q49.5 34.5 36 33.5V55C41.4 55 46.4 54 50.4 51.4 54.7 48.5 57.8 44.2 59 39Z"/>
-          </g>
-          <g class="scan__hat">
-            <path class="scan__hat-r" d="M5.64 20.64A30.36 30.36 0 0 1 66.36 20.64Z"/>
-            <path class="scan__hat-d" d="M28.64-2.36V18.8M43.36-2.36V18.8"/>
-            <rect class="scan__hat-b" x="4.26" y="17.88" width="63.48" height="5.52" rx="2.76"/>
-          </g>
-          <path class="scan__no" d="M23 27.5 49 53.5M49 27.5 23 53.5"/>
-          </svg>
+        <span class="dont__p">
+          <span class="scan scan--ready" aria-hidden="true">
+            <span class="scan__plate"></span>
+            <svg viewBox="4 12 64 48">
+            <g class="scan__face">
+              <g class="scan__eyes"><circle cx="24" cy="29" r="4"/><circle cx="48" cy="29" r="4"/></g>
+              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
+            </g>
+            <g class="scan__mask">
+              <path class="scan__mask-s" d="M13 39C9.2 37.6 7 36 5.5 34.5M59 39C62.8 37.6 65 36 66.5 34.5"/>
+              <path class="scan__mask-l" d="M13 39Q22.5 34.5 36 33.5V55C30.6 55 25.6 54 21.6 51.4 17.3 48.5 14.2 44.2 13 39Z"/>
+              <path class="scan__mask-r" d="M59 39Q49.5 34.5 36 33.5V55C41.4 55 46.4 54 50.4 51.4 54.7 48.5 57.8 44.2 59 39Z"/>
+            </g>
+            <g class="scan__hat">
+              <path class="scan__hat-r" d="M5.64 20.64A30.36 30.36 0 0 1 66.36 20.64Z"/>
+              <path class="scan__hat-d" d="M28.64-2.36V18.8M43.36-2.36V18.8"/>
+              <rect class="scan__hat-b" x="4.26" y="17.88" width="63.48" height="5.52" rx="2.76"/>
+            </g>
+            </svg>
+          </span>
+          <svg class="dont__x" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 8 92 92M92 8 8 92"/></svg>
         </span>
+        <p class="dont__t">마스크를 벗어 주세요</p>
       </div>
       <div class="dont__f dont__f--sq">
         <!-- ② 보안경을 쓴 얼굴 — 각진 얼굴에는 각진 안전모 -->
-        <span class="scan scan--ready" aria-hidden="true">
-          <span class="scan__plate"></span>
-          <svg viewBox="4 12 64 48">
-          <g class="scan__face">
-            <g class="scan__eyes"><circle cx="24" cy="29" r="4"/><circle cx="48" cy="29" r="4"/></g>
-            <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
-          </g>
-          <g class="scan__sun">
-            <path class="scan__sun-t" d="M10.8 28.2 6 29M61.2 28.2 66 29"/>
-            <path class="scan__sun-b" d="M10 27.6C10 25.7 11.4 24.7 13.4 24.7H58.6C60.6 24.7 62 25.7 62 27.6 62 32.4 58.4 36.6 52.6 36.6 47 36.6 41 35.6 38.6 34 37.8 33.5 37 33.3 36 33.3 35 33.3 34.2 33.5 33.4 34 31 35.6 25 36.6 19.4 36.6 13.6 36.6 10 32.4 10 27.6Z"/>
-            <path class="scan__sun-w" d="M10 26.2Q36 23.4 62 26.2"/>
-            <path class="scan__sun-g" d="M15.6 33.4 21.8 26.4M46.2 33.4 52.4 26.4"/>
-          </g>
-          <g class="scan__hat">
-            <path class="scan__hat-s" d="M5.64 20.64 8.86 6.84Q20.36-6.04 36-6.04 51.64-6.04 63.14 6.84L66.36 20.64Z"/>
-            <path class="scan__hat-d" d="M28.64-2.36V18.8M43.36-2.36V18.8"/>
-            <rect class="scan__hat-b" x="4.26" y="17.88" width="63.48" height="5.52" rx="2.76"/>
-          </g>
-          <path class="scan__no" d="M23 27.5 49 53.5M49 27.5 23 53.5"/>
-          </svg>
+        <span class="dont__p">
+          <span class="scan scan--ready" aria-hidden="true">
+            <span class="scan__plate"></span>
+            <svg viewBox="4 12 64 48">
+            <g class="scan__face">
+              <g class="scan__eyes"><circle cx="24" cy="29" r="4"/><circle cx="48" cy="29" r="4"/></g>
+              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
+            </g>
+            <g class="scan__sun">
+              <path class="scan__sun-t" d="M10.8 28.2 6 29M61.2 28.2 66 29"/>
+              <path class="scan__sun-b" d="M10 27.6C10 25.7 11.4 24.7 13.4 24.7H58.6C60.6 24.7 62 25.7 62 27.6 62 32.4 58.4 36.6 52.6 36.6 47 36.6 41 35.6 38.6 34 37.8 33.5 37 33.3 36 33.3 35 33.3 34.2 33.5 33.4 34 31 35.6 25 36.6 19.4 36.6 13.6 36.6 10 32.4 10 27.6Z"/>
+              <path class="scan__sun-w" d="M10 26.2Q36 23.4 62 26.2"/>
+              <path class="scan__sun-g" d="M15.6 33.4 21.8 26.4M46.2 33.4 52.4 26.4"/>
+            </g>
+            <g class="scan__hat">
+              <path class="scan__hat-s" d="M5.64 20.64 8.86 6.84Q20.36-6.04 36-6.04 51.64-6.04 63.14 6.84L66.36 20.64Z"/>
+              <path class="scan__hat-d" d="M28.64-2.36V18.8M43.36-2.36V18.8"/>
+              <rect class="scan__hat-b" x="4.26" y="17.88" width="63.48" height="5.52" rx="2.76"/>
+            </g>
+            </svg>
+          </span>
+          <svg class="dont__x" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 8 92 92M92 8 8 92"/></svg>
         </span>
+        <p class="dont__t">선글라스를 벗어 주세요</p>
       </div>
     </div>
     <span class="cam__go cam__go--wait" data-go="m-shot"><b class="cam__go__t">바로 촬영하기</b></span>
