@@ -278,20 +278,17 @@
   /* 마스크 — 얼굴(#457ed2)과 같은 파랑 계열에서 한참 옅은 쪽이다. 흰 면
      위에 앉는 것이라 회색으로 두면 때가 탄 것처럼 보이고, 얼굴만큼 짙으면
      벗기 전에도 마스크가 아니라 턱으로 읽힌다.
-     둘인 것은 **입체형 마스크의 꺾인 두 면**이라서다. 테를 두르는 대신
-     한 단 차이로 마루를 세운다 — 얼굴 면도 테가 아니라 빛으로 서는 그림이라,
-     여기만 선을 두르면 그 선이 먼저 읽힌다 */
-  --ap-mask:#ccd9ef;               /* 빛을 받는 쪽(오른 면) */
-  --ap-mask-2:#b3c5e2;             /* 꺾여 그늘진 쪽(왼 면) · 귀끈 */
+     둘인 것은 **면 하나와 그 위의 코 선**이라서다. 테를 두르지 않는다 —
+     얼굴 면도 테가 아니라 빛으로 서는 그림이라, 여기만 선을 두르면 그
+     선이 먼저 읽힌다 */
+  --ap-mask:#a9c7ea;               /* 마스크 한 면 */
+  --ap-mask-2:#6e96cb;             /* 코 선 — 한 단 짙은 조각 */
   /* 보안경 알 — 눈을 덮는 것이라 짙어야 하지만 검정까지 가지는 않는다.
      흰 면 위의 순검정은 구멍처럼 보인다 */
   --ap-glass:#37435a;
   --ap-glass-rim:#1d2430;          /* 눈썹대와 다리 — 알보다 한참 짙다.
                                       이 한 단이 있어야 '알 한 장짜리 고글'
                                       이 아니라 테를 두른 보안경으로 읽힌다 */
-  --ap-glass-glint:rgba(255,255,255,.34); /* 알을 비스듬히 가로지르는 빛.
-                                      이것이 있어야 검은 면이 뚫린 구멍이
-                                      아니라 유리로 읽힌다 */
   /* 카메라가 잡는 틀 — 사람(120)보다 한참 넓다. 꽉 끼면 틀이 아니라
      테두리가 된다. 그림 칸이 허락하는 데까지 벌린다 */
   --ap-scan-frame:calc(var(--ap-scan) * 1.7);
@@ -2974,13 +2971,18 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    준다 — 무엇을 쓴 모습이 안 되는지를, 쓴 모습과 ✕ 로.
    훑는 레이저도 파장도 두지 않는다 — 아직 읽는 중이 아니라 **읽기 전**이고,
    움직이는 것이 여럿이면 어느 쪽도 보이지 않는다 */
-.scan__mask-l{fill:var(--ap-mask-2)}
-.scan__mask-r{fill:var(--ap-mask)}
-.scan__mask-s{fill:none;stroke:var(--ap-mask-2);stroke-width:1.8;stroke-linecap:round}
+/* 색은 **한 겹**이다 — 이 그림판의 규칙이다(안전모 주석 참고: 작은
+   그림에 그라데이션을 깔면 번들거려 촌스러워진다). 두 쪽을 다른 색으로
+   꺾어 입체를 내던 마스크도, 알에 빗금 빛을 긋던 보안경도 그래서 걷었다.
+   입체는 **한 단 짙은 조각 하나**가 맡는다 — 안전모의 챙이 하는 일을
+   마스크는 코 선이, 보안경은 눈썹대가 한다 */
+.scan__mask-b{fill:var(--ap-mask)}
+.scan__mask-n{fill:none;stroke:var(--ap-mask-2);stroke-width:3.2;stroke-linecap:round}
+/* 귀끈은 **짧고 굵게** 둔다 — 가늘고 길게 빼면 수염처럼 보인다. 볼을
+   가로질러 귀에 닿는 두 마디면 마스크로 읽히는 데 족하다 */
+.scan__mask-s{fill:none;stroke:var(--ap-mask-2);stroke-width:2.6;stroke-linecap:round}
 .scan__sun-b{fill:var(--ap-glass)}
-.scan__sun-w{fill:none;stroke:var(--ap-glass-rim);stroke-width:3.2;stroke-linecap:round}
-.scan__sun-t{fill:none;stroke:var(--ap-glass-rim);stroke-width:2.4;stroke-linecap:round}
-.scan__sun-g{fill:none;stroke:var(--ap-glass-glint);stroke-width:2.2;stroke-linecap:round}
+.scan__sun-w{fill:none;stroke:var(--ap-glass-rim);stroke-width:2.4;stroke-linecap:round}
 /* 두 칸은 다른 사람이다 — 같은 얼굴에 물건만 갈아 끼우면 '이 사람은
    이것도 저것도 쓴다' 로 읽혀, 벗을 것이 둘이라는 말이 흐려진다.
    얼굴에서 번지는 빛(box-shadow)은 그대로 둔다 — 어두운 바탕에서 그
