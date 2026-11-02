@@ -3347,6 +3347,15 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   .hd--bare{padding-inline:var(--ap-p8)}
   .hd--bare ~ .body .rows,.hd--bare ~ .body .note{width:auto;max-width:none;margin-inline:0}
   .act--cta{padding-inline:var(--ap-p8)}
+  /* 과녁은 폭을 다 쓰되 **그 안의 글은 가운데로 모은다**. 넓은 화면에서
+     카드만 늘려 두었더니 시각과 이름이 왼쪽 끝에, 꺾쇠가 오른쪽 끝에
+     붙어 그 사이가 통째로 비었다 — 한 눈길에 들어야 할 것이 화면
+     양끝으로 흩어진 꼴이다.
+     420 은 이 앱이 넓은 화면에서 한 덩이를 모아 두는 폭이다(카메라의
+     바닥 줄 · 온보딩 카드와 같다).
+     함께 서는 '작업내용 작성하기' 도 같은 폭으로 모은다 — 둘이 위아래로
+     붙는데 하나만 늘어나면 어긋나 보인다 */
+  .go__card .cta__nm,.go > .cardb{max-width:420px;margin-inline:auto}
   /* 필터는 한 칸이라 늘리지 않는다 — 폭을 다 쓰면 고를 것이 하나인데 줄만 길어진다 */
   /* ⚠ 여기에 .sel 로 폭을 걸지 않는다. 폼 안의 고르는 칸까지 걸리는데, 폼의
      .fld 는 **세로 줄**이라 flex-basis 가 폭이 아니라 **높이**가 된다 —
