@@ -315,13 +315,15 @@
   --ap-on-cta-line:rgba(255,255,255,.28); /* 그 설명을 한 줄씩 가르는 선 */
   --ap-on-cta-chip:rgba(255,255,255,.18); /* 그 면 위에 얹는 뱃지의 면 */
   --ap-shot:240px;                 /* 사진 자리 — 찍기 전과 찍은 뒤가 같다 */
-  --ap-ref:108px;                  /* 이력 사진 위에 겹쳐 두는 최초 등록 사진 —
-                                      390 의 사진(358)에서 1/3 쯤이다. 더 키우면
-                                      큰 쪽의 얼굴을 먹고, 더 줄이면 작은 쪽에서
-                                      얼굴을 가릴 수 없다.
-                                      머리의 이름도 이 폭에 든다 — '최초 등록
-                                      사진' 이 13/600 에서 85 이라 좌우 여백
-                                      6 씩을 빼고도 남는다 */
+  --ap-ref:68px;                    /* 이력 사진 위에 겹쳐 두는 최초 등록 사진 —
+                                      390 의 사진(358)에서 1/5 쯤이다. 큰 쪽을
+                                      가리지 않을 만큼 작되, 같은 사람인지
+                                      가릴 수는 있어야 한다. 더 크게 보는
+                                      길은 눌러 띄우는 창이 맡는다.
+                                      이름은 **읽히는 쪽이 먼저다** — 13(Footnote)
+                                      짜리 '최초 등록'(55)이 좌우 여백 4 씩을
+                                      두고 드는 폭이 68 이다. 더 줄이자고 글을
+                                      11 로 내렸더니 사진 위에서 묻혔다 */
 
   /* ── 모서리 ── */
   --ap-r4:4px;                     /* radius/small1 */
@@ -1088,7 +1090,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 
 /* 얼굴 사진이 들어오면 자리를 그대로 채운다 — 자리마다 비율이 달라 가장자리를
    잘라 쓴다. 넣는 법은 images/worker/README.md */
-.face img,.shot__box img,.photo img,.confirm__pic img{
+.face img,.shot__box img,.photo img,.confirm__pic img,.regv img{
   display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
 .card--photo > .chk{position:absolute;left:8px;top:8px;z-index:1;
   box-shadow:var(--ap-shadow-chk)}
@@ -2383,36 +2385,45 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 찍히지 않은 쪽은 고를 것이 없다 — 보여 줄 사진도 없다 */
 .stmp .tcard:disabled{cursor:default}
 
-/* 사진은 고른 쪽의 것 하나만 선다. 최초 등록 사진을 켜면(is-reg) 고른
-   쪽과 상관없이 그 한 장이 대신 선다 — 겹쳐 띄우지 않고 **갈아 끼운다**:
-   띄우면 아래 사진이 비쳐 두 얼굴이 섞여 보인다 */
+/* 사진은 고른 쪽의 것 하나만 선다 */
 .photo > img[data-for]{display:none}
-.scr:not(.is-reg)[data-at="in"] .photo > img[data-for="in"],
-.scr:not(.is-reg)[data-at="out"] .photo > img[data-for="out"],
-.scr.is-reg .photo > img[data-for="reg"]{display:block}
+.scr[data-at="in"] .photo > img[data-for="in"],
+.scr[data-at="out"] .photo > img[data-for="out"]{display:block}
 /* 겹쳐 둔 작은 사진 — 오른쪽 아래. 이름과 그림을 **한 테 안에** 담는다:
    이름을 테 밖에 띄워 두면 그것이 큰 사진 위에 떠 있는 꼴이라, 큰 쪽의
    이름으로 읽힌다. 그림 안에 겹쳐 넣는 길도 있지만 그만큼 작은 얼굴을
    덮어 견줄 것이 줄어, 머리에 한 줄을 내어 준다.
-   흰 테를 두르는 것은 사진 위의 사진이기 때문이다 — 테가 없으면 두 그림의
-   가장자리가 서로 섞여 어디까지가 작은 쪽인지 흐려진다 */
+   흰 테는 1 이다 — 사진 위의 사진이라 가장자리를 갈라 주어야 하지만,
+   2 에 카드 그림자까지 두르면 큰 사진과 **같은 무게의 카드**로 서서 두
+   보기가 대등해 보인다. 이쪽은 가리는 자이지 또 하나의 보기가 아니다 */
 .photo__ref{cursor:pointer;position:absolute;right:var(--ap-p5);bottom:var(--ap-p5);z-index:1;
   display:flex;flex-direction:column;width:var(--ap-ref);overflow:hidden;
-  border-radius:var(--ap-r10);background:var(--ap-surface-dark);
-  box-shadow:0 0 0 2px var(--ap-g0),var(--ap-shadow-card)}
+  border-radius:var(--ap-r8);background:var(--ap-surface-dark);
+  box-shadow:0 0 0 1px var(--ap-g0),var(--ap-shadow-tip)}
 .photo__ref__k{font:var(--t-foot-em);letter-spacing:var(--ls-foot);
-  padding:var(--ap-p1) var(--ap-p3);text-align:center;white-space:nowrap;
+  padding:var(--ap-p1) var(--ap-p2);text-align:center;white-space:nowrap;
   color:var(--ap-g0)}
 .photo__ref__p{position:relative;overflow:hidden;
   width:var(--ap-ref);height:var(--ap-ref);
   background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2))}
 .photo__ref__p img{position:absolute;inset:0}
-/* 작은 쪽은 늘 **나머지 한 장**이다 — 큰 쪽이 등록 사진이면 작은 쪽이
-   그날 찍힌 얼굴이 된다. 둘이 자리를 바꿀 뿐 화면에서 빠지는 것은 없다 */
-.photo__ref__p img{display:none}
-.scr:not(.is-reg) .photo__ref__p img[data-ref="reg"],
-.scr.is-reg[data-at="in"] .photo__ref__p img[data-ref="in"],
-.scr.is-reg[data-at="out"] .photo__ref__p img[data-ref="out"]{display:block}
+
+/* ── 최초 등록 사진 크게 보기 ──
+   어두운 막 위에 흰 카드로 띄운다 — 등록 촬영 확인(.confirm__card)과 같은
+   꼴·같은 폭이다. 두 자리 다 '사진 한 장을 똑바로 보는' 일이라, 다른 꼴로
+   두면 같은 일을 두 가지로 익히게 된다 */
+.regv{position:relative;display:flex;flex-direction:column;gap:var(--ap-gap6);
+  width:100%;max-width:var(--ap-confirm-w);padding:var(--ap-p6);
+  background:var(--ap-g0);border-radius:var(--ap-r15)}
+.regv img{width:100%;aspect-ratio:1;border-radius:var(--ap-r10);
+  background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2))}
+.regv__k{font:var(--t-title3-em);letter-spacing:var(--ls-title3);
+  text-align:center;color:var(--ap-text)}
+/* 닫는 길은 어두운 자리에도 있지만(dim), 사진이 막을 거의 다 덮어 누를
+   자리가 좁다 — 카드 안 오른쪽 위에 하나 더 둔다. 사진 위라 흰 글씨다 */
+.regv__x{cursor:pointer;position:absolute;right:var(--ap-p7);top:var(--ap-p7);z-index:1;
+  width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+  border-radius:var(--ap-r-pill);background:var(--ap-surface-dark);color:var(--ap-g0)}
 /* 카드 안은 가운데로 모은다 — 카드가 쥔 것이 수 하나뿐이라, 왼쪽에
    붙여 두면 수와 꼬리표가 왼쪽 선에 매달리고 오른쪽이 통째로 빈다.
    가운데에 세우면 두 카드의 수가 각자 제 칸의 한가운데에 서서, 나란히
