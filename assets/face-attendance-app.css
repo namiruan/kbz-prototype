@@ -2387,13 +2387,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .scr:not(.is-reg)[data-at="in"] .photo > img[data-for="in"],
 .scr:not(.is-reg)[data-at="out"] .photo > img[data-for="out"],
 .scr.is-reg .photo > img[data-for="reg"]{display:block}
-/* 사진의 이름 — 왼쪽 아래다. 얼굴은 위쪽에 앉으므로 아래가 덜 가린다.
-   면은 시스템의 어두운 면(surface-dark) 그대로다 — 사진 위라 반투명으로
-   두면 밑 사진에 따라 글자가 읽혔다 안 읽혔다 한다(색은 한 겹) */
-.photo__k,.photo__ref__k{font:var(--t-foot-em);letter-spacing:var(--ls-foot);
+/* 작은 사진의 이름 — 면은 시스템의 어두운 면(surface-dark) 그대로다.
+   사진 위라 반투명으로 두면 밑 사진에 따라 글자가 읽혔다 안 읽혔다
+   한다(색은 한 겹) */
+.photo__ref__k{font:var(--t-foot-em);letter-spacing:var(--ls-foot);
   padding:var(--ap-p1) var(--ap-p4);border-radius:var(--ap-r-pill);
   background:var(--ap-surface-dark);color:var(--ap-g0);white-space:nowrap}
-.photo__k{position:absolute;left:var(--ap-p5);bottom:var(--ap-p5);z-index:1}
 /* 겹쳐 둔 작은 사진 — 오른쪽 아래. 이름은 그림 **위에** 올린다: 96 짜리
    그림 안에 넣으면 '최초 등록 사진' 이 그 폭을 넘고(실측 91+여백), 얼굴을
    덮는 만큼 견줄 것이 줄어든다.

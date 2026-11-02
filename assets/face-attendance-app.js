@@ -982,21 +982,21 @@
      카드를 따른다. 겹쳐 두면 카드가 큰 사진만 바꾸고 작은 사진은 그대로라,
      그 관계가 꼴로 드러난다.
      누르면 **자리가 바뀐다** — 작은 쪽에서 가리기 어려운 것을 크게 본다.
-     이름은 사진을 따라간다: 두 이름이 늘 제 사진 위에 있어 무엇을 보고
-     있는지 셈할 것이 없다.
+     이름은 **작은 쪽에만** 달고, 자리를 바꾸면 이름도 따라간다. 둘 다
+     달았더니 사진 하나에 이름이 둘 붙은 꼴로 읽혔다 — 큰 쪽이 무엇인지는
+     위의 출근·퇴근 카드가 이미 말하고, 이름이 있어야 하는 것은 끼어든
+     한 장이다.
      출퇴근 카드를 고르면 큰 쪽이 그 카드의 사진으로 돌아온다 — 카드를
      고르는 일은 '그때 찍힌 얼굴을 보자' 는 말인데, 등록 사진이 큰 채면
      눌러도 큰 그림이 그대로라 고르는 일이 먹히지 않은 것으로 읽힌다 */
   function regshot(scr) {
     var btn = scr.querySelector('.photo__ref');
     if (!btn) return;
-    var big = scr.querySelector('.photo__k');
     var small = btn.querySelector('.photo__ref__k');
     var LOG = '출퇴근 사진', REG = '최초 등록 사진';
 
     function paint(on) {
       scr.classList.toggle('is-reg', on);
-      if (big) big.textContent = on ? REG : LOG;
       if (small) small.textContent = on ? LOG : REG;
       btn.setAttribute('aria-label', (on ? LOG : REG) + ' 크게 보기');
     }
