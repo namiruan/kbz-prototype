@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=609">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=610">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=609"></script>
+<script src="assets/face-attendance-app.js?v=610"></script>
 </head>
 
 <body>
@@ -1729,19 +1729,31 @@
       <!-- 맨 처음 얼굴을 등록할 때 찍은 사진이다 — 근로자 관리 목록과 근로자
            상세가 쓰는 그 한 장. 현장소장이 이력에서 따지는 것은 '이 얼굴이
            등록된 그 사람인가' 라, 견줄 짝이 같은 화면에 있어야 한다.
-           작게 겹쳐 두고 **늘 띄운다** — 누르지 않아도 두 얼굴이 한 눈에
+           ⚠ 퇴근 사진도 같은 파일이다(images/worker/README.md — 홍길동만 두
+             장이다). 퇴근 쪽에서 덮어도 바뀌는 것이 없는 까닭이다 -->
+      <img src="images/worker/01.jpg" alt="" data-for="reg">
+      <!-- 큰 사진의 이름 — **덮은 동안에만** 선다. 덮기 전에는 위의 출근·
+           퇴근 카드가 이미 무엇인지 말하고 있어 적을 것이 없다. 화면에 선
+           이름은 언제나 하나다 -->
+      <span class="photo__k">최초 등록 사진</span>
+      <!-- 작게 겹쳐 두고 **늘 띄운다** — 누르지 않아도 두 얼굴이 한 눈에
            든다. 출근이든 퇴근이든 한 장이라 위의 카드를 따르지 않는다:
            카드는 큰 사진만 바꾸고 이쪽은 그대로다.
-           누르면 **크게 뜬다**(m-log-reg). 큰 사진과 자리를 바꾸는 길도
-           있었으나, 자리를 바꾸면 두 보기가 대등해 보여 그날 찍힌 얼굴과
-           등록해 둔 얼굴이 같은 값으로 읽힌다 — 이력의 주인공은 그날 찍힌
-           얼굴이고, 등록 사진은 그것을 가리는 자다.
-           이름은 짧게 '최초 등록' 이다. 76 짜리 머리에 '최초 등록 사진'
-           (13/600 에서 85)은 들지 않고, 온전한 이름은 크게 뜬 창이 쥔다 -->
-      <button class="photo__ref" type="button" data-go="m-log-reg">
+           누르면 그 얼굴이 **큰 사진을 덮는다**. 둘이 자리를 맞바꾸는 길도
+           있었으나, 맞바꾸면 두 보기가 대등해 보여 그날 찍힌 얼굴과 등록해
+           둔 얼굴이 같은 값으로 읽힌다 — 이력의 주인공은 그날 찍힌 얼굴이고,
+           등록 사진은 그것을 가리는 자다. 덮은 자리에는 작은 사진 대신
+           **돌아가는 길**이 서서, 지금이 잠깐 들른 자리임을 말한다.
+           이름은 짧게 '최초 등록' 이다 — 68 짜리 머리에 '최초 등록 사진'
+           (13/600 에서 85)은 들지 않고, 온전한 이름은 덮은 뒤의 큰 쪽이
+           쥔다 -->
+      <button class="photo__ref" type="button">
         <span class="photo__ref__k">최초 등록</span>
         <span class="photo__ref__p"><img src="images/worker/01.jpg" alt=""></span>
       </button>
+      <!-- 작은 사진이 섰던 그 자리다 — 눌러 들어간 손가락이 그대로 머무는
+           자리에 돌아가는 길을 둔다 -->
+      <button class="photo__back" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-back"></use></svg><b>돌아가기</b></button>
     </div>
 
     <!-- 이름은 **사람 정보를 이끄는 제목**이다. 위의 시각과 사진이 '언제
@@ -1804,19 +1816,31 @@
       <!-- 맨 처음 얼굴을 등록할 때 찍은 사진이다 — 근로자 관리 목록과 근로자
            상세가 쓰는 그 한 장. 현장소장이 이력에서 따지는 것은 '이 얼굴이
            등록된 그 사람인가' 라, 견줄 짝이 같은 화면에 있어야 한다.
-           작게 겹쳐 두고 **늘 띄운다** — 누르지 않아도 두 얼굴이 한 눈에
+           ⚠ 퇴근 사진도 같은 파일이다(images/worker/README.md — 홍길동만 두
+             장이다). 퇴근 쪽에서 덮어도 바뀌는 것이 없는 까닭이다 -->
+      <img src="images/worker/01.jpg" alt="" data-for="reg">
+      <!-- 큰 사진의 이름 — **덮은 동안에만** 선다. 덮기 전에는 위의 출근·
+           퇴근 카드가 이미 무엇인지 말하고 있어 적을 것이 없다. 화면에 선
+           이름은 언제나 하나다 -->
+      <span class="photo__k">최초 등록 사진</span>
+      <!-- 작게 겹쳐 두고 **늘 띄운다** — 누르지 않아도 두 얼굴이 한 눈에
            든다. 출근이든 퇴근이든 한 장이라 위의 카드를 따르지 않는다:
            카드는 큰 사진만 바꾸고 이쪽은 그대로다.
-           누르면 **크게 뜬다**(m-log-reg). 큰 사진과 자리를 바꾸는 길도
-           있었으나, 자리를 바꾸면 두 보기가 대등해 보여 그날 찍힌 얼굴과
-           등록해 둔 얼굴이 같은 값으로 읽힌다 — 이력의 주인공은 그날 찍힌
-           얼굴이고, 등록 사진은 그것을 가리는 자다.
-           이름은 짧게 '최초 등록' 이다. 76 짜리 머리에 '최초 등록 사진'
-           (13/600 에서 85)은 들지 않고, 온전한 이름은 크게 뜬 창이 쥔다 -->
-      <button class="photo__ref" type="button" data-go="m-log-reg">
+           누르면 그 얼굴이 **큰 사진을 덮는다**. 둘이 자리를 맞바꾸는 길도
+           있었으나, 맞바꾸면 두 보기가 대등해 보여 그날 찍힌 얼굴과 등록해
+           둔 얼굴이 같은 값으로 읽힌다 — 이력의 주인공은 그날 찍힌 얼굴이고,
+           등록 사진은 그것을 가리는 자다. 덮은 자리에는 작은 사진 대신
+           **돌아가는 길**이 서서, 지금이 잠깐 들른 자리임을 말한다.
+           이름은 짧게 '최초 등록' 이다 — 68 짜리 머리에 '최초 등록 사진'
+           (13/600 에서 85)은 들지 않고, 온전한 이름은 덮은 뒤의 큰 쪽이
+           쥔다 -->
+      <button class="photo__ref" type="button">
         <span class="photo__ref__k">최초 등록</span>
         <span class="photo__ref__p"><img src="images/worker/01.jpg" alt=""></span>
       </button>
+      <!-- 작은 사진이 섰던 그 자리다 — 눌러 들어간 손가락이 그대로 머무는
+           자리에 돌아가는 길을 둔다 -->
+      <button class="photo__back" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-back"></use></svg><b>돌아가기</b></button>
     </div>
 
     <!-- 이름은 **사람 정보를 이끄는 제목**이다. 위의 시각과 사진이 '언제
@@ -1858,25 +1882,6 @@
            어느 날에서든 제 화면으로 돌아온다 -->
       <button class="pill pill--line wheel__today" type="button" data-go="m-log">오늘로 이동</button>
     </div>
-  </div>
-</section>
-
-
-<!-- ===== ⑯ 현장소장 앱 · 최초 등록 사진 크게 보기 ===== -->
-<section class="scr has-dim scr--paper" data-at="in" data-day="day4" data-rec="done"
-  data-screen="m-log-reg" data-title="최초 등록 사진" data-behind="m-log-photo">
-  <!-- 화면을 바꾸지 않고 **잠깐 띄운다** — 돌아가면 보던 이력이 그대로 있다.
-       ⚠ 뒤에 까는 화면은 '출퇴근 이력보기 — 둘 다' 하나다. 출근만 찍힌
-         화면에서 열어도 같은 창이 뜨고 돌아가는 길도 그 한 화면이다 —
-         어두운 막에 덮여 뒤가 거의 보이지 않아 한 벌로 둔다 -->
-  <div class="dim" data-go="m-log-photo" data-go-self data-keep>
-    <figure class="regv">
-      <button class="regv__x" type="button" aria-label="닫기" data-go="m-log-photo"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
-      <img src="images/worker/01.jpg" alt="">
-      <!-- 크게 뜬 자리에서 온전한 이름을 적는다 — 작은 쪽 머리에는 '최초
-           등록' 까지만 들어간다 -->
-      <figcaption class="regv__k">최초 등록 사진</figcaption>
-    </figure>
   </div>
 </section>
 

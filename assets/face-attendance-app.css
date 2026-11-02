@@ -1090,7 +1090,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 
 /* 얼굴 사진이 들어오면 자리를 그대로 채운다 — 자리마다 비율이 달라 가장자리를
    잘라 쓴다. 넣는 법은 images/worker/README.md */
-.face img,.shot__box img,.photo img,.confirm__pic img,.regv img{
+.face img,.shot__box img,.photo img,.confirm__pic img{
   display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
 .card--photo > .chk{position:absolute;left:8px;top:8px;z-index:1;
   box-shadow:var(--ap-shadow-chk)}
@@ -2387,8 +2387,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 
 /* 사진은 고른 쪽의 것 하나만 선다 */
 .photo > img[data-for]{display:none}
-.scr[data-at="in"] .photo > img[data-for="in"],
-.scr[data-at="out"] .photo > img[data-for="out"]{display:block}
+.scr:not(.is-reg)[data-at="in"] .photo > img[data-for="in"],
+.scr:not(.is-reg)[data-at="out"] .photo > img[data-for="out"],
+.scr.is-reg .photo > img[data-for="reg"]{display:block}
 /* 겹쳐 둔 작은 사진 — 오른쪽 아래. 이름과 그림을 **한 테 안에** 담는다:
    이름을 테 밖에 띄워 두면 그것이 큰 사진 위에 떠 있는 꼴이라, 큰 쪽의
    이름으로 읽힌다. 그림 안에 겹쳐 넣는 길도 있지만 그만큼 작은 얼굴을
@@ -2408,22 +2409,29 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2))}
 .photo__ref__p img{position:absolute;inset:0}
 
-/* ── 최초 등록 사진 크게 보기 ──
-   어두운 막 위에 흰 카드로 띄운다 — 등록 촬영 확인(.confirm__card)과 같은
-   꼴·같은 폭이다. 두 자리 다 '사진 한 장을 똑바로 보는' 일이라, 다른 꼴로
-   두면 같은 일을 두 가지로 익히게 된다 */
-.regv{position:relative;display:flex;flex-direction:column;gap:var(--ap-gap6);
-  width:100%;max-width:var(--ap-confirm-w);padding:var(--ap-p6);
-  background:var(--ap-g0);border-radius:var(--ap-r15)}
-.regv img{width:100%;aspect-ratio:1;border-radius:var(--ap-r10);
-  background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2))}
-.regv__k{font:var(--t-title3-em);letter-spacing:var(--ls-title3);
-  text-align:center;color:var(--ap-text)}
-/* 닫는 길은 어두운 자리에도 있지만(dim), 사진이 막을 거의 다 덮어 누를
-   자리가 좁다 — 카드 안 오른쪽 위에 하나 더 둔다. 사진 위라 흰 글씨다 */
-.regv__x{cursor:pointer;position:absolute;right:var(--ap-p7);top:var(--ap-p7);z-index:1;
-  width:30px;height:30px;display:flex;align-items:center;justify-content:center;
-  border-radius:var(--ap-r-pill);background:var(--ap-surface-dark);color:var(--ap-g0)}
+/* ── 덮은 동안 ──
+   화면에 선 이름은 언제나 하나다: 덮기 전에는 작은 사진의 머리가, 덮은
+   뒤에는 큰 사진의 왼쪽 아래가 쥔다. 둘을 함께 세우면 사진 하나에 이름이
+   둘 붙은 꼴로 읽힌다 */
+.photo__k{position:absolute;left:var(--ap-p5);bottom:var(--ap-p5);z-index:1;
+  font:var(--t-foot-em);letter-spacing:var(--ls-foot);
+  padding:var(--ap-p1) var(--ap-p4);border-radius:var(--ap-r-pill);
+  background:var(--ap-surface-dark);color:var(--ap-g0);white-space:nowrap}
+/* 돌아가는 길은 **작은 사진이 섰던 그 자리**다 — 눌러 들어간 손가락이
+   그대로 머무는 자리다. 꼴은 작은 사진의 머리와 같은 어두운 면이되,
+   또 하나의 보기가 아니라 길이므로 그림 없이 글자와 꺾쇠만이다 */
+.photo__back{cursor:pointer;position:absolute;right:var(--ap-p5);bottom:var(--ap-p5);z-index:1;
+  display:flex;align-items:center;gap:var(--ap-p2);
+  font:var(--t-foot-em);letter-spacing:var(--ls-foot);
+  padding:var(--ap-p3) var(--ap-p5) var(--ap-p3) var(--ap-p4);
+  border-radius:var(--ap-r-pill);
+  background:var(--ap-surface-dark);color:var(--ap-g0);
+  box-shadow:var(--ap-shadow-tip)}
+/* 덮기 전에는 작은 사진만, 덮은 뒤에는 이름과 돌아가는 길만 선다 */
+.photo__k,.photo__back{display:none}
+.scr.is-reg .photo__k{display:block}
+.scr.is-reg .photo__back{display:flex}
+.scr.is-reg .photo__ref{display:none}
 /* 카드 안은 가운데로 모은다 — 카드가 쥔 것이 수 하나뿐이라, 왼쪽에
    붙여 두면 수와 꼬리표가 왼쪽 선에 매달리고 오른쪽이 통째로 빈다.
    가운데에 세우면 두 카드의 수가 각자 제 칸의 한가운데에 서서, 나란히

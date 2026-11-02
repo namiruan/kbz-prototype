@@ -44,6 +44,7 @@
     link(hit);
     clock(hit);
     stamp(hit);
+    regshot(hit);
     tally(hit);
     wait(hit);
     note(hit);
@@ -971,6 +972,31 @@
       });
       c.setAttribute('aria-pressed', c.classList.contains('is-on') ? 'true' : 'false');
     });
+  }
+
+  /* ── 최초 등록 사진으로 덮기 ──
+     이력에서 따지는 것은 '이 얼굴이 등록된 그 사람인가' 다. 맨 처음 등록한
+     얼굴을 작은 사진으로 늘 띄워 두고, 눌러 더 크게 볼 수 있게 한다.
+     둘이 **자리를 맞바꾸지** 않는 것은 그러면 두 보기가 대등해 보이기
+     때문이다 — 이력의 주인공은 그날 찍힌 얼굴이고 등록 사진은 그것을
+     가리는 자다. 덮은 자리에 작은 사진 대신 **돌아가는 길**이 서면, 지금이
+     잠깐 들른 자리라는 것이 꼴로 드러난다.
+     출퇴근 카드를 고르면 덮은 것이 걷힌다 — 카드를 고르는 일은 '그때 찍힌
+     얼굴을 보자' 는 말인데, 덮인 채면 눌러도 그림이 그대로라 고르는 일이
+     먹히지 않은 것으로 읽힌다 */
+  function regshot(scr) {
+    var open = scr.querySelector('.photo__ref');
+    var back = scr.querySelector('.photo__back');
+    if (!open || !back) return;
+
+    function paint(on) { scr.classList.toggle('is-reg', on); }
+
+    open.addEventListener('click', function () { paint(true); });
+    back.addEventListener('click', function () { paint(false); });
+    scr.querySelectorAll('.stmp .tcard').forEach(function (c) {
+      c.addEventListener('click', function () { paint(false); });
+    });
+    paint(false);
   }
 
   function clock(scr) {
