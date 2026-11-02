@@ -2407,7 +2407,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   box-shadow:var(--ap-shadow-card)}
 /* 덮기 전에는 들어가는 길만, 덮은 뒤에는 돌아오는 길만 선다. 덮은 사진에
    이름을 붙이지 않는 것은 그 이름표가 **버튼으로 읽히기** 때문이다 —
-   방금 '최초 등록 사진' 을 눌러 온 자리라, 무엇을 보고 있는지는 누른
+   방금 '등록된 얼굴 비교하기' 를 눌러 온 자리라, 무엇을 보고 있는지는 누른
    사람이 안다 */
 .photo__back{display:none}
 .scr.is-reg .photo__back{display:flex}
