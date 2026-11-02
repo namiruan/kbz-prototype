@@ -2322,9 +2322,14 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   margin-left:var(--ap-p2);color:var(--ap-text);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* 시각은 **오른쪽 끝**이다 — 줄마다 같은 자리에 서야 그 칸만 따라
-   내려가며 훑을 수 있다. 같은 너비의 수(tabular)로 두는 것도 같은 까닭이다 */
-.log__tm{font:var(--t-foot);letter-spacing:var(--ls-foot);flex:none;
-  color:var(--ap-text-gray);font-variant-numeric:tabular-nums}
+   내려가며 훑을 수 있다. 같은 너비의 수(tabular)로 두는 것도 같은 까닭이다.
+   글은 13/400 회색에서 **15/600 본문 색**으로 올렸다. 이 줄에서 읽으러
+   온 값이 둘인데(누가 · 언제) 하나만 또렷하면, 나머지 하나는 찾아낸 뒤에
+   다시 들여다봐야 한다. 이름(17/600)보다 한 단 작은 것은 먼저 집히는
+   것이 이름이기 때문이다 — 같은 크기로 올리면 둘이 다투고, 긴 이름이
+   접히는 줄에서는 시각이 더 커 보인다 */
+.log__tm{font:var(--t-sub-em);letter-spacing:var(--ls-sub);flex:none;
+  color:var(--ap-text);font-variant-numeric:tabular-nums}
 
 /* ── 오늘의 출근·퇴근 — 좌우로 선 두 카드 ── */
 /* 출근과 퇴근은 따로 선 기록이다. 한 카드에 두 줄로 쌓아 두면 한 값의
