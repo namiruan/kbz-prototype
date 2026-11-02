@@ -2958,7 +2958,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      그 아래 틈, 아래는 바닥 버튼(40+56)과 그 위 틈 */
   flex-direction:column;gap:var(--ap-p8);
   padding:calc(var(--ap-statusbar) + 54px) var(--ap-p6)
-          calc(var(--ap-p10) + var(--ap-cam-go-h) + var(--ap-p8))}
+          calc(var(--ap-p10) + var(--ap-cam-go-h) + var(--ap-p4) + 18px + var(--ap-p8))}
 /* 시키는 말은 틀 위에 못 박아 두던 것을 흐름 안으로 들인다 — 가리킬 틀이
    없어졌다. 카메라 화면보다 긴 문장이라 글자는 한 단 내린 채 둔다 */
 .cam--ready .cam__t{position:static;bottom:auto;padding:0;
@@ -3070,6 +3070,14 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    않는다 — 숫자가 줄어드는 것은 '놓치면 안 되는 것' 의 말투이고, 여기서
    기다리는 일은 몇 초 쉬어 가는 것뿐이다. 차오르는 면이 곧 그 말이다.
    기다리지 않을 사람을 위해 버튼으로도 선다 */
+/* 기다리면 저절로 넘어간다는 말을 **글로도** 적는다 — 차오르는 면만
+   두었더니 그것이 무엇이 차는 중인지는 사람마다 다르게 읽혔다.
+   버튼 바로 위에 붙인다: 말과 그 말이 가리키는 것이 한 눈길에 든다.
+   글자는 가장 작은 칸(13)이다 — 시키는 말이 아니라 일러두는 말이다 */
+.cam__auto{position:absolute;left:0;right:0;
+  bottom:calc(var(--ap-p10) + var(--ap-cam-go-h) + var(--ap-p4));
+  padding:0 var(--ap-p6);text-align:center;word-break:keep-all;
+  font:var(--t-foot);letter-spacing:var(--ls-foot);color:var(--ap-on-dark-sub)}
 .cam__go--wait{overflow:hidden}
 .cam__go__t{position:relative;z-index:1}
 .cam__go--wait::before{content:"";position:absolute;left:0;top:0;bottom:0;width:100%;
