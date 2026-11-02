@@ -1328,9 +1328,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    문장**이다.
    꼬리 몫(6)을 아래 여백에 더해, 꼬리 끝과 카드 사이가 다른 사이(12)와
    같아진다 */
+/* 말풍선과 그것이 가리키는 버튼 사이 — 꼬리(6)를 뺀 눈에 보이는 틈은
+   6 이다. 가리키는 것과는 바싹 붙어야 꼬리가 무엇을 짚는지 흔들리지
+   않는다(18 로 띄워 두었더니 말풍선이 버튼이 아니라 제 위의 것에 붙어
+   보였다) */
 .tip{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
   position:relative;align-self:center;max-width:100%;
-  margin-bottom:calc(var(--ap-p5) + 6px);
+  margin-bottom:calc(var(--ap-p3) + 6px);
   padding:var(--ap-p4) var(--ap-p6);border-radius:var(--ap-r8);
   background:var(--ap-surface-dark);color:var(--ap-g0);
   box-shadow:var(--ap-shadow-tip);word-break:keep-all;
