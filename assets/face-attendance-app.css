@@ -366,6 +366,10 @@
      밝다. 카메라의 가이드 틀처럼 빛을 번지게 하지 않는다(그 틀은 과녁이고
      이 칸은 액자다) */
   --ap-dont-fill:rgba(255,255,255,.05);
+  /* 카드를 가로지르는 ✕ — 실패의 빨강(--ap-cam-fail)이되 한 겹 비친다.
+     카드를 덮을 만큼 크게 긋는 금이라, 꽉 찬 색으로 두면 카드에서 그것만
+     보이고 무엇을 쓴 모습인지가 뒤로 밀린다 */
+  --ap-dont-x:rgba(242,109,106,.5);
   --ap-camsw:54px;                     /* 렌즈 전환 버튼 — 옆에 선 토글과 같은 키 */
   --ap-photo-1:#c9b8a6; --ap-photo-2:#8c7562;
 }
@@ -2951,7 +2955,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    색은 얼굴 인증이 실패했을 때의 것과 같다(--ap-cam-fail) — 이 앱에서
    '안 된다' 를 말하는 색이 화면마다 다르면 색이 뜻을 잃는다 */
 .dont__x{position:absolute;inset:0;width:100%;height:100%;
-  fill:none;stroke:var(--ap-cam-fail);stroke-width:7;stroke-linecap:round}
+  fill:none;stroke:var(--ap-dont-x);stroke-width:4.2;stroke-linecap:round}
 /* 벗으라는 말은 카드가 제 안에서 한다 — 그림만 두면 ✕ 가 무엇을 가리키는지
    사람마다 다르게 읽는다. 머리말보다 한참 작게 적는다: 시키는 말은 위에
    하나이고, 이것은 그 안에서 갈리는 두 가지다 */
