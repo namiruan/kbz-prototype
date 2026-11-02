@@ -38,7 +38,7 @@
   /* 시안에 없는 짝 — 여러 줄로 읽는 안내 글이라 행간만 Body 것을 빌린다 */
   --t-sub-lead:400 15px/22px var(--ap-font);
 
-  /* 시안에 없는 칸 — 시안의 꼭대기는 Title1(28)인데 인증 시작 과녁의 이름은
+  /* 시안에 없는 칸 — 시안의 꼭대기는 Title1(28)인데 등록 시작 과녁의 이름은
      그보다 커야 한다. 시스템의 페이지 제목(font-size-h1 32 · 행간
      line-height-heading 1.25 → 40)을 빌려 온다. 시안 밖에서 온 값이라
      이 한 자리에서만 쓴다 */
@@ -115,7 +115,7 @@
      계열(primary-dark #113569)이다 — 검정 그림자를 파란 면 밑에 깔면
      그 자리만 때가 낀 것처럼 탁해진다. 꼴은 시스템 shadow-lg(0 4px 16px) */
   --ap-shadow-lift:0 4px 16px rgba(17,53,105,.12);
-  /* 인증 시작 과녁 — 눌리는 것으로 보이려면 바탕에서 떠 있어야 한다.
+  /* 등록 시작 과녁 — 눌리는 것으로 보이려면 바탕에서 떠 있어야 한다.
      카드 자리(shadow-card)보다 깊게, 제 색 계열로 드리운다 */
   --ap-shadow-cta:0 4px 8px rgba(17,53,105,.3),0 14px 28px rgba(17,53,105,.34);
   --ap-shadow-cta-out:0 4px 8px rgba(19,20,22,.3),0 14px 28px rgba(19,20,22,.34);
@@ -322,7 +322,7 @@
   --ap-tog-yes:36px;  --ap-tog-no:66px;  /* 예·아니오 알의 폭 — 정수로 떨어뜨린다 */
   --ap-confirm-w:320px;            /* 촬영 확인 카드의 폭 */
   --ap-cta-h-md:400px;             /* 넓은 폭에서의 키 */
-  --ap-cta-w:480px;                /* 인증 시작 과녁 — 태블릿에서도 과녁답게 */
+  --ap-cta-w:480px;                /* 등록 시작 과녁 — 태블릿에서도 과녁답게 */
   --ap-deck-out:16px;              /* 틀이 본문 여백 밖으로 내미는 폭 */
   --ap-deck-peek:28px;            /* 좁은 폭에서 옆 카드가 비치는 만큼 — 줄 양옆을 그만큼 들인다 */
   --ap-deck-gap:12px;              /* 미는 동안 두 카드 사이로 비치는 틈 */
@@ -1211,7 +1211,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 아래 내비게이션이 없는 화면은 바가 홈 인디케이터 자리까지 내려간다 */
 .act--end .act__b{padding-bottom:max(var(--ap-p10),env(safe-area-inset-bottom))}
 
-/* 근로자 앱의 출근·퇴근 과녁 — 현장소장 앱의 인증 시작 과녁(.cta)과 같은
+/* 근로자 앱의 출근·퇴근 과녁 — 현장소장 앱의 등록 시작 과녁(.cta)과 같은
    **짜임**이다. 이름과 '시작' 표가 한 줄에 서고, 그 아래 선을 긋고 설명이
    한 줄씩 쌓인다(.cta__tx · .cta__h · .cta__d 를 그대로 쓴다).
    꼴은 **떠 있는 카드**다 — 네 변에서 모두 들어와 있고 모서리도 네 귀가
@@ -2288,7 +2288,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   display:flex;align-items:center;justify-content:center;color:var(--ap-on-photo)}
 .photo img{position:absolute;inset:0}
-.photo .ic{width:72px;height:72px}
+.photo > .ic{width:72px;height:72px}   /* 사진이 없을 때 서는 그림 — 손잡이 안의 아이콘까지 걸리지 않게 바로 밑만 */
 
 /* ── 이력 줄 ── */
 /* 줄 하나가 통째로 과녁이다 — 안에 또 버튼을 두지 않는다. 오른쪽 끝의
@@ -2376,10 +2376,26 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 찍히지 않은 쪽은 고를 것이 없다 — 보여 줄 사진도 없다 */
 .stmp .tcard:disabled{cursor:default}
 
-/* 사진은 고른 쪽의 것 하나만 선다 */
+/* 사진은 고른 쪽의 것 하나만 선다. 최초 등록 사진을 켜면(is-reg) 고른
+   쪽과 상관없이 그 한 장이 대신 선다 — 겹쳐 띄우지 않고 **갈아 끼운다**:
+   띄우면 아래 사진이 비쳐 두 얼굴이 섞여 보인다 */
 .photo img[data-for]{display:none}
-.scr[data-at="in"] .photo img[data-for="in"],
-.scr[data-at="out"] .photo img[data-for="out"]{display:block}
+.scr:not(.is-reg)[data-at="in"] .photo img[data-for="in"],
+.scr:not(.is-reg)[data-at="out"] .photo img[data-for="out"],
+.scr.is-reg .photo img[data-for="reg"]{display:block}
+/* 사진 위에 얹는 손잡이 — 오른쪽 아래다. 왼쪽 위는 얼굴이 앉는 자리이고,
+   아래쪽은 어깨와 바탕이라 글자가 덜 묻힌다.
+   면은 시스템의 어두운 면(surface-dark) 그대로다 — 사진 위라 반투명으로
+   두면 밑 사진에 따라 글자가 읽혔다 안 읽혔다 한다(색은 한 겹).
+   켜면 브랜드 색으로 바뀐다. 지금 보는 것이 그날 찍힌 얼굴이 아니라는
+   표가 화면 어디에도 없으면, 눌러 둔 것을 잊은 채 다른 날 사진으로 읽는다 */
+.photo__b{cursor:pointer;font:var(--t-tip);letter-spacing:0;
+  position:absolute;right:var(--ap-p5);bottom:var(--ap-p5);z-index:1;
+  display:flex;align-items:center;gap:var(--ap-p2);
+  padding:var(--ap-p3) var(--ap-p5);border-radius:var(--ap-r-pill);
+  background:var(--ap-surface-dark);color:var(--ap-g0);
+  box-shadow:var(--ap-shadow-tip)}
+.photo__b.is-on{background:var(--ap-primary)}
 /* 카드 안은 가운데로 모은다 — 카드가 쥔 것이 수 하나뿐이라, 왼쪽에
    붙여 두면 수와 꼬리표가 왼쪽 선에 매달리고 오른쪽이 통째로 빈다.
    가운데에 세우면 두 카드의 수가 각자 제 칸의 한가운데에 서서, 나란히
@@ -2823,13 +2839,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    200 은 두 줄짜리 안내 글(40×2)과 틀 사이 24, 이름표 아래 12 를 더한
    값이다. 화면이 길면 24% 가 이기므로 넓은 기기에서는 전과 같다 */
 /* ⚠ 바닥은 **틀 아래가 비어 있는 화면에만** 건다. 현장소장 앱의 카메라는
-   틀 아래에 '지금까지 N명' 과 '인증 종료하기' 가 더 서는데, 틀을 내려
+   틀 아래에 '지금까지 N명' 과 '등록 종료하기' 가 더 서는데, 틀을 내려
    주면 그것들과 부딪힌다(568 에서 6 겹쳤다 — 그쪽에 이름표를 붙이고 다시
    재어 본 값이다). 두 앱 모두 이름표를 쓰므로 이름표로는 가릴 수 없다 */
 .cam:has(.cam__who):not(:has(.cam__stop)){--ap-cam-top:max(24%,200px)}
 .cam{--ap-cam-top:24%}
 /* 현장소장 카메라는 틀 **위에** 이름표와 안내 글이, **아래에** 센 수와
-   '인증 종료하기' 가 선다. 틀의 키를 비율로 박아 두면 짧은 화면에서 어느
+   '등록 종료하기' 가 선다. 틀의 키를 비율로 박아 두면 짧은 화면에서 어느
    한쪽이 밀려난다 — 내리면 아래가 부딪히고(568 에서 6), 안 내리면 위가
    부딪힌다(568 에서 54). 위아래 자리를 먼저 떼어 두고 남는 만큼을 틀이
    쓴다. 긴 화면에서는 비율이 이기므로 전과 같은 키다.
@@ -2873,7 +2889,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* ── 몇 사람째인지 ──
    한 번 열면 줄 선 사람을 이어서 찍는다. 그동안 몇을 찍었는지는 화면
    어디에도 남지 않아, 찍는 사람이 속으로 세고 있어야 했다.
-   자리는 '인증 종료하기' 바로 아래다 — 틀에서 눈을 떼면 먼저 지나는
+   자리는 '등록 종료하기' 바로 아래다 — 틀에서 눈을 떼면 먼저 지나는
    자리이고, 끝내는 길과 한 묶음으로 서서 '지금까지 한 일' 로 함께 읽힌다.
    틀 쪽에 붙이면 얼굴을 맞추는 일과 섞인다.
    꼴은 시스템 Tooltip 패널 그대로다(atoms/tooltip.md — surface-dark 면 ·
@@ -2915,7 +2931,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   bottom:var(--ap-p10);z-index:2;
   max-width:420px;margin-inline:auto;
   display:flex;align-items:center;justify-content:space-between;gap:var(--ap-p5)}
-/* 출퇴근 인증 바닥의 그 토글 그대로다 — 거기서는 줄에 서서 제 여백을 쥐지만,
+/* 출퇴근 등록 바닥의 그 토글 그대로다 — 거기서는 줄에 서서 제 여백을 쥐지만,
    여기서는 바닥 줄의 한 칸이라 여백을 내려놓는다.
    글과 여백은 한 단 키운다: 폼 안의 토글과 달리 여기는 장갑 낀 손이 카메라를
    든 채 누르는 자리다 */
@@ -2947,7 +2963,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    뜨는 **문장**이라 32 그대로 둔다: 36 으로 올리면 '출근이 등록되었습니다'
    가 390 에서 두 줄로 접히고, 그만큼 자라난 글이 위의 이름표를 덮는다
    (실측 27 겹침).
-   둘을 가르는 표는 '인증 종료하기' 다 — 줄 선 사람을 이어 찍는 쪽에만 있다.
+   둘을 가르는 표는 '등록 종료하기' 다 — 줄 선 사람을 이어 찍는 쪽에만 있다.
    ⚠ 36 은 시안에도(꼭대기가 Title1 28) 시스템 램프에도(꼭대기가 h1 32)
    없는 값이라 이 한 자리에서만 쓴다. 아랫줄 24 는 램프에 있는 값이다 */
 .cam:has(.cam__stop) .cam__t--ok{font-size:36px;line-height:44px}
@@ -3142,7 +3158,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
   display:flex;align-items:center;justify-content:center;color:var(--ap-on-photo)}
 .confirm__pic .ic{width:96px;height:96px}
-/* 카드 위에 서는 머리말 — 막 위라 흰 글씨다. 크기는 인증 시작 과녁의
+/* 카드 위에 서는 머리말 — 막 위라 흰 글씨다. 크기는 등록 시작 과녁의
    이름과 같다(32/40): 둘 다 그 화면에서 묻거나 시키는 가장 큰 글이다.
    카드와는 한 칸(20) 띄우고, 줄은 낱말에서 끊는다 */
 .confirm__t{font:var(--t-cta);word-break:keep-all;

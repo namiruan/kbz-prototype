@@ -44,6 +44,7 @@
     link(hit);
     clock(hit);
     stamp(hit);
+    regshot(hit);
     tally(hit);
     wait(hit);
     note(hit);
@@ -970,6 +971,35 @@
         });
       });
       c.setAttribute('aria-pressed', c.classList.contains('is-on') ? 'true' : 'false');
+    });
+  }
+
+  /* ── 최초 등록 사진 ──
+     이력에서 따지는 것은 '이 얼굴이 등록된 그 사람인가' 다. 그날 찍힌
+     얼굴과 맨 처음 등록한 얼굴을 **같은 자리에서 번갈아** 보여 준다.
+     이름을 바꿔 다는 것은 버튼이 **다음에 보여 줄 것**을 적기 때문이다 —
+     지금 보는 것의 이름을 달면, 눌렀을 때 무엇이 나올지를 읽는 사람이
+     거꾸로 셈해야 한다. 지금 무엇을 보고 있는지는 켜진 면이 말한다.
+     출근·퇴근 카드를 다시 고르면 **그 카드의 사진으로 돌아간다** — 카드를
+     고르는 일은 '그때 찍힌 얼굴을 보자' 는 말인데, 등록 사진이 켜진 채면
+     눌러도 그림이 그대로라 고르는 일이 먹히지 않은 것으로 읽힌다 */
+  function regshot(scr) {
+    var btn = scr.querySelector('.photo__b');
+    if (!btn) return;
+    var box = btn.querySelector('.photo__b__t');
+    var OTHER = { off: '최초 등록 사진', on: '출퇴근 사진' };
+
+    function paint(on) {
+      scr.classList.toggle('is-reg', on);
+      btn.classList.toggle('is-on', on);
+      if (box) box.textContent = on ? OTHER.on : OTHER.off;
+    }
+
+    btn.addEventListener('click', function () {
+      paint(!scr.classList.contains('is-reg'));
+    });
+    scr.querySelectorAll('.stmp .tcard').forEach(function (c) {
+      c.addEventListener('click', function () { paint(false); });
     });
   }
 
