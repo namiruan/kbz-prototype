@@ -2288,10 +2288,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 이름과 시각이 두 줄로 쌓여 있었다. 한 줄에 세우면 줄의 키가 64 에서
    46 으로 준다 — 한 화면에 들어오는 줄이 그만큼 늘고, 목록은 훑는 자리라
    그것이 곧 쓸모다.
-   차례는 **표 · 시각 · 이름** 이다: 표와 시각은 '언제 무엇이 찍혔나' 로
-   한 덩어리라 바싹 붙이고(6), 이름은 한 칸 떨어져(10) 남는 자리를 다
-   쓴다. 시각을 이름 뒤로 보내면 표와 시각이 갈라져 둘을 눈이 두 번
-   건너뛰어야 한다.
+   차례는 **표 · 이름 · 시각** 이다. 이 목록에서 찾는 것은 **사람**이다 —
+   현장소장이 보는 까닭이 '누가 찍혔나' 이고, 시각은 그 사람을 찾은 다음에
+   읽는 값이다. 표와 이름이 왼쪽에서 한 줄로 이어 읽히고(10), 시각은
+   오른쪽 끝에 붙어 줄마다 같은 자리에 선다 — 수가 한 칸에 모이면 이른
+   시각과 늦은 시각이 눈에 바로 갈린다.
+   이름이 남는 자리를 다 쓰므로(flex:1) 긴 이름은 줄임표로 접히고,
+   시각은 접히지 않는다.
    위아래 여백은 8 이다 — 40 짜리 네모가 줄의 키를 잡아 줄은 56 이 된다.
    이름과 시각이 두 줄로 쌓여 있던 때(64)보다는 여전히 낮다.
    좌우는 10 이다. 16 은 글이 앉을 때의 값인데, 왼쪽에 앉는 것이 **면을
@@ -2318,6 +2321,8 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .log__nm{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;min-width:0;
   margin-left:var(--ap-p2);color:var(--ap-text);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 시각은 **오른쪽 끝**이다 — 줄마다 같은 자리에 서야 그 칸만 따라
+   내려가며 훑을 수 있다. 같은 너비의 수(tabular)로 두는 것도 같은 까닭이다 */
 .log__tm{font:var(--t-foot);letter-spacing:var(--ls-foot);flex:none;
   color:var(--ap-text-gray);font-variant-numeric:tabular-nums}
 
