@@ -358,7 +358,7 @@
   --ap-cam-soft:rgba(255,255,255,.3);  /* 틀의 테가 옅어지는 쪽 */
   --ap-cam-blink:1.8s;                 /* 테가 한 번 숨 쉬는 길이 */
   --ap-cam-go-h:56px;                  /* 근로자 앱 카메라의 바닥 버튼 키 */
-  --ap-ready-wait:4s;                  /* 촬영 준비 화면을 지나는 데 걸리는
+  --ap-ready-wait:4s;                  /* 얼굴 등록 온보딩을 지나는 데 걸리는
                                           길이. 안 되는 보기가 한 번에 다
                                           보이므로, 두 줄을 읽고 두 칸을
                                           훑을 만큼이면 된다 */
@@ -2939,7 +2939,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   font:var(--t-title3);letter-spacing:var(--ls-title3)}
 .cam__t--fail{color:var(--ap-cam-fail)}
 
-/* ── 등록 촬영 준비 — 찍기 전에 한 번 ──
+/* ── 얼굴 등록 온보딩 — 찍기 전에 한 번 ──
    맨 처음 얼굴을 등록할 때만 지나는 화면이다. 찍는 요령을 모르는 것은
    그 한 번뿐인데, 그 한 번을 마스크를 쓴 채로 찍으면 그 뒤의 출퇴근이
    내내 걸린다.
