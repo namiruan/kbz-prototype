@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=616">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=617">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=616"></script>
+<script src="assets/face-attendance-app.js?v=617"></script>
 </head>
 
 <body>
@@ -1059,43 +1059,22 @@
                      **면으로 둔 특징(콧수염·앞머리)과 얼굴 생김과 표정**이다 —
                      가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
                 <!-- 퇴근 얼굴은 **일을 마치고 온 얼굴**이다. 출근 쪽과 같은 다섯
-                     사람이되, 입이 덜 펴지고 볼에 흙자국이, 더러는 관자놀이에
-                     땀이 남는다 — 자국은 사람마다 다른 자리에 앉는다 -->
+                     사람이되, 입이 덜 펴지고 볼에 기운이 돈다.
+                     ⚠ 땀방울·흙자국·긁힌 자국을 얹어 봤다가 걷었다. 72 짜리
+                       그림에서 그 셋은 '일을 마쳤다' 로 읽히지 않고 **얼룩진
+                       그림**으로 보였다 — 점이나 수염처럼 그 사람의 생김으로
+                       읽히거나, 그리다 만 자국으로 읽혔다 -->
                 <!-- ① 기본 -->
                 <g class="scan__f">
                   <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
                   <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
                   <path class="scan__smile" d="M30 48.5h12"/>
-                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(15 34) scale(1.15)"/><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(54 47) scale(0.92)"/></g>
-                  <!-- 모자에 묻은 자국 — 이 사람의 것이다. 껍데기가 둘(둥근 것·
-                       각진 것)이라 둘 다에 드는 안쪽에만 둔다 -->
-                  <g class="scan__smudge">
-                    <ellipse cx="19" cy="18" rx="7" ry="3.3" transform="rotate(-24 19 18)"/>
-                    <ellipse cx="24.5" cy="22" rx="4" ry="2" transform="rotate(-10 24.5 22)"/>
-                    <ellipse cx="16" cy="29" rx="7.5" ry="1.5"/>
-                  </g>
-                  <!-- 쓰다 보면 긁힌다 — 흙은 면, 기스는 가는 선이다 -->
-                  <g class="scan__scratch">
-                    <path d="M13 13.5 23.5 18"/>
-                    <path d="M44 7.5 51 12"/>
-                    <path d="M31 20.5 38 22"/>
-                  </g>
                 </g>
                 <!-- ② 다문 입 — 수염을 걷은 자리다 -->
                 <g class="scan__f scan__f--2">
                   <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
                   <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
                   <path class="scan__smile" d="M31 48h10"/>
-                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(56 34) scale(1.2)"/></g>
-                  <g class="scan__smudge">
-                    <ellipse cx="51" cy="14" rx="6.4" ry="3" transform="rotate(28 51 14)"/>
-                    <ellipse cx="45" cy="19" rx="3.6" ry="1.7" transform="rotate(10 45 19)"/>
-                    <ellipse cx="33" cy="24" rx="3" ry="1.3" transform="rotate(-6 33 24)"/>
-                  </g>
-                  <g class="scan__scratch">
-                    <path d="M20 9 27 14.5"/>
-                    <path d="M55 20 62 23.5"/>
-                  </g>
                 </g>
                 <!-- ③ 점 — 볼에 하나 -->
                 <g class="scan__f scan__f--3">
@@ -1103,17 +1082,6 @@
                   <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
                   <path class="scan__smile" d="M30 48C33 50 39 50 42 48"/>
                   <circle cx="51" cy="43" r="2"/>
-                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(14 39) scale(1.15)"/><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(43 53) scale(0.88)"/></g>
-                  <g class="scan__smudge">
-                    <ellipse cx="36" cy="11" rx="6.8" ry="3.1" transform="rotate(8 36 11)"/>
-                    <ellipse cx="22" cy="23" rx="4.4" ry="1.9" transform="rotate(-18 22 23)"/>
-                    <ellipse cx="57" cy="29" rx="6" ry="1.5"/>
-                  </g>
-                  <g class="scan__scratch">
-                    <path d="M12 20 21 25"/>
-                    <path d="M42 6 49.5 10"/>
-                    <path d="M55 16 60 21"/>
-                  </g>
                 </g>
                 <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
                 <g class="scan__f scan__f--4">
@@ -1121,16 +1089,6 @@
                   <g class="scan__eyes"><circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/></g>
                   <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
                   <path class="scan__smile" d="M32 52.5h8"/>
-                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(56 36) scale(1.2)"/></g>
-                  <g class="scan__smudge">
-                    <ellipse cx="17" cy="22" rx="7.2" ry="3.2" transform="rotate(-14 17 22)"/>
-                    <ellipse cx="54" cy="22" rx="4" ry="1.8" transform="rotate(16 54 22)"/>
-                    <ellipse cx="60" cy="29" rx="7" ry="1.5"/>
-                  </g>
-                  <g class="scan__scratch">
-                    <path d="M26 7 34 11.5"/>
-                    <path d="M48 16 57 19"/>
-                  </g>
                 </g>
                 <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
                 <g class="scan__f scan__f--5">
@@ -1138,17 +1096,6 @@
                   <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
                   <g class="scan__eyes"><circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/></g>
                   <path class="scan__smile" d="M30 50C33 51.8 39 51.8 42 50"/>
-                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(16 37) scale(1.1)"/><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(56 46) scale(0.92)"/></g>
-                  <g class="scan__smudge">
-                    <ellipse cx="55" cy="13" rx="6" ry="2.9" transform="rotate(30 55 13)"/>
-                    <ellipse cx="38" cy="19" rx="4.6" ry="2" transform="rotate(-8 38 19)"/>
-                    <ellipse cx="26" cy="13" rx="3.2" ry="1.5" transform="rotate(-26 26 13)"/>
-                  </g>
-                  <g class="scan__scratch">
-                    <path d="M14 18.5 22 23"/>
-                    <path d="M33 8 41 11"/>
-                    <path d="M58 22 64 26"/>
-                  </g>
                 </g>
               </svg>
               <span class="scan__beam"></span>
@@ -1391,43 +1338,22 @@
                      **면으로 둔 특징(콧수염·앞머리)과 얼굴 생김과 표정**이다 —
                      가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
                 <!-- 퇴근 얼굴은 **일을 마치고 온 얼굴**이다. 출근 쪽과 같은 다섯
-                     사람이되, 입이 덜 펴지고 볼에 흙자국이, 더러는 관자놀이에
-                     땀이 남는다 — 자국은 사람마다 다른 자리에 앉는다 -->
+                     사람이되, 입이 덜 펴지고 볼에 기운이 돈다.
+                     ⚠ 땀방울·흙자국·긁힌 자국을 얹어 봤다가 걷었다. 72 짜리
+                       그림에서 그 셋은 '일을 마쳤다' 로 읽히지 않고 **얼룩진
+                       그림**으로 보였다 — 점이나 수염처럼 그 사람의 생김으로
+                       읽히거나, 그리다 만 자국으로 읽혔다 -->
                 <!-- ① 기본 -->
                 <g class="scan__f">
                   <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
                   <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
                   <path class="scan__smile" d="M30 48.5h12"/>
-                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(15 34) scale(1.15)"/><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(54 47) scale(0.92)"/></g>
-                  <!-- 모자에 묻은 자국 — 이 사람의 것이다. 껍데기가 둘(둥근 것·
-                       각진 것)이라 둘 다에 드는 안쪽에만 둔다 -->
-                  <g class="scan__smudge">
-                    <ellipse cx="19" cy="18" rx="7" ry="3.3" transform="rotate(-24 19 18)"/>
-                    <ellipse cx="24.5" cy="22" rx="4" ry="2" transform="rotate(-10 24.5 22)"/>
-                    <ellipse cx="16" cy="29" rx="7.5" ry="1.5"/>
-                  </g>
-                  <!-- 쓰다 보면 긁힌다 — 흙은 면, 기스는 가는 선이다 -->
-                  <g class="scan__scratch">
-                    <path d="M13 13.5 23.5 18"/>
-                    <path d="M44 7.5 51 12"/>
-                    <path d="M31 20.5 38 22"/>
-                  </g>
                 </g>
                 <!-- ② 다문 입 — 수염을 걷은 자리다 -->
                 <g class="scan__f scan__f--2">
                   <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
                   <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
                   <path class="scan__smile" d="M31 48h10"/>
-                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(56 34) scale(1.2)"/></g>
-                  <g class="scan__smudge">
-                    <ellipse cx="51" cy="14" rx="6.4" ry="3" transform="rotate(28 51 14)"/>
-                    <ellipse cx="45" cy="19" rx="3.6" ry="1.7" transform="rotate(10 45 19)"/>
-                    <ellipse cx="33" cy="24" rx="3" ry="1.3" transform="rotate(-6 33 24)"/>
-                  </g>
-                  <g class="scan__scratch">
-                    <path d="M20 9 27 14.5"/>
-                    <path d="M55 20 62 23.5"/>
-                  </g>
                 </g>
                 <!-- ③ 점 — 볼에 하나 -->
                 <g class="scan__f scan__f--3">
@@ -1435,17 +1361,6 @@
                   <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
                   <path class="scan__smile" d="M30 48C33 50 39 50 42 48"/>
                   <circle cx="51" cy="43" r="2"/>
-                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(14 39) scale(1.15)"/><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(43 53) scale(0.88)"/></g>
-                  <g class="scan__smudge">
-                    <ellipse cx="36" cy="11" rx="6.8" ry="3.1" transform="rotate(8 36 11)"/>
-                    <ellipse cx="22" cy="23" rx="4.4" ry="1.9" transform="rotate(-18 22 23)"/>
-                    <ellipse cx="57" cy="29" rx="6" ry="1.5"/>
-                  </g>
-                  <g class="scan__scratch">
-                    <path d="M12 20 21 25"/>
-                    <path d="M42 6 49.5 10"/>
-                    <path d="M55 16 60 21"/>
-                  </g>
                 </g>
                 <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
                 <g class="scan__f scan__f--4">
@@ -1453,16 +1368,6 @@
                   <g class="scan__eyes"><circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/></g>
                   <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
                   <path class="scan__smile" d="M32 52.5h8"/>
-                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(56 36) scale(1.2)"/></g>
-                  <g class="scan__smudge">
-                    <ellipse cx="17" cy="22" rx="7.2" ry="3.2" transform="rotate(-14 17 22)"/>
-                    <ellipse cx="54" cy="22" rx="4" ry="1.8" transform="rotate(16 54 22)"/>
-                    <ellipse cx="60" cy="29" rx="7" ry="1.5"/>
-                  </g>
-                  <g class="scan__scratch">
-                    <path d="M26 7 34 11.5"/>
-                    <path d="M48 16 57 19"/>
-                  </g>
                 </g>
                 <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
                 <g class="scan__f scan__f--5">
@@ -1470,17 +1375,6 @@
                   <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
                   <g class="scan__eyes"><circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/></g>
                   <path class="scan__smile" d="M30 50C33 51.8 39 51.8 42 50"/>
-                  <g class="scan__drip"><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(16 37) scale(1.1)"/><path d="M0 0C2.4 2.4 3 3.8 3 5.2A3 3 0 1 1-3 5.2C-3 3.8-2.4 2.4 0 0Z" transform="translate(56 46) scale(0.92)"/></g>
-                  <g class="scan__smudge">
-                    <ellipse cx="55" cy="13" rx="6" ry="2.9" transform="rotate(30 55 13)"/>
-                    <ellipse cx="38" cy="19" rx="4.6" ry="2" transform="rotate(-8 38 19)"/>
-                    <ellipse cx="26" cy="13" rx="3.2" ry="1.5" transform="rotate(-26 26 13)"/>
-                  </g>
-                  <g class="scan__scratch">
-                    <path d="M14 18.5 22 23"/>
-                    <path d="M33 8 41 11"/>
-                    <path d="M58 22 64 26"/>
-                  </g>
                 </g>
               </svg>
               <span class="scan__beam"></span>

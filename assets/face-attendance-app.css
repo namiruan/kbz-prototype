@@ -118,7 +118,7 @@
   /* 등록 시작 과녁 — 눌리는 것으로 보이려면 바탕에서 떠 있어야 한다.
      카드 자리(shadow-card)보다 깊게, 제 색 계열로 드리운다 */
   --ap-shadow-cta:0 4px 8px rgba(17,53,105,.3),0 14px 28px rgba(17,53,105,.34);
-  --ap-shadow-cta-out:0 4px 8px rgba(19,20,22,.3),0 14px 28px rgba(19,20,22,.34);
+  --ap-shadow-cta-out:0 4px 8px rgba(17,53,105,.34),0 14px 28px rgba(17,53,105,.42);
 
   /* ── 어두운 막과 그 위에 얹는 것 ──
      카메라 화면·촬영 확인·알림창이 나눠 쓴다. 투명도를 규칙마다 손으로
@@ -266,7 +266,6 @@
      한 걸음씩 떨어진 남색이다. 한쪽에 맞추면 다른 쪽에서 가라앉는다 */
   --ap-hat:#21497f;
   --ap-blush:#ff93a8;              /* 볼에 도는 기운 — 은은한 분홍 */
-  --ap-hat-dirt:#16304f;           /* 모자에 묻은 자국 — 모자보다 한 단 짙다 */
   --ap-hat-dark:#16325c;           /* 그 챙 — 껍데기보다 한 단만 짙다.
                                       두 단 벌어지면 챙이 따로 논다 */
   --ap-hat-edge:#4b82c4;           /* 모자의 테 — 검은 카드 위에서 모자가
@@ -1219,7 +1218,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    모양으로 선다.
    화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이 있어서다 — 그 위에
    줄 서되, 변까지 꽉 채우지 않고 여백 안으로 들여 카드로 떠 있게 한다.
-   면 색은 저쪽과 같은 짝이다(출근 primary, 퇴근 g95 = .cta / .cta--out) */
+   면 색도 저쪽을 따른다 — 켜진 과녁은 출퇴근 모두 브랜드 색이다 */
 .act--cta{padding:var(--ap-p5) var(--ap-p6) var(--ap-p6)}
 /* ── 오늘 할 일 한 가지 ──
    과녁은 본문의 **발치**에 선다 — 남는 자리를 모두 위로 밀어 올린다
@@ -1545,7 +1544,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   gap:var(--ap-p5);padding:var(--ap-p8);
   border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-cta);
   background:var(--ap-primary);color:var(--ap-g0);text-align:left}
-.cta--out{background:var(--ap-g95);box-shadow:var(--ap-shadow-cta-out)}
+/* 퇴근 카드는 **같은 브랜드 색의 깊은 쪽**(primary/90)이다. 검정(gray/95)
+   으로 두었더니 브랜드 밖의 색이라 카드 한 장만 다른 제품에서 온 것처럼
+   보였다. 출근(primary/60)과는 밝기와 또렷함이 갈려, 옆 장이 비치는
+   틈으로도 어느 쪽인지 바로 읽힌다 — 저녁이라는 말도 그 깊이가 한다 */
+.cta--out{background:var(--ap-primary-90);box-shadow:var(--ap-shadow-cta-out)}
 
 /* ── 출근·퇴근 두 모드 ──
    현장소장은 아침에 출근만, 저녁에 퇴근만 찍는다. 둘을 나란히 세우면 늘
@@ -1944,21 +1947,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .scan__f--4{animation-delay:calc(var(--ap-scan-time) * 3)}
 .scan__f--5{animation-delay:calc(var(--ap-scan-time) * 4)}
 @keyframes ap-face{0%{opacity:1} 20%{opacity:0}}
-/* 퇴근 얼굴에만 얹는 흙자국과 땀 — 얼굴과 같은 색이되 옅게 깐다.
-   또렷하게 두면 점이나 수염처럼 '그 사람의 생김' 으로 읽힌다 */
-/* 얼굴에 맺힌 땀 — 알 하나를 자리마다 옮겨 크기만 달리 쓴다.
-   흙자국(면)으로 두었더니 점이나 수염처럼 '그 사람의 생김' 으로 읽혔다 */
-.scan__drip{opacity:.42}
 /* 볼에 도는 기운 — 가운데가 짙고 가장자리로 가며 사라지는 그라데이션이다.
    땀보다 **아래**에 깔린다(묶음이 얼굴 맨 앞에 선다) */
 .scan__blush{fill:url(#ctaBlushOut)}
-/* 모자에 묻은 자국은 **모자보다 짙게** 깐다 — 얼굴은 흰 면이라 옅은
-   파랑이 자국으로 읽히지만, 모자는 이미 짙어 옅은 색을 얹으면 빛이
-   닿은 자리처럼 보인다 */
-.scan__smudge{fill:var(--ap-hat-dirt);opacity:.34}
-/* 긁힌 자국은 **가는 선**이다 — 면으로 두면 흙과 가려지지 않는다. 색은
-   밝은 쪽이다: 칠이 벗겨져 속이 드러난 자리라 둘레보다 환하다 */
-.scan__scratch{fill:none;stroke:#fff;stroke-opacity:.26;stroke-width:1.1;stroke-linecap:round}
 
 /* 이름과 설명은 붙어 있고(한 덩어리), 그림과만 멀다 */
 .cta__tx{display:flex;flex-direction:column;align-self:stretch;gap:var(--ap-p5)}
