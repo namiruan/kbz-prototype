@@ -720,14 +720,20 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      테는 켜짐·꺼짐 모두 1 이다(꺼진 쪽은 투명이 아니라 옅은 선) — 굵기나
      유무가 갈리면 그것도 폭을 흔든다 */
 .cnt{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
-  display:inline-flex;align-items:center;gap:var(--ap-p2);
+  display:inline-flex;align-items:center;gap:var(--ap-p3);
   padding:var(--ap-p3) var(--ap-p5);border-radius:var(--ap-r-pill);
   border:1px solid transparent;
   transition:background var(--ap-dur-base) var(--ap-ease-sym),
              color var(--ap-dur-base) var(--ap-ease-sym),
              border-color var(--ap-dur-base) var(--ap-ease-sym)}
+/* 수는 이름 바로 뒤에 붙는다 — 18 짜리 칸에 가운데로 세워 두었더니
+   한 자리 수가 칸 한가운데에 떠, '출근' 과 '3' 이 따로 선 둘로 보였다.
+   둘은 한 덩어리다(무엇이 몇인가). 자릿수가 늘어 폭이 바뀌는 것은 날이
+   바뀔 때지 누를 때가 아니라, 누르는 자리는 그대로 있다.
+   같은 너비의 수로 두는 것은 두 알약의 수가 세로로 맞아떨어지게 하려는
+   것이다 */
 .cnt__n{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
-  min-width:18px;text-align:center}
+  font-variant-numeric:tabular-nums}
 /* 켜진 쪽은 **둘 다 브랜드 색**이다. 퇴근 쪽만 목록 줄의 표를 따라 회색
    면·회색 테·본문 글자로 두었더니, 이 앱에서 회색은 눌리지 않는 것의
    색이라 **붙여 둔 이름표**로 보였다(바로 아래 줄의 퇴근 표가 꼭 그 색이고
