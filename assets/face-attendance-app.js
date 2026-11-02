@@ -45,6 +45,7 @@
     clock(hit);
     stamp(hit);
     tally(hit);
+    wait(hit);
     note(hit);
     terms(hit);
     day(hit);
@@ -888,6 +889,35 @@
      적는다 — 마크업에 박아 두면 줄을 고칠 때마다 따로 늙는다.
      둘 다 켜진 데서 하나를 누르면 그것만, 켜진 하나를 다시 누르면 둘 다로
      돌아온다 — 끄고 켜는 길이 하나라 '무엇만 볼까' 한 번으로 끝난다 */
+  /* ── 몇 초 뒤에 저절로 넘어가는지 ──
+     바닥 버튼이 차오르는 길이는 css 가 쥐고 있다(--ap-ready-wait). 그 값을
+     **읽어서** 세므로 글과 바가 어긋날 수 없다 — 두 곳에 적으면 한쪽만
+     고쳐져 글이 거짓말을 한다.
+     1 에서 멎는다. 실제 앱은 0 이 되는 참에 카메라를 열어 '0초 후' 를
+     보여 줄 일이 없는데, 이 화면은 넘어가지 않으므로 마지막 한 초에
+     머문다.
+     움직임을 줄여 달라고 한 기기에서는 세지 않는다 — 줄어드는 숫자도
+     움직임이고, 그 기기에서는 차오르는 면도 걷어 둔다 */
+  function wait(scr) {
+    var box = scr.querySelector('.cam__auto__n');
+    if (!box) return;
+    var slow = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var raw = getComputedStyle(scr.querySelector('.cam--ready') || scr)
+                .getPropertyValue('--ap-ready-wait').trim();
+    var sec = parseFloat(raw) || 4;
+    if (/ms$/.test(raw)) sec = sec / 1000;
+    sec = Math.max(1, Math.round(sec));
+    box.textContent = sec;
+    if (slow) return;
+
+    var left = sec;
+    var id = setInterval(function () {
+      left -= 1;
+      if (left <= 1) { left = 1; clearInterval(id); }
+      box.textContent = left;
+    }, 1000);
+  }
+
   function tally(scr) {
     var chips = [].slice.call(scr.querySelectorAll('.cnt'));
     if (!chips.length) return;

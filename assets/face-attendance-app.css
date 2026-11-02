@@ -3073,7 +3073,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 기다리면 저절로 넘어간다는 말을 **글로도** 적는다 — 차오르는 면만
    두었더니 그것이 무엇이 차는 중인지는 사람마다 다르게 읽혔다.
    버튼 바로 위에 붙인다: 말과 그 말이 가리키는 것이 한 눈길에 든다.
-   글자는 가장 작은 칸(13)이다 — 시키는 말이 아니라 일러두는 말이다 */
+   글자는 가장 작은 칸(13)이다 — 시키는 말이 아니라 일러두는 말이다.
+   남은 초는 js 가 1초마다 줄여 쓴다(wait) — 자리가 흔들리지 않게 숫자는
+   같은 너비로 둔다 */
+.cam__auto__n{font-variant-numeric:tabular-nums}
 .cam__auto{position:absolute;left:0;right:0;
   bottom:calc(var(--ap-p10) + var(--ap-cam-go-h) + var(--ap-p4));
   padding:0 var(--ap-p6);text-align:center;word-break:keep-all;
