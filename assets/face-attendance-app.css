@@ -292,9 +292,6 @@
   --ap-glass-glint:rgba(255,255,255,.34); /* 알을 비스듬히 가로지르는 빛.
                                       이것이 있어야 검은 면이 뚫린 구멍이
                                       아니라 유리로 읽힌다 */
-  --ap-item:1.65s;                 /* 가리는 것 하나가 얹혔다 사라지는 데
-                                      걸리는 길이. 둘이 한 바퀴다 */
-  --ap-ready-cycle:calc(var(--ap-item) * 2);
   /* 카메라가 잡는 틀 — 사람(120)보다 한참 넓다. 꽉 끼면 틀이 아니라
      테두리가 된다. 그림 칸이 허락하는 데까지 벌린다 */
   --ap-scan-frame:calc(var(--ap-scan) * 1.7);
@@ -361,10 +358,15 @@
   --ap-cam-blink:1.8s;                 /* 테가 한 번 숨 쉬는 길이 */
   --ap-cam-go-h:56px;                  /* 근로자 앱 카메라의 바닥 버튼 키 */
   --ap-ready-wait:4s;                  /* 촬영 준비 화면을 지나는 데 걸리는
-                                          길이. 가리는 것 둘이 한 바퀴(3.3초)
-                                          도는 것보다 길어야 한 가지도 빠뜨리지
-                                          않고 보인다 */
+                                          길이. 안 되는 보기가 한 번에 다
+                                          보이므로, 두 줄을 읽고 두 칸을
+                                          훑을 만큼이면 된다 */
   --ap-wait-fill:rgba(255,255,255,.24); /* 그동안 버튼을 채워 가는 면 */
+  /* 안 되는 보기를 담는 액자 — 어두운 바탕에서 제가 한 칸임을 말할 만큼만
+     밝다. 카메라의 가이드 틀처럼 빛을 번지게 하지 않는다(그 틀은 과녁이고
+     이 칸은 액자다) */
+  --ap-dont-fill:rgba(255,255,255,.05);
+  --ap-dont-line:rgba(255,255,255,.22);
   --ap-camsw:54px;                     /* 렌즈 전환 버튼 — 옆에 선 토글과 같은 키 */
   --ap-photo-1:#c9b8a6; --ap-photo-2:#8c7562;
 }
@@ -2902,61 +2904,71 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    맨 처음 얼굴을 등록할 때만 지나는 화면이다. 찍는 요령을 모르는 것은
    그 한 번뿐인데, 그 한 번을 마스크를 쓴 채로 찍으면 그 뒤의 출퇴근이
    내내 걸린다.
-   **카메라 화면 그대로 그린다** — 같은 자리에 같은 틀이 서고 안내도 틀
-   위 같은 자리에 적힌다. 넘어갈 때 바뀌는 것은 틀 안의 그림뿐이라,
-   얼굴을 맞출 자리를 눈이 다시 찾지 않는다.
-   다만 미리보기 사진은 깔지 않는다 — 카메라는 아직 켜지기 전이고,
-   사람 얼굴 위에 사람 그림을 얹으면 어느 쪽을 보라는 말인지 흐려진다 */
-.cam--ready{background:radial-gradient(ellipse at 50% 40%,
-  var(--ap-cam-bg-1) 0%,var(--ap-cam-bg-2) 70%)}
-/* 시키는 말이 카메라 화면보다 길다 — 벗을 것과 맞출 자리를 한 문장으로
-   적으니 32 로는 좁은 화면에서 네 줄이 되어 이름표(.cam__who)를 덮는다.
-   한 단 내려 Title2 로 적는다: 글이 틀 위에 그대로 앉고, 320 에서도 줄이
-   늘어 이름표에 닿지 않는다 */
-/* 좌우 여백도 한 단 줄인다(24 → 16) — 둘째 줄 '얼굴을 정면으로
-   맞춰주세요' 가 320 에서 한 줄에 들어가야 한다. 24 로는 8 이 모자라
-   그 줄이 다시 접혔다(실측) */
-.cam--ready .cam__t{font:var(--t-title2);letter-spacing:var(--ls-title2);
-  padding-inline:var(--ap-p6)}
+   카메라 화면과 같은 어둠 위에 세운다 — 넘어갈 때 바탕이 바뀌지 않아야
+   눈이 다시 자리를 잡지 않는다. 다만 미리보기 사진도 가이드 틀도 두지
+   않는다: 카메라는 아직 켜지기 전이고, 이 화면이 하는 일은 **안 되는
+   것을 보여 주는 것**이다 */
+.cam--ready{
+  background:
+    linear-gradient(var(--ap-scrim-cam),var(--ap-scrim-cam)),
+    radial-gradient(ellipse at 50% 40%,var(--ap-cam-bg-1) 0%,var(--ap-cam-bg-2) 70%);
+  /* 카메라 화면은 틀을 자리 잡아 두고 나머지를 그 둘레에 붙이지만, 이
+     화면은 읽는 순서가 곧 자리다 — 시키는 말, 안 되는 보기, 넘어가는
+     버튼. 가운데로 모아 한 줄기로 세운다.
+     위아래 여백은 **떠 있는 것들의 자리**다: 위는 이름표(statusbar+30)와
+     그 아래 틈, 아래는 바닥 버튼(40+56)과 그 위 틈 */
+  flex-direction:column;gap:var(--ap-p8);
+  padding:calc(var(--ap-statusbar) + 54px) var(--ap-p6)
+          calc(var(--ap-p10) + var(--ap-cam-go-h) + var(--ap-p8))}
+/* 시키는 말은 틀 위에 못 박아 두던 것을 흐름 안으로 들인다 — 가리킬 틀이
+   없어졌다. 카메라 화면보다 긴 문장이라 글자는 한 단 내린 채 둔다 */
+.cam--ready .cam__t{position:static;bottom:auto;padding:0;
+  font:var(--t-title2);letter-spacing:var(--ls-title2)}
 /* 줄은 **뜻으로 나눈다** — '…틀 안에' 에서 한 번 끊고 '얼굴을 정면으로
    맞춰주세요' 를 한 줄로 받는다. 글자가 흐르는 대로 두면 폭마다 다른
    자리에서 끊겨, 두 가지 시키는 말(벗어라 · 맞춰라)이 한 줄에 섞인다.
    끊는 자리를 못 박되 nowrap 은 걸지 않는다 — 더 좁은 기기가 오면 한 줄이
    넘치는 대신 제 안에서 한 번 더 접힌다 */
 .cam--ready .cam__tl{display:block}
-/* 그래도 좁은 화면에서는 세 줄이라, 틀을 조금 더 내려 글이 자랄 자리를
-   준다 — 200 이면 320×568 에서 글머리와 이름표 사이가 6 뿐이다(실측).
-   ⚠ 선택자의 무게를 카메라 쪽 규칙(.cam:has(.cam__who):not(…))과 맞춘다 —
-     `.cam--ready` 한 마디로는 밀려 값이 바뀌지 않는다 */
-.cam:has(.cam__who).cam--ready{--ap-cam-top:max(24%,212px)}
-/* 틀의 키는 **바닥 버튼 자리를 떼어 두고** 남는 만큼이다 — 비율로만
-   두면 짧은 화면에서 틀이 버튼을 덮는다. 떼어 두는 것은 버튼(40+56)과
-   버튼과 틀 사이(16)다.
-   화면이 길면 42% 가 이기므로 넓은 기기에서는 카메라 화면과 같은 키다 */
-.cam--ready{--ap-ready-foot:112px;
-  --ap-ready-box:min(42%,calc(100% - var(--ap-cam-top) - var(--ap-ready-foot)))}
-.cam--ready .cam__box{height:var(--ap-ready-box)}
-/* 그림은 틀 한가운데다 — 얼굴을 놓을 자리가 거기라는 말을 그림이 선 자리가
-   함께 한다 */
+
+/* ── 안 되는 것은 한 번에 늘어놓는다 ──
+   전에는 한 자리에서 마스크와 보안경이 번갈아 얹혔다. 번갈아 보이는 것은
+   **둘을 견줄 수 없다** — 앞엣것을 기억해 뒤엣것과 맞춰 봐야 하고, 화면이
+   4초 만에 지나가므로 늦게 본 사람은 한 가지만 보고 넘어간다.
+   칸을 나눠 나란히 두면 한눈에 둘 다 들어오고, 몇 가지가 안 되는지도
+   세지 않고 보인다 */
+.dont{display:flex;gap:var(--ap-p5);width:100%;max-width:420px}
+/* 칸은 세로로 길다(0.82) — 안전모까지 친 사람이 세로로 긴 덩어리라,
+   정사각으로 두면 위아래가 먼저 찬다.
+   테는 가는 흰 선 한 겹이다. 카메라의 가이드 틀처럼 빛을 번지게 하지
+   않는다 — 저 틀은 '여기에 얼굴을 맞춰라' 는 과녁이고, 이 칸은 '이런
+   모습' 을 담는 액자다. 같은 빛을 두르면 여기에 얼굴을 맞추라는 말이
+   된다 */
+.dont__f{position:relative;flex:1;aspect-ratio:.8;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:var(--ap-r15);background:var(--ap-dont-fill);
+  box-shadow:inset 0 0 0 1.5px var(--ap-dont-line);
+  container-type:inline-size}
+/* 그림은 칸이 정한다 — 폭이 좁아지면 함께 줄어, 어느 기기에서도 칸 안에
+   같은 비율로 앉는다. 92 는 안전모(그림 폭과 거의 같다)가 칸에 닿지 않는
+   가장 큰 값이다 */
+.dont__f .scan--ready{--ap-scan:92cqw}
+/* 눈은 두 칸이 **엇갈려** 깜빡인다 — 한날한시에 감으면 두 사람이 아니라
+   한 사람을 두 번 그린 것으로 보인다 */
+.dont__f + .dont__f .scan__eyes{animation-delay:calc(var(--ap-scan-time) / -2)}
+/* ── 그림 ──
+   시스템 스프라이트에 없는 그림이라 이 자리에서 그린다(얼굴은 '얼굴
+   등록이 필요합니다' 창의 것과 같은 짜임이다 — 흰 면에 눈 둘과 웃음).
+   쓴 채로 찍고 나서야 '벗어 주세요' 를 읽는 일이 잦다. 그림이 먼저 보여
+   준다 — 무엇을 쓴 모습이 안 되는지를, 쓴 모습과 ✕ 로.
+   훑는 레이저도 파장도 두지 않는다 — 아직 읽는 중이 아니라 **읽기 전**이고,
+   움직이는 것이 여럿이면 어느 쪽도 보이지 않는다 */
 /* 그림 칸(4:3)은 얼굴만 담는다 — 안전모는 그 위로 비어져 나온다. 칸을
    한가운데에 놓으면 **얼굴만** 가운데에 서고 안전모까지 친 덩어리는
    위로 쏠린다. 비어져 나온 만큼의 반을 내려 덩어리를 가운데에 둔다
    (안전모 꼭대기 -9.72 부터 턱 63 까지가 한 덩어리다 — 그 한가운데는
    칸의 한가운데보다 9.36 위라, 칸을 9.36/64 만큼 내린다) */
-.scan--ready{--ap-scan:170px;
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,calc(-50% + var(--ap-scan) * .146))}
-/* ── 가리는 것 셋이 차례로 얹히고, ✕ 가 찍힌다 ──
-   시스템 스프라이트에 없는 그림이라 이 자리에서 그린다(얼굴은 '얼굴
-   등록이 필요합니다' 창의 것과 같은 짜임이다 — 흰 면에 눈 둘과 웃음).
-   쓴 채로 찍고 나서야 '벗어 주세요' 를 읽는 일이 잦다. 그림이 먼저 보여
-   준다 — 무엇을 쓴 모습이 안 되는지를, 쓴 모습과 ✕ 로.
-   둘을 한꺼번에 얹지 않는다. 한꺼번에 얹힌 얼굴은 '이 사람' 이 되어
-   버려, 벗을 것이 둘이라는 말로 읽히지 않는다.
-   훑는 레이저도 파장도 두지 않는다 — 아직 읽는 중이 아니라 **읽기 전**이고,
-   움직이는 것이 여럿이면 어느 쪽도 보이지 않는다 */
-/* 빛은 얼굴 면과 같은 쪽에서 온다 — 면의 그라데이션이 160deg 라 흰 쪽이
-   오른쪽 위다. 마루를 사이에 두고 오른 면이 밝고 왼 면이 그늘진다 */
+.scan--ready{transform:translateY(calc(var(--ap-scan) * .146))}
 .scan__mask-l{fill:var(--ap-mask-2)}
 .scan__mask-r{fill:var(--ap-mask)}
 .scan__mask-s{fill:none;stroke:var(--ap-mask-2);stroke-width:1.8;stroke-linecap:round}
@@ -2964,64 +2976,24 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .scan__sun-w{fill:none;stroke:var(--ap-glass-rim);stroke-width:3.2;stroke-linecap:round}
 .scan__sun-t{fill:none;stroke:var(--ap-glass-rim);stroke-width:2.4;stroke-linecap:round}
 .scan__sun-g{fill:none;stroke:var(--ap-glass-glint);stroke-width:2.2;stroke-linecap:round}
-/* ── 한 칸마다 다른 사람이 선다 ──
-   저쪽 과녁은 다섯 사람이 돌아가며 둥근 머리와 각진 머리에 번갈아
-   안전모를 쓴다. 여기는 가리는 것이 둘이라 **둘이 돌아간다** — 마스크를
-   쓴 사람과 보안경을 쓴 사람이 같은 얼굴이면, 바뀌는 것이 얼굴에 얹힌
-   물건뿐이라는 말이 그림으로 서지 않는다.
-   얼굴 면은 테두리 반지름만 갈아 끼우고(둥근 얼굴 ↔ 둥근 사각), 그림은
-   면을 따라 늘되 **돌지는 않는다**. 저쪽과 달리 clip-path 는 쓰지 않아
-   얼굴에서 번지는 빛(box-shadow)을 그대로 둔다 — 어두운 카메라 화면에서
-   그 빛이 얼굴을 띄운다.
-   안전모 껍데기도 함께 갈린다: 둥근 얼굴에는 둥근 껍데기, 각진 얼굴에는
-   각진 껍데기 — 저쪽이 쓰던 그 둘(.scan__hat-r · .scan__hat-s)이다 */
-.scan--ready .scan__plate{animation:ap-ready-shape var(--ap-ready-cycle) steps(1) infinite}
-.scan--ready svg{transform-origin:center;
-  animation:ap-ready-art var(--ap-ready-cycle) steps(1) infinite}
-.scan--ready .scan__hat-r{animation:ap-ready-hat-r var(--ap-ready-cycle) steps(1) infinite}
-.scan--ready .scan__hat-s{animation:ap-ready-hat-s var(--ap-ready-cycle) steps(1) infinite}
-@keyframes ap-ready-shape{
-  0% {transform:translate(-50%,-50%);border-radius:50%}
-  50%{transform:translate(-50%,-50%) scale(1.04,1);border-radius:30%}
-}
-@keyframes ap-ready-art{0%{transform:scale(1)} 50%{transform:scale(1.04,1)}}
-@keyframes ap-ready-hat-r{0%{opacity:1} 50%{opacity:0}}
-@keyframes ap-ready-hat-s{0%{opacity:0} 50%{opacity:1}}
+/* 안전모는 번갈아 쓰던 것을 멈춘다 — 두 칸이 **동시에** 보이므로 한 칸에
+   하나씩 못 박는다. 둥근 얼굴에는 둥근 껍데기, 각진 얼굴에는 각진 껍데기
+   (저쪽 과녁이 쓰던 그 둘이다) */
+.scan--ready .scan__hat-r,.scan--ready .scan__hat-s{animation:none;opacity:1}
+/* 두 칸은 다른 사람이다 — 같은 얼굴에 물건만 갈아 끼우면 '이 사람은
+   이것도 저것도 쓴다' 로 읽혀, 벗을 것이 둘이라는 말이 흐려진다.
+   얼굴에서 번지는 빛(box-shadow)은 그대로 둔다 — 어두운 바탕에서 그
+   빛이 얼굴을 띄운다. 그래서 저쪽처럼 clip-path 로 꼴을 깎지 않고
+   테두리 반지름만 갈아 끼운다 */
+.dont__f--sq .scan__plate{border-radius:30%}
+.dont__f--sq .scan--ready svg{transform:scale(1.04,1);transform-origin:center}
 /* ✕ 는 얼굴 인증이 **실패했을 때의 색**과 같다(--ap-cam-fail) — 이 앱에서
    '안 된다' 를 말하는 색이 화면마다 다르면 색이 뜻을 잃는다 */
 /* 가늘게 긋고 얼굴보다 작게 잡는다 — 굵게 지르면 ✕ 밑에서 무엇을 쓴
    모습인지가 읽히지 않아, 벗으라는 말의 목적어가 사라진다.
    **안전모에는 걸치지 않는다** — 안전모는 벗을 것이 아닌데 ✕ 가 그 위를
    지나면 그것까지 벗으라는 말이 된다. 챙 아래에서 시작한다 */
-.scan__no{fill:none;stroke:var(--ap-cam-fail);stroke-width:4;stroke-linecap:round}
-/* 위에서 내려와 얹히고, 아래로 벗겨지며 사라진다 — 나가는 쪽이 늘 아래인
-   것은 그것이 벗는 방향이기 때문이다.
-   둘은 같은 움직임을 **한 칸씩 늦게** 시작한다. 한 바퀴의 반 동안만
-   보이므로, 늦추는 것만으로 차례가 갈린다 */
-.scan__on,.cam__wi{opacity:0;
-  animation:ap-wear var(--ap-ready-cycle) var(--ap-ease-sym) infinite}
-.scan__on{transform-box:fill-box;transform-origin:center}
-.scan__sun,.cam__wi:nth-child(2){animation-delay:var(--ap-item)}
-@keyframes ap-wear{
-  0%{opacity:0;transform:translateY(-7px) scale(.95)}
-  9%,39%{opacity:1;transform:translateY(0) scale(1)}
-  48%,100%{opacity:0;transform:translateY(7px) scale(.95)}
-}
-/* ✕ 는 **한 칸마다 한 번**이라, 한 바퀴가 아니라 한 칸을 주기로 돈다 —
-   셋을 따라다니는 세 벌을 두지 않아도 저절로 맞아떨어진다.
-   얹히는 것을 보고 나서 찍히고, 벗겨지기 전에 걷힌다 */
-.scan__no{transform-box:fill-box;transform-origin:center;opacity:0;
-  animation:ap-no var(--ap-item) var(--ap-ease-enter) infinite}
-@keyframes ap-no{
-  0%,28%{opacity:0;transform:scale(1.7)}
-  40%,78%{opacity:1;transform:scale(1)}
-  90%,100%{opacity:0;transform:scale(1)}
-}
-/* 이름이 앉는 칸 — 가장 긴 '선글라스' 만큼 잡고 **오른쪽에 붙인다**.
-   둘을 한 칸에 겹쳐 두어야 칸의 폭이 긴 것으로 고정되고, 오른쪽에 붙여야
-   뒤따르는 '를 벗어 주세요' 가 이름이 바뀌어도 제자리에 남는다 */
-.cam__w{display:inline-grid;justify-items:end;vertical-align:top}
-.cam__wi{grid-area:1/1}
+.scan__no{fill:none;stroke:var(--ap-cam-fail);stroke-width:3.4;stroke-linecap:round}
 /* ── 저절로 눌리는 버튼 ──
    바가 다 차면 카메라가 스스로 열린다. 남은 시간을 따로 세어 보이지
    않는다 — 숫자가 줄어드는 것은 '놓치면 안 되는 것' 의 말투이고, 여기서
@@ -3033,26 +3005,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   transform-origin:left;transform:scaleX(0);background:var(--ap-wait-fill);
   animation:ap-wait var(--ap-ready-wait) linear forwards}
 @keyframes ap-wait{to{transform:scaleX(1)}}
-/* 움직임을 줄여 달라고 한 기기에서는 멈춘다 — 벗은 얼굴만 남는다.
-   마스크를 쓴 채로 멈춰 서면 그림이 거꾸로 말한다. 차오르는 면은 셀 것이
-   없어지므로 아예 걷는다 */
+/* 움직임을 줄여 달라고 한 기기에서는 멈춘다 — 그림은 움직이는 것이 없어
+   그대로 있고, 차오르는 면만 셀 것이 없어지므로 걷는다.
+   ⚠ 각진 껍데기는 위 공통 규칙이 움직임과 함께 display:none 으로 접는다.
+     여기서는 번갈아 쓰는 것이 아니라 한 칸이 늘 쓰고 있으므로 되돌린다 */
 @media (prefers-reduced-motion:reduce){
-  .scan__on,.scan__no{animation:none;opacity:0}
-  /* 얼굴도 안전모도 갈리지 않는다 — 둥근 쪽만 남는다(각진 껍데기는 위
-     공통 규칙이 이미 display:none 으로 접는다) */
-  .scan--ready .scan__plate,.scan--ready svg,
-  .scan--ready .scan__hat-r,.scan--ready .scan__hat-s{animation:none}
   .cam__go--wait::before{display:none}
-  /* 이름은 **둘을 한 줄에 펴서** 보인다. 겹쳐 둔 칸을 그대로 멈춰 세우면
-     둘이 한자리에 포개져 아무것도 읽히지 않고, 하나만 남기면 나머지 하나를
-     이 사람만 못 읽는다 */
-  .cam__w{display:inline}
-  .cam__wi{display:inline;animation:none;opacity:1;transform:none}
-  .cam__wi + .cam__wi::before{content:" · "}
-  /* 이름 둘을 한 줄에 펴면 첫 줄도 좁은 화면에서 접혀 글이 네 줄이 된다 —
-     틀을 그만큼 더 내려 글이 자랄 자리를 준다(320×568 에서 글머리가
-     이름표를 10 덮었다 — 실측) */
-  .cam:has(.cam__who).cam--ready{--ap-cam-top:max(24%,240px)}
+  .scan--ready .scan__hat-s{display:inline}
 }
 
 /* 촬영 확인 — 찍은 얼굴을 덮어 놓고 묻는다 */
@@ -3313,9 +3272,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   .card__kv{flex:1 0 100%}
   /* 바닥 바의 글자는 그대로 두고 바만 넓어진다 */
   .cam__box{--ap-cam-side:26%}
-  /* 틀이 넓어지는 만큼 그림도 커진다 — 170 그대로 두면 넓은 틀 한가운데에
-     작은 얼굴이 떠서, 얼굴을 틀에 맞추라는 말을 그림이 거스른다 */
-  .scan--ready{--ap-scan:230px}
   /* 바닥 줄은 **틀과 같은 선**으로 좁힌다. 좁은 화면에서는 가장자리(24)가
      손잡이 둘을 알맞게 벌려 주지만, 넓은 화면에서 그대로 두면 토글과 전환이
      화면 양 끝으로 흩어져 한 줄로 읽히지 않는다 — 틀이 가운데로 모이는 만큼
