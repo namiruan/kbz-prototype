@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=588">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=590">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=588"></script>
+<script src="assets/face-attendance-app.js?v=590"></script>
 </head>
 
 <body>
@@ -925,10 +925,22 @@
   <div class="cam cam--ready">
     <button class="cam__back" type="button" aria-label="뒤로" data-go="w-reg"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <p class="cam__who">얼굴 등록 방법</p>
-    <!-- 머리말은 **맞출 자리** 하나만 시킨다 — 벗을 것은 카드가 제 안에서
-         말한다. 둘을 여기 함께 적으면 같은 말이 두 곳에 서고, 읽는 사람은
-         어느 쪽을 보고 따라야 하는지 고르게 된다 -->
-    <p class="cam__t">틀 안에 얼굴을 정면으로 맞춰주세요</p>
+    <!-- 머리말은 **아래를 읽으라고** 이르고, 그 아래 한 줄이 **왜** 를
+         맡는다. 무엇이 안 되는지는 카드가 제 안에서 말하므로 여기서
+         되풀이하지 않는다 — 카드가 '착용 불가' 라 적는데 머리말까지
+         '할 수 없다' 고 하면 같은 말이 두 번 선다.
+         설명 한 줄은 두 카드를 **한 규칙의 보기**로 묶는다: 안 되는 것이
+         마스크와 선글라스 둘이어서가 아니라 '얼굴을 가리기' 때문이라는
+         말이다. 모자나 안전모가 목록에 없는 까닭도 여기서 읽힌다.
+         '등록' 이 아니라 '촬영' 인 것은, 이름표가 이미 '얼굴 등록 방법'
+         이고 바로 다음에 일어날 일이 촬영이기 때문이다(바닥 버튼도
+         '바로 촬영하기' 다).
+         틀을 말하지 않는다 — 이 화면에는 가리킬 틀이 없다. 얼굴을 맞추는
+         일은 틀이 선 다음 화면에서 이른다 -->
+    <div class="cam__head">
+      <p class="cam__t">촬영 전에 꼭 확인해주세요!</p>
+      <p class="cam__d">얼굴이 가려지면 등록되지 않습니다</p>
+    </div>
     <!-- 안 되는 것은 **한 번에 늘어놓는다**. 번갈아 보이는 것은 둘을 견줄
          수가 없다 — 앞엣것을 기억해 뒤엣것과 맞춰 봐야 하고, 이 화면은
          4초 만에 지나가므로 늦게 본 사람은 한 가지만 보고 넘어간다.

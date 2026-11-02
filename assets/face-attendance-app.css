@@ -2963,6 +2963,15 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    없어졌다. 카메라 화면보다 긴 문장이라 글자는 한 단 내린 채 둔다 */
 .cam--ready .cam__t{position:static;bottom:auto;padding:0;
   font:var(--t-title2);letter-spacing:var(--ls-title2)}
+/* 머리말과 그 아래 한 줄은 **한 덩어리**다 — 둘 사이는 바싹(6), 덩어리와
+   카드 사이는 그 흐름의 사이(24)다. 묶지 않으면 셋이 같은 사이로 벌어져
+   설명이 카드 쪽에 붙어 보인다 */
+.cam--ready .cam__head{display:flex;flex-direction:column;align-items:center;
+  gap:var(--ap-p3)}
+/* '왜' 를 맡는 한 줄 — 시키는 말보다 한 겹 죽인다. 무엇이 안 되는지는
+   카드가 말하므로 여기서는 두 카드를 묶는 규칙만 적는다 */
+.cam__d{font:var(--t-body);letter-spacing:var(--ls-body);word-break:keep-all;
+  text-align:center;color:var(--ap-on-dark-sub)}
 
 /* ── 안 되는 것은 한 번에 늘어놓는다 ──
    한 자리에서 번갈아 보이면 둘을 견줄 수 없다 — 앞엣것을 기억해 뒤엣것과
