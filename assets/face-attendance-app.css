@@ -3009,10 +3009,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 테와 빗금은 **한 묶음**이다 — 비치는 일을 묶음이 한 번에 맡아야 겹치는
    자리가 짙어지지 않는다. 빗금은 테의 한가운데(반지름 44)에서 끝나고 끝이
    둥글어, 그 반원이 테의 두께를 그대로 메운다 — 둘이 한 획으로 이어진다.
-   굵기는 지름의 3.6% 다. 길에서 보는 표지보다 한참 가늘다 — 저것은 멀리서
-   읽히라고 굵고, 이것은 손에 든 화면에서 그림 위에 얹힌다 */
+   굵기는 지름의 2.6% 다. 길에서 보는 표지보다 한참 가늘다 — 저것은 멀리서
+   읽히라고 굵고, 이것은 손에 든 화면에서 그림 위에 얹힌다. 밑그림을
+   얼굴 면보다 어두운 쪽으로 내려 둔 덕에, 이만큼 가늘어도 혼자 밝게 선다 */
 .sign__k{opacity:var(--ap-sign-alpha)}
-.sign__r,.sign__s{fill:none;stroke:var(--ap-sign);stroke-width:3.6}
+.sign__r,.sign__s{fill:none;stroke:var(--ap-sign);stroke-width:2.6}
 .sign__s{stroke-linecap:round}
 
 /* ── 저절로 눌리는 버튼 ──
