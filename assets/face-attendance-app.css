@@ -383,12 +383,9 @@
   --ap-dont-ink:#242b38;           /* 그 면 위의 눈과 웃음 — 얹힌 것들과
                                       같이 면보다 어둡다. 본디 색(#457ed2)은
                                       이 면 위에서 저 혼자 튄다 */
-  /* 표지가 드리우는 그늘은 두 겹이다. 바싹 붙는 겹(0 0 2px)이 밝은 얼굴
-     위를 지날 때 표지의 둘레를 긋고, 번지는 겹(0 3px 7px)이 그것을 그림
-     **앞에** 띄운다. 번지는 겹만 두었더니 밑그림의 가는 선과 표지가 같은
-     밝기로 만나 한 겹으로 엉켰다 */
-  --ap-sign-lift:0 0 2px rgba(0,0,0,.6);
-  --ap-sign-lift2:0 3px 7px rgba(0,0,0,.5);
+  --ap-sign-lift2:0 2px 5px rgba(0,0,0,.5); /* 귀퉁이의 표가 카드에
+                                      드리우는 그늘 — 카드 면에 그려 넣은
+                                      무늬가 아니라 얹힌 표로 읽힌다 */
   --ap-camsw:54px;                     /* 렌즈 전환 버튼 — 옆에 선 토글과 같은 키 */
   --ap-photo-1:#c9b8a6; --ap-photo-2:#8c7562;
 }
@@ -2958,7 +2955,8 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    칸은 위부터 아래로 **표지 · 이름표** 다 */
 .dont__f{position:relative;flex:1;
   display:flex;flex-direction:column;align-items:center;gap:var(--ap-p4);
-  padding:var(--ap-p5);border-radius:var(--ap-r15);background:var(--ap-dont-fill)}
+  padding:var(--ap-p5);border-radius:var(--ap-r15);background:var(--ap-dont-fill);
+  container-type:inline-size}
 /* 표지가 앉는 네모. 그림이 이 폭을 따라 줄어든다 */
 .dont__p{position:relative;width:100%;aspect-ratio:1;
   display:flex;align-items:center;justify-content:center;
@@ -2980,23 +2978,18 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    아래로 내리긋는 빗금 하나(ISO 7010 의 방향이다). 흰 바탕과 선명한
    빨강은 두지 않는다: 어두운 화면에서 저 혼자 튄다. 어두운 카드 위에
    **선으로** 그려 이 화면의 결에 맞춘다 */
-/* 표지는 그림 **맨 앞**에 놓인다 — 그림 칸을 가득 채워 얹히고, 그늘을
-   드리워 그림 위에 한 장 놓인 것으로 읽힌다. 그림을 가라앉히지는 않는다:
-   가린 것이 무엇인지는 그대로 보여야 한다 */
-.sign{position:absolute;inset:0;width:100%;height:100%;z-index:1;
-  filter:drop-shadow(var(--ap-sign-lift)) drop-shadow(var(--ap-sign-lift2))}
-/* 그림은 테 안에 든다 — 얼굴 면은 그림 폭의 54/64 라, 72 면 면이 테
-   안쪽에서 한 뼘 떨어져 앉는다.
-   칸에 걸어 두는 것은 얼굴과 **가린 것이 같은 크기로 겹쳐야** 해서다 —
-   둘은 따로 놓인 두 겹이지만 한 그림이다 */
+/* 표지는 카드 **왼쪽 위 귀퉁이**에 붙는 작은 표다. 그림을 가로지르던
+   때는 빗금이 마스크와 보안경 위를 지나 무엇을 쓴 모습인지가 그 금에
+   잘렸다 — 귀퉁이에서는 '이 카드가 안 되는 쪽' 만 말하고, 무엇이 안
+   되는지는 그림과 이름표가 맡는다.
+   크기는 카드를 따른다(17%) — 카드가 줄면 표도 함께 준다.
+   작아진 만큼 선은 굵어야 한다: 큰 표의 굵기(2.6%)를 그대로 쓰면 이
+   크기에서 실오라기가 된다 */
+.sign{position:absolute;top:var(--ap-p5);left:var(--ap-p5);z-index:1;
+  width:17cqw;height:17cqw;max-width:30px;max-height:30px;
+  filter:drop-shadow(var(--ap-sign-lift2))}
+/* 그림은 칸의 폭을 따른다 */
 .dont__p{--ap-scan:72cqw}
-/* 가린 것은 표지보다 **더 앞**이다 — 빗금이 그 위를 지나면 무엇을 쓴
-   모습인지가 그 금에 잘린다. 얼굴 그림과 같은 자리·같은 크기·같은
-   viewBox 라, 빗금만 이것들 뒤로 지나간다.
-   ⚠ 귀끈과 다리는 viewBox 밖으로 나간다 — overflow 를 열어 둔다 */
-.dont__i{position:absolute;left:50%;top:50%;z-index:2;overflow:visible;
-  width:var(--ap-scan);height:calc(var(--ap-scan) * .75);
-  transform:translate(-50%,-50%)}
 /* 얼굴 면은 흐리게. 빛도 그림자도 두르지 않는다 — 다른 화면의 면은 흰
    빛으로 떠 있지만, 여기서는 얹힌 것이 주인이다 */
 .dont__p .scan__plate{background:var(--ap-dont-face);box-shadow:none}
@@ -3018,11 +3011,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 테와 빗금은 **한 묶음**이다 — 비치는 일을 묶음이 한 번에 맡아야 겹치는
    자리가 짙어지지 않는다. 빗금은 테의 한가운데(반지름 44)에서 끝나고 끝이
    둥글어, 그 반원이 테의 두께를 그대로 메운다 — 둘이 한 획으로 이어진다.
-   굵기는 지름의 2.6% 다. 길에서 보는 표지보다 한참 가늘다 — 저것은 멀리서
-   읽히라고 굵고, 이것은 손에 든 화면에서 그림 위에 얹힌다. 밑그림을
-   얼굴 면보다 어두운 쪽으로 내려 둔 덕에, 이만큼 가늘어도 혼자 밝게 선다 */
+   굵기는 지름의 8% 다 — 작은 표라 길에서 보는 표지만큼 굵게 잡는다 */
 .sign__k{opacity:var(--ap-sign-alpha)}
-.sign__r,.sign__s{fill:none;stroke:var(--ap-sign);stroke-width:2.6}
+.sign__r,.sign__s{fill:none;stroke:var(--ap-sign);stroke-width:8}
 .sign__s{stroke-linecap:round}
 
 /* ── 저절로 눌리는 버튼 ──

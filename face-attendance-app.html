@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=581">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=582">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=581"></script>
+<script src="assets/face-attendance-app.js?v=582"></script>
 </head>
 
 <body>
@@ -681,11 +681,17 @@
     <button class="cam__back" type="button" aria-label="뒤로" data-go="m-worker-new"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <p class="cam__who">얼굴 등록 방법</p>
     <p class="cam__t">틀 안에 얼굴을 정면으로 맞춰주세요</p>
-    <!-- 안 되는 것 둘을 금지 표지로 나란히 둔다 — 치수와 까닭은 근로자
-         앱(w-ready)과 assets 쪽에 적어 두었다 -->
+    <!-- 안 되는 것 둘을 나란히 둔다 — 치수와 까닭은 근로자 앱(w-ready)과
+         assets 쪽에 적어 두었다 -->
     <div class="dont">
       <div class="dont__f">
-        <!-- ① 마스크 금지 -->
+        <!-- ① 마스크 착용 금지 -->
+        <svg class="sign" viewBox="0 0 100 100" aria-hidden="true">
+          <g class="sign__k">
+            <circle class="sign__r" cx="50" cy="50" r="44"/>
+            <path class="sign__s" d="M18.9 18.9 81.1 81.1"/>
+          </g>
+        </svg>
         <span class="dont__p">
           <span class="scan scan--ready" aria-hidden="true">
             <span class="scan__plate"></span>
@@ -694,26 +700,24 @@
               <g class="scan__eyes"><circle cx="24" cy="29" r="4"/><circle cx="48" cy="29" r="4"/></g>
               <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
             </g>
-            </svg>
-          </span>
-          <svg class="sign" viewBox="0 0 100 100" aria-hidden="true">
-            <g class="sign__k">
-              <circle class="sign__r" cx="50" cy="50" r="44"/>
-              <path class="sign__s" d="M18.9 18.9 81.1 81.1"/>
-            </g>
-          </svg>
-          <svg class="dont__i" viewBox="4 12 64 48" aria-hidden="true">
             <g class="scan__mask">
               <path class="scan__mask-s" d="M14.2 38.6 9.8 35.4M57.8 38.6 62.2 35.4"/>
               <path class="scan__mask-b" d="M14 38.5Q36 31 58 38.5L55.5 49C53.5 54.5 45.5 57.5 36 57.5 26.5 57.5 18.5 54.5 16.5 49Z"/>
               <path class="scan__mask-n" d="M14.6 37.8Q36 30.3 57.4 37.8"/>
             </g>
-          </svg>
+            </svg>
+          </span>
         </span>
-        <p class="dont__t">마스크 벗기</p>
+        <p class="dont__t">마스크 착용 금지</p>
       </div>
       <div class="dont__f">
-        <!-- ② 선글라스 금지 -->
+        <!-- ② 선글라스 착용 금지 -->
+        <svg class="sign" viewBox="0 0 100 100" aria-hidden="true">
+          <g class="sign__k">
+            <circle class="sign__r" cx="50" cy="50" r="44"/>
+            <path class="sign__s" d="M18.9 18.9 81.1 81.1"/>
+          </g>
+        </svg>
         <span class="dont__p">
           <span class="scan scan--ready" aria-hidden="true">
             <span class="scan__plate"></span>
@@ -722,23 +726,15 @@
               <g class="scan__eyes"><circle cx="24" cy="29" r="4"/><circle cx="48" cy="29" r="4"/></g>
               <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
             </g>
-            </svg>
-          </span>
-          <svg class="sign" viewBox="0 0 100 100" aria-hidden="true">
-            <g class="sign__k">
-              <circle class="sign__r" cx="50" cy="50" r="44"/>
-              <path class="sign__s" d="M18.9 18.9 81.1 81.1"/>
-            </g>
-          </svg>
-          <svg class="dont__i" viewBox="4 12 64 48" aria-hidden="true">
             <g class="scan__sun">
               <path class="scan__sun-t" d="M10.3 26.2 4.8 28M61.7 26.2 67.2 28"/>
               <path class="scan__sun-b" d="M9.8 25.2C9.8 24.1 10.6 23.4 11.9 23.4H60.1C61.4 23.4 62.2 24.1 62.2 25.2 62.2 32.4 58.6 37.4 52.6 37.4 47 37.4 41.8 36 39.5 34.2 38.7 33.6 37.6 33.2 36 33.2 34.4 33.2 33.3 33.6 32.5 34.2 30.2 36 25 37.4 19.4 37.4 13.4 37.4 9.8 32.4 9.8 25.2Z"/>
               <path class="scan__sun-w" d="M10.6 24.4H61.4"/>
             </g>
-          </svg>
+            </svg>
+          </span>
         </span>
-        <p class="dont__t">선글라스 벗기</p>
+        <p class="dont__t">선글라스 착용 금지</p>
       </div>
     </div>
     <span class="cam__go cam__go--wait" data-go="m-shot"><b class="cam__go__t">바로 촬영하기</b></span>
