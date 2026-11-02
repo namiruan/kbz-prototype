@@ -2958,6 +2958,14 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   text-shadow:var(--ap-shadow-cam-text)}
 .cam__t--ok{color:var(--ap-cam-ok)}
 .cam__t--ok .cam__sub{font-size:24px;line-height:30px}
+/* 현장소장 앱의 안내만 한 단 작다(32 → Title1 28). 이 화면의 안내는 **누구
+   얼굴을 어디에 맞추라**는 두 마디라, 근로자 앱의 '얼굴을 …' 보다 한 마디
+   길다. 32 로 두면 '사각형 틀 안에 맞춰주세요' 가 390 에서 한 줄에 못
+   들어가(실측 379 vs 342) 세 줄이 되고, 세 줄은 위의 뒤로 가기와 이름표를
+   덮는다(글 위끝 59 · 뒤로 가기 52~84). 28 이면 331 로 들어간다.
+   줄을 어디서 끊을지는 마크업이 쥔다(<br>) — 폭에 맡기면 '근로자 얼굴을
+   사각형 / 틀 안에' 처럼 한 덩이가 갈린다 */
+.cam:has(.cam__stop) .cam__t{font-size:28px;line-height:35px}
 /* 현장소장 앱의 결과만 한 단 더 크다 — 거기 큰 글씨는 **이름**이고, 줄 선
    사람이 멀찍이서 제 이름을 본다. 근로자 앱의 큰 글씨는 제 손에 든 화면에
    뜨는 **문장**이라 32 그대로 둔다: 36 으로 올리면 '출근이 등록되었습니다'
