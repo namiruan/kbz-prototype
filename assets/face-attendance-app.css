@@ -286,6 +286,13 @@
      알의 두 겹이 작업용 보안경의 표다 */
   --ap-glass:#1b212b;
   --ap-glass-rim:#414b5c;
+  /* 알 위를 지나는 빛 — 흰빛이되 한참 묽다. 짙은 알 위라 이만큼이면
+     유리가 한 번 번뜩인 것으로 읽힌다. 짙게 두면 띠가 알에 그어 놓은
+     금으로 보이고, 이 카드에서 그것이 먼저 읽힌다 */
+  --ap-sun-shine:rgba(255,255,255,.16);
+  --ap-sun-shine-cycle:3.2s;       /* 한 번 지나고 한참 쉰다 — 쉬는 참이
+                                      없으면 카드 두 장 가운데 이쪽만
+                                      쉬지 않고 눈을 끈다 */
   /* 카메라가 잡는 틀 — 사람(120)보다 한참 넓다. 꽉 끼면 틀이 아니라
      테두리가 된다. 그림 칸이 허락하는 데까지 벌린다 */
   --ap-scan-frame:calc(var(--ap-scan) * 1.7);
@@ -3005,6 +3012,20 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .scan__sun-b{fill:var(--ap-glass)}
 .scan__sun-t{fill:none;stroke:var(--ap-glass);stroke-width:2.8;stroke-linecap:round}
 .scan__sun-w{fill:none;stroke:var(--ap-glass-rim);stroke-width:2.4;stroke-linecap:round}
+/* 빛은 왼쪽 밖에서 들어와 오른쪽 밖으로 빠진다 — 주기의 끝 네 번째
+   토막에서만 지나고 나머지는 알 밖에 서서 보이지 않는다.
+   기울기는 고정이고 움직이는 것은 가로 자리뿐이다(transform 하나에
+   둘이 들어가므로 멈춘 틀에도 기울기를 함께 적는다).
+   ⚠ transform-box 를 view-box 로, 기준점을 0 0 으로 못 박는다 — 두지
+     않으면 기울기의 기준이 제 모양 한가운데가 되어 띠가 제자리에서
+     비틀린다 */
+.scan__sun-sh rect{fill:var(--ap-sun-shine);
+  transform-box:view-box;transform-origin:0 0;
+  animation:ap-sun-shine var(--ap-sun-shine-cycle) var(--ap-ease-sym) infinite}
+@keyframes ap-sun-shine{
+  0%,62%  {transform:translateX(-6px) skewX(-18deg)}
+  88%,100%{transform:translateX(74px) skewX(-18deg)}
+}
 /* 눈은 두 칸이 **엇갈려** 깜빡인다 — 한날한시에 감으면 두 사람이 아니라
    한 사람을 두 번 그린 것으로 보인다 */
 .dont__f + .dont__f .scan__eyes{animation-delay:calc(var(--ap-scan-time) / -2)}
@@ -3031,6 +3052,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    그대로 있고, 차오르는 면만 셀 것이 없어지므로 걷는다 */
 @media (prefers-reduced-motion:reduce){
   .cam__go--wait::before{display:none}
+  /* 알 위를 지나던 빛은 멈춰 세우지 않고 **걷는다** — 멈추면 띠 하나가
+     알 가운데 붙박이로 남아 그림에 없던 무늬가 된다 */
+  .scan__sun-sh{display:none}
 }
 
 /* 촬영 확인 — 찍은 얼굴을 덮어 놓고 묻는다 */
