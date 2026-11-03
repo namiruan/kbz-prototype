@@ -1245,12 +1245,131 @@
     <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
     <div class="confirm__card">
       <div class="confirm__pic"><img src="images/worker/01.jpg" alt=""></div>
-      <!-- 이름이 두 몫을 적는다 — 이 버튼 하나로 등록이 끝나고 곧바로
-           출근 인증 카메라가 열린다. '얼굴 등록하기' 로만 두면 등록만
-           되고 출근은 다시 눌러야 하는 줄 안다 -->
-      <span class="confirm__ok" data-go="w-cam">등록하고 출근하기</span>
+      <!-- ── 저지르는 일이 **둘로 갈린다** ──
+           얼굴만 남기고 말 것인가, 그길로 출근까지 찍을 것인가. 한 버튼에
+           둘을 묶어 두면 오늘 출근할 생각이 없는 사람도 카메라로 끌려가고,
+           '얼굴 등록하기' 로만 두면 등록만 되고 출근은 다시 눌러야 하는
+           줄 안다 — 이름마다 제가 하는 일을 다 적는다.
+           주된 쪽은 브랜드 면, 다른 쪽은 중립 면이다 — 최종 결정이 두
+           갈래일 때 primary fill 의 대안은 secondary fill 이라고
+           atoms/button.md 가 못 박았다. 옅은 회색으로 두면 꺼진 버튼으로
+           읽혀 고를 거리가 아니게 된다 -->
+      <div class="confirm__acts">
+        <span class="confirm__ok" data-go="w-worker-new">얼굴 및 출근 등록하기</span>
+        <span class="confirm__ok confirm__ok--sub" data-go="w-worker-new-only">얼굴만 등록하기</span>
+      </div>
     </div>
     <span class="confirm__re"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg><b>다시 촬영하기</b></span>
+  </div>
+</section>
+
+
+<!-- ===== 근로자 앱 · 근로자 등록 (앱 네이티브) =====
+     찍은 얼굴이 **누구의 것인지**를 적는 자리다. 사진만으로는 출퇴근 기록이
+     사람에 붙지 못한다.
+     앱이 이미 아는 것(이름 · 연락처)은 채워 두고, 현장이 받아야 하는 것
+     (주민번호 · 직종)만 비워 둔다 — 아는 것을 다시 묻는 폼은 길기만 하다.
+     단가는 묻지 않는다. 근로자가 제 손으로 정하는 값이 아니라 현장이 정하는
+     값이라, 그쪽 폼(현장소장 앱)에만 있다.
+     ⚠ 저장 버튼의 이름은 **어느 버튼으로 들어왔는지**가 정한다. 이 프로토타입은
+       ?screen= 이 가리키는 한 장을 켜는 꼴이라 한 장 안에서 둘로 갈라 둘 수
+       없어, 화면을 두 장 둔다(w-worker-new · w-worker-new-only).
+       ⚠ 둘은 **바닥 버튼 한 줄만 다르다**. 폼을 고칠 때는 두 장을 같이 고친다 -->
+<section class="scr scr--form" data-screen="w-worker-new" data-title="근로자 앱 근로자 등록 — 출근까지">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로" data-go="w-shot"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">근로자 등록</h1>
+  </header>
+
+  <main class="body">
+    <div class="shot">
+      <!-- 사진 자리 전체가 누르는 자리다. 오른쪽 아래 아이콘은 '여기를 눌러
+           고친다' 고 알리는 표지다 — 버튼 안에 버튼을 넣지 않는다.
+           연필이 아니라 카메라다: 누르면 글을 고치는 것이 아니라 다시 찍는다 -->
+      <button class="shot__box shot__box--done" type="button" aria-label="얼굴 사진 다시 촬영" data-go="w-ready">
+        <img src="images/worker/01.jpg" alt="">
+        <span class="shot__edit" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg></span>
+      </button>
+    </div>
+
+    <form class="form">
+      <!-- 묻는 한 줄이라 칸으로 두지 않는다. 묻는 말 옆에 답이 붙는 카드다 -->
+      <div class="ask">
+        <span class="ask__t">외국인 근로자인가요?</span>
+        <span class="tog"><span>예</span><span class="is-on">아니오</span></span>
+      </div>
+      <!-- 앱에 들어와 있는 사람이라 이름과 연락처는 이미 안다 — 채워 두고
+           고칠 수 있게만 둔다 -->
+      <div class="fld">
+        <label class="fld__l">이름 <b>(필수)</b></label>
+        <div class="inp">홍길동</div>
+      </div>
+      <!-- 주민번호는 현장이 받아야 하는 값이다(퇴직공제·보험) — 비워 둔다 -->
+      <div class="fld">
+        <label class="fld__l">주민번호 <b>(필수)</b></label>
+        <div class="inp inp--ph">주민번호를 입력해주세요</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">연락처 <b>(필수)</b></label>
+        <div class="inp">010-1234-5678</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">직종</label>
+        <button class="sel" type="button"><span class="sel__t">직종 선택</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </div>
+    </form>
+  </main>
+
+  <!-- 이름이 두 몫을 적는다 — 저장하면 등록이 끝나고 곧바로 출근 인증
+       카메라가 열린다. '등록하기' 로만 두면 출근은 다시 눌러야 하는 줄 안다 -->
+  <div class="act act--end">
+    <button class="act__b act__b--on" type="button" data-go="w-cam">등록 및 출근하기</button>
+  </div>
+</section>
+
+<!-- ===== 근로자 앱 · 근로자 등록 (얼굴만) =====
+     위의 화면과 **바닥 버튼 한 줄만 다르다**. 저장하고 나면 홈으로 돌아가고,
+     출근은 홈의 과녁에서 따로 찍는다 -->
+<section class="scr scr--form" data-screen="w-worker-new-only" data-title="근로자 앱 근로자 등록 — 등록만">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로" data-go="w-shot"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">근로자 등록</h1>
+  </header>
+
+  <main class="body">
+    <div class="shot">
+      <button class="shot__box shot__box--done" type="button" aria-label="얼굴 사진 다시 촬영" data-go="w-ready">
+        <img src="images/worker/01.jpg" alt="">
+        <span class="shot__edit" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg></span>
+      </button>
+    </div>
+
+    <form class="form">
+      <div class="ask">
+        <span class="ask__t">외국인 근로자인가요?</span>
+        <span class="tog"><span>예</span><span class="is-on">아니오</span></span>
+      </div>
+      <div class="fld">
+        <label class="fld__l">이름 <b>(필수)</b></label>
+        <div class="inp">홍길동</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">주민번호 <b>(필수)</b></label>
+        <div class="inp inp--ph">주민번호를 입력해주세요</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">연락처 <b>(필수)</b></label>
+        <div class="inp">010-1234-5678</div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">직종</label>
+        <button class="sel" type="button"><span class="sel__t">직종 선택</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </div>
+    </form>
+  </main>
+
+  <div class="act act--end">
+    <button class="act__b act__b--on" type="button" data-go="w-home">등록하기</button>
   </div>
 </section>
 

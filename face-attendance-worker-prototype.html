@@ -151,9 +151,22 @@
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-shot"
         data-why="촬영한 사진을 등록하기 전에 한 번 확인하는 단계입니다.
 
-여기서 등록하면 출근 인증까지 그대로 이어집니다."
+저지르는 일은 두 갈래입니다. 얼굴만 남길 것인지, 그길로 출근까지 찍을 것인지 — 하나로 묶어 두면 오늘 출근할 생각이 없는 사람도 카메라로 끌려갑니다."
         data-steps="얼굴 등록 온보딩에서 '바로 촬영하기' 를 클릭해 얼굴을 촬영한 상태"
-        data-look="@{.confirm__ok} '등록하고 출근하기' 를 클릭하면 등록이 끝나고 바로 출근 인증 카메라가 열립니다 — 이름이 두 동작을 함께 적고 있습니다|@{.confirm__re} '다시 촬영하기' 를 클릭하면 카메라로 돌아갑니다">촬영 확인</button>
+        data-look="@{.confirm__ok} '얼굴 및 출근 등록하기' 를 클릭하면 근로자 등록으로 넘어갑니다|@{.confirm__ok--sub} '얼굴만 등록하기' 도 같은 근로자 등록으로 넘어갑니다 — 갈리는 것은 그 화면의 저장 버튼입니다|@{.confirm__re} '다시 촬영하기' 를 클릭하면 카메라로 돌아갑니다">촬영 확인</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-worker-new"
+        data-why="찍은 얼굴이 누구의 것인지를 적는 화면입니다.
+
+앱이 이미 아는 것(이름 · 연락처)은 채워 두고, 현장이 받아야 하는 것만 비워 둡니다. 단가는 묻지 않습니다 — 근로자가 제 손으로 정하는 값이 아니라 현장이 정하는 값이라, 현장소장 앱의 폼에만 있습니다."
+        data-steps="등록 촬영 확인에서 '얼굴 및 출근 등록하기' 를 클릭한 상태"
+        data-look="@{.act__b} 저장 버튼이 '등록 및 출근하기' 입니다 — 클릭하면 출근 인증 카메라가 열립니다|@{.inp--ph} 주민번호만 비어 있습니다. 이름과 연락처는 앱이 아는 값이라 채워 둡니다|@{.shot__box--done} 방금 찍은 얼굴이 맨 위에 섭니다. 클릭하면 촬영으로 돌아갑니다 — 오른쪽 아래 표지가 연필이 아니라 카메라인 까닭입니다">근로자 등록</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-worker-new-only"
+        data-why="얼굴만 등록하고 출근은 나중에 찍는 길입니다.
+
+폼은 앞의 것과 같습니다. 갈리는 것은 바닥 버튼 한 줄뿐입니다."
+        data-steps="등록 촬영 확인에서 '얼굴만 등록하기' 를 클릭한 상태"
+        data-look="@{.act__b} 저장 버튼이 '등록하기' 입니다 — 클릭하면 홈으로 돌아갑니다. 출근은 홈의 과녁에서 따로 찍습니다">근로자 등록 — 얼굴만</button>
+
       <span class="proto-nav-group-label">근로자 앱 · 출퇴근 인증</span>
       <span class="proto-nav-group-label proto-nav-group-label--sub">출근 인증</span>
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam"
