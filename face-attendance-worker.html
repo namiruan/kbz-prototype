@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=634">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=635">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=634"></script>
+<script src="assets/face-attendance-app.js?v=635"></script>
 </head>
 
 <body>
@@ -419,6 +419,37 @@
       </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ===== 근로자 앱 · 출퇴근 범위 밖 =====
+     찍었는데 현장 밖일 때다. 막혔다고만 알리면 근로자는 **어디로 가야
+     하는지**를 모른 채 남는다 — 범위를 지도로 보여 주고 제 자리를 그 위에
+     찍어, 어느 쪽으로 몇 발짝인지를 눈이 재게 한다.
+     꼴은 '출퇴근 범위 확인하기' 가 여는 그 시트 그대로다 — 같은 지도를
+     두 자리에서 다른 모양으로 보여 줄 까닭이 없다 -->
+<section class="scr has-dim" data-screen="w-away" data-day="today" data-rec="none" data-title="출퇴근 범위 밖"
+  data-behind="w-home">
+  <div class="dim dim--sheet" data-go="w-home" data-go-self>
+    <div class="sheet" role="alertdialog" aria-labelledby="wAwayT">
+    <div class="sheet__h">
+      <p class="sheet__t sheet__t--ask" id="wAwayT">출퇴근 범위 밖입니다</p>
+      <button class="sheet__x" type="button" aria-label="닫기" data-go="w-home"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    </div>
+    <!-- 지도는 '출퇴근 범위 확인하기' 가 여는 것과 같은 자리표시자다.
+         다른 것은 **내 위치**가 하나 더 선다는 것뿐이다 -->
+    <div class="zone__m" role="img" aria-label="현장 위치와 출퇴근 범위, 그리고 현재 내 위치">
+      <span class="zone__r"></span>
+      <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+      <!-- 현장은 브랜드 핀이고 나는 **가운데가 찬 점**이다 — 둘이 같은
+           꼴이면 어느 것이 나인지 가려 읽어야 한다. 이름표는 나한테만
+           단다: 가려야 하는 것이 그쪽이다 -->
+      <span class="zone__me"><b class="zone__me__t">내 위치</b></span>
+    </div>
+    <!-- 무엇을 해야 하는지를 지도 아래에 적는다 — 머리줄이 '무엇이
+         잘못되었나' 를 말했으니 여기는 '그래서 어떻게 하나' 다 -->
+    <p class="zone__d">범위 안으로 이동해주세요</p>
+  </div>
   </div>
 </section>
 

@@ -82,6 +82,7 @@
   --ap-zone-fill:rgba(17,90,198,.08); /* 출퇴근 범위 원의 속 — 지도 위에 얹는
                                       면이라 불투명 색이 아니라 투명도로 둔다 */
   --ap-zone-chip:rgba(17,90,198,.1);/* 핀을 담는 옅은 브랜드 면 */
+  --ap-zone-me-wash:rgba(19,20,22,.14); /* 내 위치 점 둘레로 번지는 빛 */
   --ap-brand-line:rgba(17,90,198,.3);/* 연한 브랜드 테 — 시스템 border/brand-subtle 과 같은 비율.
                                       안내 배너처럼 **면까지 옅은 브랜드**인 자리에 쓴다 */
   --ap-brand-line-on:rgba(17,90,198,.5);/* 흰 면 위의 브랜드 테 — 찍힌 출퇴근 카드.
@@ -1075,6 +1076,24 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .zone__m{height:min(360px,42svh)}
 .zone__m .zone__r{width:120px;height:120px}
 .zone__m .zone__p{width:24px;height:24px}
+/* ── 내 위치 ──
+   현장은 브랜드 핀, 나는 가운데가 찬 점이다 — 꼴이 갈려야 어느 것이
+   나인지 가려 읽지 않는다. 흰 테를 두르고 그 바깥으로 옅게 번지게 하는
+   것은 지도 위의 점이 늘 그렇게 서기 때문이다(기기의 지도와 같은 어법).
+   자리는 원 **밖**이다 — 밖에 있다는 것이 이 화면의 전부라, 글보다 자리가
+   먼저 말한다 */
+.zone__me{position:absolute;left:58%;bottom:16%;z-index:1;
+  display:flex;align-items:center;gap:var(--ap-p3)}
+.zone__me::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;
+  background:var(--ap-g95);
+  box-shadow:0 0 0 3px var(--ap-g0),0 0 0 9px var(--ap-zone-me-wash)}
+.zone__me__t{font:var(--t-foot-em);letter-spacing:var(--ls-foot);white-space:nowrap;
+  padding:var(--ap-p1) var(--ap-p4);border-radius:var(--ap-r-pill);
+  background:var(--ap-g95);color:var(--ap-g0)}
+/* 그래서 어떻게 하나 — 지도 아래 한 줄이다. 시트의 아래 여백은 여기가
+   쥔다(지도는 변까지 꽉 차므로 시트에는 아래 여백이 없다) */
+.zone__d{font:var(--t-body);letter-spacing:var(--ls-body);word-break:keep-all;
+  padding:0 var(--ap-p6) var(--ap-p8);text-align:center;color:var(--ap-text)}
 .card__nm{font:var(--t-title3-em);letter-spacing:var(--ls-title3);flex:1;min-width:0;color:var(--ap-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .card__gr{display:flex;flex-wrap:wrap;gap:var(--ap-p2) var(--ap-p6)}
 .card__kv{flex:1 0 0;min-width:115px;display:flex;align-items:center;gap:var(--ap-p3)}
