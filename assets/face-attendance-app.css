@@ -1370,6 +1370,8 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    짚을 자리는 4 를 둘러 24 로 넓히되, 그만큼 바깥으로 물려 말풍선이
    커지지 않게 한다 */
 .tip__t{min-width:0}
+/* 여는 시각은 js 가 적는다 — 자리가 흔들리지 않게 같은 너비의 수로 둔다 */
+.tip__at{font-variant-numeric:tabular-nums}
 .tip__x{flex:none;display:flex;align-items:center;justify-content:center;
   padding:4px;margin:-4px -4px -4px 0;color:var(--ap-on-dark-sub)}
 .tip::after{content:"";position:absolute;top:100%;left:50%;

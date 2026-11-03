@@ -46,6 +46,7 @@
     stamp(hit);
     regshot(hit);
     tally(hit);
+    gate(hit);
     wait(hit);
     note(hit);
     terms(hit);
@@ -1002,6 +1003,22 @@
       c.addEventListener('click', function () { paint(false); });
     });
     paint(false);
+  }
+
+  /* ── 출근이 열리는 시각 ──
+     현장이 문을 여는 시각이 있고, 그 전에는 과녁이 잠긴다. 그 시각을
+     마크업에 못 박아 두면 **기기의 지금**을 보여 주는 과녁의 시계와
+     어긋난다 — 07:00 이라고 적어 두고 오후에 열면 '아직 전' 이라는 말
+     옆에서 시계가 15:20 을 가리킨다.
+     그래서 지금에서 한 뼘(20분) 뒤로 잡고 10분 단위로 올린다. 언제 열어도
+     '아직 멀지 않은 뒤' 가 된다 */
+  function gate(scr) {
+    var box = scr.querySelector('.tip__at');
+    if (!box) return;
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+    var d = new Date(Date.now() + 20 * 60000);
+    d.setMinutes(Math.ceil(d.getMinutes() / 10) * 10, 0, 0);
+    box.textContent = two(d.getHours()) + ':' + two(d.getMinutes());
   }
 
   function clock(scr) {
