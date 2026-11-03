@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=627">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=629">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=627"></script>
+<script src="assets/face-attendance-app.js?v=629"></script>
 </head>
 
 <body>
@@ -774,6 +774,87 @@
     <!-- 되돌리는 쪽은 카드 밖에, 면 없이 둔다 — 같은 크기로 나란히 서면
          어느 쪽이 주된 동작인지 흐려진다 -->
     <span class="confirm__re"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg><b>다시 촬영하기</b></span>
+  </div>
+</section>
+
+
+<!-- ===== ③-2 현장소장 앱 · 이미 등록된 근로자 (앱 네이티브) =====
+     등록하려고 찍었는데 이미 등록된 얼굴일 때다. '이미 등록되었습니다' 로
+     끝내면 현장소장은 이 사람을 두고 무엇을 해야 할지 모른 채 남는다 —
+     등록이 안 되는 까닭을 알리고 **오늘 이 사람에게 남은 일**로 보낸다.
+     남은 일은 오늘 기록이 가른다: 출근이 없으면 출근, 있으면 퇴근이다.
+     꼴은 미등록 근로자 시트와 같다 — 둘 다 얼굴을 읽고 나서 '등록은 안
+     된다' 를 알리는 자리라, 같은 모양으로 선다 -->
+<section class="scr has-dim" data-screen="m-dup-in" data-title="이미 등록된 근로자 — 출근 전"
+  data-behind="m-worker-new">
+  <div class="dim dim--sheet" data-go="m-worker-new" data-go-self>
+    <div class="alert alert--sheet" role="alertdialog" aria-labelledby="mDupInT">
+      <div class="sheet__h">
+        <p class="sheet__t sheet__t--ask" id="mDupInT">이미 등록된 근로자입니다</p>
+        <!-- 닫으면 적던 폼이 그대로 남는다 — 사람을 잘못 골랐을 수도 있다 -->
+        <button class="sheet__x" type="button" aria-label="닫기" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+      </div>
+      <div class="alert__bd">
+        <span class="scan__art">
+        <span class="scan scan--alert" aria-hidden="true">
+          <span class="wave"><i></i><i></i><i></i></span>
+          <span class="scan__plate"></span>
+          <svg viewBox="4 12 64 48">
+            <g class="scan__face">
+              <circle cx="24" cy="29" r="4"/>
+              <circle cx="48" cy="29" r="4"/>
+              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
+            </g>
+          </svg>
+          <span class="scan__beam"></span>
+        </span>
+        </span>
+        <!-- 제목은 **등록이 안 되는 까닭**을 말하고, 여기는 **그래서 지금 할
+             일**을 말한다. 이름과 오늘 기록을 적어 두 번 묻지 않게 한다 -->
+        <p class="alert__d">
+          <span>홍길동님은 오늘 출근 기록이 없습니다.</span>
+          <span>바로 출근을 등록할 수 있어요.</span>
+        </p>
+        <button class="scan__go" type="button" data-go="m-cam" data-go-now>출근 등록하기</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ③-3 현장소장 앱 · 이미 등록된 근로자(출근한 뒤) ===== -->
+<section class="scr has-dim" data-screen="m-dup-out" data-title="이미 등록된 근로자 — 퇴근 전"
+  data-behind="m-worker-new">
+  <div class="dim dim--sheet" data-go="m-worker-new" data-go-self>
+    <div class="alert alert--sheet" role="alertdialog" aria-labelledby="mDupOutT">
+      <div class="sheet__h">
+        <p class="sheet__t sheet__t--ask" id="mDupOutT">이미 등록된 근로자입니다</p>
+        <!-- 닫으면 적던 폼이 그대로 남는다 — 사람을 잘못 골랐을 수도 있다 -->
+        <button class="sheet__x" type="button" aria-label="닫기" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+      </div>
+      <div class="alert__bd">
+        <span class="scan__art">
+        <span class="scan scan--alert" aria-hidden="true">
+          <span class="wave"><i></i><i></i><i></i></span>
+          <span class="scan__plate"></span>
+          <svg viewBox="4 12 64 48">
+            <g class="scan__face">
+              <circle cx="24" cy="29" r="4"/>
+              <circle cx="48" cy="29" r="4"/>
+              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
+            </g>
+          </svg>
+          <span class="scan__beam"></span>
+        </span>
+        </span>
+        <!-- 제목은 **등록이 안 되는 까닭**을 말하고, 여기는 **그래서 지금 할
+             일**을 말한다. 이름과 오늘 기록을 적어 두 번 묻지 않게 한다 -->
+        <p class="alert__d">
+          <span>홍길동님은 오늘 07:05 에 출근했습니다.</span>
+          <span>이어서 퇴근을 등록할 수 있어요.</span>
+        </p>
+        <button class="scan__go" type="button" data-go="m-cam" data-go-now>퇴근 등록하기</button>
+      </div>
+    </div>
   </div>
 </section>
 

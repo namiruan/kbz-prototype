@@ -477,6 +477,9 @@ html.edge--cam{--ap-edge:#3c4043}
    덮여 한참 짙다(390 폭 맨 윗줄 실측: 카메라 60,64,67 → 여기 41,44,46) */
 html.edge--camdim{--ap-edge:#292c2e}
 html.edge--dim{--ap-edge:#8c8f94}
+/* 같은 막이 **흰 폼** 위에 덮인 자리 — 뒤가 옅은 파랑(primary/5)일 때보다
+   한 단 밝다(390 폭 맨 윗줄 실측: 저쪽 140,143,148 → 여기 149,149,150) */
+html.edge--dimform{--ap-edge:#959596}
 html.edge--shot{--ap-edge:#393a3b}
 html,body{background:var(--ap-edge)}
 
