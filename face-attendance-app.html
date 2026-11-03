@@ -1902,18 +1902,20 @@
   </div>
 </section>
 
-<!-- ===== ⑧-4 현장소장 앱 · 사진으로 확인 =====
-     얼굴이 읽히지 않을 때 **사람의 눈이 대신 서는** 자리다.
+<!-- ===== ⑧-4 현장소장 앱 · 직접 출근 처리 =====
+     얼굴이 읽히지 않을 때 **사람의 눈이 대신 서는** 자리다. 찍은 얼굴을
+     보고, 누구인지 고르고, 그 자리에서 출퇴근을 등록한다 — 확인만 하고
+     등록은 다른 데서 하는 자리가 아니다.
      읽지 못했으니 앱은 누구인지도 모른다 — 그래서 근로자를 먼저 고르고,
      고른 사람의 최초 등록 얼굴을 그제야 볼 수 있다.
      견주는 길은 **출퇴근 이력보기와 같다**: 방금 찍은 사진이 서고, 누르면
      등록해 둔 얼굴이 그 자리를 덮는다.
      ⚠ 얼굴 확인을 건너뛰는 처리라, 그렇게 적은 기록이라는 것이 남아야
        한다. 배너가 그 말을 저지르기 전에 한다 -->
-<section class="scr scr--form" data-screen="m-verify" data-title="사진으로 확인">
+<section class="scr scr--form" data-screen="m-verify" data-title="직접 출근 처리">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로" data-go="m-cam"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <h1 class="nav__t">사진으로 확인</h1>
+    <h1 class="nav__t">직접 출근 처리</h1>
   </header>
 
   <main class="body">
@@ -1923,24 +1925,17 @@
          보이기 때문이다 — 저지르기 전에 읽혀야 하는 말이다 -->
     <div class="bnr bnr--caution" role="status">
       <svg class="ic bnr__i" aria-hidden="true"><use href="#icon-triangle-alert"></use></svg>
-      <div class="bnr__b"><span>얼굴 확인을 건너뛰는 처리입니다. 찍은 사진과 확인한 사람이 이력에 남습니다.</span></div>
+      <div class="bnr__b"><span>얼굴 인식 없이 등록하는 처리입니다. 찍은 사진과 등록한 사람이 이력에 남습니다.</span></div>
     </div>
 
-    <!-- 고르는 줄과 두 사진은 한 덩어리로 남는 자리 가운데에 선다 -->
+    <!-- 찍은 얼굴과 고르는 줄은 한 덩어리로 남는 자리 가운데에 선다.
+         차례는 **찍은 얼굴 · 누구인가 · 등록**이다 — 현장소장이 겪는 차례
+         그대로다. 고르는 줄을 위에 두었더니 아직 보지도 않은 얼굴을 두고
+         이름부터 고르는 꼴이 됐다 -->
     <div class="vrf">
-    <form class="form">
-      <!-- 얼굴을 못 읽었으니 누구인지부터 고른다 — 고르기 전에는 견줄
-           상대가 없다 -->
-      <div class="fld">
-        <label class="fld__l">근로자 <b>(필수)</b></label>
-        <button class="sel sel--selected" type="button"><span class="sel__t">홍길동 · 형틀목공</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
-      </div>
-    </form>
-
     <!-- 견주는 길은 **출퇴근 이력보기와 같다** — 방금 찍은 사진이 서고,
-         누르면 최초 등록 얼굴이 그 자리를 덮는다. 두 장을 나란히 두어
-         봤더니 둘이 같은 값으로 읽혔는데, 이 화면의 주인공은 방금 찍힌
-         얼굴이고 등록해 둔 얼굴은 그것을 **가리는 자**다.
+         누르면 최초 등록 얼굴이 그 자리를 덮는다. 이 화면의 주인공은 방금
+         찍힌 얼굴이고 등록해 둔 얼굴은 그것을 **가리는 자**다.
          한 앱에서 같은 일(두 얼굴 견주기)을 두 꼴로 두지 않는다 -->
     <div class="photo">
       <img src="images/worker/01-in.jpg" alt="" data-for="shot">
@@ -1950,15 +1945,27 @@
       <!-- 들어간 버튼이 섰던 그 자리다 -->
       <button class="photo__b photo__back" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-back"></use></svg><b>돌아가기</b></button>
     </div>
+
+    <form class="form">
+      <!-- 찍은 얼굴을 보고 나서 누구인지 고른다 — 고른 뒤라야 '최초 등록
+           얼굴 확인' 이 견줄 상대를 갖는다 -->
+      <div class="fld">
+        <label class="fld__l">근로자 <b>(필수)</b></label>
+        <button class="sel sel--selected" type="button"><span class="sel__t">홍길동 · 형틀목공</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </div>
+    </form>
     </div>
   </main>
 
   <!-- 되돌리는 쪽은 두지 않는다: 뒤로(←)가 이미 머리줄에 있고, 같은 일을
        두 자리에서 할 까닭이 없다.
-       이름이 두 몫을 적는다 — 누르면 '맞다' 고 서명하는 것이고 그 길로
-       출근이 등록된다 -->
+       이름이 **두 몫**을 적는다 — '이 근로자로' 가 고른 사람이 맞다는
+       서명이고, '출근 등록하기' 가 그 길로 일어나는 일이다. '이 사람이
+       맞습니다' 로만 두면 맞다고만 하고 등록은 또 눌러야 하는 줄 안다.
+       ⚠ '출근' 은 **찍는 모드를 따른다**. 퇴근 모드로 찍는 중이면 머리줄과
+         이 버튼이 퇴근이다 — 짝을 두지 않고 화면설명의 볼것이 적는다 -->
   <div class="act act--end">
-    <button class="act__b act__b--on" type="button" data-go="m-cam-ok">이 사람이 맞습니다</button>
+    <button class="act__b act__b--on" type="button" data-go="m-cam-ok">이 근로자로 출근 등록하기</button>
   </div>
 </section>
 
