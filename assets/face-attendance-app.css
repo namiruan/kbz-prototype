@@ -1073,7 +1073,23 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .zone__p{position:relative;color:var(--ap-primary)}
 /* 지도 칸 — 창 안에서 선다. 줄의 바탕(모눈)과 같은 그림이라, 문을 열면
    문에 비치던 것이 커져 나온 것으로 읽힌다 */
-.zone__m{height:min(360px,42svh)}
+/* 지도 키는 시트가 쥔다 — 위로 쓸어 올리면 한 칸 길어진다(.is-tall).
+   끄는 동안에는 js 가 px 로 적어 손끝을 따라오고, 손을 떼면 그 값을 걷어
+   둘 중 한 자리에 앉는다 */
+.sheet--grow{--ap-zone-h:min(360px,42svh)}
+.sheet--grow.is-tall{--ap-zone-h:min(620px,62svh)}
+.zone__m{height:var(--ap-zone-h,min(360px,42svh));
+  transition:height var(--ap-dur-sheet-out) var(--ap-ease-exit)}
+/* 끄는 동안에는 손끝보다 늦게 오면 안 된다 */
+.sheet.is-grab .zone__m{transition:none}
+@media (prefers-reduced-motion:reduce){.zone__m{transition:none}}
+/* 손잡이 — 시트 꼭대기에 눕는 짧은 막대다. 누르는 자리는 막대가 아니라
+   **줄 전체**다: 4 짜리 막대만 받으면 장갑 낀 손이 못 짚는다 */
+.sheet__grip{cursor:grab;touch-action:none;flex:none;align-self:stretch;
+  height:22px;display:flex;align-items:center;justify-content:center}
+.sheet__grip::before{content:"";width:36px;height:4px;border-radius:2px;
+  background:var(--ap-g20)}
+.sheet--grow .sheet__h{padding-top:var(--ap-p3)}
 .zone__m .zone__r{width:120px;height:120px}
 .zone__m .zone__p{width:24px;height:24px}
 /* ── 내 위치 ──

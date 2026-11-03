@@ -47,6 +47,7 @@
     regshot(hit);
     tally(hit);
     gate(hit);
+    grow(hit);
     wait(hit);
     note(hit);
     terms(hit);
@@ -1019,6 +1020,91 @@
     var d = new Date(Date.now() + 20 * 60000);
     d.setMinutes(Math.ceil(d.getMinutes() / 10) * 10, 0, 0);
     box.textContent = two(d.getHours()) + ':' + two(d.getMinutes());
+  }
+
+  /* ── 지도를 더 보고 싶을 때 ──
+     시트가 쥔 키는 한 자리뿐이라, 범위와 내 위치가 멀면 둘이 한 칸에
+     욱여넣어진다. 위로 쓸어 올리면 지도가 한 칸 길어진다.
+     자리는 둘이다(기본 · 펴짐) — 그 사이 아무 데나 멎게 두면 다음에 열었을
+     때 어디에 서 있을지 사람이 셈해야 한다. 끄는 동안에는 손끝을 따라오고,
+     손을 떼면 간 거리로 가른다(셋 중 하나를 넘겼는가).
+     **눌러도 펴진다.** 끄는 몸짓 하나에만 매어 두면 손이 닿지 않는 길이
+     된다 — 손잡이는 버튼이고 aria-expanded 로 지금 자리를 말한다.
+     두 자리의 키는 css 가 쥔다(.sheet--grow). js 는 그 값을 **재어** 쓴다 —
+     min()·svh 로 적힌 값이라 글자를 읽어서는 px 를 알 수 없다 */
+  function grow(scr) {
+    var sheet = scr.querySelector('.sheet--grow');
+    if (!sheet) return;
+    var map = sheet.querySelector('.zone__m');
+    var grip = sheet.querySelector('.sheet__grip');
+    if (!map || !grip) return;
+
+    /* 두 자리의 키는 css 가 쥔다. 여기서는 **재어** 쓴다 — min()·svh 로
+       적힌 값이라 글자를 읽어서는 px 를 알 수 없다 */
+    /* ⚠ 재는 동안에는 **흐름을 끈다**(is-grab). 키에 transition 이 걸려
+       있어, 표를 붙이자마자 키를 물으면 아직 떠나지 않은 **처음 값**이
+       돌아온다 — 둘이 같은 수로 나와 길이 통째로 막혔었다 */
+    sheet.classList.add('is-grab');
+    var base = map.offsetHeight;
+    sheet.classList.add('is-tall');
+    var tall = map.offsetHeight;
+    sheet.classList.remove('is-tall');
+    sheet.classList.remove('is-grab');
+    if (tall <= base) return;
+
+    var on = false, y0 = 0, h0 = 0, moved = false;
+
+    function rest(up) {
+      map.style.height = '';
+      sheet.classList.toggle('is-tall', up);
+      grip.setAttribute('aria-expanded', up ? 'true' : 'false');
+    }
+    function start(y) {
+      on = true; moved = false; y0 = y; h0 = map.offsetHeight;
+      sheet.classList.add('is-grab');
+    }
+    function pull(y) {
+      if (!on) return;
+      var dy = y0 - y;
+      if (Math.abs(dy) > 4) moved = true;
+      map.style.height = Math.max(base, Math.min(tall, h0 + dy)) + 'px';
+    }
+    function drop() {
+      if (!on) return;
+      on = false;
+      sheet.classList.remove('is-grab');
+      if (!moved) return;
+      rest(map.offsetHeight - base > (tall - base) / 3);
+
+      /* ⚠ 끌어 올린 손가락은 **시트 밖에서** 떨어진다. 그때 눌린 것으로
+         치는 자리는 누른 데와 뗀 데의 공통 조상 — 어두운 자리다. 그대로
+         두면 지도를 늘리려다 시트가 닫힌다. 그 한 번만 삼킨다.
+         ⚠ setTimeout(0) 으로 걷으면 안 된다 — 눌림은 손을 뗀 **다음
+           차례**에 오므로 0 짜리 시계가 먼저 돌아 표가 걷힌다 */
+      var kill = function (ev) {
+        ev.stopPropagation(); ev.preventDefault();
+        document.removeEventListener('click', kill, true);
+      };
+      document.addEventListener('click', kill, true);
+      setTimeout(function () { document.removeEventListener('click', kill, true); }, 300);
+    }
+
+    /* 끄는 길은 달 넘기기(deck)와 같은 짜임이다 — 손가락은 제 자리에서
+       받고, 쥐는 동안의 움직임과 떼는 일은 문서가 받는다. 손이 틀 밖으로
+       나가도 따라오게 하려면 그 수밖에 없다 */
+    grip.addEventListener('touchstart', function (e) { start(e.touches[0].clientY); }, { passive: true });
+    grip.addEventListener('touchmove', function (e) { pull(e.touches[0].clientY); }, { passive: true });
+    grip.addEventListener('touchend', drop, { passive: true });
+    grip.addEventListener('touchcancel', drop, { passive: true });
+    grip.addEventListener('mousedown', function (e) { e.preventDefault(); start(e.clientY); });
+    document.addEventListener('mousemove', function (e) { pull(e.clientY); });
+    document.addEventListener('mouseup', drop);
+
+    /* 끌지 않고 누르기만 해도 펴진다 — 끄는 몸짓 하나에만 매어 두면 손이
+       닿지 않는 길이 된다 */
+    grip.addEventListener('click', function () {
+      rest(!sheet.classList.contains('is-tall'));
+    });
   }
 
   function clock(scr) {
