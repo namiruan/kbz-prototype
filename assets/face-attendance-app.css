@@ -1977,6 +1977,15 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    얼굴이 돌아가며 바뀌는 몸짓(ap-enter · ap-face-shape)은 쓰지 않는다.
    저쪽 카드는 줄 선 사람이 저마다 다르다는 말이고, 여기는 **한 사람**이
    안 읽히는 자리다 */
+/* ── 무엇을 찍는 중인가 — 모드가 고른다 ──
+   카메라가 시트 뒤에 깔리면 이 줄만 시트 위로 드러난다(토글도 세는 줄도
+   시트가 덮는다). 가린 자리의 값을 이 줄이 대신 말해야 하므로, 둘을 다
+   적어 두고 여기서 하나를 지운다 — 카메라를 한 장 더 베끼면 같은 마크업이
+   두 곳에서 따로 늙는다.
+   표가 없으면 출근이다: 카메라를 그냥 열면 출근 모드로 선다 */
+.cam__who--out{display:none}
+.scr[data-mode="out"] .cam__who--in{display:none}
+.scr[data-mode="out"] .cam__who--out{display:inline}
 .cta__art--ask .scan__corner{--ap-corner-edge:url(#ctaEdgeAsk)}
 /* ⚠ 초록은 **두 군데**에서 온다 — 선 자체(gradient 의 stop)와 그 둘레에
    번지는 빛(ap-corner-glow 의 drop-shadow)이다. stop 만 멈췄더니 선은
