@@ -459,12 +459,17 @@
         <svg class="ic bnr__i" aria-hidden="true"><use href="#icon-triangle-alert"></use></svg>
         <div class="bnr__b"><span>출퇴근 범위 밖입니다. 안으로 이동 후 출퇴근을 시도해주세요.</span></div>
       </div>
-      <span class="zone__r"></span>
-      <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
-      <!-- 현장은 브랜드 핀이고 나는 **가운데가 찬 점**이다 — 둘이 같은
-           꼴이면 어느 것이 나인지 가려 읽어야 한다. 이름표는 나한테만
-           단다: 가려야 하는 것이 그쪽이다 -->
-      <span class="zone__me"><b class="zone__me__t">내 위치</b></span>
+      <!-- 두 손가락으로 벌리면 커지는 층이다 — **지도에 그려진 것**만
+           여기 든다. 배너와 '새로고침' 은 지도 위에 얹힌 손잡이라 밖에
+           남아 크기가 그대로다 -->
+      <div class="zone__v">
+        <span class="zone__r"></span>
+        <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+        <!-- 현장은 브랜드 핀이고 나는 **가운데가 찬 점**이다 — 둘이 같은
+             꼴이면 어느 것이 나인지 가려 읽어야 한다. 이름표는 나한테만
+             단다: 가려야 하는 것이 그쪽이다 -->
+        <span class="zone__me"><b class="zone__me__t">내 위치</b></span>
+      </div>
       <!-- 자리를 다시 묻는 길 — 걸어서 범위 안으로 들어온 뒤 누른다.
            지도 **바닥 가운데**에 뜬다: 지도가 쥔 값(내 위치)을 고치는
            일이라 지도 위에 서야 하고, 어느 손으로 들어도 엄지가 닿는
@@ -500,8 +505,11 @@
          자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
          지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
     <div class="zone__m" role="img" aria-label="현장 위치와 출퇴근 범위">
-      <span class="zone__r"></span>
-      <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+      <!-- 두 손가락으로 벌리면 커지는 층이다 — 지도에 그려진 것만 여기 든다 -->
+      <div class="zone__v">
+        <span class="zone__r"></span>
+        <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+      </div>
     </div>
   </div>
   </div>

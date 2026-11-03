@@ -21,6 +21,39 @@
             (window.matchMedia && window.matchMedia('(display-mode:standalone)').matches);
   if (app) document.documentElement.classList.add('is-app');
 
+  /* ── 창은 확대하지 않는다 ──
+     앱 셸이라, 핀치로 창을 키우면 틀(100svh)은 그대로인 채 보이는 자리만
+     좁아진다 — 시트가 화면 바닥에서 떨어지고 그 아래로 문서 바탕이
+     드러난다. 실제 앱에서는 일어나지 않는 일이다.
+     막는 자리가 둘인 것은 기기마다 확대가 일어나는 층이 다르기 때문이다:
+     안드로이드(크롬)는 css 의 touch-action 이 잡고, 아이폰(사파리)은
+     그것을 듣지 않아 **제스처 이벤트**를 막아야 한다.
+     ⚠ 지도 안에서도 막는다 — 지도의 확대는 창을 키우는 것이 아니라 지도가
+       제 그림을 키우는 일이라(zoom), 브라우저까지 끼어들면 둘이 겹친다.
+     ⚠ 데스크톱 브라우저의 확대(ctrl + 휠 · ctrl + +)는 그대로 둔다 —
+       글씨를 키워 읽는 길까지 막을 까닭은 없다 */
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (t) {
+    document.addEventListener(t, function (e) { e.preventDefault(); }, { passive: false });
+  });
+  document.addEventListener('touchmove', function (e) {
+    if (e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
+
+  /* ── 끈 뒤에 따라오는 눌림 한 번 ──
+     끌던 손가락은 끌던 것 **밖에서** 떨어진다. 그때 눌린 것으로 치는 자리는
+     누른 데와 뗀 데의 공통 조상 — 시트 위에서는 어두운 자리다. 그대로 두면
+     지도를 끌려다 시트가 닫힌다. 그 한 번만 삼킨다.
+     ⚠ setTimeout(0) 으로 걷으면 안 된다 — 눌림은 손을 뗀 **다음 차례**에
+       오므로 0 짜리 시계가 먼저 돌아 표가 걷힌다 */
+  function swallow() {
+    var kill = function (ev) {
+      ev.stopPropagation(); ev.preventDefault();
+      document.removeEventListener('click', kill, true);
+    };
+    document.addEventListener('click', kill, true);
+    setTimeout(function () { document.removeEventListener('click', kill, true); }, 300);
+  }
+
   function pick() {
     var want = new URL(location.href).searchParams.get('screen');
     var all = document.querySelectorAll('.scr');
@@ -48,6 +81,7 @@
     tally(hit);
     gate(hit);
     grow(hit);
+    zoom(hit);
     wait(hit);
     note(hit);
     terms(hit);
@@ -1075,18 +1109,7 @@
       sheet.classList.remove('is-grab');
       if (!moved) return;
       rest(map.offsetHeight - base > (tall - base) / 3);
-
-      /* ⚠ 끌어 올린 손가락은 **시트 밖에서** 떨어진다. 그때 눌린 것으로
-         치는 자리는 누른 데와 뗀 데의 공통 조상 — 어두운 자리다. 그대로
-         두면 지도를 늘리려다 시트가 닫힌다. 그 한 번만 삼킨다.
-         ⚠ setTimeout(0) 으로 걷으면 안 된다 — 눌림은 손을 뗀 **다음
-           차례**에 오므로 0 짜리 시계가 먼저 돌아 표가 걷힌다 */
-      var kill = function (ev) {
-        ev.stopPropagation(); ev.preventDefault();
-        document.removeEventListener('click', kill, true);
-      };
-      document.addEventListener('click', kill, true);
-      setTimeout(function () { document.removeEventListener('click', kill, true); }, 300);
+      swallow();
     }
 
     /* 끄는 길은 달 넘기기(deck)와 같은 짜임이다 — 손가락은 제 자리에서
@@ -1105,6 +1128,157 @@
     grip.addEventListener('click', function () {
       rest(!sheet.classList.contains('is-tall'));
     });
+  }
+
+
+  /* ── 지도 안에서만 키운다 ──
+     창의 확대는 막아 두었다(맨 위). 그러면 지도까지 같이 막히므로, 키우는
+     일은 지도가 제 손으로 한다 — 창이 아니라 **그림**을 키우는 것이라
+     배너와 '새로고침' 은 크기가 그대로 남는다.
+     값만 여기서 적고(--ap-zone-k · x · y) 모양은 css 가 그린다(.zone__v).
+
+     ⚠ 자리표시자 지도라, 키운다고 더 자세한 그림이 나오지는 않는다.
+       받은 지도와 반경은 앱이 쥔다. */
+  function zoom(scr) {
+    var map = scr.querySelector('.zone__m');
+    var view = map && map.querySelector('.zone__v');
+    if (!view) return;
+
+    var MIN = 1, MAX = 4, STEP = 2;
+    var k = MIN, x = 0, y = 0;
+    /* 손가락이 닿던 때의 값 — 움직이는 동안 **그때를 기준으로 다시 센다**.
+       한 걸음씩 더해 가면 손을 오래 둘수록 어긋난 만큼이 쌓인다 */
+    var k0 = MIN, x0 = 0, y0 = 0, d0 = 1, mx = 0, my = 0;
+    var two = false, one = false, held = false, moved = false, wt = 0;
+
+    function clamp(v) { return Math.max(MIN, Math.min(MAX, v)); }
+    function gap(a, b) {
+      return Math.sqrt(Math.pow(b.clientX - a.clientX, 2) + Math.pow(b.clientY - a.clientY, 2));
+    }
+    function live(on) { map.classList.toggle('is-live', on); }
+
+    /* 키운 그림이 칸보다 작아질 수는 없다 — 끌어도 변 밖이 비치지 않게,
+       움직일 수 있는 만큼을 칸과 배율로 잰다 */
+    function paint() {
+      var r = map.getBoundingClientRect();
+      var wx = r.width * (k - 1) / 2, wy = r.height * (k - 1) / 2;
+      x = Math.max(-wx, Math.min(wx, x));
+      y = Math.max(-wy, Math.min(wy, y));
+      view.style.setProperty('--ap-zone-k', String(k));
+      view.style.setProperty('--ap-zone-x', x + 'px');
+      view.style.setProperty('--ap-zone-y', y + 'px');
+      map.classList.toggle('is-zoom', k > MIN);
+    }
+
+    /* **집은 자리가 그대로 있게** 키운다 — 칸 가운데만 보고 키우면 보려던
+       것이 손가락 밖으로 밀려난다 */
+    function toward(px, py, nk, fk, fx, fy) {
+      var r = map.getBoundingClientRect();
+      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      var f = nk / fk;
+      x = (px - cx) - f * ((mx - cx) - fx);
+      y = (py - cy) - f * ((my - cy) - fy);
+      k = nk;
+      paint();
+    }
+
+    function rest() {
+      if (!two && !one && !held) return;
+      two = one = held = false;
+      live(false);
+      map.classList.remove('is-drag');
+    }
+
+    /* ── 두 손가락 ── */
+    map.addEventListener('touchstart', function (e) {
+      if (e.touches.length > 1) {
+        var a = e.touches[0], b = e.touches[1];
+        two = true; one = false;
+        d0 = gap(a, b) || 1;
+        mx = (a.clientX + b.clientX) / 2; my = (a.clientY + b.clientY) / 2;
+        k0 = k; x0 = x; y0 = y;
+        live(true); map.classList.add('is-drag');
+      } else if (k > MIN) {
+        one = true; two = false; moved = false;
+        mx = e.touches[0].clientX; my = e.touches[0].clientY;
+        x0 = x; y0 = y;
+        live(true); map.classList.add('is-drag');
+      }
+    }, { passive: true });
+
+    map.addEventListener('touchmove', function (e) {
+      if (two && e.touches.length > 1) {
+        var a = e.touches[0], b = e.touches[1];
+        toward((a.clientX + b.clientX) / 2, (a.clientY + b.clientY) / 2,
+               clamp(k0 * (gap(a, b) / d0)), k0, x0, y0);
+      } else if (one && e.touches.length === 1) {
+        x = x0 + (e.touches[0].clientX - mx);
+        y = y0 + (e.touches[0].clientY - my);
+        paint();
+      }
+    }, { passive: true });
+
+    /* 둘 중 하나만 떼면 **끄는 몸짓으로 넘긴다** — 남은 손가락이 멎어
+       버리면 키우다 만 자리에서 손이 묶인다 */
+    map.addEventListener('touchend', function (e) {
+      if (!e.touches.length) { rest(); return; }
+      if (e.touches.length === 1 && k > MIN) {
+        two = false; one = true;
+        mx = e.touches[0].clientX; my = e.touches[0].clientY;
+        x0 = x; y0 = y;
+      }
+    }, { passive: true });
+    map.addEventListener('touchcancel', rest, { passive: true });
+
+    /* ── 마우스로 끌기 — 키운 뒤에만 ──
+       쥐는 동안의 움직임과 떼는 일은 문서가 받는다(시트 손잡이와 같은
+       짜임). 손이 칸 밖으로 나가도 따라오게 하려면 그 수밖에 없다 */
+    map.addEventListener('mousedown', function (e) {
+      if (k <= MIN) return;
+      e.preventDefault();
+      held = true; moved = false;
+      mx = e.clientX; my = e.clientY; x0 = x; y0 = y;
+      live(true); map.classList.add('is-drag');
+    });
+    document.addEventListener('mousemove', function (e) {
+      if (!held) return;
+      if (Math.abs(e.clientX - mx) > 4 || Math.abs(e.clientY - my) > 4) moved = true;
+      x = x0 + (e.clientX - mx);
+      y = y0 + (e.clientY - my);
+      paint();
+    });
+    document.addEventListener('mouseup', function () {
+      if (!held) return;
+      rest();
+      if (moved) swallow();
+    });
+
+    /* 트랙패드로 오므렸다 벌리는 몸짓은 ctrl 을 쥔 휠로 온다. 그냥 휠은
+       건드리지 않는다 — 읽어 내리는 길이다 */
+    map.addEventListener('wheel', function (e) {
+      if (!e.ctrlKey) return;
+      e.preventDefault();
+      live(true);
+      clearTimeout(wt);
+      wt = setTimeout(function () { live(false); }, 120);
+      mx = e.clientX; my = e.clientY;
+      toward(e.clientX, e.clientY, clamp(k * Math.exp(-e.deltaY / 100)), k, x, y);
+    }, { passive: false });
+
+    /* 손가락도 트랙패드도 없는 자리를 위해 — 더블클릭은 한 단계씩이다.
+       끝까지 키운 다음 한 번 더 누르면 처음으로 돌아온다: 되돌아올 길이
+       없으면 키우고 나서 갇힌다 */
+    map.addEventListener('dblclick', function (e) {
+      mx = e.clientX; my = e.clientY;
+      toward(e.clientX, e.clientY, k >= MAX ? MIN : clamp(k * STEP), k, x, y);
+    });
+
+    /* 시트를 펴면 칸이 길어진다 — 움직일 수 있는 만큼이 달라지므로 다시 잰다 */
+    map.addEventListener('transitionend', function (e) {
+      if (e.propertyName === 'height') paint();
+    });
+
+    paint();
   }
 
   function clock(scr) {

@@ -422,7 +422,14 @@
 
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
+/* ── 창은 확대하지 않는다 ──
+   앱 셸이라, 핀치로 창을 키우면 틀(100svh)은 그대로인 채 보이는 자리만
+   좁아진다 — 시트가 화면 바닥에서 떨어지고 그 아래로 문서 바탕이 드러난다.
+   실제 앱에서는 일어나지 않는 일이라 여기서도 막는다.
+   ⚠ 이것만으로는 아이폰이 막히지 않는다. 사파리의 페이지 확대는
+     touch-action 을 듣지 않아 **제스처 이벤트**로 막는다(js 쪽).
+   키워 볼 자리는 지도뿐이고, 그쪽은 제 손으로 키운다(.zone__v) */
+html,body{height:100%;touch-action:pan-x pan-y}
 body{
   font-family:var(--ap-font);
   color:var(--ap-text);background:var(--ap-primary-5);
@@ -1067,12 +1074,51 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    모눈을 깔아 '여기는 지도다' 만 말한다.
    원은 테가 점선이다 — '여기까지' 가 그어 둔 선이 아니라 **재어서 나오는
    범위**라는 말이다 */
-.card--site .row--zone,.zone__m{background:
+.card--site .row--zone,.zone__v{background:
     repeating-linear-gradient(0deg,transparent 0 15px,var(--ap-map-rule) 15px 16px),
     repeating-linear-gradient(90deg,transparent 0 15px,var(--ap-map-rule) 15px 16px),
     var(--ap-map-ground)}
-.zone__m{position:relative;overflow:hidden;
-  display:flex;align-items:center;justify-content:center}
+/* 칸에도 바닥색을 둔다 — 커지는 층이 어떤 값으로든 틀보다 작아지면
+   밑이 비친다 */
+/* 글자는 집히지 않는다 — 더블클릭으로 키우는 자리라, 그대로 두면 키우는
+   대신 이름표가 파랗게 집힌다 */
+.zone__m{position:relative;overflow:hidden;background:var(--ap-map-ground);
+  touch-action:none;-webkit-user-select:none;user-select:none}
+/* ── 지도 안에서 커지는 것과 그 위에 얹힌 것 ──
+   커지는 쪽(.zone__v)은 **지도에 그려진 것**이다 — 바닥 모눈 · 범위 원 ·
+   현장 핀 · 내 위치. 배너와 '새로고침' 은 지도 위에 얹힌 손잡이라 칸의
+   자식으로 남아 크기가 그대로다: 지도를 키운다고 글씨가 같이 커지면
+   읽을 자리가 도리어 좁아진다.
+   값은 js 가 적고(--ap-zone-k · x · y) 모양은 여기서 그린다 — 두 곳에
+   transform 을 적으면 따로 늙는다 */
+.zone__v{position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  transform:translate(var(--ap-zone-x,0px),var(--ap-zone-y,0px)) scale(var(--ap-zone-k,1));
+  transform-origin:50% 50%;
+  transition:transform var(--ap-dur-sheet-out) var(--ap-ease-exit)}
+/* 손끝을 따라오는 동안에는 흐름을 끈다 — 늦게 오면 집은 자리가 어긋난다 */
+.zone__m.is-live .zone__v{transition:none}
+@media (prefers-reduced-motion:reduce){.zone__v{transition:none}}
+/* ── 땅은 커지고 **표시**는 제 크기를 지킨다 ──
+   현장 핀과 내 위치는 땅에 그려진 것이 아니라 자리를 가리키는 기호다.
+   같이 커지면 이름표가 칸을 넘어 잘리고, 가리키는 일도 못 한다 —
+   기기의 지도가 그리는 법이 이것이다. 범위 원은 반대다: 재어서 나오는
+   길이라 땅을 따라 커진다. 테 굵기만 그어 둔 선의 굵기로 남는다.
+   ⚠ 되돌리는 자리를 **가리키는 점**에 맞춘다 — 핀은 제 가운데, 내
+     위치는 점의 가운데(7)다. 어긋나면 키울수록 가리키던 자리에서
+     미끄러진다 */
+.zone__v .zone__p{transform:scale(calc(1 / var(--ap-zone-k,1)))}
+.zone__v .zone__me{transform:scale(calc(1 / var(--ap-zone-k,1)));
+  transform-origin:7px 50%}
+.zone__v .zone__r{border-width:max(.75px,calc(1.5px / var(--ap-zone-k,1)))}
+.zone__v .zone__p,.zone__v .zone__me{
+  transition:transform var(--ap-dur-sheet-out) var(--ap-ease-exit)}
+.zone__m.is-live .zone__p,.zone__m.is-live .zone__me{transition:none}
+@media (prefers-reduced-motion:reduce){
+  .zone__v .zone__p,.zone__v .zone__me{transition:none}}
+/* 키운 뒤에는 끌어서 움직인다 — 손 모양이 그 말을 한다 */
+.zone__m.is-zoom{cursor:grab}
+.zone__m.is-zoom.is-drag{cursor:grabbing}
 .zone__r{position:absolute;border-radius:50%;
   border:1.5px dashed var(--ap-primary);background:var(--ap-zone-fill)}
 .zone__p{position:relative;color:var(--ap-primary)}
