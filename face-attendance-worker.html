@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=637">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=640">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=637"></script>
+<script src="assets/face-attendance-app.js?v=640"></script>
 </head>
 
 <body>
@@ -448,15 +448,16 @@
     <!-- 지도는 '출퇴근 범위 확인하기' 가 여는 것과 같은 자리표시자다.
          다른 것은 **배너와 내 위치**가 더 선다는 것뿐이다 -->
     <div class="zone__m" role="img" aria-label="현장 위치와 출퇴근 범위, 그리고 현재 내 위치">
-      <!-- 조건이 해소될 때까지 남는 인라인 상태 메시지 — 시스템의 배너다
-           (molecules/banner.md). 상태가 넷(info·success·caution·error)이라
-           아이콘으로 가르는데, 여기는 주의(caution)라 세모를 단다.
-           면은 흰색이다: 시스템의 배너는 면을 옅게 물들이는데, 그 면이
-           **지도 위에** 놓이면 밑의 모눈이 비쳐 글이 읽혔다 안 읽혔다
-           한다. 물들이는 몫은 테와 아이콘이 맡는다 -->
-      <div class="bnr bnr--warn" role="status">
-        <svg class="ic ic--16 bnr__i" aria-hidden="true"><use href="#icon-triangle-alert"></use></svg>
-        <div class="bnr__b"><span>출퇴근 범위 밖입니다. 안전 거리로 이동 후 재시도해 주세요</span></div>
+      <!-- 조건이 해소될 때까지 남는 인라인 상태 메시지 — 시스템의
+           배너다(molecules/banner.md). 상태 넷(info·success·caution·error)을
+           아이콘과 색으로 가르는데, 여기는 **주의(caution)** 라 세모와
+           주황을 단다. 면·테·글자·아이콘 크기를 그 문서대로 옮겼다.
+           닫는 버튼은 두지 않는다 — 배너는 조건이 풀릴 때까지 남고,
+           닫히는 것은 Toast 의 성격이다(그 문서의 제약).
+           글은 '원인 + 해결 방법' 한 문장씩이다(같은 문서) -->
+      <div class="bnr bnr--caution" role="status">
+        <svg class="ic bnr__i" aria-hidden="true"><use href="#icon-triangle-alert"></use></svg>
+        <div class="bnr__b"><span>출퇴근 범위 밖입니다. 안전 범위 안으로 이동 후 출퇴근을 시도해주세요</span></div>
       </div>
       <span class="zone__r"></span>
       <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
@@ -464,6 +465,12 @@
            꼴이면 어느 것이 나인지 가려 읽어야 한다. 이름표는 나한테만
            단다: 가려야 하는 것이 그쪽이다 -->
       <span class="zone__me"><b class="zone__me__t">내 위치</b></span>
+      <!-- 자리를 다시 묻는 길 — 걸어서 범위 안으로 들어온 뒤 누른다.
+           지도 **바닥 가운데**에 뜬다: 지도가 쥔 값(내 위치)을 고치는
+           일이라 지도 위에 서야 하고, 어느 손으로 들어도 엄지가 닿는
+           자리가 가운데다.
+           ⚠ 자리를 묻는 길은 아직 없다. 눌러도 그대로다 -->
+      <button class="zone__re" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-refresh"></use></svg>새로고침</button>
     </div>
   </div>
   </div>
