@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=631">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=632">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=631"></script>
+<script src="assets/face-attendance-app.js?v=632"></script>
 </head>
 
 <body>
@@ -788,16 +788,18 @@
 <section class="scr has-dim" data-screen="m-dup-in" data-title="이미 등록된 근로자 — 출근 전"
   data-behind="m-worker-new">
   <div class="dim dim--sheet" data-go="m-worker-new" data-go-self>
-    <div class="alert alert--sheet" role="alertdialog" aria-labelledby="mDupInT">
+    <div class="alert alert--sheet alert--cta alert--cta-in" role="alertdialog" aria-labelledby="mDupInT">
       <div class="sheet__h">
         <p class="sheet__t sheet__t--ask" id="mDupInT">이미 등록된 근로자입니다</p>
         <!-- 닫으면 적던 폼이 그대로 남는다 — 사람을 잘못 골랐을 수도 있다 -->
         <button class="sheet__x" type="button" aria-label="닫기" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
       <div class="alert__bd">
-        <!-- 그림 칸을 **출퇴근 등록 카드 그대로** 둔다 — 그림도 면도 그
-             카드의 것이다(출근 쪽). 여기서 보낼 자리가 그 카드라, 가는 곳을
-             칸 하나가 통째로 미리 보여 준다.
+        <!-- 그림은 **출퇴근 등록 카드 그대로**다(출근 쪽). 여기서 보낼 자리가
+             그 카드라, 가는 곳을 시트가 통째로 미리 보여 준다.
+             ⚠ 면은 **시트가 쥔다**(.alert--cta). 그림 칸에만 깔았더니 시트
+               안에 또 하나의 카드가 들어앉았다 — 근로자 앱의 '얼굴 등록이
+               필요합니다' 가 같은 까닭으로 면을 걷은 자리다.
              꺾쇠(.scan__corner)가 함께 올 수 있는 것도 면이 짙어졌기
              때문이다 — 흰 테에 빛을 번지게 한 그림이라 흰 바탕에서는
              아무것도 서지 않는다 -->
@@ -897,16 +899,18 @@
 <section class="scr has-dim" data-screen="m-dup-out" data-title="이미 등록된 근로자 — 퇴근 전"
   data-behind="m-worker-new">
   <div class="dim dim--sheet" data-go="m-worker-new" data-go-self>
-    <div class="alert alert--sheet" role="alertdialog" aria-labelledby="mDupOutT">
+    <div class="alert alert--sheet alert--cta alert--cta-out" role="alertdialog" aria-labelledby="mDupOutT">
       <div class="sheet__h">
         <p class="sheet__t sheet__t--ask" id="mDupOutT">이미 등록된 근로자입니다</p>
         <!-- 닫으면 적던 폼이 그대로 남는다 — 사람을 잘못 골랐을 수도 있다 -->
         <button class="sheet__x" type="button" aria-label="닫기" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
       <div class="alert__bd">
-        <!-- 그림 칸을 **출퇴근 등록 카드 그대로** 둔다 — 그림도 면도 그
-             카드의 것이다(퇴근 쪽). 여기서 보낼 자리가 그 카드라, 가는 곳을
-             칸 하나가 통째로 미리 보여 준다.
+        <!-- 그림은 **출퇴근 등록 카드 그대로**다(퇴근 쪽). 여기서 보낼 자리가
+             그 카드라, 가는 곳을 시트가 통째로 미리 보여 준다.
+             ⚠ 면은 **시트가 쥔다**(.alert--cta). 그림 칸에만 깔았더니 시트
+               안에 또 하나의 카드가 들어앉았다 — 근로자 앱의 '얼굴 등록이
+               필요합니다' 가 같은 까닭으로 면을 걷은 자리다.
              꺾쇠(.scan__corner)가 함께 올 수 있는 것도 면이 짙어졌기
              때문이다 — 흰 테에 빛을 번지게 한 그림이라 흰 바탕에서는
              아무것도 서지 않는다 -->
