@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=635">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=636">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=635"></script>
+<script src="assets/face-attendance-app.js?v=636"></script>
 </head>
 
 <body>
@@ -432,13 +432,27 @@
   data-behind="w-home">
   <div class="dim dim--sheet" data-go="w-home" data-go-self>
     <div class="sheet" role="alertdialog" aria-labelledby="wAwayT">
+    <!-- 머리줄은 '출퇴근 범위 확인하기' 가 여는 시트와 **글자까지 같다** —
+         같은 지도를 보는 자리라, 머리줄까지 갈라 두면 다른 화면으로 읽힌다.
+         무엇이 잘못되었는지는 지도 안의 배너가 말한다: 못 찍은 까닭은
+         범위에 매인 것이라, 범위를 그린 그림 위에 서야 한다 -->
     <div class="sheet__h">
-      <p class="sheet__t sheet__t--ask" id="wAwayT">출퇴근 범위 밖입니다</p>
+      <p class="sheet__t" id="wAwayT">출퇴근 범위</p>
       <button class="sheet__x" type="button" aria-label="닫기" data-go="w-home"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
     </div>
     <!-- 지도는 '출퇴근 범위 확인하기' 가 여는 것과 같은 자리표시자다.
-         다른 것은 **내 위치**가 하나 더 선다는 것뿐이다 -->
+         다른 것은 **배너와 내 위치**가 더 선다는 것뿐이다 -->
     <div class="zone__m" role="img" aria-label="현장 위치와 출퇴근 범위, 그리고 현재 내 위치">
+      <!-- 조건이 해소될 때까지 남는 인라인 상태 메시지 — 시스템의 배너다
+           (molecules/banner.md). 상태가 넷(info·success·caution·error)이라
+           아이콘으로 가르는데, 여기는 주의(caution)라 세모를 단다.
+           면은 흰색이다: 시스템의 배너는 면을 옅게 물들이는데, 그 면이
+           **지도 위에** 놓이면 밑의 모눈이 비쳐 글이 읽혔다 안 읽혔다
+           한다. 물들이는 몫은 테와 아이콘이 맡는다 -->
+      <div class="bnr bnr--warn" role="status">
+        <svg class="ic ic--16 bnr__i" aria-hidden="true"><use href="#icon-triangle-alert"></use></svg>
+        <div class="bnr__b"><span>출퇴근 범위 밖입니다. 안전 거리로 이동 후 재시도해 주세요</span></div>
+      </div>
       <span class="zone__r"></span>
       <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
       <!-- 현장은 브랜드 핀이고 나는 **가운데가 찬 점**이다 — 둘이 같은
@@ -446,9 +460,6 @@
            단다: 가려야 하는 것이 그쪽이다 -->
       <span class="zone__me"><b class="zone__me__t">내 위치</b></span>
     </div>
-    <!-- 무엇을 해야 하는지를 지도 아래에 적는다 — 머리줄이 '무엇이
-         잘못되었나' 를 말했으니 여기는 '그래서 어떻게 하나' 다 -->
-    <p class="zone__d">범위 안으로 이동해주세요</p>
   </div>
   </div>
 </section>

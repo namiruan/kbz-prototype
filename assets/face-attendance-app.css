@@ -1090,10 +1090,23 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .zone__me__t{font:var(--t-foot-em);letter-spacing:var(--ls-foot);white-space:nowrap;
   padding:var(--ap-p1) var(--ap-p4);border-radius:var(--ap-r-pill);
   background:var(--ap-g95);color:var(--ap-g0)}
-/* 그래서 어떻게 하나 — 지도 아래 한 줄이다. 시트의 아래 여백은 여기가
-   쥔다(지도는 변까지 꽉 차므로 시트에는 아래 여백이 없다) */
-.zone__d{font:var(--t-body);letter-spacing:var(--ls-body);word-break:keep-all;
-  padding:0 var(--ap-p6) var(--ap-p8);text-align:center;color:var(--ap-text)}
+/* 못 찍은 까닭은 **지도 위**에 선다 — 범위에 매인 일이라, 범위를 그린
+   그림을 떠나면 무엇의 밖이라는 말인지 한 번 더 짚어야 한다.
+   위에 두는 것은 아래가 내 위치와 원이 서는 자리이기 때문이다 */
+.zone__m .bnr--warn{position:absolute;left:var(--ap-p5);right:var(--ap-p5);
+  top:var(--ap-p5);z-index:2}
+/* 주의 배너 — 세모와 테가 색을 쥐고 면은 흰색이다. 시스템의 배너처럼
+   면을 옅게 물들이면, 그 면이 지도 위에 놓일 때 밑의 모눈이 비쳐 글이
+   읽혔다 안 읽혔다 한다 */
+/* ⚠ 두 클래스를 겹쳐 짚는다 — .bnr 의 면과 테가 이 파일에서 뒤에 있어,
+   한 클래스로는 그쪽이 이긴다 */
+.bnr.bnr--warn{display:flex;align-items:flex-start;gap:var(--ap-p4);
+  background:var(--ap-g0);border-color:var(--ap-point);
+  box-shadow:var(--ap-shadow-card)}
+.bnr.bnr--warn .bnr__b{color:var(--ap-text)}
+/* 줄이 하나뿐이라 점(•)을 두지 않는다 — 가를 줄이 없다 */
+.bnr--warn .bnr__b > span::before{content:none}
+.bnr__i{flex:none;margin-top:3px;color:var(--ap-point)}
 .card__nm{font:var(--t-title3-em);letter-spacing:var(--ls-title3);flex:1;min-width:0;color:var(--ap-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .card__gr{display:flex;flex-wrap:wrap;gap:var(--ap-p2) var(--ap-p6)}
 .card__kv{flex:1 0 0;min-width:115px;display:flex;align-items:center;gap:var(--ap-p3)}
