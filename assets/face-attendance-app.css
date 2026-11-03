@@ -63,6 +63,8 @@
 
   --ap-g0:#ffffff;                 /* color/light/gray/0 */
   --ap-g5:#f4f5f6;                 /* color/light/gray/5 */
+  --ap-g10:#e6e8ea;                /* color/light/gray/10 · 시스템 surface/neutral —
+                                      '연하지만 면이 구분되어야 하는 중립 배경' */
   --ap-g20:#cdd1d5;                /* color/light/gray/20 · border/gray-subtler */
   --ap-g60:#58616a;                /* color/light/gray/60 — 폼 라벨 */
   --ap-border-selected:#6d7882;    /* color/border/selected — 값을 고른 select */
@@ -2266,12 +2268,15 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 고를 거리가 둘일 때 — 버튼끼리는 바싹 붙인다(gap/xs). 사진과 버튼 사이
    (20)만큼 벌려 두면 둘이 한 묶음으로 읽히지 않는다 */
 .confirm__acts{display:flex;flex-direction:column;gap:var(--ap-gap3);width:100%}
-/* 두 갈래 가운데 덜 주된 쪽 — **중립 면**이다(atoms/button.md 의
-   secondary fill: 최종 결정이 두 갈래일 때 primary fill 의 대안).
-   옅은 회색으로 두면 꺼진 버튼으로 읽혀 고를 거리가 아니게 된다.
-   바로 위 .confirm__ok 다음에 둔다: 특정도가 같아 뒤에 와야 이긴다.
-   gray/90 은 시스템의 fill/neutral 과 **같은 값**이다(#1e2124) */
-.confirm__ok--sub{background:var(--ap-g90)}
+/* 두 갈래 가운데 덜 주된 쪽 — 옅은 중립 면이다. 시스템의
+   surface/neutral(gray/10)이 '연하지만 **면이 구분되어야 하는** 중립
+   배경' 으로 두는 그 값이다.
+   ⚠ 글씨는 **제 색 그대로**(Text/basic) 둔다. 꺼진 버튼으로 읽히게 하는
+     것은 옅은 면이 아니라 바랜 글씨다 — 꺼진 바닥 버튼(.act__b--off)은
+     Text/disabled 를 쓴다. 면만 옅게 하고 글씨를 제 색으로 두면 고를
+     거리로 읽힌다(흰 카드 위에서 글자 대비 9.85:1).
+   바로 위 .confirm__ok 다음에 둔다: 특정도가 같아 뒤에 와야 이긴다 */
+.confirm__ok--sub{background:var(--ap-g10);color:var(--ap-text)}
 
 
 /* 글자와 그림은 퍼지는 면 위에 선다 — 자리를 잡아 두지 않으면 면이 그 위를 덮는다 */
