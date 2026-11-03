@@ -3629,6 +3629,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    굴려 내려야 보이면 안 된다 */
 .vrf{margin-block:auto;display:flex;flex-direction:column;gap:var(--ap-gap6)}
 
+/* 찍은 얼굴과 고르는 줄은 한 덩어리로 **남는 자리 가운데**에 선다. 위에
+   붙여 두었더니 바닥 버튼과의 사이가 통째로 비어, 아직 덜 그린 화면처럼
+   보였다 */
+.vrf{margin-block:auto;display:flex;flex-direction:column;gap:var(--ap-gap6)}
+
 /* ── 근로자를 찾는 시트 ──
    적는 칸은 시트의 좌우 여백 안에 든다(머리줄과 같은 16). 목록만 변까지
    내보내면 적는 칸이 혼자 들어가 보인다 */
@@ -3689,11 +3694,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      작은 제목도 같은 칸에 든다 — 카드만 모으면 그 위의 이름이 저 혼자
      화면 끝에 서서 한 덩어리로 읽히지 않는다 */
   .form,.rows,.note,.shot,.dt,.stmp,.photo,.tcards,.vrf{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
-  /* 사진으로 확인하는 자리는 한 단 더 좁다 — 사진이 정방형이라 폼 폭(560)을
-     그대로 쓰면 키도 560 이 되어 바닥 버튼 밑으로 60 이 잘린다. 굴려서 볼
-     수는 있지만, 이 화면에서 볼 것은 사진 하나라 굴릴 일이 없어야 한다.
+  /* 직접 출근 처리의 덩어리는 한 단 더 좁다 — 폼 폭(560)을 그대로 쓰면
+     덩어리가 화면 가운데에서 너무 벌어진다.
      바로 위 줄 다음에 둔다: 특정도가 같아 뒤에 와야 이긴다 */
   .vrf{max-width:420px}
+  /* ⚠ 사진은 **240 그대로**다. 위 줄의 폼 규칙(width:100%)에 걸려 420 까지
+     자랐었다 — 얼굴을 견주는 데 드는 크기는 화면 폭과 상관이 없다 */
+  .photo--sm{width:240px;max-width:240px}
   .body{padding:var(--ap-p8)}
   /* 머리말 칸은 **본문 여백만큼** 되물린다 — 16 으로 박아 두었더니 여백이
      24 가 되는 이 폭에서 위와 옆에 8 씩 바탕이 남아, 흰 면이 머리줄에서
