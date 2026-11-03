@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=626">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=627">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=626"></script>
+<script src="assets/face-attendance-app.js?v=627"></script>
 </head>
 
 <body>
@@ -1532,9 +1532,14 @@
           <span class="scan__beam"></span>
         </span>
         </span>
+        <!-- 제목이 **무엇이 잘못되었나**를 말하고 나면, 여기는 **그다음에
+             무슨 일이 일어나나**를 말한다 — 등록하러 가면 찍던 일이
+             어떻게 되는지가 이 자리에서 가장 묻고 싶은 것이다.
+             줄은 낱말이 아니라 **마디**에서 끊는다(한 줄에 흘려 두면
+             '등록 후' 뒤에서 접힌다) -->
         <p class="alert__d">
-          <span>먼저 이 근로자의 얼굴을 등록해주세요.</span>
-          <span>등록하지 않으면 출퇴근을 찍을 수 없습니다.</span>
+          <span>근로자 얼굴 등록 후</span>
+          <span>출근처리를 계속 진행할 수 있어요.</span>
         </p>
         <!-- 되돌리는 쪽은 두지 않는다: 닫기(✕)가 이미 오른쪽 위에 있고,
              같은 일을 두 자리에서 할 까닭이 없다 -->
