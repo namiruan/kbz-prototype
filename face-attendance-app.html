@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=629">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=631">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=629"></script>
+<script src="assets/face-attendance-app.js?v=631"></script>
 </head>
 
 <body>
@@ -795,20 +795,92 @@
         <button class="sheet__x" type="button" aria-label="닫기" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
       <div class="alert__bd">
-        <span class="scan__art">
-        <span class="scan scan--alert" aria-hidden="true">
-          <span class="wave"><i></i><i></i><i></i></span>
-          <span class="scan__plate"></span>
-          <svg viewBox="4 12 64 48">
-            <g class="scan__face">
-              <circle cx="24" cy="29" r="4"/>
-              <circle cx="48" cy="29" r="4"/>
-              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
-            </g>
-          </svg>
-          <span class="scan__beam"></span>
-        </span>
-        </span>
+        <!-- 그림 칸을 **출퇴근 등록 카드 그대로** 둔다 — 그림도 면도 그
+             카드의 것이다(출근 쪽). 여기서 보낼 자리가 그 카드라, 가는 곳을
+             칸 하나가 통째로 미리 보여 준다.
+             꺾쇠(.scan__corner)가 함께 올 수 있는 것도 면이 짙어졌기
+             때문이다 — 흰 테에 빛을 번지게 한 그림이라 흰 바탕에서는
+             아무것도 서지 않는다 -->
+<span class="cta__art cta__art--sheet cta__art--in" aria-hidden="true">
+            <!-- 카메라가 잡는 틀 — 네 귀퉁이 꺾쇠다. 사람과 함께 흔들린다:
+                 흔들리는 것은 사람이 아니라 틀을 든 손이다.
+                 테는 한 색이 아니라 밝은 데와 옅은 데가 도는 그라데이션이다
+                 (카메라 인식 화면의 틀과 같은 어법). 두 카드에 같은 그림이
+                 들어가므로 id 는 카드마다 다르게 둔다 — 같으면 뒤의 것이
+                 앞의 것을 가리킨다 -->
+            <svg class="scan__corner" viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="ctaEdgeIn" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#fff" stop-opacity=".7"/>
+                  <stop offset=".28" stop-color="#fff" stop-opacity=".18"/>
+                  <stop offset=".52" stop-color="#fff" stop-opacity=".7"/>
+                  <stop offset=".76" stop-color="#fff" stop-opacity=".18"/>
+                  <stop offset="1" stop-color="#fff" stop-opacity=".7"/>
+                </linearGradient>
+              </defs>
+              <path d="M6 28V12a6 6 0 0 1 6-6h16M72 6h16a6 6 0 0 1 6 6v16M94 72v16a6 6 0 0 1-6 6H72M28 94H12a6 6 0 0 1-6-6V72"/>
+            </svg>
+            <!-- 사람이 뛰노는 자리. 틀 바깥에서 들어오므로 여기서 잘라 준다 —
+                 자르지 않으면 카드 밖까지 비어져 나간다. 꺾쇠는 이 밖에 있어
+                 제 빛이 잘리지 않는다 -->
+            <span class="cta__stage">
+            <span class="scan scan--hat">
+              <span class="wave"><i></i><i></i><i></i></span>
+              <span class="scan__plate"></span>
+              <svg viewBox="4 12 64 48">
+                <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 크고,
+                     동그라미가 아니라 조금 각졌다: 꼭대기는 눌린 듯 평평하고
+                     옆으로 내려오며 꺾여, 챙 바로 위에서 다시 벌어진다.
+                     얼굴 면(지름 54)보다 크다 — 챙까지 치면 67 이다. 챙은 면
+                     한가운데(36)보다 **위**에 걸친다 — 더 내려오면 얼굴의 반을
+                     가져간다. 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
+                     넣은 것이 아니다 -->
+                <g class="scan__hat">
+                  <!-- 껍데기는 둘이다 — 얼굴을 따라간다. 동그란 얼굴에는 동그란
+                       안전모가, 각진 얼굴에는 각진 안전모가 선다 -->
+                  <path class="scan__hat-r" d="M3 29A33 33 0 0 1 69 29Z"/>
+                  <path class="scan__hat-s" d="M3 29 6.5 14Q19 0 36 0 53 0 65.5 14l3.5 15Z"/>
+                  <!-- 골 두 줄과 챙은 둘이 함께 쓴다 — 이것이 있어야 모자가 아니라
+                       **안전모**로 읽힌다 -->
+                  <path class="scan__hat-d" d="M28 4V27M44 4V27"/>
+                  <rect class="scan__hat-b" x="1.5" y="26" width="69" height="6" rx="3"/>
+                </g>
+                <!-- 레이저가 한 번 훑을 때마다 다른 사람이 선다. 사람을 가르는 것은
+                     **면으로 둔 특징(콧수염·앞머리)과 얼굴 생김과 표정**이다 —
+                     가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
+                <!-- ① 기본 -->
+                <g class="scan__f">
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M28 47C31.5 51.5 40.5 51.5 44 47"/>
+                </g>
+                <!-- ② 다문 입 — 수염을 걷은 자리다 -->
+                <g class="scan__f scan__f--2">
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M31 48h10"/>
+                </g>
+                <!-- ③ 점 — 볼에 하나 -->
+                <g class="scan__f scan__f--3">
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M29 48C32 51.5 40 51.5 43 48"/>
+                  <circle cx="51" cy="43" r="2"/>
+                </g>
+                <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
+                <g class="scan__f scan__f--4">
+                  <g class="scan__eyes"><circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/></g>
+                  <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
+                  <path class="scan__smile" d="M31 52C33 54.5 39 54.5 41 52"/>
+                </g>
+                <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
+                <g class="scan__f scan__f--5">
+                  <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
+                  <g class="scan__eyes"><circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/></g>
+                  <path class="scan__smile" d="M28 49C31.5 53.5 40.5 53.5 44 49"/>
+                </g>
+              </svg>
+              <span class="scan__beam"></span>
+            </span>
+            </span>
+          </span>
         <!-- 제목은 **등록이 안 되는 까닭**을 말하고, 여기는 **그래서 지금 할
              일**을 말한다. 이름과 오늘 기록을 적어 두 번 묻지 않게 한다 -->
         <p class="alert__d">
@@ -832,20 +904,112 @@
         <button class="sheet__x" type="button" aria-label="닫기" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
       <div class="alert__bd">
-        <span class="scan__art">
-        <span class="scan scan--alert" aria-hidden="true">
-          <span class="wave"><i></i><i></i><i></i></span>
-          <span class="scan__plate"></span>
-          <svg viewBox="4 12 64 48">
-            <g class="scan__face">
-              <circle cx="24" cy="29" r="4"/>
-              <circle cx="48" cy="29" r="4"/>
-              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
-            </g>
-          </svg>
-          <span class="scan__beam"></span>
-        </span>
-        </span>
+        <!-- 그림 칸을 **출퇴근 등록 카드 그대로** 둔다 — 그림도 면도 그
+             카드의 것이다(퇴근 쪽). 여기서 보낼 자리가 그 카드라, 가는 곳을
+             칸 하나가 통째로 미리 보여 준다.
+             꺾쇠(.scan__corner)가 함께 올 수 있는 것도 면이 짙어졌기
+             때문이다 — 흰 테에 빛을 번지게 한 그림이라 흰 바탕에서는
+             아무것도 서지 않는다 -->
+<span class="cta__art cta__art--sheet cta__art--out" aria-hidden="true">
+            <!-- 카메라가 잡는 틀 — 네 귀퉁이 꺾쇠다. 사람과 함께 흔들린다:
+                 흔들리는 것은 사람이 아니라 틀을 든 손이다.
+                 테는 한 색이 아니라 밝은 데와 옅은 데가 도는 그라데이션이다
+                 (카메라 인식 화면의 틀과 같은 어법). 두 카드에 같은 그림이
+                 들어가므로 id 는 카드마다 다르게 둔다 — 같으면 뒤의 것이
+                 앞의 것을 가리킨다 -->
+            <svg class="scan__corner" viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="ctaEdgeOut" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#fff" stop-opacity=".7"/>
+                  <stop offset=".28" stop-color="#fff" stop-opacity=".18"/>
+                  <stop offset=".52" stop-color="#fff" stop-opacity=".7"/>
+                  <stop offset=".76" stop-color="#fff" stop-opacity=".18"/>
+                  <stop offset="1" stop-color="#fff" stop-opacity=".7"/>
+                </linearGradient>
+              </defs>
+              <path d="M6 28V12a6 6 0 0 1 6-6h16M72 6h16a6 6 0 0 1 6 6v16M94 72v16a6 6 0 0 1-6 6H72M28 94H12a6 6 0 0 1-6-6V72"/>
+            </svg>
+            <!-- 사람이 뛰노는 자리. 틀 바깥에서 들어오므로 여기서 잘라 준다 —
+                 자르지 않으면 카드 밖까지 비어져 나간다. 꺾쇠는 이 밖에 있어
+                 제 빛이 잘리지 않는다 -->
+            <span class="cta__stage">
+            <span class="scan scan--hat">
+              <span class="wave"><i></i><i></i><i></i></span>
+              <span class="scan__plate"></span>
+              <svg viewBox="4 12 64 48">
+                <defs>
+                  <!-- 볼에 도는 기운 — 가운데가 짙고 가장자리로 가며 사라진다.
+                       테를 가진 면으로 두면 볼에 붙인 딱지처럼 보인다 -->
+                  <radialGradient id="ctaBlushOut">
+                    <stop offset="0" stop-color="var(--ap-blush)" stop-opacity=".38"/>
+                    <stop offset=".55" stop-color="var(--ap-blush)" stop-opacity=".17"/>
+                    <stop offset="1" stop-color="var(--ap-blush)" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <!-- 안전모 — 얼굴 **윗동을 통째로 덮는다**. 머리보다 크고,
+                     동그라미가 아니라 조금 각졌다: 꼭대기는 눌린 듯 평평하고
+                     옆으로 내려오며 꺾여, 챙 바로 위에서 다시 벌어진다.
+                     얼굴 면(지름 54)보다 크다 — 챙까지 치면 67 이다. 챙은 면
+                     한가운데(36)보다 **위**에 걸친다 — 더 내려오면 얼굴의 반을
+                     가져간다. 얼굴은 챙 아래로만 보인다 — 쓰고 있는 것이지 머리에 그려
+                     넣은 것이 아니다 -->
+                <g class="scan__hat">
+                  <!-- 껍데기는 둘이다 — 얼굴을 따라간다. 동그란 얼굴에는 동그란
+                       안전모가, 각진 얼굴에는 각진 안전모가 선다 -->
+                  <path class="scan__hat-r" d="M3 29A33 33 0 0 1 69 29Z"/>
+                  <path class="scan__hat-s" d="M3 29 6.5 14Q19 0 36 0 53 0 65.5 14l3.5 15Z"/>
+                  <!-- 골 두 줄과 챙은 둘이 함께 쓴다 — 이것이 있어야 모자가 아니라
+                       **안전모**로 읽힌다 -->
+                  <path class="scan__hat-d" d="M28 4V27M44 4V27"/>
+                  <rect class="scan__hat-b" x="1.5" y="26" width="69" height="6" rx="3"/>
+                </g>
+                <!-- 레이저가 한 번 훑을 때마다 다른 사람이 선다. 사람을 가르는 것은
+                     **면으로 둔 특징(콧수염·앞머리)과 얼굴 생김과 표정**이다 —
+                     가는 획으로 그리면 이 크기에서 뭉개지므로 면으로만 둔다 -->
+                <!-- 퇴근 얼굴은 **일을 마치고 온 얼굴**이다. 출근 쪽과 같은 다섯
+                     사람이되, 입이 덜 펴지고 볼에 기운이 돈다.
+                     ⚠ 땀방울·흙자국·긁힌 자국을 얹어 봤다가 걷었다. 72 짜리
+                       그림에서 그 셋은 '일을 마쳤다' 로 읽히지 않고 **얼룩진
+                       그림**으로 보였다 — 점이나 수염처럼 그 사람의 생김으로
+                       읽히거나, 그리다 만 자국으로 읽혔다 -->
+                <!-- ① 기본 -->
+                <g class="scan__f">
+                  <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M30 48.5h12"/>
+                </g>
+                <!-- ② 다문 입 — 수염을 걷은 자리다 -->
+                <g class="scan__f scan__f--2">
+                  <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M31 48h10"/>
+                </g>
+                <!-- ③ 점 — 볼에 하나 -->
+                <g class="scan__f scan__f--3">
+                  <g class="scan__blush"><circle cx="22" cy="44.5" r="6.4"/><circle cx="50" cy="44.5" r="6.4"/></g>
+                  <g class="scan__eyes"><circle cx="27" cy="39" r="3.2"/><circle cx="45" cy="39" r="3.2"/></g>
+                  <path class="scan__smile" d="M30 48C33 50 39 50 42 48"/>
+                  <circle cx="51" cy="43" r="2"/>
+                </g>
+                <!-- ④ 콧수염 — 코 밑에 눌린 렌즈꼴 면 -->
+                <g class="scan__f scan__f--4">
+                  <g class="scan__blush"><circle cx="22" cy="44" r="6.4"/><circle cx="50" cy="44" r="6.4"/></g>
+                  <g class="scan__eyes"><circle cx="27" cy="38.5" r="3.2"/><circle cx="45" cy="38.5" r="3.2"/></g>
+                  <path d="M25.5 45Q36 39.5 46.5 45 36 49.5 25.5 45Z"/>
+                  <path class="scan__smile" d="M32 52.5h8"/>
+                </g>
+                <!-- ⑤ 앞머리 — 챙 밑으로 물결지며 내려온다. 가운데(36)를 축으로 좌우가 같다 -->
+                <g class="scan__f scan__f--5">
+                  <g class="scan__blush"><circle cx="22" cy="46.5" r="6.4"/><circle cx="50" cy="46.5" r="6.4"/></g>
+                  <path d="M14 31q7.3 11 14.7 3 7.3 10 14.6 0 7.3 8 14.7-3z"/>
+                  <g class="scan__eyes"><circle cx="27" cy="41" r="3.2"/><circle cx="45" cy="41" r="3.2"/></g>
+                  <path class="scan__smile" d="M30 50C33 51.8 39 51.8 42 50"/>
+                </g>
+              </svg>
+              <span class="scan__beam"></span>
+            </span>
+            </span>
+          </span>
         <!-- 제목은 **등록이 안 되는 까닭**을 말하고, 여기는 **그래서 지금 할
              일**을 말한다. 이름과 오늘 기록을 적어 두 번 묻지 않게 한다 -->
         <p class="alert__d">

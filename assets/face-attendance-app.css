@@ -1792,8 +1792,17 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   99.4%{stop-color:#fff}
 }
 .scan__corner stop{animation:ap-corner-ok var(--ap-face-cycle) linear infinite}
-.cta--in .scan__corner{--ap-corner-edge:url(#ctaEdgeIn)}
-.cta--out .scan__corner{--ap-corner-edge:url(#ctaEdgeOut)}
+/* 시트 안에 드는 그림 칸 — 카드에서는 남는 자리를 다 쓰지만(flex:1)
+   여기서는 키를 못 박는다. 196 은 알림창 그림이 쓰던 키다.
+   면도 카드의 것이다: 출근은 브랜드 색, 퇴근은 그 깊은 쪽 — 가는 곳을
+   칸 하나가 통째로 미리 보여 준다.
+   ⚠ container-type:size 는 .cta__art 가 이미 쥐고 있다. 키가 196 이면
+     57cqh 로 그림이 112 가 되고, 꺾쇠는 그 1.7 배(190)가 칸(196) 안에
+     들어 카드에서와 같은 비율로 선다 */
+.cta__art--sheet{flex:none;align-self:stretch;height:196px;background:var(--ap-primary)}
+.cta__art--out{background:var(--ap-primary-90)}
+.cta--in .scan__corner,.cta__art--in .scan__corner{--ap-corner-edge:url(#ctaEdgeIn)}
+.cta--out .scan__corner,.cta__art--out .scan__corner{--ap-corner-edge:url(#ctaEdgeOut)}
 
 /* ── 셀카를 찍을 때처럼 ──
    사람이 바뀌는 그 순간이 가장 흔들린다. 카메라를 막 들었을 때다. 흔들림은
