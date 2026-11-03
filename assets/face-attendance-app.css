@@ -3633,28 +3633,16 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    붙여 두었더니 바닥 버튼과의 사이가 통째로 비어, 아직 덜 그린 화면처럼
    보였다 */
 .vrf{margin-block:auto;display:flex;flex-direction:column;gap:var(--ap-gap6)}
-/* ── 언제로 적힐 것인가 ──
-   사진 **바로 위**에 선다. 사진 안에 얹으면 찍힌 그림의 일부로 읽히는데,
-   이것은 사진에 박힌 값이 아니라 **이제 적힐 값**이다.
-   시각은 js 가 1초마다 고쳐 쓴다(.cta__now): 지금 찍히는 자리라 멎은 수를
-   적어 두면 화면을 열어 둔 동안 거짓이 된다.
-   사진과는 바싹 붙인다(8) — 덩어리의 틈(20)을 그대로 두면 시각이 사진에서
-   떨어져 나와 저 혼자 선다 */
-.vrf__shot{display:flex;flex-direction:column;align-items:center;gap:var(--ap-p4)}
-.vrf__st{display:flex;align-items:center;gap:var(--ap-p3);
-  font:var(--t-foot);letter-spacing:var(--ls-foot);color:var(--ap-text-gray)}
-/* 수는 크고 짙다 — 이 화면에서 **적힐 값**은 둘(누구인가 · 언제)뿐이고,
-   그중 하나다. 자리가 흔들리지 않게 고정폭 숫자로 둔다 */
-.vrf__st b{font:var(--t-title3-em);letter-spacing:var(--ls-title3);
-  color:var(--ap-g95);font-variant-numeric:tabular-nums}
 /* ── 고르기 전의 근로자 카드 ──
    **카드 꼴 그대로** 비워 둔다 — 고른 뒤에 설 것과 같은 자리·같은 크기라,
    고르고 나서 화면이 들썩이지 않는다. 테를 점선으로 긋는 것이 '아직
    채워지지 않았다' 는 말이다(사진 더하는 칸과 같은 어법이다) */
-.card--pick{background:var(--ap-g0);border:1px dashed var(--ap-g20);box-shadow:none}
-/* 채워진 카드는 글이 세 줄이라 위에서부터 쌓이는데, 비어 있을 때는 한 줄
-   뿐이라 그 자리에 두면 위에 떠 보인다 — 가운데에 세운다 */
-.card--pick > .card__bd{justify-content:center}
+.card--pick{border:1px dashed var(--ap-g20);box-shadow:none;
+  align-items:center;justify-content:center;
+  /* 채워진 카드의 키다(실측 205: 이름 25 + 세 줄 45씩 + 여백 16·16).
+     맞춰 두지 않으면 고르는 순간 사진이 74 만큼 뛰어오른다 — 덩어리가
+     남는 자리 가운데에 서기 때문이다 */
+  min-height:205px}
 .card__nm--ph{font:var(--t-body);letter-spacing:var(--ls-body);
   color:var(--ap-text-gray)}
 
