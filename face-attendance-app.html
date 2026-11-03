@@ -1905,8 +1905,8 @@
 <!-- ===== ⑧-4 현장소장 앱 · 직접 출근 처리 =====
      얼굴이 읽히지 않을 때 **사람의 눈이 대신 서는** 자리다. 찍은 얼굴을
      보고, 누구인지 찾아 고르고, 그 자리에서 출퇴근을 등록한다.
-     ⚠ 근로자는 **고른 것이 없다**. 얼굴을 읽지 못해 들어온 자리인데 그
-       사람이 미리 골라져 있으면, 읽지 못했다는 말과 앞뒤가 맞지 않는다.
+     ⚠ 근로자 칸은 **비어 있다**. 얼굴을 읽지 못해 들어온 자리인데 그 사람이
+       미리 골라져 있으면, 읽지 못했다는 말과 앞뒤가 맞지 않는다.
      ⚠ '최초 등록 얼굴 확인' 도 여기서는 없다 — 누구인지 정해지기 전에는
        불러올 얼굴이 없다 -->
 <section class="scr scr--form" data-screen="m-verify" data-title="직접 출근 처리">
@@ -1917,25 +1917,26 @@
 
   <main class="body">
     <!-- 차례는 **찍은 얼굴 · 누구인가 · 등록**이다 — 현장소장이 겪는 차례
-         그대로다. 사진은 한 단 작다(.photo--sm): 폭을 다 쓰면 사진 하나가
-         화면을 거의 다 먹는다.
-         둘은 한 덩어리로 **남는 자리 가운데**에 선다 — 찾는 일이 시트로
-         빠져 본문에 둘뿐이라, 위에 붙여 두면 바닥 버튼과의 사이가 통째로
-         비어 아직 덜 그린 화면처럼 보인다 -->
+         그대로다. 둘은 한 덩어리로 남는 자리 가운데에 선다 -->
     <div class="vrf">
     <div class="photo photo--sm">
       <img src="images/worker/01-shot.jpg" alt="" data-for="shot">
+      <!-- 언제로 적힐 것인지를 **사진 위**에 둔다 — 오른쪽 아래는 '최초 등록
+           얼굴 확인' 이 쓰는 자리라 왼쪽 위다.
+           시각은 js 가 1초마다 고쳐 쓴다(.cta__now) — 지금 찍히는 자리라,
+           멎은 수를 적어 두면 화면을 열어 둔 동안 거짓이 된다 -->
+      <span class="photo__st">등록 시각 <b class="cta__now">07:12:40</b></span>
     </div>
 
-    <form class="form">
-      <div class="fld">
-        <label class="fld__l">근로자 <b>(필수)</b></label>
-        <!-- 찾는 일은 **시트가 맡는다** — 이 줄은 고른 값을 쥐고, 누르면
-             찾는 시트가 올라온다. 꺾쇠가 아니라 돋보기를 다는 것은 목록을
-             펴 훑는 것이 아니라 이름으로 찾기 때문이다 -->
-        <button class="sel" type="button" data-go="m-verify-find"><span class="sel__t">등록할 근로자를 검색해주세요</span><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
-      </div>
-    </form>
+      <!-- 고르기 전의 자리 — **카드 꼴 그대로** 비워 둔다. 고른 뒤에 설
+           것과 같은 자리·같은 크기라, 고르고 나서 화면이 들썩이지 않는다.
+           테를 점선으로 긋는 것은 '아직 채워지지 않았다' 는 말이다 -->
+      <button class="card card--photo card--go card--pick" type="button" data-go="m-verify-find">
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="card__bd">
+          <span class="card__top"><span class="card__nm card__nm--ph">근로자 정보를 선택해주세요</span></span>
+        </span>
+      </button>
     </div>
   </main>
 
@@ -1946,31 +1947,33 @@
 </section>
 
 <!-- ===== ⑧-4-2 현장소장 앱 · 근로자 찾기 =====
-     **바텀시트로 올린다.** 화면을 갈아 끼우면 방금 찍은 얼굴이 사라져
-     기억으로 골라야 한다 — 시트는 뒤가 비쳐 그 얼굴이 남고, 견주면서
-     고를 수 있다.
+     **바텀시트로 올린다.** 화면을 갈아 끼우면 돌아올 자리를 잃는다 —
+     시트는 닫으면 그 자리 그대로다.
+     ⚠ 자판이 서면 **찍은 얼굴은 가린다**(실측: 시트가 127 에서 시작해 사진
+       245~485 를 덮는다). 적는 동안에는 견줄 수 없고, 고르고 나서 다시
+       본다 — 견주는 일은 고른 뒤 화면의 '최초 등록 얼굴 확인' 이 맡는다.
+     ⚠ **자판과 함께 올라온다.** 이 시트가 하는 일은 적어서 찾는 것이라,
+       올라오자마자 적을 수 있어야 한다. 자판 그림은 자판이 **없는
+       기기**(데스크톱)에서만 선다 — 폰·태블릿은 기기가 제 자판을 올리므로
+       그림과 진짜가 겹치면 두 겹이 된다(작업내용 작성과 같은 가름이다).
      적기 전에도 현장의 근로자가 그대로 깔린다 — 이름을 모를 수 있으니
      얼굴로 훑어 찾게 둔다 -->
 <section class="scr has-dim" data-screen="m-verify-find" data-title="근로자 찾기"
   data-behind="m-verify">
-  <div class="dim dim--sheet" data-go="m-verify" data-go-self>
+  <div class="dim dim--sheet dim--kb" data-go="m-verify" data-go-self>
     <div class="sheet" role="dialog" aria-labelledby="mFindT">
       <div class="sheet__h">
         <p class="sheet__t" id="mFindT">근로자 찾기</p>
         <button class="sheet__x" type="button" aria-label="닫기" data-go="m-verify"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
-      <!-- 적는 칸 — 돋보기는 **오른쪽 끝**에 20 으로 선다. 시안의 찾는
-           줄('복사현장 : 현장을 선택해 주세요' 638:7039 쪽)이 그 자리에
-           그 크기로 둔다 -->
+      <!-- 적는 칸 — 돋보기는 **오른쪽 끝**에 20 으로 선다(시안 638:7039 의
+           찾는 줄과 같은 자리·같은 크기). 커서가 들어가 있다 -->
       <div class="find">
-        <div class="inp inp--ph inp--find">이름을 입력해주세요<svg class="ic ic--24" aria-hidden="true"><use href="#icon-search"></use></svg></div>
+        <div class="inp inp--ph inp--find is-on">이름을 입력해주세요<svg class="ic ic--24" aria-hidden="true"><use href="#icon-search"></use></svg></div>
       </div>
-      <!-- 목록은 근로자 관리의 카드를 그대로 쓴다 — 한 앱에서 같은 사람을
-           두 꼴로 보이게 두지 않는다.
-           ⚠ 다른 것은 셋이다. **고르는 네모를 떼고** 줄 전체가 고르는
-             자리가 된다. 앱·PC 뱃지를 뗀다. 그리고 **오른쪽 꺾쇠를 뗀다** —
-             저쪽에서 그것은 '눌러 상세로 들어간다' 는 말인데, 여기서
-             누르면 들어가는 것이 아니라 골라진다.
+      <!-- 목록은 근로자 관리의 카드를 그대로 쓴다. 다른 것은 셋이다 —
+           고르는 네모와 앱·PC 뱃지를 떼고, 오른쪽 꺾쇠도 뗀다(여기서
+           누르면 상세로 들어가는 것이 아니라 골라진다).
            ⚠ **얼굴이 보여야 한다.** 눈으로 사람을 맞추는 자리라, 이름만
              늘어놓으면 이름을 모르는 근로자는 못 찾는다 -->
       <div class="find__list">
@@ -2015,8 +2018,7 @@
               </span>
             </span>
           </button>
-          <!-- 얼굴을 등록하지 않은 근로자도 목록에 둔다 — 얼굴이 없어도
-               현장소장이 아는 사람이면 직접 처리할 수 있어야 한다 -->
+          <!-- 얼굴을 등록하지 않은 근로자도 목록에 둔다 -->
           <button class="card card--photo card--go" type="button" data-go="m-verify-pick">
             <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
             <span class="card__bd">
@@ -2030,13 +2032,24 @@
         </div>
       </div>
     </div>
+    <!-- 자판이 **없는 기기**에서만 선다 — 그 자리가 얼마인지 보여 주는
+         그림이지 누르는 판이 아니다(작업내용 작성이 쓰는 그 그림) -->
+    <div class="kb" aria-hidden="true">
+      <div class="kb__rows">
+        <div class="kb__r"><span class="kb__k">ㅂ</span><span class="kb__k">ㅈ</span><span class="kb__k">ㄷ</span><span class="kb__k">ㄱ</span><span class="kb__k">ㅅ</span><span class="kb__k">ㅛ</span><span class="kb__k">ㅕ</span><span class="kb__k">ㅑ</span><span class="kb__k">ㅐ</span><span class="kb__k">ㅔ</span></div>
+        <div class="kb__r"><span class="kb__k">ㅁ</span><span class="kb__k">ㄴ</span><span class="kb__k">ㅇ</span><span class="kb__k">ㄹ</span><span class="kb__k">ㅎ</span><span class="kb__k">ㅗ</span><span class="kb__k">ㅓ</span><span class="kb__k">ㅏ</span><span class="kb__k">ㅣ</span></div>
+        <div class="kb__r"><span class="kb__k kb__k--fn kb__k--w15">⇧</span><span class="kb__k">ㅋ</span><span class="kb__k">ㅌ</span><span class="kb__k">ㅊ</span><span class="kb__k">ㅍ</span><span class="kb__k">ㅠ</span><span class="kb__k">ㅜ</span><span class="kb__k">ㅡ</span><span class="kb__k kb__k--fn kb__k--w15">⌫</span></div>
+        <div class="kb__r"><span class="kb__k kb__k--fn">!#1</span><span class="kb__k kb__k--fn">한/영</span><span class="kb__k kb__k--sp"></span><span class="kb__k">.</span><span class="kb__k kb__k--fn">완료</span></div>
+      </div>
+      <div class="kb__home"><i></i></div>
+    </div>
   </div>
 </section>
 
 <!-- ===== ⑧-4-3 현장소장 앱 · 직접 출근 처리(근로자를 고른 뒤) =====
      근로자가 정해지자 **견줄 상대가 생긴다** — 그제야 '최초 등록 얼굴 확인'
      이 사진 위에 서고, 바닥 버튼이 켜진다.
-     ⚠ 위 화면과 **세 군데만 다르다**: 사진 위의 버튼 · 고른 줄의 값 · 바닥
+     ⚠ 위 화면과 **세 군데만 다르다**: 사진 위의 버튼 · 근로자 카드 · 바닥
        버튼. 고칠 때는 두 장을 같이 고친다 -->
 <section class="scr scr--form" data-screen="m-verify-pick" data-title="직접 출근 처리 — 근로자를 고른 뒤">
   <header class="nav">
@@ -2046,37 +2059,41 @@
 
   <main class="body">
     <!-- 차례는 **찍은 얼굴 · 누구인가 · 등록**이다 — 현장소장이 겪는 차례
-         그대로다. 사진은 한 단 작다(.photo--sm): 폭을 다 쓰면 사진 하나가
-         화면을 거의 다 먹는다.
-         둘은 한 덩어리로 **남는 자리 가운데**에 선다 — 찾는 일이 시트로
-         빠져 본문에 둘뿐이라, 위에 붙여 두면 바닥 버튼과의 사이가 통째로
-         비어 아직 덜 그린 화면처럼 보인다 -->
+         그대로다. 둘은 한 덩어리로 남는 자리 가운데에 선다 -->
     <div class="vrf">
     <div class="photo photo--sm">
       <img src="images/worker/01-shot.jpg" alt="" data-for="shot">
+      <!-- 언제로 적힐 것인지를 **사진 위**에 둔다 — 오른쪽 아래는 '최초 등록
+           얼굴 확인' 이 쓰는 자리라 왼쪽 위다.
+           시각은 js 가 1초마다 고쳐 쓴다(.cta__now) — 지금 찍히는 자리라,
+           멎은 수를 적어 두면 화면을 열어 둔 동안 거짓이 된다 -->
+      <span class="photo__st">등록 시각 <b class="cta__now">07:12:40</b></span>
       <!-- ⚠ 두 장은 같은 사람의 다른 한 장이다(images/worker/README.md) -->
       <img src="images/worker/01.jpg" alt="" data-for="reg">
       <button class="photo__b photo__ref" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-show"></use></svg><b>최초 등록 얼굴 확인</b></button>
-      <!-- 들어간 버튼이 섰던 그 자리다 -->
       <button class="photo__b photo__back" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-back"></use></svg><b>돌아가기</b></button>
     </div>
 
-    <form class="form">
-      <div class="fld">
-        <label class="fld__l">근로자 <b>(필수)</b></label>
-        <!-- 찾는 일은 **시트가 맡는다** — 이 줄은 고른 값을 쥐고, 누르면
-             찾는 시트가 올라온다. 꺾쇠가 아니라 돋보기를 다는 것은 목록을
-             펴 훑는 것이 아니라 이름으로 찾기 때문이다 -->
-        <button class="sel sel--selected" type="button" data-go="m-verify-find"><span class="sel__t">홍길동 · 형틀목공</span><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
-      </div>
-    </form>
+      <!-- 고른 뒤 — 찾는 시트에서 보던 그 카드가 그대로 앉는다. 다시
+           누르면 시트가 올라온다(잘못 골랐을 때의 길이다) -->
+      <button class="card card--photo card--go" type="button" data-go="m-verify-find">
+        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
+        <span class="card__bd">
+          <span class="card__top"><span class="card__nm">홍길동</span></span>
+          <span class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+          </span>
+        </span>
+      </button>
     </div>
   </main>
 
   <!-- 이름이 **두 몫**을 적는다 — '이 근로자로' 가 고른 사람이 맞다는
        서명이고, '출근 등록하기' 가 그 길로 일어나는 일이다.
-       ⚠ '출근' 은 **찍는 모드를 따른다**. 퇴근 모드로 찍는 중이면 머리줄과
-         이 버튼이 퇴근이다 — 짝을 두지 않고 화면설명의 볼것이 적는다 -->
+       ⚠ '출근' 은 **찍는 모드를 따른다**. 퇴근 모드로 찍는 중이면 머리줄 ·
+         이 버튼 · 사진 위의 시각표가 모두 퇴근이다 — 짝을 두지 않고
+         화면설명의 볼것이 적는다 -->
   <div class="act act--end">
     <button class="act__b act__b--on" type="button" data-go="m-cam-ok">이 근로자로 출근 등록하기</button>
   </div>
