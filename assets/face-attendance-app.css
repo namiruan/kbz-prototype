@@ -1153,6 +1153,16 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    줄 간격(12)이 그대로 쌓이면 제목이 32 아래로 밀린다. 그 가운데 20 을
    되물려, 늘어나는 것은 줄 간격 12 뿐이다 */
 .sheet--grow .sheet__h{margin-top:calc(var(--ap-p7) * -1)}
+/* ── 끄는 자리는 손잡이 하나가 아니다 ──
+   20 짜리 줄만 받으면 손가락이 자꾸 빗나간다 — 헤더까지 받아 76 으로
+   넓힌다. 손잡이는 그대로 둔다: **쓸 수 있다는 말**을 하는 것은 여전히
+   그 막대라, 넓힌 자리는 눈에 보이지 않아도 된다.
+   ⚠ 닫기(✕)만 뺀다 — 거기서 시작한 몸짓은 닫으려던 것이지 늘리려던 것이
+     아니다. 손 모양도 거기서는 그대로 둔다 */
+.sheet--grow .sheet__h{touch-action:none;cursor:grab}
+.sheet--grow .sheet__h .sheet__x{cursor:pointer}
+.sheet--grow.is-grab .sheet__grip,
+.sheet--grow.is-grab .sheet__h{cursor:grabbing}
 .zone__m .zone__r{width:calc(var(--ap-zone-r) * 2);height:calc(var(--ap-zone-r) * 2)}
 .zone__m .zone__p{width:24px;height:24px}
 /* ── 내 위치 ──

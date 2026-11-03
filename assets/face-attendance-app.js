@@ -1112,14 +1112,37 @@
       swallow();
     }
 
+    /* ── 끄는 자리는 손잡이 하나가 아니다 ──
+       20 짜리 줄만 받으면 손가락이 자꾸 빗나간다 — 헤더까지 받아 76 으로
+       넓힌다. 눈에 보이는 손잡이는 그대로 둔다: **쓸 수 있다는 말**을
+       하는 것은 여전히 그 막대다.
+       ⚠ 닫기(✕)에서 시작한 몸짓은 받지 않는다 — 닫으려던 것이지 늘리려던
+         것이 아니다 */
+    var grab = [grip];
+    var head = sheet.querySelector('.sheet__h');
+    if (head) grab.push(head);
+    function mine(e) {
+      var t = e.target;
+      return !(t && t.closest && t.closest('.sheet__x'));
+    }
+
     /* 끄는 길은 달 넘기기(deck)와 같은 짜임이다 — 손가락은 제 자리에서
        받고, 쥐는 동안의 움직임과 떼는 일은 문서가 받는다. 손이 틀 밖으로
-       나가도 따라오게 하려면 그 수밖에 없다 */
-    grip.addEventListener('touchstart', function (e) { start(e.touches[0].clientY); }, { passive: true });
-    grip.addEventListener('touchmove', function (e) { pull(e.touches[0].clientY); }, { passive: true });
-    grip.addEventListener('touchend', drop, { passive: true });
-    grip.addEventListener('touchcancel', drop, { passive: true });
-    grip.addEventListener('mousedown', function (e) { e.preventDefault(); start(e.clientY); });
+       나가도 따라오게 하려면 그 수밖에 없다.
+       손가락 쪽은 문서까지 갈 것이 없다 — 닿은 자리를 떠나도 touchmove 는
+       **처음 닿은 요소**로 계속 온다 */
+    grab.forEach(function (g) {
+      g.addEventListener('touchstart', function (e) {
+        if (mine(e)) start(e.touches[0].clientY);
+      }, { passive: true });
+      g.addEventListener('touchmove', function (e) { pull(e.touches[0].clientY); }, { passive: true });
+      g.addEventListener('touchend', drop, { passive: true });
+      g.addEventListener('touchcancel', drop, { passive: true });
+      g.addEventListener('mousedown', function (e) {
+        if (!mine(e)) return;
+        e.preventDefault(); start(e.clientY);
+      });
+    });
     document.addEventListener('mousemove', function (e) { pull(e.clientY); });
     document.addEventListener('mouseup', drop);
 
