@@ -118,7 +118,7 @@
     ['shot', /^[wm]-shot$/],      /* 촬영 확인 — 사진 위에 덮인 창 */
     ['dim',  /^w-(map|face|away)$/], /* 뜬 창 뒤의 어두운 자리 */
     /* 같은 막이지만 뒤가 **흰 폼**이라 한 단 밝다 — 'nav' 보다 앞에 둔다 */
-    ['dimform', /^m-dup-/],
+    ['dimform', /^(m-dup-|m-verify-find)/],
     ['nav',  /^(w-(work|reg|cal)|m-)/] /* 흰 머리줄 · 펴진 달 */
   ];
 
