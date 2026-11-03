@@ -2568,7 +2568,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .cardb__ib{background:var(--ap-on-cta-chip)}
 .cardb__i{color:var(--ap-g0)}
 /* 한 발 물러선 꼴 — 오늘 해야 할 일이 아니라 **필요하면 가는 길**이다
-   (하루가 닫힌 뒤의 '퇴근 시간 변경'). 면은 흰색으로 돌리고 글과 표는
+   (하루가 닫힌 뒤의 '퇴근 시간 변경 요청'). 면은 흰색으로 돌리고 글과 표는
    현장 카드의 '출퇴근 범위 확인하기' 와 같은 색을 쓴다. 꺾쇠도 밀지
    않는다 — 미는 표는 '지금 여기' 라고 말하는 그림이다 */
 .cardb--quiet{background:var(--ap-g0)}

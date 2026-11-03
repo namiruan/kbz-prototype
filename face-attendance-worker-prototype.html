@@ -88,9 +88,9 @@
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-out"
         data-why="하루가 끝난 상태입니다.
 
-기록된 시각이 잘못되었을 때 고치는 버튼만 남습니다."
+기록된 시각이 잘못되었을 때 쓰는 버튼만 남습니다. 근로자가 고치는 것이 아니라 요청입니다 — 위치 따위를 다시 인증하고 나면 현장소장에게 넘어갑니다. 그래서 이름이 '변경' 이 아니라 '변경 요청' 입니다."
         data-steps="퇴근 인증까지 끝나 홈으로 돌아온 상태"
-        data-look="@{.tcards} 출근과 퇴근 모두 시각 아래에 인증 경로가 함께 표시됩니다|@{.cardb--quiet} 아래쪽의 '퇴근 시간 변경' 은 화살표가 움직이지 않습니다. 지금 하라고 권하는 기능이 아니기 때문입니다">퇴근 완료</button>
+        data-look="@{.tcards} 출근과 퇴근 모두 시각 아래에 인증 경로가 함께 표시됩니다|@{.cardb--quiet} 아래쪽의 '퇴근 시간 변경 요청' 은 화살표가 움직이지 않습니다. 지금 하라고 권하는 기능이 아니기 때문입니다">퇴근 완료</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">익일 퇴근</span>
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-over-today"
         data-why="이전 근무를 닫지 못한 채 날짜가 바뀌었을 때 화면입니다.
@@ -109,7 +109,7 @@
 
 익일 퇴근인 경우 출근일 기준 날짜에 퇴근 시각이 함께 표기됩니다."
         data-steps="22:00에 출근해 다음 날 06:10에 퇴근한 날짜를 열어 본 상태"
-        data-look="@{.tcards .tcard:last-child .tcard__k} 퇴근 카드의 이름이 &#39;익일 퇴근&#39; 입니다. 날을 넘겼다는 것은 이름이 알려 주고, 시각에는 수만 적힙니다|@{.cal__n--on} 점은 출근한 날에만 찍힙니다. 퇴근만 걸친 날에 또 찍으면 이틀 일한 것으로 읽힙니다|@{.cardb--quiet} 출근과 퇴근이 모두 찍힌 날이라 &#39;퇴근 시간 변경&#39; 만 할 수 있습니다">퇴근 완료</button>
+        data-look="@{.tcards .tcard:last-child .tcard__k} 퇴근 카드의 이름이 &#39;익일 퇴근&#39; 입니다. 날을 넘겼다는 것은 이름이 알려 주고, 시각에는 수만 적힙니다|@{.cal__n--on} 점은 출근한 날에만 찍힙니다. 퇴근만 걸친 날에 또 찍으면 이틀 일한 것으로 읽힙니다|@{.cardb--quiet} 출근과 퇴근이 모두 찍힌 날이라 &#39;퇴근 시간 변경 요청&#39; 만 할 수 있습니다">퇴근 완료</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">날짜 옮기기</span>
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cal"
         data-why="주간 띠에는 한 달치 날짜만 들어 있습니다. 다른 달로 가려면 이 화면에서 고릅니다.
@@ -120,9 +120,9 @@
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-home-past"
         data-why="지난 날짜의 기록을 확인하는 화면입니다.
 
-지난 날짜에는 인증할 것이 없습니다. 오늘로 돌아가는 '오늘' 버튼과 '퇴근 시간 변경' 버튼만 둡니다."
+지난 날짜에는 인증할 것이 없습니다. 오늘로 돌아가는 '오늘' 버튼과 '퇴근 시간 변경 요청' 버튼만 둡니다."
         data-steps="주간 달력에서 지난 날짜를 클릭한 상태"
-        data-look="@{.pill--today} '오늘' 이 흰 면에 짙은 글자로 켜집니다. 클릭하면 오늘 날짜로 이동합니다. 오늘을 선택한 화면에서는 disabled 상태가 됩니다|@{.cardb--quiet} 지난 날짜에서 할 수 있는 것은 '퇴근 시간 변경' 뿐입니다">지난 날 보기</button>
+        data-look="@{.pill--today} '오늘' 이 흰 면에 짙은 글자로 켜집니다. 클릭하면 오늘 날짜로 이동합니다. 오늘을 선택한 화면에서는 disabled 상태가 됩니다|@{.cardb--quiet} 지난 날짜에서 할 수 있는 것은 '퇴근 시간 변경 요청' 뿐입니다">지난 날 보기</button>
       <span class="proto-nav-group-label">근로자 앱 · 얼굴 등록</span>
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-face"
         data-why="얼굴 인증을 쓰는 현장인데 이 현장에 등록된 얼굴이 없는 경우입니다.
