@@ -473,6 +473,9 @@ html{--ap-edge:var(--ap-primary-5)}
 html.edge--nav{--ap-edge:var(--ap-g0)}
 /* 사진의 윗단과 그 위에 덮인 창의 윗단 — 둘 다 재서 적었다 */
 html.edge--cam{--ap-edge:#3c4043}
+/* 카메라 위에 시트가 올라온 자리 — 같은 카메라지만 어두운 막이 한 겹
+   덮여 한참 짙다(390 폭 맨 윗줄 실측: 카메라 60,64,67 → 여기 41,44,46) */
+html.edge--camdim{--ap-edge:#292c2e}
 html.edge--dim{--ap-edge:#8c8f94}
 html.edge--shot{--ap-edge:#393a3b}
 html,body{background:var(--ap-edge)}
@@ -2944,18 +2947,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    틀에 붙어 선다. 위아래 12 씩 둘러 짚을 자리를 46 으로 만든다 */
 .cam__under{position:absolute;left:0;right:0;top:calc(24% + 42% + var(--ap-p6));z-index:2;
   display:flex;flex-direction:column;align-items:center}
-/* 미등록 근로자일 때 서는 **하나뿐인 면 가진 버튼**이다. 자리는 틀 바로
-   아래, 끝내는 길보다 위다 — 여기서 할 일은 끝내는 것이 아니라 등록이다.
-   꼴은 근로자 앱 카메라의 바닥 버튼(.cam__go)과 같다: 키 56 에 브랜드 면,
-   글은 바닥 바와 같은 칸(22). 두 앱에서 '지금 눌러야 하는 것' 이 같은
-   모양으로 선다. 다만 이쪽은 줄 안에 서므로 자리를 띄우지 않는다.
-   ⚠ 이 버튼이 드는 만큼(62) 아래의 것들이 내려간다. 360 에서 센 수와
-     바닥 줄 사이가 13 으로 남고, 320 에서는 8 이 겹친다 — 320 은 시안의
-     가장 좁은 폭(sm 390) 아래라 중단점을 더하지 않는다 */
-.cam__add{cursor:pointer;font:var(--t-title2);letter-spacing:var(--ls-title2);
-  display:inline-flex;align-items:center;justify-content:center;gap:var(--ap-p3);
-  height:var(--ap-cam-go-h);padding:0 var(--ap-p8);margin-bottom:var(--ap-p3);
-  border-radius:var(--ap-r10);background:var(--ap-primary);color:var(--ap-g0)}
 .cam__stop{font:var(--t-head);letter-spacing:var(--ls-head);
   padding:var(--ap-p5) 0;
   display:flex;align-items:center;justify-content:center;gap:var(--ap-p3);

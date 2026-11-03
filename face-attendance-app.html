@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=625">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=626">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=625"></script>
+<script src="assets/face-attendance-app.js?v=626"></script>
 </head>
 
 <body>
@@ -1499,62 +1499,49 @@
 
 </section>
 
-<!-- ===== ⑧-2 현장소장 앱 · 인식 결과 — 미등록 근로자 (앱 네이티브) =====
-     현장에 막 온 근로자는 얼굴이 아직 없다. 줄을 세워 둔 채 등록까지
-     마치도록, 읽지 못했다고 알리고 **그 자리에서 등록 화면으로 보낸다** —
-     '나중에 등록하세요' 로 끝내면 그 사람은 오늘 하루를 못 찍는다 -->
-<section class="scr" data-screen="m-cam-new" data-title="인식 결과 — 미등록 근로자">
-  <div class="cam">
-    <button class="cam__back" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <!-- 무엇을 찍는 중인지를 틀 위에 붙인다 — 근로자 앱과 같은 자리·같은 꼴이다.
-         저쪽은 '누구' 를 적고(제 얼굴 하나뿐이라), 이쪽은 '무엇' 을 적는다 -->
-    <p class="cam__who">근로자 출근 등록</p>
-    <div class="cam__box cam__box--fail"></div>
-    <!-- 머리말은 한 줄에 든다 — 글이 틀 위에서 **위로 자라** 두 줄이 되면
-         이름표를 덮는다. '등록된 얼굴이 아닙니다' 는 28 에서 320 쯤이라
-         360 폭 기기에서 접힌다(쓸 수 있는 폭이 312). 이름씨로 끊고 나머지는
-         아랫줄이 받는다 — 근로자 앱의 '얼굴 인증 실패' 와 같은 꼴이다 -->
-    <p class="cam__t cam__t--fail">등록되지 않은 얼굴<span class="cam__sub">이 근로자를 먼저 등록해주세요</span></p>
-    <!-- 틀 아래에 둘이 세로로 선다 — 끝내는 길이 먼저고, 지금까지 몇을
-         찍었는지가 그 아래다 -->
-    <div class="cam__under">
-      <!-- 여기서 할 일은 **등록**이다 — 틀 바로 아래, 끝내는 길보다 위에
-           둔다. 면을 가진 버튼은 이 화면에서 이것 하나다 -->
-      <button class="cam__add" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
-      <!-- 끝내는 쪽은 글자만으로 — 촬영 확인의 '다시 촬영하기' 와 같은 결이다 -->
-      <span class="cam__stop"><svg class="ic" aria-hidden="true"><use href="#icon-close"></use></svg><b>등록 종료하기</b></span>
-      <!-- 한 번 열면 줄 선 사람을 이어서 찍는다. 몇 사람째인지는 찍는 사람만
-           아는 수라 끝내는 길 바로 아래에 둔다 — 틀에서 눈을 떼면 먼저 지나는
-           자리다. 시스템의 Tooltip 패널(atoms/tooltip.md)이되 늘 떠 있는
-           pinned 꼴이다: 폰에는 호버가 없고, 이 수는 물어봐야 나오는 설명이
-           아니라 계속 바뀌는 값이다. 라벨은 한 겹 죽이고 수만 흰색으로
-           세운다(tokens/color 의 text-inverse-alpha ↔ text-inverse) -->
-      <p class="cam__tip" role="status">지금까지 <b>2명</b> 등록 완료</p>
-    </div>
-    <!-- 바닥은 왼쪽이 '무엇을 찍는 중인가', 오른쪽이 '어느 렌즈로 찍는가'다
-         — 둘 다 찍는 일 자체를 바꾸는 손잡이라 한 줄에 두고, 가운데는 비운다 -->
-    <div class="cam__foot">
-      <!-- 출퇴근 등록 바닥에 선 그 토글이다 — 찍는 중에도 모드를 바꾼다 -->
-      <div class="mode mode--cam" role="group" aria-label="등록 모드">
-        <span class="mode__p" aria-hidden="true"></span>
-        <button class="mode__b is-on" type="button" data-mode="in" aria-pressed="true">출근</button>
-        <button class="mode__b" type="button" data-mode="out" aria-pressed="false">퇴근</button>
+<!-- ===== ⑧-2 현장소장 앱 · 미등록 근로자 (앱 네이티브) =====
+     현장에 막 온 근로자는 얼굴이 아직 없다. 읽지 못했다고 알리고 끝내면
+     그 사람은 오늘 하루를 못 찍는다 — 줄을 세워 둔 채 등록까지 마치도록
+     **그 자리에서 등록 화면으로 보낸다**.
+     ⚠ 화면을 갈아 끼우지 않고 **카메라 위로 시트가 올라온다**. 갈아 끼우면
+       줄 선 사람들 앞에서 카메라가 한 번 닫혔다 열리고, 찍던 자리로
+       돌아왔는지도 눈으로 가릴 수 없다. 시트는 뒤가 비쳐 '찍던 중' 이
+       그대로 남는다 — 근로자 앱의 '얼굴 등록이 필요합니다' 가 쓰는 그
+       꼴이다(두 앱에서 같은 말을 같은 모양으로 한다) -->
+<section class="scr has-dim" data-screen="m-cam-new" data-title="미등록 근로자"
+  data-behind="m-cam">
+  <div class="dim dim--sheet" data-go="m-cam" data-go-self>
+    <div class="alert alert--sheet" role="alertdialog" aria-labelledby="mNewT">
+      <div class="sheet__h">
+        <p class="sheet__t sheet__t--ask" id="mNewT">등록되지 않은 얼굴입니다</p>
+        <!-- 닫는 자리는 오른쪽 위다 — 닫으면 찍던 카메라가 그대로 남는다 -->
+        <button class="sheet__x" type="button" aria-label="닫기" data-go="m-cam"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
-      <!-- 앞뒤 렌즈를 바꾼다. 시스템 스프라이트에 없는 그림이라 이 자리에서만
-           그린다(얼굴을 훑는 .scan 과 같은 까닭이다) — 도는 화살표 둘이다 -->
-      <button class="camsw" type="button" aria-label="카메라 전환">
-        <svg class="swic" viewBox="0 0 24 24" aria-hidden="true"
-          fill="none" stroke="currentColor" stroke-width="2.2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <path d="M7.18 6.26A7.5 7.5 0 0 1 19.47 11.35"/>
-          <path d="M16.82 17.74A7.5 7.5 0 0 1 4.53 12.65"/>
-          <path d="M19.71 14.14 16.5 10.7 22.28 10.2Z" fill="currentColor" stroke-width=".8"/>
-          <path d="M4.29 9.86 7.5 13.3 1.72 13.8Z" fill="currentColor" stroke-width=".8"/>
-        </svg>
-      </button>
+      <div class="alert__bd">
+        <span class="scan__art">
+        <span class="scan scan--alert" aria-hidden="true">
+          <span class="wave"><i></i><i></i><i></i></span>
+          <span class="scan__plate"></span>
+          <svg viewBox="4 12 64 48">
+            <g class="scan__face">
+              <circle cx="24" cy="29" r="4"/>
+              <circle cx="48" cy="29" r="4"/>
+              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
+            </g>
+          </svg>
+          <span class="scan__beam"></span>
+        </span>
+        </span>
+        <p class="alert__d">
+          <span>먼저 이 근로자의 얼굴을 등록해주세요.</span>
+          <span>등록하지 않으면 출퇴근을 찍을 수 없습니다.</span>
+        </p>
+        <!-- 되돌리는 쪽은 두지 않는다: 닫기(✕)가 이미 오른쪽 위에 있고,
+             같은 일을 두 자리에서 할 까닭이 없다 -->
+        <button class="scan__go" type="button" data-go="m-worker-new" data-go-now>근로자 얼굴 등록</button>
+      </div>
     </div>
   </div>
-
 </section>
 
 
