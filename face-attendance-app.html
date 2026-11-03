@@ -1814,7 +1814,7 @@
   <div class="dim dim--sheet" data-go="m-cam" data-go-self>
     <div class="alert alert--sheet alert--caution" role="alertdialog" aria-labelledby="mFailT">
       <div class="sheet__h">
-        <p class="sheet__t" id="mFailT">얼굴을 확인하지 못했습니다</p>
+        <p class="sheet__t" id="mFailT">얼굴이 잘 인식되지 않나요?</p>
         <!-- 닫는 자리는 오른쪽 위다 — 닫으면 찍던 카메라가 그대로 남아
              한 번 더 대 볼 수 있다 -->
         <button class="sheet__x" type="button" aria-label="닫기" data-go="m-cam"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
@@ -1876,11 +1876,16 @@
             </span>
             </span>
           </span>
-        <!-- 제목이 **무엇이 잘못되었나**를 말하고 나면, 여기는 **그다음에
-             무슨 일이 일어나나**를 말한다. 까닭을 먼저 적는 것은 '내 얼굴이
-             지워졌나' 를 가장 먼저 묻기 때문이다 — 등록은 그대로 있다 -->
+        <!-- 제목이 묻고 나면, 여기가 답한다 — **한 줄이다**.
+             형제 시트는 두 줄이다: 첫 줄이 '지금 무슨 상태인가', 둘째 줄이
+             '그래서 할 수 있는 일' 이다('홍길동님은 오늘 출근 기록이
+             없습니다.' + '바로 출근을 등록할 수 있어요.'). 여기서는 **제목이
+             물음꼴이라 첫 줄의 몫을 가져갔다** — 그 자리를 본문에 또 만들면
+             같은 말이 위아래로 선다.
+             ⚠ 못 읽은 **까닭은 적지 않는다**. 통신이든 빛이든 각도든 그때그때
+               다른데 하나를 집어 적으면 그것이 아닌 날에는 틀린 말이 되고,
+               현장소장이 고칠 수 있는 것도 아니다 -->
         <p class="alert__d">
-          <span>통신 상태 등으로 확인이 되지 않습니다.</span>
           <span>사진을 찍어 본인 확인으로 처리할 수 있어요.</span>
         </p>
         <button class="scan__go" type="button" data-go="m-verify" data-go-now>사진으로 확인하기</button>
