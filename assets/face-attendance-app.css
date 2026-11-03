@@ -3488,10 +3488,18 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    쓰는 그 면이라, 한 앱에서 '주의' 가 한 가지 색으로 선다 */
 .alert--sheet.alert--caution{
   background:radial-gradient(circle at 50% 40%,var(--ap-g0) 0,var(--ap-caution-face) 72%)}
-/* 제목도 버튼도 **중립색**이다. 브랜드 색은 이 앱에서 '이리로 가자' 는
-   말이라, 막혔다고 알리는 시트가 그 색을 쓰면 묻는 말과 면이 서로 다른
-   말을 한다 — 제목은 제 색(Text/static)으로 두고, 버튼은 시스템의
-   fill/neutral(gray/90)을 깐다 */
+/* 제목은 **경고색**이다 — 면과 틀이 이미 그 색으로 서 있어, 묻는 말까지
+   같은 색으로 묶으면 무슨 결의 화면인지가 한 번에 읽힌다.
+   시스템의 text/caution(orange/600)이다 — 배너의 글이 쓰는 그 색이라,
+   한 앱에서 '주의' 가 한 가지 색으로 선다.
+   ⚠ 본문 크기였다면 이 색은 흰 면에서 3.92:1 로 모자라 text/caution-muted
+     로 내려야 한다. 제목은 22/600 이라 **큰 글자**(3:1)로 잰다 —
+     실측 3.92:1(면의 흰 가운데) · 3.72:1(옅은 경고색 가장자리).
+   닫기(✕)는 중립으로 둔다: 알리는 말이 아니라 나가는 길이다.
+   버튼은 중립색이다 — 브랜드 색은 이 앱에서 '이리로 가자' 는 말이라,
+   막혔다고 알리는 시트가 그 색을 쓰면 묻는 말과 면이 다른 말을 한다.
+   시스템의 fill/neutral(gray/90)을 깐다 */
+.alert--caution .sheet__t{color:var(--ap-point)}
 .alert--caution .scan__go{background:var(--ap-g90)}
 /* 머리줄 아래가 곧 몸이다 — 시안의 시트도 제목 줄(56) 바로 다음에 몸이
    붙는다. 좌우는 머리줄과 같은 16 이라 제목과 글이 한 세로 선에서
