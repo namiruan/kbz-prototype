@@ -2318,6 +2318,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    그림이라서다). 창에서도 돌도록 선택자에 .scan--alert 를 더한다 —
    움직임 자체는 한 벌이고, 어느 자리에서 도는지만 늘어난다 */
 .scan--alert{--ap-scan:140px}
+/* 읽기를 **멈춘** 그림 — 파장도 빔도 서고 얼굴만 남는다. 못 읽었다고
+   알리는 자리에서 그림이 계속 읽고 있으면, 글과 그림이 서로 다른 말을
+   한다. 색은 건드리지 않는다: 붉게 물들이면 등록이 지워진 줄로 읽힌다 */
+.scan--still .wave{display:none}
+.scan--still .scan__beam{display:none}
 .scan svg{position:relative;z-index:1}
 .scan svg{display:block;width:100%;height:100%;overflow:visible}
 /* 얼굴이 앉는 면 — 흰색이다. 평평하게 두면 바탕에 뚫린 구멍처럼 보여,
@@ -3549,6 +3554,25 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   display:flex;align-items:center;justify-content:center;
   color:var(--ap-g95)}
 
+/* ── 두 얼굴을 나란히 ──
+   견주는 일이라 **같은 크기로** 둔다. 한 장을 크게 두면 그쪽이 기준이
+   되어, 맞는지가 아니라 닮았는지를 보게 된다.
+   라벨은 사진 위다 — 아래에 두면 다음 사진의 라벨로 읽힌다 */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:var(--ap-gap3)}
+.vs__c{display:flex;flex-direction:column;gap:var(--ap-p3);min-width:0}
+.vs__l{font:var(--t-sub-em);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
+/* 네모가 아니라 **세로로 긴 칸**이다 — 받은 사진은 정사각이지만, 얼굴은
+   가운데에 있어 좌우를 잘라도 얼굴이 남는다. 잘라서 얼굴이 커지면 견주는
+   일이 쉬워진다 */
+.vs__p{aspect-ratio:3 / 4;overflow:hidden;border-radius:var(--ap-r10);
+  background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2))}
+.vs__p img{display:block;width:100%;height:100%;object-fit:cover}
+/* 고르는 줄과 두 사진은 한 덩어리로 **남는 자리 가운데**에 선다. 위에
+   붙여 두었더니 바닥 버튼과의 사이가 300 넘게 비어, 아직 덜 그린 화면처럼
+   보였다. 배너는 맨 위에 그대로 남는다 — 저지르기 전에 읽혀야 하는 말이라
+   굴려 내려야 보이면 안 된다 */
+.vrf{margin-block:auto;display:flex;flex-direction:column;gap:var(--ap-gap6)}
+
 /* 알림창이 뜬 화면의 뒤쪽 */
 /* 적어 넣는 화면은 흰 바탕이다 — 시안 '근로자현황 (현장근로자 / 신규추가-기본)'
    (486:4990) 이 흰색이다. 목록 쪽은 그대로 primary/5 다(460:3120 에서 잰
@@ -3587,7 +3611,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   /* 폼·상세는 늘리지 않고 가운데로 모은다. 이력 조회의 제목·두 시각·
      작은 제목도 같은 칸에 든다 — 카드만 모으면 그 위의 이름이 저 혼자
      화면 끝에 서서 한 덩어리로 읽히지 않는다 */
-  .form,.rows,.note,.shot,.dt,.stmp,.photo,.tcards{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
+  .form,.rows,.note,.shot,.dt,.stmp,.photo,.tcards,.vrf{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
   .body{padding:var(--ap-p8)}
   /* 머리말 칸은 **본문 여백만큼** 되물린다 — 16 으로 박아 두었더니 여백이
      24 가 되는 이 폭에서 위와 옆에 8 씩 바탕이 남아, 흰 면이 머리줄에서
