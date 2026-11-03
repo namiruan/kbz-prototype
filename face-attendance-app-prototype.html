@@ -78,18 +78,19 @@
 하루에 둘을 섞어 찍으므로, 지금 무엇을 찍는 중인지가 한눈에 갈려야 합니다."
         data-steps="출퇴근 등록에서 퇴근 모드로 바꾼 상태 — 보내지 못한 기록은 없습니다"
         data-look="@{.cta--out} '퇴근 등록 시작' 카드의 바탕은 브랜드 색의 깊은 쪽입니다 — 출근은 같은 색의 밝은 쪽입니다. 카드를 감싼 그림자도 그 색을 따릅니다">퇴근 모드</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-cam"
+            <span class="proto-nav-group-label proto-nav-group-label--sub">카메라를 열면</span>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-cam"
         data-why="줄 선 사람을 이어서 찍는 카메라입니다.
 
 몇을 찍었는지 화면에 남지 않으면 찍는 사람이 속으로 세고 있어야 합니다."
         data-steps="'출근 등록 시작' 을 클릭해 카메라가 열린 상태"
-        data-look="@{.cam__tip} '등록 종료하기' 바로 아래에서 지금까지 몇을 찍었는지 셉니다|@{.mode--cam} 출퇴근 등록 토글과 같은 스타일이며, 카메라 내부에서 출퇴근 모드를 변경할 수 있습니다|@{.camsw} 오른쪽 끝은 앞뒤 렌즈를 바꾸는 버튼입니다|@md @lg @{.cam__foot} 넓은 폭에서는 바닥 줄이 가운데로 모입니다 — 토글과 전환이 화면 양 끝으로 흩어지지 않습니다|@{.cam__stop} 끝내는 '등록 종료하기' 는 틀 바로 아래에 면 없이 놓입니다">카메라 인식</button>
+        data-look="@{.cam__tip} '등록 종료하기' 바로 아래에서 지금까지 몇을 찍었는지 셉니다|@{.mode--cam} 출퇴근 등록 토글과 같은 스타일이며, 카메라 내부에서 출퇴근 모드를 변경할 수 있습니다|@{.camsw} 오른쪽 끝은 앞뒤 렌즈를 바꾸는 버튼입니다|@md @lg @{.cam__foot} 넓은 폭에서는 바닥 줄이 가운데로 모입니다 — 토글과 전환이 화면 양 끝으로 흩어지지 않습니다|@{.cam__stop} 끝내는 '등록 종료하기' 는 틀 바로 아래에 면 없이 놓입니다">찍는 중</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-cam-ok"
         data-why="얼굴을 알아본 결과를 보여 주는 화면입니다.
 
 잠깐 띄우고 다음 사람으로 넘어갑니다 — 눌러 닫게 하면 줄이 그때마다 멈춥니다."
         data-steps="홍길동의 얼굴이 인식된 상태"
-        data-look="@{.cam__box--ok} 가이드 사각형이 초록으로 바뀌고 결과 문구도 같은 초록입니다. 사각형 테가 움직입니다 — 움직임을 줄인 기기에서는 재생되지 않습니다|@{.cam__t--ok} '홍길동님' 이 먼저 크게, '출근이 등록되었습니다' 가 그 아래 한 단 작게 적힙니다|@{.cam__tip} 방금 한 사람이 끝나 센 수가 하나 올라갔습니다">인식 결과</button>
+        data-look="@{.cam__box--ok} 가이드 사각형이 초록으로 바뀌고 결과 문구도 같은 초록입니다. 사각형 테가 움직입니다 — 움직임을 줄인 기기에서는 재생되지 않습니다|@{.cam__t--ok} '홍길동님' 이 먼저 크게, '출근이 등록되었습니다' 가 그 아래 한 단 작게 적힙니다|@{.cam__tip} 방금 한 사람이 끝나 센 수가 하나 올라갔습니다">등록된 근로자</button>
 
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-cam-new"
         data-why="등록되지 않은 얼굴이 찍혔을 때 화면입니다.
