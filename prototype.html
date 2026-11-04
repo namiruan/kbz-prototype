@@ -53,7 +53,7 @@
     <nav class="proto-nav" aria-label="시나리오 선택">
       <span class="proto-nav-group-label">로그인</span>
       <button class="proto-nav-btn proto-nav-sub is-active" type="button" data-scenario="login-기본"
-        data-why="이용사가 들어오는 자리. 아래 프로모션 링크는 미이용사가 바로 작성 화면으로 가는 길입니다."
+        data-why="이용사가 들어오는 자리. 아래 프로모션 링크는 미이용사가 바로 작성 화면으로 갑니다."
         data-steps="로그인 화면을 연 상태 — 아이디·비밀번호를 넣고 이용후기 남기기를 클릭하면 작성 화면으로 넘어갑니다"
         data-look="
           |아래 프로모션 링크를 클릭하면 미이용사 작성 화면으로 갑니다
@@ -129,7 +129,7 @@
         data-look="
           |'임시저장하신 내용을 불러왔습니다'
           |초기화가 있습니다 — 임시저장분에만 둡니다
-          |인증 수정은 없습니다 — 번호가 그 후기를 찾는 열쇠입니다">임시저장분 불러오기</button>
+          |인증 수정은 없습니다 — 그 후기를 찾는 값이 번호뿐입니다">임시저장분 불러오기</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="mem-제출"
         data-why="이미 낸 후기를 고치러 온 자리. 검토 전이라 고쳐서 다시 낼 수 있습니다."
         data-steps="이름 이소장, 번호 010-5555-0002 로 인증을 마친 상태입니다"
@@ -148,7 +148,7 @@
       <span class="proto-nav-group-label">미이용사</span>
       <span class="proto-nav-group-label proto-nav-group-label--sub">새 후기 작성</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-인증전"
-        data-why="로그인 없이 들어온 자리. 계약 목록이 없으니 회사명·사업자등록번호를 직접 밝힙니다. 이용사와 달리 문이 둘이라, 사업장을 먼저 밝혀야 작성자 필드가 열립니다."
+        data-why="로그인 없이 들어온 자리. 계약 목록이 없으니 회사명·사업자등록번호를 직접 밝힙니다. 이용사와 달리 확인을 두 번 거치므로, 사업장을 먼저 밝혀야 작성자 필드가 열립니다."
         data-steps="
           |아무것도 하지 않은 처음 상태입니다
           |사업자등록번호에 하이픈 없이 숫자만 쳐 보세요"
@@ -201,7 +201,7 @@
           |@{.rw-float} 플로팅 바에 임시 저장과 제출하기가 함께 있습니다
           |필드는 모두 저장한 그대로입니다 — 회사 정보도 다시 인증하지 않습니다">임시저장분 불러온 뒤</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="gst-불러제출"
-        data-why="이미 낸 글입니다. 지우는 길을 없애고, 클릭하는 버튼도 새로 내는 말이 아니라 고쳐 내는 말로 바꿉니다 — 같은 화면이지만 하는 일이 다릅니다."
+        data-why="이미 낸 글입니다. 지우는 기능을 빼고, 클릭하는 버튼도 새로 내는 말이 아니라 고쳐 내는 말로 바꿉니다 — 같은 화면이지만 하는 일이 다릅니다."
         data-steps="010-7777-0001 로 본인 확인을 마치고 후기 불러오기를 클릭한 상태"
         data-look="
           |맨 위 배너 '이미 제출하신 후기를 불러왔습니다.' 뒤에 제출 시각이 붙습니다
@@ -280,7 +280,7 @@
           |같은 말을 배너로 한 번 더 하지 않습니다">취소한 뒤 남는 말</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">본인 확인</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="err-모달빈번호"
-        data-why="인증을 거치지 않고 불러오기부터 클릭한 자리. 번호가 그 후기를 찾는 열쇠라 건너뛸 수 없습니다."
+        data-why="인증을 거치지 않고 불러오기부터 클릭한 자리. 그 후기를 찾는 값이 번호뿐이라 건너뛸 수 없습니다."
         data-steps="모달이 뜬 채로 후기 불러오기를 바로 클릭한 상태입니다"
         data-look="
           |'핸드폰 번호를 입력하고 인증을 눌러 주세요.'
