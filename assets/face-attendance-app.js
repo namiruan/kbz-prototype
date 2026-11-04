@@ -90,6 +90,7 @@
     wheel(hit);
     swipe(hit);
     deck(hit);
+    seek(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -1318,6 +1319,29 @@
     }
     tick();
     setInterval(tick, 1000);
+  }
+
+  /* ── 근로자 찾기 — 올라올 때부터 적을 자리에 서 있다 ──
+     이 시트는 **적어서 찾는 자리**라, 올라온 뒤 한 번 더 눌러야 적을 수
+     있으면 한 걸음이 는다. 그래서 켜지자마자 칸에 초점을 준다.
+
+     ⚠ 기기 자판은 **올리지 않는다**(inputmode='none'). 자판 그림이 이
+       시트에서는 어느 기기에서나 서므로(css 의 .dim--kb .kb), 기기가 제
+       자판을 겹쳐 올리면 두 겹이 된다. 손가락으로 쓰는 기기에서만 막는다 —
+       자판이 없는 기기에는 올릴 자판이 없어 막을 것도 없고, 막으면 쇠
+       자판으로 적는 길까지 끊긴다.
+     ⚠ 브라우저는 사람이 누르지 않은 초점으로는 기기 자판을 올리지 않으므로,
+       막지 않더라도 링크로 바로 들어온 자리에서는 자판이 올라오지 않는다 —
+       그림이 그 자리를 대신하는 까닭이다. */
+  function seek(hit) {
+    var inp = hit.querySelector('.dim--kb .inp__in');
+    if (!inp) return;
+
+    var fine = window.matchMedia && window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+    if (!fine) inp.setAttribute('inputmode', 'none');
+
+    /* preventScroll — 초점을 주느라 시트가 밀려 올라가면 머리줄이 잘린다 */
+    try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); }
   }
 
   /* ── 화면과 화면 사이 — `data-go` ──

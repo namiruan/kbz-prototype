@@ -3005,15 +3005,19 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    이 저장소의 assets/kbd.css 가 웹 화면에서 쓰는 값과 같다 — 두 곳이 다른
    높이를 쓰면 '키보드가 먹는 자리' 가 화면마다 달라진다.
    ⚠ 누를 수 있는 판이 아니라 **그 자리가 얼마인지 보여 주는 그림**이다.
-     글을 받는 것은 진짜 입력칸(.ta)이 한다.
-   ⚠ 손가락으로 쓰는 기기(폰·태블릿)에서는 걷는다 — 거기서는 기기가 제
-     자판을 올리므로 그림과 진짜가 겹쳐 두 겹이 된다. 자판이 없는
-     기기에서만 서서 '자판이 먹는 자리' 를 가늠하게 한다 */
-.kb{display:none}
-@media (hover:hover) and (pointer:fine){
-.kb{flex:none;height:319px;display:flex;flex-direction:column;
+     글을 받는 것은 진짜 입력칸(.ta · .inp__in)이 한다.
+   ⚠ 어디에 서는지는 **아래 세 줄**이 정한다. 기본은 걷는다 — 손가락으로
+     쓰는 기기에서는 기기가 제 자판을 올리므로 그림과 진짜가 겹쳐 두 겹이
+     된다(작업내용 작성이 그렇다). 자판이 없는 기기에서는 선다.
+     근로자 찾기 시트(.dim--kb)만은 **어느 기기에서나** 선다 — 자판이 함께
+     선 모습이 그 화면의 기본값이라서다. 거기서는 js 가 기기 자판을
+     막아(inputmode) 두 겹이 되지 않게 한다 */
+.kb{flex:none;height:319px;display:none;flex-direction:column;
   background:var(--ap-kb-bg);box-shadow:0 -1px 0 rgba(0,0,0,.14);
   user-select:none;-webkit-user-select:none}
+@media (hover:hover) and (pointer:fine){ .kb{display:flex} }
+.dim--kb .kb{display:flex}
+
 .kb__rows{flex:1;display:flex;flex-direction:column;gap:6px;padding:6px 3px 8px}
 .kb__r{flex:1;display:flex;gap:5px;justify-content:center;padding:0 3px}
 .kb__k{font:400 20px/1 var(--ap-font);flex:1;min-width:0;
@@ -3025,7 +3029,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 홈 인디케이터 자리 — 자판 아래에 남는 띠다 */
 .kb__home{flex:none;height:22px;display:flex;align-items:center;justify-content:center}
 .kb__home i{width:134px;height:5px;border-radius:3px;background:rgba(19,20,22,.55)}
-}
 
 /* ── 안내 글 ── */
 .note{font:var(--t-sub-lead);letter-spacing:var(--ls-sub);padding:12px var(--ap-p6);background:var(--ap-primary-5);border-radius:var(--ap-r10);color:var(--ap-primary-70)}
@@ -3678,17 +3681,15 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   color:var(--ap-g95)}
 .inp__in::placeholder{color:var(--ap-text-gray)}
 /* 목록은 시트 안에서 **굴러간다** — 현장의 근로자가 늘어도 시트가 화면을
-   덮지 않는다. 바닥 여백은 홈 인디케이터 자리까지 내려간다 */
+   덮지 않는다. 바닥 여백은 홈 인디케이터 자리까지 내려간다.
+   ⚠ 자판 그림이 319 를 먹는다 — 빼지 않으면 시트와 자판이 합쳐 창을
+     넘는다(844 에서 847 이 됐다). 이 시트에서는 자판 그림이 어느
+     기기에서나 서므로 기기를 가리지 않고 짧게 잡는다 */
 .find__list{overflow-y:auto;overscroll-behavior:contain;
-  max-height:min(380px,46svh);
+  max-height:min(260px,32svh);
   padding:0 var(--ap-p6) max(var(--ap-p6),env(safe-area-inset-bottom))}
 .find__list{scrollbar-width:none}
 .find__list::-webkit-scrollbar{display:none}
-/* ⚠ 자판 그림이 서는 기기에서는 목록이 그만큼 짧아진다 — 319 를 빼지
-   않으면 시트와 자판이 합쳐 창을 넘는다(844 에서 847 이 됐다) */
-@media (hover:hover) and (pointer:fine){
-  .find__list{max-height:min(260px,32svh)}
-}
 /* 줄 전체가 고르는 자리다 — 안에 또 버튼을 두지 않는다. 카드가 button 이
    되므로 글이 가운데로 몰리지 않게 왼쪽으로 못 박는다 */
 .card--go{cursor:pointer;width:100%;text-align:left}
