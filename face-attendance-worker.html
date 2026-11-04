@@ -1389,7 +1389,9 @@
     <!-- 누구를 확인하는 중인지를 먼저 보인다 -->
     <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box"></div>
-    <span class="cam__go" data-go="w-cam-ok"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근하기</span>
+    <!-- 찍는 버튼을 두지 않는다 — 얼굴이 틀에 맞으면 앱이 알아서 읽는다.
+         버튼을 두면 맞춰 놓고 한 번 더 눌러야 하는 것으로 읽힌다.
+         현장소장 앱의 카메라도 같다 -->
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
   </div>
 </section>
@@ -1417,9 +1419,9 @@
     <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box cam__box--fail"></div>
-    <!-- 다시 찍는 길을 그 자리에 둔다 — 실패를 알리고 나서 할 일이
-         '다시 찍기' 하나뿐이라, 찍던 자리에 그대로 둔다 -->
-    <span class="cam__go" data-go="w-cam"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-refresh"></use></svg>다시 시도하기</span>
+    <!-- 다시 찍는 버튼도 두지 않는다 — 얼굴을 다시 틀에 맞추면 앱이 알아서
+         다시 읽는다. 버튼을 두면 틀에서 눈을 떼고 손을 옮겨야 하는 것으로
+         읽혀, 실제보다 한 걸음이 는다 -->
     <!-- 머리말은 한 줄에 든다 — '얼굴 인증에 실패했습니다' 로 두면 두 줄로
          접히면서 위의 이름표를 덮는다(글이 틀 위에서 위로 자란다) -->
     <p class="cam__t cam__t--fail">얼굴 인증 실패<span class="cam__sub">등록한 얼굴과 다릅니다</span></p>
@@ -1582,7 +1584,9 @@
     <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home-work"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box"></div>
-    <span class="cam__go" data-go="w-cam-out-ok"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>퇴근하기</span>
+    <!-- 찍는 버튼을 두지 않는다 — 얼굴이 틀에 맞으면 앱이 알아서 읽는다.
+         버튼을 두면 맞춰 놓고 한 번 더 눌러야 하는 것으로 읽힌다.
+         현장소장 앱의 카메라도 같다 -->
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
   </div>
 </section>

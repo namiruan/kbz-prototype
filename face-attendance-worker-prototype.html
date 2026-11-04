@@ -174,7 +174,7 @@
 
 촬영한 얼굴을 등록된 얼굴과 매칭해 본인인지 확인합니다."
         data-steps="얼굴 등록을 마쳐 출근 인증으로 이어진 상태"
-        data-look="@{.cam__who} 촬영 영역 위에 누구의 얼굴을 인증하는 중인지 적힙니다|@{.cam__go} '출근하기' 버튼을 클릭하면 인증 성공 화면으로 이동합니다|@{.cam__back} 왼쪽 위 뒤로 가기를 클릭하면 홈으로 돌아갑니다">카메라</button>
+        data-look="@{.cam__who} 촬영 영역 위에 누구의 얼굴을 인증하는 중인지 적힙니다|@{.cam__box} 얼굴이 틀에 맞으면 앱이 알아서 읽습니다 — 찍는 동작이 따로 없습니다|@{.cam__back} 왼쪽 위 뒤로 가기를 클릭하면 홈으로 돌아갑니다">카메라</button>
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-ok"
         data-why="출근이 기록된 결과 화면입니다."
         data-steps="얼굴이 인식되어 출근이 기록된 상태"
@@ -182,14 +182,14 @@
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-fail"
         data-why="등록된 얼굴과 매칭이 실패했을 때 나오는 화면입니다."
         data-steps="촬영한 얼굴이 등록된 얼굴과 매칭되지 않은 상태"
-        data-look="@{.cam__t--fail} '얼굴 인증 실패' 는 한 줄에 들어가 위의 이름 표시를 가리지 않습니다|@{.cam__go} '다시 시도하기' 를 클릭하면 카메라로 돌아갑니다">얼굴 인증 실패</button>
+        data-look="@{.cam__t--fail} '얼굴 인증 실패' 는 한 줄에 들어가 위의 이름 표시를 가리지 않습니다|@{.cam__box--fail} 얼굴을 다시 틀에 맞추면 앱이 알아서 다시 읽습니다">얼굴 인증 실패</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">퇴근 인증</span>
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-out"
         data-why="퇴근 인증을 위해 얼굴을 촬영하는 화면입니다.
 
 출근 인증과 같은 화면을 쓰고, 기록되는 값만 다릅니다."
         data-steps="작업내용을 작성한 홈에서 '퇴근하기' 를 클릭한 상태"
-        data-look="@{.cam__go} '퇴근하기' 버튼을 클릭하면 인증 성공 화면으로 이동합니다|@{.cam__back} 왼쪽 위 뒤로 가기를 클릭하면 작업내용을 작성한 홈으로 돌아갑니다">카메라</button>
+        data-look="@{.cam__back} 왼쪽 위 뒤로 가기를 클릭하면 작업내용을 작성한 홈으로 돌아갑니다">카메라</button>
 <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="w-cam-out-ok"
         data-why="퇴근이 기록된 결과 화면입니다."
         data-steps="얼굴이 인식되어 퇴근이 기록된 상태"
