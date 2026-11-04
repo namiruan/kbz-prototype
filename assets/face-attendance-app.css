@@ -1497,12 +1497,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    한 칸(1.27 배)이면 무엇을 먼저 읽을지는 그대로이면서 둘이 한 줄의 식구로
    보인다. 가로로도 20 가까이 돌려받아 좁은 기기에서 줄이 덜 넘어간다 */
 .go__card .cta__t{font:var(--t-title2);letter-spacing:var(--ls-title2)}
-/* 바닥 버튼이 시각을 들 때도 같은 램프를 쓴다 — 시각 Title1, 할 일 Title2
-   (.act__b 가 이미 Title2 다). 직접 출근 처리의 '출근 등록하기' 가 그렇다:
-   누르는 순간 적히는 값이라 누르기 전에 보여야 한다 */
-.act__b .cta__time{font:var(--t-title1);letter-spacing:var(--ls-title1);
-  font-variant-numeric:tabular-nums;
-  display:inline-flex;align-items:center;gap:var(--ap-p3)}
 /* 인증 방식은 이름 **아래**다 — 이 현장이 어떤 곳인가이지, 지금 몇 시인가에
    딸린 말이 아니다. 시각과 한 줄에 묶여 있을 때는 그 곁말로 읽혔다.
    모서리는 위 출근 카드의 '앱 · 얼굴'(.bd)과 같은 4 다 — 둘 다 '어떻게
