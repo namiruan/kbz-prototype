@@ -3738,8 +3738,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    브라우저 기본값인 [hidden]{display:none} 을 이긴다 — 걸러도 그대로
    보였다. 여기서 못 박는다 */
 .find__list [hidden]{display:none}
-/* 맞는 사람이 없을 때만 서는 줄 — 목록 자리에 그대로 앉는다 */
-.find__none{padding:var(--ap-p6) 0;text-align:center;
+/* 맞는 사람이 없을 때만 서는 줄 — 목록 자리에 그대로 앉는다.
+   ⚠ 단을 **가로지른다**. 목록은 폭이 넓어지면 두 단으로 나뉘는데(.list),
+     그냥 두면 이 줄이 첫 칸 하나에만 들어 왼쪽으로 치우쳐 선다
+     (834 에서 16~411, 창 한가운데가 아니라 왼쪽 단의 한가운데였다) */
+.find__none{grid-column:1/-1;padding:var(--ap-p6) 0;text-align:center;
   font:var(--t-body);letter-spacing:var(--ls-body);color:var(--ap-text-gray)}
 .find__list{scrollbar-width:none}
 .find__list::-webkit-scrollbar{display:none}
