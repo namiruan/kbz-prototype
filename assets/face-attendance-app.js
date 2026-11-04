@@ -54,6 +54,9 @@
     setTimeout(function () { document.removeEventListener('click', kill, true); }, 300);
   }
 
+  /* pick() 이 덜어 낸 화면을 이름으로 쥐고 있는 선반. 문서 밖이다 */
+  var SHELF = {};
+
   function pick() {
     var want = new URL(location.href).searchParams.get('screen');
     var all = document.querySelectorAll('.scr');
@@ -71,7 +74,14 @@
        앵커(`@{선택자}`)가 깨진다 — 프로토타입 셸은 `document.querySelector` 로 첫 번째
        것을 짚는데, 그 첫 번째가 숨은 다른 화면 안에 있으면 하이라이트가 보이지 않는다.
        (실측: 앵커 40개 중 11개가 엉뚱한 화면을 짚고 있었다) */
-    all.forEach(function (s) { if (s !== hit) s.remove(); });
+    all.forEach(function (s) {
+      if (s === hit) return;
+      /* 문서에서는 덜어 내되 **손에는 쥔다**(SHELF). 같은 문서에서 띄우는
+         길(soft)이 여기서 꺼내 쓴다. 문서 밖에 있는 동안은
+         document.querySelector 가 찾지 못하므로 앵커는 그대로 안전하다 */
+      if (s.dataset.screen) SHELF[s.dataset.screen] = s;
+      s.remove();
+    });
     hit.classList.add('is-on');
     stow(hit);
     link(hit);
@@ -126,6 +136,11 @@
   function edge() {
     var want = new URL(location.href).searchParams.get('screen') || '';
     var root = document.documentElement;
+    /* 같은 문서에서 화면을 갈아 띄우면(soft) 두 번째로 불린다 — 앞 띠를
+       걷지 않으면 둘이 겹쳐, 먼저 적힌 쪽이 그대로 남는다 */
+    Array.prototype.slice.call(root.classList).forEach(function (c) {
+      if (c.indexOf('edge--') === 0) root.classList.remove(c);
+    });
     for (var i = 0; i < EDGE.length; i++) {
       if (EDGE[i][1].test(want)) { root.classList.add('edge--' + EDGE[i][0]); break; }
     }
@@ -1341,6 +1356,56 @@
     try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); }
   }
 
+  /* ── 같은 문서에서 띄운다 — `data-go-soft` ──
+     보통은 주소를 갈아 **다시 그린다**(link 의 설명). 그런데 그러면 새
+     문서가 되어, 누른 손짓이 거기까지 이어지지 않는다. 브라우저는 사람이
+     누르지 않은 초점으로는 기기 자판을 올려 주지 않으므로, 근로자 찾기는
+     올라와 놓고도 자판 없이 선 꼴이 됐다.
+
+     그래서 이 한 자리만 **문서를 갈지 않고** 띄운다. 누름이 아직 살아 있는
+     그 자리에서 초점을 주면 기기 자판이 바로 선다. 그러려면 insert 부터
+     focus 까지가 모두 **그 click 처리 안에서, 기다림 없이** 끝나야 한다 —
+     setTimeout 하나만 끼어도 누름은 만료된다.
+
+     ⚠ 문서에 선 화면은 **여전히 한 장**이다. 앞 화면은 behind() 가 베껴
+       뒤에 깔고, 원래 것은 덜어 내 선반에 돌려 둔다 — pick() 의 ⚠ 가
+       말하는 규칙을 깨지 않는다.
+     ⚠ 주소도 함께 간다(pushState). 그래야 새로고침·공유가 같은 자리를
+       열고, 뒤로 가기가 앞 화면으로 돌아온다 — 돌아올 때는 문서를 다시
+       읽는다(popstate). */
+  function soft(name) {
+    var next = SHELF[name];
+    var now = document.querySelector('.scr[data-screen]');
+    if (!next || !now || !now.parentNode) return false;
+
+    /* 뒤에 깔 화면을 베끼는 일이 먼저다 — 지금 선 화면이 아직 문서에 있어야
+       behind() 가 그것을 찾는다 */
+    behind(next);
+
+    SHELF[now.dataset.screen] = now;
+    now.parentNode.insertBefore(next, now);
+    now.remove();
+    next.classList.add('is-on');
+
+    var u = new URL(location.href);
+    u.searchParams.set('screen', name);
+    history.pushState({ screen: name }, '', u.toString());
+
+    edge();
+    document.title = (next.dataset.title || '안면 출퇴근') + ' · 김반장';
+
+    /* 새로 선 화면이 쓰는 것만 맨다 — 여기 오는 것은 찾는 시트뿐이고,
+       그 시트가 쓰는 것은 누르면 갈 자리(link)와 적을 자리(seek)다 */
+    link(next);
+    seek(next);
+    return true;
+  }
+
+  /* 뒤로 가기로 돌아올 때는 **문서를 다시 읽는다**. pushState 로 간 자리는
+     주소만 바뀐 것이라, 그냥 두면 주소는 앞 화면인데 그려진 것은 시트인
+     어긋난 꼴이 된다 */
+  window.addEventListener('popstate', function () { location.reload(); });
+
   /* ── 화면과 화면 사이 — `data-go` ──
      누르면 어느 화면으로 가는지를 마크업이 적어 둔다(data-go="w-work").
      이것은 **화면 안의 동작이 아니라 어느 화면을 보여 줄지**라, 머리말이
@@ -1362,6 +1427,11 @@
       if (go.hasAttribute('data-go-self') && e.target !== go) return;
       if (go.disabled) return;
       e.preventDefault();
+
+      /* 문서를 갈지 않고 띄우는 자리 — 누름이 살아 있는 동안 끝내야 하므로
+         주소를 갈기 전에, 여기서 바로 한다 */
+      if (go.hasAttribute('data-go-soft') && soft(go.dataset.go)) return;
+
       var u = new URL(location.href);
       u.searchParams.set('screen', go.dataset.go);
       /* 누른 것이 날을 쥐고 있으면 실어 보내고, 아니면 지운다 — 지우지
@@ -1395,7 +1465,10 @@
      화면 안의 동작을 흉내 내는 것이 아니라, 한 장의 화면을 짜 맞추는 일이다. */
   function behind(hit) {
     var name = hit.dataset.behind;
-    var src = name && document.querySelector('.scr[data-screen="' + name + '"]');
+    /* 선반도 함께 뒤진다 — 같은 문서에서 띄울 때(soft) 뒤에 깔 화면이 이미
+       덜어내진 자리일 수 있다(고른 뒤 화면에서 다시 찾는 시트를 열 때가
+       그렇다). 어느 쪽이든 베껴 쓰므로 원본은 건드리지 않는다 */
+    var src = name && (document.querySelector('.scr[data-screen="' + name + '"]') || SHELF[name]);
     if (!src) return;
 
     var back = src.cloneNode(true);

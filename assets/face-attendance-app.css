@@ -3010,9 +3010,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      쓰는 기기에서는 기기가 제 자판을 올리므로 그림과 진짜가 겹쳐 두 겹이
      된다(작업내용 작성이 그렇다). 자판이 없는 기기에서는 선다.
      근로자 찾기 시트(.dim--kb)만은 **어느 기기에서나** 선다 — 자판이 함께
-     선 모습이 그 화면의 기본값이라서다. 거기서는 기기 자판을 막지 않는다:
-     칸을 누르면 기기 자판이 **같은 자리에** 올라와 그림을 덮는다(그림은
-     319, 아이폰 세로 한글 자판도 그 언저리다) */
+     선 모습이 그 화면의 기본값이라서다. 거기서는 기기 자판을 막지 않고,
+     오히려 함께 올린다: 앞 화면의 카드가 data-go-soft 라 시트가 그 누름
+     안에서 서고(js 의 soft), 기기 자판이 **같은 자리에** 올라와 그림을
+     덮는다(그림은 319, 아이폰 세로 한글 자판도 그 언저리다).
+     주소로 바로 연 자리에는 그 누름이 없어 그림만 선다 */
 .kb{flex:none;height:319px;display:none;flex-direction:column;
   background:var(--ap-kb-bg);box-shadow:0 -1px 0 rgba(0,0,0,.14);
   user-select:none;-webkit-user-select:none}

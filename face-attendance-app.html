@@ -1926,7 +1926,7 @@
       <!-- 고르기 전의 자리 — **카드 꼴 그대로** 비워 둔다. 고른 뒤에 설
            것과 같은 자리·같은 키라(min-height), 고르고 나서 화면이 들썩이지
            않는다. 테를 점선으로 긋는 것이 '아직 채워지지 않았다' 는 말이다 -->
-      <button class="card card--go card--pick" type="button" data-go="m-verify-find">
+      <button class="card card--go card--pick" type="button" data-go="m-verify-find" data-go-soft>
         <span class="card__nm card__nm--ph">근로자 정보를 선택해주세요</span>
       </button>
     </div>
@@ -1945,9 +1945,10 @@
        245~485 를 덮는다). 적는 동안에는 견줄 수 없고, 고르고 나서 다시
        본다 — 견주는 일은 고른 뒤 화면의 '최초 등록 얼굴 확인' 이 맡는다.
      ⚠ **자판과 함께 올라온다.** 이 시트가 하는 일은 적어서 찾는 것이라,
-       올라오자마자 적을 수 있어야 한다. 자판 그림은 자판이 **없는
-       기기**(데스크톱)에서만 선다 — 폰·태블릿은 기기가 제 자판을 올리므로
-       그림과 진짜가 겹치면 두 겹이 된다(작업내용 작성과 같은 가름이다).
+       올라오자마자 적을 수 있어야 한다. 앞 화면의 카드는 `data-go-soft`
+       라, 이 시트는 **문서를 갈지 않고** 그 누름 안에서 선다 — 그래야
+       기기 자판이 함께 올라온다(js 의 soft). 자판 그림은 어느 기기에서나
+       서서 그 자리를 보여 주고, 기기 자판이 올라오면 그 위를 덮는다.
      적기 전에도 현장의 근로자가 그대로 깔린다 — 이름을 모를 수 있으니
      얼굴로 훑어 찾게 둔다 -->
 <section class="scr has-dim" data-screen="m-verify-find" data-title="근로자 찾기"
@@ -2081,7 +2082,7 @@
            이름은 카드의 제목 크기로 내린다 — 저쪽의 32 는 화면의 머리글
            몫이고, 여기서는 사진 밑에 드는 한 칸이다.
            다시 누르면 찾는 시트가 올라온다(잘못 골랐을 때의 길이다) -->
-      <button class="card card--go" type="button" data-go="m-verify-find">
+      <button class="card card--go" type="button" data-go="m-verify-find" data-go-soft>
         <span class="card__nm">홍길동</span>
         <span class="rows rows--bare">
           <span class="row"><span class="row__k">주민번호</span><span class="row__v">800101-1******</span></span>
