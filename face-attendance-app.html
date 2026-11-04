@@ -1926,13 +1926,31 @@
       <!-- 고르기 전의 자리 — **카드 꼴 그대로** 비워 둔다. 고른 뒤에 설
            것과 같은 자리·같은 키라(min-height), 고르고 나서 화면이 들썩이지
            않는다. 테를 점선으로 긋는 것이 '아직 채워지지 않았다' 는 말이다.
-           ⚠ 빈 칸이 아니라 **누르는 자리**로 보여야 한다. 글자는 고른 뒤의
-             이름과 같은 크기로 세우고(32/40), 사람 표와 알약을 위아래로
-             두어 '여기를 누르면 채워진다' 를 눈에 보이게 한다 -->
+           ⚠ 빈 칸이 아니라 **카드 자체가 버튼**으로 보여야 한다. 글자는
+             고른 뒤의 이름과 같은 크기로 세우고(32/40), 위에는 돋보기가
+             카드를 살피는 그림을 둔다 — 안에 또 버튼을 끼우지 않는다 -->
       <button class="card card--go card--pick" type="button" data-go="m-verify-find" data-go-soft>
-        <span class="pick__ic"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <!-- 돋보기가 근로자 카드 위를 오가며 살핀다 — 이 자리가 하는 일이
+             '근로자를 찾아 이 카드에 앉히는 것' 이라고 그림이 먼저 말한다 -->
+        <span class="pick__art" aria-hidden="true">
+          <svg viewBox="0 0 136 92" width="136" height="92">
+            <rect class="pick__bd" x="20" y="16" width="96" height="56" rx="10"/>
+            <circle class="pick__fc" cx="44" cy="44" r="12"/>
+            <rect class="pick__ln" x="64" y="35" width="36" height="5" rx="2.5"/>
+            <rect class="pick__ln" x="64" y="49" width="23" height="5" rx="2.5"/>
+            <g class="pick__lens">
+              <circle class="pick__glass" cx="0" cy="0" r="12.4"/>
+              <!-- 테는 선이 아니라 **면으로 된 고리**다 — 이 저장소의 그림은
+                   모두 면으로 그린다(안전모·챙이 그렇다) -->
+              <path class="pick__rim" fill-rule="evenodd"
+                d="M0,-15.2A15.2,15.2 0 1 1 0,15.2A15.2,15.2 0 1 1 0,-15.2Z
+                   M0,-12.4A12.4,12.4 0 1 0 0,12.4A12.4,12.4 0 1 0 0,-12.4Z"/>
+              <rect class="pick__grip" x="-2.9" y="13.6" width="5.8" height="11" rx="2.9"
+                transform="rotate(-45)"/>
+            </g>
+          </svg>
+        </span>
         <span class="card__nm card__nm--ph">근로자 정보를 선택해주세요</span>
-        <span class="pick__b">근로자 찾기<svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></span>
       </button>
     </div>
   </main>
