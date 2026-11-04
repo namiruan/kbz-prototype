@@ -1421,6 +1421,10 @@
     }
 
     inp.addEventListener('input', run);
+    /* 한글을 짜는 동안(IME)에는 기기마다 input 이 오는 때가 달라, 짜는
+       중의 알림도 함께 받는다 — 두 번 돌아도 하는 일이 같아 탈이 없다 */
+    inp.addEventListener('compositionupdate', run);
+    inp.addEventListener('compositionend', run);
     run();
   }
 
