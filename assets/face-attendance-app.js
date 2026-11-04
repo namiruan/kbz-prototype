@@ -1356,9 +1356,72 @@
     if (!inp) return;
 
     oskb(hit);
+    sift(hit, inp);
 
     /* preventScroll — 초점을 주느라 시트가 밀려 올라가면 머리줄이 잘린다 */
     try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); }
+  }
+
+  /* ── 적는 대로 목록을 거른다 — 초성만 쳐도 걸린다 ──
+     현장소장은 이름을 끝까지 적지 않는다. 'ㅎㄱㄷ' 세 번이면 홍길동이
+     걸려야, 자판 뒤에 가린 목록을 덜 뒤진다.
+
+     한글 글자는 초성 19 · 중성 21 · 종성 28 이 곱해져 한 칸씩 줄지어
+     있다(가 = 0xAC00). 그래서 **(코드 - 가) / 588** 이 곧 초성의 자리다 —
+     표를 따로 들지 않아도 글자에서 바로 뽑아낼 수 있다.
+
+     ⚠ 자모와 글자를 **섞어** 받는다. 적는 중에는 '홍ㄱ' 처럼 아직 완성되지
+       않은 꼴이 오는데, 자모는 그 자리 글자의 초성과 맞추고 글자는 글자끼리
+       맞추면 두 경우가 한 길로 풀린다.
+     ⚠ 이름 가운데부터도 걸린다('길동' · 'van'). 앞에서만 맞추면 성을
+       모르는 이름을 못 찾는다. 로마자는 대소문자를 가리지 않는다. */
+  var CHO = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
+
+  function sift(hit, inp) {
+    var list = hit.querySelector('.find__list');
+    if (!list) return;
+
+    var rows = Array.prototype.slice.call(list.querySelectorAll('.card--go'));
+    var none = list.querySelector('.find__none');
+
+    function cho(ch) {
+      var c = ch.charCodeAt(0);
+      if (c < 0xAC00 || c > 0xD7A3) return '';
+      return CHO.charAt(Math.floor((c - 0xAC00) / 588));
+    }
+
+    function match(name, q) {
+      name = name.toLowerCase();
+      q = q.toLowerCase();
+      for (var i = 0; i + q.length <= name.length; i++) {
+        var ok = true;
+        for (var j = 0; j < q.length; j++) {
+          var a = name.charAt(i + j), bq = q.charAt(j);
+          if (a === bq) continue;
+          if (CHO.indexOf(bq) >= 0 && cho(a) === bq) continue;
+          ok = false; break;
+        }
+        if (ok) return true;
+      }
+      return false;
+    }
+
+    function run() {
+      /* 띄어쓰기는 떼고 본다 — 'ㅎ ㄱㄷ' 처럼 눌려도 같은 뜻이다 */
+      var q = inp.value.replace(/\s+/g, '');
+      var left = 0;
+      rows.forEach(function (row) {
+        var nm = row.querySelector('.card__nm');
+        var on = !q || (nm && match(nm.textContent.replace(/\s+/g, ''), q));
+        row.hidden = !on;
+        if (on) left++;
+      });
+      if (none) none.hidden = left > 0;
+      list.scrollTop = 0;
+    }
+
+    inp.addEventListener('input', run);
+    run();
   }
 
   /* ── 기기 자판이 올라오면 시트를 그 위로 띄운다 ──
