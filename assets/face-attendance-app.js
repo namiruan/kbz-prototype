@@ -132,7 +132,7 @@
     ['dimform', /^(m-dup-|m-worker-del)/],
     /* 윗단은 'dimform' 과 같은 색이다 — 따로 둔 것은 **창 밖 아래쪽**이
        달라서다(css 의 ⚠). 자판이 뜨면 그 자리가 드러난다 */
-    ['dimfind', /^m-verify-find/],
+    ['dimfind', /^(m-verify-find|m-workers-filter)/],
     ['nav',  /^(w-(work|reg|cal)|m-)/] /* 흰 머리줄 · 펴진 달 */
   ];
 
@@ -1381,7 +1381,9 @@
     var list = hit.querySelector('.find__list');
     if (!list) return;
 
-    var rows = Array.prototype.slice.call(list.querySelectorAll('.card--go'));
+    /* 두 시트가 같은 거르기를 쓴다 — 근로자 줄(.card--go)과 직종 줄(.jobr).
+       이름이 드는 자리도 줄마다 다르다(.card__nm · .jobr__t) */
+    var rows = Array.prototype.slice.call(list.querySelectorAll('.card--go,.jobr'));
     var none = list.querySelector('.find__none');
 
     function cho(ch) {
@@ -1411,7 +1413,7 @@
       var q = inp.value.replace(/\s+/g, '');
       var left = 0;
       rows.forEach(function (row) {
-        var nm = row.querySelector('.card__nm');
+        var nm = row.querySelector('.card__nm,.jobr__t');
         var on = !q || (nm && match(nm.textContent.replace(/\s+/g, ''), q));
         row.hidden = !on;
         if (on) left++;

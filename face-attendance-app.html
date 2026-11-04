@@ -108,7 +108,7 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <button class="sel sel--inline sel--ghost" type="button"><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        <button class="sel sel--inline sel--ghost" type="button" data-go="m-workers-filter" data-go-soft><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </span>
     </div>
     <div class="list">
@@ -235,7 +235,7 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <button class="sel sel--inline sel--ghost" type="button"><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        <button class="sel sel--inline sel--ghost" type="button" data-go="m-workers-filter" data-go-soft><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </span>
       <!-- 오른쪽 끝의 수는 **고른 수**다 — 거르개 옆의 수(목록에 남은 수)와
            다른 것을 센다. 둘을 한 자리에 둘 수 없는 까닭이다 -->
@@ -361,7 +361,7 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <button class="sel sel--inline sel--ghost sel--selected" type="button"><span class="sel__t">형틀목공</span><span class="sel__n">2</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        <button class="sel sel--inline sel--ghost sel--selected" type="button" data-go="m-workers-filter" data-go-soft><span class="sel__t">형틀목공</span><span class="sel__n">2</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
       </span>
     </div>
     <div class="list">
@@ -406,6 +406,48 @@
   </div>
 </section>
 
+
+<!-- ===== ①-3 현장소장 앱 · 직종 고르기 (앱 네이티브) =====
+     근로자 관리의 필터를 누르면 올라온다. 근로자 선택하기 시트와 **같은 꼴**이다 —
+     한 앱에서 '적어서 고르는 일' 이 한 가지 꼴로 서야, 어디서 올라온 것인지 눈이
+     매번 다시 잡지 않는다.
+     ⚠ 화면을 갈지 않고 그 누름 안에서 띄운다(data-go-soft) — 그래야 기기 키보드가
+       함께 올라온다. 까닭은 js 의 soft 에 적어 두었다 -->
+<section class="scr has-dim" data-screen="m-workers-filter" data-title="근로자 관리 — 직종 고르기"
+  data-behind="m-workers">
+  <div class="dim dim--sheet dim--kb" data-go="m-workers" data-go-self>
+    <div class="sheet" role="dialog" aria-labelledby="mJobT">
+      <div class="sheet__h">
+        <p class="sheet__t" id="mJobT">직종 선택</p>
+        <button class="sheet__x" type="button" aria-label="닫기" data-go="m-workers"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+      </div>
+      <div class="find">
+        <div class="inp inp--find is-on">
+          <input class="inp__in" type="text" placeholder="직종을 입력해주세요" aria-label="직종" autofocus>
+          <svg class="ic ic--24" aria-hidden="true"><use href="#icon-search"></use></svg>
+        </div>
+      </div>
+      <!-- 수는 이 현장의 근로자 수다 — 고르기 전에 몇이 걸러질지 보인다.
+           '전체' 가 맨 위인 것은 거는 것보다 푸는 것이 급해서다 -->
+      <div class="find__list">
+        <button class="jobr is-on" type="button" data-go="m-workers"><span class="jobr__t">전체</span><span class="sel__n">5</span><svg class="ic ic--24 jobr__c" aria-hidden="true"><use href="#icon-check"></use></svg></button>
+        <button class="jobr" type="button" data-go="m-workers-job"><span class="jobr__t">형틀목공</span><span class="sel__n">2</span></button>
+        <button class="jobr" type="button" data-go="m-workers-job"><span class="jobr__t">철근공</span><span class="sel__n">1</span></button>
+        <button class="jobr" type="button" data-go="m-workers-job"><span class="jobr__t">보통인부</span><span class="sel__n">1</span></button>
+        <p class="find__none" hidden>입력하신 직종이 없습니다.</p>
+      </div>
+      <div class="kb" aria-hidden="true">
+        <div class="kb__rows">
+          <div class="kb__r"><span class="kb__k">ㅂ</span><span class="kb__k">ㅈ</span><span class="kb__k">ㄷ</span><span class="kb__k">ㄱ</span><span class="kb__k">ㅅ</span><span class="kb__k">ㅛ</span><span class="kb__k">ㅕ</span><span class="kb__k">ㅑ</span><span class="kb__k">ㅐ</span><span class="kb__k">ㅔ</span></div>
+          <div class="kb__r"><span class="kb__k">ㅁ</span><span class="kb__k">ㄴ</span><span class="kb__k">ㅇ</span><span class="kb__k">ㄹ</span><span class="kb__k">ㅎ</span><span class="kb__k">ㅗ</span><span class="kb__k">ㅓ</span><span class="kb__k">ㅏ</span><span class="kb__k">ㅣ</span></div>
+          <div class="kb__r"><span class="kb__k kb__k--fn kb__k--w15">⇧</span><span class="kb__k">ㅋ</span><span class="kb__k">ㅌ</span><span class="kb__k">ㅊ</span><span class="kb__k">ㅍ</span><span class="kb__k">ㅠ</span><span class="kb__k">ㅜ</span><span class="kb__k">ㅡ</span><span class="kb__k kb__k--fn kb__k--w15">⌫</span></div>
+          <div class="kb__r"><span class="kb__k kb__k--fn">!#1</span><span class="kb__k kb__k--fn">한/영</span><span class="kb__k kb__k--sp"></span><span class="kb__k">.</span><span class="kb__k kb__k--fn">완료</span></div>
+        </div>
+        <div class="kb__home"><i></i></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ===== ② 현장소장 앱 · 근로자 추가 ===== -->
 <section class="scr scr--form" data-screen="m-worker-new" data-title="근로자 얼굴 등록">

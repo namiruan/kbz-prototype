@@ -171,7 +171,18 @@
       <!-- 아래 둘은 이 목록에서 무엇을 고른 뒤의 모습이라, 한 단 들여 묶는다.
            이름표의 단계는 셸이 세어 적는다(--sub 이면 2단) -->
       <span class="proto-nav-group-label proto-nav-group-label--sub">목록에서 고르면</span>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-job"
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-filter"
+        data-why="직종을 적어서 고릅니다. 현장의 직종은 수십 가지라 목록을 훑어 내리는 것보다 두세 글자 적는 편이 빠릅니다.
+
+근로자 선택하기 시트와 같은 꼴입니다 — 한 앱에서 적어서 고르는 일이 한 가지 꼴로 서야, 어디서 올라온 것인지 매번 다시 잡지 않습니다."
+        data-note="이 현장에는 직종이 셋뿐이라 목록이 짧습니다 — 검색 칸은 직종이 수십 가지인 현장을 위한 것입니다"
+        data-steps="근로자 관리에서 필터를 클릭한 상태"
+        data-look="
+          |@{.inp--find} 열리자마자 커서가 이 칸에 있고, 적는 대로 아래 목록이 걸러집니다. 초성만 쳐도 걸립니다(ㅊㄱ → 철근공)
+          |@{.jobr.is-on} 지금 걸린 것에 체크가 듭니다. 맨 위가 &#39;전체&#39; 인 것은 거는 것보다 푸는 것이 급해서입니다
+          |@{.jobr .sel__n} 직종마다 이 현장의 근로자 수가 붙습니다 — 고르기 전에 몇이 걸러질지 보입니다
+          |@{.dim} 어두운 영역이나 닫기(✕)를 클릭하면 걸지 않고 돌아갑니다">직종 고르기</button>
+<button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-job"
         data-why="선택된 드롭다운 필터에 해당되는 리스트만 보이는 화면입니다"
         data-steps="근로자 관리에서 직종을 '형틀목공' 으로 고른 상태"
         data-look="
