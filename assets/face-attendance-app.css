@@ -497,7 +497,7 @@ html.edge--camdim{--ap-edge:#292c2e}
 html.edge--dim{--ap-edge:#8c8f94}
 /* 같은 막이 **흰 폼** 위에 덮인 자리 — 뒤가 옅은 파랑(primary/5)일 때보다
    한 단 밝다(390 폭 맨 윗줄 실측: 저쪽 140,143,148 → 여기 149,149,150) */
-/* 근로자 찾기도 같은 막·같은 윗단이라 색을 함께 쓴다 — 가르는 까닭은
+/* 근로자 선택하기도 같은 막·같은 윗단이라 색을 함께 쓴다 — 가르는 까닭은
    아래 ⚠ 다(바닥이 서로 다르다) */
 html.edge--dimform,html.edge--dimfind{--ap-edge:#959596}
 html.edge--shot{--ap-edge:#393a3b}
@@ -505,7 +505,7 @@ html,body{background:var(--ap-edge)}
 /* ⚠ 창 밖을 메우는 것은 **background-color 하나**다. 그림(gradient)은
    뿌리 요소의 상자에만 그려지고, 상자 밖으로 남는 자리는 색으로만 채워진다 —
    위아래를 나눠 칠해 보았지만 창 밖은 꿈쩍도 하지 않았다.
-   그래서 근로자 찾기는 **색 자체를 시트의 흰색으로** 둔다. 자판이 뜨면
+   그래서 근로자 선택하기는 **색 자체를 시트의 흰색으로** 둔다. 자판이 뜨면
    창이 줄며 그 자리가 드러나는데, 이 화면의 바닥은 흰 시트이기 때문이다
    (그 전에는 #959596 이 깔려, 반투명한 자판 윗줄 뒤로 회색이 비쳤다).
    윗단 띠(theme-color)는 js 가 --ap-edge 를 따로 읽어 적으므로 회색 그대로다.
@@ -3020,7 +3020,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      글을 받는 것은 진짜 입력칸(.ta · .inp__in)이 한다.
    ⚠ 손가락으로 쓰는 기기(폰·태블릿)에서는 **걷는다**. 거기서는 기기가 제
      자판을 올리므로 그림이 설 까닭이 없고, 서면 자리를 두 번 먹는다 —
-     근로자 찾기도 작업내용 작성과 같은 가름이다. 그 시트는 앞 화면의
+     근로자 선택하기도 작업내용 작성과 같은 가름이다. 그 시트는 앞 화면의
      카드가 data-go-soft 라 **그 누름 안에서** 서고(js 의 soft), 기기
      자판이 그 누름을 타고 함께 올라온다. 자판이 없는 기기에서만 서서
      '자판이 먹는 자리' 를 가늠하게 한다 */
@@ -3637,20 +3637,14 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   display:flex;align-items:center;justify-content:center;
   color:var(--ap-g95)}
 
-/* 고르는 줄과 사진은 한 덩어리로 **남는 자리 가운데**에 선다. 위에 붙여
-   두었더니 바닥 버튼과의 사이가 300 넘게 비어, 아직 덜 그린 화면처럼
-   보였다. 배너는 맨 위에 그대로 남는다 — 저지르기 전에 읽혀야 하는 말이라
-   굴려 내려야 보이면 안 된다 */
-.vrf{margin-block:auto;display:flex;flex-direction:column;gap:var(--ap-gap6)}
-
 /* 찍은 얼굴과 근로자 카드는 한 덩어리로 **남는 자리 가운데**에 선다. 위에
-   붙여 두었더니 바닥 버튼과의 사이가 통째로 비어, 아직 덜 그린 화면처럼
+   붙여 두었더니 바닥 버튼과의 사이가 300 넘게 비어, 아직 덜 그린 화면처럼
    보였다 */
 .vrf{margin-block:auto;display:flex;flex-direction:column;gap:var(--ap-gap6)}
-/* ── 고르기 전의 근로자 카드 ──
-   **카드 꼴 그대로** 비워 둔다 — 고른 뒤에 설 것과 같은 자리·같은 크기라,
-   고르고 나서 화면이 들썩이지 않는다. 테를 점선으로 긋는 것이 '아직
-   채워지지 않았다' 는 말이다(사진 더하는 칸과 같은 어법이다) */
+/* ⚠ 고르기 전에도 '근로자 재선택' 이 설 자리를 **비워서 잡아 둔다**. 잡아
+     두지 않으면 고르는 순간 덩어리가 64 자라, 가운데에 선 사진이 그 절반만큼
+     뛴다(실측: 사진이 180 에서 148 로 올라갔다). 46 은 글자 버튼의 키다 */
+.vrf--empty::after{content:'';flex:none;height:46px}
 /* 고른 근로자의 이름 — **이력 조회의 이름과 같은 크기**(32/40)로 가운데에
    선다. 카드 안의 한 칸이 아니라 이 덩어리의 **머리글**이라, 저쪽에서
    사람을 이끄는 그 글자가 여기서도 같은 몫을 한다.
@@ -3678,21 +3672,33 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .pick__bar--3{width:56px}
 
 /* ── 누르는 것은 이 버튼 하나 ──
-   글자는 바닥 버튼과 같은 단이다(Title2) — 이 화면에서 누를 것이 둘뿐이라
-   무게를 맞춘다. 돋보기를 앞에 두어 '찾으러 간다' 를 글보다 먼저 말한다.
+   근로자 앱의 퇴근하기 과녁(.go__card)과 **같은 꼴**이다: 변까지 꽉 찬 면,
+   r15 의 모서리, 떠 있는 그림자, Title2. 한 앱에서 '지금 눌러야 할 것' 을
+   두 꼴로 그리지 않는다. 돋보기를 앞에 두어 '찾으러 간다' 를 글보다 먼저
+   말한다.
    ⚠ 키는 48 이다. 더 키우면 카드가 220 을 넘어, 고르는 순간 사진이 그만큼
      뛴다(고른 뒤의 카드가 220 이다) */
-.pick__b{flex:none;height:48px;align-self:center;
-  display:inline-flex;align-items:center;justify-content:center;gap:var(--ap-p2);
-  padding:0 var(--ap-p7);border-radius:999px;
+.pick__b{flex:none;height:48px;align-self:stretch;
+  display:flex;align-items:center;justify-content:center;gap:var(--ap-p2);
+  padding:0 var(--ap-p5);border-radius:var(--ap-r15);
   background:var(--ap-primary);color:var(--ap-g0);cursor:pointer;
   font:var(--t-title2);letter-spacing:var(--ls-title2);
-  box-shadow:0 2px 8px rgba(17,90,198,.28);
+  box-shadow:var(--ap-shadow-cta);
   transition:background var(--ap-dur-base) var(--ap-ease-sym),
     box-shadow var(--ap-dur-base) var(--ap-ease-sym)}
 /* 눌리는 동안 한 단 짙어지고 그림자가 꺼진다 — 손가락 밑에서 아무 일도
    일어나지 않으면 버튼이 아니라 이름표로 읽힌다 */
 .pick__b:active{background:var(--ap-primary-70);box-shadow:none}
+/* 고른 뒤의 '다시 고르기' — **글자만으로** 선다. 촬영 확인의 '다시 촬영하기'
+   (.confirm__re)와 같은 결이다. 바닥의 '출근 등록하기' 가 이 화면의 주된
+   동작이라, 여기에 면을 깔면 둘이 같은 무게로 선다.
+   면도 테도 없으니 누를 수 있다는 표는 밑줄이 맡는다 — 밑줄은 글자에만
+   긋는다. 아이콘까지 그으면 줄이 글자에서 떠 보인다 */
+.pick__re{align-self:center;background:none;cursor:pointer;
+  font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-primary);
+  display:flex;align-items:center;gap:var(--ap-p3);
+  padding:var(--ap-p5) var(--ap-p6)}
+.pick__re b{font-weight:inherit;text-decoration:underline;text-underline-offset:3px}
 @media (prefers-reduced-motion:reduce){.pick__b{transition:none}}
 
 /* ── 근로자를 찾는 시트 ──
@@ -3771,6 +3777,16 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 이력 조회도 같다 — 띄울 카드가 없고 이름과 시각이 바로 종이 위에
    앉는다. 옅은 파랑을 깔면 흰 칸 하나만 둥둥 뜬다 */
 .scr--form.is-on,.scr--paper.is-on{background:var(--ap-g0)}
+/* ── 위는 머리줄과 같은 흰색, 아래로 내려오며 화면 바탕으로 풀린다 ──
+   얼굴 등록 동의의 머리말 칸(.card--head)이 쓰는 그 결을 화면 전체로
+   늘인 것이다. 사진 한 장이 가운데 서는 화면이라, 바탕이 한 색으로 꽉 차
+   있으면 사진이 종이에 붙은 것처럼 납작해 보인다.
+   ⚠ **폼 화면의 흰 바탕보다 뒤에 둔다.** 이 저장소의 스타일시트는 순서로
+     이기므로, 앞에 두면 .scr--form.is-on 의 흰색이 덮어 아무 일도
+     일어나지 않는다(실측: 바탕이 그대로 255,255,255 였다).
+   ⚠ 흰색이 끝나는 자리를 못 박지 않는다 — 끊긴 색 두 장을 붙이면 흰 면이
+     네모로 잘려, 머리줄 아래에 또 한 장의 카드가 선 꼴이 된다 */
+.scr--grad.is-on{background:linear-gradient(var(--ap-g0) 0,var(--ap-g0) 14%,var(--ap-primary-5) 54%)}
 
 
 /* ── 태블릿(md) — 700px 부터 ────────────────────────────────
