@@ -1358,18 +1358,20 @@
     try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); }
   }
 
-  /* ── 기기 자판이 올라오면 그림을 걷는다 ──
-     그림은 **자판이 없는 동안** 그 자리를 보여 주는 것이다. 진짜가 올라온
-     뒤에도 서 있으면 319 를 두 번 먹어, 목록이 한 줄도 안 남게 짜부라진다
-     (실측: 844 짜리 창에서 자판이 뜨자 목록이 260 → 51 이 됐다).
+  /* ── 기기 자판이 올라오면 시트를 그 위로 띄운다 ──
+     화면(.scr)은 100svh 로 못 박혀 있다 — 자판이 떠도 줄지 않는 길이다.
+     시트는 그 바닥에 붙으므로, 띄우지 않으면 자판 뒤로 숨는다.
 
      자판이 올라왔는지는 브라우저마다 다르게 알려 온다:
        · 사파리 · 크롬(기본) — 레이아웃 창(innerHeight)은 그대로고 **보이는
          높이**(visualViewport.height)만 준다. 그 차이가 자판이 덮은 만큼이라,
          시트를 그만큼 띄워야 자판 뒤로 숨지 않는다.
        · 크롬(interactive-widget=resizes-content) — 레이아웃 창 자체가 준다.
-         이때 덮은 값은 0 이므로 띄울 것이 없고, 걷기만 하면 된다.
-     두 길을 다 본다 — 어느 쪽이든 '처음 창보다 많이 줄었다' 로 잡는다. */
+         이때 덮은 값은 0 이고, 줄어든 창이 알아서 시트를 올린다.
+     두 길을 다 본다 — 어느 쪽이든 '처음 창보다 많이 줄었다' 로 잡는다.
+     ⚠ 자판이 떴는지는 **보이는 높이가 줄었는가**로만 본다. 덮인 값(cover)
+       에서 offsetTop 을 빼는 것은 **띄울 거리**를 내는 셈일 뿐이라, 그것으로
+       판가름하면 화면이 밀려 있을 때 자판을 못 본 것이 된다. */
   function oskb(hit) {
     var dim = hit.querySelector('.dim--kb');
     var vv = window.visualViewport;
@@ -1378,8 +1380,9 @@
     var base = window.innerHeight;
 
     function see() {
-      var cover = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
-      var up = cover > 120 || base - window.innerHeight > 120;
+      var sank = window.innerHeight - vv.height;
+      var up = sank > 120 || base - window.innerHeight > 120;
+      var cover = Math.max(0, sank - vv.offsetTop);
       /* 자판이 없는 동안의 창이 기준이다 — 돌려 놓으면 기준도 따라간다 */
       if (!up && window.innerHeight > base) base = window.innerHeight;
       dim.style.setProperty('--ap-oskb', Math.round(cover) + 'px');

@@ -3006,23 +3006,16 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    높이를 쓰면 '키보드가 먹는 자리' 가 화면마다 달라진다.
    ⚠ 누를 수 있는 판이 아니라 **그 자리가 얼마인지 보여 주는 그림**이다.
      글을 받는 것은 진짜 입력칸(.ta · .inp__in)이 한다.
-   ⚠ 어디에 서는지는 **아래 세 줄**이 정한다. 기본은 걷는다 — 손가락으로
-     쓰는 기기에서는 기기가 제 자판을 올리므로 그림과 진짜가 겹쳐 두 겹이
-     된다(작업내용 작성이 그렇다). 자판이 없는 기기에서는 선다.
-     근로자 찾기 시트(.dim--kb)만은 **어느 기기에서나** 선다 — 자판이 함께
-     선 모습이 그 화면의 기본값이라서다. 거기서는 기기 자판을 막지 않고,
-     오히려 함께 올린다: 앞 화면의 카드가 data-go-soft 라 시트가 그 누름
-     안에서 서고(js 의 soft), 기기 자판이 **같은 자리에** 올라와 그림을
-     덮는다(그림은 319, 아이폰 세로 한글 자판도 그 언저리다).
-     주소로 바로 연 자리에는 그 누름이 없어 그림만 선다.
-     ⚠ 기기 자판이 실제로 올라오면 그림은 **걷는다**(.dim--kb.is-oskb) —
-       둘이 함께 서면 319 를 두 번 먹어 목록이 짜부라진다. 걷는 일과
-       시트를 띄우는 값(--ap-oskb)은 js 의 oskb() 가 잰다 */
+   ⚠ 손가락으로 쓰는 기기(폰·태블릿)에서는 **걷는다**. 거기서는 기기가 제
+     자판을 올리므로 그림이 설 까닭이 없고, 서면 자리를 두 번 먹는다 —
+     근로자 찾기도 작업내용 작성과 같은 가름이다. 그 시트는 앞 화면의
+     카드가 data-go-soft 라 **그 누름 안에서** 서고(js 의 soft), 기기
+     자판이 그 누름을 타고 함께 올라온다. 자판이 없는 기기에서만 서서
+     '자판이 먹는 자리' 를 가늠하게 한다 */
 .kb{flex:none;height:319px;display:none;flex-direction:column;
   background:var(--ap-kb-bg);box-shadow:0 -1px 0 rgba(0,0,0,.14);
   user-select:none;-webkit-user-select:none}
 @media (hover:hover) and (pointer:fine){ .kb{display:flex} }
-.dim--kb .kb{display:flex}
 
 .kb__rows{flex:1;display:flex;flex-direction:column;gap:6px;padding:6px 3px 8px}
 .kb__r{flex:1;display:flex;gap:5px;justify-content:center;padding:0 3px}
@@ -3677,10 +3670,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    자판이 제 것으로 쥔다 */
 .dim--kb{flex-direction:column;justify-content:flex-end;align-items:stretch}
 .dim--kb > .sheet{padding-bottom:0;margin-bottom:0}
-/* 기기 자판이 올라온 자리 — 그림을 걷고, 자판이 덮은 만큼 시트를 띄운다.
-   사파리는 자판이 떠도 레이아웃 창이 그대로라, 띄우지 않으면 시트가
-   자판 뒤로 숨는다(--ap-oskb 는 덮인 높이다. 창이 줄어드는 브라우저에서는
-   덮인 것이 없어 0 이 온다) */
+/* 기기 자판이 올라온 자리 — 자판이 덮은 만큼 시트를 띄운다. 사파리는
+   자판이 떠도 레이아웃 창(.scr 의 100svh)이 그대로라, 띄우지 않으면
+   시트가 자판 뒤로 숨는다(--ap-oskb 는 덮인 높이다. 창이 줄어드는
+   브라우저에서는 덮인 것이 없어 0 이 온다).
+   그림도 함께 걷는다 — 자판이 없는 기기에 블루투스 자판을 붙인 자리다 */
 .dim--kb.is-oskb{padding-bottom:var(--ap-oskb,0px)}
 .dim--kb.is-oskb .kb{display:none}
 /* 커서가 들어가 있는 칸 — 테가 짙어진다(폼의 고른 칸과 같은 표다) */
@@ -3694,9 +3688,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .inp__in::placeholder{color:var(--ap-text-gray)}
 /* 목록은 시트 안에서 **굴러간다** — 현장의 근로자가 늘어도 시트가 화면을
    덮지 않는다. 바닥 여백은 홈 인디케이터 자리까지 내려간다.
-   ⚠ 자판 그림이 319 를 먹는다 — 빼지 않으면 시트와 자판이 합쳐 창을
-     넘는다(844 에서 847 이 됐다). 이 시트에서는 자판 그림이 어느
-     기기에서나 서므로 기기를 가리지 않고 짧게 잡는다 */
+   ⚠ 자판이 319 를 먹는다 — 빼지 않으면 시트와 자판이 합쳐 창을 넘는다
+     (844 에서 847 이 됐다). 그림이든 기기 자판이든 먹는 자리는 같으므로
+     기기를 가리지 않고 짧게 잡는다 */
 .find__list{overflow-y:auto;overscroll-behavior:contain;
   max-height:min(260px,32svh);
   padding:0 var(--ap-p6) max(var(--ap-p6),env(safe-area-inset-bottom))}
