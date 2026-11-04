@@ -172,20 +172,18 @@
            이름표의 단계는 셸이 세어 적는다(--sub 이면 2단) -->
       <span class="proto-nav-group-label proto-nav-group-label--sub">목록에서 고르면</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-job"
-        data-why="거른 뒤에도 무엇으로 걸렀는지가 머리줄에 남습니다.
-
-필터를 다시 열지 않아도 지금 보고 있는 것을 알 수 있습니다."
+        data-why="선택된 드롭다운 필터에 해당되는 리스트만 보이는 화면입니다"
         data-steps="근로자 관리에서 직종을 '형틀목공' 으로 고른 상태"
         data-look="
-          |@{.sel--selected} 고르고 나면 필터의 글씨가 굵고 짙어집니다 — 고르기 전에는 '전체' 에 보통 굵기입니다
-          |@{.sel__n} 그 옆의 수도 걸러진 뒤의 수로 바뀝니다">직종을 고르면</button>
+          |@{.sel--selected} 선택한 항목의 폰트 굵기 스타일이 달라집니다.
+          |@{.sel__n} 숫자 뱃지도 필터링된 수로 바뀝니다">필터(직종) 선택</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-pick"
         data-why="삭제는 되돌릴 수 없어, 고른 사람이 있을 때만 켜집니다."
         data-steps="근로자 관리에서 홍길동과 김철수를 고른 상태"
         data-look="
           |@{.card--photo:has(.chk--on)} 고른 카드는 카드째 파란 테를 두릅니다. 면은 흰색 그대로라, 고르지 않은 카드와 테만 갈립니다
           |@{.lbar__n} 오른쪽 끝에 '선택 2명' 이 적힙니다 — 고르기 전에는 그 자리가 비어 있습니다. 필터 옆의 수는 목록에 남은 수라 세는 것이 다릅니다
-          |@{.act__b--dark} 삭제가 켜집니다">근로자를 선택하면</button>
+          |@{.act__b--dark} 삭제가 켜집니다">근로자 선택</button>
       <span class="proto-nav-group-label">현장소장 앱 · 근로자 얼굴 등록</span>
       <!-- 셋은 같은 폼의 세 모습이다 — 외국인 여부와 '여권번호 등록' 체크에 따라
            받는 칸이 갈린다. 구역 이름이 이미 '근로자 얼굴 등록' 이라, 그 아래 2단계
