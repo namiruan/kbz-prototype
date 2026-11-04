@@ -3718,6 +3718,8 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* ── 근로자를 찾는 시트 ──
    적는 칸은 시트의 좌우 여백 안에 든다(머리줄과 같은 16). 목록만 변까지
    내보내면 적는 칸이 혼자 들어가 보인다 */
+/* 상태 거르개 — 검색 칸과 같은 세로 선에서 시작한다 */
+.fsta{flex:none;display:flex;gap:var(--ap-p3);padding:0 var(--ap-p6) var(--ap-p5)}
 .find{padding-inline:var(--ap-p6)}
 /* 돋보기는 **오른쪽 끝**에 선다 — 시안의 찾는 줄이 그 자리에 둔다
    (638:7039 쪽 '복사현장 : 현장을 선택해 주세요'). 글이 먼저고 길은 끝에

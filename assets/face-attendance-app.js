@@ -984,7 +984,10 @@
   }
 
   function tally(scr) {
-    var chips = [].slice.call(scr.querySelectorAll('.cnt'));
+    /* ⚠ **무엇을 세는지 적어 둔 알약만** 집는다(data-at). 같은 알약을 쓰되
+       세지 않는 자리가 있다 — 필터 시트의 재직·퇴사·차단이 그렇다. 통째로
+       집으면 셀 줄이 없는 그 화면에서 적어 둔 수가 0 으로 덮인다(실측). */
+    var chips = [].slice.call(scr.querySelectorAll('.cnt[data-at]'));
     if (!chips.length) return;
     var rows = [].slice.call(scr.querySelectorAll('.log'));
 

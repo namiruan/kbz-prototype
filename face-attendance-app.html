@@ -407,19 +407,29 @@
 </section>
 
 
-<!-- ===== ①-3 현장소장 앱 · 직종 고르기 (앱 네이티브) =====
-     근로자 관리의 필터를 누르면 올라온다. 근로자 선택하기 시트와 **같은 꼴**이다 —
+<!-- ===== ①-3 현장소장 앱 · 필터 (앱 네이티브) =====
+     근로자 관리의 필터를 누르면 올라온다. 거르는 축은 둘이다 — 상태와 직종. 근로자 선택하기 시트와 **같은 꼴**이다 —
      한 앱에서 '적어서 고르는 일' 이 한 가지 꼴로 서야, 어디서 올라온 것인지 눈이
      매번 다시 잡지 않는다.
      ⚠ 화면을 갈지 않고 그 누름 안에서 띄운다(data-go-soft) — 그래야 기기 키보드가
        함께 올라온다. 까닭은 js 의 soft 에 적어 두었다 -->
-<section class="scr has-dim" data-screen="m-workers-filter" data-title="근로자 관리 — 직종 고르기"
+<section class="scr has-dim" data-screen="m-workers-filter" data-title="근로자 관리 — 필터"
   data-behind="m-workers">
   <div class="dim dim--sheet dim--kb" data-go="m-workers" data-go-self>
     <div class="sheet" role="dialog" aria-labelledby="mJobT">
       <div class="sheet__h">
         <p class="sheet__t" id="mJobT">필터</p>
         <button class="sheet__x" type="button" aria-label="닫기" data-go="m-workers"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+      </div>
+      <!-- 상태는 셋뿐이라 목록이 아니라 **알약 줄**이다 — 적어서 찾을 것이
+           없고, 셋이 한 줄에 들어 한눈에 견준다. 이력의 거르개(.cnt)가
+           쓰는 그 알약이다.
+           직종보다 위인 것은 거르는 폭이 더 넓어서다 — 재직인지 퇴사인지가
+           먼저 갈리고, 직종은 그 안에서 다시 갈린다 -->
+      <div class="fsta">
+        <button class="cnt is-on" type="button"><span class="cnt__k">재직</span><span class="cnt__n">5</span></button>
+        <button class="cnt" type="button"><span class="cnt__k">퇴사</span><span class="cnt__n">2</span></button>
+        <button class="cnt" type="button"><span class="cnt__k">차단</span><span class="cnt__n">1</span></button>
       </div>
       <div class="find">
         <div class="inp inp--find is-on">
