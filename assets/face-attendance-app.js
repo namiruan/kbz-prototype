@@ -1362,31 +1362,28 @@
      화면(.scr)은 100svh 로 못 박혀 있다 — 자판이 떠도 줄지 않는 길이다.
      시트는 그 바닥에 붙으므로, 띄우지 않으면 자판 뒤로 숨는다.
 
-     자판이 올라왔는지는 브라우저마다 다르게 알려 온다:
-       · 사파리 · 크롬(기본) — 레이아웃 창(innerHeight)은 그대로고 **보이는
-         높이**(visualViewport.height)만 준다. 그 차이가 자판이 덮은 만큼이라,
-         시트를 그만큼 띄워야 자판 뒤로 숨지 않는다.
-       · 크롬(interactive-widget=resizes-content) — 레이아웃 창 자체가 준다.
-         이때 덮은 값은 0 이고, 줄어든 창이 알아서 시트를 올린다.
-     두 길을 다 본다 — 어느 쪽이든 '처음 창보다 많이 줄었다' 로 잡는다.
-     ⚠ 자판이 떴는지는 **보이는 높이가 줄었는가**로만 본다. 덮인 값(cover)
-       에서 offsetTop 을 빼는 것은 **띄울 거리**를 내는 셈일 뿐이라, 그것으로
-       판가름하면 화면이 밀려 있을 때 자판을 못 본 것이 된다. */
+     얼마나 덮였는지는 **상자 자신에게 묻는다** — 시트가 든 자리(.dim)의
+     바닥이 '보이는 창' 의 바닥보다 얼마나 아래인가, 그것이 곧 가려진
+     만큼이다. 둘 다 레이아웃 창을 기준으로 재는 값이라 바로 뺄 수 있다.
+
+     ⚠ innerHeight 로 재지 않는다. 사파리에서 innerHeight 는 주소줄이
+       걷힌 큰 창이고, 상자는 100svh(주소줄이 선 작은 창)다 — 섞어 재면
+       주소줄 높이만큼 **더 띄워**, 시트가 자판 위에 붕 뜬 채 짜부라진다
+       (실측: 420 짜리 시트가 259 로 눌렸다).
+     ⚠ 레이아웃 창 자체가 주는 브라우저(크롬 interactive-widget=
+       resizes-content)에서는 상자도 함께 줄어 가려진 것이 0 으로 나온다 —
+       줄어든 창이 이미 시트를 올려 둔 자리라, 더 띄울 것이 없다. */
   function oskb(hit) {
     var dim = hit.querySelector('.dim--kb');
     var vv = window.visualViewport;
     if (!dim || !vv) return;
 
-    var base = window.innerHeight;
-
     function see() {
-      var sank = window.innerHeight - vv.height;
-      var up = sank > 120 || base - window.innerHeight > 120;
-      var cover = Math.max(0, sank - vv.offsetTop);
-      /* 자판이 없는 동안의 창이 기준이다 — 돌려 놓으면 기준도 따라간다 */
-      if (!up && window.innerHeight > base) base = window.innerHeight;
-      dim.style.setProperty('--ap-oskb', Math.round(cover) + 'px');
-      dim.classList.toggle('is-oskb', up);
+      /* 여백은 상자 **안쪽**에 드는 것이라 바닥은 움직이지 않는다 —
+         재고 띄우는 일이 서로를 밀지 않는다 */
+      var cover = Math.max(0, Math.round(dim.getBoundingClientRect().bottom - (vv.offsetTop + vv.height)));
+      dim.style.setProperty('--ap-oskb', cover + 'px');
+      dim.classList.toggle('is-oskb', cover > 120);
     }
 
     vv.addEventListener('resize', see);
