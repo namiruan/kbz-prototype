@@ -1959,9 +1959,19 @@
         <button class="sheet__x" type="button" aria-label="닫기" data-go="m-verify"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
       <!-- 적는 칸 — 돋보기는 **오른쪽 끝**에 20 으로 선다(시안 638:7039 의
-           찾는 줄과 같은 자리·같은 크기). 커서가 들어가 있다 -->
+           찾는 줄과 같은 자리·같은 크기).
+           ⚠ **진짜 입력칸이다.** div 로 두었더니 폰에서 집을 것이 없어 기기
+             자판이 올라오지 않았다 — 자판 그림은 폰에서 걷는 터라 자판이
+             아예 없었다. 작업내용 화면의 글칸(.ta)과 같은 꼴로 둔다.
+           ⚠ autofocus 는 **되는 데서만 된다**. 사파리는 사람이 누르지 않은
+             focus 로 자판을 올리지 않는다(주소를 갈아 켜는 이 프로토타입은
+             그 누름이 다음 화면까지 이어지지 않는다) — 폰에서는 칸을 한 번
+             눌러야 자판이 선다 -->
       <div class="find">
-        <div class="inp inp--ph inp--find is-on">이름을 입력해주세요<svg class="ic ic--24" aria-hidden="true"><use href="#icon-search"></use></svg></div>
+        <div class="inp inp--find is-on">
+          <input class="inp__in" type="text" placeholder="이름을 입력해주세요" aria-label="근로자 이름" autofocus>
+          <svg class="ic ic--24" aria-hidden="true"><use href="#icon-search"></use></svg>
+        </div>
       </div>
       <!-- 목록은 근로자 관리의 카드를 그대로 쓴다. 다른 것은 셋이다 —
            고르는 네모와 앱·PC 뱃지를 떼고, 오른쪽 꺾쇠도 뗀다(여기서

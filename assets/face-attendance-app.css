@@ -3670,6 +3670,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .dim--kb > .sheet{padding-bottom:0;margin-bottom:0}
 /* 커서가 들어가 있는 칸 — 테가 짙어진다(폼의 고른 칸과 같은 표다) */
 .inp--find.is-on{border-color:var(--ap-border-selected);color:var(--ap-g95)}
+/* 진짜 입력칸이다 — 테와 면은 바깥 칸(.inp)이 쥐고, 이것은 글만 받는다
+   (작업내용의 글칸 .ta 와 같은 꼴). 폰에서 기기 자판이 올라오려면 집을
+   것이 있어야 한다 */
+.inp__in{flex:1;min-width:0;border:0;outline:0;padding:0;background:none;
+  font:var(--t-body);font-family:var(--ap-font);letter-spacing:var(--ls-body);
+  color:var(--ap-g95)}
+.inp__in::placeholder{color:var(--ap-text-gray)}
 /* 목록은 시트 안에서 **굴러간다** — 현장의 근로자가 늘어도 시트가 화면을
    덮지 않는다. 바닥 여백은 홈 인디케이터 자리까지 내려간다 */
 .find__list{overflow-y:auto;overscroll-behavior:contain;
