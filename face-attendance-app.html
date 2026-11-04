@@ -1931,31 +1931,21 @@
              채워질 자리를 그대로 비워 두고 그 위를 돋보기가 지난다.
              글자는 고른 뒤의 이름과 같은 크기(32/40)에 브랜드 색이라,
              이 덩어리에서 누를 것이 무엇인지 한눈에 든다 -->
-      <button class="card card--go card--pick" type="button" data-go="m-verify-find" data-go-soft>
-        <!-- **고른 뒤의 카드를 그대로 비워 둔다.** 그림 속에 또 카드를
-             그리면 카드 안의 카드가 된다 — 채워질 자리 그 위를 돋보기가
-             지나가는 것이 이 자리가 하는 일이다.
-             줄의 이름(주민번호 · 연락처 · 직종)은 고른 뒤와 같고, 값만
-             아직 비어 띠로 누워 있다 -->
-        <span class="card__nm card__nm--ph">근로자 선택하기</span>
+      <!-- **카드는 스켈레톤이다.** 고른 뒤에 설 카드를 그대로 비워 둔다 —
+           줄의 이름은 같고 값만 띠로 눕는다. 카드 자체는 누르는 자리가
+           아니다 — 누르는 것은 이름이 들 자리에 선 **버튼 하나**다.
+           ⚠ 카드를 button 으로 두고 그 안에 또 button 을 넣을 수는 없다.
+             카드는 div 로 두고, 가는 길(data-go)은 버튼이 쥔다.
+           ⚠ 버튼은 이름 자리를 그대로 차지한다(40). 아래에 따로 달면
+             카드가 그만큼 길어져, 고르는 순간 사진이 뛴다 -->
+      <div class="card card--pick">
+        <button class="pick__b" type="button" data-go="m-verify-find" data-go-soft>근로자 선택하기</button>
         <span class="rows rows--bare pick__rows">
           <span class="row"><span class="row__k">주민번호</span><span class="pick__bar pick__bar--1"></span></span>
           <span class="row"><span class="row__k">연락처</span><span class="pick__bar pick__bar--2"></span></span>
           <span class="row"><span class="row__k">직종</span><span class="pick__bar pick__bar--3"></span></span>
-          <span class="pick__lens" aria-hidden="true">
-            <svg viewBox="0 0 44 44" width="44" height="44">
-              <circle class="pick__glass" cx="20" cy="20" r="11.2"/>
-              <!-- 테는 선이 아니라 **면으로 된 고리**다 — 이 저장소의 그림은
-                   모두 면으로 그린다(안전모·챙이 그렇다) -->
-              <path class="pick__rim" fill-rule="evenodd"
-                d="M20,6.2A13.8,13.8 0 1 1 20,33.8A13.8,13.8 0 1 1 20,6.2Z
-                   M20,9A11,11 0 1 0 20,31A11,11 0 1 0 20,9Z"/>
-              <rect class="pick__grip" x="17.1" y="32.6" width="5.8" height="10.4" rx="2.9"
-                transform="rotate(-45 20 20)"/>
-            </svg>
-          </span>
         </span>
-      </button>
+      </div>
     </div>
   </main>
 
