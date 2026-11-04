@@ -1925,9 +1925,14 @@
 
       <!-- 고르기 전의 자리 — **카드 꼴 그대로** 비워 둔다. 고른 뒤에 설
            것과 같은 자리·같은 키라(min-height), 고르고 나서 화면이 들썩이지
-           않는다. 테를 점선으로 긋는 것이 '아직 채워지지 않았다' 는 말이다 -->
+           않는다. 테를 점선으로 긋는 것이 '아직 채워지지 않았다' 는 말이다.
+           ⚠ 빈 칸이 아니라 **누르는 자리**로 보여야 한다. 글자는 고른 뒤의
+             이름과 같은 크기로 세우고(32/40), 사람 표와 알약을 위아래로
+             두어 '여기를 누르면 채워진다' 를 눈에 보이게 한다 -->
       <button class="card card--go card--pick" type="button" data-go="m-verify-find" data-go-soft>
+        <span class="pick__ic"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <span class="card__nm card__nm--ph">근로자 정보를 선택해주세요</span>
+        <span class="pick__b">근로자 찾기<svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></span>
       </button>
     </div>
   </main>
