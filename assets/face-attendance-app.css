@@ -3663,7 +3663,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    보이게 하고, 누르는 일은 이름 자리에 선 버튼 하나가 맡는다.
    카드까지 버튼으로 만들면 누를 데가 둘이 되어, 어디를 눌러야 할지
    되묻게 된다 */
-.card--pick{align-items:stretch;justify-content:center;min-height:220px}
+/* ⚠ 위아래 여백은 12 다(옆은 16 그대로). 버튼이 48 로 서는 만큼 여기서
+     덜어 내야 키가 220 에 맞는다 — 12 + 48 + 10 + 138 + 12.
+     옆까지 줄이면 줄의 이름이 고른 뒤와 어긋난 자리에서 시작한다 */
+.card--pick{align-items:stretch;justify-content:center;min-height:220px;
+  padding-block:var(--ap-p5)}
 
 /* ── 아직 비어 있는 값 — 띠로 눕는다 ──
    값이 들 자리의 길이를 미리 보여 준다. 길이가 제각각인 것은 들어올 값이
@@ -3674,13 +3678,15 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .pick__bar--3{width:56px}
 
 /* ── 누르는 것은 이 버튼 하나 ──
-   ⚠ 키는 이름 한 줄과 같은 40 이다. 더 키우면 카드가 길어져, 고르는 순간
-     사진이 그만큼 뛴다(고른 뒤의 카드는 220 이다) */
-.pick__b{flex:none;height:40px;align-self:center;
-  display:inline-flex;align-items:center;justify-content:center;
+   글자는 바닥 버튼과 같은 단이다(Title2) — 이 화면에서 누를 것이 둘뿐이라
+   무게를 맞춘다. 돋보기를 앞에 두어 '찾으러 간다' 를 글보다 먼저 말한다.
+   ⚠ 키는 48 이다. 더 키우면 카드가 220 을 넘어, 고르는 순간 사진이 그만큼
+     뛴다(고른 뒤의 카드가 220 이다) */
+.pick__b{flex:none;height:48px;align-self:center;
+  display:inline-flex;align-items:center;justify-content:center;gap:var(--ap-p2);
   padding:0 var(--ap-p7);border-radius:999px;
   background:var(--ap-primary);color:var(--ap-g0);cursor:pointer;
-  font:var(--t-title3-em);letter-spacing:var(--ls-title3);
+  font:var(--t-title2);letter-spacing:var(--ls-title2);
   box-shadow:0 2px 8px rgba(17,90,198,.28);
   transition:background var(--ap-dur-base) var(--ap-ease-sym),
     box-shadow var(--ap-dur-base) var(--ap-ease-sym)}

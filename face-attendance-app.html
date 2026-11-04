@@ -1936,10 +1936,10 @@
            아니다 — 누르는 것은 이름이 들 자리에 선 **버튼 하나**다.
            ⚠ 카드를 button 으로 두고 그 안에 또 button 을 넣을 수는 없다.
              카드는 div 로 두고, 가는 길(data-go)은 버튼이 쥔다.
-           ⚠ 버튼은 이름 자리를 그대로 차지한다(40). 아래에 따로 달면
-             카드가 그만큼 길어져, 고르는 순간 사진이 뛴다 -->
+           ⚠ 버튼이 키운 만큼(48) 카드의 위아래 여백에서 덜어 낸다(16→12).
+             아래에 따로 달거나 카드를 길게 두면, 고르는 순간 사진이 뛴다 -->
       <div class="card card--pick">
-        <button class="pick__b" type="button" data-go="m-verify-find" data-go-soft>근로자 선택하기</button>
+        <button class="pick__b" type="button" data-go="m-verify-find" data-go-soft><svg class="ic ic--24" aria-hidden="true"><use href="#icon-search"></use></svg>근로자 선택하기</button>
         <span class="rows rows--bare pick__rows">
           <span class="row"><span class="row__k">주민번호</span><span class="pick__bar pick__bar--1"></span></span>
           <span class="row"><span class="row__k">연락처</span><span class="pick__bar pick__bar--2"></span></span>
