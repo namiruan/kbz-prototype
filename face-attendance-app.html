@@ -1956,9 +1956,14 @@
     </div>
   </main>
 
-  <!-- 누구인지 정해지기 전에는 등록할 것도 없다 — 꺼 둔다 -->
-  <div class="act act--end">
-    <button class="act__b act__b--off" type="button" disabled aria-disabled="true">출근 등록하기</button>
+  <!-- 누구인지 정해지기 전에는 등록할 것도 없다 — **걷는다**. 꺼 둔 채로
+       두었더니 회색 띠가 바닥에 눌러앉아, 할 수 있는 일이 없는 화면처럼
+       보였다.
+       ⚠ 자리는 그대로 잡아 둔다(act--void). 통째로 덜어 내면 본문이 그만큼
+         넓어져, 가운데에 선 덩어리가 내려앉는다 — 고르는 순간 사진이 뛴다.
+         비워 둔 자리에는 화면 바탕만 깔리므로 눈에는 아무것도 없다 -->
+  <div class="act act--end act--void" aria-hidden="true">
+    <button class="act__b act__b--off" type="button" disabled aria-disabled="true" tabindex="-1">출근 등록하기</button>
   </div>
 </section>
 

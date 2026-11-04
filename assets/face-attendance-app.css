@@ -1392,6 +1392,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .act--split .act__b:last-child{flex:1}
 /* 아래 내비게이션이 없는 화면은 바가 홈 인디케이터 자리까지 내려간다 */
 .act--end .act__b{padding-bottom:max(var(--ap-p10),env(safe-area-inset-bottom))}
+/* 걷어 둔 바닥 — **자리는 잡고 눈에만 없다**. 통째로 덜어 내면 본문이 그만큼
+   넓어져, 가운데에 선 덩어리가 내려앉는다(고르는 순간 사진이 뛴다).
+   비워 둔 자리에는 화면 바탕만 깔리므로 눈에는 아무것도 없다 */
+.act--void{visibility:hidden}
 
 /* 근로자 앱의 출근·퇴근 과녁 — 현장소장 앱의 등록 시작 과녁(.cta)과 같은
    **짜임**이다. 이름과 '시작' 표가 한 줄에 서고, 그 아래 선을 긋고 설명이
@@ -3656,7 +3660,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* ⚠ 고르기 전에도 '근로자 재선택' 이 설 자리를 **비워서 잡아 둔다**. 잡아
      두지 않으면 고르는 순간 덩어리가 64 자라, 가운데에 선 사진이 그 절반만큼
      뛴다(실측: 사진이 180 에서 148 로 올라갔다). 46 은 글자 버튼의 키다 */
-.vrf--empty::after{content:'';flex:none;height:46px}
+/* 46 은 글자 버튼의 키이고, 8 은 '근로자 선택하기' 가 220 을 넘긴 만큼이다 —
+   둘을 빼고 더한 자리가 고른 뒤의 덩어리와 같은 키가 되게 맞춘다 */
+.vrf--empty::after{content:'';flex:none;height:38px}
 /* 고른 근로자의 이름 — **이력 조회의 이름과 같은 크기**(32/40)로 가운데에
    선다. 카드 안의 한 칸이 아니라 이 덩어리의 **머리글**이라, 저쪽에서
    사람을 이끄는 그 글자가 여기서도 같은 몫을 한다.
@@ -3678,7 +3684,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* ── 아직 비어 있는 값 — 띠로 눕는다 ──
    값이 들 자리의 길이를 미리 보여 준다. 길이가 제각각인 것은 들어올 값이
    제각각이기 때문이다(주민번호 · 연락처 · 직종) */
-.pick__bar{flex:none;height:12px;border-radius:6px;background:var(--ap-g10)}
+/* ⚠ 띠는 12 지만 줄의 키는 **고른 뒤와 같은 46** 이어야 한다. 값이 드는
+     자리가 22 라, 위아래로 5씩 둘러 그 키를 채운다 — 맞추지 않으면 줄마다
+     2씩 낮아져 카드가 6 줄어든다 */
+.pick__bar{flex:none;height:12px;margin-block:5px;border-radius:6px;background:var(--ap-g10)}
 .pick__bar--1{width:124px}
 .pick__bar--2{width:132px}
 .pick__bar--3{width:56px}
@@ -3688,9 +3697,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    r15 의 모서리, 떠 있는 그림자, Title2. 한 앱에서 '지금 눌러야 할 것' 을
    두 꼴로 그리지 않는다. 돋보기를 앞에 두어 '찾으러 간다' 를 글보다 먼저
    말한다.
-   ⚠ 키는 48 이다. 더 키우면 카드가 220 을 넘어, 고르는 순간 사진이 그만큼
-     뛴다(고른 뒤의 카드가 220 이다) */
-.pick__b{flex:none;height:48px;align-self:stretch;
+   ⚠ 키는 56 이다 — 바닥 버튼과 같은 단이다. 이만큼이면 카드가 228 로
+     고른 뒤의 220 보다 8 크므로, 그 8 은 아래 빈 자리(.vrf--empty::after)
+     에서 덜어 낸다. 덜어 내지 않으면 고르는 순간 사진이 4 뛴다 */
+.pick__b{flex:none;height:56px;align-self:stretch;
   display:flex;align-items:center;justify-content:center;gap:var(--ap-p2);
   padding:0 var(--ap-p5);border-radius:var(--ap-r15);
   background:var(--ap-primary);color:var(--ap-g0);cursor:pointer;
