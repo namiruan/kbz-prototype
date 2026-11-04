@@ -3410,6 +3410,18 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    남은 초는 js 가 1초마다 줄여 쓴다(wait) — 자리가 흔들리지 않게 숫자는
    같은 너비로 둔다 */
 .cam__auto__n{font-variant-numeric:tabular-nums}
+/* ── 다시 보지 않기 ──
+   촬영 확인의 '다시 촬영하기'(.confirm__re)와 같은 결이다 — 면도 테도 없고,
+   누를 수 있다는 표는 밑줄이 맡는다. 밑줄은 글자에만 긋는다.
+   세는 줄 **위**에 선다: 아래로 내려갈수록 저지르는 쪽이라(바닥의 '바로
+   촬영하기'), 건너뛰는 길은 그 줄기에서 비켜 서야 한다.
+   자리는 바닥 버튼과 세는 줄을 쌓은 만큼 올라온 값이다 — 세는 줄의 키(18)와
+   틈(10)을 더한다 */
+.cam__skip{position:absolute;left:50%;transform:translateX(-50%);
+  bottom:calc(var(--ap-p10) + var(--ap-cam-go-h) + var(--ap-p4) + 18px + var(--ap-p4));
+  display:flex;align-items:center;gap:var(--ap-p3);padding:var(--ap-p3) var(--ap-p5);
+  font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-g0);cursor:pointer}
+.cam__skip b{font-weight:inherit;text-decoration:underline;text-underline-offset:3px}
 .cam__auto{position:absolute;left:0;right:0;
   bottom:calc(var(--ap-p10) + var(--ap-cam-go-h) + var(--ap-p4));
   padding:0 var(--ap-p6);text-align:center;word-break:keep-all;
