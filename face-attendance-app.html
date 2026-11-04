@@ -108,7 +108,12 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <button class="sel sel--inline sel--ghost" type="button" data-go="m-workers-filter" data-go-soft><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        <!-- 걸린 필터만큼 칩이 선다 — 축이 둘이라(상태 · 직종) 트리거 하나로는
+             둘 다 적을 수 없다. 시트의 알약과 **같은 꼴**이라, 고른 것과
+             걸린 것이 한 가지 말로 보인다.
+             아무 칩이나 누르면 그 시트가 다시 올라온다 — 고치러 가는 길은
+             걸린 것 위에 있는 쪽이 짧다 -->
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
       </span>
     </div>
     <div class="list">
@@ -235,7 +240,12 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <button class="sel sel--inline sel--ghost" type="button" data-go="m-workers-filter" data-go-soft><span class="sel__t">전체</span><span class="sel__n">5</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        <!-- 걸린 필터만큼 칩이 선다 — 축이 둘이라(상태 · 직종) 트리거 하나로는
+             둘 다 적을 수 없다. 시트의 알약과 **같은 꼴**이라, 고른 것과
+             걸린 것이 한 가지 말로 보인다.
+             아무 칩이나 누르면 그 시트가 다시 올라온다 — 고치러 가는 길은
+             걸린 것 위에 있는 쪽이 짧다 -->
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
       </span>
       <!-- 오른쪽 끝의 수는 **고른 수**다 — 거르개 옆의 수(목록에 남은 수)와
            다른 것을 센다. 둘을 한 자리에 둘 수 없는 까닭이다 -->
@@ -361,7 +371,12 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <button class="sel sel--inline sel--ghost sel--selected" type="button" data-go="m-workers-filter" data-go-soft><span class="sel__t">형틀목공</span><span class="sel__n">2</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+        <!-- 걸린 필터만큼 칩이 선다 — 축이 둘이라(상태 · 직종) 트리거 하나로는
+             둘 다 적을 수 없다. 시트의 알약과 **같은 꼴**이라, 고른 것과
+             걸린 것이 한 가지 말로 보인다.
+             아무 칩이나 누르면 그 시트가 다시 올라온다 — 고치러 가는 길은
+             걸린 것 위에 있는 쪽이 짧다 -->
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">형틀목공</span><span class="cnt__n">2</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
       </span>
     </div>
     <div class="list">
