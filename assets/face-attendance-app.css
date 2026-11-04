@@ -2647,12 +2647,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 고른 카드만 떠 있는다 — 테에 더해 그림자까지 주면, 고르지 않은 쪽이
    종이에 눕고 고른 쪽만 들린다 */
 .stmp .tcard.is-on{border-color:var(--ap-primary);box-shadow:var(--ap-shadow-card)}
-/* 테와 그림자는 '어느 쪽이 떠 있나' 는 말해도 '내가 고른 것' 이라고는
-   말하지 않는다 — 둘 다 찍힌 날에는 같은 꼴 카드가 나란히 서서, 테 굵기
-   하나로 가려야 한다. 머리에 체크를 얹어 고른 쪽을 못 박는다.
-   근로자 고르기(.chk)와 날짜별 인증의 거르개(.cnt)가 쓰는 그 표시다 */
-.tcard__c{display:none}
-.stmp .tcard.is-on .tcard__c{display:block;color:var(--ap-primary)}
 @media (prefers-reduced-motion:reduce){.stmp .tcard{transition:none}}
 /* 찍히지 않은 쪽은 고를 것이 없다 — 보여 줄 사진도 없다 */
 .stmp .tcard:disabled{cursor:default}
@@ -2713,16 +2707,16 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    현장이 정한 것, 아래는 그날 남은 것으로 한 번에 읽힌다.
    카드의 변까지 꽉 채운다 — 안으로 들여 두면 머리가 아니라 카드 안의
    또 하나의 칸이 된다(카드의 패딩을 음수 여백으로 되돌린다) */
-.tcard__h{display:flex;align-items:center;justify-content:space-between;
+/* 머리줄에는 이름 하나뿐이라 **가운데**다. 전에는 기준 시각('07:00부터')이
+   오른쪽 끝에 함께 서서 양 끝으로 밀었는데, 그 값을 두 앱 모두에서 걷었다 —
+   하나만 두고 왼쪽에 붙여 두면 카드의 나머지(시각 · 꼬리표)가 모두 가운데인데
+   머리만 혼자 치우쳐 선다 */
+.tcard__h{display:flex;align-items:center;justify-content:center;
   gap:var(--ap-p3);align-self:stretch;min-height:22px;
   margin:calc(var(--ap-p5) * -1) calc(var(--ap-p6) * -1) var(--ap-p2);
   padding:var(--ap-p3) var(--ap-p6);background:var(--ap-g5);
   border-radius:var(--ap-r10) var(--ap-r10) 0 0}
-/* 이름만 남은 머리줄은 **가운데**다 — 양 끝으로 미는 것은 둘이 설 때의
-   일이다. 하나만 두고 왼쪽에 붙여 두면, 카드의 나머지(시각 · 꼬리표)가
-   모두 가운데인데 머리만 혼자 왼쪽으로 치우쳐 선다.
-   기준 시각이 남아 있는 자리(현장소장 앱의 이력 사진보기)는 그대로 둔다 */
-.tcard__h:not(:has(.tcard__b)){justify-content:center}
+
 /* 값이 든 카드의 머리는 옅은 브랜드 면이다 — 아래 수가 브랜드 색이라
    머리와 수가 한 식구로 선다. 빈 카드는 회색 그대로 물러서 있는다 */
 .tcard:not(:has(.tcard__v--none)) .tcard__h{background:var(--ap-primary-5)}
@@ -2778,31 +2772,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 아직 찍히지 않은 카드는 **머리까지 물러선다** — 면만 회색으로 돌리고
    글자는 짙은 브랜드 색으로 두었더니, 비어 있는 카드가 찍힌 카드만큼
    또렷해 둘이 같은 무게로 섰다 */
-.tcard:has(.tcard__v--none) .tcard__k,
-.tcard:has(.tcard__v--none) .tcard__b b{color:var(--ap-text-dark)}
-/* ⚠ 근로자 앱에서는 **걷었다** — 홈과 출퇴근 정보에서 기준 시각을 보이지
-     않게 했다. 남은 자리는 현장소장 앱의 이력 사진보기다.
-   기준 시각은 **이름 옆**이다. 카드의 발에 '기준 07:00' 으로 따로
-   두었더니 찍힌 시각과 기준이 카드의 위아래 끝으로 갈려, 늦었는지
-   보려면 눈이 한 번 더 오르내렸다. 이름 바로 옆에 두면 '출근은 7시부터'
-   가 한 줄로 읽히고, 그 아래 찍힌 시각이 그 줄에 대는 답이 된다.
-   '기준' 이라는 말은 뗀다 — '부터'·'까지' 가 그 자리에서 어느 쪽으로
-   열린 구간인지를 말한다. 물결(~)로도 같은 말을 할 수 있지만, 왼쪽에
-   붙은 물결과 오른쪽에 붙은 물결을 가려 읽어야 한다.
-   **읽을 것은 수**라, 수와 말의 무게를 가른다: 수는 짙고 굵게(gray/95 ·
-   600), '부터'·'까지' 는 옅은 회색으로 물러선다. 통째로 한 색이면
-   '07:00부터' 가 한 덩어리로 뭉쳐 수가 따로 읽히지 않는다.
-   크기는 이름(15)과 같다 — 13 으로 두었더니 이름에 딸린 주석처럼 작아,
-   몇 시부터인지 읽으려면 눈을 한 번 더 가져가야 했다 */
-.tcard__b{font:var(--t-sub);letter-spacing:var(--ls-sub);
-  color:var(--ap-text-gray);font-variant-numeric:tabular-nums;white-space:nowrap}
-/* 기준의 수와 '익일' 은 **한 덩어리**다 — '익일 06:00' 이 함께 기준이고,
-   '까지' 만 곁말이다. '익일' 을 회색 본문으로 두면 수만 기준으로 읽혀,
-   그 수가 어느 날 것인지가 눈에 들어오지 않는다 */
-.tcard__b b{margin-right:1px;color:var(--ap-primary-90);font-weight:600}
-/* 어느 길로 찍혔는지는 **시각 아래 한가운데**다. 이름 줄 오른쪽 끝에
-   두었더니 기준 시각이 설 자리가 없었고, 그 표는 이름이 아니라 시각에
-   딸린 꼬리표라 시각 밑이 제자리다 */
+.tcard:has(.tcard__v--none) .tcard__k{color:var(--ap-text-dark)}
 .tcard .bd{margin-top:var(--ap-p2)}
 
 /* ── 카드 자체가 버튼인 줄 — 작업내용 작성하기 ──
