@@ -422,7 +422,6 @@
                                       드리우는 그늘 — 카드 면에 그려 넣은
                                       무늬가 아니라 얹힌 표로 읽힌다 */
   --ap-camsw:54px;                     /* 렌즈 전환 버튼 — 옆에 선 토글과 같은 키 */
-  --ap-photo-1:#c9b8a6; --ap-photo-2:#8c7562;
 }
 
 
@@ -1307,13 +1306,24 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    (제목과 액션을 갖춘 컨테이너, organisms/empty-state.md)가 아니라 카드 한 칸의
    빈 자리라, 면과 실루엣만으로 적는다 */
 .face{width:44px;height:44px;flex:none;border-radius:var(--ap-r8);
-  background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
+  background:var(--ap-g5);
   display:flex;align-items:center;justify-content:center}
 .face--none{background:var(--ap-g5)}
 
-/* 사람 아이콘(icon-employee)은 스프라이트에서 색이 세 겹으로 박힌 메뉴 아이콘이다.
-   그 세 겹이 각각 변수를 보고 있어, 사진 자리에서는 흰 실루엣으로 바꿔 끼운다 —
-   갈색 사진 바탕 위에서 파란 사람이 그려지면 사진이 아니라 아이콘으로 읽힌다 */
+/* ── 사진이 아직 안 깔린 자리 ──
+   네 자리(.face · .photo · .confirm__pic · .shot__box--done) 모두 안에 진짜
+   <img> 가 있다. 그러니 밑에 깔리는 면은 **사진을 대신하는 그림이 아니라
+   기다리는 동안의 바탕**이다.
+   갈색 그라데이션이었는데, 사진이 없는 자리(.face--none, gray/5)와 색이 달라
+   같은 '사진 없음' 이 두 꼴로 보였다 — 새로고침하면 등록된 근로자가 잠깐
+   '다른 종류로 비어 있는' 것처럼 읽혔다. 빈 자리와 같은 면으로 맞춘다.
+   가름은 **실루엣**이 맡는다: 사람 표가 있으면 등록하지 않은 것이고,
+   없으면 오는 중이다.
+
+   사람 아이콘(icon-employee)은 스프라이트에서 색이 세 겹으로 박힌 메뉴
+   아이콘이다. 그 세 겹이 각각 변수를 보고 있어, **사진 위**에서는 흰
+   실루엣으로 바꿔 끼운다 — 사진 위에 파란 사람이 그려지면 사진이 아니라
+   아이콘으로 읽힌다 */
 .face,.photo,.confirm__pic{
   --icon-menu-deep:var(--ap-on-photo-deep);
   --icon-menu-vivid:var(--ap-on-photo-vivid);
@@ -2349,7 +2359,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   border-radius:var(--ap-r-pill);color:var(--ap-g60)}
 /* 찍은 뒤의 사진 자리도 찍기 전과 같은 틀이다 — 두 화면이 나란히 서야 하니
    크기도 모서리도 테도 같이 간다. 다른 것은 안에 사진이 들어찬다는 것뿐이다 */
-.shot__box--done{background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
+.shot__box--done{background:var(--ap-g5);
   color:var(--ap-on-photo)}
 /* 이름과 안내는 한 덩어리로 붙인다(사이 4 — 시안 gap/2). 그림과는 떨어뜨린다 —
    상자의 틈을 2 로 좁혔으니 그림 밑 자리는 이름이 제 여백으로 든다 */
@@ -2539,7 +2549,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    그림의 제 키가 먼저 자리를 잡아 버려 aspect-ratio 가 할 일이 없다 */
 .photo{position:relative;overflow:hidden;
   width:100%;aspect-ratio:1;border-radius:var(--ap-r15);margin-bottom:var(--ap-p6);
-  background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
+  background:var(--ap-g5);
   display:flex;align-items:center;justify-content:center;color:var(--ap-on-photo)}
 .photo > img{position:absolute;inset:0}
 /* 직접 출근 처리의 사진은 **한 단 작다** — 밑에 고를 줄이 깔려 있어, 폭을
@@ -3467,7 +3477,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   width:100%;max-width:var(--ap-confirm-w);padding:var(--ap-p8);
   background:var(--ap-g0);border-radius:var(--ap-r15)}
 .confirm__pic{width:100%;aspect-ratio:1;border-radius:var(--ap-r10);
-  background:linear-gradient(160deg,var(--ap-photo-1),var(--ap-photo-2));
+  background:var(--ap-g5);
   display:flex;align-items:center;justify-content:center;color:var(--ap-on-photo)}
 .confirm__pic .ic{width:96px;height:96px}
 /* 카드 위에 서는 머리말 — 막 위라 흰 글씨다. 크기는 등록 시작 과녁의
