@@ -1352,8 +1352,43 @@
     var inp = hit.querySelector('.dim--kb .inp__in');
     if (!inp) return;
 
+    oskb(hit);
+
     /* preventScroll — 초점을 주느라 시트가 밀려 올라가면 머리줄이 잘린다 */
     try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); }
+  }
+
+  /* ── 기기 자판이 올라오면 그림을 걷는다 ──
+     그림은 **자판이 없는 동안** 그 자리를 보여 주는 것이다. 진짜가 올라온
+     뒤에도 서 있으면 319 를 두 번 먹어, 목록이 한 줄도 안 남게 짜부라진다
+     (실측: 844 짜리 창에서 자판이 뜨자 목록이 260 → 51 이 됐다).
+
+     자판이 올라왔는지는 브라우저마다 다르게 알려 온다:
+       · 사파리 · 크롬(기본) — 레이아웃 창(innerHeight)은 그대로고 **보이는
+         높이**(visualViewport.height)만 준다. 그 차이가 자판이 덮은 만큼이라,
+         시트를 그만큼 띄워야 자판 뒤로 숨지 않는다.
+       · 크롬(interactive-widget=resizes-content) — 레이아웃 창 자체가 준다.
+         이때 덮은 값은 0 이므로 띄울 것이 없고, 걷기만 하면 된다.
+     두 길을 다 본다 — 어느 쪽이든 '처음 창보다 많이 줄었다' 로 잡는다. */
+  function oskb(hit) {
+    var dim = hit.querySelector('.dim--kb');
+    var vv = window.visualViewport;
+    if (!dim || !vv) return;
+
+    var base = window.innerHeight;
+
+    function see() {
+      var cover = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      var up = cover > 120 || base - window.innerHeight > 120;
+      /* 자판이 없는 동안의 창이 기준이다 — 돌려 놓으면 기준도 따라간다 */
+      if (!up && window.innerHeight > base) base = window.innerHeight;
+      dim.style.setProperty('--ap-oskb', Math.round(cover) + 'px');
+      dim.classList.toggle('is-oskb', up);
+    }
+
+    vv.addEventListener('resize', see);
+    vv.addEventListener('scroll', see);
+    see();
   }
 
   /* ── 같은 문서에서 띄운다 — `data-go-soft` ──

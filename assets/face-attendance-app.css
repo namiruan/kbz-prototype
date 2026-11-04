@@ -3014,7 +3014,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      오히려 함께 올린다: 앞 화면의 카드가 data-go-soft 라 시트가 그 누름
      안에서 서고(js 의 soft), 기기 자판이 **같은 자리에** 올라와 그림을
      덮는다(그림은 319, 아이폰 세로 한글 자판도 그 언저리다).
-     주소로 바로 연 자리에는 그 누름이 없어 그림만 선다 */
+     주소로 바로 연 자리에는 그 누름이 없어 그림만 선다.
+     ⚠ 기기 자판이 실제로 올라오면 그림은 **걷는다**(.dim--kb.is-oskb) —
+       둘이 함께 서면 319 를 두 번 먹어 목록이 짜부라진다. 걷는 일과
+       시트를 띄우는 값(--ap-oskb)은 js 의 oskb() 가 잰다 */
 .kb{flex:none;height:319px;display:none;flex-direction:column;
   background:var(--ap-kb-bg);box-shadow:0 -1px 0 rgba(0,0,0,.14);
   user-select:none;-webkit-user-select:none}
@@ -3674,6 +3677,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    자판이 제 것으로 쥔다 */
 .dim--kb{flex-direction:column;justify-content:flex-end;align-items:stretch}
 .dim--kb > .sheet{padding-bottom:0;margin-bottom:0}
+/* 기기 자판이 올라온 자리 — 그림을 걷고, 자판이 덮은 만큼 시트를 띄운다.
+   사파리는 자판이 떠도 레이아웃 창이 그대로라, 띄우지 않으면 시트가
+   자판 뒤로 숨는다(--ap-oskb 는 덮인 높이다. 창이 줄어드는 브라우저에서는
+   덮인 것이 없어 0 이 온다) */
+.dim--kb.is-oskb{padding-bottom:var(--ap-oskb,0px)}
+.dim--kb.is-oskb .kb{display:none}
 /* 커서가 들어가 있는 칸 — 테가 짙어진다(폼의 고른 칸과 같은 표다) */
 .inp--find.is-on{border-color:var(--ap-border-selected);color:var(--ap-g95)}
 /* 진짜 입력칸이다 — 테와 면은 바깥 칸(.inp)이 쥐고, 이것은 글만 받는다
