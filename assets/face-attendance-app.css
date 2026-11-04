@@ -3576,6 +3576,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .alert__d{font:var(--t-body);letter-spacing:var(--ls-body);
   display:flex;flex-direction:column;gap:var(--ap-p1);
   color:var(--ap-text-dark);word-break:keep-all}
+/* 알림창의 제목 — 시트의 제목과 같은 단이다(Title2). 한 앱에서 덮고 뜨는
+   것의 머리글이 한 가지 크기로 서야, 시트인지 알림창인지가 크기로 갈리지
+   않는다 */
+.alert__t{font:var(--t-title2);letter-spacing:var(--ls-title2);color:var(--ap-g95);
+  word-break:keep-all}
 .alert__bt{display:flex;border-top:1px solid var(--ap-line)}
 .alert__bt span{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;display:flex;align-items:center;justify-content:center;padding:var(--ap-p6) var(--ap-p8)}
 .alert__bt .no{flex:0 0 96px;background:var(--ap-g0);color:var(--ap-text-dark)}

@@ -1089,13 +1089,37 @@
        두 화면은 같은 폼이라 다른 데가 적을수록 좋다. 시안의 버튼 색에 위험을
        뜻하는 빨강이 없어, 되돌릴 수 없는 쪽을 검정으로 세운다 -->
   <div class="act act--end act--split">
-    <button class="act__b act__b--dark" type="button">삭제</button>
+    <button class="act__b act__b--dark" type="button" data-go="m-worker-del">삭제</button>
     <!-- 고친 데가 없으면 저장할 것도 없다. 열자마자 켜져 있으면 눌러야 하는지를
          매번 가늠하게 된다 — 지우는 쪽은 고친 것과 상관없으므로 늘 켜져 있다 -->
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">저장</button>
   </div>
 </section>
 
+
+<!-- ===== ④-2 현장소장 앱 · 삭제할 수 없음 (앱 네이티브) =====
+     근로자 정보 수정에서 '삭제' 를 눌렀는데 출퇴근 기록이 있는 사람일 때다.
+     ⚠ 묻는 자리가 아니라 **막는 자리**다. 시스템의 Alert 는 확인·취소를 묻는
+       다이얼로그인데(molecules/alert.md), 여기서는 고를 것이 없다 — 버튼은
+       나가는 길 하나뿐이고, 그래서 취소 버튼을 따로 두지 않는다.
+     ⚠ 시트가 아니라 **가운데 뜨는 알림창**이다(.alert). 바닥에서 올라오는
+       시트는 '이어서 할 일' 을 권하는 자리인데, 여기서 할 일은 없다 -->
+<section class="scr has-dim" data-screen="m-worker-del" data-title="근로자 삭제 — 기록이 있어 막힘"
+  data-behind="m-worker">
+  <div class="dim" data-go="m-worker" data-go-self>
+    <div class="alert" role="alertdialog" aria-labelledby="mDelT" aria-describedby="mDelD">
+      <div class="alert__bd">
+        <p class="alert__t" id="mDelT">삭제할 수 없습니다</p>
+        <p class="alert__d" id="mDelD">
+          <span>이미 출퇴근 기록이 있는 근로자입니다.</span>
+          <span>기록은 정산 근거라 함께 지울 수 없습니다.</span>
+        </p>
+      </div>
+      <!-- 되돌아가는 길 하나다 — 확인을 누르든 밖을 누르든 고치던 화면 그대로다 -->
+      <div class="alert__bt"><span class="yes" data-go="m-worker">확인</span></div>
+    </div>
+  </div>
+</section>
 
 <!-- ===== ⑤ 현장소장 앱 · 출퇴근 등록(출근 모드) ===== -->
 <section class="scr" data-mode="in" data-screen="m-in" data-title="출퇴근 등록 — 출근 모드">
