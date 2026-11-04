@@ -502,16 +502,16 @@ html.edge--dim{--ap-edge:#8c8f94}
 html.edge--dimform,html.edge--dimfind{--ap-edge:#959596}
 html.edge--shot{--ap-edge:#393a3b}
 html,body{background:var(--ap-edge)}
-/* ⚠ 창 **아래로** 남는 자리는 윗단 색이 아니다. 자판이 뜨면 거기가 그대로
-   드러나는데, 근로자 찾기에서 자판 뒤가 #959596 으로 깔려 흰 시트 밑에
-   회색 띠가 앉은 꼴이 됐다. 그 화면의 바닥은 **흰 시트**이므로, 위는
-   윗단 색 그대로 두고 아래만 시트 색으로 나눠 칠한다 — 창 안은 .scr 이
-   제 바탕을 깔고 있어 이 칠은 창 밖에서만 보인다.
-   50% 에서 가르는 것은 '위쪽 끝과 아래쪽 끝' 만 쓰기 때문이다 —
-   가운데는 창 안이라 어차피 덮인다.
+/* ⚠ 창 밖을 메우는 것은 **background-color 하나**다. 그림(gradient)은
+   뿌리 요소의 상자에만 그려지고, 상자 밖으로 남는 자리는 색으로만 채워진다 —
+   위아래를 나눠 칠해 보았지만 창 밖은 꿈쩍도 하지 않았다.
+   그래서 근로자 찾기는 **색 자체를 시트의 흰색으로** 둔다. 자판이 뜨면
+   창이 줄며 그 자리가 드러나는데, 이 화면의 바닥은 흰 시트이기 때문이다
+   (그 전에는 #959596 이 깔려, 반투명한 자판 윗줄 뒤로 회색이 비쳤다).
+   윗단 띠(theme-color)는 js 가 --ap-edge 를 따로 읽어 적으므로 회색 그대로다.
    ⚠ 중복 확인(m-dup-)은 **같이 묶지 않는다**. 윗단은 같지만 바닥이 파란
      알림이라(실측 맨아랫줄 #115ac6 · #113569) 흰색을 깔면 더 어긋난다 */
-html.edge--dimfind{background:linear-gradient(to bottom,var(--ap-edge) 0 50%,var(--ap-g0) 50% 100%)}
+html.edge--dimfind,html.edge--dimfind body{background-color:var(--ap-g0)}
 
 /* ── 홈 화면에 놓고 연 뒤(standalone) ──
    ⚠ 브라우저 탭에서는 이 블록이 켜지지 않는다 — display-mode 가 다르다.
