@@ -3669,7 +3669,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    돌려야 한다. 시트의 아래 여백(홈 인디케이터 자리)도 걷는다 — 그 자리는
    자판이 제 것으로 쥔다 */
 .dim--kb{flex-direction:column;justify-content:flex-end;align-items:stretch}
-.dim--kb > .sheet{padding-bottom:0;margin-bottom:0}
+.dim--kb > .sheet{padding-bottom:0;margin-bottom:0;max-height:calc(100% - 12px)}
 /* 기기 자판이 올라온 자리 — 자판이 덮은 만큼 시트를 띄운다. 사파리는
    자판이 떠도 레이아웃 창(.scr 의 100svh)이 그대로라, 띄우지 않으면
    시트가 자판 뒤로 숨는다(--ap-oskb 는 덮인 높이다. 창이 줄어드는
@@ -3688,14 +3688,22 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .inp__in::placeholder{color:var(--ap-text-gray)}
 /* 목록은 시트 안에서 **굴러간다** — 현장의 근로자가 늘어도 시트가 화면을
    덮지 않는다. 바닥 여백은 홈 인디케이터 자리까지 내려간다.
-   ⚠ 자판이 319 를 먹는다 — 빼지 않으면 시트와 자판이 합쳐 창을 넘는다
-     (844 에서 847 이 됐다). 그림이든 기기 자판이든 먹는 자리는 같으므로
-     기기를 가리지 않고 짧게 잡는다 */
-.find__list{overflow-y:auto;overscroll-behavior:contain;
-  max-height:min(260px,32svh);
+   ⚠ 상한을 **svh 로 잡지 않는다**. 자판이 뜰 때 레이아웃 창을 줄이는
+     브라우저에서는 svh 도 따라 줄어, 32svh 가 119 까지 쪼그라들었다 —
+     카드 한 장만 남고 위로는 어두운 자리가 116 이나 비었다(실측).
+     줄 자리는 창이 정하게 두고(min-height:0 으로 눌리게 둔다), 여기서는
+     '너무 길어지지 않을 만큼' 만 못 박는다 */
+.find__list{overflow-y:auto;overscroll-behavior:contain;min-height:0;
+  max-height:380px;
   padding:0 var(--ap-p6) max(var(--ap-p6),env(safe-area-inset-bottom))}
 .find__list{scrollbar-width:none}
 .find__list::-webkit-scrollbar{display:none}
+/* 자판 그림이 서는 기기에서만 319 를 빼 둔다 — 빼지 않으면 시트와 그림이
+   합쳐 창을 넘는다(844 에서 847 이 됐다). 기기 자판이 서는 쪽은 창이
+   줄면서 알아서 눌리므로 못 박을 것이 없다 */
+@media (hover:hover) and (pointer:fine){
+  .find__list{max-height:min(260px,32svh)}
+}
 /* 줄 전체가 고르는 자리다 — 안에 또 버튼을 두지 않는다. 카드가 button 이
    되므로 글이 가운데로 몰리지 않게 왼쪽으로 못 박는다 */
 .card--go{cursor:pointer;width:100%;text-align:left}
