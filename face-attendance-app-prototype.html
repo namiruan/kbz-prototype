@@ -210,19 +210,15 @@
           |@{.card--off .card__nm} 차단된 근로자 카드는 배경색 글자색이 한 단계 연해집니다.
         ">차단</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-mok"
-        data-why="직종을 걸면 그 직종만 남습니다. 근무상태는 걸지 않아 퇴사·차단도 함께 나옵니다 — 한 축을 거는 일이 다른 축까지 걸지는 않습니다."
+        data-why="직종필터 하나만 사용했을 때 화면입니다."
         data-steps="근로자 관리에서 직종을 &#39;형틀목공&#39; 으로 고른 상태"
         data-look="
-          |@{.lbar__f} 직종 칩에 붙은 수는 그 필터가 남긴 사람 수입니다 — 근무상태 칩은 중립 그대로입니다
-          |@{.sta--ban} 차단된 근로자도 함께 들어 있습니다">형틀목공</button>
+          |@{.sta--ban} 직종 필터만 선택한 결과 모든 근무상태의 근로자가 보입니다">형틀목공</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-live-mok"
-        data-why="두 축을 함께 겁니다. 근무상태를 걸어도 직종은 풀리지 않고, 직종을 걸어도 근무상태는 그대로 남습니다 — 한 축을 거는 일이 다른 축을 건드리지 않습니다.
-
-칩 옆의 수는 그 축이 혼자 남긴 수가 아니라 지금 목록에 남은 사람 수입니다. 축마다 다른 수를 적으면 어느 쪽도 목록의 길이를 말하지 못합니다."
-        data-note="사람이 하나라도 있는 조합마다 목록이 한 장씩 있습니다 — 한 명도 없는 조합(퇴사 × 형틀목공 따위)은 시트에서 줄째 빠져 클릭할 수 없습니다"
+        data-why="근무상태, 직종필터 둘 다 사용했을 때 화면입니다."
         data-steps="재직 목록에서 직종을 &#39;형틀목공&#39; 으로 고른 상태"
         data-look="
-          |@{.lbar__f} 칩 둘이 모두 켜집니다 — 옆의 수는 둘 다 지금 목록에 남은 사람 수입니다. 어느 칩을 클릭하든 그 축만 바뀌고 다른 축은 걸린 채로 남습니다">재직 · 형틀목공</button>
+          |@{.lbar__f} 필터가 선택되었을 때 칩 스타일이 바뀝니다. ">재직 · 형틀목공</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">목록에서 고르면</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-pick"
         data-why="고른 카드가 생기면 바닥 바의 삭제가 켜집니다. 고르는 일은 지우기 위한 것이라, 고른 수와 지우는 버튼이 한 화면에 함께 놓입니다.
