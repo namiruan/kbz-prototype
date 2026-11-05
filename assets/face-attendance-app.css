@@ -1451,6 +1451,24 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    비워 둔 자리에는 화면 바탕만 깔리므로 눈에는 아무것도 없다 */
 .act--void{visibility:hidden}
 
+/* ── 떠 있는 저장 ──
+   폼의 저장은 변을 다 채운 바가 아니라 **떠 있는 버튼**이다. 바는 바닥을
+   한 줄로 막아 버려, 아직 적을 것이 남은 화면에서도 거기서 끝난 것처럼
+   보인다. 네 변에서 들여 두면 버튼 옆으로 칸이 이어져, 아래에 더 있다는
+   것이 보이는 그대로다.
+   꼴은 근로자 앱의 과녁 카드(.go__card)와 같다 — 모서리 15, 같은 그림자.
+   두 앱에서 '지금 할 일 하나' 는 같은 모양으로 선다.
+   위쪽은 한 뼘(24)만 흐려 둔다 — 굴러 올라온 글이 버튼의 윗변에 부딪혀
+   끊기지 않고 사라지게 한다(.go 의 ::before 와 같은 셈이다) */
+.act--float{position:relative;
+  padding:var(--ap-p6) var(--ap-p6) max(var(--ap-p6),env(safe-area-inset-bottom));
+  background:var(--ap-g0)}
+.act--float::before{content:"";position:absolute;left:0;right:0;bottom:100%;
+  height:var(--ap-p8);pointer-events:none;
+  background:linear-gradient(to top,var(--ap-g0),transparent)}
+.act--float .act__b{padding:var(--ap-p5) var(--ap-p6);
+  border-radius:var(--ap-r15);box-shadow:var(--ap-shadow-cta)}
+
 /* 근로자 앱의 출근·퇴근 과녁 — 현장소장 앱의 등록 시작 과녁(.cta)과 같은
    **짜임**이다. 이름과 '시작' 표가 한 줄에 서고, 그 아래 선을 긋고 설명이
    한 줄씩 쌓인다(.cta__tx · .cta__h · .cta__d 를 그대로 쓴다).
@@ -3934,6 +3952,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      작은 제목도 같은 칸에 든다 — 카드만 모으면 그 위의 이름이 저 혼자
      화면 끝에 서서 한 덩어리로 읽히지 않는다 */
   .form,.rows,.note,.shot,.dt,.stmp,.photo,.tcards,.vrf{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
+  /* 떠 있는 저장도 폼과 같은 칸에 든다 — 혼자 화면 폭을 다 쓰면 그 위의
+     칸들과 좌우 선이 어긋나, 같은 폼의 마지막 줄로 읽히지 않는다.
+     여백은 본문을 따라 24 다(.act--float 의 16 을 이 폭에서 덮는다) */
+  .act--float{padding-inline:var(--ap-p8)}
+  .act--float .act__b{width:100%;max-width:var(--ap-form-w);margin-inline:auto}
   /* 직접 출근 처리의 덩어리는 한 단 더 좁다 — 폼 폭(560)을 그대로 쓰면
      덩어리가 화면 가운데에서 너무 벌어진다.
      바로 위 줄 다음에 둔다: 특정도가 같아 뒤에 와야 이긴다 */

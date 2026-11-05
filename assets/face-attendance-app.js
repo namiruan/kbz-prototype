@@ -106,7 +106,7 @@
     swipe(hit);
     deck(hit);
     seek(hit);
-    pad(hit);
+    fit(hit);
     must(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
@@ -1506,37 +1506,53 @@
     see();
   }
 
-  /* ── 기기 자판이 올라온 뒤의 본문 ──
+  /* ── 기기 자판이 올라온 뒤의 화면 ──
      창(레이아웃 뷰포트)은 자판이 떠도 줄지 않는다(meta 의 기본값) — 자판은
-     보이는 자리만 덮는다. 그래서 **덮인 만큼 본문 발치를 늘이고**, 적던 칸을
-     다시 가운데로 끌어온다. 그러지 않으면 누른 칸이 자판 뒤로 들어간다.
-     ⚠ 늘이는 것은 안쪽 여백이라 바닥은 움직이지 않는다 — 재고 늘이는 일이
-       서로를 밀지 않는다(시트의 oskb 와 같은 셈이다) */
-  function pad(scr) {
-    var bd = scr.querySelector('.body');
+     **보이는 자리만** 덮는다. 그래서 한때 덮인 만큼 본문 발치를 늘였다.
+     적을 것이 몇 줄뿐인 폼에서는 그 늘인 발치가 고스란히 빈 자리로 남아,
+     마지막 칸과 자판 사이가 한 뼘 넘게 벌어졌다. 떠 있는 저장도 화면 바닥에
+     붙은 채라 자판 뒤로 들어가 버렸다.
+
+     그래서 여백이 아니라 **화면을 줄인다**. 보이는 자리만큼만 높이를 주면
+     본문도 떠 있는 저장도 자판 바로 위에서 끝난다 — 빈 자리가 생길 데가
+     없고, 굴릴 것이 남았는지도 화면이 그대로 말한다.
+     ⚠ 인라인으로 적는다 — .scr.is-on 의 100dvh 를 이겨야 한다. 자판이
+       내려가면 지워 원래 높이로 돌아간다.
+     ⚠ 아이폰은 칸에 초점이 가면 창째로 밀어 올린다. 높이를 줄이고 나면
+       밀 자리가 없으므로 0 으로 되돌린다 — 두면 머리줄이 위로 잘린다 */
+  function fit(scr) {
     var vv = window.visualViewport;
-    if (!bd || !vv || bd.dataset.pad) return;
-    bd.dataset.pad = '1';
+    if (!vv || scr.dataset.fit) return;
+    scr.dataset.fit = '1';
 
     function see() {
       /* 자판 높이는 **창과 보이는 자리의 차**다 — 창은 자판이 떠도 줄지 않는다.
          120 아래는 자판이 아니라 주소줄이 접히고 펴지는 만큼이다 */
       var kb = Math.max(0, Math.round(window.innerHeight - (vv.height + vv.offsetTop)));
-      bd.style.paddingBottom = kb > 120 ? 'calc(var(--ap-p6) + ' + kb + 'px)' : '';
+      var want = kb > 120 ? Math.round(vv.height) + 'px' : '';
+      if (want === scr.style.height) return;
+      /* 높이가 바뀌면 본문의 스크롤 값도 밀린다. 그것을 손가락이 낸 것으로
+         치면 stow 가 저장을 '읽어 내려가는 중' 으로 보고 내려 보낸다 —
+         자판이 서고 눕는 동안에는 그쪽 귀를 닫는다(stow 의 deaf 와 같은 셈) */
+      scr.dataset.deaf = Date.now() + 400;
+      scr.style.height = want;
+      if (want && window.scrollY) window.scrollTo(0, 0);
     }
     /* 자판이 서는 데 한 박자 걸린다 — 창이 줄고 난 뒤에 재야 한다 */
     function soon() { setTimeout(see, 60); setTimeout(near, 320); }
+    /* 줄인 화면 안에서 적던 칸을 다시 가운데로 끌어온다 */
     function near() {
       see();
       var el = document.activeElement;
-      if (!el || !bd.contains(el)) return;
+      if (!el || !scr.contains(el)) return;
       var box = el.closest('.fld,.idf,.fld__sub') || el;
       box.scrollIntoView({ block: 'center' });
+      if (window.scrollY) window.scrollTo(0, 0);
     }
 
     vv.addEventListener('resize', soon);
     vv.addEventListener('scroll', see);
-    bd.addEventListener('focusin', soon);
+    scr.addEventListener('focusin', soon);
     see();
   }
 
@@ -1604,7 +1620,7 @@
         newbd.scrollTop = keep;
         requestAnimationFrame(function () { newbd.scrollTop = keep; });
       }
-      pad(next);
+      fit(next);
       must(next);
     } else {
       seek(next);
@@ -1808,7 +1824,7 @@
       clearTimeout(idle);
       idle = setTimeout(function () { away(false); }, 220);
 
-      if (Date.now() < deaf) return;
+      if (Date.now() < deaf || Date.now() < +(scr.dataset.deaf || 0)) return;
 
       /* 4px 는 손가락이 멎은 채로 생기는 떨림을 걸러 내는 문턱이다 */
       var left = sc.scrollHeight - sc.clientHeight - now;

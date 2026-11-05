@@ -1333,7 +1333,7 @@
       </div>
       <div class="find">
         <div class="inp inp--find is-on">
-          <input class="inp__in" type="text" placeholder="직종을 입력해주세요" aria-label="직종" autofocus>
+          <input class="inp__in" type="text" placeholder="직종을 입력해주세요" aria-label="직종" autofocus name="jikjong" autocomplete="off">
           <svg class="ic ic--24" aria-hidden="true"><use href="#icon-search"></use></svg>
         </div>
       </div>
@@ -1401,10 +1401,17 @@
       </button>
     </div>
 
-    <form class="form">
+    <!-- autocomplete 는 폼과 칸에서 모두 끈다. 켜 두면 아이폰이 자판 위의
+         띠를 가져가 '암호 · 카드 · 위치' 를 올린다 — 여기서 받는 것은 그중
+         무엇도 아니라 고를 것이 없고, 그 띠에 밀려 **칸을 오르내리는 ∧∨ 가
+         가려진다**. 칸이 여럿이라 그 화살표가 자판을 내렸다 다시 올리는 수고를
+         없앤다.
+         name 은 영어 낱말을 피해 소리대로 적는다(ireum · jumin · yeonrak …) —
+         'name' 이나 'tel' 이 들어 있으면 끈 자동완성이 되살아난다 -->
+    <form class="form" autocomplete="off">
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" required type="text" placeholder="이름을 입력해주세요" aria-label="이름" autofocus></div>
+        <div class="inp"><input class="inp__in" required type="text" placeholder="이름을 입력해주세요" aria-label="이름" autofocus name="ireum" autocomplete="off"></div>
       </div>
       <!-- 내국인·외국인은 받는 번호가 통째로 갈리는 자리라, 칸 맨 위에 탭으로
            먼저 가른다. 외국인 안에서 외국인등록번호와 여권번호는 둘 가운데
@@ -1416,12 +1423,12 @@
         </div>
         <div class="idf__body">
           <label class="fld__l">주민번호 <b>(필수)</b></label>
-          <div class="inp"><input class="inp__in" required type="text" placeholder="주민번호를 입력해주세요" aria-label="주민번호"></div>
+          <div class="inp"><input class="inp__in" required type="text" placeholder="주민번호를 입력해주세요" aria-label="주민번호" name="jumin" autocomplete="off" inputmode="numeric"></div>
         </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" required type="text" placeholder="연락처를 입력해주세요" aria-label="연락처"></div>
+        <div class="inp"><input class="inp__in" required type="text" placeholder="연락처를 입력해주세요" aria-label="연락처" name="yeonrak" autocomplete="off" inputmode="tel"></div>
       </div>
       <div class="fld">
         <label class="fld__l">직종</label>
@@ -1432,15 +1439,15 @@
            두지 않는다 — 단가는 칸에 적어 받는다 -->
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" placeholder="0 원" aria-label="단가"></div>
+        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" placeholder="0 원" aria-label="단가" name="danga" autocomplete="off"></div>
       </div>
     </form>
   </main>
 
   <!-- 필수 칸이 다 차면 저장이 보인다(js 의 must). 비어 있는 동안 서 있으면
        '눌러 봐야 아무 일도 없는 버튼' 이 내내 엄지 밑에 있다.
-       자리는 처음부터 지킨다 — 덜어 내면 다 채운 뒤에 바가 솟아 화면이 뛴다 -->
-  <div class="act act--end act--void" aria-hidden="true">
+       자리는 처음부터 지킨다 — 덜어 내면 다 채운 뒤에 버튼이 솟아 화면이 뛴다 -->
+  <div class="act act--float act--void" aria-hidden="true">
     <button class="act__b act__b--on" type="button">저장</button>
   </div>
 
@@ -1460,7 +1467,7 @@
 
 <!-- ===== ②-4 현장소장 앱 · 근로자 추가(다 채운 뒤) =====
      필수 칸 넷(이름 · 번호 · 연락처, 여권이면 생년월일까지)이 모두 차면
-     바닥의 저장이 보인다. 직종과 단가는 비어 있어도 된다 — 꼭 받아야 하는
+     떠 있는 저장이 보인다. 직종과 단가는 비어 있어도 된다 — 꼭 받아야 하는
      값만 저장을 연다.
      자판 그림은 두지 않는다. 다 적고 난 자리라 자판은 내려가 있다 -->
 <section class="scr scr--form" data-screen="m-worker-new-done" data-title="근로자 얼굴 등록 — 다 채운 뒤">
@@ -1502,10 +1509,10 @@
       </button>
     </div>
 
-    <form class="form">
+    <form class="form" autocomplete="off">
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" required type="text" value="서지훈" aria-label="이름"></div>
+        <div class="inp"><input class="inp__in" required type="text" value="서지훈" aria-label="이름" name="ireum" autocomplete="off"></div>
       </div>
       <!-- 내국인·외국인은 받는 번호가 통째로 갈리는 자리라, 칸 맨 위에 탭으로
            먼저 가른다. 외국인 안에서 외국인등록번호와 여권번호는 둘 가운데
@@ -1517,12 +1524,12 @@
         </div>
         <div class="idf__body">
           <label class="fld__l">주민번호 <b>(필수)</b></label>
-          <div class="inp"><input class="inp__in" required type="text" value="990215-1234567" aria-label="주민번호"></div>
+          <div class="inp"><input class="inp__in" required type="text" value="990215-1234567" aria-label="주민번호" name="jumin" autocomplete="off" inputmode="numeric"></div>
         </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" required type="text" value="010-3456-7890" aria-label="연락처"></div>
+        <div class="inp"><input class="inp__in" required type="text" value="010-3456-7890" aria-label="연락처" name="yeonrak" autocomplete="off" inputmode="tel"></div>
       </div>
       <div class="fld">
         <label class="fld__l">직종</label>
@@ -1533,12 +1540,12 @@
            두지 않는다 — 단가는 칸에 적어 받는다 -->
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" placeholder="0 원" aria-label="단가"></div>
+        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" placeholder="0 원" aria-label="단가" name="danga" autocomplete="off"></div>
       </div>
     </form>
   </main>
 
-  <div class="act act--end">
+  <div class="act act--float">
     <button class="act__b act__b--on" type="button">저장</button>
   </div>
 
@@ -1590,10 +1597,10 @@
       </button>
     </div>
 
-    <form class="form">
+    <form class="form" autocomplete="off">
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" required type="text" placeholder="이름을 입력해주세요" aria-label="이름" autofocus></div>
+        <div class="inp"><input class="inp__in" required type="text" placeholder="이름을 입력해주세요" aria-label="이름" autofocus name="ireum" autocomplete="off"></div>
       </div>
       <!-- 외국인 탭에서는 받는 번호가 둘이다 — 외국인등록번호는 주민번호와 같은
            꼴(13자리)이고, 여권으로 등록할 사람은 여권번호를 고른다 -->
@@ -1607,12 +1614,12 @@
             <button class="pickr__o is-on" type="button" role="radio" aria-checked="true" data-go-swap data-go="m-worker-new-foreign"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">외국인등록번호 <b>(필수)</b></span></button>
             <button class="pickr__o" type="button" role="radio" aria-checked="false" data-go-swap data-go="m-worker-new-passport"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">여권번호</span></button>
           </div>
-          <div class="inp"><input class="inp__in" required type="text" placeholder="외국인등록번호를 입력해주세요" aria-label="외국인등록번호"></div>
+          <div class="inp"><input class="inp__in" required type="text" placeholder="외국인등록번호를 입력해주세요" aria-label="외국인등록번호" name="oegugin" autocomplete="off" inputmode="numeric"></div>
         </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" required type="text" placeholder="연락처를 입력해주세요" aria-label="연락처"></div>
+        <div class="inp"><input class="inp__in" required type="text" placeholder="연락처를 입력해주세요" aria-label="연락처" name="yeonrak" autocomplete="off" inputmode="tel"></div>
       </div>
       <div class="fld">
         <label class="fld__l">직종</label>
@@ -1623,15 +1630,15 @@
            두지 않는다 — 단가는 칸에 적어 받는다 -->
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" placeholder="0 원" aria-label="단가"></div>
+        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" placeholder="0 원" aria-label="단가" name="danga" autocomplete="off"></div>
       </div>
     </form>
   </main>
 
   <!-- 필수 칸이 다 차면 저장이 보인다(js 의 must). 비어 있는 동안 서 있으면
        '눌러 봐야 아무 일도 없는 버튼' 이 내내 엄지 밑에 있다.
-       자리는 처음부터 지킨다 — 덜어 내면 다 채운 뒤에 바가 솟아 화면이 뛴다 -->
-  <div class="act act--end act--void" aria-hidden="true">
+       자리는 처음부터 지킨다 — 덜어 내면 다 채운 뒤에 버튼이 솟아 화면이 뛴다 -->
+  <div class="act act--float act--void" aria-hidden="true">
     <button class="act__b act__b--on" type="button">저장</button>
   </div>
 
@@ -1691,10 +1698,10 @@
       </button>
     </div>
 
-    <form class="form">
+    <form class="form" autocomplete="off">
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" required type="text" placeholder="이름을 입력해주세요" aria-label="이름" autofocus></div>
+        <div class="inp"><input class="inp__in" required type="text" placeholder="이름을 입력해주세요" aria-label="이름" autofocus name="ireum" autocomplete="off"></div>
       </div>
       <!-- 여권번호를 고르면 같은 칸이 받는 것이 바뀐다 — 둘 다 적게 두면
            어느 쪽으로 사람을 가리는지가 흐려진다.
@@ -1711,16 +1718,16 @@
             <button class="pickr__o" type="button" role="radio" aria-checked="false" data-go-swap data-go="m-worker-new-foreign"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">외국인등록번호</span></button>
             <button class="pickr__o is-on" type="button" role="radio" aria-checked="true" data-go-swap data-go="m-worker-new-passport"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">여권번호 <b>(필수)</b></span></button>
           </div>
-          <div class="inp"><input class="inp__in" required type="text" placeholder="여권번호를 입력해주세요" aria-label="여권번호"></div>
+          <div class="inp"><input class="inp__in" required type="text" placeholder="여권번호를 입력해주세요" aria-label="여권번호" name="yeogwon" autocomplete="off"></div>
           <div class="fld__sub">
             <label class="fld__l fld__l--birth">생년월일 <b>(필수)</b></label>
-            <div class="inp"><input class="inp__in" required type="text" placeholder="생년월일 8자리를 입력해주세요" aria-label="생년월일"></div>
+            <div class="inp"><input class="inp__in" required type="text" placeholder="생년월일 8자리를 입력해주세요" aria-label="생년월일" name="saengnyeon" autocomplete="off" inputmode="numeric"></div>
           </div>
         </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" required type="text" placeholder="연락처를 입력해주세요" aria-label="연락처"></div>
+        <div class="inp"><input class="inp__in" required type="text" placeholder="연락처를 입력해주세요" aria-label="연락처" name="yeonrak" autocomplete="off" inputmode="tel"></div>
       </div>
       <div class="fld">
         <label class="fld__l">직종</label>
@@ -1731,15 +1738,15 @@
            두지 않는다 — 단가는 칸에 적어 받는다 -->
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" placeholder="0 원" aria-label="단가"></div>
+        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" placeholder="0 원" aria-label="단가" name="danga" autocomplete="off"></div>
       </div>
     </form>
   </main>
 
   <!-- 필수 칸이 다 차면 저장이 보인다(js 의 must). 비어 있는 동안 서 있으면
        '눌러 봐야 아무 일도 없는 버튼' 이 내내 엄지 밑에 있다.
-       자리는 처음부터 지킨다 — 덜어 내면 다 채운 뒤에 바가 솟아 화면이 뛴다 -->
-  <div class="act act--end act--void" aria-hidden="true">
+       자리는 처음부터 지킨다 — 덜어 내면 다 채운 뒤에 버튼이 솟아 화면이 뛴다 -->
+  <div class="act act--float act--void" aria-hidden="true">
     <button class="act__b act__b--on" type="button">저장</button>
   </div>
 
@@ -2141,10 +2148,10 @@
       </button>
     </div>
 
-    <form class="form">
+    <form class="form" autocomplete="off">
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" type="text" value="홍길동" aria-label="이름"></div>
+        <div class="inp"><input class="inp__in" type="text" value="홍길동" aria-label="이름" name="ireum" autocomplete="off"></div>
       </div>
       <!-- 내국인·외국인은 받는 번호가 통째로 갈리는 자리라, 칸 맨 위에 탭으로
            먼저 가른다. 외국인 안에서 외국인등록번호와 여권번호는 둘 가운데
@@ -2158,12 +2165,12 @@
           <label class="fld__l">주민번호 <b>(필수)</b></label>
           <!-- 목록에서는 뒷자리를 가리지만(남이 보는 자리다), 이 칸은 본인 것을
                고쳐 넣는 자리라 가리지 않는다 — 가려 두면 고쳐 넣을 수가 없다 -->
-          <div class="inp"><input class="inp__in" type="text" value="800101-1234567" aria-label="주민번호"></div>
+          <div class="inp"><input class="inp__in" type="text" value="800101-1234567" aria-label="주민번호" name="jumin" autocomplete="off" inputmode="numeric"></div>
         </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" type="text" value="010-1234-5678" aria-label="연락처"></div>
+        <div class="inp"><input class="inp__in" type="text" value="010-1234-5678" aria-label="연락처" name="yeonrak" autocomplete="off" inputmode="tel"></div>
       </div>
       <!-- 값을 고른 뒤라 테가 짙고 글씨가 굵다 — 비어 있는 등록 화면과 갈린다 -->
       <div class="fld">
@@ -2172,7 +2179,7 @@
       </div>
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" value="180,000 원" aria-label="단가"></div>
+        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" value="180,000 원" aria-label="단가" name="danga" autocomplete="off"></div>
       </div>
     </form>
 
@@ -3118,7 +3125,7 @@
              눌러야 선다. 그동안 그 자리를 자판 그림이 세워 둔다 -->
       <div class="find">
         <div class="inp inp--find is-on">
-          <input class="inp__in" type="text" placeholder="이름을 입력해주세요" aria-label="근로자 이름" autofocus>
+          <input class="inp__in" type="text" placeholder="이름을 입력해주세요" aria-label="근로자 이름" autofocus name="ireum" autocomplete="off">
           <svg class="ic ic--24" aria-hidden="true"><use href="#icon-search"></use></svg>
         </div>
       </div>
