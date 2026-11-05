@@ -1607,55 +1607,64 @@
     hit.insertBefore(back, hit.firstChild);
   }
 
-  /* 걸린 필터를 시트에 옮겨 켠다. 축마다 시트가 따로라, 한 시트에는 둘
-     가운데 하나만 들어 있다 — 없는 쪽은 그냥 비어 돈다.
+  /* ── 걸린 필터를 시트에 옮긴다 ──
+     축마다 시트가 따로라, 한 시트에는 둘 가운데 하나만 들어 있다 — 없는
+     쪽은 그냥 비어 돈다.
 
-     목록이 제 자리를 들고 있다: data-key(걸린 근무상태 — 시트의 줄과 직종의
-     수가 같은 열쇠를 쓴다) · data-job(걸린 직종) · data-base(직종만 푼 자리).
+     두 축은 **서로 매이지 않는다**. 근무상태를 걸어도 직종은 풀리지 않고,
+     둘은 따로도 함께도 걸린다. 그래서 어느 자리로 갈지는 **두 축에서 이름을
+     지어** 정한다(dest) — 사람이 하나라도 있는 조합마다 목록 화면이 한 장씩
+     있다(m-workers-live-mok 꼴).
 
-     직종 옆의 수는 **그 근무상태 안에서 센 수**다 — 재직 기준 수를 퇴사 목록
-     위에 그대로 띄우면, 둘을 함께 건 적도 없는 사람 수가 적힌다. 근무상태마다의
-     수는 줄이 들고 있고(data-n-live · -left · -ban), 그 근무상태에 하나도 없는
-     직종은 줄째 덜어 낸다 */
+     옆의 수는 **다른 축이 걸린 채로 센 수**다. 재직 기준 수를 퇴사 목록 위에
+     그대로 띄우면, 둘을 함께 건 적도 없는 사람 수가 적힌다. 줄마다 네 수를
+     들고 있고(근무상태 줄은 data-n-all · -mok · -chul · -bot, 직종 줄은
+     data-n-all · -live · -left · -ban), 한 명도 없는 줄은 줄째 덜어 낸다 —
+     갈 자리가 없는 조합이 눌리지 않는다. */
+  function dest(key, slug) {
+    return 'm-workers' + (key && key !== 'all' ? '-' + key : '') + (slug ? '-' + slug : '');
+  }
+  var SLUG = { '형틀목공': 'mok', '철근공': 'chul', '보통인부': 'bot' };
+
   function sync(sheet, from) {
     var now = from.dataset.screen || '';
-    var key = from.dataset.key || '';
-    var job = from.dataset.job || '';
-    var base = from.dataset.base || now;
+    var key = from.dataset.key || 'all';
+    var slug = SLUG[from.dataset.job || ''] || '';
 
     /* 닫고 돌아갈 자리는 **올라온 그 목록**이다 — 마크업에 적힌 한 자리로
        늘 돌려보내면, 퇴사 목록에서 닫았는데 재직 목록이 선다 */
     if (now) sheet.querySelectorAll('[data-back]').forEach(function (n) { n.dataset.go = now; });
 
-    sheet.querySelectorAll('.fsta .optr').forEach(function (b) {
-      var on = b.dataset.key === key;
-      b.classList.toggle('is-on', on);
-      /* 이미 걸린 근무상태를 다시 고르면 제자리다. 그 자리로 돌려보내지 않으면
-         직종까지 걸린 목록에서 근무상태만 다시 눌렀는데 직종이 풀린다 */
-      b.dataset.go = on && now ? now : (b.dataset.list || b.dataset.go);
+    /* 근무상태 줄 — 지금 걸린 **직종 안에서** 센다 */
+    sheet.querySelectorAll('.fsta .optr').forEach(function (r) {
+      var k = r.dataset.key || 'all';
+      r.classList.toggle('is-on', k === key);
+      r.dataset.go = k === key && now ? now : dest(k, slug);
+      nset(r, r.dataset['n' + cap(slug || 'all')]);
     });
 
+    /* 직종 줄 — 지금 걸린 **근무상태 안에서** 센다. 맨 위는 직종을 푸는
+       줄이라 slug 가 없다 */
     sheet.querySelectorAll('.find__list .optr').forEach(function (r) {
-      var all = r.hasAttribute('data-all');
-      var t = r.querySelector('.optr__t');
-      r.classList.toggle('is-on', all ? !job : (!!t && t.textContent === job));
-
-      /* 직종을 푸는 줄은 **근무상태만 걸린 목록**으로 돌아간다 — 늘 기본
-         목록으로 돌려보내면 직종을 푸는 일이 근무상태까지 함께 풀어 버린다.
-         직종만 건 목록은 그렸지만(m-workers-job), 근무상태까지 함께 건 목록은
-         아직 없다. 갈 자리가 없으므로 길을 떼어 둔다 — 엉뚱한 목록으로
-         보내지 않는다 */
-      if (all) r.dataset.go = base;
-      else if (key === 'all') r.dataset.go = 'm-workers-job';
-      else delete r.dataset.go;
-
-      var n = key && r.dataset['n' + key.charAt(0).toUpperCase() + key.slice(1)];
-      if (n === undefined || n === '') return;
-      var cell = r.querySelector('.sel__n');
-      if (cell) cell.textContent = n;
-      r.classList.toggle('is-off', n === '0');
-      r.hidden = n === '0';
+      var g = r.dataset.slug || '';
+      r.classList.toggle('is-on', g === slug);
+      r.dataset.go = g === slug && now ? now : dest(key, g);
+      nset(r, r.dataset['n' + cap(key)]);
     });
+  }
+
+  function cap(k) { return k.charAt(0).toUpperCase() + k.slice(1); }
+
+  /* 줄 옆의 수를 적고, 0 이면 줄째 덜어 낸다. is-off 는 그 조합에 사람이
+     하나도 없다는 표다 — 적는 동안에도 돌아오지 않도록 sift 가 본다.
+     ⚠ 이름을 fill 로 두었더니 달력이 쓰는 fill(302줄)을 덮어, 근로자 앱의
+       달력이 통째로 비었다. 이 파일은 한 겹 안에 모두 들어 있다 */
+  function nset(r, n) {
+    if (n === undefined || n === '') return;
+    var cell = r.querySelector('.sel__n');
+    if (cell) cell.textContent = n;
+    r.classList.toggle('is-off', n === '0');
+    r.hidden = n === '0';
   }
 
   /* 위의 탭과 아래의 버튼은 아래로 읽어 내려가는 동안 비켜 있다가, 스크롤이
