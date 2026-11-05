@@ -1507,6 +1507,7 @@
     var parts = Array.prototype.slice.call(scr.querySelectorAll('[data-flow]'));
     var form = scr.querySelector('.form');
     var act = scr.querySelector('.act');
+    var bface = act && act.querySelector('[data-act="face"]');
     var bnext = act && act.querySelector('[data-act="next"]');
     var bsave = act && act.querySelector('[data-act="save"]');
 
@@ -1544,7 +1545,11 @@
 
     function see() {
       var done = at >= ASK.length;
+      var ask = done ? '' : ASK[at];
       scr.classList.toggle('is-flow', !done);
+      /* 얼굴 차례는 받을 칸이 없다 — 그림이 바탕을 채우고, 할 일은 바닥
+         버튼 하나다(css 의 .is-ask-face) */
+      scr.classList.toggle('is-ask-face', ask === 'face');
 
       box.querySelectorAll('.flow__q__t').forEach(function (t) {
         t.classList.toggle('is-on', !done && t.dataset.q === ASK[at]);
@@ -1560,8 +1565,11 @@
       });
 
       if (!act) return;
-      var ok = done ? ASK.every(full) : full(ASK[at]);
-      if (bnext) bnext.hidden = done;
+      /* 얼굴 차례의 버튼은 **적은 것을 확인하는 버튼이 아니라 할 일**이라,
+         채울 것을 기다리지 않고 처음부터 서 있다 */
+      var ok = done ? ASK.every(full) : (ask === 'face' || full(ask));
+      if (bface) bface.hidden = ask !== 'face';
+      if (bnext) bnext.hidden = done || ask === 'face';
       if (bsave) bsave.hidden = !done;
       act.classList.toggle('act--void', !ok);
       act.setAttribute('aria-hidden', ok ? 'false' : 'true');

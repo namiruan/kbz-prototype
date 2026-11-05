@@ -1450,6 +1450,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    넓어져, 가운데에 선 덩어리가 내려앉는다(고르는 순간 사진이 뛴다).
    비워 둔 자리에는 화면 바탕만 깔리므로 눈에는 아무것도 없다 */
 .act--void{visibility:hidden}
+/* ⚠ 바닥 버튼은 flex 라 hidden 만으로는 안 덮인다 — 차례마다 서는 버튼이
+   달라지므로(얼굴 등록하기 · 다음 · 저장) 여기서 못 박는다 */
+.act__b[hidden]{display:none}
 
 /* ── 떠 있는 저장 ──
    폼의 저장은 변을 다 채운 바가 아니라 **떠 있는 버튼**이다. 바는 바닥을
@@ -2411,6 +2414,25 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* ⚠ 형제 선택자는 **마크업 차례**를 본다 — 눈으로는 폼이 위에 있어도
    .shot + .form 은 그대로 걸린다. 묻는 동안에는 그 사이를 띄우지 않는다 */
 .is-flow .shot + .form{margin-top:0}
+/* ── 얼굴 차례 ──
+   이 자리에서 할 일은 하나뿐이라, 그림을 작은 카드에 가둘 까닭이 없다 —
+   **바탕을 꽉 채운다**. 네모 테와 모서리를 걷고 남은 자리를 다 쓴다.
+   카드 안의 글(얼굴 등록하기 · 터치 후…)은 걷는다. 그 말은 바닥 버튼이
+   하고 있어, 두면 한 화면에서 같은 말을 두 번 한다.
+   자판은 여기서 쓰지 않는다 — 받을 칸이 없다(js 의 flow 가 초점도 주지
+   않는다) */
+.is-ask-face .body{padding-inline:0;padding-bottom:0;
+  background:radial-gradient(circle at 50% 56%,
+    var(--ap-glow-in) 0,var(--ap-glow-out) 52%,var(--ap-g0) 100%)}
+.is-ask-face .flow__q{padding-inline:var(--ap-p6)}
+.is-ask-face .shot{flex:1;min-height:0}
+.is-ask-face .shot__box{width:100%;height:100%;border:0;border-radius:0;
+  justify-content:center;background:none}
+/* 그림도 자리를 받은 만큼 커진다 — 카드에 맞춰 둔 치수 그대로면 넓어진
+   바탕 한가운데에 조각처럼 남는다 */
+.is-ask-face .shot__box > .scan{top:50%;--ap-scan:min(calc(var(--ap-scan-base) * 2.2), 70vw)}
+.is-ask-face .shot__t,.is-ask-face .shot__hint{display:none}
+
 /* 묻는 줄은 넷을 다 적어 두고 **지금 것 하나만** 켠다 */
 .flow__q__t{display:none;font:var(--t-title1);letter-spacing:var(--ls-title1);
   word-break:keep-all;color:var(--ap-text)}
@@ -3996,6 +4018,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      자랐었다 — 얼굴을 견주는 데 드는 크기는 화면 폭과 상관이 없다 */
   .photo--sm{width:240px;max-width:240px}
   .body{padding:var(--ap-p8)}
+  .is-ask-face .flow__q{padding-inline:var(--ap-p8)}
   /* 머리말 칸은 **본문 여백만큼** 되물린다 — 16 으로 박아 두었더니 여백이
      24 가 되는 이 폭에서 위와 옆에 8 씩 바탕이 남아, 흰 면이 머리줄에서
      끊겨 보였다(그라데이션이 머리줄 아래에서 시작했다) */
