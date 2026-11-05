@@ -1307,13 +1307,15 @@
       <!-- 내국인·외국인은 받는 번호가 통째로 갈리는 자리라, 칸 맨 위에 탭으로
            먼저 가른다. 외국인 안에서 외국인등록번호와 여권번호는 둘 가운데
            하나라 라디오로 고르고, 고른 알이 곧 이 칸의 이름이다 -->
-      <div class="fld fld--id">
-        <nav class="seg" aria-label="근로자 구분">
-          <button class="seg__b is-on" type="button" aria-current="true">내국인</button>
-          <button class="seg__b" type="button">외국인</button>
-        </nav>
-        <label class="fld__l">주민번호 <b>(필수)</b></label>
-        <div class="inp inp--ph">주민번호를 입력해주세요</div>
+      <div class="idf">
+        <div class="idf__tabs" role="tablist" aria-label="근로자 구분">
+          <button class="idf__t is-on" type="button" role="tab" aria-selected="true">내국인</button>
+          <button class="idf__t" type="button" role="tab" aria-selected="false">외국인</button>
+        </div>
+        <div class="idf__body">
+          <label class="fld__l">주민번호 <b>(필수)</b></label>
+          <div class="inp inp--ph">주민번호를 입력해주세요</div>
+        </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
@@ -1358,13 +1360,15 @@
       <!-- 내국인·외국인은 받는 번호가 통째로 갈리는 자리라, 칸 맨 위에 탭으로
            먼저 가른다. 외국인 안에서 외국인등록번호와 여권번호는 둘 가운데
            하나라 라디오로 고르고, 고른 알이 곧 이 칸의 이름이다 -->
-      <div class="fld fld--id">
-        <nav class="seg" aria-label="근로자 구분">
-          <button class="seg__b is-on" type="button" aria-current="true">내국인</button>
-          <button class="seg__b" type="button">외국인</button>
-        </nav>
-        <label class="fld__l">주민번호 <b>(필수)</b></label>
-        <div class="inp inp--ph">주민번호를 입력해주세요</div>
+      <div class="idf">
+        <div class="idf__tabs" role="tablist" aria-label="근로자 구분">
+          <button class="idf__t is-on" type="button" role="tab" aria-selected="true">내국인</button>
+          <button class="idf__t" type="button" role="tab" aria-selected="false">외국인</button>
+        </div>
+        <div class="idf__body">
+          <label class="fld__l">주민번호 <b>(필수)</b></label>
+          <div class="inp inp--ph">주민번호를 입력해주세요</div>
+        </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>

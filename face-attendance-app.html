@@ -1409,13 +1409,15 @@
       <!-- 내국인·외국인은 받는 번호가 통째로 갈리는 자리라, 칸 맨 위에 탭으로
            먼저 가른다. 외국인 안에서 외국인등록번호와 여권번호는 둘 가운데
            하나라 라디오로 고르고, 고른 알이 곧 이 칸의 이름이다 -->
-      <div class="fld fld--id">
-        <nav class="seg" aria-label="근로자 구분">
-          <button class="seg__b is-on" type="button" aria-current="true">내국인</button>
-          <button class="seg__b" type="button">외국인</button>
-        </nav>
-        <label class="fld__l">주민번호 <b>(필수)</b></label>
-        <div class="inp inp--ph">주민번호를 입력해주세요</div>
+      <div class="idf">
+        <div class="idf__tabs" role="tablist" aria-label="근로자 구분">
+          <button class="idf__t is-on" type="button" role="tab" aria-selected="true">내국인</button>
+          <button class="idf__t" type="button" role="tab" aria-selected="false">외국인</button>
+        </div>
+        <div class="idf__body">
+          <label class="fld__l">주민번호 <b>(필수)</b></label>
+          <div class="inp inp--ph">주민번호를 입력해주세요</div>
+        </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
@@ -1493,19 +1495,21 @@
       </div>
       <!-- 외국인 탭에서는 받는 번호가 둘이다 — 외국인등록번호는 주민번호와 같은
            꼴(13자리)이고, 여권으로 등록할 사람은 여권번호를 고른다 -->
-      <div class="fld fld--id">
-        <nav class="seg" aria-label="근로자 구분">
-          <button class="seg__b" type="button">내국인</button>
-          <button class="seg__b is-on" type="button" aria-current="true">외국인</button>
-        </nav>
-        <div class="fld__h">
-          <div class="pickr" role="radiogroup" aria-label="받을 번호">
-            <button class="pickr__o is-on" type="button" role="radio" aria-checked="true"><span class="rdo" aria-hidden="true"></span>외국인등록번호</button>
-            <button class="pickr__o" type="button" role="radio" aria-checked="false"><span class="rdo" aria-hidden="true"></span>여권번호</button>
-          </div>
-          <b class="fld__req">(필수)</b>
+      <div class="idf">
+        <div class="idf__tabs" role="tablist" aria-label="근로자 구분">
+          <button class="idf__t" type="button" role="tab" aria-selected="false">내국인</button>
+          <button class="idf__t is-on" type="button" role="tab" aria-selected="true">외국인</button>
         </div>
-        <div class="inp inp--ph">외국인등록번호를 입력해주세요</div>
+        <div class="idf__body">
+          <div class="fld__h">
+            <div class="pickr" role="radiogroup" aria-label="받을 번호">
+              <button class="pickr__o is-on" type="button" role="radio" aria-checked="true"><span class="rdo" aria-hidden="true"></span>외국인등록번호</button>
+              <button class="pickr__o" type="button" role="radio" aria-checked="false"><span class="rdo" aria-hidden="true"></span>여권번호</button>
+            </div>
+            <b class="fld__req">(필수)</b>
+          </div>
+          <div class="inp inp--ph">외국인등록번호를 입력해주세요</div>
+        </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
@@ -1582,22 +1586,24 @@
            생년월일은 **이 칸 안에** 하나 더 는다. 여권번호에는 나이가 들어
            있지 않아, 주민번호 하나가 하던 일(누구인가 · 몇 살인가)을 둘이
            나눠 받는다 — 번호에 딸린 값이라 칸 밖으로 내보내지 않는다 -->
-      <div class="fld fld--id">
-        <nav class="seg" aria-label="근로자 구분">
-          <button class="seg__b" type="button">내국인</button>
-          <button class="seg__b is-on" type="button" aria-current="true">외국인</button>
-        </nav>
-        <div class="fld__h">
-          <div class="pickr" role="radiogroup" aria-label="받을 번호">
-            <button class="pickr__o" type="button" role="radio" aria-checked="false"><span class="rdo" aria-hidden="true"></span>외국인등록번호</button>
-            <button class="pickr__o is-on" type="button" role="radio" aria-checked="true"><span class="rdo" aria-hidden="true"></span>여권번호</button>
-          </div>
-          <b class="fld__req">(필수)</b>
+      <div class="idf">
+        <div class="idf__tabs" role="tablist" aria-label="근로자 구분">
+          <button class="idf__t" type="button" role="tab" aria-selected="false">내국인</button>
+          <button class="idf__t is-on" type="button" role="tab" aria-selected="true">외국인</button>
         </div>
-        <div class="inp inp--ph">여권번호를 입력해주세요</div>
-        <div class="fld__sub">
-          <label class="fld__l fld__l--birth">생년월일 <b>(필수)</b></label>
-          <div class="inp inp--ph">생년월일 8자리를 입력해주세요</div>
+        <div class="idf__body">
+          <div class="fld__h">
+            <div class="pickr" role="radiogroup" aria-label="받을 번호">
+              <button class="pickr__o" type="button" role="radio" aria-checked="false"><span class="rdo" aria-hidden="true"></span>외국인등록번호</button>
+              <button class="pickr__o is-on" type="button" role="radio" aria-checked="true"><span class="rdo" aria-hidden="true"></span>여권번호</button>
+            </div>
+            <b class="fld__req">(필수)</b>
+          </div>
+          <div class="inp inp--ph">여권번호를 입력해주세요</div>
+          <div class="fld__sub">
+            <label class="fld__l fld__l--birth">생년월일 <b>(필수)</b></label>
+            <div class="inp inp--ph">생년월일 8자리를 입력해주세요</div>
+          </div>
         </div>
       </div>
       <div class="fld">
@@ -2015,15 +2021,17 @@
       <!-- 내국인·외국인은 받는 번호가 통째로 갈리는 자리라, 칸 맨 위에 탭으로
            먼저 가른다. 외국인 안에서 외국인등록번호와 여권번호는 둘 가운데
            하나라 라디오로 고르고, 고른 알이 곧 이 칸의 이름이다 -->
-      <div class="fld fld--id">
-        <nav class="seg" aria-label="근로자 구분">
-          <button class="seg__b is-on" type="button" aria-current="true">내국인</button>
-          <button class="seg__b" type="button">외국인</button>
-        </nav>
-        <label class="fld__l">주민번호 <b>(필수)</b></label>
-        <!-- 목록에서는 뒷자리를 가리지만(남이 보는 자리다), 이 칸은 본인 것을
-             고쳐 넣는 자리라 가리지 않는다 — 가려 두면 고쳐 넣을 수가 없다 -->
-        <div class="inp">800101-1234567</div>
+      <div class="idf">
+        <div class="idf__tabs" role="tablist" aria-label="근로자 구분">
+          <button class="idf__t is-on" type="button" role="tab" aria-selected="true">내국인</button>
+          <button class="idf__t" type="button" role="tab" aria-selected="false">외국인</button>
+        </div>
+        <div class="idf__body">
+          <label class="fld__l">주민번호 <b>(필수)</b></label>
+          <!-- 목록에서는 뒷자리를 가리지만(남이 보는 자리다), 이 칸은 본인 것을
+               고쳐 넣는 자리라 가리지 않는다 — 가려 두면 고쳐 넣을 수가 없다 -->
+          <div class="inp">800101-1234567</div>
+        </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>

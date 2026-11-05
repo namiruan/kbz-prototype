@@ -2274,23 +2274,29 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .form{display:flex;flex-direction:column;gap:var(--ap-gap6)}
 .fld{display:flex;flex-direction:column;gap:var(--ap-p2)}
 /* ── 번호 칸 ──
-   받는 번호가 사람에 따라 통째로 갈리는 자리다. **내국인·외국인을 칸 맨 위의
-   탭**으로 먼저 가르고, 외국인 안에서 외국인등록번호와 여권번호를 라디오로
-   고른다 — 둘 가운데 하나라 체크가 아니라 라디오다.
+   받는 번호가 사람에 따라 통째로 갈리는 자리다. **내국인·외국인을 탭**으로
+   먼저 가르고, 외국인 안에서 외국인등록번호와 여권번호를 라디오로 고른다 —
+   둘 가운데 하나라 체크가 아니라 라디오다.
    따로 묻던 때는 '외국인 근로자인가요?' 가 폼 맨 위에 서고 그 답이 바꾸는
    칸은 두 줄 아래에 있어, 토글을 눌러도 무엇이 바뀌는지가 한눈에 들어오지
-   않았다. 묻는 자리와 바뀌는 자리를 한 칸에 둔다.
-   면은 gray/5 다. 흰 폼 위에서 한 끗만 내려앉아 '이 칸은 묻는 말을 함께
-   든다' 고만 알린다 */
-.fld--id{gap:var(--ap-p4);padding:var(--ap-p6);
-  background:var(--ap-g5);border-radius:var(--ap-r10)}
-/* 탭은 머리줄의 그것(.seg)과 같은 꼴이다 — 한 앱에서 '둘 중 하나를 고르는
-   큰 자리' 가 한 가지 꼴로 서야 한다. 고르지 않은 쪽에 흰 면을 깔아 두는
-   것은 이 칸의 면이 이미 회색이어서다 — 투명으로 두면 바탕에 묻혀 누를
-   자리로 보이지 않는다 */
-.fld--id > .seg{margin-bottom:var(--ap-p2)}
-.fld--id .seg__b{background:var(--ap-g0)}
-.fld--id .seg__b.is-on{background:var(--ap-point-light)}
+   않았다. 묻는 자리와 바뀌는 자리를 붙여 둔다.
+
+   탭은 면 **밖**에 서고, 고른 쪽만 아래 면과 같은 색으로 이어진다 — 종이
+   한 장에 꽂은 색인처럼, 지금 펼친 쪽이 어느 것인지를 자리가 말한다.
+   면 안에 넣어 보았더니 탭도 칸도 같은 회색 위에 얹혀, 탭이 이 칸의 머리인지
+   칸 안의 또 다른 고르기인지 갈리지 않았다.
+   ⚠ 면의 윗 모서리는 둥글리지 않는다. 탭 둘이 폭을 꽉 채워 서므로 윗변이
+     평평해야 고른 탭이 면으로 이어진다 — 둥글리면 이은 자리에 흰 틈이 난다 */
+.idf{display:flex;flex-direction:column}
+.idf__tabs{display:flex}
+.idf__t{font:var(--t-body);letter-spacing:var(--ls-body);
+  flex:1;min-width:0;display:flex;align-items:center;justify-content:center;
+  padding:var(--ap-p4) var(--ap-p3);border-radius:var(--ap-r10) var(--ap-r10) 0 0;
+  background:none;color:var(--ap-text-gray);white-space:nowrap;cursor:pointer}
+.idf__t.is-on{background:var(--ap-g5);color:var(--ap-primary);font-weight:600}
+.idf__body{display:flex;flex-direction:column;gap:var(--ap-p4);
+  padding:var(--ap-p6);background:var(--ap-g5);
+  border-radius:0 0 var(--ap-r10) var(--ap-r10)}
 .fld__h{display:flex;align-items:center;justify-content:space-between;
   flex-wrap:wrap;column-gap:var(--ap-p5);row-gap:var(--ap-p3)}
 /* 라디오가 라벨 자리를 맡은 줄에서는 '(필수)' 만 따로 선다 — 칸 이름은
