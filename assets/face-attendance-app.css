@@ -1317,15 +1317,18 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    색만 빼면 흑백 사진이 되어 오히려 또렷해진다. 대비까지 눌러야 얼굴이 한 겹
    물러난다. 어느 쪽인지는 사진 아래 띠가 적는다.
 
-   이름도 한 단 연해진다. **값(주민번호 · 직종)과 그림자는 그대로**다.
-   ⚠ 값까지 함께 죽이고 그림자를 걷어 보았더니 고를 수 없는 것처럼 보였다 —
-     이 카드는 누르면 상세로 가고, 체크해서 지울 수도 있는 과녁이다. 이름
-     하나만 내리는 것이 '물러났다' 와 '못 쓴다' 사이의 자리다.
+   글도 한 단 연해진다 — 이름과 값이 함께 Text/gray 로 내려간다.
+   ⚠ **그림자는 걷지 않는다.** 누를 수 있다는 것은 그림자가 쥐고 있다 —
+     떠 있는 종이는 손이 닿는 것이고, 바탕에 붙은 면은 아니다. 글을 연하게
+     내려도 카드가 여전히 떠 있으면 '물러났다' 로 읽히고, 그림자까지 걷으면
+     그때 '못 쓴다' 가 된다. 이 카드는 누르면 상세로 가고, 체크해서 지울
+     수도 있는 과녁이다.
 
    ⚠ 사진이 없는 자리(.face--none)에는 내릴 얼굴이 없다. 그쪽은 띠 하나로
      선다 — 빈 자리를 더 죽이면 '퇴사하면 얼굴이 지워진다' 가 된다 */
 .card--photo.card--off{background:var(--ap-g5)}
-.card--photo.card--off .card__nm{color:var(--ap-text-gray)}
+.card--photo.card--off .card__nm,
+.card--photo.card--off .card__v{color:var(--ap-text-gray)}
 .card--photo.card--off > .face img{filter:grayscale(.9) contrast(.72)}
 /* 빈 사진 자리는 한 단 더 내린다 — 카드 면과 같은 색이면 사진 자리가
    통째로 사라져, 글만 있는 카드처럼 보인다 */
