@@ -105,6 +105,7 @@
     wheel(hit);
     swipe(hit);
     deck(hit);
+    flow(hit);
     seek(hit);
     fit(hit);
     must(hit);
@@ -1485,11 +1486,123 @@
     see();
   }
 
+  /* ── 한 번에 하나씩 묻는다 — `data-flow` ──
+     꼭 받아야 하는 넷을 차례로 받는다(얼굴 → 이름 → 번호 → 연락처). 묻는
+     줄이 맨 위에 서고 지금 받을 칸이 그 아래, 답한 것은 다시 그 아래로
+     쌓인다 — 방금 답한 것이 위, 먼저 답한 것이 아래다.
+     넷이 다 차면 묻기를 멈추고 **보통 폼**이 된다. 직종과 단가는 그때 함께
+     열린다 — 차례를 두고 받을 값이 아니라 아무 때나 적는 값이다.
+
+     ⚠ **어디까지 왔는지는 처음 한 번만 센다.** 적힌 값으로 매번 다시 세면,
+       이름에 한 글자를 넣는 순간 다음 질문이 위로 끼어들어 적던 칸이 아래로
+       밀린다. 그 다음부터는 '다음' 이 민다.
+     ⚠ 중간 자리는 주소가 연다(?step=3). 지나온 답은 마크업의 data-demo 가
+       들고 있고, **비어 있을 때만** 채운다 — 탭을 갈아 끼울 때 따라온
+       값(carry)을 덮지 않기 위해서다 */
+  function flow(scr) {
+    var box = scr.querySelector('.flow__q');
+    if (!box) return;
+
+    var ASK = ['face', 'ireum', 'idno', 'yeonrak'];
+    var parts = Array.prototype.slice.call(scr.querySelectorAll('[data-flow]'));
+    var form = scr.querySelector('.form');
+    var act = scr.querySelector('.act');
+    var bnext = act && act.querySelector('[data-act="next"]');
+    var bsave = act && act.querySelector('[data-act="save"]');
+
+    function kin(key) {
+      return parts.filter(function (n) { return n.dataset.flow === key; });
+    }
+    function full(key) {
+      if (key === 'face') return !!scr.querySelector('.shot__box--done');
+      return kin(key).every(function (n) {
+        var need = n.querySelectorAll('.inp__in[required]');
+        return !need.length || Array.prototype.every.call(need, function (i) {
+          return i.value.trim() !== '';
+        });
+      });
+    }
+    function fill(key) {
+      if (key === 'face') {
+        var b = scr.querySelector('.shot__box');
+        if (b) b.classList.add('shot__box--done');
+        return;
+      }
+      kin(key).forEach(function (n) {
+        n.querySelectorAll('.inp__in[data-demo]').forEach(function (i) {
+          if (!i.value) i.value = i.dataset.demo;
+        });
+      });
+    }
+
+    /* 주소가 가리키는 자리까지 답을 채워 둔다 */
+    var want = parseInt(new URL(location.href).searchParams.get('step'), 10);
+    if (want > 1) for (var k = 0; k < want - 1 && k < ASK.length; k++) fill(ASK[k]);
+
+    var at = 0;
+    while (at < ASK.length && full(ASK[at])) at++;
+
+    function see() {
+      var done = at >= ASK.length;
+      scr.classList.toggle('is-flow', !done);
+
+      box.querySelectorAll('.flow__q__t').forEach(function (t) {
+        t.classList.toggle('is-on', !done && t.dataset.q === ASK[at]);
+      });
+
+      parts.forEach(function (n) {
+        var i = ASK.indexOf(n.dataset.flow);
+        if (done) { n.hidden = false; n.style.order = ''; return; }
+        /* 차례에 없는 것(직종 · 단가)은 끝나야 열린다 */
+        n.hidden = i < 0 || i > at;
+        /* 쌓는 차례는 **거꾸로**다 — 방금 답한 것이 위에 온다 */
+        n.style.order = (i < 0 || !form || !form.contains(n)) ? '' : String(-i);
+      });
+
+      if (!act) return;
+      var ok = done ? ASK.every(full) : full(ASK[at]);
+      if (bnext) bnext.hidden = done;
+      if (bsave) bsave.hidden = !done;
+      act.classList.toggle('act--void', !ok);
+      act.setAttribute('aria-hidden', ok ? 'false' : 'true');
+    }
+
+    /* 다음 — 한 자리 나아가고, 새로 연 칸에 바로 적게 한다. 누름이 살아
+       있는 그 안에서 초점을 줘야 기기 자판이 내려갔다 다시 올라오지 않는다 */
+    function step() {
+      if (at >= ASK.length || !full(ASK[at])) return;
+      at++;
+      see();
+      var bd = scr.querySelector('.body');
+      if (bd) bd.scrollTop = 0;
+      var aim = at < ASK.length && kin(ASK[at])[0];
+      aim = aim && aim.querySelector('.inp__in');
+      if (aim) { try { aim.focus({ preventScroll: true }); } catch (e) { aim.focus(); } }
+    }
+
+    if (!scr.dataset.flow) {
+      scr.dataset.flow = '1';
+      scr.addEventListener('input', see);
+      if (bnext) bnext.addEventListener('click', step);
+    }
+
+    /* 처음 서는 초점은 seek 가 준다 — 그 표를 지금 묻는 칸으로 옮겨 둔다 */
+    scr.querySelectorAll('[autofocus]').forEach(function (n) { n.removeAttribute('autofocus'); });
+    var now = at < ASK.length && kin(ASK[at])[0];
+    now = now && now.querySelector('.inp__in');
+    if (now) now.setAttribute('autofocus', '');
+
+    see();
+  }
+
   /* ── 필수 칸이 다 차면 저장이 선다 ──
      비어 있는 동안 서 있으면 '눌러 봐야 아무 일도 없는 버튼' 이 내내 엄지
      밑에 있다. 자리는 처음부터 지키므로(.act--void 는 보이지만 않는다)
      다 채운 순간에 바가 솟아 화면이 뛰는 일도 없다 */
   function must(scr) {
+    /* 차례대로 묻는 폼에서는 flow 가 저장을 쥔다 — 둘이 같은 바를 두고
+       다투면 한쪽이 켠 것을 다른 쪽이 바로 끈다 */
+    if (scr.querySelector('.flow__q')) return;
     /* 처음 선 꼴로 가리지 않는다 — 비운 채로 여는 화면도, 다 채운 채로 여는
        화면도 같은 셈을 쓴다. 보이고 말고는 **값이 정한다** */
     var act = scr.querySelector('.act');
@@ -1655,6 +1768,7 @@
         requestAnimationFrame(function () { newbd.scrollTop = keep; });
       }
       fit(next);
+      flow(next);
       must(next);
     } else {
       seek(next);
@@ -1706,6 +1820,15 @@
          않으면 다른 화면에 갔다 돌아올 때 지난 날이 따라온다 */
       if (go.hasAttribute('data-d')) u.searchParams.set('d', go.getAttribute('data-d'));
       else u.searchParams.delete('d');
+      /* 차례대로 묻는 폼의 **몇 번째 자리**인지도 같은 식으로 싣는다
+         (data-go-q="step=2"). 적어 두지 않으면 지운다 — 두면 다른 화면에
+         갔다 돌아올 때 지난 차례가 따라온다 */
+      u.searchParams.delete('step');
+      (go.getAttribute('data-go-q') || '').split('&').forEach(function (kv) {
+        if (!kv) return;
+        var c = kv.indexOf('=');
+        u.searchParams.set(kv.slice(0, c), kv.slice(c + 1));
+      });
       var url = u.toString();
 
       /* 시트가 떠 있는 화면에서 떠날 때는 **내려가는 것을 보여 주고** 간다.
