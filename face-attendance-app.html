@@ -119,6 +119,7 @@
       </span>
     </div>
     <div class="list">
+      <!-- 섞여 서는 목록이라 카드가 제 근무상태를 적는다 -->
       <article class="card card--photo">
         <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
@@ -150,36 +151,6 @@
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="이영희 선택"></button>
-        <span class="bd bd--src bd--src-app">앱</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">이영희</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="박민수 선택"></button>
-        <span class="bd bd--src bd--src-pc">PC</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">박민수</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
         <span class="bd bd--src bd--src-pc">PC</span>
@@ -191,6 +162,22 @@
           <div class="card__gr">
             <span class="card__kv"><span class="card__k card__k--foreign">여권번호</span><span class="card__v">C1234567</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo card--off">
+        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">이영희</span>
+            <span class="bd bd--neutral">퇴사</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
           </div>
         </div>
       </article>
@@ -223,6 +210,22 @@
           <div class="card__gr">
             <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">770906-2******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo card--off card--ban">
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">박민수</span>
+            <span class="bd bd--negative">차단</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
       </article>
@@ -291,15 +294,10 @@
              칩을 누르면 **그 축의 시트**가 올라온다 — 근무상태 칩은 근무상태
              시트, 직종 칩은 직종 시트다. 고치러 가는 길은 걸린 것 위에 있는 쪽이
              짧다 -->
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">3</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
       </span>
     </div>
     <div class="list">
-      <!-- 얼굴이 등록된 근로자는 그 얼굴이 카드에 그대로 있다 —
-           등록 여부가 이 화면에서 갈리는 유일한 값이다 -->
-      <!-- 어디서 더한 근로자인지는 사진 왼쪽 위, 고르는 네모 옆에 뱃지로
-           둔다. 글 칸에 끼우면 주민번호·직종과 같은 '받은 값' 으로 읽히는데,
-           이것은 사람의 값이 아니라 **기록이 어디서 왔는지**다 -->
       <article class="card card--photo">
         <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
@@ -330,37 +328,6 @@
           </div>
         </div>
       </article>
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="이영희 선택"></button>
-        <span class="bd bd--src bd--src-app">앱</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">이영희</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="박민수 선택"></button>
-        <span class="bd bd--src bd--src-pc">PC</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">박민수</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          </div>
-        </div>
-      </article>
-      <!-- 외국인 근로자는 주민번호 자리에 여권번호가 온다 -->
       <article class="card card--photo">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
@@ -463,36 +430,6 @@
         </div>
       </article>
       <article class="card card--photo">
-        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="이영희 선택"></button>
-        <span class="bd bd--src bd--src-app">앱</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">이영희</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="박민수 선택"></button>
-        <span class="bd bd--src bd--src-pc">PC</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">박민수</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
         <span class="bd bd--src bd--src-pc">PC</span>
@@ -504,6 +441,22 @@
           <div class="card__gr">
             <span class="card__kv"><span class="card__k card__k--foreign">여권번호</span><span class="card__v">C1234567</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo card--off">
+        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">이영희</span>
+            <span class="bd bd--neutral">퇴사</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
           </div>
         </div>
       </article>
@@ -536,6 +489,22 @@
           <div class="card__gr">
             <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">770906-2******</span></span>
             <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo card--off card--ban">
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">박민수</span>
+            <span class="bd bd--negative">차단</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
           </div>
         </div>
       </article>
@@ -607,8 +576,7 @@
       </span>
     </div>
     <div class="list">
-      <!-- 고른 직종만 남는다. 근무상태는 걸지 않아 퇴사·차단도 함께 선다 —
-           섞여 서는 목록이라 카드가 제 근무상태를 적는다 -->
+      <!-- 고른 직종만 남는다. 근무상태는 걸지 않아 퇴사·차단도 함께 선다 -->
       <article class="card card--photo">
         <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
@@ -624,13 +592,14 @@
           </div>
         </div>
       </article>
-      <article class="card card--photo">
+      <article class="card card--photo card--off card--ban">
         <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">박민수</span>
+            <span class="bd bd--negative">차단</span>
             <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
           </div>
           <div class="card__gr">
@@ -701,10 +670,25 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">퇴사</span><span class="cnt__n">2</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">퇴사</span><span class="cnt__n">3</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
       </span>
     </div>
     <div class="list">
+      <article class="card card--photo card--off">
+        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">이영희</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
+          </div>
+        </div>
+      </article>
       <article class="card card--photo card--off">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="최동식 선택"></button>
@@ -776,10 +760,25 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">차단</span><span class="cnt__n">1</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">차단</span><span class="cnt__n">2</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
       </span>
     </div>
     <div class="list">
+      <article class="card card--photo card--off card--ban">
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">박민수</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+          </div>
+        </div>
+      </article>
       <article class="card card--photo card--off card--ban">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="강태웅 선택"></button>
@@ -830,9 +829,9 @@
            목록에서 **카드마다 근무상태가 적힌다** -->
       <div class="fsta">
         <button class="optr is-on" type="button" data-go="m-workers" data-key="all" data-list="m-workers"><span class="optr__t">근무상태 전체</span><span class="sel__n">8</span></button>
-        <button class="optr" type="button" data-go="m-workers-live" data-key="live" data-list="m-workers-live"><span class="optr__t">재직</span><span class="sel__n">5</span></button>
-        <button class="optr" type="button" data-go="m-workers-left" data-key="left" data-list="m-workers-left"><span class="optr__t">퇴사</span><span class="sel__n">2</span></button>
-        <button class="optr" type="button" data-go="m-workers-ban" data-key="ban" data-list="m-workers-ban"><span class="optr__t">차단</span><span class="sel__n">1</span></button>
+        <button class="optr" type="button" data-go="m-workers-live" data-key="live" data-list="m-workers-live"><span class="optr__t">재직</span><span class="sel__n">3</span></button>
+        <button class="optr" type="button" data-go="m-workers-left" data-key="left" data-list="m-workers-left"><span class="optr__t">퇴사</span><span class="sel__n">3</span></button>
+        <button class="optr" type="button" data-go="m-workers-ban" data-key="ban" data-list="m-workers-ban"><span class="optr__t">차단</span><span class="sel__n">2</span></button>
       </div>
     </div>
   </div>
@@ -864,10 +863,10 @@
            올라올 때 그 상태의 것으로 갈린다(js 의 sync).
            거는 것을 푸는 줄이 맨 위인 것은, 걸린 것을 지우는 일이 더 급해서다 -->
       <div class="find__list">
-        <button class="optr is-on" type="button" data-go="m-workers" data-all data-n-all="8" data-n-live="5" data-n-left="2" data-n-ban="1"><span class="optr__t">직종 선택 전체</span><span class="sel__n">8</span></button>
-        <button class="optr" type="button" data-go="m-workers-job" data-n-all="3" data-n-live="2" data-n-left="0" data-n-ban="1"><span class="optr__t">형틀목공</span><span class="sel__n">3</span></button>
+        <button class="optr is-on" type="button" data-go="m-workers" data-all data-n-all="8" data-n-live="3" data-n-left="3" data-n-ban="2"><span class="optr__t">직종 선택 전체</span><span class="sel__n">8</span></button>
+        <button class="optr" type="button" data-go="m-workers-job" data-n-all="3" data-n-live="1" data-n-left="0" data-n-ban="2"><span class="optr__t">형틀목공</span><span class="sel__n">3</span></button>
         <button class="optr" type="button" data-go="m-workers-job" data-n-all="2" data-n-live="1" data-n-left="1" data-n-ban="0"><span class="optr__t">철근공</span><span class="sel__n">2</span></button>
-        <button class="optr" type="button" data-go="m-workers-job" data-n-all="2" data-n-live="1" data-n-left="1" data-n-ban="0"><span class="optr__t">보통인부</span><span class="sel__n">2</span></button>
+        <button class="optr" type="button" data-go="m-workers-job" data-n-all="2" data-n-live="0" data-n-left="2" data-n-ban="0"><span class="optr__t">보통인부</span><span class="sel__n">2</span></button>
         <p class="find__none" hidden>입력하신 직종이 없습니다.</p>
       </div>
       <div class="kb" aria-hidden="true">
