@@ -1597,6 +1597,9 @@
     var next = SHELF[name];
     var now = document.querySelector('.scr[data-screen]');
     if (!next || !now || !now.parentNode) return false;
+    /* 이미 그 화면이다 — 갈아 끼울 것이 없다. 여기서 막지 않으면 제자리에
+       끼워 넣었다가 그대로 덜어 내, 문서에 화면이 하나도 남지 않는다 */
+    if (next === now) return true;
 
     /* `same` 은 **같은 화면의 다른 꼴**로 갈아 끼우는 길이다(탭 · 라디오).
        주소를 갈아 다시 그리면 본문이 맨 위로 되감겨, 아래쪽에서 탭을 누른
@@ -1633,6 +1636,11 @@
     /* 새로 선 화면이 쓰는 것만 맨다 — 여기 오는 것은 찾는 시트뿐이고,
        그 시트가 쓰는 것은 누르면 갈 자리(link)와 적을 자리(seek)다 */
     link(next);
+    /* ⚠ 갈아 끼운 화면도 **맨 처음 서는 화면과 같이** 매야 한다. 여기서
+       빠뜨렸더니 탭으로 간 화면에만 has-float-act 가 없었다 — 저장이 떠
+       있지 않고 줄에 서서, 비어 있는 동안(act--void) 바닥에 84 짜리 흰 띠가
+       남고 그만큼 폼이 잘렸다 */
+    stow(next);
     if (same) {
       var newbd = next.querySelector('.body');
       /* 한 번으로는 모자란다 — 갈아 끼운 바로 그 순간에는 새 본문의 높이가
@@ -1669,6 +1677,11 @@
      뒤의 어두운 자리(.dim)가 그렇다 — 창 안을 누른 것까지 '닫기' 로
      받으면 아무것도 못 누른다. */
   function link(hit) {
+    /* ⚠ 갈아 끼웠다 돌아온 화면에 또 매면 **한 번 누른 것이 두 번 간다**.
+       탭을 네 번째로 눌렀을 때 soft 가 두 번 돌아, 두 번째에는 갈아 끼울
+       화면과 서 있는 화면이 같아져 화면이 통째로 사라졌다 */
+    if (hit.dataset.link) return;
+    hit.dataset.link = '1';
     hit.addEventListener('click', function (e) {
       var go = e.target.closest ? e.target.closest('[data-go]') : null;
       if (!go || !hit.contains(go)) return;
@@ -1812,6 +1825,11 @@
     /* 바닥 탭이 있는 화면에서는 바가 그 위에 줄 서 있어야 하므로 띄우지
        않는다 — 띄우지 않으면 내려가 봐야 빈 띠만 남으니 비키지도 않는다 */
     if (scr.querySelector('.tabbar')) return;
+
+    /* 갈아 끼웠다 돌아온 화면은 이미 매여 있다 — 재면서 또 매면 스크롤을
+       듣는 귀가 겹친다. 띄운 표시와 잰 높이는 요소에 그대로 남아 있다 */
+    if (scr.dataset.stow) return;
+    scr.dataset.stow = '1';
 
     /* 바를 목록 위로 띄우고, 목록 아래에 그 높이만큼 여백을 둔다. 여백은
        한 번 정하고 바뀌지 않으므로 굴러가는 상자의 크기도 바뀌지 않는다 */
