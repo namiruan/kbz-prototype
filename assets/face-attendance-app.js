@@ -1497,8 +1497,13 @@
     var need = Array.prototype.slice.call(scr.querySelectorAll('.inp__in[required]'));
     if (!need.length) return;
 
+    /* 얼굴도 필수다 — 칸이 아니라 사진이라 required 로 적을 데가 없다.
+       등록된 자리는 .shot__box--done 이 말한다(사진이 들어앉은 꼴) */
+    var face = scr.querySelector('.shot__box');
+
     function see() {
-      var ok = need.every(function (i) { return i.value.trim() !== ''; });
+      var ok = need.every(function (i) { return i.value.trim() !== ''; })
+        && (!face || face.classList.contains('shot__box--done'));
       act.classList.toggle('act--void', !ok);
       act.setAttribute('aria-hidden', ok ? 'false' : 'true');
     }

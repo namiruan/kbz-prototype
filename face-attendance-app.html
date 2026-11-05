@@ -1396,7 +1396,7 @@
                그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
           <span class="scan__beam"></span>
         </span>
-        <b class="shot__t">얼굴 등록하기</b>
+        <b class="shot__t">얼굴 등록하기 <b>(필수)</b></b>
         <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
       </button>
     </div>
@@ -1477,35 +1477,13 @@
   </header>
 
   <main class="body">
+    <!-- 얼굴도 필수다 — 다 채운 자리라 사진이 이미 등록되어 있다.
+         꼴은 근로자 상세의 그 자리와 같다(.shot__box--done): 사진 한 장과
+         오른쪽 아래의 카메라 표지. 누르면 다시 찍는다 -->
     <div class="shot">
-      <button class="shot__box" type="button" data-go="m-ready">
-        <!-- 얼굴을 훑는 그림 — 스프라이트의 아이콘이 아니라 이 자리에서만 쓰는
-             그림이다. 시스템에 얼굴 아이콘이 없다(사람은 icon-employee 뿐이고
-             그것은 메뉴 아이콘이다). 움직임은 assets 쪽에 있다 -->
-        <span class="scan" aria-hidden="true">
-          <!-- 파장은 그림 안에 둔다 — 아이콘이 동그라미 한가운데에 서야 한다.
-               셋이 1초 간격으로 떠난다 -->
-          <span class="wave"><i></i><i></i><i></i></span>
-          <!-- 얼굴이 앉는 동그란 면. 면이 그림 밖에 있는 것은 빛과 그늘을
-               입히기 위해서다 — SVG 안에서는 CSS 로 면색을 그라데이션으로
-               못 준다. 파장은 이 면 뒤에서 번져 나온다 -->
-          <span class="scan__plate"></span>
-          <!-- 그림이 쓰는 자리만 잘라 담는다(가로 4~68 · 세로 12~60).
-               72 네모 그대로 두면 사람 아래위로 빈 자리가 남아 글자가 멀어진다 -->
-          <svg viewBox="4 12 64 48">
-            <!-- 얼굴은 눈 둘과 웃음 하나다. 모서리 테는 두지 않는다 -->
-            <g class="scan__face">
-              <circle cx="24" cy="29" r="4"/>
-              <circle cx="48" cy="29" r="4"/>
-              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
-            </g>
-          </svg>
-          <!-- 읽는 레이저 — 위에서 아래로 한 번 훑고 다시 위에서 시작한다.
-               그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
-          <span class="scan__beam"></span>
-        </span>
-        <b class="shot__t">얼굴 등록하기</b>
-        <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
+      <button class="shot__box shot__box--done" type="button" aria-label="얼굴 사진 다시 촬영" data-go="m-ready">
+        <img src="images/worker/01.jpg" alt="">
+        <span class="shot__edit" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg></span>
       </button>
     </div>
 
@@ -1524,7 +1502,7 @@
         </div>
         <div class="idf__body">
           <label class="fld__l">주민번호 <b>(필수)</b></label>
-          <div class="inp"><input class="inp__in" required type="text" value="990215-1234567" aria-label="주민번호" name="jumin" autocomplete="off" inputmode="numeric"></div>
+          <div class="inp"><input class="inp__in" required type="text" value="790412-1234567" aria-label="주민번호" name="jumin" autocomplete="off" inputmode="numeric"></div>
         </div>
       </div>
       <div class="fld">
@@ -1592,7 +1570,7 @@
                그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
           <span class="scan__beam"></span>
         </span>
-        <b class="shot__t">얼굴 등록하기</b>
+        <b class="shot__t">얼굴 등록하기 <b>(필수)</b></b>
         <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
       </button>
     </div>
@@ -1693,7 +1671,7 @@
                그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
           <span class="scan__beam"></span>
         </span>
-        <b class="shot__t">얼굴 등록하기</b>
+        <b class="shot__t">얼굴 등록하기 <b>(필수)</b></b>
         <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
       </button>
     </div>
