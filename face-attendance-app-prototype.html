@@ -178,9 +178,11 @@
           |@sm @md @lg @{.list} 카드가 들어가는 만큼 단이 늘어납니다 — 모바일은 한 단, 태블릿은 두 단, 데스크톱은 세 단입니다
           |@{.act} 아래 버튼은 목록을 스크롤하는 동안 내려가 있다가, 멈추면 다시 올라옵니다">현장 선택 시</button>
 
-      <!-- 아래 둘은 이 목록에서 무엇을 고른 뒤의 모습이라, 한 단 들여 묶는다.
+      <!-- 아래는 이 목록에서 무엇을 한 뒤의 모습이라 한 단 들여 묶고,
+           **고르는 자리(시트)와 걸린 뒤(목록)를 다시 가른다** — 같은 '필터'
+           라도 올라온 시트와 걸러진 목록은 보는 일이 다르다.
            이름표의 단계는 셸이 세어 적는다(--sub 이면 2단) -->
-      <span class="proto-nav-group-label proto-nav-group-label--sub">목록에서 고르면</span>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">필터를 누르면</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-filter-sta"
         data-why="거르는 축마다 시트가 한 장입니다. 한 장에 근무상태와 직종을 함께 담았더니 둘이 한 덩어리로 읽혀, 지금 무엇을 고르러 올라온 것인지가 흐려졌습니다. 축이 더 늘어나면 그때 한 장으로 묶습니다.
 
@@ -190,7 +192,7 @@
         data-look="
           |@{.fsta} 근무상태를 걸지 않거나(전체) 재직 · 퇴사 · 차단 가운데 하나를 겁니다. 클릭하면 시트가 닫히고 그 목록이 열립니다
           |@{.fsta .optr.is-on} 올라올 때는 지금 걸려 있는 근무상태가 켜져 있습니다. 켜진 것을 다시 클릭하면 제자리로 돌아옵니다
-          |@{.dim} 어두운 영역이나 닫기(✕)를 클릭하면 걸지 않고 돌아갑니다">근무상태 필터</button>
+          |@{.dim} 어두운 영역이나 닫기(✕)를 클릭하면 걸지 않고 돌아갑니다">근무상태</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-filter-job"
         data-why="직종은 적어서 고릅니다. 현장의 직종은 수십 가지라 목록을 훑어 내리는 것보다 두세 글자 적는 편이 빠릅니다.
 
@@ -202,18 +204,19 @@
         data-look="
           |@{.inp--find} 열리자마자 커서가 이 칸에 있고, 적는 대로 아래 목록이 걸러집니다. 초성만 쳐도 걸립니다(ㅊㄱ → 철근공)
           |@{.optr.is-on} 지금 걸린 줄만 브랜드 색으로 돕니다 — 글자도 수도
-          |@{.optr .sel__n} 직종마다 걸린 근무상태 안에서 센 근로자 수가 붙습니다 — 고르기 전에 몇이 걸러질지 보입니다. 지금은 근무상태를 걸지 않아 이 현장의 모든 근로자를 센 수입니다">직종 필터</button>
+          |@{.optr .sel__n} 직종마다 걸린 근무상태 안에서 센 근로자 수가 붙습니다 — 고르기 전에 몇이 걸러질지 보입니다. 지금은 근무상태를 걸지 않아 이 현장의 모든 근로자를 센 수입니다">직종</button>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">필터를 걸면</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-live"
         data-why="지금 일하는 근로자만 모아 봅니다. 기본 목록은 아무것도 걸지 않아 퇴사·차단까지 함께 나오는데, 오늘 현장에 나오는 사람만 보려면 이 축을 걸어야 합니다."
         data-steps="근무상태 필터에서 &#39;재직&#39; 을 고른 상태"
         data-look="
-          |@{.lbar__f} 근무상태 칩이 &#39;재직&#39; 으로 바뀌고 수가 붙습니다">필터(재직) 선택</button>
+          |@{.lbar__f} 근무상태 칩이 &#39;재직&#39; 으로 바뀌고 수가 붙습니다">재직</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-left"
         data-why="퇴사한 근로자도 목록에 남습니다. 출퇴근 기록이 정산 근거라, 사람을 지우면 기록도 함께 사라집니다."
         data-note="퇴사한 근로자를 다시 재직으로 돌리는 길은 아직 그리지 않았습니다"
         data-steps="근무상태 필터에서 &#39;퇴사&#39; 를 고른 상태"
         data-look="
-          |@{.lbar__f} 근무상태 칩이 &#39;퇴사&#39; 로 바뀌고 수도 함께 바뀝니다. 그 칩을 클릭하면 근무상태 시트가 퇴사를 켠 채로 올라오고, 직종 칩을 클릭하면 직종 옆 수가 퇴사 안에서 센 수로 바뀌어 있습니다">필터(퇴사) 선택</button>
+          |@{.lbar__f} 근무상태 칩이 &#39;퇴사&#39; 로 바뀌고 수도 함께 바뀝니다. 그 칩을 클릭하면 근무상태 시트가 퇴사를 켠 채로 올라오고, 직종 칩을 클릭하면 직종 옆 수가 퇴사 안에서 센 수로 바뀌어 있습니다">퇴사</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-ban"
         data-why="차단한 근로자만 모아 봅니다. 퇴사와 달리 차단은 근로자가 그만둔 것이 아니라 현장이 막아 둔 것이라, 둘을 한 목록에 섞지 않습니다.
 
@@ -221,13 +224,14 @@
         data-note="차단을 걸고 푸는 길은 아직 그리지 않았습니다"
         data-steps="근무상태 필터에서 &#39;차단&#39; 을 고른 상태"
         data-look="
-          |@{.lbar__f} 근무상태 칩이 &#39;차단&#39; 으로 바뀌고 수도 함께 바뀝니다. 직종 칩을 클릭하면 직종 목록에 차단된 근로자가 있는 직종만 남아 있습니다">필터(차단) 선택</button>
+          |@{.lbar__f} 근무상태 칩이 &#39;차단&#39; 으로 바뀌고 수도 함께 바뀝니다. 직종 칩을 클릭하면 직종 목록에 차단된 근로자가 있는 직종만 남아 있습니다">차단</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-job"
         data-why="직종을 걸면 그 직종만 남습니다. 근무상태는 걸지 않아 퇴사·차단도 함께 나옵니다 — 한 축을 거는 일이 다른 축까지 걸지는 않습니다."
         data-steps="직종 필터에서 &#39;형틀목공&#39; 을 고른 상태"
         data-look="
           |@{.lbar__f} 직종 칩에 붙은 수는 그 필터가 남긴 사람 수입니다 — 근무상태 칩은 중립 그대로입니다
-          |@{.sta--ban} 차단된 근로자도 함께 들어 있습니다">필터(직종) 선택</button>
+          |@{.sta--ban} 차단된 근로자도 함께 들어 있습니다">형틀목공</button>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">목록에서 고르면</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-pick"
         data-why="고른 카드가 생기면 바닥 바의 삭제가 켜집니다. 고르는 일은 지우기 위한 것이라, 고른 수와 지우는 버튼이 한 화면에 함께 놓입니다.
 
