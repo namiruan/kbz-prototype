@@ -1313,16 +1313,23 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    당기면 자리를 먹지 않으면서 자식 위에 그려지고, 모서리도 따라 돈다 */
 .card--photo:has(.chk--on){outline:1.5px solid var(--ap-primary);outline-offset:-1.5px}
 /* ── 지금 일하지 않는 근로자 ──
-   얼굴은 채도와 **대비**를 함께 내린다 — 색만 빼면 흑백 사진이 되어 오히려
-   또렷해진다. 대비까지 눌러야 얼굴이 한 겹 물러나고, 지금 현장에 없는
-   사람이라는 것이 사진에서 먼저 읽힌다. 어느 쪽인지는 사진 아래 띠가 적는다.
+   카드 면이 한 단 내려가고(gray/5), 얼굴은 채도와 **대비**를 함께 내린다 —
+   색만 빼면 흑백 사진이 되어 오히려 또렷해진다. 대비까지 눌러야 얼굴이 한 겹
+   물러난다. 어느 쪽인지는 사진 아래 띠가 적는다.
 
-   ⚠ 카드 자체는 건드리지 않는다 — 흰 면도 그림자도 글자색도 그대로다.
-     면을 회색으로 내리고 글자를 한 단 죽여 보았더니 **고를 수 없는 것**처럼
-     보였다. 이 카드는 누르면 상세로 가고, 체크해서 지울 수도 있는 과녁이다.
-   ⚠ 사진이 없는 자리(.face--none)에는 내릴 얼굴이 없다. 그쪽은 표 하나로
+   이름도 한 단 연해진다. **값(주민번호 · 직종)과 그림자는 그대로**다.
+   ⚠ 값까지 함께 죽이고 그림자를 걷어 보았더니 고를 수 없는 것처럼 보였다 —
+     이 카드는 누르면 상세로 가고, 체크해서 지울 수도 있는 과녁이다. 이름
+     하나만 내리는 것이 '물러났다' 와 '못 쓴다' 사이의 자리다.
+
+   ⚠ 사진이 없는 자리(.face--none)에는 내릴 얼굴이 없다. 그쪽은 띠 하나로
      선다 — 빈 자리를 더 죽이면 '퇴사하면 얼굴이 지워진다' 가 된다 */
+.card--photo.card--off{background:var(--ap-g5)}
+.card--photo.card--off .card__nm{color:var(--ap-text-gray)}
 .card--photo.card--off > .face img{filter:grayscale(.9) contrast(.72)}
+/* 빈 사진 자리는 한 단 더 내린다 — 카드 면과 같은 색이면 사진 자리가
+   통째로 사라져, 글만 있는 카드처럼 보인다 */
+.card--photo.card--off > .face--none{background:var(--ap-g10)}
 .card__bd{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--ap-p4);
   padding:var(--ap-p6)}
 /* 사진이 92px 를 가져가 글 자리가 좁다. 값 둘을 한 줄에 나누면 긴 쪽이 바로
