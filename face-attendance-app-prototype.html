@@ -205,8 +205,10 @@
         data-why="차단한 근로자만 선별된 화면입니다."
         data-steps="근무상태 필터에서 &#39;차단&#39; 을 고른 상태"
         data-look="
-          |@{.sta--ban} 사진 아래 변에 진한 주의색 띠가 깔리고 그 위에 &#39;퇴사&#39; 가 적힙니다
-          ">차단</button>
+          |@{.sta--ban} 사진 아래 변에 진한 주의색 띠가 깔리고 그 위에 &#39;차단&#39; 이 적힙니다
+          |@{.card--off .face} 근로자 사진이 흑백처리됩니다.
+          |@{.card--off .card__nm} 차단된 근로자 카드는 배경색 글자색이 한 단계 연해집니다.
+        ">차단</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-mok"
         data-why="직종을 걸면 그 직종만 남습니다. 근무상태는 걸지 않아 퇴사·차단도 함께 나옵니다 — 한 축을 거는 일이 다른 축까지 걸지는 않습니다."
         data-steps="근로자 관리에서 직종을 &#39;형틀목공&#39; 으로 고른 상태"
