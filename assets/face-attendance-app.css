@@ -464,7 +464,13 @@ ul,ol{list-style:none}
 /* svh 다(dvh 아니다). dvh 는 사파리 툴바가 들고 나는 대로 값이 바뀌어,
    읽는 도중에 화면 높이가 변하고 그때 목록의 아래가 잘린다. svh 는 툴바가
    나와 있을 때의 높이로 고정이라 흔들리지 않는다 */
-.scr.is-on{display:flex;flex-direction:column;height:100svh;overflow:hidden;position:relative}
+/* ⚠ 높이는 **dvh** 다. svh 로 두었더니 모바일 크롬에서 화면이 창보다
+     짧게 서고 아래에 흰 띠가 남았다 — svh 는 '도구막대가 모두 펼쳐졌을
+     때' 를 한 번 재어 쓰는 값이라, 기기가 그 값을 잘못 쥐면 되돌릴 길이
+     없다. dvh 는 지금 보이는 높이를 그때그때 따라간다.
+     이 셸은 문서가 구르지 않아(본문만 구른다) 도구막대가 숨었다 나오지
+     않으므로, dvh 가 스스로 출렁일 일도 없다 */
+.scr.is-on{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;position:relative}
 
 /* ── 화면 밖에 남는 띠 ──
    화면의 바탕은 **화면이 쥔다**(여기). 문서(html·body)의 바탕은 화면
@@ -2310,6 +2316,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 글자는 **칸 라벨과 같은 크기**다(.fld__l 의 head/17). 이 줄이 곧 이 칸의
    라벨이라, 한 단 작게 두면 아래 칸이 이름 없는 칸처럼 보였다.
    고른 쪽만 라벨 색(gray/60)으로 서고, 고르지 않은 쪽은 한 단 내린다 */
+/* ⚠ 글은 한 덩어리로 싼다(.pickr__t). 알과 글 사이의 틈(gap:10)은 이름과
+     '(필수)' 사이에도 그대로 들어가, 칸 라벨('이름 (필수)')의 한 칸보다
+     두 배 넘게 벌어진다 */
 .pickr__o{display:inline-flex;align-items:center;gap:var(--ap-p4);
   background:none;cursor:pointer;text-align:left;
   font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-text-disabled)}

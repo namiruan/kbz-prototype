@@ -1355,6 +1355,15 @@
        폰에서는 칸을 한 번 눌러야 기기 자판이 선다. 그림을 세워 두는
        까닭이 이것이다. */
   function seek(hit) {
+    /* 폼에서 처음 채울 칸 — 시트가 아니라 화면이라 거를 목록도 막도 없다.
+       자판 그림은 화면 발치에 서 있고(.scr > .kb), 기기 자판은 칸을 한 번
+       눌러야 올라온다(위 ⚠ 와 같은 까닭) */
+    var aim = hit.querySelector('.inp__in[autofocus]');
+    if (aim) {
+      try { aim.focus({ preventScroll: true }); } catch (e) { aim.focus(); }
+      return;
+    }
+
     var inp = hit.querySelector('.dim--kb .inp__in');
     if (!inp) return;
 
