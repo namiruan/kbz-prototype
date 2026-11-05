@@ -2299,22 +2299,25 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   border-radius:0 0 var(--ap-r10) var(--ap-r10)}
 .fld__h{display:flex;align-items:center;justify-content:space-between;
   flex-wrap:wrap;column-gap:var(--ap-p5);row-gap:var(--ap-p3)}
-/* 라디오가 라벨 자리를 맡은 줄에서는 '(필수)' 만 따로 선다 — 칸 이름은
-   고른 알이 적고 있다 */
-.fld__req{font:var(--t-head);letter-spacing:var(--ls-head);
-  font-weight:600;color:var(--ap-danger)}
 /* ── 받을 번호를 고르는 줄 ──
    외국인등록번호와 여권번호는 **둘 가운데 하나**다. 체크 하나('여권번호로
    등록하기')로 두었더니 켜고 끄는 일처럼 보여, 끄면 무엇을 받는지가 글에
    없었다 — 둘을 나란히 적고 라디오로 고른다(시스템의 radio).
    자리는 **라벨 줄**이다. 고른 알이 곧 이 칸의 이름이라, 그 위에 라벨을
    한 줄 더 두면 같은 말이 두 번이다 */
-.pickr{display:flex;align-items:center;flex-wrap:wrap;
+.pickr{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
   column-gap:var(--ap-p7);row-gap:var(--ap-p4)}
+/* 글자는 **칸 라벨과 같은 크기**다(.fld__l 의 head/17). 이 줄이 곧 이 칸의
+   라벨이라, 한 단 작게 두면 아래 칸이 이름 없는 칸처럼 보였다.
+   고른 쪽만 라벨 색(gray/60)으로 서고, 고르지 않은 쪽은 한 단 내린다 */
 .pickr__o{display:inline-flex;align-items:center;gap:var(--ap-p4);
   background:none;cursor:pointer;text-align:left;
-  font:var(--t-sub-em);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
-.pickr__o.is-on{color:var(--ap-text)}
+  font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-text-disabled)}
+.pickr__o.is-on{color:var(--ap-g60)}
+/* '(필수)' 는 **고른 알의 라벨에** 붙는다 — 받는 칸이 어느 쪽인지와 그 칸이
+   꼭 있어야 하는지는 한 이름에 붙는 말이다. 줄 끝에 따로 세워 두었더니
+   어느 알에 걸리는 말인지가 흐려졌다 */
+.pickr__o b{color:var(--ap-danger);font-weight:600}
 /* 알은 24 다 — 장갑 낀 손이 누르는 자리라 20 으로는 과녁이 작다. 테와 점은
    시스템의 radio 와 같은 값(테 1.5 · 점 12)이다 */
 .rdo{flex:none;width:24px;height:24px;border-radius:50%;
