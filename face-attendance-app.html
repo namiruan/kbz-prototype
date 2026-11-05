@@ -120,8 +120,8 @@
       </span>
     </div>
     <div class="list">
-      <!-- 퇴사·차단은 얼굴 자리에 그 말이 적힌다 — 카드에서 가장 큰 면이라
-           '지금 현장에 없다' 와 '왜' 가 한자리에서 읽힌다 -->
+      <!-- 사진 위 표는 위아래로 갈린다 — 위는 지금 이 사람의 상태(고르는
+           네모와 근무상태), 아래는 기록이 어디서 왔는지(앱 · PC)다 -->
       <article class="card card--photo">
         <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
@@ -168,8 +168,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face" data-sta="퇴사"><img src="images/worker/03.jpg" alt=""></span>
+        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <span class="bd bd--sta bd--sta-left">퇴사</span>
         <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
@@ -183,8 +184,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face face--none" data-sta="퇴사"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="최동식 선택"></button>
+        <span class="bd bd--sta bd--sta-left">퇴사</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -198,8 +200,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face face--none" data-sta="퇴사"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="임정순 선택"></button>
+        <span class="bd bd--sta bd--sta-left">퇴사</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -213,8 +216,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face" data-sta="차단"><img src="images/worker/04.jpg" alt=""></span>
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--sta bd--sta-ban">차단</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -228,8 +232,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face face--none" data-sta="차단"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="강태웅 선택"></button>
+        <span class="bd bd--sta bd--sta-ban">차단</span>
         <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
@@ -442,8 +447,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face" data-sta="퇴사"><img src="images/worker/03.jpg" alt=""></span>
+        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <span class="bd bd--sta bd--sta-left">퇴사</span>
         <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
@@ -457,8 +463,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face face--none" data-sta="퇴사"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="최동식 선택"></button>
+        <span class="bd bd--sta bd--sta-left">퇴사</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -472,8 +479,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face face--none" data-sta="퇴사"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="임정순 선택"></button>
+        <span class="bd bd--sta bd--sta-left">퇴사</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -487,8 +495,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face" data-sta="차단"><img src="images/worker/04.jpg" alt=""></span>
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--sta bd--sta-ban">차단</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -502,8 +511,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face face--none" data-sta="차단"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="강태웅 선택"></button>
+        <span class="bd bd--sta bd--sta-ban">차단</span>
         <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
@@ -585,8 +595,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face" data-sta="차단"><img src="images/worker/04.jpg" alt=""></span>
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--sta bd--sta-ban">차단</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -600,8 +611,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face face--none" data-sta="차단"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="강태웅 선택"></button>
+        <span class="bd bd--sta bd--sta-ban">차단</span>
         <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
@@ -663,8 +675,9 @@
     </div>
     <div class="list">
       <article class="card card--photo card--off">
-        <span class="face" data-sta="퇴사"><img src="images/worker/03.jpg" alt=""></span>
+        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <span class="bd bd--sta bd--sta-left">퇴사</span>
         <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
@@ -678,8 +691,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face face--none" data-sta="퇴사"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="최동식 선택"></button>
+        <span class="bd bd--sta bd--sta-left">퇴사</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -693,8 +707,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face face--none" data-sta="퇴사"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="임정순 선택"></button>
+        <span class="bd bd--sta bd--sta-left">퇴사</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -753,8 +768,9 @@
     </div>
     <div class="list">
       <article class="card card--photo card--off">
-        <span class="face" data-sta="차단"><img src="images/worker/04.jpg" alt=""></span>
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--sta bd--sta-ban">차단</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -768,8 +784,9 @@
         </div>
       </article>
       <article class="card card--photo card--off">
-        <span class="face face--none" data-sta="차단"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="강태웅 선택"></button>
+        <span class="bd bd--sta bd--sta-ban">차단</span>
         <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
