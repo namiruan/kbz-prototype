@@ -77,501 +77,16 @@
      ================================================================ -->
 
 
-<!-- ===== ① 현장소장 앱 · 근로자 관리 ===== -->
-<section class="scr" data-screen="m-workers" data-title="근로자 관리" data-key="live" data-base="m-workers">
-  <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <h1 class="nav__t">안면 출퇴근</h1>
-    <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
-  </header>
-
-  <div class="hd">
-    <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button" data-go="m-in">출퇴근 등록</button>
-      <button class="seg__b" type="button" data-go="m-log">이력</button>
-      <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
-    </nav>
-  </div>
-
-  <div class="ctx">
-    <!-- 근로자 앱의 현장 카드와 같은 카드다 — 한 앱의 두 쪽이라 같은 것을
-         다른 꼴로 보이게 두지 않는다. 출퇴근 범위 줄은 근로자의 몫이라 뺀다 -->
-    <div class="card card--site">
-      <div class="card__top">
-        <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장 변경</button>
-      </div>
-    </div>
-  </div>
-
-  <main class="body">
-    <div class="lbar">
-      <span class="lbar__l">
-        <button class="chk" type="button" aria-label="전체 선택"></button>
-        <!-- 걸린 필터만큼 칩이 선다 — 축이 둘이라(근무상태 · 직종) 트리거 하나로는
-             둘 다 적을 수 없다. 시트의 알약과 **같은 꼴**이라, 고른 것과
-             걸린 것이 한 가지 말로 보인다.
-             칩을 누르면 **그 축의 시트**가 올라온다 — 근무상태 칩은 근무상태
-             시트, 직종 칩은 직종 시트다. 고치러 가는 길은 걸린 것 위에 있는 쪽이
-             짧다 -->
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
-      </span>
-    </div>
-    <div class="list">
-      <!-- 얼굴이 등록된 근로자는 그 얼굴이 카드에 그대로 있다 —
-           등록 여부가 이 화면에서 갈리는 유일한 값이다 -->
-      <!-- 어디서 더한 근로자인지는 사진 왼쪽 위, 고르는 네모 옆에 뱃지로
-           둔다. 글 칸에 끼우면 주민번호·직종과 같은 '받은 값' 으로 읽히는데,
-           이것은 사람의 값이 아니라 **기록이 어디서 왔는지**다 -->
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="홍길동 선택"></button>
-        <span class="bd bd--src bd--src-app">앱</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">홍길동</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/02.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="김철수 선택"></button>
-        <span class="bd bd--src bd--src-pc">PC</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">김철수</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">750512-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="이영희 선택"></button>
-        <span class="bd bd--src bd--src-app">앱</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">이영희</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="박민수 선택"></button>
-        <span class="bd bd--src bd--src-pc">PC</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">박민수</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          </div>
-        </div>
-      </article>
-      <!-- 외국인 근로자는 주민번호 자리에 여권번호가 온다 -->
-      <article class="card card--photo">
-        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
-        <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
-        <span class="bd bd--src bd--src-pc">PC</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">NGUYEN VAN A</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k card__k--foreign">여권번호</span><span class="card__v">C1234567</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
-          </div>
-        </div>
-      </article>
-    </div>
-  </main>
-
-  <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
-  <div class="act act--end act--split">
-    <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
-  </div>
-</section>
-
-
-<!-- ===== ①-3 현장소장 앱 · 근로자 관리(고른 뒤) ===== -->
-<section class="scr" data-screen="m-workers-pick" data-title="근로자 관리 — 고른 뒤" data-key="live" data-base="m-workers">
-  <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <h1 class="nav__t">안면 출퇴근</h1>
-    <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
-  </header>
-
-  <div class="hd">
-    <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button" data-go="m-in">출퇴근 등록</button>
-      <button class="seg__b" type="button" data-go="m-log">이력</button>
-      <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
-    </nav>
-  </div>
-
-  <div class="ctx">
-    <!-- 근로자 앱의 현장 카드와 같은 카드다 — 한 앱의 두 쪽이라 같은 것을
-         다른 꼴로 보이게 두지 않는다. 출퇴근 범위 줄은 근로자의 몫이라 뺀다 -->
-    <div class="card card--site">
-      <div class="card__top">
-        <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장 변경</button>
-      </div>
-    </div>
-  </div>
-
-  <main class="body">
-    <div class="lbar">
-      <span class="lbar__l">
-        <button class="chk" type="button" aria-label="전체 선택"></button>
-        <!-- 걸린 필터만큼 칩이 선다 — 축이 둘이라(근무상태 · 직종) 트리거 하나로는
-             둘 다 적을 수 없다. 시트의 알약과 **같은 꼴**이라, 고른 것과
-             걸린 것이 한 가지 말로 보인다.
-             칩을 누르면 **그 축의 시트**가 올라온다 — 근무상태 칩은 근무상태
-             시트, 직종 칩은 직종 시트다. 고치러 가는 길은 걸린 것 위에 있는 쪽이
-             짧다 -->
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
-      </span>
-      <!-- 오른쪽 끝의 수는 **고른 수**다 — 거르개 옆의 수(목록에 남은 수)와
-           다른 것을 센다. 둘을 한 자리에 둘 수 없는 까닭이다 -->
-      <b class="lbar__n lbar__n--on">선택 2명</b>
-    </div>
-    <div class="list">
-      <!-- 고른 카드는 체크박스가 사진 위에서 파랗게 채워진다 -->
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
-        <button class="chk chk--on" type="button" aria-label="홍길동 선택" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></button>
-        <span class="bd bd--src bd--src-app">앱</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">홍길동</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/02.jpg" alt=""></span>
-        <button class="chk chk--on" type="button" aria-label="김철수 선택" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></button>
-        <span class="bd bd--src bd--src-pc">PC</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">김철수</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">750512-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="이영희 선택"></button>
-        <span class="bd bd--src bd--src-app">앱</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">이영희</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="박민수 선택"></button>
-        <span class="bd bd--src bd--src-pc">PC</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">박민수</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          </div>
-        </div>
-      </article>
-      <!-- 외국인 근로자는 주민번호 자리에 여권번호가 온다 -->
-      <article class="card card--photo">
-        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
-        <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
-        <span class="bd bd--src bd--src-pc">PC</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">NGUYEN VAN A</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k card__k--foreign">여권번호</span><span class="card__v">C1234567</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
-          </div>
-        </div>
-      </article>
-    </div>
-  </main>
-
-  <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
-  <div class="act act--end act--split">
-    <button class="act__b act__b--dark" type="button">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
-  </div>
-</section>
-
-
-<!-- ===== ①-2 현장소장 앱 · 근로자 관리(직종을 고른 뒤) ===== -->
-<section class="scr" data-screen="m-workers-job" data-title="근로자 관리 — 직종을 고른 뒤" data-key="live" data-job="형틀목공" data-base="m-workers">
-  <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <h1 class="nav__t">안면 출퇴근</h1>
-    <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
-  </header>
-
-  <div class="hd">
-    <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button" data-go="m-in">출퇴근 등록</button>
-      <button class="seg__b" type="button" data-go="m-log">이력</button>
-      <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
-    </nav>
-  </div>
-
-  <div class="ctx">
-    <!-- 근로자 앱의 현장 카드와 같은 카드다 — 한 앱의 두 쪽이라 같은 것을
-         다른 꼴로 보이게 두지 않는다. 출퇴근 범위 줄은 근로자의 몫이라 뺀다 -->
-    <div class="card card--site">
-      <div class="card__top">
-        <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장 변경</button>
-      </div>
-    </div>
-  </div>
-
-  <main class="body">
-    <div class="lbar">
-      <span class="lbar__l">
-        <button class="chk" type="button" aria-label="전체 선택"></button>
-        <!-- 걸린 필터만큼 칩이 선다 — 축이 둘이라(근무상태 · 직종) 트리거 하나로는
-             둘 다 적을 수 없다. 시트의 알약과 **같은 꼴**이라, 고른 것과
-             걸린 것이 한 가지 말로 보인다.
-             칩을 누르면 **그 축의 시트**가 올라온다 — 근무상태 칩은 근무상태
-             시트, 직종 칩은 직종 시트다. 고치러 가는 길은 걸린 것 위에 있는 쪽이
-             짧다 -->
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">형틀목공</span><span class="cnt__n">2</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
-      </span>
-    </div>
-    <div class="list">
-      <!-- 고른 직종만 남는다. 머리줄의 수도 걸러진 뒤의 수다 -->
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="홍길동 선택"></button>
-        <span class="bd bd--src bd--src-app">앱</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">홍길동</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo">
-        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
-        <button class="chk" type="button" aria-label="박민수 선택"></button>
-        <span class="bd bd--src bd--src-pc">PC</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">박민수</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          </div>
-        </div>
-      </article>
-    </div>
-  </main>
-
-  <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
-  <div class="act act--end act--split">
-    <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
-  </div>
-</section>
-
-
-<!-- ===== ①-4 현장소장 앱 · 근로자 관리(퇴사) =====
-     필터의 근무상태 줄에서 온다. 카드는 **가라앉은 채로** 서고(.card--off),
-     바닥 바는 재직 목록 그대로다. 글로는 아무것도 더 적지 않는다 — 한 가지
-     근무상태만 모아 본 목록이라, 카드마다 '퇴사' 를 다시 적으면 머리줄의
-     칩과 같은 말이 사람 수만큼 늘어난다.
-     ⚠ 얼굴 자리가 비어 있는 것은 **사진이 없어서**다. 퇴사가 얼굴을 지우는
-       것이 아니다 — images/worker/README.md 를 보라 -->
-<section class="scr" data-screen="m-workers-left" data-title="근로자 관리 — 퇴사" data-key="left" data-base="m-workers-left">
-  <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <h1 class="nav__t">안면 출퇴근</h1>
-    <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
-  </header>
-
-  <div class="hd">
-    <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button" data-go="m-in">출퇴근 등록</button>
-      <button class="seg__b" type="button" data-go="m-log">이력</button>
-      <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
-    </nav>
-  </div>
-
-  <div class="ctx">
-    <div class="card card--site">
-      <div class="card__top">
-        <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장 변경</button>
-      </div>
-    </div>
-  </div>
-
-  <main class="body">
-    <div class="lbar">
-      <span class="lbar__l">
-        <button class="chk" type="button" aria-label="전체 선택"></button>
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">퇴사</span><span class="cnt__n">2</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
-      </span>
-    </div>
-    <div class="list">
-      <article class="card card--photo card--off">
-        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
-        <button class="chk" type="button" aria-label="최동식 선택"></button>
-        <span class="bd bd--src bd--src-pc">PC</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">최동식</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">680214-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
-          </div>
-        </div>
-      </article>
-      <article class="card card--photo card--off">
-        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
-        <button class="chk" type="button" aria-label="임정순 선택"></button>
-        <span class="bd bd--src bd--src-pc">PC</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">임정순</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">770906-2******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
-          </div>
-        </div>
-      </article>
-    </div>
-  </main>
-
-  <div class="act act--end act--split">
-    <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
-  </div>
-</section>
-
-
-<!-- ===== ①-5 현장소장 앱 · 근로자 관리(차단) =====
-     퇴사와 같이 가라앉되, 왼쪽에 주황 띠가 더 선다(.card--ban) — 끝난 일과
-     막아 둔 것은 풀 수 있는지가 다르다 -->
-<section class="scr" data-screen="m-workers-ban" data-title="근로자 관리 — 차단" data-key="ban" data-base="m-workers-ban">
-  <header class="nav">
-    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
-    <h1 class="nav__t">안면 출퇴근</h1>
-    <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
-  </header>
-
-  <div class="hd">
-    <nav class="seg" aria-label="안면 출퇴근 탭">
-      <button class="seg__b" type="button" data-go="m-in">출퇴근 등록</button>
-      <button class="seg__b" type="button" data-go="m-log">이력</button>
-      <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
-    </nav>
-  </div>
-
-  <div class="ctx">
-    <div class="card card--site">
-      <div class="card__top">
-        <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장 변경</button>
-      </div>
-    </div>
-  </div>
-
-  <main class="body">
-    <div class="lbar">
-      <span class="lbar__l">
-        <button class="chk" type="button" aria-label="전체 선택"></button>
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">차단</span><span class="cnt__n">1</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
-      </span>
-    </div>
-    <div class="list">
-      <article class="card card--photo card--off card--ban">
-        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
-        <button class="chk" type="button" aria-label="강태웅 선택"></button>
-        <span class="bd bd--src bd--src-app">앱</span>
-        <div class="card__bd">
-          <div class="card__top">
-            <span class="card__nm">강태웅</span>
-            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-          </div>
-          <div class="card__gr">
-            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">850419-1******</span></span>
-            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
-          </div>
-        </div>
-      </article>
-    </div>
-  </main>
-
-  <div class="act act--end act--split">
-    <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
-  </div>
-</section>
-
-
-<!-- ===== ①-8 현장소장 앱 · 근로자 관리(근무상태 전체) =====
-     근무상태를 걸지 않은 목록이다 — 재직 · 퇴사 · 차단이 한자리에 선다.
-     ⚠ 여기서만 카드에 근무상태가 **적힌다**. 가라앉은 면은 세 목록 어디서나
-       같지만, 섞여 서는 자리에서는 왜 가라앉았는지까지 카드가 말해야 한다 —
-       한 가지 상태만 모아 본 목록에서는 머리줄의 칩이 그 말을 하고 있다.
+<!-- ===== ① 현장소장 앱 · 근로자 관리 =====
+     현장을 고르면 처음 서는 목록이다. **아무것도 걸지 않은 자리**라 재직 ·
+     퇴사 · 차단이 한자리에 선다 — 거르는 일은 그다음이다.
+     ⚠ 카드에 근무상태를 **적는 것은 섞여 서는 목록뿐**이다(이 목록과, 여기서
+       직종만 걸러 낸 목록). 가라앉은 면은 어디서나 같지만, 섞여 설 때는 왜
+       가라앉았는지까지 카드가 말해야 한다 — 한 가지 상태만 모아 본 목록에서는
+       머리줄의 칩이 그 말을 하고 있다.
        재직에는 달지 않는다 — 대부분이 재직이라, 다는 쪽이 목록을 더
        시끄럽게 하고 뱃지가 '보통이 아닌 것' 을 가리키지 못하게 된다 -->
-<section class="scr" data-screen="m-workers-all" data-title="근로자 관리 — 근무상태 전체" data-key="all" data-base="m-workers-all">
+<section class="scr" data-screen="m-workers" data-title="근로자 관리" data-key="all" data-base="m-workers">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
@@ -737,7 +252,560 @@
 </section>
 
 
-<!-- ===== ①-6 현장소장 앱 · 근무상태 필터 (앱 네이티브) =====
+<!-- ===== ①-2 현장소장 앱 · 근로자 관리(재직) =====
+     근무상태를 재직으로 건 목록이다 — 섞여 서지 않으므로 카드에 근무상태를
+     적지 않는다. 머리줄의 칩이 그 말을 하고 있다 -->
+<section class="scr" data-screen="m-workers-live" data-title="근로자 관리 — 재직" data-key="live" data-base="m-workers-live">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근</h1>
+    <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
+  </header>
+
+  <div class="hd">
+    <nav class="seg" aria-label="안면 출퇴근 탭">
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 등록</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
+      <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
+    </nav>
+  </div>
+
+  <div class="ctx">
+    <!-- 근로자 앱의 현장 카드와 같은 카드다 — 한 앱의 두 쪽이라 같은 것을
+         다른 꼴로 보이게 두지 않는다. 출퇴근 범위 줄은 근로자의 몫이라 뺀다 -->
+    <div class="card card--site">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장 변경</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="body">
+    <div class="lbar">
+      <span class="lbar__l">
+        <button class="chk" type="button" aria-label="전체 선택"></button>
+        <!-- 걸린 필터만큼 칩이 선다 — 축이 둘이라(근무상태 · 직종) 트리거 하나로는
+             둘 다 적을 수 없다. 시트의 알약과 **같은 꼴**이라, 고른 것과
+             걸린 것이 한 가지 말로 보인다.
+             칩을 누르면 **그 축의 시트**가 올라온다 — 근무상태 칩은 근무상태
+             시트, 직종 칩은 직종 시트다. 고치러 가는 길은 걸린 것 위에 있는 쪽이
+             짧다 -->
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+      </span>
+    </div>
+    <div class="list">
+      <!-- 얼굴이 등록된 근로자는 그 얼굴이 카드에 그대로 있다 —
+           등록 여부가 이 화면에서 갈리는 유일한 값이다 -->
+      <!-- 어디서 더한 근로자인지는 사진 왼쪽 위, 고르는 네모 옆에 뱃지로
+           둔다. 글 칸에 끼우면 주민번호·직종과 같은 '받은 값' 으로 읽히는데,
+           이것은 사람의 값이 아니라 **기록이 어디서 왔는지**다 -->
+      <article class="card card--photo">
+        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="홍길동 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">홍길동</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo">
+        <span class="face"><img src="images/worker/02.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="김철수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">김철수</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">750512-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo">
+        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">이영희</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo">
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">박민수</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+          </div>
+        </div>
+      </article>
+      <!-- 외국인 근로자는 주민번호 자리에 여권번호가 온다 -->
+      <article class="card card--photo">
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">NGUYEN VAN A</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k card__k--foreign">여권번호</span><span class="card__v">C1234567</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
+  <div class="act act--end act--split">
+    <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
+    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+  </div>
+</section>
+
+
+<!-- ===== ①-3 현장소장 앱 · 근로자 관리(고른 뒤) ===== -->
+<section class="scr" data-screen="m-workers-pick" data-title="근로자 관리 — 고른 뒤" data-key="all" data-base="m-workers">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근</h1>
+    <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
+  </header>
+
+  <div class="hd">
+    <nav class="seg" aria-label="안면 출퇴근 탭">
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 등록</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
+      <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
+    </nav>
+  </div>
+
+  <div class="ctx">
+    <!-- 근로자 앱의 현장 카드와 같은 카드다 — 한 앱의 두 쪽이라 같은 것을
+         다른 꼴로 보이게 두지 않는다. 출퇴근 범위 줄은 근로자의 몫이라 뺀다 -->
+    <div class="card card--site">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장 변경</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="body">
+    <div class="lbar">
+      <span class="lbar__l">
+        <button class="chk" type="button" aria-label="전체 선택"></button>
+        <!-- 걸린 필터만큼 칩이 선다 — 축이 둘이라(근무상태 · 직종) 트리거 하나로는
+             둘 다 적을 수 없다. 시트의 알약과 **같은 꼴**이라, 고른 것과
+             걸린 것이 한 가지 말로 보인다.
+             칩을 누르면 **그 축의 시트**가 올라온다 — 근무상태 칩은 근무상태
+             시트, 직종 칩은 직종 시트다. 고치러 가는 길은 걸린 것 위에 있는 쪽이
+             짧다 -->
+        <span class="lbar__f"><button class="cnt cnt--f" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">근무상태</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+      </span>
+      <!-- 오른쪽 끝의 수는 **고른 수**다 — 거르개 옆의 수(목록에 남은 수)와
+           다른 것을 센다. 둘을 한 자리에 둘 수 없는 까닭이다 -->
+      <b class="lbar__n lbar__n--on">선택 2명</b>
+    </div>
+    <div class="list">
+      <!-- 고른 카드는 체크박스가 사진 위에서 파랗게 채워진다 -->
+      <article class="card card--photo">
+        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
+        <button class="chk chk--on" type="button" aria-label="홍길동 선택" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></button>
+        <span class="bd bd--src bd--src-app">앱</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">홍길동</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo">
+        <span class="face"><img src="images/worker/02.jpg" alt=""></span>
+        <button class="chk chk--on" type="button" aria-label="김철수 선택" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">김철수</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">750512-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo">
+        <span class="face"><img src="images/worker/03.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="이영희 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">이영희</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">880303-2******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo">
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">박민수</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo">
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">NGUYEN VAN A</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k card__k--foreign">여권번호</span><span class="card__v">C1234567</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">-</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo card--off">
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="최동식 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">최동식</span>
+            <span class="bd bd--neutral">퇴사</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">680214-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo card--off">
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="임정순 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">임정순</span>
+            <span class="bd bd--neutral">퇴사</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">770906-2******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo card--off card--ban">
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="강태웅 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">강태웅</span>
+            <span class="bd bd--negative">차단</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">850419-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
+  <div class="act act--end act--split">
+    <button class="act__b act__b--dark" type="button">삭제</button>
+    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+  </div>
+</section>
+
+
+<!-- ===== ①-4 현장소장 앱 · 근로자 관리(직종을 고른 뒤) ===== -->
+<section class="scr" data-screen="m-workers-job" data-title="근로자 관리 — 직종을 고른 뒤" data-key="all" data-job="형틀목공" data-base="m-workers">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근</h1>
+    <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
+  </header>
+
+  <div class="hd">
+    <nav class="seg" aria-label="안면 출퇴근 탭">
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 등록</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
+      <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
+    </nav>
+  </div>
+
+  <div class="ctx">
+    <!-- 근로자 앱의 현장 카드와 같은 카드다 — 한 앱의 두 쪽이라 같은 것을
+         다른 꼴로 보이게 두지 않는다. 출퇴근 범위 줄은 근로자의 몫이라 뺀다 -->
+    <div class="card card--site">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장 변경</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="body">
+    <div class="lbar">
+      <span class="lbar__l">
+        <button class="chk" type="button" aria-label="전체 선택"></button>
+        <!-- 걸린 필터만큼 칩이 선다 — 축이 둘이라(근무상태 · 직종) 트리거 하나로는
+             둘 다 적을 수 없다. 시트의 알약과 **같은 꼴**이라, 고른 것과
+             걸린 것이 한 가지 말로 보인다.
+             칩을 누르면 **그 축의 시트**가 올라온다 — 근무상태 칩은 근무상태
+             시트, 직종 칩은 직종 시트다. 고치러 가는 길은 걸린 것 위에 있는 쪽이
+             짧다 -->
+        <span class="lbar__f"><button class="cnt cnt--f" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">근무상태</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">형틀목공</span><span class="cnt__n">3</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+      </span>
+    </div>
+    <div class="list">
+      <!-- 고른 직종만 남는다. 근무상태는 걸지 않아 퇴사·차단도 함께 선다 —
+           섞여 서는 목록이라 카드가 제 근무상태를 적는다 -->
+      <article class="card card--photo">
+        <span class="face"><img src="images/worker/01.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="홍길동 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">홍길동</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">800101-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo">
+        <span class="face"><img src="images/worker/04.jpg" alt=""></span>
+        <button class="chk" type="button" aria-label="박민수 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">박민수</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">920715-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo card--off card--ban">
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="강태웅 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">강태웅</span>
+            <span class="bd bd--negative">차단</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">850419-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
+  <div class="act act--end act--split">
+    <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
+    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+  </div>
+</section>
+
+
+<!-- ===== ①-5 현장소장 앱 · 근로자 관리(퇴사) =====
+     필터의 근무상태 줄에서 온다. 카드는 **가라앉은 채로** 서고(.card--off),
+     바닥 바는 재직 목록 그대로다. 글로는 아무것도 더 적지 않는다 — 한 가지
+     근무상태만 모아 본 목록이라, 카드마다 '퇴사' 를 다시 적으면 머리줄의
+     칩과 같은 말이 사람 수만큼 늘어난다.
+     ⚠ 얼굴 자리가 비어 있는 것은 **사진이 없어서**다. 퇴사가 얼굴을 지우는
+       것이 아니다 — images/worker/README.md 를 보라 -->
+<section class="scr" data-screen="m-workers-left" data-title="근로자 관리 — 퇴사" data-key="left" data-base="m-workers-left">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근</h1>
+    <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
+  </header>
+
+  <div class="hd">
+    <nav class="seg" aria-label="안면 출퇴근 탭">
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 등록</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
+      <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
+    </nav>
+  </div>
+
+  <div class="ctx">
+    <div class="card card--site">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장 변경</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="body">
+    <div class="lbar">
+      <span class="lbar__l">
+        <button class="chk" type="button" aria-label="전체 선택"></button>
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">퇴사</span><span class="cnt__n">2</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+      </span>
+    </div>
+    <div class="list">
+      <article class="card card--photo card--off">
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="최동식 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">최동식</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">680214-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">철근공</span></span>
+          </div>
+        </div>
+      </article>
+      <article class="card card--photo card--off">
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="임정순 선택"></button>
+        <span class="bd bd--src bd--src-pc">PC</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">임정순</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">770906-2******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">보통인부</span></span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <div class="act act--end act--split">
+    <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
+    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+  </div>
+</section>
+
+
+<!-- ===== ①-6 현장소장 앱 · 근로자 관리(차단) =====
+     퇴사와 같이 가라앉되, 왼쪽에 주황 띠가 더 선다(.card--ban) — 끝난 일과
+     막아 둔 것은 풀 수 있는지가 다르다 -->
+<section class="scr" data-screen="m-workers-ban" data-title="근로자 관리 — 차단" data-key="ban" data-base="m-workers-ban">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">안면 출퇴근</h1>
+    <button class="nav__ic nav__ic--r" type="button" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#icon-search"></use></svg></button>
+  </header>
+
+  <div class="hd">
+    <nav class="seg" aria-label="안면 출퇴근 탭">
+      <button class="seg__b" type="button" data-go="m-in">출퇴근 등록</button>
+      <button class="seg__b" type="button" data-go="m-log">이력</button>
+      <button class="seg__b is-on" type="button" aria-current="page">근로자 관리</button>
+    </nav>
+  </div>
+
+  <div class="ctx">
+    <div class="card card--site">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장 변경</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="body">
+    <div class="lbar">
+      <span class="lbar__l">
+        <button class="chk" type="button" aria-label="전체 선택"></button>
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">차단</span><span class="cnt__n">1</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+      </span>
+    </div>
+    <div class="list">
+      <article class="card card--photo card--off card--ban">
+        <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
+        <button class="chk" type="button" aria-label="강태웅 선택"></button>
+        <span class="bd bd--src bd--src-app">앱</span>
+        <div class="card__bd">
+          <div class="card__top">
+            <span class="card__nm">강태웅</span>
+            <svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+          </div>
+          <div class="card__gr">
+            <span class="card__kv"><span class="card__k">주민번호</span><span class="card__v">850419-1******</span></span>
+            <span class="card__kv"><span class="card__k">직종</span><span class="card__v">형틀목공</span></span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <div class="act act--end act--split">
+    <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
+    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+  </div>
+</section>
+
+
+<!-- ===== ①-7 현장소장 앱 · 근무상태 필터 (앱 네이티브) =====
      머리줄의 근무상태 칩을 누르면 올라온다. 거르는 축마다 **시트 한 장**이다 —
      한 장에 근무상태와 직종을 함께 담았더니 둘이 한 덩어리로 읽혀, 지금 무엇을
      고르러 올라온 것인지가 흐려졌다. 축이 더 늘어나면 그때 한 장으로 묶는다.
@@ -761,8 +829,8 @@
            지우는 일이 더 급해서다. 이 줄은 퇴사·차단까지 함께 보는 자리라
            목록에서 **카드마다 근무상태가 적힌다** -->
       <div class="fsta">
-        <button class="optr" type="button" data-go="m-workers-all" data-key="all" data-list="m-workers-all"><span class="optr__t">근무상태 전체</span><span class="sel__n">8</span></button>
-        <button class="optr is-on" type="button" data-go="m-workers" data-key="live" data-list="m-workers"><span class="optr__t">재직</span><span class="sel__n">5</span></button>
+        <button class="optr is-on" type="button" data-go="m-workers" data-key="all" data-list="m-workers"><span class="optr__t">근무상태 전체</span><span class="sel__n">8</span></button>
+        <button class="optr" type="button" data-go="m-workers-live" data-key="live" data-list="m-workers-live"><span class="optr__t">재직</span><span class="sel__n">5</span></button>
         <button class="optr" type="button" data-go="m-workers-left" data-key="left" data-list="m-workers-left"><span class="optr__t">퇴사</span><span class="sel__n">2</span></button>
         <button class="optr" type="button" data-go="m-workers-ban" data-key="ban" data-list="m-workers-ban"><span class="optr__t">차단</span><span class="sel__n">1</span></button>
       </div>
@@ -770,7 +838,7 @@
   </div>
 </section>
 
-<!-- ===== ①-7 현장소장 앱 · 직종 필터 (앱 네이티브) =====
+<!-- ===== ①-8 현장소장 앱 · 직종 필터 (앱 네이티브) =====
      머리줄의 직종 칩을 누르면 올라온다. 직종은 적어서 고른다 — 현장의 직종은
      수십 가지라 목록을 훑어 내리는 것보다 두세 글자 적는 편이 빠르다.
      근로자 선택하기 시트와 **같은 꼴**이다 — 한 앱에서 '적어서 고르는 일' 이
@@ -796,10 +864,10 @@
            올라올 때 그 상태의 것으로 갈린다(js 의 sync).
            거는 것을 푸는 줄이 맨 위인 것은, 걸린 것을 지우는 일이 더 급해서다 -->
       <div class="find__list">
-        <button class="optr is-on" type="button" data-go="m-workers" data-all data-n-all="8" data-n-live="5" data-n-left="2" data-n-ban="1"><span class="optr__t">직종 선택 전체</span><span class="sel__n">5</span></button>
-        <button class="optr" type="button" data-go="m-workers-job" data-n-all="3" data-n-live="2" data-n-left="0" data-n-ban="1"><span class="optr__t">형틀목공</span><span class="sel__n">2</span></button>
-        <button class="optr" type="button" data-go="m-workers-job" data-n-all="2" data-n-live="1" data-n-left="1" data-n-ban="0"><span class="optr__t">철근공</span><span class="sel__n">1</span></button>
-        <button class="optr" type="button" data-go="m-workers-job" data-n-all="2" data-n-live="1" data-n-left="1" data-n-ban="0"><span class="optr__t">보통인부</span><span class="sel__n">1</span></button>
+        <button class="optr is-on" type="button" data-go="m-workers" data-all data-n-all="8" data-n-live="5" data-n-left="2" data-n-ban="1"><span class="optr__t">직종 선택 전체</span><span class="sel__n">8</span></button>
+        <button class="optr" type="button" data-go="m-workers-job" data-n-all="3" data-n-live="2" data-n-left="0" data-n-ban="1"><span class="optr__t">형틀목공</span><span class="sel__n">3</span></button>
+        <button class="optr" type="button" data-go="m-workers-job" data-n-all="2" data-n-live="1" data-n-left="1" data-n-ban="0"><span class="optr__t">철근공</span><span class="sel__n">2</span></button>
+        <button class="optr" type="button" data-go="m-workers-job" data-n-all="2" data-n-live="1" data-n-left="1" data-n-ban="0"><span class="optr__t">보통인부</span><span class="sel__n">2</span></button>
         <p class="find__none" hidden>입력하신 직종이 없습니다.</p>
       </div>
       <div class="kb" aria-hidden="true">

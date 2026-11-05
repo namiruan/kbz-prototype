@@ -1640,12 +1640,13 @@
       var t = r.querySelector('.optr__t');
       r.classList.toggle('is-on', all ? !job : (!!t && t.textContent === job));
 
-      /* 직종을 푸는 줄은 **근무상태만 걸린 목록**으로 돌아간다 — 늘 재직으로
-         돌려보내면 직종을 푸는 일이 근무상태까지 함께 풀어 버린다.
-         근무상태와 직종을 함께 건 목록은 재직 안에서만 그렸다. 다른 근무상태에서는
-         갈 자리가 없으므로 길을 떼어 둔다 — 엉뚱한 목록으로 보내지 않는다 */
+      /* 직종을 푸는 줄은 **근무상태만 걸린 목록**으로 돌아간다 — 늘 기본
+         목록으로 돌려보내면 직종을 푸는 일이 근무상태까지 함께 풀어 버린다.
+         직종만 건 목록은 그렸지만(m-workers-job), 근무상태까지 함께 건 목록은
+         아직 없다. 갈 자리가 없으므로 길을 떼어 둔다 — 엉뚱한 목록으로
+         보내지 않는다 */
       if (all) r.dataset.go = base;
-      else if (key === 'live') r.dataset.go = 'm-workers-job';
+      else if (key === 'all') r.dataset.go = 'm-workers-job';
       else delete r.dataset.go;
 
       var n = key && r.dataset['n' + key.charAt(0).toUpperCase() + key.slice(1)];
