@@ -1304,13 +1304,15 @@
         <div class="inp">홍길동</div>
       </div>
       <!-- 주민번호는 현장이 받아야 하는 값이다(퇴직공제·보험) — 비워 둔다 -->
-      <!-- 외국인인지는 따로 묻지 않는다 — 이 칸이 받는 번호를 가르는 물음이라
-           칸의 머리줄에서 묻는다. 아니오면 주민번호, 예면 외국인등록번호다 -->
+      <!-- 내국인·외국인은 받는 번호가 통째로 갈리는 자리라, 칸 맨 위에 탭으로
+           먼저 가른다. 외국인 안에서 외국인등록번호와 여권번호는 둘 가운데
+           하나라 라디오로 고르고, 고른 알이 곧 이 칸의 이름이다 -->
       <div class="fld fld--id">
-        <div class="fld__h">
-          <label class="fld__l">주민번호 <b>(필수)</b></label>
-          <span class="fld__ask"><span class="fld__ask-t">외국인</span><span class="tog"><span>예</span><span class="is-on">아니오</span></span></span>
-        </div>
+        <nav class="seg" aria-label="근로자 구분">
+          <button class="seg__b is-on" type="button" aria-current="true">내국인</button>
+          <button class="seg__b" type="button">외국인</button>
+        </nav>
+        <label class="fld__l">주민번호 <b>(필수)</b></label>
         <div class="inp inp--ph">주민번호를 입력해주세요</div>
       </div>
       <div class="fld">
@@ -1353,13 +1355,15 @@
         <label class="fld__l">이름 <b>(필수)</b></label>
         <div class="inp">홍길동</div>
       </div>
-      <!-- 외국인인지는 따로 묻지 않는다 — 이 칸이 받는 번호를 가르는 물음이라
-           칸의 머리줄에서 묻는다. 아니오면 주민번호, 예면 외국인등록번호다 -->
+      <!-- 내국인·외국인은 받는 번호가 통째로 갈리는 자리라, 칸 맨 위에 탭으로
+           먼저 가른다. 외국인 안에서 외국인등록번호와 여권번호는 둘 가운데
+           하나라 라디오로 고르고, 고른 알이 곧 이 칸의 이름이다 -->
       <div class="fld fld--id">
-        <div class="fld__h">
-          <label class="fld__l">주민번호 <b>(필수)</b></label>
-          <span class="fld__ask"><span class="fld__ask-t">외국인</span><span class="tog"><span>예</span><span class="is-on">아니오</span></span></span>
-        </div>
+        <nav class="seg" aria-label="근로자 구분">
+          <button class="seg__b is-on" type="button" aria-current="true">내국인</button>
+          <button class="seg__b" type="button">외국인</button>
+        </nav>
+        <label class="fld__l">주민번호 <b>(필수)</b></label>
         <div class="inp inp--ph">주민번호를 입력해주세요</div>
       </div>
       <div class="fld">
