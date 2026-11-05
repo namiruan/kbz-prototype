@@ -53,6 +53,7 @@
   --ap-kb-bg:#d1d4d9;              /* 자판 그림의 바닥 */
   --ap-point:#e74900;              /* Color/Text/point · badge/point */
   --ap-point-bg:rgba(231,73,0,.1); /* Color/badge/negative */
+  --ap-scrim-off:rgba(19,20,22,.5); /* 퇴사·차단 얼굴 위의 막 — Text/static 에 반 */
   --ap-caution-face:#fff8ef;       /* color/surface/caution-subtle — orange/50 */
   --ap-caution-line:rgba(231,73,0,.15); /* color/border/caution-subtle */
   --ap-badge-normal:#e6e8ea;       /* Color/badge/normal */
@@ -1293,19 +1294,30 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    당기면 자리를 먹지 않으면서 자식 위에 그려지고, 모서리도 따라 돈다 */
 .card--photo:has(.chk--on){outline:1.5px solid var(--ap-primary);outline-offset:-1.5px}
 /* ── 지금 일하지 않는 근로자 ──
-   퇴사·차단은 **얼굴만** 채도와 명도를 내린다. 지금 현장에 없는 사람이라는
-   것이 사진에서 먼저 읽히고, 어느 쪽인지는 이름 옆 뱃지가 적는다
-   (.bd--neutral · .bd--negative).
+   퇴사·차단은 **얼굴 자리에 그 말이 적힌다**. 사진은 채도를 빼고 그 위에
+   어두운 막을 덮은 뒤, 가운데에 '퇴사' · '차단' 을 흰 글자로 올린다.
+
+   이름 옆 뱃지로 두었을 때는 작은 글자 하나를 찾아 읽어야 갈렸다. 얼굴은
+   카드에서 가장 큰 면이라, 훑어 내리는 눈이 먼저 닿는 자리다 — '지금 현장에
+   없다' 와 '왜' 가 **한자리에서** 읽힌다.
 
    ⚠ 카드 자체는 건드리지 않는다 — 흰 면도 그림자도 글자색도 그대로다.
      면을 회색으로 내리고 글자를 한 단 죽여 보았더니 **고를 수 없는 것**처럼
      보였다. 이 카드는 누르면 상세로 가고, 체크해서 지울 수도 있는 과녁이다.
-     퇴사했다고 손을 뗄 수 있는 것이 아니다.
-   ⚠ 색만으로는 그것이 차단인지 퇴사인지 읽히지 않는다 — 색은 '다르다'
-     까지만 말하고 '무엇' 은 말하지 못한다. 그 자리는 글자가 맡는다.
-   ⚠ 사진이 없는 근로자(.face--none)에게는 내릴 얼굴이 없다. 그쪽은 뱃지
-     하나로 선다 — 빈 자리를 더 죽이면 '퇴사하면 얼굴이 지워진다' 가 된다 */
-.card--photo.card--off .face img{filter:grayscale(.85) brightness(.9)}
+   ⚠ 색으로 가르지 않는다 — 색은 '다르다' 까지만 말하고 '무엇' 은 말하지
+     못한다. 막은 퇴사도 차단도 같은 값이고, 가르는 일은 글자가 맡는다.
+   ⚠ 사진이 없는 자리(.face--none)에서는 사람 모양을 걷는다. 막 아래에
+     두면 글자와 겹쳐 둘 다 흐려진다. 얼굴을 등록했는지는 이 목록이 재는
+     값이지만, 현장에 없는 사람에게는 물을 일이 아니다.
+   ⚠ 고르는 네모와 '앱 · PC' 뱃지는 막 위에 그대로 선다(z-index) */
+.card--photo.card--off > .face{position:relative}
+.card--photo.card--off > .face img{filter:grayscale(.9)}
+.card--photo.card--off > .face--none .ic{display:none}
+.card--photo.card--off > .face::after{content:attr(data-sta);
+  position:absolute;inset:0;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--ap-scrim-off);color:var(--ap-g0);
+  font:var(--t-head);letter-spacing:var(--ls-head)}
 .card__bd{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--ap-p4);
   padding:var(--ap-p6)}
 /* 사진이 92px 를 가져가 글 자리가 좁다. 값 둘을 한 줄에 나누면 긴 쪽이 바로
@@ -1362,11 +1374,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    크기로 둘 수 없다. 크기 variant 는 글자만 올리고 높이(25)는 line-height 와
    padding 이 따라 만든다 */
 .bds .bd{font-size:14px}
-/* line(흰 면 + 테)은 쓰는 자리가 없어 걷었다. 다시 쓸 일이 생기면 시스템의
-   badge.md 에서 가져온다.
-   neutral(회색 면)은 근무상태 전체 목록의 '퇴사' 가 다시 불러왔다 — badge.md
-   의 badge--neutral 이고, 면은 surface/neutral, 글자는 Text/gray 다 */
-.bd--neutral{background:var(--ap-g10);color:var(--ap-text-gray)}
+/* normal(회색 면)과 line(흰 면 + 테)은 쓰는 자리가 없어 걷었다 — 퇴사·차단은
+   뱃지가 아니라 얼굴 자리에 적는다. 다시 쓸 일이 생기면 시스템의 badge.md
+   에서 가져온다 */
 .bd--positive{background:var(--ap-badge-positive);color:var(--ap-primary)}
 .bd--negative{background:var(--ap-point-bg);color:var(--ap-point)}
 .bd--point{background:var(--ap-point);color:var(--ap-g0)}
