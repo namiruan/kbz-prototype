@@ -1396,7 +1396,7 @@
                그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
           <span class="scan__beam"></span>
         </span>
-        <b class="shot__t">얼굴 등록하기 <b>(필수)</b></b>
+        <b class="shot__t">얼굴 등록하기</b>
         <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
       </button>
     </div>
@@ -1570,7 +1570,7 @@
                그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
           <span class="scan__beam"></span>
         </span>
-        <b class="shot__t">얼굴 등록하기 <b>(필수)</b></b>
+        <b class="shot__t">얼굴 등록하기</b>
         <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
       </button>
     </div>
@@ -1671,7 +1671,7 @@
                그림 위를 지나야 하므로 svg 밖, 맨 위에 둔다 -->
           <span class="scan__beam"></span>
         </span>
-        <b class="shot__t">얼굴 등록하기 <b>(필수)</b></b>
+        <b class="shot__t">얼굴 등록하기</b>
         <span class="shot__hint">터치 후 얼굴을 촬영해주세요</span>
       </button>
     </div>
@@ -1847,7 +1847,10 @@
     <!-- 사진과 저지르는 버튼은 한 덩어리다. 흰 카드로 묶어 어두운 막 위에 띄운다 -->
     <div class="confirm__card">
       <div class="confirm__pic"><img src="images/worker/01.jpg" alt=""></div>
-      <span class="confirm__ok">얼굴 등록하기</span>
+      <!-- 누르면 **그 얼굴이 등록된 폼**으로 간다 — 찍은 사진이 그대로 칸 위에
+           들어앉은 자리다(m-worker-new-done). 여기서 끝내면 등록한 얼굴이
+           어디에 가서 앉는지가 화면에 없다 -->
+      <span class="confirm__ok" data-go="m-worker-new-done">얼굴 등록하기</span>
     </div>
     <!-- 되돌리는 쪽은 카드 밖에, 면 없이 둔다 — 같은 크기로 나란히 서면
          어느 쪽이 주된 동작인지 흐려진다 -->
