@@ -221,14 +221,12 @@
           |@{.lbar__f} 필터가 선택되었을 때 칩 스타일이 바뀝니다. ">필터 두가지를 선택한 상태</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">목록에서 고르면</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-pick"
-        data-why="고른 카드가 생기면 바닥 바의 삭제가 켜집니다. 고르는 일은 지우기 위한 것이라, 고른 수와 지우는 버튼이 한 화면에 함께 놓입니다.
-
-카드째 테를 두르는 것은 체크 네모 하나로는 과녁이 너무 작아서입니다. 목록을 훑으며 누구를 골랐나를 봅니다."
+        data-why="근로자 리스트의 체크박스를 눌렀을 때 화면입니다."
         data-steps="근로자 관리에서 홍길동과 김철수를 고른 상태"
         data-look="
-          |@{.card--photo:has(.chk--on)} 고른 카드는 체크 네모만이 아니라 카드째 테가 둘립니다
-          |@{.lbar__n} 오른쪽 끝의 수는 고른 수입니다 — 칩 옆의 수(목록에 남은 수)와 다른 것을 셉니다
-          |@{.act__b--dark} 삭제가 켜집니다">근로자 선택</button>
+          |@{.card--photo:has(.chk--on)} 선택된 카드는 체크박스와 카드 테두리에 브랜드 컬러가 채워집니다.
+          |@{.lbar__n} 우측에 선택한 근로자의 수를 표기합니다.
+          |@{.act__b--dark} 근로자를 선택했을 때 삭제 버튼이 활성화됩니다.">근로자 선택</button>
       <span class="proto-nav-group-label">현장소장 앱 · 근로자 얼굴 등록</span>
       <!-- 셋은 같은 폼의 세 모습이다 — 외국인 여부와 '여권번호 등록' 체크에 따라
            받는 칸이 갈린다. 구역 이름이 이미 '근로자 얼굴 등록' 이라, 그 아래 2단계
