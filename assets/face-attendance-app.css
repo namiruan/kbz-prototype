@@ -1348,9 +1348,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    크기로 둘 수 없다. 크기 variant 는 글자만 올리고 높이(25)는 line-height 와
    padding 이 따라 만든다 */
 .bds .bd{font-size:14px}
-/* normal(회색 면)과 line(흰 면 + 테)은 쓰는 자리가 없어 걷었다 — 현장
-   이름표가 마지막 자리였다. 다시 쓸 일이 생기면 시스템의 badge.md 에서
-   가져온다 */
+/* line(흰 면 + 테)은 쓰는 자리가 없어 걷었다. 다시 쓸 일이 생기면 시스템의
+   badge.md 에서 가져온다.
+   neutral(회색 면)은 근무상태 전체 목록의 '퇴사' 가 다시 불러왔다 — badge.md
+   의 badge--neutral 이고, 면은 surface/neutral, 글자는 Text/gray 다 */
+.bd--neutral{background:var(--ap-g10);color:var(--ap-text-gray)}
 .bd--positive{background:var(--ap-badge-positive);color:var(--ap-primary)}
 .bd--negative{background:var(--ap-point-bg);color:var(--ap-point)}
 .bd--point{background:var(--ap-point);color:var(--ap-g0)}
