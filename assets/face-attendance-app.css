@@ -2278,7 +2278,14 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    칸과 칸 20 · 라벨과 칸 4 · 라벨은 17/22 semibold 에 gray/60,
    칸은 테 1px gray-subtler · 모서리 4 · 안쪽 여백 16/12 · 글자 17/22 regular */
 .form{display:flex;flex-direction:column;gap:var(--ap-gap6)}
-.fld{display:flex;flex-direction:column;gap:var(--ap-p2)}
+/* 칸은 **면 안의 칸과 같은 세로 선**에 앉는다 — 내·외국인 면이 제 여백
+   (16)을 쥐고 있어, 바깥 칸을 폼 변에 붙여 두면 면 안팎의 칸 폭이 어긋난다.
+   바깥 칸도 같은 만큼 물려, 글과 칸이 앉는 선은 하나로 두고 **면만** 한 겹
+   넓게 깔린다 */
+.fld{display:flex;flex-direction:column;gap:var(--ap-p2);
+  padding-inline:var(--ap-p6)}
+/* 면 안의 칸은 이미 면의 여백 안에 있다 — 한 번 더 물리지 않는다 */
+.idf__body .fld,.idf__body .fld__sub{padding-inline:0}
 /* ── 번호 칸 ──
    받는 번호가 사람에 따라 통째로 갈리는 자리다. **내국인·외국인을 탭**으로
    먼저 가르고, 외국인 안에서 외국인등록번호와 여권번호를 라디오로 고른다 —
@@ -2300,11 +2307,8 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   padding:var(--ap-p4) var(--ap-p3);border-radius:var(--ap-r10) var(--ap-r10) 0 0;
   background:none;color:var(--ap-text-gray);white-space:nowrap;cursor:pointer}
 .idf__t.is-on{background:var(--ap-g5);color:var(--ap-primary);font-weight:600}
-/* 좌우 여백은 두지 않는다 — 면 안의 입력칸이 바깥의 이름 · 연락처 칸과
-   **같은 폭으로 서야** 폼이 한 줄기로 읽힌다. 면만 한 겹 깔릴 뿐,
-   글과 칸이 앉는 세로 선은 폼 전체가 하나다 */
 .idf__body{display:flex;flex-direction:column;gap:var(--ap-p4);
-  padding:var(--ap-p6) 0;background:var(--ap-g5);
+  padding:var(--ap-p6);background:var(--ap-g5);
   border-radius:0 0 var(--ap-r10) var(--ap-r10)}
 .fld__h{display:flex;align-items:center;justify-content:space-between;
   flex-wrap:wrap;column-gap:var(--ap-p5);row-gap:var(--ap-p3)}

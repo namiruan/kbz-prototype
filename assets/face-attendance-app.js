@@ -107,6 +107,7 @@
     deck(hit);
     seek(hit);
     pad(hit);
+    must(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -1484,6 +1485,25 @@
     see();
   }
 
+  /* ── 필수 칸이 다 차면 저장이 선다 ──
+     비어 있는 동안 서 있으면 '눌러 봐야 아무 일도 없는 버튼' 이 내내 엄지
+     밑에 있다. 자리는 처음부터 지키므로(.act--void 는 보이지만 않는다)
+     다 채운 순간에 바가 솟아 화면이 뛰는 일도 없다 */
+  function must(scr) {
+    var act = scr.querySelector('.act--void');
+    if (!act) return;
+    var need = Array.prototype.slice.call(scr.querySelectorAll('.inp__in[required]'));
+    if (!need.length) return;
+
+    function see() {
+      var ok = need.every(function (i) { return i.value.trim() !== ''; });
+      act.classList.toggle('act--void', !ok);
+      act.setAttribute('aria-hidden', ok ? 'false' : 'true');
+    }
+    need.forEach(function (i) { i.addEventListener('input', see); });
+    see();
+  }
+
   /* ── 기기 자판이 올라온 뒤의 본문 ──
      창(레이아웃 뷰포트)은 자판이 떠도 줄지 않는다(meta 의 기본값) — 자판은
      보이는 자리만 덮는다. 그래서 **덮인 만큼 본문 발치를 늘이고**, 적던 칸을
@@ -1583,6 +1603,7 @@
         requestAnimationFrame(function () { newbd.scrollTop = keep; });
       }
       pad(next);
+      must(next);
     } else {
       seek(next);
     }

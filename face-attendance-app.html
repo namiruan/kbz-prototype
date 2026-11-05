@@ -1404,7 +1404,7 @@
     <form class="form">
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" type="text" placeholder="이름을 입력해주세요" aria-label="이름" autofocus></div>
+        <div class="inp"><input class="inp__in" required type="text" placeholder="이름을 입력해주세요" aria-label="이름" autofocus></div>
       </div>
       <!-- 내국인·외국인은 받는 번호가 통째로 갈리는 자리라, 칸 맨 위에 탭으로
            먼저 가른다. 외국인 안에서 외국인등록번호와 여권번호는 둘 가운데
@@ -1416,12 +1416,12 @@
         </div>
         <div class="idf__body">
           <label class="fld__l">주민번호 <b>(필수)</b></label>
-          <div class="inp"><input class="inp__in" type="text" placeholder="주민번호를 입력해주세요" aria-label="주민번호"></div>
+          <div class="inp"><input class="inp__in" required type="text" placeholder="주민번호를 입력해주세요" aria-label="주민번호"></div>
         </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" type="text" placeholder="연락처를 입력해주세요" aria-label="연락처"></div>
+        <div class="inp"><input class="inp__in" required type="text" placeholder="연락처를 입력해주세요" aria-label="연락처"></div>
       </div>
       <div class="fld">
         <label class="fld__l">직종</label>
@@ -1437,8 +1437,9 @@
     </form>
   </main>
 
-  <!-- 필수 값이 비어 있어 저장은 아직 설 수 없다. 자리는 지킨 채 보이지만
-       않는다 — 덜어 내면 다 채운 뒤에 바가 솟아 화면이 한 번 뛴다 -->
+  <!-- 필수 칸이 다 차면 저장이 보인다(js 의 must). 비어 있는 동안 서 있으면
+       '눌러 봐야 아무 일도 없는 버튼' 이 내내 엄지 밑에 있다.
+       자리는 처음부터 지킨다 — 덜어 내면 다 채운 뒤에 바가 솟아 화면이 뛴다 -->
   <div class="act act--end act--void" aria-hidden="true">
     <button class="act__b act__b--on" type="button">저장</button>
   </div>
@@ -1506,7 +1507,7 @@
     <form class="form">
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" type="text" placeholder="이름을 입력해주세요" aria-label="이름" autofocus></div>
+        <div class="inp"><input class="inp__in" required type="text" placeholder="이름을 입력해주세요" aria-label="이름" autofocus></div>
       </div>
       <!-- 외국인 탭에서는 받는 번호가 둘이다 — 외국인등록번호는 주민번호와 같은
            꼴(13자리)이고, 여권으로 등록할 사람은 여권번호를 고른다 -->
@@ -1520,12 +1521,12 @@
             <button class="pickr__o is-on" type="button" role="radio" aria-checked="true" data-go-swap data-go="m-worker-new-foreign"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">외국인등록번호 <b>(필수)</b></span></button>
             <button class="pickr__o" type="button" role="radio" aria-checked="false" data-go-swap data-go="m-worker-new-passport"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">여권번호</span></button>
           </div>
-          <div class="inp"><input class="inp__in" type="text" placeholder="외국인등록번호를 입력해주세요" aria-label="외국인등록번호"></div>
+          <div class="inp"><input class="inp__in" required type="text" placeholder="외국인등록번호를 입력해주세요" aria-label="외국인등록번호"></div>
         </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" type="text" placeholder="연락처를 입력해주세요" aria-label="연락처"></div>
+        <div class="inp"><input class="inp__in" required type="text" placeholder="연락처를 입력해주세요" aria-label="연락처"></div>
       </div>
       <div class="fld">
         <label class="fld__l">직종</label>
@@ -1541,8 +1542,9 @@
     </form>
   </main>
 
-  <!-- 필수 값이 비어 있어 저장은 아직 설 수 없다. 자리는 지킨 채 보이지만
-       않는다 — 덜어 내면 다 채운 뒤에 바가 솟아 화면이 한 번 뛴다 -->
+  <!-- 필수 칸이 다 차면 저장이 보인다(js 의 must). 비어 있는 동안 서 있으면
+       '눌러 봐야 아무 일도 없는 버튼' 이 내내 엄지 밑에 있다.
+       자리는 처음부터 지킨다 — 덜어 내면 다 채운 뒤에 바가 솟아 화면이 뛴다 -->
   <div class="act act--end act--void" aria-hidden="true">
     <button class="act__b act__b--on" type="button">저장</button>
   </div>
@@ -1606,7 +1608,7 @@
     <form class="form">
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" type="text" placeholder="이름을 입력해주세요" aria-label="이름" autofocus></div>
+        <div class="inp"><input class="inp__in" required type="text" placeholder="이름을 입력해주세요" aria-label="이름" autofocus></div>
       </div>
       <!-- 여권번호를 고르면 같은 칸이 받는 것이 바뀐다 — 둘 다 적게 두면
            어느 쪽으로 사람을 가리는지가 흐려진다.
@@ -1623,16 +1625,16 @@
             <button class="pickr__o" type="button" role="radio" aria-checked="false" data-go-swap data-go="m-worker-new-foreign"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">외국인등록번호</span></button>
             <button class="pickr__o is-on" type="button" role="radio" aria-checked="true" data-go-swap data-go="m-worker-new-passport"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">여권번호 <b>(필수)</b></span></button>
           </div>
-          <div class="inp"><input class="inp__in" type="text" placeholder="여권번호를 입력해주세요" aria-label="여권번호"></div>
+          <div class="inp"><input class="inp__in" required type="text" placeholder="여권번호를 입력해주세요" aria-label="여권번호"></div>
           <div class="fld__sub">
             <label class="fld__l fld__l--birth">생년월일 <b>(필수)</b></label>
-            <div class="inp"><input class="inp__in" type="text" placeholder="생년월일 8자리를 입력해주세요" aria-label="생년월일"></div>
+            <div class="inp"><input class="inp__in" required type="text" placeholder="생년월일 8자리를 입력해주세요" aria-label="생년월일"></div>
           </div>
         </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp"><input class="inp__in" type="text" placeholder="연락처를 입력해주세요" aria-label="연락처"></div>
+        <div class="inp"><input class="inp__in" required type="text" placeholder="연락처를 입력해주세요" aria-label="연락처"></div>
       </div>
       <div class="fld">
         <label class="fld__l">직종</label>
@@ -1648,8 +1650,9 @@
     </form>
   </main>
 
-  <!-- 필수 값이 비어 있어 저장은 아직 설 수 없다. 자리는 지킨 채 보이지만
-       않는다 — 덜어 내면 다 채운 뒤에 바가 솟아 화면이 한 번 뛴다 -->
+  <!-- 필수 칸이 다 차면 저장이 보인다(js 의 must). 비어 있는 동안 서 있으면
+       '눌러 봐야 아무 일도 없는 버튼' 이 내내 엄지 밑에 있다.
+       자리는 처음부터 지킨다 — 덜어 내면 다 채운 뒤에 바가 솟아 화면이 뛴다 -->
   <div class="act act--end act--void" aria-hidden="true">
     <button class="act__b act__b--on" type="button">저장</button>
   </div>
