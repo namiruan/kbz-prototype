@@ -426,9 +426,10 @@
 
 
 <!-- ===== ①-4 현장소장 앱 · 근로자 관리(퇴사) =====
-     필터의 근무상태 줄에서 온다. 카드도 바닥 바도 재직 목록 그대로고, 선 사람만
-     다르다 — 근무상태는 사람의 값이 아니라 **목록에 거는 것**이라, 카드마다
-     '퇴사' 를 다시 적으면 머리줄의 칩과 같은 말이 사람 수만큼 늘어난다.
+     필터의 근무상태 줄에서 온다. 카드는 **가라앉은 채로** 서고(.card--off),
+     바닥 바는 재직 목록 그대로다. 글로는 아무것도 더 적지 않는다 — 한 가지
+     근무상태만 모아 본 목록이라, 카드마다 '퇴사' 를 다시 적으면 머리줄의
+     칩과 같은 말이 사람 수만큼 늘어난다.
      ⚠ 얼굴 자리가 비어 있는 것은 **사진이 없어서**다. 퇴사가 얼굴을 지우는
        것이 아니다 — images/worker/README.md 를 보라 -->
 <section class="scr" data-screen="m-workers-left" data-title="근로자 관리 — 퇴사" data-key="left" data-base="m-workers-left">
@@ -463,7 +464,7 @@
       </span>
     </div>
     <div class="list">
-      <article class="card card--photo">
+      <article class="card card--photo card--off">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="최동식 선택"></button>
         <span class="bd bd--src bd--src-pc">PC</span>
@@ -478,7 +479,7 @@
           </div>
         </div>
       </article>
-      <article class="card card--photo">
+      <article class="card card--photo card--off">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="임정순 선택"></button>
         <span class="bd bd--src bd--src-pc">PC</span>
@@ -503,7 +504,9 @@
 </section>
 
 
-<!-- ===== ①-5 현장소장 앱 · 근로자 관리(차단) ===== -->
+<!-- ===== ①-5 현장소장 앱 · 근로자 관리(차단) =====
+     퇴사와 같이 가라앉되, 왼쪽에 주황 띠가 더 선다(.card--ban) — 끝난 일과
+     막아 둔 것은 풀 수 있는지가 다르다 -->
 <section class="scr" data-screen="m-workers-ban" data-title="근로자 관리 — 차단" data-key="ban" data-base="m-workers-ban">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
@@ -536,7 +539,7 @@
       </span>
     </div>
     <div class="list">
-      <article class="card card--photo">
+      <article class="card card--photo card--off card--ban">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="강태웅 선택"></button>
         <span class="bd bd--src bd--src-app">앱</span>
@@ -563,10 +566,10 @@
 
 <!-- ===== ①-8 현장소장 앱 · 근로자 관리(근무상태 전체) =====
      근무상태를 걸지 않은 목록이다 — 재직 · 퇴사 · 차단이 한자리에 선다.
-     ⚠ 여기서만 카드에 근무상태가 적힌다. 한 가지 상태만 모아 본 목록에서는
-       머리줄의 칩이 그 말을 하고 있어 카드마다 되풀이할 것이 없지만, 섞여
-       서는 목록에서는 **카드마다 다른 값**이라 카드가 말해야 한다.
-       재직에는 달지 않는다 — 여덟 가운데 다섯이라, 다는 쪽이 목록을 더
+     ⚠ 여기서만 카드에 근무상태가 **적힌다**. 가라앉은 면은 세 목록 어디서나
+       같지만, 섞여 서는 자리에서는 왜 가라앉았는지까지 카드가 말해야 한다 —
+       한 가지 상태만 모아 본 목록에서는 머리줄의 칩이 그 말을 하고 있다.
+       재직에는 달지 않는다 — 대부분이 재직이라, 다는 쪽이 목록을 더
        시끄럽게 하고 뱃지가 '보통이 아닌 것' 을 가리키지 못하게 된다 -->
 <section class="scr" data-screen="m-workers-all" data-title="근로자 관리 — 근무상태 전체" data-key="all" data-base="m-workers-all">
   <header class="nav">
@@ -676,7 +679,7 @@
           </div>
         </div>
       </article>
-      <article class="card card--photo">
+      <article class="card card--photo card--off">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="최동식 선택"></button>
         <span class="bd bd--src bd--src-pc">PC</span>
@@ -692,7 +695,7 @@
           </div>
         </div>
       </article>
-      <article class="card card--photo">
+      <article class="card card--photo card--off">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="임정순 선택"></button>
         <span class="bd bd--src bd--src-pc">PC</span>
@@ -708,7 +711,7 @@
           </div>
         </div>
       </article>
-      <article class="card card--photo">
+      <article class="card card--photo card--off card--ban">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="강태웅 선택"></button>
         <span class="bd bd--src bd--src-app">앱</span>
