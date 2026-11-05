@@ -1295,11 +1295,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* ── 지금 일하지 않는 근로자 ──
    퇴사·차단은 카드가 **가라앉는다**. 재직 카드는 흰 면에 그림자를 달고 옅은
    파랑 바탕 위에 떠 있는데, 그 면과 그림자를 걷고 글자를 한 단 내린다.
-   섞여 서는 목록(근무상태 전체)에서는 이름 옆 뱃지 하나보다 **면이 먼저**
-   눈에 든다 — 훑어 내리는 자리라, 한 글자를 읽어야 갈리는 것은 늦다.
-   한 가지 상태만 모아 본 목록에서도 그대로 둔다. 거기서는 모두가 가라앉아
-   견줄 것이 없지만, 재직 목록에서 넘어온 눈은 '다른 자리에 왔다' 를 면에서
-   먼저 받는다.
+   면과 뱃지는 맡은 몫이 다르다 — **면은 '지금 일하는가', 뱃지는 '왜'** 다.
+   훑어 내리는 자리라 면이 먼저 눈에 들고, 어느 쪽인지는 그 다음에 이름 옆
+   글자가 말한다. 둘 다 어느 목록에서나 그대로다: 한 가지 상태만 모아 본
+   목록에서는 머리줄의 칩도 같은 말을 하지만, 카드만 떼어 놓고 보아도
+   읽히는 쪽이 낫다.
    ⚠ 사진 빈 자리(.face--none)는 한 단 더 내린다 — 카드 면과 같은 색이면
      사진 자리가 통째로 사라져, 글만 있는 카드처럼 보인다 */
 .card--photo.card--off{background:var(--ap-g5);box-shadow:none}
@@ -1307,13 +1307,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .card--photo.card--off .face--none{background:var(--ap-g10)}
 .card--photo.card--off .card__nm,
 .card--photo.card--off .card__v{color:var(--ap-text-gray)}
-/* 차단은 왼쪽에 주황 띠가 더 선다. 퇴사는 끝난 일이고 차단은 현장이 막아
-   둔 것이라, 풀 수 있는지가 다르다 — 가라앉은 것끼리도 갈려야 한다.
-   띠는 카드의 테가 아니라 **표**다: 왼쪽 한 변에만 서고, 모서리는 카드가
-   잘라 낸다(overflow) */
-.card--photo.card--ban{position:relative;overflow:hidden}
-.card--photo.card--ban::after{content:"";position:absolute;left:0;top:0;bottom:0;
-  width:4px;background:var(--ap-point);z-index:2}
+/* 가라앉은 것끼리 가르는 일은 **뱃지**가 맡는다(이름 옆, .bd--neutral ·
+   .bd--negative). 왼쪽에 주황 띠를 세워 보았더니, 색만으로는 그것이 차단인지
+   퇴사인지 읽히지 않았다 — 색은 '다르다' 까지만 말하고 '무엇' 은 말하지
+   못한다. 글자가 그 자리를 맡는다 */
 .card__bd{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--ap-p4);
   padding:var(--ap-p6)}
 /* 사진이 92px 를 가져가 글 자리가 좁다. 값 둘을 한 줄에 나누면 긴 쪽이 바로
