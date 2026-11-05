@@ -1417,7 +1417,10 @@
       var left = 0;
       rows.forEach(function (row) {
         var nm = row.querySelector('.card__nm,.jobr__t');
-        var on = !q || (nm && match(nm.textContent.replace(/\s+/g, ''), q));
+        /* is-off 는 걸린 상태에 하나도 없는 직종이다(sync). 적은 것과
+           상관없이 내내 덜어 둔다 — 적는 동안만 돌아오면 안 된다 */
+        var on = !row.classList.contains('is-off') &&
+          (!q || (nm && match(nm.textContent.replace(/\s+/g, ''), q)));
         row.hidden = !on;
         if (on) left++;
       });
@@ -1488,9 +1491,15 @@
     var now = document.querySelector('.scr[data-screen]');
     if (!next || !now || !now.parentNode) return false;
 
-    /* 뒤에 깔 화면을 베끼는 일이 먼저다 — 지금 선 화면이 아직 문서에 있어야
-       behind() 가 그것을 찾는다 */
-    behind(next);
+    /* 시트는 **지금 걸린 것을 켠 채로** 올라온다 — 고치러 올라온 자리라,
+       무엇이 걸려 있는지부터 보여야 어디를 누를지가 정해진다. 걸린 것은
+       목록 쪽이 알고 있다(data-sta · data-job).
+       뒤를 깔기 전이다 — 깔고 나면 베낀 목록도 함께 뒤져 엉뚱한 칩을 켠다 */
+    sync(next, now);
+
+    /* 뒤에 깔 화면을 베끼는 일은 덜어 내기 전이다 — 지금 선 화면이 아직
+       문서에 있어야 behind() 가 그것을 찾는다 */
+    behind(next, now.dataset.screen);
 
     SHELF[now.dataset.screen] = now;
     now.parentNode.insertBefore(next, now);
@@ -1573,8 +1582,12 @@
      옮겨 적지 않고 켜기 직전에 **베껴** 온다 — 같은 마크업을 두 곳에 적으면
      한쪽만 고쳐져 따로 늙는다. 어느 화면 위인지는 `data-behind` 가 말한다.
      화면 안의 동작을 흉내 내는 것이 아니라, 한 장의 화면을 짜 맞추는 일이다. */
-  function behind(hit) {
-    var name = hit.dataset.behind;
+  function behind(hit, over) {
+    /* 같은 문서에서 띄울 때는(soft) **그 시트를 연 화면**이 뒤에 깔린다 —
+       시트 하나가 여러 목록 위에서 올라오므로(재직 · 퇴사 · 차단 · 직종),
+       마크업에 적어 둔 한 장을 늘 깔면 뒤가 엉뚱한 목록이 된다.
+       주소로 바로 연 자리에는 연 화면이 없으니 `data-behind` 가 받는다 */
+    var name = over || hit.dataset.behind;
     /* 선반도 함께 뒤진다 — 같은 문서에서 띄울 때(soft) 뒤에 깔 화면이 이미
        덜어내진 자리일 수 있다(고른 뒤 화면에서 다시 찾는 시트를 열 때가
        그렇다). 어느 쪽이든 베껴 쓰므로 원본은 건드리지 않는다 */
@@ -1592,6 +1605,46 @@
     back.className = src.className + ' is-on behind';
     back.querySelectorAll('[id]').forEach(function (n) { n.removeAttribute('id'); });
     hit.insertBefore(back, hit.firstChild);
+  }
+
+  /* 걸린 필터를 시트에 옮겨 켠다. 켜는 자리는 둘 — 상태 알약(.fsta)과
+     직종 줄(.jobr)이다. 목록에 적힌 것이 없으면 직종은 '직종 선택 전체' 다.
+
+     직종 옆의 수도 함께 간다. 상태가 먼저 걸리므로 직종의 수는 **그 상태
+     안에서 센 수**다 — 재직 기준 수를 퇴사 목록 위에 그대로 띄우면, 둘을
+     함께 건 적도 없는 사람 수가 적힌다. 상태마다의 수는 줄이 들고 있고
+     (data-n-live · -left · -ban), 그 상태에 하나도 없는 직종은 줄째 덜어 낸다 */
+  function sync(sheet, from) {
+    var sta = from.dataset.sta;
+    var job = from.dataset.job || '직종 선택 전체';
+    var key = '', home = '';
+    if (sta) sheet.querySelectorAll('.fsta .cnt').forEach(function (b) {
+      var k = b.querySelector('.cnt__k');
+      var on = !!k && k.textContent === sta;
+      b.classList.toggle('is-on', on);
+      if (on) { key = b.dataset.key || ''; home = b.dataset.go || ''; }
+    });
+    sheet.querySelectorAll('.jobr').forEach(function (r) {
+      var t = r.querySelector('.jobr__t');
+      var all = !!t && t.textContent === '직종 선택 전체';
+      r.classList.toggle('is-on', !!t && t.textContent === job);
+
+      /* 직종을 푸는 줄은 **상태만 걸린 목록**으로 돌아간다 — 그 자리는
+         지금 켜진 알약이 알고 있다. 늘 재직으로 돌려보내면 직종을 푸는
+         일이 상태까지 함께 풀어 버린다 */
+      if (all && home) r.dataset.go = home;
+
+      /* 상태와 직종을 함께 건 목록은 재직 안에서만 그렸다 — 다른 상태에서는
+         갈 자리가 없으므로 길을 떼어 둔다(엉뚱한 목록으로 보내지 않는다) */
+      if (!all) { if (key === 'live') r.dataset.go = 'm-workers-job'; else delete r.dataset.go; }
+
+      var n = key && r.dataset['n' + key.charAt(0).toUpperCase() + key.slice(1)];
+      if (n === undefined || n === '') return;
+      var cell = r.querySelector('.sel__n');
+      if (cell) cell.textContent = n;
+      r.classList.toggle('is-off', n === '0');
+      r.hidden = n === '0';
+    });
   }
 
   /* 위의 탭과 아래의 버튼은 아래로 읽어 내려가는 동안 비켜 있다가, 스크롤이
