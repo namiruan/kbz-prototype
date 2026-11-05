@@ -261,6 +261,14 @@
         data-look="
           |@{.pickr__o.is-on} 고른 알이 바뀌면 아래 플레이스홀더도 여권번호로 따라 바뀝니다 — 외국인등록번호와 둘을 함께 받지는 않습니다
           |@{.fld__sub} 생년월일 칸이 이 칸 안에 하나 더 늡니다. '외국인등록번호' 를 다시 고르면 함께 빠집니다">여권번호를 고르면</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new-done"
+        data-why="필수 칸이 다 차면 바닥의 저장이 보입니다. 비어 있는 동안 서 있으면 눌러 봐야 아무 일도 없는 버튼이 내내 엄지 밑에 있습니다.
+
+자리는 처음부터 지킵니다 — 덜어 내면 다 채운 순간에 바가 솟아 화면이 한 번 뜁니다."
+        data-steps="근로자 얼굴 등록에서 필수 칸을 모두 채운 상태"
+        data-look="
+          |@{.act__b--on} 저장이 그 자리에 나타납니다. 한 칸이라도 비우면 다시 사라집니다
+          |@{.sel__t} 직종과 단가는 비어 있어도 저장이 열립니다 — 꼭 받아야 하는 값만 저장을 엽니다">필수 칸을 다 채우면</button>
       <span class="proto-nav-group-label">현장소장 앱 · 등록 촬영·근로자 수정</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-ready"
         data-why="맨 처음 얼굴을 등록할 때만 지나는 화면입니다. 마스크를 쓴 채 찍으면 그 사진이 그대로 남아, 그 뒤로 출근할 때마다 얼굴을 알아보지 못합니다.

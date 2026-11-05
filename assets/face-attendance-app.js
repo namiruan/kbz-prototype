@@ -1490,7 +1490,9 @@
      밑에 있다. 자리는 처음부터 지키므로(.act--void 는 보이지만 않는다)
      다 채운 순간에 바가 솟아 화면이 뛰는 일도 없다 */
   function must(scr) {
-    var act = scr.querySelector('.act--void');
+    /* 처음 선 꼴로 가리지 않는다 — 비운 채로 여는 화면도, 다 채운 채로 여는
+       화면도 같은 셈을 쓴다. 보이고 말고는 **값이 정한다** */
+    var act = scr.querySelector('.act');
     if (!act) return;
     var need = Array.prototype.slice.call(scr.querySelectorAll('.inp__in[required]'));
     if (!need.length) return;
