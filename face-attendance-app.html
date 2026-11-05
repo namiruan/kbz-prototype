@@ -80,13 +80,10 @@
 <!-- ===== ① 현장소장 앱 · 근로자 관리 =====
      현장을 고르면 처음 서는 목록이다. **아무것도 걸지 않은 자리**라 재직 ·
      퇴사 · 차단이 한자리에 선다 — 거르는 일은 그다음이다.
-     카드는 **얼굴 자리**에 제 근무상태를 적는다 — 사진 위에 막을 덮고
-     '퇴사' · '차단' 을 올린다. 카드에서 가장 큰 면이라, 훑어 내리는 눈이
-     먼저 닿는다.
+     카드는 **사진 아래 가운데**에 제 근무상태를 적는다 — 재직까지 셋 다다.
+     지금 일하지 않는 근로자는 얼굴의 채도까지 한 단 내려간다.
      카드 자체는 흰 면 그대로다: 퇴사·차단도 누르면 상세로 가고 골라서 지울
-     수 있는 과녁이라, 면을 내리면 고를 수 없는 것처럼 보인다.
-     재직에는 아무것도 적지 않는다 — 대부분이 재직이라, 적는 쪽이 목록을 더
-     시끄럽게 하고 그 글자가 '보통이 아닌 것' 을 가리키지 못하게 된다 -->
+     수 있는 과녁이라, 면을 내리면 고를 수 없는 것처럼 보인다 -->
 <section class="scr" data-screen="m-workers" data-title="근로자 관리" data-key="all" data-base="m-workers">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
@@ -120,13 +117,14 @@
       </span>
     </div>
     <div class="list">
-      <!-- 사진 위는 위아래로 갈린다 — 위는 지금 이 사람의 상태(고르는 네모와
-           근무상태), 아래는 기록이 어디서 왔는지(앱 · PC)다. 위는 맨글자,
-           아래는 면이 있는 뱃지라 꼴로도 갈린다 -->
+      <!-- 사진 왼쪽 위는 고르는 네모와 '앱 · PC'(기록의 출처)다. 근무상태는
+           아래 가운데에 **셋 다** 적는다 — 하나만 적으면 그 글자가 '예외' 가
+           되고, 적히지 않은 카드가 무엇인지는 읽는 사람이 외워야 한다 -->
       <article class="card card--photo">
         <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
         <span class="bd bd--src bd--src-app">앱</span>
+        <span class="sta">재직</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">홍길동</span>
@@ -142,6 +140,7 @@
         <span class="face"><img src="images/worker/02.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="김철수 선택"></button>
         <span class="bd bd--src bd--src-pc">PC</span>
+        <span class="sta">재직</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">김철수</span>
@@ -157,6 +156,7 @@
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
         <span class="bd bd--src bd--src-pc">PC</span>
+        <span class="sta">재직</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">NGUYEN VAN A</span>
@@ -171,7 +171,7 @@
       <article class="card card--photo card--off">
         <span class="face"><img src="images/worker/03.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="이영희 선택"></button>
-        <span class="sta sta--left">퇴사</span>
+        <span class="sta">퇴사</span>
         <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
@@ -187,7 +187,7 @@
       <article class="card card--photo card--off">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="최동식 선택"></button>
-        <span class="sta sta--left">퇴사</span>
+        <span class="sta">퇴사</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -203,7 +203,7 @@
       <article class="card card--photo card--off">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="임정순 선택"></button>
-        <span class="sta sta--left">퇴사</span>
+        <span class="sta">퇴사</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -305,6 +305,7 @@
         <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
         <span class="bd bd--src bd--src-app">앱</span>
+        <span class="sta">재직</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">홍길동</span>
@@ -320,6 +321,7 @@
         <span class="face"><img src="images/worker/02.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="김철수 선택"></button>
         <span class="bd bd--src bd--src-pc">PC</span>
+        <span class="sta">재직</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">김철수</span>
@@ -335,6 +337,7 @@
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
         <span class="bd bd--src bd--src-pc">PC</span>
+        <span class="sta">재직</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">NGUYEN VAN A</span>
@@ -406,6 +409,7 @@
         <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk chk--on" type="button" aria-label="홍길동 선택" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></button>
         <span class="bd bd--src bd--src-app">앱</span>
+        <span class="sta">재직</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">홍길동</span>
@@ -421,6 +425,7 @@
         <span class="face"><img src="images/worker/02.jpg" alt=""></span>
         <button class="chk chk--on" type="button" aria-label="김철수 선택" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></button>
         <span class="bd bd--src bd--src-pc">PC</span>
+        <span class="sta">재직</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">김철수</span>
@@ -436,6 +441,7 @@
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="NGUYEN VAN A 선택"></button>
         <span class="bd bd--src bd--src-pc">PC</span>
+        <span class="sta">재직</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">NGUYEN VAN A</span>
@@ -450,7 +456,7 @@
       <article class="card card--photo card--off">
         <span class="face"><img src="images/worker/03.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="이영희 선택"></button>
-        <span class="sta sta--left">퇴사</span>
+        <span class="sta">퇴사</span>
         <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
@@ -466,7 +472,7 @@
       <article class="card card--photo card--off">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="최동식 선택"></button>
-        <span class="sta sta--left">퇴사</span>
+        <span class="sta">퇴사</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -482,7 +488,7 @@
       <article class="card card--photo card--off">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="임정순 선택"></button>
-        <span class="sta sta--left">퇴사</span>
+        <span class="sta">퇴사</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -584,6 +590,7 @@
         <span class="face"><img src="images/worker/01.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="홍길동 선택"></button>
         <span class="bd bd--src bd--src-app">앱</span>
+        <span class="sta">재직</span>
         <div class="card__bd">
           <div class="card__top">
             <span class="card__nm">홍길동</span>
@@ -639,8 +646,9 @@
 
 
 <!-- ===== ①-5 현장소장 앱 · 근로자 관리(퇴사) =====
-     필터의 근무상태 줄에서 온다. 얼굴 자리에 '퇴사' 가 적힌다(.card--off).
-     머리줄의 칩도 같은 말을 하지만, 카드만 떼어 놓고 보아도 읽히는 쪽이 낫다.
+     필터의 근무상태 줄에서 온다. 얼굴은 채도가 한 단 내려가고(.card--off),
+     사진 아래 가운데에 '퇴사' 가 선다. 머리줄의 칩도 같은 말을 하지만,
+     카드만 떼어 놓고 보아도 읽히는 쪽이 낫다.
      ⚠ 얼굴 자리가 비어 있는 것은 **사진이 없어서**다. 퇴사가 얼굴을 지우는
        것이 아니다 — images/worker/README.md 를 보라 -->
 <section class="scr" data-screen="m-workers-left" data-title="근로자 관리 — 퇴사" data-key="left" data-base="m-workers-left">
@@ -678,7 +686,7 @@
       <article class="card card--photo card--off">
         <span class="face"><img src="images/worker/03.jpg" alt=""></span>
         <button class="chk" type="button" aria-label="이영희 선택"></button>
-        <span class="sta sta--left">퇴사</span>
+        <span class="sta">퇴사</span>
         <span class="bd bd--src bd--src-app">앱</span>
         <div class="card__bd">
           <div class="card__top">
@@ -694,7 +702,7 @@
       <article class="card card--photo card--off">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="최동식 선택"></button>
-        <span class="sta sta--left">퇴사</span>
+        <span class="sta">퇴사</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -710,7 +718,7 @@
       <article class="card card--photo card--off">
         <span class="face face--none"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-employee"></use></svg></span>
         <button class="chk" type="button" aria-label="임정순 선택"></button>
-        <span class="sta sta--left">퇴사</span>
+        <span class="sta">퇴사</span>
         <span class="bd bd--src bd--src-pc">PC</span>
         <div class="card__bd">
           <div class="card__top">
@@ -734,7 +742,7 @@
 
 
 <!-- ===== ①-6 현장소장 앱 · 근로자 관리(차단) =====
-     퇴사와 같은 꼴이되, 얼굴 자리에 '차단' 이라 적힌다 — 끝난 일과
+     퇴사와 같은 꼴이되, 사진 아래 그늘이 주황을 띤다 — 끝난 일과
      막아 둔 것은 풀 수 있는지가 다르다 -->
 <section class="scr" data-screen="m-workers-ban" data-title="근로자 관리 — 차단" data-key="ban" data-base="m-workers-ban">
   <header class="nav">

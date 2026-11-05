@@ -1273,27 +1273,32 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .card--photo > .bd--src{position:absolute;z-index:1;
   height:20px;padding:0 6px;color:var(--ap-g0);
   box-shadow:var(--ap-shadow-chk)}
-/* 어디서 더한 근로자인가 — 사진 왼쪽 **아래**. 글 칸에 끼우면 주민번호·직종과
-   같은 '받은 값' 으로 읽히는데, 이것은 사람의 값이 아니라 기록의 출처다.
-   앱은 브랜드, PC 는 회색이다 */
-.card--photo > .bd--src{left:8px;bottom:8px}
+/* 어디서 더한 근로자인가 — 고르는 네모 옆, 사진 왼쪽 위다. 글 칸에 끼우면
+   주민번호·직종과 같은 '받은 값' 으로 읽히는데, 이것은 사람의 값이 아니라
+   기록의 출처다. 앱은 브랜드, PC 는 회색이다 */
+.card--photo > .bd--src{left:34px;top:8px}
 .bd--src-app{background:var(--ap-primary)}
 .bd--src-pc{background:var(--ap-text-gray)}
-/* 지금 일하지 않는 근로자 — **고르는 네모 바로 옆**이다. 고르는 일과 한 줄에
-   서야, 무엇을 고르려는지가 네모를 누르기 전에 읽힌다.
-   면을 깔지 않는다. 꽉 찬 색 뱃지로 두었더니 바로 아래 '앱 · PC' 와 같은
+/* ── 근무상태 ──
+   사진 **아래 가운데**다. 셋 모두 적는다(재직 · 퇴사 · 차단) — 하나만
+   적으면 그 글자가 '예외' 가 되고, 적히지 않은 카드가 무엇인지는 읽는
+   사람이 외워야 한다.
+   면을 깔지 않는다. 꽉 찬 색 뱃지로 두었더니 바로 위 '앱 · PC' 와 같은
    꼴이 되어, 사람의 상태와 기록의 출처가 한 가지 말로 보였다 — 이쪽은
    **글자만** 올린다.
-   ⚠ 사진 위에 맨글자를 올리므로 뒤가 밝아야 읽힌다. 흰 테를 한 겹 둘러
-     (text-shadow) 밝은 사진과 빈 자리(gray/5) 모두에서 글자가 서게 한다.
-     그래도 **어두운 사진 위에서는 약해진다** — 그때는 사진 쪽을 한 단 더
-     밝히는 편이 낫다. 면을 깔면 다시 뱃지가 된다.
-   차단은 주황이다. 가르는 것은 글자고, 색은 그 말에 결을 더할 뿐이다 */
-.card--photo > .sta{position:absolute;left:34px;top:8px;z-index:1;
-  height:20px;display:inline-flex;align-items:center;padding-left:4px;
-  font:var(--t-sub-em);letter-spacing:var(--ls-sub);color:var(--ap-text);
-  text-shadow:0 1px 2px rgba(255,255,255,.85),0 0 3px rgba(255,255,255,.7)}
-.card--photo > .sta--ban{color:var(--ap-point)}
+   ⚠ 사진 위라 뒤가 어떤 색일지 알 수 없다. 아래에서 위로 사라지는 그늘을
+     깔고 흰 글자를 올린다 — 띠가 아니라 **그늘**이라, 어디서 끝나는지가
+     보이지 않아 사진을 자르지 않는다. 사진이 없는 자리(gray/5)에서도 그
+     그늘이 글자를 받친다.
+   차단만 그늘이 주황을 띤다. 가르는 것은 글자고, 색은 그 말에 결을 더한다 */
+.card--photo > .sta{position:absolute;left:0;bottom:0;z-index:1;
+  width:var(--ap-face);height:44px;
+  display:flex;align-items:flex-end;justify-content:center;
+  padding-bottom:var(--ap-gap3);
+  background:linear-gradient(to top,rgba(19,20,22,.66),rgba(19,20,22,0));
+  color:var(--ap-g0);font:var(--t-sub-em);letter-spacing:var(--ls-sub);
+  text-shadow:0 1px 3px rgba(19,20,22,.45)}
+.card--photo > .sta--ban{background:linear-gradient(to top,rgba(150,47,0,.72),rgba(150,47,0,0))}
 /* 고른 카드는 카드째 켜진다 — 20 짜리 체크 네모 하나가 카드 한 장의 상태를
    혼자 말하고 있었다. 목록을 훑으며 '누구를 골랐나' 를 보는 자리라, 눈이
    사진 왼쪽 위 구석까지 따라가야 하는 것은 과녁이 너무 작다.
