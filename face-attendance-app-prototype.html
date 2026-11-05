@@ -167,7 +167,7 @@
           |@{.bd--src} 근로자를 등록한 디바이스를 뱃지로 표기합니다.
           |@{.act__b--off} 선택한 카드가 없을 땐 삭제 버튼이 비활성화 상태로 보입니다.
           |@sm @md @lg @{.list} 근로자 리스트는 디바이스 사이즈마다 모바일은 한 단, 태블릿은 두 단으로 전환됩니다.
-          |@{.act} 바텀 버튼은 목록을 스크롤하는 동안 내려가 있다가, 멈추면 다시 올라옵니다">현장 선택 시</button>
+          |@{.act} 바텀 버튼은 목록을 스크롤하는 동안 내려가 있다가, 멈추면 다시 올라옵니다">현장을 선택했을 때</button>
 
       <!-- 아래는 이 목록에서 무엇을 한 뒤의 모습이라 한 단 들여 묶고,
            **고르는 자리(시트)와 걸린 뒤(목록)를 다시 가른다** — 같은 '필터'
@@ -187,12 +187,12 @@
         data-look="
           |@{.inp--find} 열리자마자 활성화된 상태입니다. 초성만 쳐도 등록된 직종이 검색됩니다.
           |@{.optr.is-on} 선택된 항목은 이름과 뱃지가 브랜드 컬러로 변경됩니다.
-      <span class="proto-nav-group-label proto-nav-group-label--sub">필터를 걸면</span>
+      <span class="proto-nav-group-label proto-nav-group-label--sub">직종</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-live"
         data-why="재직 상태의 근로자만 선별된 화면입니다."
         data-steps="근무상태 필터에서 &#39;재직&#39; 을 고른 상태"
         data-look="
-          |@{.lbar__f} 근무상태 칩이 &#39;재직&#39; 으로 바뀌고 근로자 수가 뱃지에 카운팅됩니다.">재직</button>
+          |@{.lbar__f} 근무상태 칩이 &#39;재직&#39; 으로 바뀌고 근로자 수가 뱃지에 카운팅됩니다.">재직을 선택한 상태</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-left"
         data-why="퇴사한 근로자만 선별된 화면입니다."
         data-steps="근무상태 필터에서 &#39;퇴사&#39; 를 고른 상태"
@@ -200,7 +200,7 @@
           |@{.sta} 사진 아래 변에 진한 중립색 띠가 깔리고 그 위에 &#39;퇴사&#39; 가 적힙니다
           |@{.card--off .face} 근로자 사진이 흑백처리됩니다.
           |@{.card--off .card__nm} 퇴사한 근로자 카드는 배경색 글자색이 한 단계 연해집니다. 
-        ">퇴사</button>
+        ">퇴사를 선택한 상태</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-ban"
         data-why="차단한 근로자만 선별된 화면입니다."
         data-steps="근무상태 필터에서 &#39;차단&#39; 을 고른 상태"
@@ -208,17 +208,17 @@
           |@{.sta--ban} 사진 아래 변에 진한 주의색 띠가 깔리고 그 위에 &#39;차단&#39; 이 적힙니다
           |@{.card--off .face} 근로자 사진이 흑백처리됩니다.
           |@{.card--off .card__nm} 차단된 근로자 카드는 배경색 글자색이 한 단계 연해집니다.
-        ">차단</button>
+        ">차단을 선택한 상태</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-mok"
         data-why="직종필터 하나만 사용했을 때 화면입니다."
         data-steps="근로자 관리에서 직종을 &#39;형틀목공&#39; 으로 고른 상태"
         data-look="
-          |@{.sta--ban} 직종 필터만 선택한 결과 모든 근무상태의 근로자가 보입니다">형틀목공</button>
+          |@{.sta--ban} 직종 필터만 선택한 결과 모든 근무상태의 근로자가 보입니다">필터 하나만 선택한 상태</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-live-mok"
         data-why="근무상태, 직종필터 둘 다 사용했을 때 화면입니다."
         data-steps="재직 목록에서 직종을 &#39;형틀목공&#39; 으로 고른 상태"
         data-look="
-          |@{.lbar__f} 필터가 선택되었을 때 칩 스타일이 바뀝니다. ">재직 · 형틀목공</button>
+          |@{.lbar__f} 필터가 선택되었을 때 칩 스타일이 바뀝니다. ">필터 두가지를 선택한 상태</button>
       <span class="proto-nav-group-label proto-nav-group-label--sub">목록에서 고르면</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-pick"
         data-why="고른 카드가 생기면 바닥 바의 삭제가 켜집니다. 고르는 일은 지우기 위한 것이라, 고른 수와 지우는 버튼이 한 화면에 함께 놓입니다.
