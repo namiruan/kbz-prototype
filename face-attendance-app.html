@@ -1411,17 +1411,17 @@
            하나라 라디오로 고르고, 고른 알이 곧 이 칸의 이름이다 -->
       <div class="idf">
         <div class="idf__tabs" role="tablist" aria-label="근로자 구분">
-          <button class="idf__t is-on" type="button" role="tab" aria-selected="true" data-go="m-worker-new">내국인</button>
-          <button class="idf__t" type="button" role="tab" aria-selected="false" data-go="m-worker-new-foreign">외국인</button>
+          <button class="idf__t is-on" type="button" role="tab" aria-selected="true" data-go-swap data-go="m-worker-new">내국인</button>
+          <button class="idf__t" type="button" role="tab" aria-selected="false" data-go-swap data-go="m-worker-new-foreign">외국인</button>
         </div>
         <div class="idf__body">
           <label class="fld__l">주민번호 <b>(필수)</b></label>
-          <div class="inp inp--ph">주민번호를 입력해주세요</div>
+          <div class="inp"><input class="inp__in" type="text" placeholder="주민번호를 입력해주세요" aria-label="주민번호"></div>
         </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp inp--ph">연락처를 입력해주세요</div>
+        <div class="inp"><input class="inp__in" type="text" placeholder="연락처를 입력해주세요" aria-label="연락처"></div>
       </div>
       <div class="fld">
         <label class="fld__l">직종</label>
@@ -1432,7 +1432,7 @@
            두지 않는다 — 단가는 칸에 적어 받는다 -->
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="inp inp--num inp--ph">0 원</div>
+        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" placeholder="0 원" aria-label="단가"></div>
       </div>
     </form>
   </main>
@@ -1512,20 +1512,20 @@
            꼴(13자리)이고, 여권으로 등록할 사람은 여권번호를 고른다 -->
       <div class="idf">
         <div class="idf__tabs" role="tablist" aria-label="근로자 구분">
-          <button class="idf__t" type="button" role="tab" aria-selected="false" data-go="m-worker-new">내국인</button>
-          <button class="idf__t is-on" type="button" role="tab" aria-selected="true" data-go="m-worker-new-foreign">외국인</button>
+          <button class="idf__t" type="button" role="tab" aria-selected="false" data-go-swap data-go="m-worker-new">내국인</button>
+          <button class="idf__t is-on" type="button" role="tab" aria-selected="true" data-go-swap data-go="m-worker-new-foreign">외국인</button>
         </div>
         <div class="idf__body">
           <div class="pickr" role="radiogroup" aria-label="받을 번호">
-            <button class="pickr__o is-on" type="button" role="radio" aria-checked="true" data-go="m-worker-new-foreign"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">외국인등록번호 <b>(필수)</b></span></button>
-            <button class="pickr__o" type="button" role="radio" aria-checked="false" data-go="m-worker-new-passport"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">여권번호</span></button>
+            <button class="pickr__o is-on" type="button" role="radio" aria-checked="true" data-go-swap data-go="m-worker-new-foreign"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">외국인등록번호 <b>(필수)</b></span></button>
+            <button class="pickr__o" type="button" role="radio" aria-checked="false" data-go-swap data-go="m-worker-new-passport"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">여권번호</span></button>
           </div>
-          <div class="inp inp--ph">외국인등록번호를 입력해주세요</div>
+          <div class="inp"><input class="inp__in" type="text" placeholder="외국인등록번호를 입력해주세요" aria-label="외국인등록번호"></div>
         </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp inp--ph">연락처를 입력해주세요</div>
+        <div class="inp"><input class="inp__in" type="text" placeholder="연락처를 입력해주세요" aria-label="연락처"></div>
       </div>
       <div class="fld">
         <label class="fld__l">직종</label>
@@ -1536,7 +1536,7 @@
            두지 않는다 — 단가는 칸에 적어 받는다 -->
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="inp inp--num inp--ph">0 원</div>
+        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" placeholder="0 원" aria-label="단가"></div>
       </div>
     </form>
   </main>
@@ -1615,24 +1615,24 @@
            나눠 받는다 — 번호에 딸린 값이라 칸 밖으로 내보내지 않는다 -->
       <div class="idf">
         <div class="idf__tabs" role="tablist" aria-label="근로자 구분">
-          <button class="idf__t" type="button" role="tab" aria-selected="false" data-go="m-worker-new">내국인</button>
-          <button class="idf__t is-on" type="button" role="tab" aria-selected="true" data-go="m-worker-new-foreign">외국인</button>
+          <button class="idf__t" type="button" role="tab" aria-selected="false" data-go-swap data-go="m-worker-new">내국인</button>
+          <button class="idf__t is-on" type="button" role="tab" aria-selected="true" data-go-swap data-go="m-worker-new-foreign">외국인</button>
         </div>
         <div class="idf__body">
           <div class="pickr" role="radiogroup" aria-label="받을 번호">
-            <button class="pickr__o" type="button" role="radio" aria-checked="false" data-go="m-worker-new-foreign"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">외국인등록번호</span></button>
-            <button class="pickr__o is-on" type="button" role="radio" aria-checked="true" data-go="m-worker-new-passport"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">여권번호 <b>(필수)</b></span></button>
+            <button class="pickr__o" type="button" role="radio" aria-checked="false" data-go-swap data-go="m-worker-new-foreign"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">외국인등록번호</span></button>
+            <button class="pickr__o is-on" type="button" role="radio" aria-checked="true" data-go-swap data-go="m-worker-new-passport"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">여권번호 <b>(필수)</b></span></button>
           </div>
-          <div class="inp inp--ph">여권번호를 입력해주세요</div>
+          <div class="inp"><input class="inp__in" type="text" placeholder="여권번호를 입력해주세요" aria-label="여권번호"></div>
           <div class="fld__sub">
             <label class="fld__l fld__l--birth">생년월일 <b>(필수)</b></label>
-            <div class="inp inp--ph">생년월일 8자리를 입력해주세요</div>
+            <div class="inp"><input class="inp__in" type="text" placeholder="생년월일 8자리를 입력해주세요" aria-label="생년월일"></div>
           </div>
         </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp inp--ph">연락처를 입력해주세요</div>
+        <div class="inp"><input class="inp__in" type="text" placeholder="연락처를 입력해주세요" aria-label="연락처"></div>
       </div>
       <div class="fld">
         <label class="fld__l">직종</label>
@@ -1643,7 +1643,7 @@
            두지 않는다 — 단가는 칸에 적어 받는다 -->
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="inp inp--num inp--ph">0 원</div>
+        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" placeholder="0 원" aria-label="단가"></div>
       </div>
     </form>
   </main>
@@ -2055,7 +2055,7 @@
     <form class="form">
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
-        <div class="inp">홍길동</div>
+        <div class="inp"><input class="inp__in" type="text" value="홍길동" aria-label="이름"></div>
       </div>
       <!-- 내국인·외국인은 받는 번호가 통째로 갈리는 자리라, 칸 맨 위에 탭으로
            먼저 가른다. 외국인 안에서 외국인등록번호와 여권번호는 둘 가운데
@@ -2069,12 +2069,12 @@
           <label class="fld__l">주민번호 <b>(필수)</b></label>
           <!-- 목록에서는 뒷자리를 가리지만(남이 보는 자리다), 이 칸은 본인 것을
                고쳐 넣는 자리라 가리지 않는다 — 가려 두면 고쳐 넣을 수가 없다 -->
-          <div class="inp">800101-1234567</div>
+          <div class="inp"><input class="inp__in" type="text" value="800101-1234567" aria-label="주민번호"></div>
         </div>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="inp">010-1234-5678</div>
+        <div class="inp"><input class="inp__in" type="text" value="010-1234-5678" aria-label="연락처"></div>
       </div>
       <!-- 값을 고른 뒤라 테가 짙고 글씨가 굵다 — 비어 있는 등록 화면과 갈린다 -->
       <div class="fld">
@@ -2083,7 +2083,7 @@
       </div>
       <div class="fld">
         <label class="fld__l">단가</label>
-        <div class="inp inp--num">180,000 원</div>
+        <div class="inp inp--num"><input class="inp__in" type="text" inputmode="numeric" value="180,000 원" aria-label="단가"></div>
       </div>
     </form>
 

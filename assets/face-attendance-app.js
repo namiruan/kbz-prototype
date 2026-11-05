@@ -80,6 +80,11 @@
          길(soft)이 여기서 꺼내 쓴다. 문서 밖에 있는 동안은
          document.querySelector 가 찾지 못하므로 앵커는 그대로 안전하다 */
       if (s.dataset.screen) SHELF[s.dataset.screen] = s;
+      /* ⚠ autofocus 를 떼어 둔다. 선반에서 꺼내 다시 꽂을 때(soft) 브라우저가
+         그 표를 다시 집어 초점을 옮기고, 그 바람에 본문이 그 칸까지 되감긴다 —
+         탭을 눌렀을 뿐인데 읽던 자리가 맨 위로 날아갔다. 처음 선 화면의
+         초점은 js 가 준다(seek) */
+      s.querySelectorAll('[autofocus]').forEach(function (n) { n.removeAttribute('autofocus'); });
       s.remove();
     });
     hit.classList.add('is-on');
@@ -101,6 +106,7 @@
     swipe(hit);
     deck(hit);
     seek(hit);
+    pad(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -1478,6 +1484,40 @@
     see();
   }
 
+  /* ── 기기 자판이 올라온 뒤의 본문 ──
+     창(레이아웃 뷰포트)은 자판이 떠도 줄지 않는다(meta 의 기본값) — 자판은
+     보이는 자리만 덮는다. 그래서 **덮인 만큼 본문 발치를 늘이고**, 적던 칸을
+     다시 가운데로 끌어온다. 그러지 않으면 누른 칸이 자판 뒤로 들어간다.
+     ⚠ 늘이는 것은 안쪽 여백이라 바닥은 움직이지 않는다 — 재고 늘이는 일이
+       서로를 밀지 않는다(시트의 oskb 와 같은 셈이다) */
+  function pad(scr) {
+    var bd = scr.querySelector('.body');
+    var vv = window.visualViewport;
+    if (!bd || !vv || bd.dataset.pad) return;
+    bd.dataset.pad = '1';
+
+    function see() {
+      /* 자판 높이는 **창과 보이는 자리의 차**다 — 창은 자판이 떠도 줄지 않는다.
+         120 아래는 자판이 아니라 주소줄이 접히고 펴지는 만큼이다 */
+      var kb = Math.max(0, Math.round(window.innerHeight - (vv.height + vv.offsetTop)));
+      bd.style.paddingBottom = kb > 120 ? 'calc(var(--ap-p6) + ' + kb + 'px)' : '';
+    }
+    /* 자판이 서는 데 한 박자 걸린다 — 창이 줄고 난 뒤에 재야 한다 */
+    function soon() { setTimeout(see, 60); setTimeout(near, 320); }
+    function near() {
+      see();
+      var el = document.activeElement;
+      if (!el || !bd.contains(el)) return;
+      var box = el.closest('.fld,.idf,.fld__sub') || el;
+      box.scrollIntoView({ block: 'center' });
+    }
+
+    vv.addEventListener('resize', soon);
+    vv.addEventListener('scroll', see);
+    bd.addEventListener('focusin', soon);
+    see();
+  }
+
   /* ── 같은 문서에서 띄운다 — `data-go-soft` ──
      보통은 주소를 갈아 **다시 그린다**(link 의 설명). 그런데 그러면 새
      문서가 되어, 누른 손짓이 거기까지 이어지지 않는다. 브라우저는 사람이
@@ -1495,20 +1535,29 @@
      ⚠ 주소도 함께 간다(pushState). 그래야 새로고침·공유가 같은 자리를
        열고, 뒤로 가기가 앞 화면으로 돌아온다 — 돌아올 때는 문서를 다시
        읽는다(popstate). */
-  function soft(name) {
+  function soft(name, same) {
     var next = SHELF[name];
     var now = document.querySelector('.scr[data-screen]');
     if (!next || !now || !now.parentNode) return false;
 
-    /* 시트는 **지금 걸린 것을 켠 채로** 올라온다 — 고치러 올라온 자리라,
-       무엇이 걸려 있는지부터 보여야 어디를 누를지가 정해진다. 걸린 것은
-       목록 쪽이 알고 있다(data-key · data-job).
-       뒤를 깔기 전이다 — 깔고 나면 베낀 목록도 함께 뒤져 엉뚱한 칩을 켠다 */
-    sync(next, now);
+    /* `same` 은 **같은 화면의 다른 꼴**로 갈아 끼우는 길이다(탭 · 라디오).
+       주소를 갈아 다시 그리면 본문이 맨 위로 되감겨, 아래쪽에서 탭을 누른
+       사람이 제자리를 잃는다. 뒤에 깔 화면도 없고(시트가 아니다) 읽던
+       자리만 그대로 옮긴다 */
+    var keep = 0, oldbd = now.querySelector('.body');
+    if (same && oldbd) keep = oldbd.scrollTop;
 
-    /* 뒤에 깔 화면을 베끼는 일은 덜어 내기 전이다 — 지금 선 화면이 아직
-       문서에 있어야 behind() 가 그것을 찾는다 */
-    behind(next, now.dataset.screen);
+    if (!same) {
+      /* 시트는 **지금 걸린 것을 켠 채로** 올라온다 — 고치러 올라온 자리라,
+         무엇이 걸려 있는지부터 보여야 어디를 누를지가 정해진다. 걸린 것은
+         목록 쪽이 알고 있다(data-key · data-job).
+         뒤를 깔기 전이다 — 깔고 나면 베낀 목록도 함께 뒤져 엉뚱한 칩을 켠다 */
+      sync(next, now);
+
+      /* 뒤에 깔 화면을 베끼는 일은 덜어 내기 전이다 — 지금 선 화면이 아직
+         문서에 있어야 behind() 가 그것을 찾는다 */
+      behind(next, now.dataset.screen);
+    }
 
     SHELF[now.dataset.screen] = now;
     now.parentNode.insertBefore(next, now);
@@ -1525,7 +1574,18 @@
     /* 새로 선 화면이 쓰는 것만 맨다 — 여기 오는 것은 찾는 시트뿐이고,
        그 시트가 쓰는 것은 누르면 갈 자리(link)와 적을 자리(seek)다 */
     link(next);
-    seek(next);
+    if (same) {
+      var newbd = next.querySelector('.body');
+      /* 한 번으로는 모자란다 — 갈아 끼운 바로 그 순간에는 새 본문의 높이가
+         아직 잡히지 않아, 굴릴 수 있는 끝까지만 가고 멎는다 */
+      if (newbd) {
+        newbd.scrollTop = keep;
+        requestAnimationFrame(function () { newbd.scrollTop = keep; });
+      }
+      pad(next);
+    } else {
+      seek(next);
+    }
     return true;
   }
 
@@ -1559,6 +1619,8 @@
       /* 문서를 갈지 않고 띄우는 자리 — 누름이 살아 있는 동안 끝내야 하므로
          주소를 갈기 전에, 여기서 바로 한다 */
       if (go.hasAttribute('data-go-soft') && soft(go.dataset.go)) return;
+      /* 같은 화면의 다른 꼴 — 읽던 자리를 그대로 두고 갈아 끼운다 */
+      if (go.hasAttribute('data-go-swap') && soft(go.dataset.go, true)) return;
 
       var u = new URL(location.href);
       u.searchParams.set('screen', go.dataset.go);

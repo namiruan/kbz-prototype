@@ -2300,8 +2300,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   padding:var(--ap-p4) var(--ap-p3);border-radius:var(--ap-r10) var(--ap-r10) 0 0;
   background:none;color:var(--ap-text-gray);white-space:nowrap;cursor:pointer}
 .idf__t.is-on{background:var(--ap-g5);color:var(--ap-primary);font-weight:600}
+/* 좌우 여백은 두지 않는다 — 면 안의 입력칸이 바깥의 이름 · 연락처 칸과
+   **같은 폭으로 서야** 폼이 한 줄기로 읽힌다. 면만 한 겹 깔릴 뿐,
+   글과 칸이 앉는 세로 선은 폼 전체가 하나다 */
 .idf__body{display:flex;flex-direction:column;gap:var(--ap-p4);
-  padding:var(--ap-p6);background:var(--ap-g5);
+  padding:var(--ap-p6) 0;background:var(--ap-g5);
   border-radius:0 0 var(--ap-r10) var(--ap-r10)}
 .fld__h{display:flex;align-items:center;justify-content:space-between;
   flex-wrap:wrap;column-gap:var(--ap-p5);row-gap:var(--ap-p3)}
@@ -3826,6 +3829,8 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   font:var(--t-body);font-family:var(--ap-font);letter-spacing:var(--ls-body);
   color:var(--ap-g95)}
 .inp__in::placeholder{color:var(--ap-text-gray)}
+/* 금액 칸은 값이 오른쪽에 붙는다 — 칸이 아니라 안의 입력칸이 민다 */
+.inp--num .inp__in{text-align:right}
 /* 목록은 시트 안에서 **굴러간다** — 현장의 근로자가 늘어도 시트가 화면을
    덮지 않는다. 바닥 여백은 홈 인디케이터 자리까지 내려간다.
    ⚠ 상한을 **svh 로 잡지 않는다**. 자판이 뜰 때 레이아웃 창을 줄이는
