@@ -189,16 +189,15 @@
           |@{.optr.is-on} 선택된 항목은 이름과 뱃지가 브랜드 컬러로 변경됩니다.
       <span class="proto-nav-group-label proto-nav-group-label--sub">필터를 걸면</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-live"
-        data-why="지금 일하는 근로자만 모아 봅니다. 기본 목록은 아무것도 걸지 않아 퇴사·차단까지 함께 나오는데, 오늘 현장에 나오는 사람만 보려면 이 축을 걸어야 합니다."
+        data-why="재직 상태의 근로자만 선별된 화면입니다."
         data-steps="근무상태 필터에서 &#39;재직&#39; 을 고른 상태"
         data-look="
-          |@{.lbar__f} 근무상태 칩이 &#39;재직&#39; 으로 바뀌고 수가 붙습니다">재직</button>
+          |@{.lbar__f} 근무상태 칩이 &#39;재직&#39; 으로 바뀌고 근로자 수가 뱃지에 카운팅됩니다.">재직</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-left"
-        data-why="퇴사한 근로자도 목록에 남습니다. 출퇴근 기록이 정산 근거라, 사람을 지우면 기록도 함께 사라집니다."
-        data-note="퇴사한 근로자를 다시 재직으로 돌리는 길은 아직 그리지 않았습니다"
+        data-why="퇴사한 근로자만 선별된 화면입니다."
         data-steps="근무상태 필터에서 &#39;퇴사&#39; 를 고른 상태"
         data-look="
-          |@{.lbar__f} 근무상태 칩이 &#39;퇴사&#39; 로 바뀌고 수도 함께 바뀝니다. 그 칩을 클릭하면 근무상태 시트가 퇴사를 켠 채로 올라오고, 직종 칩을 클릭하면 직종 옆 수가 퇴사 안에서 센 수로 바뀌어 있습니다">퇴사</button>
+          |@{.lbar__f} 근무상태 칩이 &#39;퇴사&#39; 로 바뀌고 근로자 수가 뱃지에 카운팅됩니다.">퇴사</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-workers-ban"
         data-why="차단한 근로자만 모아 봅니다. 퇴사와 달리 차단은 근로자가 그만둔 것이 아니라 현장이 막아 둔 것이라, 둘을 한 목록에 섞지 않습니다.
 
