@@ -129,10 +129,10 @@
     ['shot', /^[wm]-shot$/],      /* 촬영 확인 — 사진 위에 덮인 창 */
     ['dim',  /^w-(map|face|away)$/], /* 뜬 창 뒤의 어두운 자리 */
     /* 같은 막이지만 뒤가 **흰 폼**이라 한 단 밝다 — 'nav' 보다 앞에 둔다 */
-    ['dimform', /^(m-dup-|m-worker-del)/],
+    ['dimform', /^(m-dup-|m-worker-del|m-workers-filter-sta)/],
     /* 윗단은 'dimform' 과 같은 색이다 — 따로 둔 것은 **창 밖 아래쪽**이
        달라서다(css 의 ⚠). 자판이 뜨면 그 자리가 드러난다 */
-    ['dimfind', /^(m-verify-find|m-workers-filter)/],
+    ['dimfind', /^(m-verify-find|m-workers-filter-job)/],
     ['nav',  /^(w-(work|reg|cal)|m-)/] /* 흰 머리줄 · 펴진 달 */
   ];
 
@@ -1607,36 +1607,46 @@
     hit.insertBefore(back, hit.firstChild);
   }
 
-  /* 걸린 필터를 시트에 옮겨 켠다. 켜는 자리는 둘 — 상태 알약(.fsta)과
-     직종 줄(.jobr)이다. 목록에 적힌 것이 없으면 직종은 '직종 선택 전체' 다.
+  /* 걸린 필터를 시트에 옮겨 켠다. 축마다 시트가 따로라, 한 시트에는 둘
+     가운데 하나만 들어 있다 — 없는 쪽은 그냥 비어 돈다.
 
-     직종 옆의 수도 함께 간다. 상태가 먼저 걸리므로 직종의 수는 **그 상태
-     안에서 센 수**다 — 재직 기준 수를 퇴사 목록 위에 그대로 띄우면, 둘을
-     함께 건 적도 없는 사람 수가 적힌다. 상태마다의 수는 줄이 들고 있고
-     (data-n-live · -left · -ban), 그 상태에 하나도 없는 직종은 줄째 덜어 낸다 */
+     목록이 제 상태를 들고 있다: data-sta(보이는 이름) · data-key(수를
+     고르는 열쇠) · data-job(걸린 직종) · data-base(직종만 푼 자리).
+
+     직종 옆의 수는 **그 상태 안에서 센 수**다 — 재직 기준 수를 퇴사 목록
+     위에 그대로 띄우면, 둘을 함께 건 적도 없는 사람 수가 적힌다. 상태마다의
+     수는 줄이 들고 있고(data-n-live · -left · -ban), 그 상태에 하나도 없는
+     직종은 줄째 덜어 낸다 */
   function sync(sheet, from) {
-    var sta = from.dataset.sta;
-    var job = from.dataset.job || '직종 선택 전체';
-    var key = '', home = '';
-    if (sta) sheet.querySelectorAll('.fsta .cnt').forEach(function (b) {
-      var k = b.querySelector('.cnt__k');
-      var on = !!k && k.textContent === sta;
+    var now = from.dataset.screen || '';
+    var key = from.dataset.key || '';
+    var job = from.dataset.job || '';
+    var base = from.dataset.base || now;
+
+    /* 닫고 돌아갈 자리는 **올라온 그 목록**이다 — 마크업에 적힌 한 자리로
+       늘 돌려보내면, 퇴사 목록에서 닫았는데 재직 목록이 선다 */
+    if (now) sheet.querySelectorAll('[data-back]').forEach(function (n) { n.dataset.go = now; });
+
+    sheet.querySelectorAll('.fsta .cnt').forEach(function (b) {
+      var on = b.dataset.key === key;
       b.classList.toggle('is-on', on);
-      if (on) { key = b.dataset.key || ''; home = b.dataset.go || ''; }
+      /* 이미 걸린 상태를 다시 고르면 제자리다. 그 자리로 돌려보내지 않으면
+         직종까지 걸린 목록에서 상태만 다시 눌렀는데 직종이 풀린다 */
+      b.dataset.go = on && now ? now : (b.dataset.list || b.dataset.go);
     });
+
     sheet.querySelectorAll('.jobr').forEach(function (r) {
+      var all = r.hasAttribute('data-all');
       var t = r.querySelector('.jobr__t');
-      var all = !!t && t.textContent === '직종 선택 전체';
-      r.classList.toggle('is-on', !!t && t.textContent === job);
+      r.classList.toggle('is-on', all ? !job : (!!t && t.textContent === job));
 
-      /* 직종을 푸는 줄은 **상태만 걸린 목록**으로 돌아간다 — 그 자리는
-         지금 켜진 알약이 알고 있다. 늘 재직으로 돌려보내면 직종을 푸는
-         일이 상태까지 함께 풀어 버린다 */
-      if (all && home) r.dataset.go = home;
-
-      /* 상태와 직종을 함께 건 목록은 재직 안에서만 그렸다 — 다른 상태에서는
-         갈 자리가 없으므로 길을 떼어 둔다(엉뚱한 목록으로 보내지 않는다) */
-      if (!all) { if (key === 'live') r.dataset.go = 'm-workers-job'; else delete r.dataset.go; }
+      /* 직종을 푸는 줄은 **상태만 걸린 목록**으로 돌아간다 — 늘 재직으로
+         돌려보내면 직종을 푸는 일이 상태까지 함께 풀어 버린다.
+         상태와 직종을 함께 건 목록은 재직 안에서만 그렸다. 다른 상태에서는
+         갈 자리가 없으므로 길을 떼어 둔다 — 엉뚱한 목록으로 보내지 않는다 */
+      if (all) r.dataset.go = base;
+      else if (key === 'live') r.dataset.go = 'm-workers-job';
+      else delete r.dataset.go;
 
       var n = key && r.dataset['n' + key.charAt(0).toUpperCase() + key.slice(1)];
       if (n === undefined || n === '') return;

@@ -78,7 +78,7 @@
 
 
 <!-- ===== ① 현장소장 앱 · 근로자 관리 ===== -->
-<section class="scr" data-screen="m-workers" data-title="근로자 관리" data-sta="재직">
+<section class="scr" data-screen="m-workers" data-title="근로자 관리" data-sta="재직" data-key="live" data-base="m-workers">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
@@ -111,9 +111,10 @@
         <!-- 걸린 필터만큼 칩이 선다 — 축이 둘이라(상태 · 직종) 트리거 하나로는
              둘 다 적을 수 없다. 시트의 알약과 **같은 꼴**이라, 고른 것과
              걸린 것이 한 가지 말로 보인다.
-             아무 칩이나 누르면 그 시트가 다시 올라온다 — 고치러 가는 길은
-             걸린 것 위에 있는 쪽이 짧다 -->
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+             칩을 누르면 **그 축의 시트**가 올라온다 — 상태 칩은 상태 시트,
+             직종 칩은 직종 시트다. 고치러 가는 길은 걸린 것 위에 있는 쪽이
+             짧다 -->
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
       </span>
     </div>
     <div class="list">
@@ -210,7 +211,7 @@
 
 
 <!-- ===== ①-3 현장소장 앱 · 근로자 관리(고른 뒤) ===== -->
-<section class="scr" data-screen="m-workers-pick" data-title="근로자 관리 — 고른 뒤" data-sta="재직">
+<section class="scr" data-screen="m-workers-pick" data-title="근로자 관리 — 고른 뒤" data-sta="재직" data-key="live" data-base="m-workers">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
@@ -243,9 +244,10 @@
         <!-- 걸린 필터만큼 칩이 선다 — 축이 둘이라(상태 · 직종) 트리거 하나로는
              둘 다 적을 수 없다. 시트의 알약과 **같은 꼴**이라, 고른 것과
              걸린 것이 한 가지 말로 보인다.
-             아무 칩이나 누르면 그 시트가 다시 올라온다 — 고치러 가는 길은
-             걸린 것 위에 있는 쪽이 짧다 -->
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+             칩을 누르면 **그 축의 시트**가 올라온다 — 상태 칩은 상태 시트,
+             직종 칩은 직종 시트다. 고치러 가는 길은 걸린 것 위에 있는 쪽이
+             짧다 -->
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
       </span>
       <!-- 오른쪽 끝의 수는 **고른 수**다 — 거르개 옆의 수(목록에 남은 수)와
            다른 것을 센다. 둘을 한 자리에 둘 수 없는 까닭이다 -->
@@ -341,7 +343,7 @@
 
 
 <!-- ===== ①-2 현장소장 앱 · 근로자 관리(직종을 고른 뒤) ===== -->
-<section class="scr" data-screen="m-workers-job" data-title="근로자 관리 — 직종을 고른 뒤" data-sta="재직" data-job="형틀목공">
+<section class="scr" data-screen="m-workers-job" data-title="근로자 관리 — 직종을 고른 뒤" data-sta="재직" data-key="live" data-job="형틀목공" data-base="m-workers">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
@@ -374,9 +376,10 @@
         <!-- 걸린 필터만큼 칩이 선다 — 축이 둘이라(상태 · 직종) 트리거 하나로는
              둘 다 적을 수 없다. 시트의 알약과 **같은 꼴**이라, 고른 것과
              걸린 것이 한 가지 말로 보인다.
-             아무 칩이나 누르면 그 시트가 다시 올라온다 — 고치러 가는 길은
-             걸린 것 위에 있는 쪽이 짧다 -->
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">형틀목공</span><span class="cnt__n">2</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+             칩을 누르면 **그 축의 시트**가 올라온다 — 상태 칩은 상태 시트,
+             직종 칩은 직종 시트다. 고치러 가는 길은 걸린 것 위에 있는 쪽이
+             짧다 -->
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">재직</span><span class="cnt__n">5</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">형틀목공</span><span class="cnt__n">2</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
       </span>
     </div>
     <div class="list">
@@ -428,7 +431,7 @@
      '퇴사' 를 다시 적으면 머리줄의 칩과 같은 말이 사람 수만큼 늘어난다.
      ⚠ 얼굴 자리가 비어 있는 것은 **사진이 없어서**다. 퇴사가 얼굴을 지우는
        것이 아니다 — images/worker/README.md 를 보라 -->
-<section class="scr" data-screen="m-workers-left" data-title="근로자 관리 — 퇴사" data-sta="퇴사">
+<section class="scr" data-screen="m-workers-left" data-title="근로자 관리 — 퇴사" data-sta="퇴사" data-key="left" data-base="m-workers-left">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
@@ -456,7 +459,7 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">퇴사</span><span class="cnt__n">2</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">퇴사</span><span class="cnt__n">2</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
       </span>
     </div>
     <div class="list">
@@ -501,7 +504,7 @@
 
 
 <!-- ===== ①-5 현장소장 앱 · 근로자 관리(차단) ===== -->
-<section class="scr" data-screen="m-workers-ban" data-title="근로자 관리 — 차단" data-sta="차단">
+<section class="scr" data-screen="m-workers-ban" data-title="근로자 관리 — 차단" data-sta="차단" data-key="ban" data-base="m-workers-ban">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">안면 출퇴근</h1>
@@ -529,7 +532,7 @@
     <div class="lbar">
       <span class="lbar__l">
         <button class="chk" type="button" aria-label="전체 선택"></button>
-        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">차단</span><span class="cnt__n">1</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
+        <span class="lbar__f"><button class="cnt cnt--f is-on" type="button" data-go="m-workers-filter-sta" data-go-soft><span class="cnt__k">차단</span><span class="cnt__n">1</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button><button class="cnt cnt--f" type="button" data-go="m-workers-filter-job" data-go-soft><span class="cnt__k">직종</span><svg class="ic ic--16" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button></span>
       </span>
     </div>
     <div class="list">
@@ -558,32 +561,49 @@
 </section>
 
 
-<!-- ===== ①-3 현장소장 앱 · 필터 (앱 네이티브) =====
-     근로자 관리의 필터를 누르면 올라온다. 거르는 축은 둘이다 — 상태와 직종. 근로자 선택하기 시트와 **같은 꼴**이다 —
-     한 앱에서 '적어서 고르는 일' 이 한 가지 꼴로 서야, 어디서 올라온 것인지 눈이
-     매번 다시 잡지 않는다.
+<!-- ===== ①-6 현장소장 앱 · 상태 필터 (앱 네이티브) =====
+     머리줄의 상태 칩을 누르면 올라온다. 거르는 축마다 **시트 한 장**이다 —
+     한 장에 상태와 직종을 함께 담았더니 둘이 한 덩어리로 읽혀, 지금 무엇을
+     고르러 올라온 것인지가 흐려졌다. 축이 더 늘어나면 그때 한 장으로 묶는다.
+     셋뿐이라 목록이 아니라 **알약 줄**이다 — 적어서 찾을 것이 없고, 셋이 한
+     줄에 들어 한눈에 견준다. 이력의 거르개(.cnt)가 쓰는 그 알약이고, 머리줄에
+     걸려 있는 칩과도 같은 꼴이다.
+     누르면 시트가 닫히고 그 상태의 목록이 열린다. 켜져 있는 알약과 닫고
+     돌아갈 자리는 **올라올 때 맞춰진다** — 어느 목록 위에서 올라왔는지로
+     정한다(js 의 sync).
+     ⚠ 화면을 갈지 않고 그 누름 안에서 띄운다(data-go-soft) — 뒤에 깔릴 화면을
+       누른 그 자리에서 정하기 위해서다. 까닭은 js 의 soft 에 적어 두었다 -->
+<section class="scr has-dim" data-screen="m-workers-filter-sta" data-title="근로자 관리 — 상태 필터"
+  data-behind="m-workers">
+  <div class="dim dim--sheet" data-go="m-workers" data-go-self data-back>
+    <div class="sheet" role="dialog" aria-labelledby="mStaT">
+      <div class="sheet__h">
+        <p class="sheet__t" id="mStaT">상태</p>
+        <button class="sheet__x" type="button" aria-label="닫기" data-go="m-workers" data-back><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+      </div>
+      <div class="fsta fsta--only">
+        <button class="cnt is-on" type="button" data-go="m-workers" data-key="live" data-list="m-workers"><span class="cnt__k">재직</span><span class="cnt__n">5</span></button>
+        <button class="cnt" type="button" data-go="m-workers-left" data-key="left" data-list="m-workers-left"><span class="cnt__k">퇴사</span><span class="cnt__n">2</span></button>
+        <button class="cnt" type="button" data-go="m-workers-ban" data-key="ban" data-list="m-workers-ban"><span class="cnt__k">차단</span><span class="cnt__n">1</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ①-7 현장소장 앱 · 직종 필터 (앱 네이티브) =====
+     머리줄의 직종 칩을 누르면 올라온다. 직종은 적어서 고른다 — 현장의 직종은
+     수십 가지라 목록을 훑어 내리는 것보다 두세 글자 적는 편이 빠르다.
+     근로자 선택하기 시트와 **같은 꼴**이다 — 한 앱에서 '적어서 고르는 일' 이
+     한 가지 꼴로 서야, 어디서 올라온 것인지 눈이 매번 다시 잡지 않는다.
      ⚠ 화면을 갈지 않고 그 누름 안에서 띄운다(data-go-soft) — 그래야 기기 키보드가
        함께 올라온다. 까닭은 js 의 soft 에 적어 두었다 -->
-<section class="scr has-dim" data-screen="m-workers-filter" data-title="근로자 관리 — 필터"
+<section class="scr has-dim" data-screen="m-workers-filter-job" data-title="근로자 관리 — 직종 필터"
   data-behind="m-workers">
-  <div class="dim dim--sheet dim--kb" data-go="m-workers" data-go-self>
+  <div class="dim dim--sheet dim--kb" data-go="m-workers" data-go-self data-back>
     <div class="sheet" role="dialog" aria-labelledby="mJobT">
       <div class="sheet__h">
-        <p class="sheet__t" id="mJobT">필터</p>
-        <button class="sheet__x" type="button" aria-label="닫기" data-go="m-workers"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
-      </div>
-      <!-- 상태는 셋뿐이라 목록이 아니라 **알약 줄**이다 — 적어서 찾을 것이
-           없고, 셋이 한 줄에 들어 한눈에 견준다. 이력의 거르개(.cnt)가
-           쓰는 그 알약이다.
-           직종보다 위인 것은 거르는 폭이 더 넓어서다 — 재직인지 퇴사인지가
-           먼저 갈리고, 직종은 그 안에서 다시 갈린다.
-           누르면 시트가 닫히고 그 상태의 목록이 열린다. 켜져 있는 알약과
-           아래 직종의 수는 **올라올 때 맞춰진다** — 어느 목록 위에서 올라왔는지로
-           정한다(js 의 sync) -->
-      <div class="fsta">
-        <button class="cnt is-on" type="button" data-go="m-workers" data-key="live"><span class="cnt__k">재직</span><span class="cnt__n">5</span></button>
-        <button class="cnt" type="button" data-go="m-workers-left" data-key="left"><span class="cnt__k">퇴사</span><span class="cnt__n">2</span></button>
-        <button class="cnt" type="button" data-go="m-workers-ban" data-key="ban"><span class="cnt__k">차단</span><span class="cnt__n">1</span></button>
+        <p class="sheet__t" id="mJobT">직종</p>
+        <button class="sheet__x" type="button" aria-label="닫기" data-go="m-workers" data-back><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
       <div class="find">
         <div class="inp inp--find is-on">
@@ -591,10 +611,12 @@
           <svg class="ic ic--24" aria-hidden="true"><use href="#icon-search"></use></svg>
         </div>
       </div>
-      <!-- 수는 이 현장의 근로자 수다 — 고르기 전에 몇이 걸러질지 보인다.
+      <!-- 수는 **걸린 상태 안에서 센** 근로자 수다 — 고르기 전에 몇이 걸러질지
+           보인다. 상태마다의 수는 줄이 들고 있고(data-n-live · -left · -ban),
+           올라올 때 그 상태의 것으로 갈린다(js 의 sync).
            거는 것을 푸는 줄이 맨 위인 것은, 걸린 것을 지우는 일이 더 급해서다 -->
       <div class="find__list">
-        <button class="jobr is-on" type="button" data-go="m-workers" data-n-live="5" data-n-left="2" data-n-ban="1"><span class="jobr__t">직종 선택 전체</span><span class="sel__n">5</span></button>
+        <button class="jobr is-on" type="button" data-go="m-workers" data-all data-n-live="5" data-n-left="2" data-n-ban="1"><span class="jobr__t">직종 선택 전체</span><span class="sel__n">5</span></button>
         <button class="jobr" type="button" data-go="m-workers-job" data-n-live="2" data-n-left="0" data-n-ban="1"><span class="jobr__t">형틀목공</span><span class="sel__n">2</span></button>
         <button class="jobr" type="button" data-go="m-workers-job" data-n-live="1" data-n-left="1" data-n-ban="0"><span class="jobr__t">철근공</span><span class="sel__n">1</span></button>
         <button class="jobr" type="button" data-go="m-workers-job" data-n-live="1" data-n-left="1" data-n-ban="0"><span class="jobr__t">보통인부</span><span class="sel__n">1</span></button>
