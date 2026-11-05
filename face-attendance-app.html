@@ -1402,17 +1402,17 @@
     </div>
 
     <form class="form">
-      <!-- 묻는 한 줄이라 칸으로 두지 않는다. 묻는 말 옆에 답이 붙는 카드다 -->
-      <div class="ask">
-        <span class="ask__t">외국인 근로자인가요?</span>
-        <span class="tog"><span>예</span><span class="is-on">아니오</span></span>
-      </div>
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
         <div class="inp inp--ph">이름을 입력해주세요</div>
       </div>
-      <div class="fld">
-        <label class="fld__l">주민번호 <b>(필수)</b></label>
+      <!-- 외국인인지는 따로 묻지 않는다 — 이 칸이 받는 번호를 가르는 물음이라
+           칸의 머리줄에서 묻는다. 아니오면 주민번호, 예면 외국인등록번호다 -->
+      <div class="fld fld--id">
+        <div class="fld__h">
+          <label class="fld__l">주민번호 <b>(필수)</b></label>
+          <span class="fld__ask"><span class="fld__ask-t">외국인</span><span class="tog"><span>예</span><span class="is-on">아니오</span></span></span>
+        </div>
         <div class="inp inp--ph">주민번호를 입력해주세요</div>
       </div>
       <div class="fld">
@@ -1485,25 +1485,24 @@
     </div>
 
     <form class="form">
-      <!-- 묻는 한 줄이라 칸으로 두지 않는다. 묻는 말 옆에 답이 붙는 카드다 -->
-      <div class="ask">
-        <span class="ask__t">외국인 근로자인가요?</span>
-        <span class="tog"><span class="is-on">예</span><span>아니오</span></span>
-        <!-- '예' 가 여는 것은 칸이 아니라 이 체크다. 같은 카드 안에 두되
-             줄 하나로 가른다 — 묻는 줄과 나란히 두었을 때는 체크가 그 물음의
-             보기처럼 읽혔고, 카드를 따로 세웠을 때는 '예' 와의 끈이 끊겼다 -->
-        <button class="ask__opt" type="button" aria-pressed="false">
-          <span class="ask__opt-t">여권번호로 등록하기</span>
-          <span class="chk" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></span>
-        </button>
-      </div>
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
         <div class="inp inp--ph">이름을 입력해주세요</div>
       </div>
-      <div class="fld">
-        <label class="fld__l">주민번호 <b>(필수)</b></label>
-        <div class="inp inp--ph">주민번호를 입력해주세요</div>
+      <!-- '예' 로 바꾸면 이 칸이 받는 것이 외국인등록번호가 된다. 번호가
+           주민번호와 같은 꼴(13자리)이라 칸은 그대로 쓴다.
+           '여권번호로 등록하기' 는 그 아래, 줄 하나로 갈라 둔다 — 같은 칸이
+           받는 것을 한 번 더 가르는 고르기라 이 칸 안에 있어야 한다 -->
+      <div class="fld fld--id">
+        <div class="fld__h">
+          <label class="fld__l fld__l--alien">외국인등록번호 <b>(필수)</b></label>
+          <span class="fld__ask"><span class="fld__ask-t">외국인</span><span class="tog"><span class="is-on">예</span><span>아니오</span></span></span>
+        </div>
+        <div class="inp inp--ph">외국인등록번호를 입력해주세요</div>
+        <button class="ask__opt" type="button" aria-pressed="false">
+          <span class="ask__opt-t">여권번호로 등록하기</span>
+          <span class="chk" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></span>
+        </button>
       </div>
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
@@ -1571,29 +1570,25 @@
     </div>
 
     <form class="form">
-      <!-- 묻는 한 줄이라 칸으로 두지 않는다. 묻는 말 옆에 답이 붙는 카드다 -->
-      <div class="ask">
-        <span class="ask__t">외국인 근로자인가요?</span>
-        <span class="tog"><span class="is-on">예</span><span>아니오</span></span>
-        <!-- '예' 가 여는 것은 칸이 아니라 이 체크다. 같은 카드 안에 두되
-             줄 하나로 가른다 — 묻는 줄과 나란히 두었을 때는 체크가 그 물음의
-             보기처럼 읽혔고, 카드를 따로 세웠을 때는 '예' 와의 끈이 끊겼다 -->
-        <button class="ask__opt" type="button" aria-pressed="true">
-          <span class="ask__opt-t">여권번호로 등록하기</span>
-          <span class="chk chk--on" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></span>
-        </button>
-      </div>
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
         <div class="inp inp--ph">이름을 입력해주세요</div>
       </div>
-      <!-- 주민번호 칸은 '바뀌는' 것이 아니라 **사라진다** — 둘 다 적게 두면
-           어느 쪽으로 사람을 가리는지가 흐려진다.
-           생년월일을 함께 받는 것은 여권번호에 나이가 들어 있지 않아서다.
-           주민번호 하나가 하던 일(누구인가 · 몇 살인가)을 둘이 나눠 받는다 -->
-      <div class="fld">
-        <label class="fld__l fld__l--foreign">여권번호 <b>(필수)</b></label>
+      <!-- 체크를 켜면 같은 칸이 받는 것이 여권번호로 바뀐다 — 외국인등록번호와
+           둘 다 적게 두면 어느 쪽으로 사람을 가리는지가 흐려진다.
+           생년월일은 **칸이 하나 더 느는 것**이다. 여권번호에는 나이가 들어
+           있지 않아, 주민번호 하나가 하던 일(누구인가 · 몇 살인가)을 둘이
+           나눠 받는다 -->
+      <div class="fld fld--id">
+        <div class="fld__h">
+          <label class="fld__l fld__l--foreign">여권번호 <b>(필수)</b></label>
+          <span class="fld__ask"><span class="fld__ask-t">외국인</span><span class="tog"><span class="is-on">예</span><span>아니오</span></span></span>
+        </div>
         <div class="inp inp--ph">여권번호를 입력해주세요</div>
+        <button class="ask__opt" type="button" aria-pressed="true">
+          <span class="ask__opt-t">여권번호로 등록하기</span>
+          <span class="chk chk--on" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></span>
+        </button>
       </div>
       <div class="fld">
         <label class="fld__l fld__l--birth">생년월일 <b>(필수)</b></label>
@@ -2007,19 +2002,19 @@
     </div>
 
     <form class="form">
-      <!-- 묻는 한 줄이라 칸으로 두지 않는다. 묻는 말 옆에 답이 붙는 카드다 -->
-      <div class="ask">
-        <span class="ask__t">외국인 근로자인가요?</span>
-        <span class="tog"><span>예</span><span class="is-on">아니오</span></span>
-      </div>
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
         <div class="inp">홍길동</div>
       </div>
-      <div class="fld">
+      <!-- 외국인인지는 따로 묻지 않는다 — 이 칸이 받는 번호를 가르는 물음이라
+           칸의 머리줄에서 묻는다. 아니오면 주민번호, 예면 외국인등록번호다 -->
+      <div class="fld fld--id">
+        <div class="fld__h">
+          <label class="fld__l">주민번호 <b>(필수)</b></label>
+          <span class="fld__ask"><span class="fld__ask-t">외국인</span><span class="tog"><span>예</span><span class="is-on">아니오</span></span></span>
+        </div>
         <!-- 목록에서는 뒷자리를 가리지만(남이 보는 자리다), 이 칸은 본인 것을
              고쳐 넣는 자리라 가리지 않는다 — 가려 두면 고쳐 넣을 수가 없다 -->
-        <label class="fld__l">주민번호 <b>(필수)</b></label>
         <div class="inp">800101-1234567</div>
       </div>
       <div class="fld">

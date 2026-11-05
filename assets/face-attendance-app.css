@@ -2273,17 +2273,26 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    칸은 테 1px gray-subtler · 모서리 4 · 안쪽 여백 16/12 · 글자 17/22 regular */
 .form{display:flex;flex-direction:column;gap:var(--ap-gap6)}
 .fld{display:flex;flex-direction:column;gap:var(--ap-p2)}
-/* 외국인인지는 적는 값이 아니라 **묻는 한 줄**이다. 칸으로 두면 다른 칸처럼
-   적어 넣는 자리로 읽힌다 — 묻는 말 옆에 답이 붙는 카드로 둔다.
-   면은 gray/5 다. 흰 폼 위에서 한 끗만 내려앉아 '여기는 다른 줄' 이라고만
-   알린다 */
-.ask{display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;column-gap:var(--ap-p5);row-gap:var(--ap-p6);
-  padding:var(--ap-p6);background:var(--ap-g5);border-radius:var(--ap-r10)}
-.ask__t{font:var(--t-head);letter-spacing:var(--ls-head);color:var(--ap-text)}
-.ask .tog{align-self:auto}
+/* ── 번호 칸 ──
+   외국인인지는 따로 묻지 않는다. **이 칸이 받는 번호를 가르는 물음**이라
+   칸의 머리줄에서 묻는다 — 아니오면 주민번호, 예면 외국인등록번호다.
+   따로 묻던 때는 물음이 폼 맨 위에 서고 그 답이 바꾸는 칸은 두 줄 아래에
+   있어, 토글을 눌러도 무엇이 바뀌는지가 한눈에 들어오지 않았다.
+   면은 gray/5 다. 흰 폼 위에서 한 끗만 내려앉아 '이 칸은 묻는 말을 함께
+   든다' 고만 알린다 */
+.fld--id{gap:var(--ap-p4);padding:var(--ap-p6);
+  background:var(--ap-g5);border-radius:var(--ap-r10)}
+.fld__h{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;column-gap:var(--ap-p5);row-gap:var(--ap-p3)}
+/* 묻는 말은 라벨보다 한 단 작고 흐리다 — 이 줄의 주인은 칸 이름이고, 토글은
+   그 이름을 무엇으로 할지 고르는 손잡이다 */
+/* 칸 이름이 길어 줄이 넘칠 때도 토글은 오른쪽 끝에 선다 — 넘치지 않는
+   칸(주민번호)과 오른쪽 선이 맞아야 둘이 같은 자리로 읽힌다 */
+.fld__ask{display:inline-flex;align-items:center;gap:var(--ap-p4);margin-left:auto}
+.fld__ask-t{font:var(--t-sub-em);letter-spacing:var(--ls-sub);color:var(--ap-text-gray)}
+.fld--id .tog{align-self:auto}
 /* ── 칸을 바꾸는 고르기 ──
-   '여권번호로 등록하기' 는 묻는 카드 **안**에, 줄 하나로 갈라 둔다.
+   '여권번호로 등록하기' 는 번호 칸 **안**에, 줄 하나로 갈라 둔다.
    세 자리를 써 보고 고른 자리다:
    - 묻는 줄과 **나란히**: 물음과 고르기가 한 면에 섞여, 체크가 그 물음의
      보기처럼 읽혔다
@@ -2296,7 +2305,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    줄의 짜임은 **윗줄과 같다** — 글이 왼쪽, 누르는 것이 오른쪽이다. 네모를
    글 앞에 두었더니 글의 왼쪽 끝이 윗줄보다 들어가 두 줄이 어긋나 보였고,
    오른쪽은 통째로 비어 한쪽으로 쏠렸다 */
-.ask__opt{flex:1 0 100%;display:flex;align-items:center;justify-content:space-between;
+.ask__opt{flex:none;display:flex;align-items:center;justify-content:space-between;
   gap:var(--ap-p5);
   margin-inline:calc(var(--ap-p6) * -1);padding:var(--ap-p6) var(--ap-p6) 0;
   border-top:1px solid var(--ap-line-soft);text-align:left}

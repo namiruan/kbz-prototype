@@ -1297,11 +1297,6 @@
     </div>
 
     <form class="form">
-      <!-- 묻는 한 줄이라 칸으로 두지 않는다. 묻는 말 옆에 답이 붙는 카드다 -->
-      <div class="ask">
-        <span class="ask__t">외국인 근로자인가요?</span>
-        <span class="tog"><span>예</span><span class="is-on">아니오</span></span>
-      </div>
       <!-- 앱에 들어와 있는 사람이라 이름과 연락처는 이미 안다 — 채워 두고
            고칠 수 있게만 둔다 -->
       <div class="fld">
@@ -1309,8 +1304,13 @@
         <div class="inp">홍길동</div>
       </div>
       <!-- 주민번호는 현장이 받아야 하는 값이다(퇴직공제·보험) — 비워 둔다 -->
-      <div class="fld">
-        <label class="fld__l">주민번호 <b>(필수)</b></label>
+      <!-- 외국인인지는 따로 묻지 않는다 — 이 칸이 받는 번호를 가르는 물음이라
+           칸의 머리줄에서 묻는다. 아니오면 주민번호, 예면 외국인등록번호다 -->
+      <div class="fld fld--id">
+        <div class="fld__h">
+          <label class="fld__l">주민번호 <b>(필수)</b></label>
+          <span class="fld__ask"><span class="fld__ask-t">외국인</span><span class="tog"><span>예</span><span class="is-on">아니오</span></span></span>
+        </div>
         <div class="inp inp--ph">주민번호를 입력해주세요</div>
       </div>
       <div class="fld">
@@ -1349,16 +1349,17 @@
     </div>
 
     <form class="form">
-      <div class="ask">
-        <span class="ask__t">외국인 근로자인가요?</span>
-        <span class="tog"><span>예</span><span class="is-on">아니오</span></span>
-      </div>
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
         <div class="inp">홍길동</div>
       </div>
-      <div class="fld">
-        <label class="fld__l">주민번호 <b>(필수)</b></label>
+      <!-- 외국인인지는 따로 묻지 않는다 — 이 칸이 받는 번호를 가르는 물음이라
+           칸의 머리줄에서 묻는다. 아니오면 주민번호, 예면 외국인등록번호다 -->
+      <div class="fld fld--id">
+        <div class="fld__h">
+          <label class="fld__l">주민번호 <b>(필수)</b></label>
+          <span class="fld__ask"><span class="fld__ask-t">외국인</span><span class="tog"><span>예</span><span class="is-on">아니오</span></span></span>
+        </div>
         <div class="inp inp--ph">주민번호를 입력해주세요</div>
       </div>
       <div class="fld">
