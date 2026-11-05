@@ -992,6 +992,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .lbar__f::-webkit-scrollbar{display:none}
 /* 시트의 거르개와 같은 알약이되, 누르면 그 시트가 열리므로 꺾쇠가 붙는다 */
 .cnt--f{flex:none}
+/* ⚠ 아직 걸지 않은 축도 **누를 수 있는 색**으로 둔다. 이력의 거르개는 꺼진
+   알약을 disabled 색으로 내리는데(셋이 한 줄에 함께 서서 고르는 자리라
+   그것으로 갈린다), 이 바에서는 꺼진 칩이 '직종' 하나뿐이라 그 색이면
+   눌러 볼 수 있다는 것이 읽히지 않았다 — 거를 수 있는 축이 있다는 말을
+   이 칩 하나가 맡는다 */
+.cnt--f:not(.is-on){color:var(--ap-text-gray)}
 .cnt--f .ic{margin-left:-2px;margin-right:-2px}
 /* 목록의 수는 세어 둔 사실이라 무채색이다. 고른 수만 파랑으로 — 그때는
    내가 만든 상태이고, 바로 아래 삭제가 켜지는 까닭이기도 하다 */
