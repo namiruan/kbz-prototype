@@ -1502,7 +1502,11 @@
       act.classList.toggle('act--void', !ok);
       act.setAttribute('aria-hidden', ok ? 'false' : 'true');
     }
-    need.forEach(function (i) { i.addEventListener('input', see); });
+    /* 갈아 끼운 화면은 다시 들어올 때 또 이 함수를 지난다 — 한 번만 맨다 */
+    if (!scr.dataset.must) {
+      scr.dataset.must = '1';
+      need.forEach(function (i) { i.addEventListener('input', see); });
+    }
     see();
   }
 
@@ -1573,6 +1577,22 @@
      ⚠ 주소도 함께 간다(pushState). 그래야 새로고침·공유가 같은 자리를
        열고, 뒤로 가기가 앞 화면으로 돌아온다 — 돌아올 때는 문서를 다시
        읽는다(popstate). */
+  /* ── 갈아 끼울 때 적어 둔 것은 따라간다 ──
+     탭과 라디오가 바꾸는 것은 **받는 번호 하나**다. 그런데 갈아 끼우는 것은
+     화면 한 장이라, 그냥 두면 이름도 연락처도 저쪽 장의 빈 칸으로 바뀐다 —
+     적다 말고 탭을 한 번 눌렀을 뿐인데 처음부터 다시 적게 된다.
+     짝은 name 으로 찾는다. 저쪽에 같은 name 이 없으면 넘어간다 — 주민번호
+     (jumin)와 여권번호(yeogwon)는 받는 것이 달라 이어지지 않는 것이 맞다.
+     ⚠ 칸이 아닌 값도 하나 있다 — 고른 직종은 버튼의 글이다 */
+  function carry(from, to) {
+    from.querySelectorAll('.inp__in[name]').forEach(function (a) {
+      var b = to.querySelector('.inp__in[name="' + a.name + '"]');
+      if (b) b.value = a.value;
+    });
+    var af = from.querySelector('.sel__t'), bf = to.querySelector('.sel__t');
+    if (af && bf) bf.textContent = af.textContent;
+  }
+
   function soft(name, same) {
     var next = SHELF[name];
     var now = document.querySelector('.scr[data-screen]');
@@ -1584,6 +1604,7 @@
        자리만 그대로 옮긴다 */
     var keep = 0, oldbd = now.querySelector('.body');
     if (same && oldbd) keep = oldbd.scrollTop;
+    if (same) carry(now, next);
 
     if (!same) {
       /* 시트는 **지금 걸린 것을 켠 채로** 올라온다 — 고치러 올라온 자리라,
