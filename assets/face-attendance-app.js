@@ -1531,17 +1531,21 @@
          (max), 늘인 만큼이 그대로 굴릴 거리가 되지 않는다 — 모자라면
          다시 재서 보탠다 */
     var tail = parseFloat(scr.style.getPropertyValue('--ap-flow-tail')) || 0;
-    var want = Math.max(0, need - ((bd.scrollHeight - tail) - bd.clientHeight));
+    /* ⚠ 늘이는 데에 **울타리를 친다**. 셈이 한 번 어긋나면 되먹임으로
+       자꾸 커져, 폼이 저 아래로 밀려나고 떠 있는 바가 화면 위로 올라온다.
+       아무리 늘려도 본문 한 키를 넘길 까닭이 없다 */
+    var cap = Math.max(0, bd.clientHeight);
+    var want = Math.min(cap, Math.max(0, need - ((bd.scrollHeight - tail) - bd.clientHeight)));
     for (var n = 0; n < 3; n++) {
       if (want !== tail) {
         tail = want;
         scr.style.setProperty('--ap-flow-tail', tail + 'px');
       }
       var room = bd.scrollHeight - bd.clientHeight;
-      if (room >= need) break;
-      want = tail + (need - room);
+      if (room >= need || tail >= cap) break;
+      want = Math.min(cap, tail + (need - room));
     }
-    bd.scrollTop = need;
+    bd.scrollTop = Math.min(need, bd.scrollHeight - bd.clientHeight);
     if (window.scrollY) window.scrollTo(0, 0);
   }
 
@@ -1780,6 +1784,9 @@
          120 아래는 자판이 아니라 주소줄이 접히고 펴지는 만큼이다 */
       var kb = Math.max(0, Math.round(window.innerHeight - (vv.height + vv.offsetTop)));
       var want = kb > 120 ? Math.round(vv.height) + 'px' : '';
+      /* 아이폰은 칸에 초점이 가면 창째로 밀어 올린다 — 높이가 그대로여도
+         되돌린다. 두면 머리줄과 묻는 줄이 위로 잘려 나간다 */
+      if (window.scrollY) window.scrollTo(0, 0);
       if (want === scr.style.height) return;
       /* 높이가 바뀌면 본문의 스크롤 값도 밀린다. 그것을 손가락이 낸 것으로
          치면 stow 가 저장을 '읽어 내려가는 중' 으로 보고 내려 보낸다 —
