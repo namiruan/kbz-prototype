@@ -1513,6 +1513,14 @@
   function atop(scr, box) {
     var bd = scr.querySelector('.body');
     if (!bd || !box) return;
+    /* 늘이는 자리는 본문 끝의 빈 칸이다 — 여백으로 두면 본문 상자가
+       부풀어 화면 밖으로 넘친다(css 의 .flow__tail) */
+    if (!bd.querySelector('.flow__tail')) {
+      var sp = document.createElement('i');
+      sp.className = 'flow__tail';
+      sp.setAttribute('aria-hidden', 'true');
+      bd.appendChild(sp);
+    }
     var q = scr.querySelector('.flow__q');
     var pad = (q && getComputedStyle(q).position === 'sticky')
       ? q.getBoundingClientRect().height : 0;
@@ -1533,18 +1541,18 @@
          다시 재서 보탠다 */
     var tail = parseFloat(scr.style.getPropertyValue('--ap-flow-tail')) || 0;
     /* ⚠ 늘이는 데에 **울타리를 친다**. 셈이 한 번 어긋나면 되먹임으로
-       자꾸 커져, 폼이 저 아래로 밀려나고 떠 있는 바가 화면 위로 올라온다.
-       아무리 늘려도 본문 한 키를 넘길 까닭이 없다 */
-    var cap = Math.max(0, bd.clientHeight);
-    var want = Math.min(cap, Math.max(0, need - ((bd.scrollHeight - tail) - bd.clientHeight)));
-    for (var n = 0; n < 3; n++) {
-      if (want !== tail) {
-        tail = want;
-        scr.style.setProperty('--ap-flow-tail', tail + 'px');
-      }
-      var room = bd.scrollHeight - bd.clientHeight;
-      if (room >= need || tail >= cap) break;
-      want = Math.min(cap, tail + (need - room));
+       자꾸 커진다. 아무리 늘려도 본문 한 키를 넘길 까닭이 없다.
+       자는 본문의 키가 아니라 **화면의 키**다 — 늘인 것이 본문에 들면
+       본문도 함께 커져, 제 꼬리를 제가 재는 꼴이 된다 */
+    var cap = Math.max(0, Math.round(scr.getBoundingClientRect().height));
+    var room = bd.scrollHeight - bd.clientHeight;
+    for (var n = 0; n < 3 && room < need; n++) {
+      var was = room;
+      tail = Math.min(cap, tail + (need - room));
+      scr.style.setProperty('--ap-flow-tail', tail + 'px');
+      room = bd.scrollHeight - bd.clientHeight;
+      /* 늘였는데 굴릴 거리가 늘지 않으면 더 늘려도 소용없다 — 멈춘다 */
+      if (room <= was || tail >= cap) break;
     }
     bd.scrollTop = Math.min(need, bd.scrollHeight - bd.clientHeight);
     if (window.scrollY) window.scrollTo(0, 0);
