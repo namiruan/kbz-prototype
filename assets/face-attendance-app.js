@@ -1510,9 +1510,14 @@
      붙어 있는 그 줄이 가리지 않도록 줄의 키만큼 뺀다.
      더 굴릴 것이 없으면 갈 수 있는 만큼만 간다(짧은 화면에서는 제자리다).
      ⚠ 아이폰은 칸에 초점이 가면 창째로 밀어 올린다 — 0 으로 되돌린다 */
-  function atop(scr, box) {
+  function atop(scr, box, slide) {
     var bd = scr.querySelector('.body');
     if (!bd || !box) return;
+    /* ⚠ 스르륵 가는 **중에는 끼어들지 않는다.** 자판이 서는 동안 다시 재러
+       오는 길(fit 의 near)이 그 사이에 톡 옮겨 놓아, 미끄러지다 말고
+       되돌아가는 것처럼 보였다 */
+    if (!slide && Date.now() < +(scr.dataset.slide || 0)) return;
+    if (slide) scr.dataset.slide = Date.now() + 420;
     /* 늘이는 자리는 본문 끝의 빈 칸이다 — 여백으로 두면 본문 상자가
        부풀어 화면 밖으로 넘친다(css 의 .flow__tail) */
     if (!bd.querySelector('.flow__tail')) {
@@ -1554,7 +1559,13 @@
       /* 늘였는데 굴릴 거리가 늘지 않으면 더 늘려도 소용없다 — 멈춘다 */
       if (room <= was || tail >= cap) break;
     }
-    bd.scrollTop = Math.min(need, bd.scrollHeight - bd.clientHeight);
+    var to = Math.min(need, bd.scrollHeight - bd.clientHeight);
+    /* 차례가 넘어갈 때는 **스르륵** 간다 — 한 칸이 닫히고 다음 칸이 열리는
+       동안 눈이 따라갈 자리가 있어야 한다. 재느라 부르는 길(자판이 서고
+       눕는 동안)은 그대로 톡 간다 */
+    var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if (slide && !calm && bd.scrollTo) bd.scrollTo({ top: to, behavior: 'smooth' });
+    else bd.scrollTop = to;
     if (window.scrollY) window.scrollTo(0, 0);
   }
 
@@ -1665,9 +1676,12 @@
     }
 
     /* 새로 연 칸은 맨 아래에 붙는다 — 묻는 줄 바로 아래까지 끌어올린다 */
-    function reach() {
+    function reach(slide) {
       var box = at < ASK.length && kin(ASK[at])[0];
       if (!box) return;
+      /* 스르륵 가는 길은 **한 번만** 부른다 — 먼저 톡 옮겨 놓고 다시
+         부르면 거기서부터만 미끄러져, 움직임이 거의 보이지 않는다 */
+      if (slide) { atop(scr, box, true); return; }
       atop(scr, box);
       requestAnimationFrame(function () { atop(scr, box); });
     }
@@ -1678,7 +1692,14 @@
       if (at >= ASK.length || !full(ASK[at])) return;
       at++;
       see();
-      reach();
+      /* 새로 열린 칸은 **들어오는 몸짓**을 한 번 한다(css 의 .is-new) */
+      var now = at < ASK.length && kin(ASK[at])[0];
+      if (now) {
+        now.classList.remove('is-new');
+        void now.offsetWidth;                 /* 몸짓을 처음부터 다시 */
+        now.classList.add('is-new');
+      }
+      reach(true);
       /* 넘어간 자리는 **적을 수 있는 채로** 선다 — 어느 길로 왔든(다음 ·
          ↵ · 자판의 ✓) 다음 칸에 커서가 놓인다 */
       var aim = at < ASK.length && kin(ASK[at])[0];
@@ -1719,7 +1740,7 @@
       scr.addEventListener('focusin', function (e) {
         see();
         var box = e.target.closest && e.target.closest('[data-flow]');
-        if (box) atop(scr, box);
+        if (box) atop(scr, box, true);
       });
       /* 초점이 빠지는 그 순간에는 아직 다음 칸이 잡히지 않았다 — 한 박자 뒤.
          ⚠ 기기 자판의 **✓(완료)** 는 페이지가 직접 들을 수 없다 — 브라우저

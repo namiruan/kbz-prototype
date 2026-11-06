@@ -1440,6 +1440,19 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    (크롬 iOS 에서 꼬리가 1637 까지 불어 본문이 1753 이 됐다.)
    한 칸으로 두면 본문의 상자는 그대로이고 굴릴 거리만 늘어난다 */
 .flow__tail{flex:none;height:var(--ap-flow-tail,0px)}
+/* 새로 열린 칸은 아래에서 올라오며 든다 — 차례가 넘어간 것이 눈에 보여야
+   '무엇이 바뀌었나' 를 찾지 않는다. 굴림도 함께 스르륵 간다(js 의 atop).
+   한 번만 하고 끝나는 몸짓이라 transition 이 아니라 animation 이다 */
+@keyframes flow-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+/* ⚠ 몸짓은 **칸 안쪽**이 한다. 칸 자체를 움직이면 그 사이에 재는 자리가
+   12 어긋나, 스르륵 멎고 나서 한 번 더 톡 움직였다 */
+.is-flow [data-flow].is-new > *{animation:flow-in var(--ap-dur-mon) var(--ap-ease-enter) both}
+/* 묻는 줄도 바뀔 때 한 번 스친다 */
+@keyframes flow-q{from{opacity:0}to{opacity:1}}
+.is-flow .flow__q__t.is-on{animation:flow-q var(--ap-dur-slow) var(--ap-ease-enter) both}
+@media (prefers-reduced-motion:reduce){
+  .is-flow [data-flow].is-new > *,.is-flow .flow__q__t.is-on{animation:none}
+}
 .act__b{font:var(--t-title2);letter-spacing:var(--ls-title2);flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:var(--ap-p2);padding:var(--ap-p6) var(--ap-p8)}
 .act__b--on{background:var(--ap-primary);color:var(--ap-g0)}
 .act__b--dark{background:var(--ap-g95);color:var(--ap-g0)}
