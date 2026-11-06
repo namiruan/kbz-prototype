@@ -2485,7 +2485,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    이 화면의 주인인 것이 흔들리지 않는다 */
 
 /* 묻는 줄은 넷을 다 적어 두고 **지금 것 하나만** 켠다 */
-.flow__q__t{display:none;font:var(--t-title1);letter-spacing:var(--ls-title1);
+.flow__q__t{display:none;font:var(--t-title2);letter-spacing:var(--ls-title2);
   word-break:keep-all;color:var(--ap-text)}
 .flow__q__t.is-on{display:block}
 /* 아직 묻지 않은 자리는 덜어 낸다 — .fld 가 flex 라 hidden 만으로는 안 덮인다 */
