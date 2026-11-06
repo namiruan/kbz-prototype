@@ -1716,6 +1716,13 @@
          버튼 하나다(css 의 .is-ask-face) */
       scr.classList.toggle('is-ask-face', ask === 'face');
 
+      /* 이름을 적고 나면 묻는 줄이 그 사람을 이름으로 부른다 — '근로자의
+         주민번호' 가 '서지훈의 주민번호' 가 된다. 비면 다시 '근로자' 다.
+         이름을 묻는 줄에는 걸지 않는다 — 적는 중에 제 이름으로 부를 수 없다 */
+      var who = scr.querySelector('.inp__in[name="ireum"]');
+      who = (who && who.value.trim()) || '근로자';
+      box.querySelectorAll('.flow__q__who').forEach(function (n) { n.textContent = who; });
+
       box.querySelectorAll('.flow__q__t').forEach(function (t) {
         t.classList.toggle('is-on', !done && t.dataset.q === ask);
       });

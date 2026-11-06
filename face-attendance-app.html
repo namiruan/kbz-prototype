@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=657">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=659">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=657"></script>
+<script src="assets/face-attendance-app.js?v=659"></script>
 </head>
 
 <body>
@@ -1374,9 +1374,9 @@
          그 뒤에 나머지를 연다. 보이는 줄은 지금 묻는 하나뿐이다(js 의 flow) -->
     <div class="flow__q" role="status" aria-live="polite">
       <p class="flow__q__t" data-q="face">근로자 얼굴을<br>등록해주세요</p>
-      <p class="flow__q__t" data-q="ireum">이름을<br>입력해주세요</p>
-      <p class="flow__q__t" data-q="idno">주민번호를<br>입력해주세요</p>
-      <p class="flow__q__t" data-q="yeonrak">연락처를<br>입력해주세요</p>
+      <p class="flow__q__t" data-q="ireum">근로자의 이름을<br>입력해주세요</p>
+      <p class="flow__q__t" data-q="idno"><span class="flow__q__who">근로자</span>의 주민번호를<br>입력해주세요</p>
+      <p class="flow__q__t" data-q="yeonrak"><span class="flow__q__who">근로자</span>의 연락처를<br>입력해주세요</p>
     </div>
     <div class="shot" data-flow="face">
       <button class="shot__box" type="button" data-go="m-ready">
@@ -1497,9 +1497,9 @@
          그 뒤에 나머지를 연다. 보이는 줄은 지금 묻는 하나뿐이다(js 의 flow) -->
     <div class="flow__q" role="status" aria-live="polite">
       <p class="flow__q__t" data-q="face">근로자 얼굴을<br>등록해주세요</p>
-      <p class="flow__q__t" data-q="ireum">이름을<br>입력해주세요</p>
-      <p class="flow__q__t" data-q="idno">주민번호를<br>입력해주세요</p>
-      <p class="flow__q__t" data-q="yeonrak">연락처를<br>입력해주세요</p>
+      <p class="flow__q__t" data-q="ireum">근로자의 이름을<br>입력해주세요</p>
+      <p class="flow__q__t" data-q="idno"><span class="flow__q__who">근로자</span>의 주민번호를<br>입력해주세요</p>
+      <p class="flow__q__t" data-q="yeonrak"><span class="flow__q__who">근로자</span>의 연락처를<br>입력해주세요</p>
     </div>
     <!-- 얼굴도 필수다 — 다 채운 자리라 사진이 이미 등록되어 있다.
          꼴은 근로자 상세의 그 자리와 같다(.shot__box--done): 사진 한 장과
@@ -1573,9 +1573,9 @@
          그 뒤에 나머지를 연다. 보이는 줄은 지금 묻는 하나뿐이다(js 의 flow) -->
     <div class="flow__q" role="status" aria-live="polite">
       <p class="flow__q__t" data-q="face">근로자 얼굴을<br>등록해주세요</p>
-      <p class="flow__q__t" data-q="ireum">이름을<br>입력해주세요</p>
-      <p class="flow__q__t" data-q="idno">외국인등록번호를<br>입력해주세요</p>
-      <p class="flow__q__t" data-q="yeonrak">연락처를<br>입력해주세요</p>
+      <p class="flow__q__t" data-q="ireum">근로자의 이름을<br>입력해주세요</p>
+      <p class="flow__q__t" data-q="idno"><span class="flow__q__who">근로자</span>의 외국인등록번호를<br>입력해주세요</p>
+      <p class="flow__q__t" data-q="yeonrak"><span class="flow__q__who">근로자</span>의 연락처를<br>입력해주세요</p>
     </div>
     <div class="shot" data-flow="face">
       <button class="shot__box" type="button" data-go="m-ready">
@@ -1689,9 +1689,9 @@
          그 뒤에 나머지를 연다. 보이는 줄은 지금 묻는 하나뿐이다(js 의 flow) -->
     <div class="flow__q" role="status" aria-live="polite">
       <p class="flow__q__t" data-q="face">근로자 얼굴을<br>등록해주세요</p>
-      <p class="flow__q__t" data-q="ireum">이름을<br>입력해주세요</p>
-      <p class="flow__q__t" data-q="idno">여권번호와 생년월일을<br>입력해주세요</p>
-      <p class="flow__q__t" data-q="yeonrak">연락처를<br>입력해주세요</p>
+      <p class="flow__q__t" data-q="ireum">근로자의 이름을<br>입력해주세요</p>
+      <p class="flow__q__t" data-q="idno"><span class="flow__q__who">근로자</span>의 여권번호와<br>생년월일을 입력해주세요</p>
+      <p class="flow__q__t" data-q="yeonrak"><span class="flow__q__who">근로자</span>의 연락처를<br>입력해주세요</p>
     </div>
     <div class="shot" data-flow="face">
       <button class="shot__box" type="button" data-go="m-ready">
