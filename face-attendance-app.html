@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=661">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=662">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=661"></script>
+<script src="assets/face-attendance-app.js?v=662"></script>
 </head>
 
 <body>
@@ -1368,6 +1368,14 @@
     <h1 class="nav__t">근로자 얼굴 등록</h1>
   </header>
 
+  <!-- 어디까지 왔는지 — 묻는 차례가 넷이라 칸도 넷이다(얼굴 · 이름 · 번호 ·
+       연락처). 지나온 칸과 지금 칸이 차고, 아직 묻지 않은 칸은 비어 있다.
+       머리줄 바로 아래에 두어 굴려도 따라다니지 않는다 — 자리는 늘 거기다.
+       켜고 끄는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
+  <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
+    <i></i><i></i><i></i><i></i>
+  </div>
+
   <main class="body">
     <!-- 묻는 말은 **한 번에 하나**다. 꼭 받아야 하는 넷을 한꺼번에 세워 두면
          어디부터 손대야 하는지를 매번 고르게 된다 — 차례를 정해 하나씩 받고,
@@ -1491,6 +1499,14 @@
     <h1 class="nav__t">근로자 얼굴 등록</h1>
   </header>
 
+  <!-- 어디까지 왔는지 — 묻는 차례가 넷이라 칸도 넷이다(얼굴 · 이름 · 번호 ·
+       연락처). 지나온 칸과 지금 칸이 차고, 아직 묻지 않은 칸은 비어 있다.
+       머리줄 바로 아래에 두어 굴려도 따라다니지 않는다 — 자리는 늘 거기다.
+       켜고 끄는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
+  <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
+    <i></i><i></i><i></i><i></i>
+  </div>
+
   <main class="body">
     <!-- 묻는 말은 **한 번에 하나**다. 꼭 받아야 하는 넷을 한꺼번에 세워 두면
          어디부터 손대야 하는지를 매번 고르게 된다 — 차례를 정해 하나씩 받고,
@@ -1566,6 +1582,14 @@
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">근로자 얼굴 등록</h1>
   </header>
+
+  <!-- 어디까지 왔는지 — 묻는 차례가 넷이라 칸도 넷이다(얼굴 · 이름 · 번호 ·
+       연락처). 지나온 칸과 지금 칸이 차고, 아직 묻지 않은 칸은 비어 있다.
+       머리줄 바로 아래에 두어 굴려도 따라다니지 않는다 — 자리는 늘 거기다.
+       켜고 끄는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
+  <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
+    <i></i><i></i><i></i><i></i>
+  </div>
 
   <main class="body">
     <!-- 묻는 말은 **한 번에 하나**다. 꼭 받아야 하는 넷을 한꺼번에 세워 두면
@@ -1682,6 +1706,14 @@
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">근로자 얼굴 등록</h1>
   </header>
+
+  <!-- 어디까지 왔는지 — 묻는 차례가 넷이라 칸도 넷이다(얼굴 · 이름 · 번호 ·
+       연락처). 지나온 칸과 지금 칸이 차고, 아직 묻지 않은 칸은 비어 있다.
+       머리줄 바로 아래에 두어 굴려도 따라다니지 않는다 — 자리는 늘 거기다.
+       켜고 끄는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
+  <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
+    <i></i><i></i><i></i><i></i>
+  </div>
 
   <main class="body">
     <!-- 묻는 말은 **한 번에 하나**다. 꼭 받아야 하는 넷을 한꺼번에 세워 두면

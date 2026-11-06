@@ -2418,6 +2418,19 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    벌리는 것으로 족하다 — 칠하면 볼 것이 하나 더 는다 */
 .shot{display:flex;flex-direction:column;align-items:center;gap:var(--ap-gap3)}
 
+/* ── 어디까지 왔는지 ──
+   묻는 차례가 넷이라 칸도 넷이다. 지나온 칸과 지금 칸이 차고, 아직 묻지
+   않은 칸은 비어 있다 — 몇 번째인지를 세지 않아도 얼마나 남았는지가 한눈에
+   든다.
+   머리줄 바로 아래, 본문 **밖**에 둔다. 본문 안에 두면 굴릴 때 함께 올라가
+   사라지는데, 어디까지 왔는지는 적는 내내 보여야 한다 */
+.prog{flex:none;display:flex;gap:var(--ap-p1);
+  padding:0 var(--ap-p6) var(--ap-p4);background:var(--ap-g0)}
+.prog > i{flex:1;height:3px;border-radius:var(--ap-r-pill);background:var(--ap-g10);
+  transition:background var(--ap-dur-slow) var(--ap-ease-enter)}
+.prog > i.is-on{background:var(--ap-primary)}
+@media (prefers-reduced-motion:reduce){.prog > i{transition:none}}
+
 /* ── 한 번에 하나씩 묻는 폼 ──
    꼭 받아야 하는 넷(얼굴 · 이름 · 번호 · 연락처)은 차례대로 받는다. 묻는
    줄이 맨 위에 서고, 그 아래에 지금 받을 칸 하나가 있다. **답한 것은
