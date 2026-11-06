@@ -1635,7 +1635,13 @@
     var want = parseInt(scr.dataset.at
       || new URL(location.href).searchParams.get('step')
       || scr.dataset.step, 10);
-    if (want > 1) for (var k = 0; k < want - 1 && k < ASK.length; k++) fill(ASK[k]);
+    /* ⚠ 지나온 답을 **보기값으로 채우는 일은 주소로 바로 연 자리에서만**
+       한다. 탭을 갈아 끼워 온 길에서는 적어 둔 것이 carry 로 이미 건너왔다 —
+       거기서 또 채우면, 비워 둔 칸에 난데없이 값이 생긴다(지우고 다시
+       갈아 끼우면 또 생겼다) */
+    var came = scr.dataset.carry === '1';
+    delete scr.dataset.carry;
+    if (!came && want > 1) for (var k = 0; k < want - 1 && k < ASK.length; k++) fill(ASK[k]);
 
     /* ⚠ 지금 어느 차례인가는 **요소가 들고 있는다**(data-at · 1부터).
        함수 안의 값으로 두었더니, 갈아 끼웠다 돌아올 때마다 이 함수가 다시
@@ -1953,6 +1959,9 @@
     });
     var af = from.querySelector('.sel__t'), bf = to.querySelector('.sel__t');
     if (af && bf) bf.textContent = af.textContent;
+    /* 등록한 얼굴도 따라간다 — 칸이 아니라 사진이 들어앉은 꼴이다 */
+    var fa = from.querySelector('.shot__box'), fb = to.querySelector('.shot__box');
+    if (fa && fb) fb.classList.toggle('shot__box--done', fa.classList.contains('shot__box--done'));
   }
 
   function soft(name, same) {
@@ -1974,6 +1983,7 @@
       /* 차례도 함께 건너간다 — 탭은 받는 번호를 갈 뿐, 묻는 자리를
          넘기는 손짓이 아니다 */
       if (now.dataset.at) next.dataset.at = now.dataset.at;
+      next.dataset.carry = '1';
     }
 
     if (!same) {
