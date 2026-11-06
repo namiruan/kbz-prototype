@@ -1798,8 +1798,11 @@
       /* 차례대로 묻는 폼은 가운데가 아니라 **맨 위**다 — 위에 쌓인 것은
          이미 답한 것이라, 적는 동안 보일 까닭이 없다 */
       if (scr.classList.contains('is-flow')) { atop(scr, el.closest('[data-flow]')); return; }
+      /* ⚠ 가운데로 끌어오지 않는다 — 브라우저가 이미 보이게 굴려 놓은
+         자리를 한 번 더 크게 옮기면, 칸을 누를 때마다 화면이 출렁인다.
+         'nearest' 는 이미 보이면 아무것도 하지 않는다 */
       var box = el.closest('.fld,.idf,.fld__sub') || el;
-      box.scrollIntoView({ block: 'center' });
+      box.scrollIntoView({ block: 'nearest' });
       if (window.scrollY) window.scrollTo(0, 0);
     }
 
