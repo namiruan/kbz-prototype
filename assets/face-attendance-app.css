@@ -2414,7 +2414,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    굴릴 것이 없고 바탕이 흰색도 아니라 뺀다 */
 .is-flow:not(.is-ask-face) .flow__q{position:sticky;top:calc(var(--ap-p6) * -1);z-index:2;
   background:var(--ap-g0);
-  padding-block:var(--ap-p6);margin-block:calc(var(--ap-p6) * -1) var(--ap-p7)}
+  /* 묻는 줄과 적는 칸 사이는 **이 줄의 아래 여백**이 잡는다 — 칸을 그
+     바로 아래로 끌어올리므로(js 의 atop), 사이를 넓히는 곳은 여기 하나다 */
+  padding:var(--ap-p6) 0 var(--ap-p10);
+  margin-block:calc(var(--ap-p6) * -1) 0}
 /* 쌓는 차례는 **마크업 그대로**다 — 얼굴 · 이름 · 번호 · 연락처. 한때
    거꾸로 쌓아(방금 답한 것이 위) 보았는데, 다 채운 순간 보통 폼으로
    돌아가며 차례가 통째로 뒤집혔다. 자연 차례로 쌓으면 **쌓아 올린 그대로가
