@@ -1841,6 +1841,11 @@
          돌아왔다. 자판이 서고 난 뒤의 몫은 fit 의 near 가 다시 맞춘다 */
       scr.addEventListener('focusin', function (e) {
         see();
+        /* ⚠ 끌어올리는 것은 **묻는 동안**뿐이다. 다 채우고 나면 보통 폼이라
+           고치러 누른 칸이 맨 위로 날아갈 까닭이 없다 — 직종을 눌렀더니
+           본문이 끝까지 굴러 내려갔다. 그 자리의 몫은 fit 의 near 가 맡는다
+           (이미 보이면 아무것도 하지 않는다) */
+        if (!scr.classList.contains('is-flow')) return;
         var box = e.target.closest && e.target.closest('[data-flow]');
         if (box) atop(scr, box, true);
       });
