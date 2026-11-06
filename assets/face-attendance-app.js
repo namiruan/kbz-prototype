@@ -1564,6 +1564,22 @@
       tail = Math.min(cap, tail + (need - room));
       scr.style.setProperty('--ap-flow-tail', tail + 'px');
     }
+    /* ⚠ 칸의 **머리**만 맞추면 아랫도리가 남는다. 여권번호와 생년월일처럼
+       한 차례에 칸이 둘인 자리는 키가 커서, 머리를 묻는 줄에 붙이면 끝이
+       떠 있는 바 뒤로 들어간다. 적고 있는 칸이 바에 걸리면 걸린 만큼 더
+       올린다 — 묻는 줄 아래로 칸 머리가 조금 들어가도, 적는 자리가 보이는
+       쪽이 늘 낫다 */
+    var el = document.activeElement;
+    if (el && bd.contains(el)) {
+      var act = scr.querySelector('.act');
+      var hide = !act || getComputedStyle(act).display === 'none' ||
+        getComputedStyle(act).visibility === 'hidden';
+      var low = scr.getBoundingClientRect().bottom -
+        (hide ? 0 : act.getBoundingClientRect().height) - 8;
+      var end = el.getBoundingClientRect().bottom - (need - bd.scrollTop);
+      if (end > low) need += (end - low);
+    }
+
     var to = Math.min(need, bd.scrollHeight - bd.clientHeight);
     /* 차례가 넘어갈 때는 **스르륵** 간다 — 한 칸이 닫히고 다음 칸이 열리는
        동안 눈이 따라갈 자리가 있어야 한다. 재느라 부르는 길(자판이 서고
