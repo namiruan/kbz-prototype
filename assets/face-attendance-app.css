@@ -3164,6 +3164,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   background:var(--ap-kb-bg);box-shadow:0 -1px 0 rgba(0,0,0,.14);
   user-select:none;-webkit-user-select:none}
 @media (hover:hover) and (pointer:fine){ .kb{display:flex} }
+/* 얼굴 차례에는 받을 칸이 없다 — 자판이 설 까닭도 없다. 자판 그림은
+   '이 화면은 자판을 올린 채로 선다' 를 대신 말하는 것이라, 올라올 일이
+   없는 자리에 두면 거짓말이 된다 */
+.is-ask-face .kb{display:none}
 
 .kb__rows{flex:1;display:flex;flex-direction:column;gap:6px;padding:6px 3px 8px}
 .kb__r{flex:1;display:flex;gap:5px;justify-content:center;padding:0 3px}
