@@ -1527,6 +1527,23 @@
       bd.appendChild(sp);
     }
     var q = scr.querySelector('.flow__q');
+    var act = scr.querySelector('.act');
+    function barTop() {
+      if (!act) return scr.getBoundingClientRect().bottom;
+      var cs = getComputedStyle(act);
+      if (cs.display === 'none' || cs.visibility === 'hidden') return scr.getBoundingClientRect().bottom;
+      return act.getBoundingClientRect().top;
+    }
+    /* ⚠ **자리가 모자라면 묻는 줄을 붙여 두지 않는다.** 자판이 올라온
+       폰에서는 묻는 줄 아래 바와 사이가 한 뼘 남짓인데, 여권 차례의 칸은
+       그보다 훨씬 크다 — 붙여 둔 줄이 자리를 쥐고 있는 한 칸의 끝은 어떻게
+       올려도 바에 걸린다. 그 자리에서는 줄도 함께 굴러 올라가게 둔다 */
+    if (q) {
+      var fits = (barTop() - 8) - scr.getBoundingClientRect().top >= 0;
+      var hi = q.getBoundingClientRect().height;
+      var open = (barTop() - 8) - (bd.getBoundingClientRect().top + hi);
+      scr.classList.toggle('is-tight', fits && open < box.getBoundingClientRect().height);
+    }
     var pad = (q && getComputedStyle(q).position === 'sticky')
       ? q.getBoundingClientRect().height : 0;
 
@@ -1571,11 +1588,7 @@
        쪽이 늘 낫다 */
     var el = document.activeElement;
     if (el && bd.contains(el)) {
-      var act = scr.querySelector('.act');
-      var hide = !act || getComputedStyle(act).display === 'none' ||
-        getComputedStyle(act).visibility === 'hidden';
-      var low = scr.getBoundingClientRect().bottom -
-        (hide ? 0 : act.getBoundingClientRect().height) - 8;
+      var low = barTop() - 8;
       /* 칸의 **끝**까지 바 위로 올린다 — 한 차례에 칸이 둘인 자리에서는
          적고 있는 칸만 보면 나머지가 바 뒤에 남는다(여권번호를 적는 동안
          생년월일이 가렸다).

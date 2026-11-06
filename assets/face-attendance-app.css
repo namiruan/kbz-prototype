@@ -2438,6 +2438,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      바로 아래로 끌어올리므로(js 의 atop), 사이를 넓히는 곳은 여기 하나다 */
   padding:var(--ap-p6) 0 var(--ap-p10);
   margin-block:calc(var(--ap-p6) * -1) 0}
+/* ⚠ 자리가 모자라면 붙여 두지 않는다(js 의 atop 이 is-tight 를 건다).
+   자판이 올라온 폰에서 묻는 줄과 떠 있는 바 사이는 한 뼘 남짓인데 여권
+   차례의 칸은 그보다 크다 — 줄이 자리를 쥐고 있으면 칸의 끝이 어떻게 해도
+   바에 걸린다. 그 자리에서는 줄도 함께 굴러 올라간다 */
+.is-flow.is-tight:not(.is-ask-face) .flow__q{position:static}
 /* 쌓는 차례는 **마크업 그대로**다 — 얼굴 · 이름 · 번호 · 연락처. 한때
    거꾸로 쌓아(방금 답한 것이 위) 보았는데, 다 채운 순간 보통 폼으로
    돌아가며 차례가 통째로 뒤집혔다. 자연 차례로 쌓으면 **쌓아 올린 그대로가
