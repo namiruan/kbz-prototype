@@ -1648,9 +1648,25 @@
       if (aim) { try { aim.focus({ preventScroll: true }); } catch (e) { aim.focus(); } }
     }
 
+    /* ── 화면 아무 데나 눌러도 적는 칸으로 ──
+       기기 자판은 **사람이 누르기 전에는** 올라오지 않는다 — 브라우저가
+       그렇게 막아 둔다(문서를 여는 것만으로는 초점을 줘도 올라오지 않는다).
+       초점은 열 때 미리 주어 두고, 빈 자리를 눌러도 그 칸으로 보낸다 —
+       작은 칸을 정확히 겨냥하지 않아도 한 번에 자판이 올라온다.
+       누를 것이 따로 있는 자리(버튼 · 칸 · 갈 자리)는 건드리지 않는다 */
+    function tap(e) {
+      if (at >= ASK.length) return;
+      if (e.target.closest &&
+          e.target.closest('button,a,input,select,textarea,label,[data-go]')) return;
+      var aim = kin(ASK[at])[0];
+      aim = aim && aim.querySelector('.inp__in');
+      if (aim && document.activeElement !== aim) aim.focus();
+    }
+
     if (!scr.dataset.flow) {
       scr.dataset.flow = '1';
       scr.addEventListener('input', see);
+      scr.addEventListener('click', tap);
       if (bnext) bnext.addEventListener('click', step);
     }
 
