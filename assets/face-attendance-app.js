@@ -1503,6 +1503,40 @@
     see();
   }
 
+  /* ── 지금 적는 칸을 맨 위로 ──
+     차례대로 묻는 폼은 답한 것이 위에 쌓여 간다. 적을 칸이 그 아래에
+     묻혀 있으면 굴려 찾아야 하므로, **묻는 줄 바로 아래**로 올린다 —
+     붙어 있는 그 줄이 가리지 않도록 줄의 키만큼 뺀다.
+     더 굴릴 것이 없으면 갈 수 있는 만큼만 간다(짧은 화면에서는 제자리다).
+     ⚠ 아이폰은 칸에 초점이 가면 창째로 밀어 올린다 — 0 으로 되돌린다 */
+  function atop(scr, box) {
+    var bd = scr.querySelector('.body');
+    if (!bd || !box) return;
+    var q = scr.querySelector('.flow__q');
+    var pad = (q && getComputedStyle(q).position === 'sticky')
+      ? q.getBoundingClientRect().height : 0;
+
+    /* 꼬리를 걷고 재야 **본디 굴릴 수 있는 양**이 나온다 */
+    scr.style.setProperty('--ap-flow-tail', '0px');
+    var y = box.getBoundingClientRect().top - bd.getBoundingClientRect().top + bd.scrollTop;
+    var need = Math.max(0, y - pad);
+    var room = bd.scrollHeight - bd.clientHeight;
+    /* 마지막 칸은 제 아래에 굴릴 것이 없어 끝까지 올라오지 못한다 —
+       모자란 만큼 **본문 발치를 늘인다**. 늘인 자리는 그 칸 아래에 남는
+       빈 자리이고, 다음 칸이 열리면 그만큼 줄어든다.
+       ⚠ 한 번 셈으로는 모자랄 때가 있다 — 내용이 화면보다 짧으면
+         scrollHeight 가 화면 키로 바닥을 치므로(max), 늘인 만큼이 그대로
+         굴릴 거리가 되지 않는다. 모자라면 다시 재서 보탠다 */
+    var tail = 0;
+    for (var n = 0; n < 3 && room < need; n++) {
+      tail += need - room;
+      scr.style.setProperty('--ap-flow-tail', tail + 'px');
+      room = bd.scrollHeight - bd.clientHeight;
+    }
+    bd.scrollTop = need;
+    if (window.scrollY) window.scrollTo(0, 0);
+  }
+
   /* ── 한 번에 하나씩 묻는다 — `data-flow` ──
      꼭 받아야 하는 넷을 차례로 받는다(얼굴 → 이름 → 번호 → 연락처). 묻는
      줄이 맨 위에 서고 지금 받을 칸이 그 아래, 답한 것은 다시 그 아래로
@@ -1567,6 +1601,8 @@
       var done = at >= ASK.length;
       var ask = done ? '' : ASK[at];
       scr.classList.toggle('is-flow', !done);
+      /* 다 채우면 늘여 둔 발치도 걷는다 — 보통 폼에는 올릴 칸이 없다 */
+      if (done) scr.style.removeProperty('--ap-flow-tail');
       /* 얼굴 차례는 받을 칸이 없다 — 그림이 바탕을 채우고, 할 일은 바닥
          버튼 하나다(css 의 .is-ask-face) */
       scr.classList.toggle('is-ask-face', ask === 'face');
@@ -1592,18 +1628,12 @@
       act.setAttribute('aria-hidden', ok ? 'false' : 'true');
     }
 
-    /* 새로 연 칸은 **맨 아래**에 붙는다 — 보이지 않으면 보일 만큼만 내린다.
-       ⚠ 끝까지 내리면(scrollHeight) 자리가 넉넉한 날에도 묻는 줄이 위로
-         밀려 나간다. 'nearest' 는 이미 보이면 아무것도 하지 않는다 */
+    /* 새로 연 칸은 맨 아래에 붙는다 — 묻는 줄 바로 아래까지 끌어올린다 */
     function reach() {
       var box = at < ASK.length && kin(ASK[at])[0];
       if (!box) return;
-      function go() {
-        box.scrollIntoView({ block: 'nearest' });
-        if (window.scrollY) window.scrollTo(0, 0);
-      }
-      go();
-      requestAnimationFrame(go);
+      atop(scr, box);
+      requestAnimationFrame(function () { atop(scr, box); });
     }
 
     /* 다음 — 한 자리 나아가고, 새로 연 칸에 바로 적게 한다. 누름이 살아
@@ -1708,6 +1738,9 @@
       see();
       var el = document.activeElement;
       if (!el || !scr.contains(el)) return;
+      /* 차례대로 묻는 폼은 가운데가 아니라 **맨 위**다 — 위에 쌓인 것은
+         이미 답한 것이라, 적는 동안 보일 까닭이 없다 */
+      if (scr.classList.contains('is-flow')) { atop(scr, el.closest('[data-flow]')); return; }
       var box = el.closest('.fld,.idf,.fld__sub') || el;
       box.scrollIntoView({ block: 'center' });
       if (window.scrollY) window.scrollTo(0, 0);
