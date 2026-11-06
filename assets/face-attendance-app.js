@@ -1516,22 +1516,30 @@
     var pad = (q && getComputedStyle(q).position === 'sticky')
       ? q.getBoundingClientRect().height : 0;
 
-    /* 꼬리를 걷고 재야 **본디 굴릴 수 있는 양**이 나온다 */
-    scr.style.setProperty('--ap-flow-tail', '0px');
     var y = box.getBoundingClientRect().top - bd.getBoundingClientRect().top + bd.scrollTop;
     var need = Math.max(0, y - pad);
-    var room = bd.scrollHeight - bd.clientHeight;
+
     /* 마지막 칸은 제 아래에 굴릴 것이 없어 끝까지 올라오지 못한다 —
        모자란 만큼 **본문 발치를 늘인다**. 늘인 자리는 그 칸 아래에 남는
        빈 자리이고, 다음 칸이 열리면 그만큼 줄어든다.
-       ⚠ 한 번 셈으로는 모자랄 때가 있다 — 내용이 화면보다 짧으면
-         scrollHeight 가 화면 키로 바닥을 치므로(max), 늘인 만큼이 그대로
-         굴릴 거리가 되지 않는다. 모자라면 다시 재서 보탠다 */
-    var tail = 0;
-    for (var n = 0; n < 3 && room < need; n++) {
-      tail += need - room;
-      scr.style.setProperty('--ap-flow-tail', tail + 'px');
-      room = bd.scrollHeight - bd.clientHeight;
+       ⚠ **걷었다 다시 붙이지 않는다.** 한때 0 으로 걷고 재었는데, 걷는
+         그 한 틱에 본문이 쪼그라들어 스크롤이 위로 튀었다 돌아왔다 —
+         같은 칸을 다시 잡을 때마다 눈에 보였다. 지금 붙어 있는 값을 빼서
+         **본디 굴릴 수 있는 양**을 셈으로 되돌리고, 값이 같으면 손대지
+         않는다.
+       ⚠ 내용이 화면보다 짧으면 scrollHeight 가 화면 키로 바닥을 치므로
+         (max), 늘인 만큼이 그대로 굴릴 거리가 되지 않는다 — 모자라면
+         다시 재서 보탠다 */
+    var tail = parseFloat(scr.style.getPropertyValue('--ap-flow-tail')) || 0;
+    var want = Math.max(0, need - ((bd.scrollHeight - tail) - bd.clientHeight));
+    for (var n = 0; n < 3; n++) {
+      if (want !== tail) {
+        tail = want;
+        scr.style.setProperty('--ap-flow-tail', tail + 'px');
+      }
+      var room = bd.scrollHeight - bd.clientHeight;
+      if (room >= need) break;
+      want = tail + (need - room);
     }
     bd.scrollTop = need;
     if (window.scrollY) window.scrollTo(0, 0);
@@ -1682,7 +1690,15 @@
       scr.dataset.flow = '1';
       scr.addEventListener('input', see);
       scr.addEventListener('click', tap);
-      scr.addEventListener('focusin', see);
+      /* ⚠ 자리를 잡는 일은 **그 자리에서 바로** 한다. 브라우저도 초점이
+         간 칸을 제 나름대로 굴려 보이는데, 우리 셈이 한 박자 뒤에 오면
+         그 사이가 눈에 보인다 — 같은 칸을 다시 잡을 때마다 위로 튀었다
+         돌아왔다. 자판이 서고 난 뒤의 몫은 fit 의 near 가 다시 맞춘다 */
+      scr.addEventListener('focusin', function (e) {
+        see();
+        var box = e.target.closest && e.target.closest('[data-flow]');
+        if (box) atop(scr, box);
+      });
       /* 초점이 빠지는 그 순간에는 아직 다음 칸이 잡히지 않았다 — 한 박자 뒤 */
       scr.addEventListener('focusout', function () { setTimeout(see, 0); });
       if (bnext) bnext.addEventListener('click', step);
