@@ -127,7 +127,6 @@
     fit(hit);
     must(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
-    diag();
   }
 
   /* ── 화면 밖에 남는 띠의 색 ──
@@ -2328,63 +2327,6 @@
       if (moved > 4 && left > room) away(true);
       else if (moved < -4) away(false);
     }, { passive: true });
-  }
-
-  /* ── 임시 계기 — `?diag=1` ──
-     폰에서만 나는 꼴을 여기서 재현하지 못할 때, 그 기기의 숫자를 그대로
-     읽어 오려고 단다. 주소에 적지 않으면 아무 일도 하지 않는다.
-     ⚠ **일이 끝나면 지운다.** 화면에 들어갈 것이 아니다 */
-  function diag() {
-    if (new URL(location.href).searchParams.get('diag') !== '1') return;
-    var box = document.createElement('pre');
-    box.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99999;margin:0;' +
-      'padding:6px 8px;background:rgba(0,0,0,.82);color:#0f0;font:11px/1.35 monospace;' +
-      'white-space:pre-wrap;pointer-events:none';
-    document.body.appendChild(box);
-    function n(v) { return Math.round(v); }
-    function see() {
-      var vv = window.visualViewport;
-      var s = document.querySelector('.scr[data-screen]');
-      var bd = s && s.querySelector('.body');
-      var a = s && s.querySelector('.act');
-      var q = s && s.querySelector('.flow__q');
-      var ar = a && a.getBoundingClientRect();
-      var sr = s && s.getBoundingClientRect();
-      var qr = q && q.getBoundingClientRect();
-      var me = document.querySelector('script[src*="face-attendance-app.js"]');
-      var ver = me ? (me.getAttribute('src').split('v=')[1] || '?') : '?';
-      var vals = [];
-      if (s) s.querySelectorAll('.inp__in').forEach(function (i) {
-        vals.push((i.getAttribute('aria-label') || '?') + '=' + (i.value || '∅'));
-      });
-      box.textContent =
-        '판 v' + ver + '  at=' + (s ? (s.dataset.at || '-') : '-') +
-        '  carry=' + (s ? (s.dataset.carry || '-') : '-') + '\n' +
-        '칸 ' + vals.join(' ') + '\n' +
-        '얼굴 ' + (s && s.querySelector('.shot__box--done') ? '등록됨' : '아직') + '\n' +
-        'win ' + n(window.innerWidth) + 'x' + n(window.innerHeight) +
-        '  vv ' + (vv ? n(vv.width) + 'x' + n(vv.height) + ' top' + n(vv.offsetTop) : '-') +
-        '  winScrollY ' + n(window.scrollY) + '\n' +
-        'scr ' + (s ? s.dataset.screen : '-') +
-        ' h=' + (sr ? n(sr.height) : '-') + ' inline=' + (s ? (s.style.height || '-') : '-') +
-        ' top=' + (sr ? n(sr.top) : '-') + ' dvh=' + n(window.innerHeight) + '\n' +
-        'cls ' + (s ? (s.className.replace(/scr |is-on ?/g, '') || '-') : '-') + '\n' +
-        'body h=' + (bd ? n(bd.getBoundingClientRect().height) : '-') +
-        ' scrollTop=' + (bd ? n(bd.scrollTop) : '-') +
-        ' scrollH=' + (bd ? n(bd.scrollHeight) : '-') +
-        ' pb=' + (bd ? getComputedStyle(bd).paddingBottom : '-') + '\n' +
-        'tail ' + (s ? (s.style.getPropertyValue('--ap-flow-tail') || '-') : '-') +
-        '  act pos=' + (a ? getComputedStyle(a).position : '-') +
-        ' top=' + (ar ? n(ar.top) : '-') + ' bot=' + (ar ? n(ar.bottom) : '-') +
-        ' vis=' + (a ? getComputedStyle(a).visibility : '-') + '\n' +
-        'q top=' + (qr ? n(qr.top) : '-') + ' bot=' + (qr ? n(qr.bottom) : '-') +
-        ' pos=' + (q ? getComputedStyle(q).position : '-') +
-        '  focus=' + (document.activeElement && document.activeElement.getAttribute
-          ? (document.activeElement.getAttribute('aria-label') || document.activeElement.tagName)
-          : '-');
-    }
-    see();
-    setInterval(see, 250);
   }
 
   /* 아이콘은 스프라이트를 주입해 쓴다 (시스템 규약: 원격 절대 URL) */
