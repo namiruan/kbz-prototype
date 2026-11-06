@@ -1576,8 +1576,16 @@
         getComputedStyle(act).visibility === 'hidden';
       var low = scr.getBoundingClientRect().bottom -
         (hide ? 0 : act.getBoundingClientRect().height) - 8;
-      var end = el.getBoundingClientRect().bottom - (need - bd.scrollTop);
-      if (end > low) need += (end - low);
+      /* 칸의 **끝**까지 바 위로 올린다 — 한 차례에 칸이 둘인 자리에서는
+         적고 있는 칸만 보면 나머지가 바 뒤에 남는다(여권번호를 적는 동안
+         생년월일이 가렸다).
+         다만 적고 있는 칸이 묻는 줄 위로 올라가 버리지 않는 데까지다 */
+      var tail2 = box.getBoundingClientRect().bottom - (need - bd.scrollTop);
+      var mine = el.getBoundingClientRect().bottom - (need - bd.scrollTop);
+      var qb = q ? q.getBoundingClientRect().bottom : bd.getBoundingClientRect().top;
+      var room2 = Math.max(0, (el.getBoundingClientRect().top - (need - bd.scrollTop)) - qb);
+      var up = Math.max(mine - low, Math.min(tail2 - low, room2));
+      if (up > 0) need += up;
     }
 
     var to = Math.min(need, bd.scrollHeight - bd.clientHeight);
