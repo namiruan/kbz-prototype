@@ -1782,8 +1782,16 @@
     function see() {
       /* 자판 높이는 **창과 보이는 자리의 차**다 — 창은 자판이 떠도 줄지 않는다.
          120 아래는 자판이 아니라 주소줄이 접히고 펴지는 만큼이다 */
-      var kb = Math.max(0, Math.round(window.innerHeight - (vv.height + vv.offsetTop)));
-      var want = kb > 120 ? Math.round(vv.height) + 'px' : '';
+      var win = window.innerHeight;
+      var kb = Math.max(0, Math.round(win - (vv.height + vv.offsetTop)));
+      /* ⚠ **잰 값에 울타리를 친다.** 자판이 서고 눕는 사이에 브라우저가
+         한 틱짜리 엉뚱한 값을 내놓는 일이 있다(크롬 iOS). 그 값을 그대로
+         화면 높이로 박으면 화면이 통째로 쪼그라들어, 떠 있는 바가 위로
+         올라오고 폼이 그 아래에 깔린다. 창보다 크지도, 절반보다 작지도
+         않은 값만 받는다 — 벗어나면 줄이지 않는다 */
+      var h = Math.round(vv.height);
+      var fine = kb > 120 && h >= Math.round(win * 0.4) && h <= win;
+      var want = fine ? h + 'px' : '';
       /* 아이폰은 칸에 초점이 가면 창째로 밀어 올린다 — 높이가 그대로여도
          되돌린다. 두면 머리줄과 묻는 줄이 위로 잘려 나간다 */
       if (window.scrollY) window.scrollTo(0, 0);
@@ -1796,7 +1804,7 @@
       if (want && window.scrollY) window.scrollTo(0, 0);
     }
     /* 자판이 서는 데 한 박자 걸린다 — 창이 줄고 난 뒤에 재야 한다 */
-    function soon() { setTimeout(see, 60); setTimeout(near, 320); }
+    function soon() { setTimeout(see, 60); setTimeout(near, 320); setTimeout(near, 700); }
     /* 줄인 화면 안에서 적던 칸을 다시 가운데로 끌어온다 */
     function near() {
       see();
