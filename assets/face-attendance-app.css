@@ -2408,12 +2408,19 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    등록이 끝나면 고치러 들어온 자리와 같은 것을 본다.
    차례와 보임은 js(flow)가 맡고, 여기서는 **쌓는 방향**만 잡는다 */
 .flow__q{display:none}
-.is-flow .flow__q{display:block;order:0;margin-bottom:var(--ap-p9)}
-.is-flow .form{order:1}
-.is-flow .shot{order:2}
-/* ⚠ 형제 선택자는 **마크업 차례**를 본다 — 눈으로는 폼이 위에 있어도
-   .shot + .form 은 그대로 걸린다. 묻는 동안에는 그 사이를 띄우지 않는다 */
-.is-flow .shot + .form{margin-top:0}
+.is-flow .flow__q{display:block;margin-bottom:var(--ap-p9)}
+/* 아래로 쌓다 보면 묻는 줄이 위로 밀려 나간다 — 붙여 둔다. 지나온 칸이
+   그 아래로 지나가므로 면을 깔아야 글이 겹치지 않는다. 얼굴 차례는
+   굴릴 것이 없고 바탕이 흰색도 아니라 뺀다 */
+.is-flow:not(.is-ask-face) .flow__q{position:sticky;top:calc(var(--ap-p6) * -1);z-index:2;
+  background:var(--ap-g0);
+  padding-block:var(--ap-p6);margin-block:calc(var(--ap-p6) * -1) var(--ap-p7)}
+/* 쌓는 차례는 **마크업 그대로**다 — 얼굴 · 이름 · 번호 · 연락처. 한때
+   거꾸로 쌓아(방금 답한 것이 위) 보았는데, 다 채운 순간 보통 폼으로
+   돌아가며 차례가 통째로 뒤집혔다. 자연 차례로 쌓으면 **쌓아 올린 그대로가
+   곧 완성된 폼**이라 뒤집힐 데가 없다.
+   새로 연 칸이 맨 아래에 붙으므로 거기까지 내려 보여 준다(js 의 reach) */
+.is-flow .shot + .form{margin-top:var(--ap-gap6)}
 /* ── 얼굴 차례 ──
    이 자리에서 할 일은 하나뿐이라, 그림을 작은 카드에 가둘 까닭이 없다 —
    **바탕을 꽉 채운다**. 네모 테와 모서리를 걷고 남은 자리를 다 쓴다.
@@ -2449,19 +2456,18 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    쌓인 자리에서는 사진 한 장만 덩그러니 놓이면 **무엇을 답한 것인지**가
    없다. 위아래의 다른 칸은 다 라벨을 달고 왼쪽에서 시작하는데 이것만
    가운데에 크게 떠 있어, 폼이 거기서 한 번 끊겼다.
-   라벨을 달고 사진을 한 단 줄여 왼쪽에 세운다 — 다른 칸과 같은 꼴이다.
+   라벨을 달고 사진을 한 단 줄여 왼쪽에 놓는다 — 다른 칸과 같은 꼴이다.
    얼굴 차례(아직 답하기 전)와 다 채운 뒤(보통 폼)는 그대로다 */
 .shot__l{display:none}
 .is-flow:not(.is-ask-face) .shot{align-items:flex-start;gap:var(--ap-p2);
-  margin-top:calc(var(--ap-gap6) - var(--ap-gap3));
   padding-inline:var(--ap-p6)}
 .is-flow:not(.is-ask-face) .shot__l{display:block}
-.is-flow:not(.is-ask-face) .shot__box{width:120px;height:120px}
-/* 표지도 사진을 따라 줄인다 — 240 에서 40 이던 것이 120 에서도 40 이면
-   사진의 3분의 1을 덮는다 */
-.is-flow:not(.is-ask-face) .shot__edit{width:28px;height:28px;
-  right:var(--ap-p2);bottom:var(--ap-p2)}
-.is-flow:not(.is-ask-face) .shot__edit .ic{width:16px;height:16px}
+.is-flow:not(.is-ask-face) .shot__box{width:180px;height:180px}
+/* 표지도 사진을 따라 줄인다 — 240 에서 40 이던 것이 180 에서도 40 이면
+   사진에서 차지하는 몫이 커진다 */
+.is-flow:not(.is-ask-face) .shot__edit{width:32px;height:32px;
+  right:var(--ap-p3);bottom:var(--ap-p3)}
+.is-flow:not(.is-ask-face) .shot__edit .ic{width:18px;height:18px}
 
 /* 묻는 줄은 넷을 다 적어 두고 **지금 것 하나만** 켠다 */
 .flow__q__t{display:none;font:var(--t-title1);letter-spacing:var(--ls-title1);

@@ -1580,8 +1580,6 @@
         if (done) { n.hidden = false; n.style.order = ''; return; }
         /* 차례에 없는 것(직종 · 단가)은 끝나야 열린다 */
         n.hidden = i < 0 || i > at;
-        /* 쌓는 차례는 **거꾸로**다 — 방금 답한 것이 위에 온다 */
-        n.style.order = (i < 0 || !form || !form.contains(n)) ? '' : String(-i);
       });
 
       if (!act) return;
@@ -1594,14 +1592,27 @@
       act.setAttribute('aria-hidden', ok ? 'false' : 'true');
     }
 
+    /* 새로 연 칸은 **맨 아래**에 붙는다 — 보이지 않으면 보일 만큼만 내린다.
+       ⚠ 끝까지 내리면(scrollHeight) 자리가 넉넉한 날에도 묻는 줄이 위로
+         밀려 나간다. 'nearest' 는 이미 보이면 아무것도 하지 않는다 */
+    function reach() {
+      var box = at < ASK.length && kin(ASK[at])[0];
+      if (!box) return;
+      function go() {
+        box.scrollIntoView({ block: 'nearest' });
+        if (window.scrollY) window.scrollTo(0, 0);
+      }
+      go();
+      requestAnimationFrame(go);
+    }
+
     /* 다음 — 한 자리 나아가고, 새로 연 칸에 바로 적게 한다. 누름이 살아
        있는 그 안에서 초점을 줘야 기기 자판이 내려갔다 다시 올라오지 않는다 */
     function step() {
       if (at >= ASK.length || !full(ASK[at])) return;
       at++;
       see();
-      var bd = scr.querySelector('.body');
-      if (bd) bd.scrollTop = 0;
+      reach();
       var aim = at < ASK.length && kin(ASK[at])[0];
       aim = aim && aim.querySelector('.inp__in');
       if (aim) { try { aim.focus({ preventScroll: true }); } catch (e) { aim.focus(); } }
@@ -1620,6 +1631,9 @@
     if (now) now.setAttribute('autofocus', '');
 
     see();
+    /* 중간 자리로 바로 연 화면도 지금 묻는 칸이 보여야 한다 — seek 는
+       초점만 주고 굴리지 않는다(preventScroll) */
+    if (at > 0 && at < ASK.length) reach();
   }
 
   /* ── 필수 칸이 다 차면 저장이 선다 ──
