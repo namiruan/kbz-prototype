@@ -4087,6 +4087,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   .photo--sm{width:240px;max-width:240px}
   .body{padding:var(--ap-p8)}
   .is-ask-face .flow__q{padding-inline:var(--ap-p8)}
+  /* 묻는 줄도 **본문 여백만큼** 되물린다 — .card--head 와 같은 까닭이다.
+     16 으로 박아 두었더니 여백이 24 가 되는 이 폭에서 줄 위에 8 이 남아,
+     굴러 올라간 칸이 그 틈으로 비쳤다(진행 막대 바로 아래에서 얼굴이
+     한 줄 그어진 것처럼 보였다) */
+  .is-flow:not(.is-ask-face) .flow__q{top:calc(var(--ap-p8) * -1);
+    padding-top:var(--ap-p8);margin-top:calc(var(--ap-p8) * -1)}
   /* 머리말 칸은 **본문 여백만큼** 되물린다 — 16 으로 박아 두었더니 여백이
      24 가 되는 이 폭에서 위와 옆에 8 씩 바탕이 남아, 흰 면이 머리줄에서
      끊겨 보였다(그라데이션이 머리줄 아래에서 시작했다) */
