@@ -1598,6 +1598,12 @@
     var bnext = act && act.querySelector('[data-act="next"]');
     var bsave = act && act.querySelector('[data-act="save"]');
 
+    function cur() {
+      var v = parseInt(scr.dataset.at, 10);
+      return isNaN(v) ? 0 : Math.max(0, Math.min(ASK.length, v - 1));
+    }
+    function put(i) { scr.dataset.at = Math.max(0, Math.min(ASK.length, i)) + 1; }
+
     function kin(key) {
       return parts.filter(function (n) { return n.dataset.flow === key; });
     }
@@ -1631,8 +1637,18 @@
       || scr.dataset.step, 10);
     if (want > 1) for (var k = 0; k < want - 1 && k < ASK.length; k++) fill(ASK[k]);
 
+    /* ⚠ 지금 어느 차례인가는 **요소가 들고 있는다**(data-at · 1부터).
+       함수 안의 값으로 두었더니, 갈아 끼웠다 돌아올 때마다 이 함수가 다시
+       돌아 새 값이 생기는데 **먼저 매 둔 귀(focusin · click …)는 옛 값을
+       그대로 보고 있었다** — 둘이 서로 다른 차례를 들고 싸웠다 */
     var at = 0;
     while (at < ASK.length && full(ASK[at])) at++;
+    /* ⚠ 적힌 값으로 센 차례가 **일러 준 자리를 앞지르지 못하게** 한다.
+       탭을 갈아 끼웠다 돌아오면 선반에 있던 값이 되살아나는데, 그것을
+       그대로 세면 묻지도 않은 다음 차례가 열린다 — 탭을 눌렀을 뿐인데
+       화면이 한 장 넘어간 꼴이 됐다 */
+    if (!isNaN(want) && want > 0) at = Math.min(at, want - 1);
+    put(at);
 
     /* 묻는 줄은 **지금 적고 있는 칸**을 따라간다. 지나온 칸을 고치러
        올라가면 그 칸의 물음으로 바뀐다 — 그러지 않으면 이름을 고치는데
@@ -1642,10 +1658,12 @@
       var el = document.activeElement;
       var box = el && scr.contains(el) && el.closest && el.closest('[data-flow]');
       var k = box && box.dataset.flow;
-      return (k && ASK.indexOf(k) >= 0) ? k : (at < ASK.length ? ASK[at] : '');
+      var i = cur();
+      return (k && ASK.indexOf(k) >= 0) ? k : (i < ASK.length ? ASK[i] : '');
     }
 
     function see() {
+      var at = cur();
       var done = at >= ASK.length;
       var ask = done ? '' : asking();
       scr.classList.toggle('is-flow', !done);
@@ -1682,6 +1700,7 @@
 
     /* 새로 연 칸은 맨 아래에 붙는다 — 묻는 줄 바로 아래까지 끌어올린다 */
     function reach(slide) {
+      var at = cur();
       var box = at < ASK.length && kin(ASK[at])[0];
       if (!box) return;
       /* 스르륵 가는 길은 **한 번만** 부른다 — 먼저 톡 옮겨 놓고 다시
@@ -1694,8 +1713,9 @@
     /* 다음 — 한 자리 나아가고, 새로 연 칸에 바로 적게 한다. 누름이 살아
        있는 그 안에서 초점을 줘야 기기 자판이 내려갔다 다시 올라오지 않는다 */
     function step() {
+      var at = cur();
       if (at >= ASK.length || !full(ASK[at])) return;
-      at++;
+      put(++at);
       see();
       /* 새로 열린 칸은 **들어오는 몸짓**을 한 번 한다(css 의 .is-new) */
       var now = at < ASK.length && kin(ASK[at])[0];
@@ -1719,6 +1739,7 @@
        작은 칸을 정확히 겨냥하지 않아도 한 번에 자판이 올라온다.
        누를 것이 따로 있는 자리(버튼 · 칸 · 갈 자리)는 건드리지 않는다 */
     function tap(e) {
+      var at = cur();
       if (at >= ASK.length) return;
       if (e.target.closest &&
           e.target.closest('button,a,input,select,textarea,label,[data-go]')) return;
@@ -1755,9 +1776,15 @@
            있으므로 그냥 둔다 */
       scr.addEventListener('focusout', function () {
         setTimeout(function () {
+          /* 이미 덜어 내진 화면이면 더 할 일이 없다 — 갈아 끼울 때 떠나는
+             화면에서도 초점이 빠지는데, 그것까지 '완료' 로 치면 안 된다 */
+          if (!scr.isConnected) return;
           see();
+          /* ⚠ 화면 안의 **무엇이든** 초점을 가져갔으면 자판을 내린 것이
+             아니다. 칸만 보고 있었더니, 탭이나 라디오를 눌러 초점이 그
+             단추로 간 것까지 '완료' 로 쳐서 다음 차례로 넘어가 버렸다 */
           var on = document.activeElement;
-          if (on && scr.contains(on) && on.classList.contains('inp__in')) return;
+          if (on && on !== document.body && scr.contains(on)) return;
           step();
         }, 0);
       });
@@ -1779,14 +1806,15 @@
 
     /* 처음 서는 초점은 seek 가 준다 — 그 표를 지금 묻는 칸으로 옮겨 둔다 */
     scr.querySelectorAll('[autofocus]').forEach(function (n) { n.removeAttribute('autofocus'); });
-    var now = at < ASK.length && kin(ASK[at])[0];
+    var here = cur();
+    var now = here < ASK.length && kin(ASK[here])[0];
     now = now && now.querySelector('.inp__in');
     if (now) now.setAttribute('autofocus', '');
 
     see();
     /* 중간 자리로 바로 연 화면도 지금 묻는 칸이 보여야 한다 — seek 는
        초점만 주고 굴리지 않는다(preventScroll) */
-    if (at > 0 && at < ASK.length) reach();
+    if (here > 0 && here < ASK.length) reach();
   }
 
   /* ── 필수 칸이 다 차면 저장이 선다 ──
@@ -1941,7 +1969,12 @@
        자리만 그대로 옮긴다 */
     var keep = 0, oldbd = now.querySelector('.body');
     if (same && oldbd) keep = oldbd.scrollTop;
-    if (same) carry(now, next);
+    if (same) {
+      carry(now, next);
+      /* 차례도 함께 건너간다 — 탭은 받는 번호를 갈 뿐, 묻는 자리를
+         넘기는 손짓이 아니다 */
+      if (now.dataset.at) next.dataset.at = now.dataset.at;
+    }
 
     if (!same) {
       /* 시트는 **지금 걸린 것을 켠 채로** 올라온다 — 고치러 올라온 자리라,
