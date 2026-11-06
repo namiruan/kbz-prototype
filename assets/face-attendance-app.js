@@ -2274,7 +2274,17 @@
       var ar = a && a.getBoundingClientRect();
       var sr = s && s.getBoundingClientRect();
       var qr = q && q.getBoundingClientRect();
+      var me = document.querySelector('script[src*="face-attendance-app.js"]');
+      var ver = me ? (me.getAttribute('src').split('v=')[1] || '?') : '?';
+      var vals = [];
+      if (s) s.querySelectorAll('.inp__in').forEach(function (i) {
+        vals.push((i.getAttribute('aria-label') || '?') + '=' + (i.value || '∅'));
+      });
       box.textContent =
+        '판 v' + ver + '  at=' + (s ? (s.dataset.at || '-') : '-') +
+        '  carry=' + (s ? (s.dataset.carry || '-') : '-') + '\n' +
+        '칸 ' + vals.join(' ') + '\n' +
+        '얼굴 ' + (s && s.querySelector('.shot__box--done') ? '등록됨' : '아직') + '\n' +
         'win ' + n(window.innerWidth) + 'x' + n(window.innerHeight) +
         '  vv ' + (vv ? n(vv.width) + 'x' + n(vv.height) + ' top' + n(vv.offsetTop) : '-') +
         '  winScrollY ' + n(window.scrollY) + '\n' +
