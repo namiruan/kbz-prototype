@@ -1762,6 +1762,16 @@
       if (bsave) bsave.hidden = !done;
       act.classList.toggle('act--void', !ok);
       act.setAttribute('aria-hidden', ok ? 'false' : 'true');
+
+      /* 묻는 동안의 '다음' 은 떠 있는 버튼이고, 다 채운 뒤의 '저장' 은
+         **바닥 바**다. 묻는 동안에는 아래로 칸이 더 열리므로 버튼 옆으로
+         칸이 이어져 보여야 하지만, 다 채운 뒤에는 더 열릴 것이 없다 —
+         거기서 끝이라고 말하는 쪽이 맞다.
+         띄운 표(has-float-act)도 함께 내린다. 두면 바가 본문 위에 얹힌 채
+         남아, 줄 세운 바 자리만큼 본문 아래가 비어 버린다 */
+      act.classList.toggle('act--float', !done);
+      act.classList.toggle('act--dock', done);
+      scr.classList.toggle('has-float-act', !done && scr.dataset.stow === '1');
     }
 
     /* 새로 연 칸은 맨 아래에 붙는다 — 묻는 줄 바로 아래까지 끌어올린다 */
