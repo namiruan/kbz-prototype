@@ -2421,17 +2421,25 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    하고 있어, 두면 한 화면에서 같은 말을 두 번 한다.
    자판은 여기서 쓰지 않는다 — 받을 칸이 없다(js 의 flow 가 초점도 주지
    않는다) */
-.is-ask-face .body{padding-inline:0;padding-bottom:0;
-  background:radial-gradient(circle at 50% 56%,
+.is-ask-face .body{padding-bottom:var(--ap-p6);
+  background:radial-gradient(circle at 50% 50%,
     var(--ap-glow-in) 0,var(--ap-glow-out) 52%,var(--ap-g0) 100%)}
-.is-ask-face .flow__q{padding-inline:var(--ap-p6)}
-.is-ask-face .shot{flex:1;min-height:0}
-.is-ask-face .shot__box{width:100%;height:100%;border:0;border-radius:0;
-  justify-content:center;background:none}
+/* 그림과 그 아래 버튼은 **한 덩어리로 화면 가운데에 선다**. 버튼을 바닥에
+   내려 두었더니 그림과 멀어져, 무엇을 누르면 저 그림이 움직이는지가 한눈에
+   붙지 않았다. 묻는 줄만 위에 남고, 남는 자리는 둘이 반씩 나눠 갖는다 */
+.is-ask-face .shot{flex:1;min-height:0;justify-content:center}
+.is-ask-face .shot__box{width:100%;height:auto;border:0;border-radius:0;
+  background:none;gap:var(--ap-p12)}
 /* 그림도 자리를 받은 만큼 커진다 — 카드에 맞춰 둔 치수 그대로면 넓어진
-   바탕 한가운데에 조각처럼 남는다 */
-.is-ask-face .shot__box > .scan{top:50%;--ap-scan:min(calc(var(--ap-scan-base) * 2.2), 70vw)}
-.is-ask-face .shot__t,.is-ask-face .shot__hint{display:none}
+   바탕 한가운데에 조각처럼 남는다.
+   ⚠ 띄워 두었던 것을 **줄로 되돌린다**(position:relative · transform 없음) —
+     띄워 두면 키를 내지 않아, 버튼이 그림 위로 올라앉는다 */
+.is-ask-face .shot__box > .scan{position:relative;top:auto;left:auto;transform:none;
+  --ap-scan:min(calc(var(--ap-scan-base) * 2.2), 70vw)}
+/* 안내 한 줄은 걷는다 — 바로 아래 버튼이 같은 말을 하고 있다 */
+.is-ask-face .shot__hint{display:none}
+/* 바닥 바는 이 차례에 없다 — 할 일은 그림 아래 버튼 하나다 */
+.is-ask-face .act{display:none}
 
 /* 묻는 줄은 넷을 다 적어 두고 **지금 것 하나만** 켠다 */
 .flow__q__t{display:none;font:var(--t-title1);letter-spacing:var(--ls-title1);
@@ -2476,7 +2484,7 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* ⚠ 이것들은 button 이 아니라 span 이라, 맨 위의 reset
    (button{cursor:pointer})이 닿지 않는다 — 글자 위에서 텍스트 커서가
    떴다. 눌리는 것은 손 모양이어야 한다(atoms/link.md 의 '클릭 영역') */
-.confirm__ok,.scan__go{cursor:pointer;font:var(--t-title2);letter-spacing:var(--ls-title2);
+.confirm__ok,.scan__go,.is-ask-face .shot__t{cursor:pointer;font:var(--t-title2);letter-spacing:var(--ls-title2);
   width:100%;height:56px;display:flex;align-items:center;justify-content:center;
   background:var(--ap-primary);border-radius:var(--ap-r10);color:var(--ap-g0)}
 .scan__go{box-shadow:var(--ap-shadow-lift)}

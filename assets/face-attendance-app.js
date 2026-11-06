@@ -1507,7 +1507,6 @@
     var parts = Array.prototype.slice.call(scr.querySelectorAll('[data-flow]'));
     var form = scr.querySelector('.form');
     var act = scr.querySelector('.act');
-    var bface = act && act.querySelector('[data-act="face"]');
     var bnext = act && act.querySelector('[data-act="next"]');
     var bsave = act && act.querySelector('[data-act="save"]');
 
@@ -1565,10 +1564,9 @@
       });
 
       if (!act) return;
-      /* 얼굴 차례의 버튼은 **적은 것을 확인하는 버튼이 아니라 할 일**이라,
-         채울 것을 기다리지 않고 처음부터 서 있다 */
-      var ok = done ? ASK.every(full) : (ask === 'face' || full(ask));
-      if (bface) bface.hidden = ask !== 'face';
+      /* 얼굴 차례에는 바닥 바가 통째로 없다 — 할 일은 그림 아래 버튼
+         하나다(css 의 .is-ask-face .act) */
+      var ok = done ? ASK.every(full) : full(ask);
       if (bnext) bnext.hidden = done || ask === 'face';
       if (bsave) bsave.hidden = !done;
       act.classList.toggle('act--void', !ok);
