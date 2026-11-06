@@ -232,7 +232,10 @@
            받고, 넷이 다 차면 보통 폼이 된다. 구역 이름이 이미 '근로자 얼굴
            등록' 이라, 그 아래 2단계 이름표를 한 겹 더 두면 같은 말을 두 번
            하게 된다.
-           한 화면이 여러 자리를 갖는 곳은 data-q 가 주소로 연다(step=3) -->
+           ⚠ 시나리오 이름은 **겹치면 안 된다**. 폭 미리보기에서는 셸이 이
+           이름만 ?scenario= 로 실어 보내므로, 겹치면 여럿이 첫 자리로 열린다.
+           한 폼의 여러 자리에는 저마다 이름을 두었다(m-worker-new-name ·
+           -id · -tel) — 어느 장의 몇 번째 자리인지는 화면 쪽 js 가 푼다 -->
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new"
         data-why="꼭 받아야 하는 넷을 한 번에 하나씩 받습니다. 넷을 한꺼번에 세워 두면 어디부터 손대야 하는지를 매번 고르게 됩니다.
 
@@ -246,13 +249,13 @@
           |@{.shot__t} 클릭하면 얼굴 등록 온보딩으로 갑니다. 그림 쪽을 클릭해도 같습니다
           |이름 · 번호 · 연락처 칸은 아직 없습니다 — 얼굴을 등록해야 다음 질문이 열립니다
           |받을 칸이 없어 기기 자판도 올라오지 않습니다">처음 열면</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new" data-q="step=2"
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new-name"
         data-why="얼굴이 등록되면 다음 질문이 바로 열립니다. '다음' 을 한 번 더 누르게 하지 않는 것은, 사진이 들어앉은 것이 곧 그 차례의 답이어서입니다."
         data-steps="등록 촬영 확인에서 '얼굴 등록하기' 를 클릭한 상태"
         data-look="
           |@{.shot__box--done} 그림 자리를 찍은 사진이 대신합니다 — 틀은 찍기 전과 같고, 오른쪽 아래 표지를 클릭하면 다시 찍습니다
           |@{.fld[data-flow=ireum]} 이름 칸이 열리고 커서가 그 칸에 놓입니다 — 답한 얼굴은 그 아래로 내려갑니다">얼굴을 등록하면</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new" data-q="step=3"
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new-id"
         data-why="답한 것은 아래로 쌓입니다 — 방금 답한 것이 위, 먼저 답한 것이 아래입니다. 올려다볼 것은 늘 한 줄이고, 지나온 것은 내려다보면 있습니다.
 
 번호는 받는 값이 통째로 갈리는 자리라, 칸 맨 위에 탭으로 먼저 가릅니다."
@@ -262,7 +265,7 @@
           |@{.fld__l b} 필수 항목은 라벨 옆에 '(필수)' 가 붙습니다
           |'다음' 은 지금 묻는 칸이 차야 나타납니다 — 비어 있는 동안에는 자리만 지킨 채 비어 있습니다
           |@md @lg @{.form} 넓은 폭에서는 폼이 늘어나지 않고 가운데로 모입니다">이름을 적으면</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new-foreign" data-q="step=3"
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new-foreign"
         data-why="외국인 탭에서는 받는 번호가 둘입니다 — 외국인등록번호는 주민번호와 같은 꼴(13자리)이고, 여권으로 등록할 사람은 여권번호를 고릅니다.
 
 둘 가운데 하나라 라디오로 고릅니다. 체크 하나로 두었더니 켜고 끄는 일처럼 보여, 끄면 무엇을 받는지가 글에 없었습니다 — 둘을 나란히 적습니다.
@@ -275,7 +278,7 @@
           |@{.pickr} 라벨 자리에 라디오 줄이 듭니다 — 알과 글자 어디를 클릭해도 골라지고, 고른 쪽의 화면으로 갑니다
           |@{.pickr__o.is-on b} '(필수)' 는 고른 알의 라벨에 붙습니다
           |@{.idf} 탭이나 라디오를 바꿔도 이름 · 연락처 · 직종 · 단가는 적어 둔 그대로 남습니다 — 바뀌는 것은 이 칸 하나입니다">외국인이면</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new-passport" data-q="step=3"
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new-passport"
         data-why="여권번호를 고르면 같은 칸이 받는 것이 바뀝니다.
 
 생년월일은 번호에 딸린 값이라 같은 칸 안에 듭니다 — 여권번호에는 나이가 들어 있지 않아, 주민번호 하나가 하던 일(누구인가 · 몇 살인가)을 둘이 나눠 받습니다. 칸 밖으로 내보내면 번호와의 끈이 끊깁니다."
@@ -284,7 +287,7 @@
           |@{.pickr__o.is-on} 고른 알이 바뀌면 아래 플레이스홀더도 여권번호로 따라 바뀝니다 — 외국인등록번호와 둘을 함께 받지는 않습니다
           |@{.fld__sub} 생년월일 칸이 이 칸 안에 하나 더 늡니다. '외국인등록번호' 를 다시 고르면 함께 빠집니다
           |둘은 한 차례로 묶입니다 — 여권번호와 생년월일이 모두 차야 '다음' 이 나타납니다">여권번호를 고르면</button>
-      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new" data-q="step=4"
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="m-worker-new-tel"
         data-why="마지막 필수 칸입니다. 이것까지 차면 묻기를 멈춥니다."
         data-steps="번호를 적고 '다음' 을 클릭한 상태"
         data-look="
@@ -421,11 +424,9 @@
   /* 시나리오 이름이 곧 화면 이름이다 — 화면 파일이 ?screen= 으로 한 장을 켠다.
      여기서 더 할 일(클릭·스크롤)이 없다: 앱 화면은 한 장이 통째로 한 상태라,
      열어 놓고 무언가를 눌러 만들 상태가 없다 */
-  /* 한 화면이 여러 자리를 갖는 곳이 있다 — 차례대로 묻는 폼이 그렇다.
-     그 자리는 data-q 가 주소에 실어 보낸다(step=3) */
-  function open(name, q){
+  function open(name){
     var f=$('#screen iframe'); if(!f) return;
-    f.src = APP + '?screen=' + encodeURIComponent(name) + (q ? '&' + q : '') + '&r=' + LOAD;
+    f.src = APP + '?screen=' + encodeURIComponent(name) + '&r=' + LOAD;
   }
 
   /* 크롬이 틀 안에서 ?scenario= 를 읽어 해당 버튼을 눌러 준다 — 그 누름을 여기서 받는다.
@@ -434,11 +435,11 @@
     b.addEventListener('click',function(){
       document.querySelectorAll('.proto-nav-btn').forEach(function(o){
         o.classList.toggle('is-active', o===b); });
-      open(b.dataset.scenario, b.dataset.q);
+      open(b.dataset.scenario);
     });
   });
   var first=document.querySelector('.proto-nav-btn.is-active')||document.querySelector('.proto-nav-btn');
-  if(first) open(first.dataset.scenario, first.dataset.q);
+  if(first) open(first.dataset.scenario);
 
   var stamp=$('#protoStamp');
   if(stamp) stamp.textContent='이 페이지 '+document.lastModified;

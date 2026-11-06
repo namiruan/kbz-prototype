@@ -57,10 +57,26 @@
   /* pick() 이 덜어 낸 화면을 이름으로 쥐고 있는 선반. 문서 밖이다 */
   var SHELF = {};
 
+  /* ── 한 폼의 여러 자리에 **저마다 이름을 준다** ──
+     차례대로 묻는 폼은 마크업 한 장이 여러 자리를 갖는다(얼굴 · 이름 ·
+     번호 · 연락처). 그런데 프로토타입 셸은 **화면 이름 하나로 시나리오
+     하나**를 가리키고, 폭 미리보기에서는 그 이름만 ?scenario= 로 실어
+     보낸다 — 이름이 겹치면 셋 다 첫 자리로 열린다(실제로 그랬다).
+     그래서 자리마다 이름을 두고, 여기서 **어느 장의 몇 번째 자리인지**로
+     푼다. 마크업은 한 장 그대로다 */
+  var STEP = {
+    'm-worker-new-name': ['m-worker-new', 2],
+    'm-worker-new-id':   ['m-worker-new', 3],
+    'm-worker-new-tel':  ['m-worker-new', 4]
+  };
+
   function pick() {
     var want = new URL(location.href).searchParams.get('screen');
     var all = document.querySelectorAll('.scr');
     if (!all.length) return;
+
+    var at = 0;
+    if (want && STEP[want]) { at = STEP[want][1]; want = STEP[want][0]; }
 
     var hit = want && document.querySelector('.scr[data-screen="' + want + '"]');
     /* 모르는 이름이 오면 첫 화면으로 — 빈 문서를 내놓으면 주소를 잘못 적은 것인지
@@ -88,6 +104,7 @@
       s.remove();
     });
     hit.classList.add('is-on');
+    if (at) hit.dataset.at = at;
     stow(hit);
     link(hit);
     clock(hit);
@@ -1535,8 +1552,12 @@
       });
     }
 
-    /* 주소가 가리키는 자리까지 답을 채워 둔다 */
-    var want = parseInt(new URL(location.href).searchParams.get('step'), 10);
+    /* 어느 자리로 여는가 — 이름이 정한 것(pick 의 STEP) · 주소가 손으로
+       적어 준 것(?step=3) · 마크업이 적어 둔 것(data-step) 차례로 본다.
+       거기까지의 답은 채워 두고 연다 */
+    var want = parseInt(scr.dataset.at
+      || new URL(location.href).searchParams.get('step')
+      || scr.dataset.step, 10);
     if (want > 1) for (var k = 0; k < want - 1 && k < ASK.length; k++) fill(ASK[k]);
 
     var at = 0;
@@ -1826,15 +1847,9 @@
          않으면 다른 화면에 갔다 돌아올 때 지난 날이 따라온다 */
       if (go.hasAttribute('data-d')) u.searchParams.set('d', go.getAttribute('data-d'));
       else u.searchParams.delete('d');
-      /* 차례대로 묻는 폼의 **몇 번째 자리**인지도 같은 식으로 싣는다
-         (data-go-q="step=2"). 적어 두지 않으면 지운다 — 두면 다른 화면에
-         갔다 돌아올 때 지난 차례가 따라온다 */
+      /* 손으로 적어 준 차례는 따라가지 않는다 — 두면 다른 화면에 갔다
+         돌아올 때 지난 차례가 따라온다. 갈 자리는 data-go 의 이름이 든다 */
       u.searchParams.delete('step');
-      (go.getAttribute('data-go-q') || '').split('&').forEach(function (kv) {
-        if (!kv) return;
-        var c = kv.indexOf('=');
-        u.searchParams.set(kv.slice(0, c), kv.slice(c + 1));
-      });
       var url = u.toString();
 
       /* 시트가 떠 있는 화면에서 떠날 때는 **내려가는 것을 보여 주고** 간다.
