@@ -1807,7 +1807,15 @@
       });
       var form = scr.querySelector('.form');
       if (form) form.addEventListener('submit', function (e) { e.preventDefault(); step(); });
-      if (bnext) bnext.addEventListener('click', step);
+      if (bnext) {
+        /* ⚠ **누를 때 초점을 뺏지 않는다.** 단추를 누르면 적던 칸에서
+           초점이 떨어지고, 그 순간 기기 자판이 내려가기 시작한다 — 그
+           뒤에 다음 칸으로 초점을 옮겨 봐야 자판은 이미 내려간 뒤다.
+           누름의 기본 동작을 막으면 초점이 칸에 남아 있고, 그 자리에서
+           다음 칸으로 건너가므로 자판이 끊기지 않는다 */
+        bnext.addEventListener('mousedown', function (e) { e.preventDefault(); });
+        bnext.addEventListener('click', step);
+      }
     }
 
     /* 처음 서는 초점은 seek 가 준다 — 그 표를 지금 묻는 칸으로 옮겨 둔다 */
