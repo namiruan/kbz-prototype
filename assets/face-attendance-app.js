@@ -1544,20 +1544,25 @@
        ⚠ 내용이 화면보다 짧으면 scrollHeight 가 화면 키로 바닥을 치므로
          (max), 늘인 만큼이 그대로 굴릴 거리가 되지 않는다 — 모자라면
          다시 재서 보탠다 */
+    /* ⚠ 꼬리는 **늘이기만 하지 않는다 — 줄이기도 한다.** 자판이 올라오면
+       화면이 줄어 굴릴 수 있는 거리가 그만큼 늘어난다. 꼬리를 그대로 두면
+       필요한 것보다 더 굴러가, 적던 칸이 묻는 줄 위로 올라가 가려졌다.
+       **꼭 필요한 만큼**으로 매번 다시 잡으면, 끝까지 굴려도 그 칸이 묻는
+       줄 바로 아래에 선다.
+       울타리의 자는 본문이 아니라 **화면의 키**다 — 늘인 것이 본문에 들면
+       본문도 함께 커져 제 꼬리를 제가 재는 꼴이 된다 */
     var tail = parseFloat(scr.style.getPropertyValue('--ap-flow-tail')) || 0;
-    /* ⚠ 늘이는 데에 **울타리를 친다**. 셈이 한 번 어긋나면 되먹임으로
-       자꾸 커진다. 아무리 늘려도 본문 한 키를 넘길 까닭이 없다.
-       자는 본문의 키가 아니라 **화면의 키**다 — 늘인 것이 본문에 들면
-       본문도 함께 커져, 제 꼬리를 제가 재는 꼴이 된다 */
     var cap = Math.max(0, Math.round(scr.getBoundingClientRect().height));
+    var want = Math.max(0, Math.min(cap, need - ((bd.scrollHeight - tail) - bd.clientHeight)));
+    if (want !== tail) {
+      tail = want;
+      scr.style.setProperty('--ap-flow-tail', tail + 'px');
+    }
+    /* 한 번 더 재어 모자란 만큼만 보탠다(어림수가 어긋날 때) */
     var room = bd.scrollHeight - bd.clientHeight;
-    for (var n = 0; n < 3 && room < need; n++) {
-      var was = room;
+    if (room < need && tail < cap) {
       tail = Math.min(cap, tail + (need - room));
       scr.style.setProperty('--ap-flow-tail', tail + 'px');
-      room = bd.scrollHeight - bd.clientHeight;
-      /* 늘였는데 굴릴 거리가 늘지 않으면 더 늘려도 소용없다 — 멈춘다 */
-      if (room <= was || tail >= cap) break;
     }
     var to = Math.min(need, bd.scrollHeight - bd.clientHeight);
     /* 차례가 넘어갈 때는 **스르륵** 간다 — 한 칸이 닫히고 다음 칸이 열리는
