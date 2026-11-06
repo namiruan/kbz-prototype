@@ -2429,7 +2429,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    붙지 않았다. 묻는 줄만 위에 남고, 남는 자리는 둘이 반씩 나눠 갖는다 */
 .is-ask-face .shot{flex:1;min-height:0;justify-content:center}
 .is-ask-face .shot__box{width:100%;height:auto;border:0;border-radius:0;
-  background:none;gap:var(--ap-p12)}
+  background:none;gap:var(--ap-p12);
+  /* ⚠ **자르지 않는다.** 카드일 때는 네모 안에 가두느라 잘랐는데(overflow:hidden),
+     네모를 걷은 자리에서 그대로 두면 상자 변에서 그림이 잘린다 — 얼굴 면도
+     파장도 제 상자보다 크다. 퍼지는 것이 이 그림의 몫이다 */
+  overflow:visible}
 /* 그림도 자리를 받은 만큼 커진다 — 카드에 맞춰 둔 치수 그대로면 넓어진
    바탕 한가운데에 조각처럼 남는다.
    ⚠ 띄워 두었던 것을 **줄로 되돌린다**(position:relative · transform 없음) —
