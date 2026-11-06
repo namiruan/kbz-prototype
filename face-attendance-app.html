@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=663">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=664">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=663"></script>
+<script src="assets/face-attendance-app.js?v=664"></script>
 </head>
 
 <body>
@@ -1368,12 +1368,13 @@
     <h1 class="nav__t">근로자 얼굴 등록</h1>
   </header>
 
-  <!-- 어디까지 왔는지 — 묻는 차례가 넷이라 칸도 넷이다(얼굴 · 이름 · 번호 ·
-       연락처). 지나온 칸과 지금 칸이 차고, 아직 묻지 않은 칸은 비어 있다.
+  <!-- 어디까지 왔는지 — 한 줄이 차오른다. 자리는 묻는 차례 넷(얼굴 · 이름 ·
+       번호 · 연락처)에 **추가 정보**까지다 — 연락처를 적었다고 끝이 아니라
+       직종과 단가가 남아 있어, 거기서 막대도 끝까지 차지 않는다.
        머리줄 바로 아래에 두어 굴려도 따라다니지 않는다 — 자리는 늘 거기다.
-       켜고 끄는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
-  <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
-    <i></i><i></i><i></i><i></i>
+       채우는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
+  <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1">
+    <i></i>
   </div>
 
   <main class="body">
@@ -1499,12 +1500,13 @@
     <h1 class="nav__t">근로자 얼굴 등록</h1>
   </header>
 
-  <!-- 어디까지 왔는지 — 묻는 차례가 넷이라 칸도 넷이다(얼굴 · 이름 · 번호 ·
-       연락처). 지나온 칸과 지금 칸이 차고, 아직 묻지 않은 칸은 비어 있다.
+  <!-- 어디까지 왔는지 — 한 줄이 차오른다. 자리는 묻는 차례 넷(얼굴 · 이름 ·
+       번호 · 연락처)에 **추가 정보**까지다 — 연락처를 적었다고 끝이 아니라
+       직종과 단가가 남아 있어, 거기서 막대도 끝까지 차지 않는다.
        머리줄 바로 아래에 두어 굴려도 따라다니지 않는다 — 자리는 늘 거기다.
-       켜고 끄는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
-  <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
-    <i></i><i></i><i></i><i></i>
+       채우는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
+  <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1">
+    <i></i>
   </div>
 
   <main class="body">
@@ -1583,12 +1585,13 @@
     <h1 class="nav__t">근로자 얼굴 등록</h1>
   </header>
 
-  <!-- 어디까지 왔는지 — 묻는 차례가 넷이라 칸도 넷이다(얼굴 · 이름 · 번호 ·
-       연락처). 지나온 칸과 지금 칸이 차고, 아직 묻지 않은 칸은 비어 있다.
+  <!-- 어디까지 왔는지 — 한 줄이 차오른다. 자리는 묻는 차례 넷(얼굴 · 이름 ·
+       번호 · 연락처)에 **추가 정보**까지다 — 연락처를 적었다고 끝이 아니라
+       직종과 단가가 남아 있어, 거기서 막대도 끝까지 차지 않는다.
        머리줄 바로 아래에 두어 굴려도 따라다니지 않는다 — 자리는 늘 거기다.
-       켜고 끄는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
-  <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
-    <i></i><i></i><i></i><i></i>
+       채우는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
+  <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1">
+    <i></i>
   </div>
 
   <main class="body">
@@ -1707,12 +1710,13 @@
     <h1 class="nav__t">근로자 얼굴 등록</h1>
   </header>
 
-  <!-- 어디까지 왔는지 — 묻는 차례가 넷이라 칸도 넷이다(얼굴 · 이름 · 번호 ·
-       연락처). 지나온 칸과 지금 칸이 차고, 아직 묻지 않은 칸은 비어 있다.
+  <!-- 어디까지 왔는지 — 한 줄이 차오른다. 자리는 묻는 차례 넷(얼굴 · 이름 ·
+       번호 · 연락처)에 **추가 정보**까지다 — 연락처를 적었다고 끝이 아니라
+       직종과 단가가 남아 있어, 거기서 막대도 끝까지 차지 않는다.
        머리줄 바로 아래에 두어 굴려도 따라다니지 않는다 — 자리는 늘 거기다.
-       켜고 끄는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
-  <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
-    <i></i><i></i><i></i><i></i>
+       채우는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
+  <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1">
+    <i></i>
   </div>
 
   <main class="body">

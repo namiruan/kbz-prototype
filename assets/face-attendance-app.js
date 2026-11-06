@@ -1729,14 +1729,15 @@
          두어야 한다(fit 의 near) */
       scr.dataset.ask = done ? '' : ASK[at];
 
-      /* 어디까지 왔는지 — 지나온 칸과 지금 칸을 켠다. 다 채우면 넷이 다 찬다 */
+      /* 어디까지 왔는지 — 한 줄이 차오른다. 자리는 묻는 차례에 **추가
+         정보**까지 하나 더다 — 연락처를 적었다고 끝이 아니라 직종과 단가가
+         남아 있으므로, 거기서 끝까지 차지 않는다 */
       var prog = scr.querySelector('.prog');
       if (prog) {
-        var mark = done ? ASK.length : at + 1;
+        var all = ASK.length + 1;
+        var mark = done ? all : at + 1;
         prog.setAttribute('aria-valuenow', mark);
-        Array.prototype.forEach.call(prog.children, function (n, k) {
-          n.classList.toggle('is-on', k < mark);
-        });
+        prog.style.setProperty('--ap-prog', Math.round(mark / all * 100) + '%');
       }
 
       box.querySelectorAll('.flow__q__t').forEach(function (t) {

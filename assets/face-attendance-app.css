@@ -2424,11 +2424,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    든다.
    머리줄 바로 아래, 본문 **밖**에 둔다. 본문 안에 두면 굴릴 때 함께 올라가
    사라지는데, 어디까지 왔는지는 적는 내내 보여야 한다 */
-.prog{flex:none;display:flex;gap:var(--ap-p1);
-  padding:0 var(--ap-p6) var(--ap-p4);background:var(--ap-g0)}
-.prog > i{flex:1;height:3px;border-radius:var(--ap-r-pill);background:var(--ap-g10);
-  transition:background var(--ap-dur-slow) var(--ap-ease-enter)}
-.prog > i.is-on{background:var(--ap-primary)}
+.prog{flex:none;margin:0 var(--ap-p6) var(--ap-p4);height:3px;overflow:hidden;
+  background:var(--ap-g10);border-radius:var(--ap-r-pill)}
+.prog > i{display:block;height:100%;width:var(--ap-prog,20%);
+  background:var(--ap-primary);border-radius:inherit;
+  transition:width var(--ap-dur-slow) var(--ap-ease-enter)}
 @media (prefers-reduced-motion:reduce){.prog > i{transition:none}}
 
 /* ── 한 번에 하나씩 묻는 폼 ──
