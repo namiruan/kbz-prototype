@@ -1679,6 +1679,8 @@
       at++;
       see();
       reach();
+      /* 넘어간 자리는 **적을 수 있는 채로** 선다 — 어느 길로 왔든(다음 ·
+         ↵ · 자판의 ✓) 다음 칸에 커서가 놓인다 */
       var aim = at < ASK.length && kin(ASK[at])[0];
       aim = aim && aim.querySelector('.inp__in');
       if (aim) { try { aim.focus({ preventScroll: true }); } catch (e) { aim.focus(); } }
@@ -1719,8 +1721,33 @@
         var box = e.target.closest && e.target.closest('[data-flow]');
         if (box) atop(scr, box);
       });
-      /* 초점이 빠지는 그 순간에는 아직 다음 칸이 잡히지 않았다 — 한 박자 뒤 */
-      scr.addEventListener('focusout', function () { setTimeout(see, 0); });
+      /* 초점이 빠지는 그 순간에는 아직 다음 칸이 잡히지 않았다 — 한 박자 뒤.
+         ⚠ 기기 자판의 **✓(완료)** 는 페이지가 직접 들을 수 없다 — 브라우저
+           것이라, 그것이 남기는 자취는 '초점이 떨어졌다' 뿐이다. 어느 칸에도
+           초점이 없으면 자판을 내린 것으로 보고, 지금 묻는 칸이 다 찼으면
+           한 자리 나아간다. 다른 칸으로 옮겨 간 길에서는 그 칸에 초점이
+           있으므로 그냥 둔다 */
+      scr.addEventListener('focusout', function () {
+        setTimeout(function () {
+          see();
+          var on = document.activeElement;
+          if (on && scr.contains(on) && on.classList.contains('inp__in')) return;
+          step();
+        }, 0);
+      });
+      /* 글자 자판의 ↵ 도 '다음' 으로 친다. 칸이 여럿인 폼에서는 브라우저가
+         폼을 보내지 않아 submit 이 오지 않으므로 누름을 직접 듣는다.
+         ⚠ 폼이 보내지는 길도 막아 둔다 — 그대로 두면 문서를 다시 읽어
+           적어 둔 것이 모두 날아간다 */
+      scr.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter') return;
+        var t = e.target;
+        if (!t || !t.classList || !t.classList.contains('inp__in')) return;
+        e.preventDefault();
+        step();
+      });
+      var form = scr.querySelector('.form');
+      if (form) form.addEventListener('submit', function (e) { e.preventDefault(); step(); });
       if (bnext) bnext.addEventListener('click', step);
     }
 
