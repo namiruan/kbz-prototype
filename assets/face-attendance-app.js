@@ -1681,6 +1681,13 @@
       if (at >= ASK.length) return;
       if (e.target.closest &&
           e.target.closest('button,a,input,select,textarea,label,[data-go]')) return;
+      /* ⚠ **이미 잡고 있는 칸은 뺏지 않는다.** 지나온 칸을 누르면 그 자리로
+         굴러가는데, 굴러가는 사이에 손이 떨어지면 누름이 끝난 자리가
+         칸이 아니라 본문이 된다(브라우저가 누름의 주인을 그렇게 잡는다) —
+         그 누름이 여기로 와서, 막 잡은 이름에서 초점을 도로 번호로
+         끌어갔다. 잡은 데가 없을 때만 보낸다 */
+      var on = document.activeElement;
+      if (on && scr.contains(on) && on.classList.contains('inp__in')) return;
       var aim = kin(ASK[at])[0];
       aim = aim && aim.querySelector('.inp__in');
       if (aim && document.activeElement !== aim) aim.focus();
