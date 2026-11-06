@@ -1765,6 +1765,11 @@
     vv.addEventListener('resize', soon);
     vv.addEventListener('scroll', see);
     scr.addEventListener('focusin', soon);
+    /* ⚠ **누름도 듣는다.** 열자마자 초점이 가 있는 칸을 누르면 focusin 이
+       나지 않는다(이미 그 칸이다) — 자판만 올라오고 자리는 그대로다.
+       홈 화면에서 연 창(standalone)에서는 창이 줄지도 않아 resize 조차
+       오지 않으므로, 그 칸이 자판 뒤에 그대로 남았다 */
+    scr.addEventListener('click', soon);
     see();
   }
 
