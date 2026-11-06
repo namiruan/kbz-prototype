@@ -1725,6 +1725,10 @@
       who = who ? who + '님' : '근로자';
       box.querySelectorAll('.flow__q__who').forEach(function (n) { n.textContent = who; });
 
+      /* 지금 묻는 칸의 이름을 남겨 둔다 — 초점이 없을 때도 그 칸을 제자리에
+         두어야 한다(fit 의 near) */
+      scr.dataset.ask = done ? '' : ASK[at];
+
       /* 어디까지 왔는지 — 지나온 칸과 지금 칸을 켠다. 다 채우면 넷이 다 찬다 */
       var prog = scr.querySelector('.prog');
       if (prog) {
@@ -1969,7 +1973,15 @@
     function near() {
       see();
       var el = document.activeElement;
-      if (!el || !scr.contains(el)) return;
+      if (!el || !scr.contains(el)) {
+        /* ⚠ 잡은 칸이 없어도 **지금 묻는 칸은 제자리에 둔다.** 탭을 갈아
+           끼우면 초점이 빠지는데, 그 뒤 자판이 내려가면 화면이 늘어나
+           굴림이 되밀려 답해 둔 얼굴이 도로 보였다 */
+        if (!scr.classList.contains('is-flow') || !scr.dataset.ask) return;
+        var part = scr.querySelector('[data-flow="' + scr.dataset.ask + '"]');
+        if (part) atop(scr, part);
+        return;
+      }
       /* 차례대로 묻는 폼은 가운데가 아니라 **맨 위**다 — 위에 쌓인 것은
          이미 답한 것이라, 적는 동안 보일 까닭이 없다 */
       if (scr.classList.contains('is-flow')) { atop(scr, el.closest('[data-flow]')); return; }
