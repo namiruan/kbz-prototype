@@ -1597,9 +1597,20 @@
     var at = 0;
     while (at < ASK.length && full(ASK[at])) at++;
 
+    /* 묻는 줄은 **지금 적고 있는 칸**을 따라간다. 지나온 칸을 고치러
+       올라가면 그 칸의 물음으로 바뀐다 — 그러지 않으면 이름을 고치는데
+       '주민번호를 입력해주세요' 가 떠 있다. 아무 칸도 잡고 있지 않으면
+       지금 차례의 물음이다 */
+    function asking() {
+      var el = document.activeElement;
+      var box = el && scr.contains(el) && el.closest && el.closest('[data-flow]');
+      var k = box && box.dataset.flow;
+      return (k && ASK.indexOf(k) >= 0) ? k : (at < ASK.length ? ASK[at] : '');
+    }
+
     function see() {
       var done = at >= ASK.length;
-      var ask = done ? '' : ASK[at];
+      var ask = done ? '' : asking();
       scr.classList.toggle('is-flow', !done);
       /* 다 채우면 늘여 둔 발치도 걷는다 — 보통 폼에는 올릴 칸이 없다 */
       if (done) scr.style.removeProperty('--ap-flow-tail');
@@ -1608,20 +1619,24 @@
       scr.classList.toggle('is-ask-face', ask === 'face');
 
       box.querySelectorAll('.flow__q__t').forEach(function (t) {
-        t.classList.toggle('is-on', !done && t.dataset.q === ASK[at]);
+        t.classList.toggle('is-on', !done && t.dataset.q === ask);
       });
 
       parts.forEach(function (n) {
         var i = ASK.indexOf(n.dataset.flow);
         if (done) { n.hidden = false; n.style.order = ''; return; }
-        /* 차례에 없는 것(직종 · 단가)은 끝나야 열린다 */
+        /* 차례에 없는 것(직종 · 단가)은 끝나야 열린다.
+           열고 닫는 것은 **차례**가 정한다 — 묻는 줄이 지나온 칸을
+           가리키고 있어도 아직 묻지 않은 칸은 그대로 닫혀 있다 */
         n.hidden = i < 0 || i > at;
       });
 
       if (!act) return;
       /* 얼굴 차례에는 바닥 바가 통째로 없다 — 할 일은 그림 아래 버튼
-         하나다(css 의 .is-ask-face .act) */
-      var ok = done ? ASK.every(full) : full(ask);
+         하나다(css 의 .is-ask-face .act).
+         지나온 칸을 고치다 비우면 다음도 닫힌다 — 여기까지는 다 차 있어야
+         한다. 묻는 줄이 어디를 가리키든 셈은 **차례**로 한다 */
+      var ok = done ? ASK.every(full) : ASK.slice(0, at + 1).every(full);
       if (bnext) bnext.hidden = done || ask === 'face';
       if (bsave) bsave.hidden = !done;
       act.classList.toggle('act--void', !ok);
@@ -1667,6 +1682,9 @@
       scr.dataset.flow = '1';
       scr.addEventListener('input', see);
       scr.addEventListener('click', tap);
+      scr.addEventListener('focusin', see);
+      /* 초점이 빠지는 그 순간에는 아직 다음 칸이 잡히지 않았다 — 한 박자 뒤 */
+      scr.addEventListener('focusout', function () { setTimeout(see, 0); });
       if (bnext) bnext.addEventListener('click', step);
     }
 
