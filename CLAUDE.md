@@ -31,6 +31,10 @@
 
 ## 커밋 전 확인
 
+**`assets/` 를 고쳤으면 화면 파일의 `?v=` 를 올린다.** 안 올리면 폰에서
+옛 CSS·JS 가 그대로 나온다 — 「고쳤는데 안 보인다」가 거기서 나온다.
+(`face-attendance-app.html` · `face-attendance-worker.html` 의 link·script)
+
 ```
 python3 /path/to/kbz_3.0_ui_stytem/validate-prototype.py estimate-prototype.html
 ```

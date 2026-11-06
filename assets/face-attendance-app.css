@@ -1433,6 +1433,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    아래 테가 바의 윗변에 그대로 닿아, 떠 있는 바가 칸을 덮은 것처럼 보였다.
    바 높이에 그 여백을 **더한다**: 좌우가 16 이니 아래도 16 이다 */
 .has-float-act .body{padding-bottom:calc(var(--ap-act-h) + var(--ap-p6) + var(--ap-flow-tail,0px))}
+/* ⚠ 늘인 발치는 **떠 있는 바가 있든 없든** 들어야 한다. 위의 한 줄에만
+   얹어 두었더니, 바가 뜨지 않은 자리에서는 늘어나지 않아 굴릴 것이
+   없었다 — 적는 칸을 맨 위로 올릴 길이 막히고, 칸이 자판 뒤에 그대로
+   남았다(js 의 atop) */
+.is-flow .body{padding-bottom:calc(var(--ap-p6) + var(--ap-flow-tail,0px))}
+.has-float-act.is-flow .body{padding-bottom:calc(var(--ap-act-h) + var(--ap-p6) + var(--ap-flow-tail,0px))}
 .act__b{font:var(--t-title2);letter-spacing:var(--ls-title2);flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:var(--ap-p2);padding:var(--ap-p6) var(--ap-p8)}
 .act__b--on{background:var(--ap-primary);color:var(--ap-g0)}
 .act__b--dark{background:var(--ap-g95);color:var(--ap-g0)}
