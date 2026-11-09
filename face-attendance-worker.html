@@ -2164,7 +2164,14 @@
       <p class="tip" role="status"><span class="tip__t">이전 근무를 퇴근해야 출근할 수 있습니다</span><button class="tip__x" type="button" aria-label="안내 닫기"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-close"></use></svg></button></p>
       <button class="cardb cardb--warn" type="button" data-go="w-home-over">
         <span class="cardb__t">
-          <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-time"></use></svg></span>
+          <!-- 되돌리기 표다 — 시계가 아니다. 이 줄을 다른 줄과 가르는 것은
+               '시간' 이 아니라 **지난 것**이고, 왼쪽 표가 그 말을 하는 자리다.
+               시계로 두었더니 한 화면에 시계가 셋이었다(이 표 · 아래 잠긴
+               '출근하기' · 바닥 탭의 '출퇴근 관리') — 셋이 세로로 서서 표가
+               아무것도 가려 주지 않았다.
+               오른쪽 꺾쇠는 그대로 둔다. 그것은 '이 줄은 눌러 들어간다' 는
+               한 가지 표라, 한 줄만 바꾸면 그 줄에서만 다른 말을 한다 -->
+          <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-undo"></use></svg></span>
           <span class="cardb__l">이전 근무 퇴근하기</span>
         </span>
         <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
