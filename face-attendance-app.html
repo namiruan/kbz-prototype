@@ -2362,6 +2362,31 @@
     </div>
 
     <form class="form" autocomplete="off">
+      <!-- 근무상태 — **폼의 맨 앞**이다. 차단이냐 퇴사냐는 아래 칸들을 어떻게
+           읽을지를 먼저 정하고, 현장소장이 이 화면을 여는 까닭도 대개 그것을
+           바꾸려는 것이다. 이름 아래에 묻어 두면 한참 내려가서야 보인다.
+           셋 가운데 하나다. 탭이나 셀렉트가 아니라 라디오인 것은
+           고를 것이 셋뿐이고 **셋을 한눈에 견주어야** 해서다: 지금 무엇이고
+           어디로 바꿀 수 있는지가 한 줄에 다 있다. 번호 칸의 라디오와 같은
+           꼴이라 한 폼에서 '둘 가운데 하나' 가 한 가지 모양으로 선다.
+           ⚠ 저쪽 라디오는 고른 쪽의 화면으로 가지만(data-go-swap) 이쪽은
+             갈 화면이 없다 — 그 자리에서 고른다(js 의 pickr).
+           차단은 말만으로는 무엇인지 모른다. 라벨 옆 도움말을 클릭하면
+           설명이 뜬다 — 폰에는 호버가 없어 눌러야 뜨고 다시 누르면 닫힌다 -->
+      <div class="fld fld--hint">
+        <div class="fld__hd">
+          <span class="fld__l">근무상태</span>
+          <button class="hint" type="button" aria-label="차단 설명 보기" aria-expanded="false"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-help"></use></svg></button>
+        </div>
+        <!-- ⚠ 말풍선은 **줄에 서서 아래를 민다**. 띄워 덮었더니 바로 아래
+             라디오를 가려, 설명을 읽고 고르려는 그 줄이 눌리지 않았다 -->
+        <p class="hint__p" role="status" hidden>차단은 등록은 되어 있지만, 풀릴 때까지 얼굴로 출근을 찍을 수 없는 상태입니다.</p>
+        <div class="pickr pickr--pick pickr--left" role="radiogroup" aria-label="근무상태">
+          <button class="pickr__o is-on" type="button" role="radio" aria-checked="true"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">재직</span></button>
+          <button class="pickr__o" type="button" role="radio" aria-checked="false"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">차단</span></button>
+          <button class="pickr__o" type="button" role="radio" aria-checked="false"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">퇴사</span></button>
+        </div>
+      </div>
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
         <div class="inp"><input class="inp__in" type="text" value="홍길동" aria-label="이름" name="ireum" autocomplete="off"></div>
@@ -2384,28 +2409,6 @@
       <div class="fld">
         <label class="fld__l">연락처 <b>(필수)</b></label>
         <div class="inp"><input class="inp__in" type="text" value="010-1234-5678" aria-label="연락처" name="yeonrak" autocomplete="off" inputmode="tel"></div>
-      </div>
-      <!-- 근무상태 — 셋 가운데 하나다. 탭이나 셀렉트가 아니라 라디오인 것은
-           고를 것이 셋뿐이고 **셋을 한눈에 견주어야** 해서다: 지금 무엇이고
-           어디로 바꿀 수 있는지가 한 줄에 다 있다. 번호 칸의 라디오와 같은
-           꼴이라 한 폼에서 '둘 가운데 하나' 가 한 가지 모양으로 선다.
-           ⚠ 저쪽 라디오는 고른 쪽의 화면으로 가지만(data-go-swap) 이쪽은
-             갈 화면이 없다 — 그 자리에서 고른다(js 의 pickr).
-           차단은 말만으로는 무엇인지 모른다. 라벨 옆 도움말을 클릭하면
-           설명이 뜬다 — 폰에는 호버가 없어 눌러야 뜨고 다시 누르면 닫힌다 -->
-      <div class="fld fld--hint">
-        <div class="fld__hd">
-          <span class="fld__l">근무상태</span>
-          <button class="hint" type="button" aria-label="차단 설명 보기" aria-expanded="false"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-help"></use></svg></button>
-        </div>
-        <!-- ⚠ 말풍선은 **줄에 서서 아래를 민다**. 띄워 덮었더니 바로 아래
-             라디오를 가려, 설명을 읽고 고르려는 그 줄이 눌리지 않았다 -->
-        <p class="hint__p" role="status" hidden>차단은 등록은 되어 있지만, 풀릴 때까지 얼굴로 출근을 찍을 수 없는 상태입니다.</p>
-        <div class="pickr pickr--pick pickr--left" role="radiogroup" aria-label="근무상태">
-          <button class="pickr__o is-on" type="button" role="radio" aria-checked="true"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">재직</span></button>
-          <button class="pickr__o" type="button" role="radio" aria-checked="false"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">차단</span></button>
-          <button class="pickr__o" type="button" role="radio" aria-checked="false"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">퇴사</span></button>
-        </div>
       </div>
       <!-- 값을 고른 뒤라 테가 짙고 글씨가 굵다 — 비어 있는 등록 화면과 갈린다 -->
       <div class="fld">
