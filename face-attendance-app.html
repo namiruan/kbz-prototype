@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=672">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=673">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=672"></script>
+<script src="assets/face-attendance-app.js?v=673"></script>
 </head>
 
 <body>
@@ -2464,7 +2464,7 @@
              한 앱에서 '조심하라' 가 한 가지 색으로 선다.
              맨 위 줄이 **이 시트가 하려는 말**이다 -->
         <div class="warn">
-          <span class="bd bd--point">주의</span>
+          <span class="bd bd--point bd--pulse">주의</span>
           <ul class="warn__l">
             <li>이미 찍은 출퇴근 기록은 지워지지 않습니다. 정산 근거라 그대로 남습니다.</li>
             <li>지운 근로자 정보는 되돌릴 수 없습니다.</li>
