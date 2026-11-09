@@ -2220,6 +2220,24 @@
     back.setAttribute('inert', '');
     back.className = src.className + ' is-on behind';
     back.querySelectorAll('[id]').forEach(function (n) { n.removeAttribute('id'); });
+
+    /* 뒤에 깔 화면이 **다른 사람의 폼**일 때가 있다 — 시트가 말하는 사람과
+       뒤의 값이 어긋나면 묻는 줄이 엉뚱한 이름을 부른다('NGUYEN VAN A님'
+       이라고 알리는데 뒤에서는 '서지훈님의 연락처를' 이라 물었다).
+       깔기 전에 갈아 끼운다: `data-behind-set="이름=값;이름=값"`.
+       ⚠ 폼을 한 장 더 베껴 두지 않는 까닭은, 같은 폼이 두 곳에 있으면
+         한쪽만 고쳐져 따로 늙기 때문이다.
+       ⚠ 여기서 채운 칸은 flow 의 fill 이 건드리지 않는다 — 비어 있을 때만
+         보기값(data-demo)을 넣으므로, behind 가 pick 안에서 flow 보다
+         먼저 도는 한 이 값이 이긴다 */
+    var set = hit.dataset.behindSet;
+    if (set) set.split(';').forEach(function (kv) {
+      var at = kv.indexOf('=');
+      if (at < 0) return;
+      var f = back.querySelector('.inp__in[name="' + kv.slice(0, at).trim() + '"]');
+      if (f) f.value = kv.slice(at + 1);
+    });
+
     hit.insertBefore(back, hit.firstChild);
   }
 
