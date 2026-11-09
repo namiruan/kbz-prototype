@@ -128,6 +128,8 @@
      한 겹 짙게 둔다 */
   --ap-shadow-chip:0 2px 6px rgba(17,53,105,.22),0 1px 2px rgba(17,53,105,.16);
   --ap-shadow-float:0 0 10px rgba(19,20,22,.08);  /* shadow-02 */
+  --ap-shadow-xl:0 8px 32px rgba(0,0,0,.12),0 4px 8px rgba(0,0,0,.06); /* shadow-xl — 토스트 */
+  --ap-brand-line-sub:rgba(22,109,238,.3); /* color/border/brand-subtle */
   /* 눌러야 하는 면을 띄우는 그림자. 색은 시안이 카드에 쓰는 것과 같은
      계열(primary-dark #113569)이다 — 검정 그림자를 파란 면 밑에 깔면
      그 자리만 때가 낀 것처럼 탁해진다. 꼴은 시스템 shadow-lg(0 4px 16px) */
@@ -350,6 +352,7 @@
   --ap-face:112px;                 /* 근로자 카드의 얼굴 — 정방형이다 */
   --ap-r8:8px;
   --ap-r10:10px;                   /* radius/large1 */
+  --ap-r12:12px;                   /* radius/lg — 모달 · 사이드 패널 · 토스트 */
   --ap-r15:15px;
   --ap-r-pill:100px;
 
@@ -3799,29 +3802,44 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    긋는다 — 아이콘까지 그으면 줄이 글자에서 떠 보인다 */
 .confirm__re b{font-weight:inherit;text-decoration:underline;text-underline-offset:3px}
 
-/* ── 토스트 — 시스템 Toast ──
-   끝난 일을 알리고 **스스로 사라지는** 알림이다(기본 4초). 알림창과 달리
-   덮지 않는다 — 다음에 할 일이 없으니 묻지도 막지도 않는다.
-   ⚠ 시스템은 화면 **우상단**에 띄운다. 폰에서는 오른쪽에 붙여 둘 자리가
-     없어(창이 390 이다) 좌우 여백만 남기고 본문 맨 위에 둔다.
-   ⚠ 그 자리는 **js 가 잰다**(toasty) — 머리줄 위에 탭이 한 줄 더 있는
-     화면이 있어, 높이를 못 박아 두면 그 탭을 덮는다 */
+/* ── 토스트 — 시스템 Toast(molecules/toast.md) ──
+   끝난 일을 알리고 사라지는 알림이다. 알림창과 달리 덮지 않는다 — 다음에
+   할 일이 없으니 묻지도 막지도 않는다.
+   값은 그 문서의 것을 그대로 쓴다: 여백 inset-xl(12) · 틈 gap-sm(8) ·
+   모서리 radius-lg(12) · 그림자 shadow-xl · 글 15/1.5 · 아이콘 md(20).
+   ⚠ 자리는 **js 가 잰다**(toasty). 시스템은 화면 우상단에 띄우지만, 머리줄
+     위에 탭이 한 줄 더 있는 화면이 있어 높이를 못 박아 두면 그 탭을 덮는다 —
+     본문 맨 위를 재어 띄운다.
+   ⚠ 좌우는 **16 씩 같이** 남긴다. 그 문서대로 오른쪽에서 24 를 띄우고 폭을
+     360 으로 두면, 폰(390)에서는 왼쪽에 8 만 남아 좌우가 어긋난다 — 그
+     값은 넓은 창을 보고 적은 것이다. 폭이 360 을 넘길 자리가 생기면 그때는
+     오른쪽에 붙는다(margin-left:auto) */
 .toasts{position:absolute;left:var(--ap-p6);right:var(--ap-p6);top:0;z-index:4;
+  max-width:360px;margin-left:auto;
   display:flex;flex-direction:column;gap:var(--ap-gap3);pointer-events:none}
+/* 기본은 info 다 — 면과 테와 글이 모두 브랜드 색이다 */
 .toast{pointer-events:auto;display:flex;align-items:flex-start;gap:var(--ap-gap3);
-  padding:var(--ap-p5) var(--ap-p6);border-radius:var(--ap-r10);
-  background:var(--ap-g0);border:1px solid var(--ap-line);
-  box-shadow:var(--ap-shadow-float)}
-/* 끝난 일 — 면·테·그림은 시스템의 success 색이다 */
-.toast--ok{background:var(--ap-ok-face);border-color:var(--ap-ok-line)}
-.toast--ok .toast__i{color:var(--ap-ok)}
-.toast__i{flex:none}
-.toast__m{flex:1;min-width:0;font:var(--t-sub);letter-spacing:var(--ls-sub);
-  color:var(--ap-text);word-break:keep-all}
-/* 닫는 ✕ 는 글 오른쪽 끝이다 — 읽을 것은 글이고 이것은 다 읽은 뒤에 쓰는
-   손잡이다. 짚을 자리는 4 를 둘러 넓히되 그만큼 바깥으로 물린다 */
-.toast__x{flex:none;display:flex;align-items:center;justify-content:center;
-  padding:4px;margin:-4px -4px -4px 0;color:var(--ap-text-gray);cursor:pointer}
+  padding:var(--ap-p5);border-radius:var(--ap-r12);
+  background:var(--ap-brand-face);border:1px solid var(--ap-brand-line-sub);
+  box-shadow:var(--ap-shadow-xl);color:var(--ap-primary)}
+/* 우상단에서 **내려오며** 든다 — 나갈 때는 올라간다(그 문서의 결이다) */
+@keyframes ap-toast-in{from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:none}}
+.toast{animation:ap-toast-in var(--ap-dur-base) var(--ap-ease-enter) both}
+@media (prefers-reduced-motion:reduce){.toast{animation:none}}
+/* 그림은 20 이고, 글 첫 줄과 **키가 같아** 나란히 선다 — 그냥 두면 20 짜리
+   그림이 22 짜리 줄의 맨 위에 붙어 한 겹 떠 보인다 */
+.toast__i{flex:none;display:inline-flex;align-items:center;min-height:23px}
+.toast__m{flex:1;min-width:0;margin:0;
+  font:400 15px/1.5 var(--ap-font);letter-spacing:var(--ls-sub);
+  color:inherit;word-break:keep-all}
+/* 닫는 ✕ 는 글빛을 따른다 — 그 문서가 variant 색을 물려받게 둔 자리다.
+   짚을 자리는 4 를 둘러 넓히되 그만큼 바깥으로 물린다 */
+.toast__x{flex:none;align-self:flex-start;display:flex;align-items:center;
+  justify-content:center;min-height:23px;
+  padding:4px;margin:-4px -4px -4px 0;color:inherit;cursor:pointer}
+/* 끝난 일 — 면 · 테 · 글 · 그림이 모두 success 색으로 갈린다 */
+.toast--ok{background:var(--ap-ok-face);border-color:var(--ap-ok-line);
+  color:var(--ap-ok)}
 
 /* ── 알림창 — 시안 modal_alert ── */
 .dim{position:absolute;inset:0;background:var(--ap-scrim-dim);
