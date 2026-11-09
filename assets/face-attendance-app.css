@@ -2439,9 +2439,16 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   width:0;height:0;margin-left:-6px;
   border:6px solid transparent;border-top:0;
   border-bottom-color:var(--ap-surface-dark)}
-/* 고르는 칩 줄 — 알약은 이력의 거르개(.cnt)를 그대로 쓴다. 폼 안이라
-   왼쪽에서 시작하고, 좁은 폭에서 줄이 넘치면 아래로 내려간다 */
-.chips{display:flex;flex-wrap:wrap;gap:var(--ap-p3)}
+/* 고르는 칩 줄 — 색은 이력의 거르개(.cnt)를 그대로 쓴다. 한 앱에서
+   '눌러서 고르는 것' 이 한 가지 색으로 선다.
+   다만 **줄을 나눠 갖는다**. 글자만큼만 쥐면 장갑 낀 손에는 과녁이 작고,
+   셋의 폭이 같아야 어느 것을 고르든 손이 가는 거리도 같다.
+   모서리는 아래 칸들과 같은 10 이고 키도 같은 56 이다 — 알약(pill)로 두거나
+   한 단 낮게 두면 폼 안에서 이 줄만 다른 결로 선다 */
+.chips{display:flex;gap:var(--ap-p3)}
+.chips > .cnt{flex:1;min-width:0;justify-content:center;
+  min-height:var(--ap-p12);padding:var(--ap-p5) var(--ap-p4);
+  border-radius:var(--ap-r10)}
 .inp{font:var(--t-body);letter-spacing:var(--ls-body);display:flex;align-items:center;
   padding:var(--ap-p6) var(--ap-p5);background:var(--ap-g0);border:1px solid var(--ap-g20);
   border-radius:var(--ap-r4);color:var(--ap-text)}
