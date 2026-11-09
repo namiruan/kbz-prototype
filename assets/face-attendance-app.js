@@ -2365,17 +2365,19 @@
     }, { passive: true });
   }
 
-  /* ── 그 자리에서 고르는 라디오 — `.pickr--pick` ──
+  /* ── 그 자리에서 고른다 — `[data-pick]` ──
      번호 칸의 라디오는 고른 쪽의 **화면으로 간다**(data-go-swap). 근무상태는
-     갈 화면이 없어 여기서 표만 옮긴다 */
+     갈 화면이 없어 여기서 표만 옮긴다.
+     무리는 role=radiogroup 이고 고를 것은 그 안의 role=radio 다 — 알약이든
+     라디오든 **역할로 집으므로** 꼴을 갈아도 이 함수는 그대로다 */
   function pickr(scr) {
-    scr.querySelectorAll('.pickr--pick').forEach(function (g) {
-      if (g.dataset.pickr) return;
-      g.dataset.pickr = '1';
+    scr.querySelectorAll('[data-pick]').forEach(function (g) {
+      if (g.dataset.pickOn) return;
+      g.dataset.pickOn = '1';
       g.addEventListener('click', function (e) {
-        var hit = e.target.closest && e.target.closest('.pickr__o');
+        var hit = e.target.closest && e.target.closest('[role="radio"]');
         if (!hit || !g.contains(hit)) return;
-        g.querySelectorAll('.pickr__o').forEach(function (o) {
+        g.querySelectorAll('[role="radio"]').forEach(function (o) {
           var on = o === hit;
           o.classList.toggle('is-on', on);
           o.setAttribute('aria-checked', on ? 'true' : 'false');

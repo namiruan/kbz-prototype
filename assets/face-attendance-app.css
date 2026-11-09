@@ -2439,9 +2439,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   width:0;height:0;margin-left:-6px;
   border:6px solid transparent;border-top:0;
   border-bottom-color:var(--ap-surface-dark)}
-/* 폼 안의 라디오 줄은 왼쪽에 맞춘다 — 번호 칸의 라디오는 면 가운데에
-   서지만(.idf__body), 이쪽은 라벨 아래라 라벨과 같은 세로 선에서 시작한다 */
-.pickr--left{justify-content:flex-start}
+/* 고르는 칩 줄 — 알약은 이력의 거르개(.cnt)를 그대로 쓴다. 폼 안이라
+   왼쪽에서 시작하고, 좁은 폭에서 줄이 넘치면 아래로 내려간다 */
+.chips{display:flex;flex-wrap:wrap;gap:var(--ap-p3)}
 .inp{font:var(--t-body);letter-spacing:var(--ls-body);display:flex;align-items:center;
   padding:var(--ap-p6) var(--ap-p5);background:var(--ap-g0);border:1px solid var(--ap-g20);
   border-radius:var(--ap-r4);color:var(--ap-text)}
