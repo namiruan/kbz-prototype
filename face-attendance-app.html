@@ -2450,8 +2450,12 @@
     <div class="alert alert--sheet alert--del" role="alertdialog" aria-labelledby="mDelT">
       <div class="sheet__h">
         <!-- 누구를 지우는지 제목이 말한다 — 목록에서 고른 사람과 이 시트가
-             같은 사람인지는 이름으로만 가릴 수 있다 -->
-        <p class="sheet__t" id="mDelT">홍길동 근로자의 데이터를 삭제합니다</p>
+             같은 사람인지는 이름으로만 가릴 수 있다.
+             ⚠ '데이터를 삭제합니다' 로 두지 않는다. 바로 아래 첫 줄이 '이미
+               찍은 출퇴근 기록은 지워지지 않습니다' 라, 한 시트 안에서 두
+               말이 어긋난다 — 지워지는 것은 **근로자**이고 그 사람이 남긴
+               기록은 남는다 -->
+        <p class="sheet__t" id="mDelT">홍길동 근로자를 삭제합니다</p>
         <button class="sheet__x" type="button" aria-label="닫기" data-go="m-worker"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
       <div class="alert__bd">
