@@ -127,6 +127,8 @@
     fit(hit);
     must(hit);
     agree(hit);
+    pickr(hit);
+    hint(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -2361,6 +2363,50 @@
       if (moved > 4 && left > room) away(true);
       else if (moved < -4) away(false);
     }, { passive: true });
+  }
+
+  /* ── 그 자리에서 고르는 라디오 — `.pickr--pick` ──
+     번호 칸의 라디오는 고른 쪽의 **화면으로 간다**(data-go-swap). 근무상태는
+     갈 화면이 없어 여기서 표만 옮긴다 */
+  function pickr(scr) {
+    scr.querySelectorAll('.pickr--pick').forEach(function (g) {
+      if (g.dataset.pickr) return;
+      g.dataset.pickr = '1';
+      g.addEventListener('click', function (e) {
+        var hit = e.target.closest && e.target.closest('.pickr__o');
+        if (!hit || !g.contains(hit)) return;
+        g.querySelectorAll('.pickr__o').forEach(function (o) {
+          var on = o === hit;
+          o.classList.toggle('is-on', on);
+          o.setAttribute('aria-checked', on ? 'true' : 'false');
+        });
+      });
+    });
+  }
+
+  /* ── 도움말 — `.hint` ──
+     폰에는 호버가 없다. 눌러야 뜨고 다시 누르면 닫힌다. Esc 로도 닫힌다 */
+  function hint(scr) {
+    scr.querySelectorAll('.hint').forEach(function (b) {
+      if (b.dataset.hint) return;
+      b.dataset.hint = '1';
+      var fld = b.closest('.fld--hint');
+      var box = fld && fld.querySelector('.hint__p');
+      if (!box) return;
+      function see(on) {
+        b.setAttribute('aria-expanded', on ? 'true' : 'false');
+        box.hidden = !on;
+        /* 꼬리는 도움말 한가운데를 짚는다 — 라벨 글자 폭만큼 달라지므로
+           열 때마다 다시 잰다(글자가 다른 칸에도 그대로 쓰려는 것이다) */
+        if (on) box.style.setProperty('--hint-x', (b.offsetLeft + b.offsetWidth / 2) + 'px');
+      }
+      b.addEventListener('click', function () {
+        see(b.getAttribute('aria-expanded') !== 'true');
+      });
+      b.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') see(false);
+      });
+    });
   }
 
   /* ── 동의해야 지운다 — `.agree` ──
