@@ -130,6 +130,7 @@
     pickr(hit);
     hint(hit);
     toasty(hit);
+    when(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -2398,6 +2399,17 @@
         window.addEventListener('resize', slide);
       }
       slide();
+    });
+  }
+
+  /* ── 날을 적는 자리 — `[data-when]` ──
+     '11월 6일' 이라고 마크업에 박아 두면 다음 달에 거짓말이 된다. 달력이
+     쓰는 그 날들(DAYS)에서 꺼내 적는다 — 이름은 data-day 와 같은 말이다
+     (today · yday · day2 · day3 · day4) */
+  function when(scr) {
+    scr.querySelectorAll('[data-when]').forEach(function (n) {
+      var v = DAYS[SAY[n.dataset.when]];
+      if (v) n.textContent = v.m + '월 ' + v.d + '일';
     });
   }
 
