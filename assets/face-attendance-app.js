@@ -2416,15 +2416,27 @@
     see();
     requestAnimationFrame(see);
 
-    /* ✕ 는 그 토스트만 덜어 낸다. 스스로 사라지는 시계는 두지 않는다 —
-       보려고 연 자리에서 4초 만에 없어지면 볼 수가 없다 */
-    box.querySelectorAll('.toast__x').forEach(function (x) {
-      if (x.dataset.toast) return;
-      x.dataset.toast = '1';
-      x.addEventListener('click', function () {
-        var t = x.closest('.toast');
-        if (t) t.remove();
-      });
+    /* 토스트는 **스스로 사라진다** — 기본 4초(그 문서의 값이다). 올라가며
+       나가고, 다 나가면 덜어 낸다.
+       ⚠ 덜어 내는 것은 **베껴 둔 쪽**이다. 시나리오를 다시 고르면 화면이
+         다시 그려지므로 토스트도 다시 든다 — 한 번 보고 나면 못 보는
+         자리가 되지 않는다 */
+    function off(t) {
+      if (!t || t.dataset.off) return;
+      t.dataset.off = '1';
+      t.classList.add('is-off');
+      var gone = false;
+      function drop() { if (!gone) { gone = true; t.remove(); } }
+      t.addEventListener('animationend', drop);
+      /* 움직임 줄이기에서는 animationend 가 오지 않는다 — 그때도 사라져야 한다 */
+      setTimeout(drop, 400);
+    }
+    box.querySelectorAll('.toast').forEach(function (t) {
+      if (t.dataset.toast) return;
+      t.dataset.toast = '1';
+      var x = t.querySelector('.toast__x');
+      if (x) x.addEventListener('click', function () { off(t); });
+      setTimeout(function () { off(t); }, 4000);
     });
   }
 

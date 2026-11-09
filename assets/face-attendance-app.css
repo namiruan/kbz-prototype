@@ -3822,10 +3822,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   padding:var(--ap-p5);border-radius:var(--ap-r12);
   background:var(--ap-brand-face);border:1px solid var(--ap-brand-line-sub);
   box-shadow:var(--ap-shadow-xl);color:var(--ap-primary)}
-/* 우상단에서 **내려오며** 든다 — 나갈 때는 올라간다(그 문서의 결이다) */
+/* 내려오며 들고 **올라가며 나간다**(그 문서의 결이다). 나가는 길은 js 가
+   4초 뒤에 건다(toasty) */
 @keyframes ap-toast-in{from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:none}}
+@keyframes ap-toast-out{from{opacity:1;transform:none} to{opacity:0;transform:translateY(-12px)}}
 .toast{animation:ap-toast-in var(--ap-dur-base) var(--ap-ease-enter) both}
-@media (prefers-reduced-motion:reduce){.toast{animation:none}}
+.toast.is-off{animation:ap-toast-out var(--ap-dur-base) var(--ap-ease-exit) both}
+@media (prefers-reduced-motion:reduce){.toast,.toast.is-off{animation:none}}
 /* 그림은 20 이고, 글 첫 줄과 **키가 같아** 나란히 선다 — 그냥 두면 20 짜리
    그림이 22 짜리 줄의 맨 위에 붙어 한 겹 떠 보인다 */
 .toast__i{flex:none;display:inline-flex;align-items:center;min-height:23px}
