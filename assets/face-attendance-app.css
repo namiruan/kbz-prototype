@@ -2415,8 +2415,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 꼬리가 도움말을 짚어야 하므로 자리의 기준은 **칸**이다 — 도움말과
    말풍선이 같은 기준을 봐야 js 가 잰 값이 맞는다 */
 .fld--hint{position:relative}
-/* 라벨과 도움말이 한 줄에 선다 */
-.fld__hd{display:flex;align-items:center;gap:var(--ap-p3)}
+/* 라벨과 도움말이 한 줄에 선다. 말풍선이 이 줄 **위로** 뜨므로 자리의
+   기준도 여기다 — 물음표와 말풍선이 같은 기준을 봐야 js 가 잰 값이 맞는다 */
+.fld__hd{position:relative;display:flex;align-items:center;gap:var(--ap-p3)}
 /* 도움말 — 짚을 자리는 4 를 둘러 24 로 넓히되, 그만큼 바깥으로 물려 줄이
    두꺼워지지 않게 한다(.tip__x 와 같은 셈이다) */
 /* 도움말 — 시스템의 tooltip-trigger 다. 테도 면도 없는 아이콘 버튼이고,
@@ -2434,21 +2435,22 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 말풍선 — 근로자 앱의 안내 말풍선(.tip)과 같은 면·글빛·그림자다. 한 앱에서
    '덧붙이는 말' 이 한 가지 꼴로 선다. 다른 점은 둘이다: 흔들지 않고(읽는
    글이 흔들리면 되레 읽기 어렵다), 꼬리가 **위**를 짚는다(아래에 뜬다) */
-/* ⚠ 띄워서 덮지 않는다 — 바로 아래가 고를 줄이라, 덮으면 설명을 읽고
-     고르려는 그 줄이 눌리지 않는다. 줄에 서서 아래를 민다 */
-.hint__p{position:relative;margin-top:2px;
+/* 물음표 **위에 떠서** 덮는다. 줄에 세워 아래를 밀었더니 누를 때마다
+   세그먼트와 그 아래 칸들이 통째로 내려가, 읽는 동안 화면이 한 번
+   움직였다. 위를 덮는 것은 사진뿐이라 가려도 잃을 것이 없다 */
+.hint__p{position:absolute;bottom:calc(100% + 6px);left:0;z-index:3;
   width:max-content;max-width:100%;
   font:var(--t-tip);letter-spacing:0;
   padding:var(--ap-p4) var(--ap-p6);border-radius:var(--ap-r8);
   background:var(--ap-surface-dark);color:var(--ap-g0);
   box-shadow:var(--ap-shadow-tip);word-break:keep-all}
 .hint__p[hidden]{display:none}
-/* 꼬리는 도움말을 짚는다. 라벨 글자 폭에 따라 자리가 달라지므로 js 가
-   재어 --hint-x 에 적는다(값이 없으면 라벨 한 칸쯤) */
-.hint__p::before{content:"";position:absolute;bottom:100%;left:var(--hint-x,72px);
+/* 꼬리는 **아래**를 짚는다 — 말풍선이 물음표 위에 있다. 라벨 글자 폭에
+   따라 자리가 달라지므로 js 가 재어 --hint-x 에 적는다 */
+.hint__p::before{content:"";position:absolute;top:100%;left:var(--hint-x,72px);
   width:0;height:0;margin-left:-6px;
-  border:6px solid transparent;border-top:0;
-  border-bottom-color:var(--ap-surface-dark)}
+  border:6px solid transparent;border-bottom:0;
+  border-top-color:var(--ap-surface-dark)}
 /* ── 세그먼트 — 시스템 Segment ──
    한 컨테이너 안에서 상호 배타적인 옵션을 전환한다. 면은 옅은 브랜드에
    안쪽 테를 두르고(Toggle 트랙과 같은 시각 언어), 고른 자리는 **흰
