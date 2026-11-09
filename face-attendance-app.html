@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=670">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=671">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=670"></script>
+<script src="assets/face-attendance-app.js?v=671"></script>
 </head>
 
 <body>
@@ -2410,26 +2410,55 @@
 </section>
 
 
-<!-- ===== ④-2 현장소장 앱 · 삭제할 수 없음 (앱 네이티브) =====
-     근로자 정보 수정에서 '삭제' 를 눌렀는데 출퇴근 기록이 있는 사람일 때다.
-     ⚠ 묻는 자리가 아니라 **막는 자리**다. 시스템의 Alert 는 확인·취소를 묻는
-       다이얼로그인데(molecules/alert.md), 여기서는 고를 것이 없다 — 버튼은
-       나가는 길 하나뿐이고, 그래서 취소 버튼을 따로 두지 않는다.
-     ⚠ 시트가 아니라 **가운데 뜨는 알림창**이다(.alert). 바닥에서 올라오는
-       시트는 '이어서 할 일' 을 권하는 자리인데, 여기서 할 일은 없다 -->
-<section class="scr has-dim" data-screen="m-worker-del" data-title="근로자 삭제 — 기록이 있어 막힘"
+<!-- ===== ④-2 현장소장 앱 · 근로자 삭제 (앱 네이티브) =====
+     근로자 상세에서 '삭제' 를 누른 자리다. **막는 자리가 아니다** — 지울
+     수는 있고, 다만 이미 찍은 출퇴근 기록은 남는다(정산 근거라 지울 수
+     없는 값이다). 전에는 '삭제할 수 없습니다' 로 막아 두었는데, 그러면
+     현장소장은 지울 수 없는 사람을 계속 지우려 한다.
+     지우는 범위가 둘이라 버튼도 둘이다 — 어플만 지우면 단말기에 등록된
+     얼굴은 그대로 남는다.
+     ⚠ 알림창(.alert)이 아니라 **바닥에서 올라오는 시트**다. 전에는 고를
+       것이 없어 가운데 알림창이었는데, 지울 범위를 고르게 되면서 '이어서
+       할 일' 이 있는 자리가 됐다(시안 530:5009 도 시트다).
+     ⚠ 되돌릴 수 없는 일이라 **동의를 받고 나서** 버튼이 켜진다. 끄는 것이
+       아니라 아예 없애면 버튼이 생겼다 사라지느라 시트의 키가 바뀐다 -->
+<section class="scr has-dim" data-screen="m-worker-del" data-title="근로자 삭제"
   data-behind="m-worker">
-  <div class="dim" data-go="m-worker" data-go-self>
-    <div class="alert" role="alertdialog" aria-labelledby="mDelT" aria-describedby="mDelD">
-      <div class="alert__bd">
-        <p class="alert__t" id="mDelT">삭제할 수 없습니다</p>
-        <p class="alert__d" id="mDelD">
-          <span>이미 출퇴근 기록이 있는 근로자입니다.</span>
-          <span>기록은 정산 근거라 함께 지울 수 없습니다.</span>
-        </p>
+  <div class="dim dim--sheet" data-go="m-worker" data-go-self>
+    <div class="alert alert--sheet alert--del" role="alertdialog" aria-labelledby="mDelT">
+      <div class="sheet__h">
+        <!-- 누구를 지우는지 제목이 말한다 — 목록에서 고른 사람과 이 시트가
+             같은 사람인지는 이름으로만 가릴 수 있다 -->
+        <p class="sheet__t" id="mDelT">홍길동 근로자의 데이터를 삭제합니다</p>
+        <button class="sheet__x" type="button" aria-label="닫기" data-go="m-worker"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
-      <!-- 되돌아가는 길 하나다 — 확인을 누르든 밖을 누르든 고치던 화면 그대로다 -->
-      <div class="alert__bt"><span class="yes" data-go="m-worker">확인</span></div>
+      <div class="alert__bd">
+        <!-- 지우기 전에 알아야 할 것을 한 면에 모은다. 면·테·뱃지는 시스템의
+             주의(caution) 색이다 — 배너(.bnr--caution)가 쓰는 그 색이라,
+             한 앱에서 '조심하라' 가 한 가지 색으로 선다.
+             맨 위 줄이 **이 시트가 하려는 말**이다 -->
+        <div class="warn">
+          <span class="bd bd--point">주의</span>
+          <ul class="warn__l">
+            <li>이미 찍은 출퇴근 기록은 지워지지 않습니다. 정산 근거라 그대로 남습니다.</li>
+            <li>지운 근로자 정보는 되돌릴 수 없습니다.</li>
+            <li>어플만 삭제하면 단말기에 등록된 얼굴은 그대로 남습니다.</li>
+          </ul>
+        </div>
+        <!-- 되돌릴 수 없는 일이라 한 번 멈춰 세운다. 켜고 끄는 일은
+             assets/face-attendance-app.js 의 agree 가 한다 -->
+        <button class="agree" type="button" aria-pressed="false">
+          <span class="chk" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></span>
+          <span class="agree__t">주의사항을 확인하였으며 이에 동의합니다.</span>
+        </button>
+      </div>
+      <!-- 둘 다 지우는 버튼이다. 가로로 두면 글자가 길어 줄바꿈이 생기고,
+           어느 쪽이 더 넓게 지우는지도 폭으로는 말할 수 없다 — 세로로 쌓고
+           **넓은 쪽을 면째 빨강**으로 둔다. 나가는 길은 머리줄의 ✕ 다 -->
+      <div class="delbt">
+        <button class="delbt__b delbt__b--app" type="button" disabled>어플만 삭제하기</button>
+        <button class="delbt__b delbt__b--all" type="button" disabled>어플 및 단말기 모두 삭제하기</button>
+      </div>
     </div>
   </div>
 </section>

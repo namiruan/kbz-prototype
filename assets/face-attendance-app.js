@@ -126,6 +126,7 @@
     seek(hit);
     fit(hit);
     must(hit);
+    agree(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -2360,6 +2361,34 @@
       if (moved > 4 && left > room) away(true);
       else if (moved < -4) away(false);
     }, { passive: true });
+  }
+
+  /* ── 동의해야 지운다 — `.agree` ──
+     되돌릴 수 없는 일이라 한 번 멈춰 세운다. 동의하기 전에는 지우는 버튼이
+     **꺼진 채로 자리를 지킨다** — 아예 없애면 버튼이 생겼다 사라지느라
+     시트의 키가 바뀌고, 그때마다 읽던 글이 위아래로 밀린다 */
+  function agree(scr) {
+    var row = scr.querySelector('.agree');
+    if (!row) return;
+    var box = row.querySelector('.chk');
+    var bts = Array.prototype.slice.call(scr.querySelectorAll('.delbt__b'));
+
+    function see() {
+      var on = row.getAttribute('aria-pressed') === 'true';
+      if (box) box.classList.toggle('chk--on', on);
+      bts.forEach(function (b) { b.disabled = !on; });
+    }
+    /* 갈아 끼웠다 돌아온 화면은 이미 매여 있다 — 또 매면 한 번 눌러도
+       두 번 뒤집힌다 */
+    if (!row.dataset.agree) {
+      row.dataset.agree = '1';
+      row.addEventListener('click', function () {
+        row.setAttribute('aria-pressed',
+          row.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+        see();
+      });
+    }
+    see();
   }
 
   /* 아이콘은 스프라이트를 주입해 쓴다 (시스템 규약: 원격 절대 URL) */
