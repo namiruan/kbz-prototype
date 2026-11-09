@@ -3836,6 +3836,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 머리줄은 시트의 것을 그대로 쓴다. 알림창은 좌우 여백이 16 이라, 머리줄의
    위 여백(20)만 한 단 줄여 제목이 상자 안에서 너무 내려오지 않게 한다 */
 .alert--del .sheet__h{padding:var(--ap-p6) var(--ap-p6) 0}
+/* 묻고 끝나는 알림창은 300 으로 못 박혀 있지만(.alert), 이 창은 **읽을 것이
+   있다** — 주의 세 줄이 300 안에서는 저마다 두세 줄로 접힌다. 화면 폭을
+   쓰되 양옆에 16 만 남긴다. 넓은 폭에서는 360 에서 멈춘다 — 더 늘이면 한
+   줄이 길어져 눈이 되돌아오는 거리가 멀어진다 */
+.dim--del{padding:var(--ap-p6)}
+.alert--del{width:100%;max-width:360px}
 /* 주의 면 — 시스템의 caution 색이다(배너 .bnr--caution 과 같은 면·테).
    한 앱에서 '조심하라' 가 한 가지 색으로 서야 눈이 매번 다시 잡지 않는다 */
 .warn{display:flex;flex-direction:column;align-items:center;gap:var(--ap-p5);
@@ -3856,10 +3862,18 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   border:1px solid var(--ap-line);border-radius:var(--ap-r8);background:var(--ap-g0)}
 /* 동의한 뒤는 **면이 찬다**. 테 색만 바꾸면 켜진 것이 한 겹 선으로만
    남아, 바로 위 주의 면(채워진 면) 옆에서 아직 안 한 일처럼 읽힌다.
-   면과 테는 이 앱에서 '고른 것' 이 쓰는 그 색이다(.cnt.is-on 과 같다) */
+   면은 이 앱에서 '고른 것' 이 쓰는 그 색이다(거르개 칩 .cnt.is-on 과 같다).
+   ⚠ 테는 **지운다**. 면이 이미 켜진 것을 말하는데 테까지 두면 같은 말이
+     두 겹이 된다. 색만 비워 두께는 남긴다 — 걷어 내면 상자가 2 줄어들어
+     켤 때마다 글이 한 번 움찔한다 */
 .agree[aria-pressed="true"]{background:var(--ap-badge-positive);
-  border-color:var(--ap-brand-line-on)}
-.agree__t{font:var(--t-body);letter-spacing:var(--ls-body);color:var(--ap-text);
+  border-color:transparent}
+/* 글은 주의 면보다 한 단 아래다(body/17 → foot/13). 읽고 체크하는 한 줄이라
+   주의 면의 글과 같은 크기로 두면 둘이 같은 무게로 읽힌다 — 읽을 것은
+   위고, 여기는 그것을 읽었다고 답하는 자리다.
+   덤으로 폭 390 에서 한 줄에 든다(17 에서는 두 줄이었다). 더 좁은
+   기기(375)에서는 두 줄이다 */
+.agree__t{font:var(--t-foot);letter-spacing:var(--ls-foot);color:var(--ap-text);
   min-width:0;word-break:keep-all}
 /* 지우는 버튼 둘 — 세로로 쌓는다. 가로로 두면 글자가 길어 줄바꿈이 생기고,
    어느 쪽이 더 넓게 지우는지도 폭으로는 말할 수 없다.
