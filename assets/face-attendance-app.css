@@ -2415,16 +2415,22 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 꼬리가 도움말을 짚어야 하므로 자리의 기준은 **칸**이다 — 도움말과
    말풍선이 같은 기준을 봐야 js 가 잰 값이 맞는다 */
 .fld--hint{position:relative}
+/* 라벨과 도움말이 한 줄에 선다 */
+.fld__hd{display:flex;align-items:center;gap:var(--ap-p3)}
 /* 도움말 — 짚을 자리는 4 를 둘러 24 로 넓히되, 그만큼 바깥으로 물려 줄이
    두꺼워지지 않게 한다(.tip__x 와 같은 셈이다) */
-/* 알약 줄에 끼어 서되 **제 폭만 쥔다**(flex 를 받지 않는다) — 셋이 줄을
-   삼등분해 갖는 것은 그대로다. 짚을 자리는 4 를 둘러 24 로 넓힌다 */
+/* 도움말 — 시스템의 tooltip-trigger 다. 테도 면도 없는 아이콘 버튼이고,
+   누르는 자리는 아이콘(16)보다 넓은 28 네모다(모서리 4). 라벨이 17 이라
+   작은 변형(--sm, 24/12)이 아니라 기본 크기를 쓴다.
+   ⚠ 원형이 아니다 — 시스템의 트리거는 radius/xs(4) 네모이고, 스프라이트의
+     icon-help 도 동그라미 없는 물음표다. 이 앱에서 동그란 것은 카드 안의
+     아이콘 칩(.cardb__ib, 32)인데 그것은 '이 줄이 무엇인가' 를 말하는
+     표지라 다른 몫이다 */
 .hint{flex:none;display:flex;align-items:center;justify-content:center;
-  padding:4px;color:var(--ap-text-gray);cursor:pointer}
-/* ⚠ 앞 알약에 **바싹 붙인다**. 양옆이 같은 틈(8)이면 물음표가 두 알약
-     사이에 혼자 떠, 어느 쪽에 걸리는 말인지가 흐려진다 */
-.chips > .hint{margin-left:calc(var(--ap-p3) * -1 + 2px)}
-.hint[aria-expanded="true"]{color:var(--ap-primary)}
+  width:28px;height:28px;margin:-4px;border-radius:var(--ap-r4);
+  color:var(--ap-text-gray);cursor:pointer}
+.hint[aria-expanded="true"]{background:var(--ap-g5);color:var(--ap-primary)}
+
 /* 말풍선 — 근로자 앱의 안내 말풍선(.tip)과 같은 면·글빛·그림자다. 한 앱에서
    '덧붙이는 말' 이 한 가지 꼴로 선다. 다른 점은 둘이다: 흔들지 않고(읽는
    글이 흔들리면 되레 읽기 어렵다), 꼬리가 **위**를 짚는다(아래에 뜬다) */
