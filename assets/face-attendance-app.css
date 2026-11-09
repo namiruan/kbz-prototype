@@ -3854,7 +3854,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .agree{display:flex;align-items:center;gap:var(--ap-p5);width:100%;
   padding:var(--ap-p5) var(--ap-p6);text-align:left;cursor:pointer;
   border:1px solid var(--ap-line);border-radius:var(--ap-r8);background:var(--ap-g0)}
-.agree[aria-pressed="true"]{border-color:var(--ap-primary)}
+/* 동의한 뒤는 **면이 찬다**. 테 색만 바꾸면 켜진 것이 한 겹 선으로만
+   남아, 바로 위 주의 면(채워진 면) 옆에서 아직 안 한 일처럼 읽힌다.
+   면과 테는 이 앱에서 '고른 것' 이 쓰는 그 색이다(.cnt.is-on 과 같다) */
+.agree[aria-pressed="true"]{background:var(--ap-badge-positive);
+  border-color:var(--ap-brand-line-on)}
 .agree__t{font:var(--t-body);letter-spacing:var(--ls-body);color:var(--ap-text);
   min-width:0;word-break:keep-all}
 /* 지우는 버튼 둘 — 세로로 쌓는다. 가로로 두면 글자가 길어 줄바꿈이 생기고,
