@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=689">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=690">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=689"></script>
+<script src="assets/face-attendance-app.js?v=690"></script>
 </head>
 
 <body>
@@ -258,7 +258,7 @@
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -351,7 +351,7 @@
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -427,7 +427,7 @@
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -504,7 +504,7 @@
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -595,7 +595,7 @@
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -658,7 +658,7 @@
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -718,7 +718,7 @@
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -811,7 +811,7 @@
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -872,7 +872,7 @@
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -949,7 +949,7 @@
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -1026,7 +1026,7 @@
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -1103,7 +1103,7 @@
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
     <button class="act__b act__b--off" type="button" disabled aria-disabled="true">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -1277,8 +1277,8 @@
 
   <!-- 시안은 떠다니는 둥근 버튼(FAB)을 쓰지 않는다. 더하는 일은 바닥 바가 맡는다 -->
   <div class="act act--end act--split">
-    <button class="act__b act__b--dark" type="button">삭제</button>
-    <button class="act__b act__b--on" type="button"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
+    <button class="act__b act__b--dark" type="button" data-go="m-workers-del">삭제</button>
+    <button class="act__b act__b--on" type="button" data-go="m-worker-new"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-add"></use></svg>근로자 얼굴 등록</button>
   </div>
 </section>
 
@@ -2507,12 +2507,83 @@
            어느 쪽이 더 넓게 지우는지도 폭으로는 말할 수 없다 — 세로로 쌓고
            **넓은 쪽을 면째 빨강**으로 둔다. 나가는 길은 머리줄의 ✕ 다 -->
       <div class="alert__bt alert__bt--col">
-        <button class="bt--del" type="button" disabled>어플만 삭제하기</button>
-        <button class="bt--del-all" type="button" disabled>어플 및 단말기 모두 삭제하기</button>
+        <button class="bt--del" type="button" data-go="m-workers-done" disabled>어플만 삭제하기</button>
+        <button class="bt--del-all" type="button" data-go="m-workers-done" disabled>어플 및 단말기 모두 삭제하기</button>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ===== ④-3 현장소장 앱 · 근로자 삭제(목록에서) =====
+     근로자 관리에서 고른 사람을 지울 때다. ④-2 와 **같은 창**이고, 다른
+     것은 둘이다: 뒤에 깔리는 것이 목록이고, 제목이 이름 대신 고른 수를
+     말한다 — 여럿을 한 번에 지우는 자리라 이름을 다 늘어놓을 수 없다 -->
+<section class="scr has-dim" data-screen="m-workers-del" data-title="근로자 삭제 — 목록에서"
+  data-behind="m-workers-pick">
+  <div class="dim dim--del" data-go="m-workers-pick" data-go-self>
+    <div class="alert alert--del" role="alertdialog" aria-labelledby="mDelsT">
+      <div class="sheet__h">
+        <!-- 누구를 지우는지 제목이 말한다 — 목록에서 고른 사람과 이 시트가
+             같은 사람인지는 이름으로만 가릴 수 있다.
+             ⚠ '데이터를 삭제합니다' 로 두지 않는다. 바로 아래 첫 줄이 '이미
+               찍은 출퇴근 기록은 지워지지 않습니다' 라, 한 시트 안에서 두
+               말이 어긋난다 — 지워지는 것은 **근로자**이고 그 사람이 남긴
+               기록은 남는다 -->
+        <p class="sheet__t" id="mDelsT">선택한 근로자 2명을 삭제합니다</p>
+        <button class="sheet__x" type="button" aria-label="닫기" data-go="m-workers-pick"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+      </div>
+      <div class="alert__bd">
+        <!-- 지우기 전에 알아야 할 것을 한 면에 모은다. 면·테·뱃지는 시스템의
+             주의(caution) 색이다 — 배너(.bnr--caution)가 쓰는 그 색이라,
+             한 앱에서 '조심하라' 가 한 가지 색으로 선다.
+             맨 위 줄이 **이 시트가 하려는 말**이다 -->
+        <div class="warn">
+          <span class="bd bd--point bd--pulse">주의</span>
+          <ul class="warn__l">
+            <li>이미 찍은 출퇴근 기록은 지워지지 않습니다.</li>
+            <li>지운 근로자 정보는 되돌릴 수 없습니다.</li>
+          </ul>
+        </div>
+        <!-- 되돌릴 수 없는 일이라 한 번 멈춰 세운다. 켜고 끄는 일은
+             assets/face-attendance-app.js 의 agree 가 한다 -->
+        <button class="agree" type="button" aria-pressed="false">
+          <span class="chk" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-check"></use></svg></span>
+          <span class="agree__t">주의사항을 확인하였으며 이에 동의합니다.</span>
+        </button>
+      </div>
+      <!-- 둘 다 지우는 버튼이다. 가로로 두면 글자가 길어 줄바꿈이 생기고,
+           어느 쪽이 더 넓게 지우는지도 폭으로는 말할 수 없다 — 세로로 쌓고
+           **넓은 쪽을 면째 빨강**으로 둔다. 나가는 길은 머리줄의 ✕ 다 -->
+      <div class="alert__bt alert__bt--col">
+        <button class="bt--del" type="button" data-go="m-workers-done" disabled>어플만 삭제하기</button>
+        <button class="bt--del-all" type="button" data-go="m-workers-done" disabled>어플 및 단말기 모두 삭제하기</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ④-4 현장소장 앱 · 삭제 완료(토스트) =====
+     지우고 나면 목록으로 돌아온다 — 목록에서 지웠든 상세에서 지웠든 같은
+     자리다. 지워졌다는 말은 **토스트**로 한다: 다음에 할 일이 없으니 묻지
+     않고, 알리고 스스로 사라진다(시스템 Toast — 기본 4초).
+     ⚠ 뒤에 깔리는 목록은 **지우기 전 그대로**다. 베껴 깔기만 하므로 줄이
+       빠지지도 수가 줄지도 않는다 — 시나리오로 보는 자리라 거기까지는
+       흉내 내지 않았다.
+     ⚠ 알림창이 아니라 **덮지 않는 알림**이다. 어두운 막을 깔지 않는다 —
+       목록은 그대로 읽히고 손도 닿는다 -->
+<section class="scr" data-screen="m-workers-done" data-title="근로자 삭제 — 완료"
+  data-behind="m-workers">
+  <!-- 시스템 Toast 는 화면 **우상단**에 뜬다. 폰에서는 오른쪽에 붙여 둘
+       자리가 없어(창이 390 이다) 좌우 여백만 남기고 머리줄 아래에 띄운다 -->
+  <div class="toasts" aria-live="polite">
+    <div class="toast toast--ok">
+      <span class="toast__i" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-circle-check"></use></svg></span>
+      <p class="toast__m">삭제가 완료되었습니다</p>
+      <button class="toast__x" type="button" aria-label="알림 닫기"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    </div>
+  </div>
+</section>
+
 
 <!-- ===== ⑤ 현장소장 앱 · 출퇴근 등록(출근 모드) ===== -->
 <section class="scr" data-mode="in" data-screen="m-in" data-title="출퇴근 등록 — 출근 모드">

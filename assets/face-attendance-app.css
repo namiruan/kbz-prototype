@@ -54,6 +54,9 @@
   --ap-point:#e74900;              /* Color/Text/point · badge/point */
   --ap-point-bg:rgba(231,73,0,.1); /* Color/badge/negative */
   --ap-caution-face:#fff8ef;       /* color/surface/caution-subtle — orange/50 */
+  --ap-ok-face:#f2fcf5;            /* color/surface/success-subtle — green/50 */
+  --ap-ok-line:rgba(15,138,56,.15);/* color/border/success-subtle */
+  --ap-ok:#0f7230;                 /* color/text/success — green/600 */
   --ap-brand-face:#eef4fc;         /* color/surface/brand-subtle — blue/50.
                                       넓은 면적에 까는 옅은 브랜드 면이다 —
                                       뱃지 면(--ap-badge-positive)보다 한 겹 옅다 */
@@ -3795,6 +3798,30 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 면도 테도 없으니 누를 수 있다는 표는 밑줄이 맡는다. 밑줄은 글자에만
    긋는다 — 아이콘까지 그으면 줄이 글자에서 떠 보인다 */
 .confirm__re b{font-weight:inherit;text-decoration:underline;text-underline-offset:3px}
+
+/* ── 토스트 — 시스템 Toast ──
+   끝난 일을 알리고 **스스로 사라지는** 알림이다(기본 4초). 알림창과 달리
+   덮지 않는다 — 다음에 할 일이 없으니 묻지도 막지도 않는다.
+   ⚠ 시스템은 화면 **우상단**에 띄운다. 폰에서는 오른쪽에 붙여 둘 자리가
+     없어(창이 390 이다) 좌우 여백만 남기고 본문 맨 위에 둔다.
+   ⚠ 그 자리는 **js 가 잰다**(toasty) — 머리줄 위에 탭이 한 줄 더 있는
+     화면이 있어, 높이를 못 박아 두면 그 탭을 덮는다 */
+.toasts{position:absolute;left:var(--ap-p6);right:var(--ap-p6);top:0;z-index:4;
+  display:flex;flex-direction:column;gap:var(--ap-gap3);pointer-events:none}
+.toast{pointer-events:auto;display:flex;align-items:flex-start;gap:var(--ap-gap3);
+  padding:var(--ap-p5) var(--ap-p6);border-radius:var(--ap-r10);
+  background:var(--ap-g0);border:1px solid var(--ap-line);
+  box-shadow:var(--ap-shadow-float)}
+/* 끝난 일 — 면·테·그림은 시스템의 success 색이다 */
+.toast--ok{background:var(--ap-ok-face);border-color:var(--ap-ok-line)}
+.toast--ok .toast__i{color:var(--ap-ok)}
+.toast__i{flex:none}
+.toast__m{flex:1;min-width:0;font:var(--t-sub);letter-spacing:var(--ls-sub);
+  color:var(--ap-text);word-break:keep-all}
+/* 닫는 ✕ 는 글 오른쪽 끝이다 — 읽을 것은 글이고 이것은 다 읽은 뒤에 쓰는
+   손잡이다. 짚을 자리는 4 를 둘러 넓히되 그만큼 바깥으로 물린다 */
+.toast__x{flex:none;display:flex;align-items:center;justify-content:center;
+  padding:4px;margin:-4px -4px -4px 0;color:var(--ap-text-gray);cursor:pointer}
 
 /* ── 알림창 — 시안 modal_alert ── */
 .dim{position:absolute;inset:0;background:var(--ap-scrim-dim);

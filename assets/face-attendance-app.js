@@ -129,6 +129,7 @@
     agree(hit);
     pickr(hit);
     hint(hit);
+    toasty(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -2397,6 +2398,33 @@
         window.addEventListener('resize', slide);
       }
       slide();
+    });
+  }
+
+  /* ── 토스트가 서는 자리 — `.toasts` ──
+     본문 맨 위에 띄운다. 높이를 못 박아 두지 않는 것은 머리줄 위에 탭이
+     한 줄 더 있는 화면이 있어서다 — 박아 두면 그 탭을 덮는다.
+     뒤에 깔린 화면을 베껴 쓰는 자리에서도 그 본문을 그대로 잰다 */
+  function toasty(scr) {
+    var box = scr.querySelector('.toasts');
+    var bd = scr.querySelector('.body');
+    if (!box || !bd) return;
+    function see() {
+      var r = bd.getBoundingClientRect(), s = scr.getBoundingClientRect();
+      box.style.top = Math.round(r.top - s.top + 12) + 'px';
+    }
+    see();
+    requestAnimationFrame(see);
+
+    /* ✕ 는 그 토스트만 덜어 낸다. 스스로 사라지는 시계는 두지 않는다 —
+       보려고 연 자리에서 4초 만에 없어지면 볼 수가 없다 */
+    box.querySelectorAll('.toast__x').forEach(function (x) {
+      if (x.dataset.toast) return;
+      x.dataset.toast = '1';
+      x.addEventListener('click', function () {
+        var t = x.closest('.toast');
+        if (t) t.remove();
+      });
     });
   }
 
