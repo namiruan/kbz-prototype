@@ -2433,7 +2433,7 @@
     var row = scr.querySelector('.agree');
     if (!row) return;
     var box = row.querySelector('.chk');
-    var bts = Array.prototype.slice.call(scr.querySelectorAll('.delbt__b'));
+    var bts = Array.prototype.slice.call(scr.querySelectorAll('.alert__bt button'));
 
     function see() {
       var on = row.getAttribute('aria-pressed') === 'true';

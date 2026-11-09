@@ -3858,7 +3858,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .alert__t{font:var(--t-title2);letter-spacing:var(--ls-title2);color:var(--ap-g95);
   word-break:keep-all}
 .alert__bt{display:flex;border-top:1px solid var(--ap-line)}
-.alert__bt span{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;display:flex;align-items:center;justify-content:center;padding:var(--ap-p6) var(--ap-p8)}
+/* span 이든 button 이든 같은 꼴로 선다 — 묻고 끝나는 창에서는 글자만
+   눌렀고, 지우는 창에서는 꺼 둘 수 있어야 해 버튼이다 */
+.alert__bt > *{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;display:flex;align-items:center;justify-content:center;padding:var(--ap-p6) var(--ap-p8);cursor:pointer}
 .alert__bt .no{flex:0 0 96px;background:var(--ap-g0);color:var(--ap-text-dark)}
 .alert__bt .yes{background:var(--ap-primary);color:var(--ap-g0)}
 
@@ -3915,21 +3917,21 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    기기(375)에서는 두 줄이다 */
 .agree__t{font:var(--t-foot);letter-spacing:var(--ls-foot);color:var(--ap-text);
   min-width:0;word-break:keep-all}
-/* 지우는 버튼 둘 — 세로로 쌓는다. 가로로 두면 글자가 길어 줄바꿈이 생기고,
-   어느 쪽이 더 넓게 지우는지도 폭으로는 말할 수 없다.
+/* 지우는 버튼 둘 — 알림창의 버튼 바를 그대로 쓴다. 세로로 쌓는 것만
+   다르다: 가로로 두면 글자가 길어 줄바꿈이 생기고, 어느 쪽이 더 넓게
+   지우는지도 폭으로는 말할 수 없다.
+   줄 사이의 선은 **둘째 것부터** 긋는다 — 바 위의 선은 .alert__bt 가 이미
+   긋고 있어, 저마다 그으면 첫 줄 위에 두 겹이 된다.
    ⚠ 빨강을 쓰는 것은 **시안에 그 색이 생겼기 때문**이다(530:5009 의
      '근로자 데이터 삭제'). 근로자 상세의 '삭제' 는 그 전 시안을 따라
-     검정으로 서 있다 — 그쪽은 이 시트를 여는 길일 뿐이고, 되돌릴 수 없는
+     검정으로 서 있다 — 그쪽은 이 창을 여는 길일 뿐이고, 되돌릴 수 없는
      일이 일어나는 자리는 여기다 */
-.delbt{display:flex;flex-direction:column}
-.delbt__b{font:var(--t-head);letter-spacing:var(--ls-head);
-  display:flex;align-items:center;justify-content:center;
-  padding:var(--ap-p6) var(--ap-p8);cursor:pointer}
-.delbt__b--app{background:var(--ap-g0);color:var(--ap-danger);
-  border-top:1px solid var(--ap-line)}
-.delbt__b--all{background:var(--ap-danger);color:var(--ap-g0)}
-.delbt__b[disabled]{background:var(--ap-g5);color:var(--ap-text-disabled);
-  border-top:1px solid var(--ap-line);cursor:default}
+.alert__bt--col{flex-direction:column}
+.alert__bt--col > * + *{border-top:1px solid var(--ap-line)}
+.bt--del{background:var(--ap-g0);color:var(--ap-danger)}
+.bt--del-all{background:var(--ap-danger);color:var(--ap-g0)}
+.alert__bt > *[disabled]{background:var(--ap-g5);color:var(--ap-text-disabled);
+  cursor:default}
 
 /* 지도 창 — 알림창(.alert)이 아니라 **바닥에서 올라오는 시트**다. 알림창은
    묻고 답하는 자리라 300 으로 못 박혀 화면 가운데에 뜨는데, 여기서 할 일은
