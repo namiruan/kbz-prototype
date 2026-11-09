@@ -2443,16 +2443,31 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   width:0;height:0;margin-left:-6px;
   border:6px solid transparent;border-top:0;
   border-bottom-color:var(--ap-surface-dark)}
-/* 고르는 칩 줄 — 색은 이력의 거르개(.cnt)를 그대로 쓴다. 한 앱에서
-   '눌러서 고르는 것' 이 한 가지 색으로 선다.
-   다만 **줄을 나눠 갖는다**. 글자만큼만 쥐면 장갑 낀 손에는 과녁이 작고,
-   셋의 폭이 같아야 어느 것을 고르든 손이 가는 거리도 같다.
-   모서리는 아래 칸들과 같은 10 이고 키도 같은 56 이다 — 알약(pill)로 두거나
-   한 단 낮게 두면 폼 안에서 이 줄만 다른 결로 선다 */
-.chips{display:flex;gap:var(--ap-p3)}
-.chips > .cnt{flex:1;min-width:0;justify-content:center;
-  min-height:var(--ap-p12);padding:var(--ap-p5) var(--ap-p4);
-  border-radius:var(--ap-r10)}
+/* ── 세그먼트 — 시스템 Segment ──
+   한 컨테이너 안에서 상호 배타적인 옵션을 전환한다. 면은 옅은 브랜드에
+   안쪽 테를 두르고(Toggle 트랙과 같은 시각 언어), 고른 자리는 **흰
+   미끄럼판**이 옮겨 와 덮는다.
+   키와 모서리는 아래 칸들을 따른다(56 · 10) — 이 줄만 다른 결로 서지
+   않는다 */
+.sgmw{display:flex;align-items:center;gap:var(--ap-p3)}
+.sgm{position:relative;flex:1;min-width:0;display:flex;align-items:center;
+  gap:var(--ap-p1);min-height:var(--ap-p12);padding:var(--ap-p2);
+  background:var(--ap-zone-chip);border-radius:var(--ap-r10);
+  box-shadow:inset 0 0 0 1px var(--ap-brand-line-on)}
+/* 폭과 자리는 js(pickr)가 재어 적는다 — 글자 수가 달라도 고른 칸에 꼭 맞는다 */
+.sgm__s{position:absolute;top:var(--ap-p2);bottom:var(--ap-p2);left:0;
+  width:var(--ap-sgm-w,0);transform:translateX(var(--ap-sgm-x,0));
+  border-radius:var(--ap-r8);background:var(--ap-g0);
+  box-shadow:var(--ap-shadow-tip);pointer-events:none;
+  transition:transform var(--ap-dur-base) var(--ap-ease-sym),
+             width var(--ap-dur-base) var(--ap-ease-sym)}
+@media (prefers-reduced-motion:reduce){.sgm__s{transition:none}}
+/* 글은 미끄럼판 **위**에 선다(z-index) — 아래에 두면 흰 판에 덮인다 */
+.sgm__b{position:relative;z-index:1;flex:1;min-width:0;
+  display:flex;align-items:center;justify-content:center;align-self:stretch;
+  font:var(--t-sub-em);letter-spacing:var(--ls-sub);
+  color:var(--ap-text-gray);white-space:nowrap;cursor:pointer}
+.sgm__b.is-on{color:var(--ap-primary)}
 .inp{font:var(--t-body);letter-spacing:var(--ls-body);display:flex;align-items:center;
   padding:var(--ap-p6) var(--ap-p5);background:var(--ap-g0);border:1px solid var(--ap-g20);
   border-radius:var(--ap-r4);color:var(--ap-text)}

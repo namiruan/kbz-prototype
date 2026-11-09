@@ -2372,17 +2372,31 @@
      라디오든 **역할로 집으므로** 꼴을 갈아도 이 함수는 그대로다 */
   function pickr(scr) {
     scr.querySelectorAll('[data-pick]').forEach(function (g) {
-      if (g.dataset.pickOn) return;
-      g.dataset.pickOn = '1';
-      g.addEventListener('click', function (e) {
-        var hit = e.target.closest && e.target.closest('[role="radio"]');
-        if (!hit || !g.contains(hit)) return;
-        g.querySelectorAll('[role="radio"]').forEach(function (o) {
-          var on = o === hit;
-          o.classList.toggle('is-on', on);
-          o.setAttribute('aria-checked', on ? 'true' : 'false');
+      /* 세그먼트는 고른 자리를 **흰 판이 옮겨 와 덮는다**. 그 판의 폭과
+         자리는 고른 칸을 재어 적는다 — 글자 수가 달라도 꼭 맞는다 */
+      function slide() {
+        var s = g.querySelector('.sgm__s');
+        var on = g.querySelector('[role="radio"].is-on');
+        if (!s || !on) return;
+        s.style.setProperty('--ap-sgm-w', on.offsetWidth + 'px');
+        s.style.setProperty('--ap-sgm-x', on.offsetLeft - g.clientLeft + 'px');
+      }
+      if (!g.dataset.pickOn) {
+        g.dataset.pickOn = '1';
+        g.addEventListener('click', function (e) {
+          var hit = e.target.closest && e.target.closest('[role="radio"]');
+          if (!hit || !g.contains(hit)) return;
+          g.querySelectorAll('[role="radio"]').forEach(function (o) {
+            var on = o === hit;
+            o.classList.toggle('is-on', on);
+            o.setAttribute('aria-checked', on ? 'true' : 'false');
+          });
+          slide();
         });
-      });
+        /* 폭이 바뀌면 판도 다시 잰다 — 가로로 돌리거나 틀 폭을 갈 때다 */
+        window.addEventListener('resize', slide);
+      }
+      slide();
     });
   }
 
