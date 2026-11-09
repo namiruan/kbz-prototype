@@ -54,6 +54,9 @@
   --ap-point:#e74900;              /* Color/Text/point · badge/point */
   --ap-point-bg:rgba(231,73,0,.1); /* Color/badge/negative */
   --ap-caution-face:#fff8ef;       /* color/surface/caution-subtle — orange/50 */
+  --ap-brand-face:#eef4fc;         /* color/surface/brand-subtle — blue/50.
+                                      넓은 면적에 까는 옅은 브랜드 면이다 —
+                                      뱃지 면(--ap-badge-positive)보다 한 겹 옅다 */
   --ap-caution-line:rgba(231,73,0,.15); /* color/border/caution-subtle */
   --ap-badge-normal:#e6e8ea;       /* Color/badge/normal */
   /* 고른 탭과 단가의 ＋·－ 가 나눠 쓰는 짝. 쓰는 자리 이름(tab-on)으로 부르면
@@ -3862,11 +3865,14 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   border:1px solid var(--ap-line);border-radius:var(--ap-r8);background:var(--ap-g0)}
 /* 동의한 뒤는 **면이 찬다**. 테 색만 바꾸면 켜진 것이 한 겹 선으로만
    남아, 바로 위 주의 면(채워진 면) 옆에서 아직 안 한 일처럼 읽힌다.
-   면은 이 앱에서 '고른 것' 이 쓰는 그 색이다(거르개 칩 .cnt.is-on 과 같다).
+   면은 시스템의 surface/brand-subtle 이다 — **넓은 면적에 까는** 옅은
+   브랜드 면이라, 뱃지 면(--ap-badge-positive)보다 한 겹 옅다. 여기는 뱃지가
+   아니라 한 줄짜리 상자를 통째로 채우는 자리다. 바로 위 주의 면도 같은
+   식구(surface/caution-subtle)라 둘의 무게가 맞는다.
    ⚠ 테는 **지운다**. 면이 이미 켜진 것을 말하는데 테까지 두면 같은 말이
      두 겹이 된다. 색만 비워 두께는 남긴다 — 걷어 내면 상자가 2 줄어들어
      켤 때마다 글이 한 번 움찔한다 */
-.agree[aria-pressed="true"]{background:var(--ap-badge-positive);
+.agree[aria-pressed="true"]{background:var(--ap-brand-face);
   border-color:transparent}
 /* 글은 주의 면보다 한 단 아래다(body/17 → foot/13). 읽고 체크하는 한 줄이라
    주의 면의 글과 같은 크기로 두면 둘이 같은 무게로 읽힌다 — 읽을 것은
