@@ -3833,10 +3833,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   font:400 15px/1.5 var(--ap-font);letter-spacing:var(--ls-sub);
   color:inherit;word-break:keep-all}
 /* 닫는 ✕ 는 글빛을 따른다 — 그 문서가 variant 색을 물려받게 둔 자리다.
-   짚을 자리는 4 를 둘러 넓히되 그만큼 바깥으로 물린다 */
+   짚을 자리는 4 를 둘러 넓히되, 물리는 것은 **오른쪽뿐**이다.
+   ⚠ 위로도 물렸더니 ✕ 가 글보다 4 높이 떠, 한 줄에 선 셋 가운데 이것만
+     위에 붙어 보였다(실측: 글 한가운데 266.5 · ✕ 한가운데 263) */
 .toast__x{flex:none;align-self:flex-start;display:flex;align-items:center;
   justify-content:center;min-height:23px;
-  padding:4px;margin:-4px -4px -4px 0;color:inherit;cursor:pointer}
+  padding:4px;margin:0 -4px 0 0;color:inherit;cursor:pointer}
 /* 끝난 일 — 면 · 테 · 글 · 그림이 모두 success 색으로 갈린다 */
 .toast--ok{background:var(--ap-ok-face);border-color:var(--ap-ok-line);
   color:var(--ap-ok)}
