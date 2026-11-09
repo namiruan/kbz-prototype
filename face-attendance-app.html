@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=669">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=670">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=669"></script>
+<script src="assets/face-attendance-app.js?v=670"></script>
 </head>
 
 <body>
@@ -1470,7 +1470,7 @@
   <!-- 필수 칸이 다 차면 저장이 보인다(js 의 must). 비어 있는 동안 서 있으면
        '눌러 봐야 아무 일도 없는 버튼' 이 내내 엄지 밑에 있다.
        자리는 처음부터 지킨다 — 덜어 내면 다 채운 뒤에 버튼이 솟아 화면이 뛴다 -->
-  <div class="act act--float act--void" aria-hidden="true">
+  <div class="act act--float act--end act--void" aria-hidden="true">
     <button class="act__b act__b--on" type="button" data-act="next">다음</button>
     <button class="act__b act__b--on" type="button" data-act="save" hidden>저장</button>
   </div>
@@ -1565,7 +1565,7 @@
     </form>
   </main>
 
-  <div class="act act--float">
+  <div class="act act--float act--end">
     <button class="act__b act__b--on" type="button" data-act="next">다음</button>
     <button class="act__b act__b--on" type="button" data-act="save" hidden>저장</button>
   </div>
@@ -1682,7 +1682,7 @@
   <!-- 필수 칸이 다 차면 저장이 보인다(js 의 must). 비어 있는 동안 서 있으면
        '눌러 봐야 아무 일도 없는 버튼' 이 내내 엄지 밑에 있다.
        자리는 처음부터 지킨다 — 덜어 내면 다 채운 뒤에 버튼이 솟아 화면이 뛴다 -->
-  <div class="act act--float act--void" aria-hidden="true">
+  <div class="act act--float act--end act--void" aria-hidden="true">
     <button class="act__b act__b--on" type="button" data-act="next">다음</button>
     <button class="act__b act__b--on" type="button" data-act="save" hidden>저장</button>
   </div>
@@ -1814,7 +1814,7 @@
   <!-- 필수 칸이 다 차면 저장이 보인다(js 의 must). 비어 있는 동안 서 있으면
        '눌러 봐야 아무 일도 없는 버튼' 이 내내 엄지 밑에 있다.
        자리는 처음부터 지킨다 — 덜어 내면 다 채운 뒤에 버튼이 솟아 화면이 뛴다 -->
-  <div class="act act--float act--void" aria-hidden="true">
+  <div class="act act--float act--end act--void" aria-hidden="true">
     <button class="act__b act__b--on" type="button" data-act="next">다음</button>
     <button class="act__b act__b--on" type="button" data-act="save" hidden>저장</button>
   </div>
