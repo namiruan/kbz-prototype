@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=687">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=688">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=687"></script>
+<script src="assets/face-attendance-app.js?v=688"></script>
 </head>
 
 <body>
@@ -3690,6 +3690,12 @@
            ⚠ 퇴근 사진도 같은 파일이다(images/worker/README.md — 홍길동만 두
              장이다). 퇴근 쪽에서 덮어도 바뀌는 것이 없는 까닭이다 -->
       <img src="images/worker/01.jpg" alt="" data-for="reg">
+      <!-- 덮은 얼굴이 **언제 등록된 것인가**. 견주는 자리라 그 얼굴이
+           얼마나 오래된 것인지가 함께 있어야 한다 — 두 해 전 사진이면
+           안 닮아 보이는 것이 당연하다.
+           덮었을 때만 선다(.is-reg) — 그날 찍힌 얼굴 위에 띄우면 그 사진의
+           날로 읽힌다 -->
+      <span class="photo__when">등록일 : 2026. 09. 12</span>
       <!-- 누르면 그 얼굴이 **큰 사진을 덮는다**. 작은 사진을 겹쳐 두는 길도,
            둘이 자리를 맞바꾸는 길도 있었으나 — 사진을 겹치면 그것이 또 하나의
            보기로 서서, 그날 찍힌 얼굴과 등록해 둔 얼굴이 같은 값으로 읽힌다.
@@ -3770,6 +3776,12 @@
            ⚠ 퇴근 사진도 같은 파일이다(images/worker/README.md — 홍길동만 두
              장이다). 퇴근 쪽에서 덮어도 바뀌는 것이 없는 까닭이다 -->
       <img src="images/worker/01.jpg" alt="" data-for="reg">
+      <!-- 덮은 얼굴이 **언제 등록된 것인가**. 견주는 자리라 그 얼굴이
+           얼마나 오래된 것인지가 함께 있어야 한다 — 두 해 전 사진이면
+           안 닮아 보이는 것이 당연하다.
+           덮었을 때만 선다(.is-reg) — 그날 찍힌 얼굴 위에 띄우면 그 사진의
+           날로 읽힌다 -->
+      <span class="photo__when">등록일 : 2026. 09. 12</span>
       <!-- 누르면 그 얼굴이 **큰 사진을 덮는다**. 작은 사진을 겹쳐 두는 길도,
            둘이 자리를 맞바꾸는 길도 있었으나 — 사진을 겹치면 그것이 또 하나의
            보기로 서서, 그날 찍힌 얼굴과 등록해 둔 얼굴이 같은 값으로 읽힌다.
