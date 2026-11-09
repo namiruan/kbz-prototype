@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=680">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=681">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=680"></script>
+<script src="assets/face-attendance-app.js?v=681"></script>
 </head>
 
 <body>
@@ -2375,18 +2375,22 @@
            차단은 말만으로는 무엇인지 모른다. 라벨 옆 도움말을 클릭하면
            설명이 뜬다 — 폰에는 호버가 없어 눌러야 뜨고 다시 누르면 닫힌다 -->
       <div class="fld fld--hint">
-        <div class="fld__hd">
-          <span class="fld__l">근무상태</span>
-          <button class="hint" type="button" aria-label="차단 설명 보기" aria-expanded="false"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-help"></use></svg></button>
-        </div>
-        <!-- ⚠ 말풍선은 **줄에 서서 아래를 민다**. 띄워 덮었더니 바로 아래
-             라디오를 가려, 설명을 읽고 고르려는 그 줄이 눌리지 않았다 -->
-        <p class="hint__p" role="status" hidden>차단은 등록은 되어 있지만, 풀릴 때까지 얼굴로 출근을 찍을 수 없는 상태입니다.</p>
+        <span class="fld__l">근무상태</span>
         <div class="chips" role="radiogroup" aria-label="근무상태" data-pick>
           <button class="cnt is-on" type="button" role="radio" aria-checked="true">재직</button>
           <button class="cnt" type="button" role="radio" aria-checked="false">차단</button>
+          <!-- 도움말은 **차단 바로 옆**이다. 설명이 걸리는 것은 셋 가운데
+               차단 하나인데, 라벨 옆에 두었더니 칸 전체를 설명하는 것으로
+               읽혔다.
+               ⚠ 알약 **안**에는 넣지 못한다 — 누르는 것 안에 누르는 것이
+                 들어간다. 줄에 나란히 두되 제 폭만 쥔다(flex 를 받지 않는다) -->
+          <button class="hint" type="button" aria-label="차단 설명 보기" aria-expanded="false"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-help"></use></svg></button>
           <button class="cnt" type="button" role="radio" aria-checked="false">퇴사</button>
         </div>
+        <!-- ⚠ 말풍선은 **줄에 서서 아래를 민다**. 띄워 덮었더니 바로 위
+             알약 줄을 가려, 설명을 읽고 고르려는 그 줄이 눌리지 않았다.
+             꼬리는 위를 짚는다 — 도움말이 이 줄 위에 있다 -->
+        <p class="hint__p" role="status" hidden>차단은 등록은 되어 있지만, 풀릴 때까지 얼굴로 출근을 찍을 수 없는 상태입니다.</p>
       </div>
       <div class="fld">
         <label class="fld__l">이름 <b>(필수)</b></label>
