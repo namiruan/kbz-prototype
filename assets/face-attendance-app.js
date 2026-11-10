@@ -67,7 +67,13 @@
   var STEP = {
     'm-worker-new-name': ['m-worker-new', 2],
     'm-worker-new-id':   ['m-worker-new', 3],
-    'm-worker-new-tel':  ['m-worker-new', 4]
+    'm-worker-new-tel':  ['m-worker-new', 4],
+    /* 근로자 앱의 등록도 같은 한 장이다. 얼굴은 들어서기 전에 찍고 오므로
+       자리는 이름부터다 — 그 자리는 화면이 data-step 으로 들고 있어 여기에
+       또 적지 않는다 */
+    'w-worker-new-id':   ['w-worker-new', 3],
+    'w-worker-new-tel':  ['w-worker-new', 4],
+    'w-worker-new-done': ['w-worker-new', 5]
   };
 
   function pick() {
@@ -131,6 +137,7 @@
     hint(hit);
     toasty(hit);
     when(hit);
+    vfy(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -1653,7 +1660,13 @@
       return kin(key).every(function (n) {
         var need = n.querySelectorAll('.inp__in[required]');
         return !need.length || Array.prototype.every.call(need, function (i) {
-          return i.value.trim() !== '';
+          var v = i.value.trim();
+          if (v === '') return false;
+          /* 글자 수가 정해진 칸은 **다 차야** 찬 것이다 — 인증번호가 그렇다.
+             비지 않았다는 것만 보았더니 여섯 자리 가운데 다섯만 적어도
+             '다음' 이 켜져, 인증을 끝내지 않고 넘어갈 수 있었다 */
+          var min = parseInt(i.getAttribute('minlength'), 10);
+          return isNaN(min) || v.length >= min;
         });
       });
     }
@@ -2399,6 +2412,98 @@
         window.addEventListener('resize', slide);
       }
       slide();
+    });
+  }
+
+  /* ── 번호 인증 — `[data-vfy]` · `.vfy` ──
+     적어 낸 번호가 **쓰는 번호인지**를 문자로 확인한다. 사람이 누구인지를
+     가리는 본인인증이 아니라, 그 번호로 글이 닿는지만 본다.
+     인증번호 칸은 **보내고 나서야 생긴다** — 보내기 전부터 세워 두면
+     아직 받지도 않은 수를 적으라고 묻는 꼴이 된다.
+     ⚠ 칸이 `required` 라, 코드를 적기 전에는 flow 가 연락처 차례를 찬 것으로
+       세지 않는다 — 인증을 건너뛰고 저장으로 갈 길이 없다. 여기서 따로
+       막는 것이 아니라, 폼이 세는 방식을 그대로 쓴다 */
+  var VFY_SEC = 180;
+
+  function vfy(scr) {
+    scr.querySelectorAll('[data-vfy]').forEach(function (b) {
+      var box = b.closest('[data-flow]') || scr;
+      var pane = box.querySelector('.vfy');
+      if (!pane) return;
+      var code = pane.querySelector('.inp__in');
+      var clock = pane.querySelector('.vfy__t');
+      var msg = pane.querySelector('.vfy__m');
+      if (!code) return;
+
+      var tick;
+      function stop() { clearInterval(tick); tick = 0; }
+
+      /* 다 맞춘 자리 — 더 누를 것도 셀 것도 없다 */
+      function ok() {
+        stop();
+        pane.classList.add('is-ok');
+        pane.classList.remove('is-over');
+        if (clock) clock.hidden = true;
+        code.readOnly = true;
+        if (msg) msg.textContent = '인증되었습니다';
+        b.textContent = '인증완료';
+        b.disabled = true;
+      }
+
+      /* 시간이 다 가면 적어 둔 것은 쓸 수 없다 — 지우고 다시 받게 한다 */
+      function over() {
+        stop();
+        pane.classList.add('is-over');
+        if (clock) clock.hidden = true;
+        code.value = '';
+        if (msg) msg.textContent = '시간이 지났습니다. 재전송해주세요';
+      }
+
+      function run() {
+        stop();
+        var left = VFY_SEC;
+        function paint() {
+          if (clock) {
+            clock.textContent = ('0' + Math.floor(left / 60)).slice(-2) + ':' +
+                                ('0' + (left % 60)).slice(-2);
+          }
+        }
+        paint();
+        /* 화면을 갈아 끼우면 이 한 장은 문서에서 덜어 내진다 — 거기서도
+           시계가 돌면 덜어 낸 화면을 두고 세는 꼴이 된다 */
+        tick = setInterval(function () {
+          if (!scr.isConnected) { stop(); return; }
+          if (--left <= 0) { over(); return; }
+          paint();
+        }, 1000);
+      }
+
+      /* 보낸다 — 칸을 열고, 바로 적을 수 있게 커서를 둔다 */
+      function send() {
+        pane.hidden = false;
+        pane.classList.remove('is-over');
+        if (clock) clock.hidden = false;
+        if (msg) msg.textContent = '인증번호를 보냈습니다';
+        b.textContent = '재전송';
+        run();
+        try { code.focus({ preventScroll: true }); } catch (e) { code.focus(); }
+      }
+
+      if (!b.dataset.vfyOn) {
+        b.dataset.vfyOn = '1';
+        /* ⚠ 누를 때 초점을 뺏지 않는다 — flow 의 '다음' 과 같은 까닭이다.
+           초점이 떨어지면 기기 자판이 내려가기 시작해, 그 뒤에 인증번호
+           칸으로 옮겨 봐야 자판은 이미 내려간 뒤다 */
+        b.addEventListener('mousedown', function (e) { e.preventDefault(); });
+        b.addEventListener('click', send);
+        code.addEventListener('input', function () {
+          if (code.value.replace(/\D/g, '').length >= 6) ok();
+        });
+      }
+
+      /* 자리를 건너뛰어 연 화면은 코드가 이미 적혀 있다(flow 의 fill) —
+         칸이 닫힌 채로 값만 있으면 어디서 온 값인지 알 수 없다 */
+      if (code.value.trim()) { pane.hidden = false; ok(); }
     });
   }
 
