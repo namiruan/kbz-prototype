@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=708">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=709">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=708"></script>
+<script src="assets/face-attendance-app.js?v=709"></script>
 </head>
 
 <body>
@@ -3912,7 +3912,13 @@
            자주 찾는 날이 오늘이다. 길은 js 가 아니라 여기서 박아 둔다:
            근로자 앱에서는 '오늘' 이 날마다 다른 화면으로 가지만, 이력은
            어느 날에서든 제 화면으로 돌아온다 -->
-      <button class="pill pill--line wheel__today" type="button" data-go="m-log">오늘로 이동</button>
+      <!-- 둘이 한 줄에 마주 선다. 왼쪽은 **되돌아가는 길**, 오른쪽은
+           **지금 고른 값으로 닫는 길**이다 — 저지르는 쪽이 오른쪽에 서는
+           것은 알림창의 '취소 · 확인' 과 같은 차례다 -->
+      <div class="wheel__bt">
+        <button class="pill pill--line wheel__today" type="button" data-go="m-log">오늘로 이동</button>
+        <button class="pill pill--fill" type="button" data-go="m-log">확인</button>
+      </div>
     </div>
   </div>
 </section>
