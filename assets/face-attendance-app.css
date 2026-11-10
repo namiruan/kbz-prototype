@@ -2921,13 +2921,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    퇴근 사이가 아니라 **이름과 기록 사이**에 선다 — 출근·퇴근은 같은 결의
    값이라 가를 것이 없고, 갈리는 것은 '누구인가' 와 '언제 찍었나' 다.
    줄의 gap(6)에 6 을 더해, 선이 이름 쪽에서도 기록 쪽에서도 12 다 */
-.log__rec{flex:none;display:flex;
-  margin-left:var(--ap-p3);border-left:1px solid var(--ap-line)}
+.log__rec{flex:none;display:flex;gap:var(--ap-p5);
+  margin-left:var(--ap-p3);padding-left:var(--ap-p5);
+  border-left:1px solid var(--ap-line)}
+/* 영역의 폭은 **시각이 정한다**(아래 .log__tm 의 8ch). 따로 가장 작은
+   폭을 주면 뱃지가 그 안에서 가운데로 밀려, 출근과 퇴근이 멀어진다 */
 .log__p{flex:none;display:inline-flex;flex-direction:column;align-items:center;
-  gap:var(--ap-p2);min-width:76px;padding-inline:var(--ap-p5)}
-/* 꺾쇠를 걷고 나면 오른쪽 끝은 퇴근 영역이 쓴다. 그 바깥 여백까지
-   두면 시각이 줄의 가장자리에서 한 뼘 더 들어와 보이므로 걷는다 */
-.log__p--out{padding-right:0}
+  gap:var(--ap-p2)}
 /* 아직 안 찍힌 쪽 — 뱃지와 시각이 함께 꺼진다. 자리는 그대로 잡아 둔다.
    글은 disabled(#8a949e)보다 한 단 더 죽인다 — 옅은 회색 면 위에서는 그
    값도 또렷해, 찍힌 퇴근과 한눈에 갈리지 않았다 */
