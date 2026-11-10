@@ -3874,6 +3874,10 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    쓴다 — 거기서는 js 가 자리를 재지 않고 이 값이 그대로 선다.
    바닥에서 들므로 드나드는 길도 뒤집는다 */
 .toasts--foot{top:auto;bottom:calc(var(--ap-p8) + env(safe-area-inset-bottom,0px))}
+/* 카메라에서는 바닥 줄(모드 · 카메라 전환) **위에** 선다 — 그 줄은 찍는
+   동안 내내 쓰는 자리라 토스트가 4초라도 덮으면 안 된다.
+   바닥에서 40(.cam__foot) + 54(줄의 키) + 12(사이)다 */
+.cam .toasts--foot{bottom:calc(var(--ap-p10) + 54px + var(--ap-gap3))}
 @keyframes ap-toast-in-up{from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none}}
 @keyframes ap-toast-out-down{from{opacity:1;transform:none} to{opacity:0;transform:translateY(12px)}}
 .toasts--foot .toast{animation-name:ap-toast-in-up}
