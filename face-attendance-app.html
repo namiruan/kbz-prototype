@@ -3375,12 +3375,12 @@
         <button class="sheet__x" type="button" aria-label="닫기" data-go="m-cam-fail"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
       </div>
       <div class="alert__bd">
-        <!-- ⚠ data-gate 가 달린 칸이 '확인' 을 쥔다(js 의 gate). 비어 있는
-             동안 버튼은 꺼져 있다 -->
-        <div class="fld">
-          <label class="fld__l">비밀번호 <b>(필수)</b></label>
-          <div class="inp"><input class="inp__in" required type="password" placeholder="비밀번호를 입력해주세요" aria-label="관리자 비밀번호" name="bimil" autocomplete="off" inputmode="numeric" autofocus data-gate></div>
-        </div>
+        <!-- 라벨을 달지 않는다 — 머리줄이 이미 '관리자 비밀번호를
+             입력해주세요' 라, 같은 말을 바로 아래에 한 번 더 적는 꼴이 된다.
+             받는 칸이 하나뿐이라 무엇을 적는지도 헷갈릴 데가 없다.
+             ⚠ data-gate 가 달린 칸이 '확인' 을 쥔다(js 의 gate). 비어 있는
+               동안 버튼은 꺼져 있다 -->
+        <div class="inp"><input class="inp__in" required type="password" placeholder="비밀번호를 입력해주세요" aria-label="관리자 비밀번호" name="bimil" autocomplete="off" inputmode="numeric" autofocus data-gate></div>
       </div>
       <div class="alert__bt">
         <button class="no" type="button" data-go="m-cam-fail">취소</button>
