@@ -135,6 +135,7 @@
     hint(hit);
     toasty(hit);
     when(hit);
+    gate(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -2410,6 +2411,26 @@
     });
   }
 
+  /* ── 적어야 열리는 버튼 — `[data-gate]` · `[data-gate-on]` ──
+     칸이 비어 있는 동안 버튼을 꺼 둔다. 비밀번호처럼 **적는 것 하나가
+     곧 조건**인 자리에 쓴다 — 폼의 must 는 바닥 바(.act)를 쥐는 함수라
+     알림창의 버튼 줄에는 닿지 않는다 */
+  function gate(scr) {
+    var inp = scr.querySelector('.inp__in[data-gate]');
+    var btn = scr.querySelectorAll('[data-gate-on]');
+    if (!inp || !btn.length) return;
+    function see() {
+      var ok = inp.value.trim() !== '';
+      btn.forEach(function (b) { b.disabled = !ok; });
+    }
+    /* 갈아 끼웠다 돌아온 화면은 이미 매여 있다 — 한 번만 맨다 */
+    if (!scr.dataset.gate) {
+      scr.dataset.gate = '1';
+      inp.addEventListener('input', see);
+    }
+    see();
+  }
+
   /* ── 날을 적는 자리 — `[data-when]` ──
      '11월 6일' 이라고 마크업에 박아 두면 다음 달에 거짓말이 된다. 달력이
      쓰는 그 날들(DAYS)에서 꺼내 적는다 — 이름은 data-day 와 같은 말이다
@@ -2427,14 +2448,18 @@
      뒤에 깔린 화면을 베껴 쓰는 자리에서도 그 본문을 그대로 잰다 */
   function toasty(scr) {
     var box = scr.querySelector('.toasts');
+    if (!box) return;
+    /* 자리를 재는 것은 **머리줄 아래에서 드는 토스트**뿐이다. 바닥에서 드는
+       것(.toasts--foot)과 본문이 없는 화면(카메라)은 css 값 그대로 선다 */
     var bd = scr.querySelector('.body');
-    if (!box || !bd) return;
-    function see() {
-      var r = bd.getBoundingClientRect(), s = scr.getBoundingClientRect();
-      box.style.top = Math.round(r.top - s.top + 12) + 'px';
+    if (bd && !box.classList.contains('toasts--foot')) {
+      var see = function () {
+        var r = bd.getBoundingClientRect(), s = scr.getBoundingClientRect();
+        box.style.top = Math.round(r.top - s.top + 12) + 'px';
+      };
+      see();
+      requestAnimationFrame(see);
     }
-    see();
-    requestAnimationFrame(see);
 
     /* 토스트는 **스스로 사라진다** — 기본 4초(그 문서의 값이다). 올라가며
        나가고, 다 나가면 덜어 낸다.

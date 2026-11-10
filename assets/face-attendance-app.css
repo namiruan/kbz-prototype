@@ -3439,6 +3439,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   display:inline-flex;align-items:center;justify-content:center;
   padding:4px;border-radius:6px;color:var(--ap-g0)}
 .cam__back .ic{width:24px;height:24px}
+/* 오른쪽 위의 관리자 도구 — 뒤로 가기와 **같은 꼴로 마주 선다**. 평소에는
+   쓸 일이 없는 길이라 글자를 달지 않고 표 하나로 둔다 */
+.cam__tool{position:absolute;top:calc(var(--ap-statusbar) - 4px);
+  right:calc(var(--ap-p6) - 4px);z-index:2;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:4px;border-radius:6px;color:var(--ap-g0);cursor:pointer}
+.cam__tool .ic{width:24px;height:24px}
 /* 근로자 앱의 카메라는 **한 사람**을 본다 — 제 얼굴이 맞는지 확인하는
    자리라, 줄 선 사람을 이어 찍는 현장소장 앱과 달리 센 수도 종료도 없다.
    대신 '누구를 확인하는 중인가' 를 틀 위에 붙인다: 지금 이 인증이 누구
@@ -3860,6 +3867,17 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 /* 끝난 일 — 면 · 테 · 글 · 그림이 모두 success 색으로 갈린다 */
 .toast--ok{background:var(--ap-ok-face);border-color:var(--ap-ok-line);
   color:var(--ap-ok)}
+/* 막힌 일 — caution 색이다 */
+.toast--warn{background:var(--ap-caution-face);border-color:var(--ap-caution-line);
+  color:var(--ap-point)}
+/* 바닥에서 드는 토스트. 카메라 화면처럼 **본문(.body)이 없는 자리**에
+   쓴다 — 거기서는 js 가 자리를 재지 않고 이 값이 그대로 선다.
+   바닥에서 들므로 드나드는 길도 뒤집는다 */
+.toasts--foot{top:auto;bottom:calc(var(--ap-p8) + env(safe-area-inset-bottom,0px))}
+@keyframes ap-toast-in-up{from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none}}
+@keyframes ap-toast-out-down{from{opacity:1;transform:none} to{opacity:0;transform:translateY(12px)}}
+.toasts--foot .toast{animation-name:ap-toast-in-up}
+.toasts--foot .toast.is-off{animation-name:ap-toast-out-down}
 
 /* ── 알림창 — 시안 modal_alert ── */
 .dim{position:absolute;inset:0;background:var(--ap-scrim-dim);
