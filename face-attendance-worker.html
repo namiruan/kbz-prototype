@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=695">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=696">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=695"></script>
+<script src="assets/face-attendance-app.js?v=696"></script>
 </head>
 
 <body>
@@ -1287,7 +1287,7 @@
        ?screen= 이 가리키는 한 장을 켜는 꼴이라 한 장 안에서 둘로 갈라 둘 수
        없어, 화면을 두 장 둔다(w-worker-new · w-worker-new-only).
        ⚠ 둘은 **바닥 버튼 한 줄만 다르다**. 폼을 고칠 때는 두 장을 같이 고친다 -->
-<section class="scr scr--form" data-screen="w-worker-new" data-step="2" data-title="근로자 앱 근로자 등록 — 출근까지">
+<section class="scr scr--form" data-screen="w-worker-new" data-title="근로자 앱 근로자 등록 — 출근까지">
   <header class="nav">
     <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로" data-go="w-shot"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <h1 class="nav__t">근로자 등록</h1>
@@ -1296,6 +1296,9 @@
   <!-- 어디까지 왔는지 — 한 줄이 차오른다. 자리는 묻는 차례 넷(얼굴 · 이름 ·
        번호 · 연락처)에 **추가 정보**까지다. 여는 자리가 셋째라 막대도 거기서
        시작한다 — 얼굴과 이름이 이미 들어와 있다는 말이다.
+       ⚠ 여는 자리를 마크업에 적지 않는다. flow 가 **찬 칸을 세어** 처음 비어
+         있는 자리에 선다 — 이름과 연락처는 가입 때 받은 값이라 이미 차 있어,
+         이 화면이 묻는 것은 주민번호 하나뿐이다.
        채우는 일은 assets/face-attendance-app.js 의 flow 가 한다 -->
   <div class="prog" role="progressbar" aria-label="등록 진행" aria-valuemin="1" aria-valuemax="5" aria-valuenow="3">
     <i></i>
@@ -1347,27 +1350,11 @@
           <div class="inp"><input class="inp__in" required type="text" placeholder="주민번호를 입력해주세요" aria-label="주민번호" data-demo="790412-1234567" autofocus name="jumin" autocomplete="off" inputmode="numeric"></div>
         </div>
       </div>
-      <!-- 번호 인증 — 적어 낸 번호로 **글이 닿는지**를 문자로 본다.
-           앱이 아는 번호를 채워 두었어도 묻는다: 번호를 바꿔 적을 수 있는
-           칸이고, 현장소장이 이 번호로 연락하기 때문이다.
-           '인증' 은 칸 안이 아니라 **옆에** 선다 — 기능을 거는 버튼을 칸
-           안에 넣지 않는 것은 시스템이 정해 둔 것이다(atoms/input.md) -->
+      <!-- ⚠ 번호 인증은 여기서 받지 않는다. 앱에 가입할 때 이미 거쳤다 —
+           같은 번호를 두 번 인증시키면 가입을 한 번 더 시키는 꼴이 된다 -->
       <div class="fld" data-flow="yeonrak">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="wbtn">
-          <div class="inp"><input class="inp__in" required type="text" value="010-1234-5678" aria-label="연락처" name="yeonrak" autocomplete="off" inputmode="tel"></div>
-          <button class="wbtn__b" type="button" data-vfy>인증</button>
-        </div>
-        <!-- 보내고 나서야 생기는 칸이다. 여권번호의 생년월일과 같은 꼴로
-             **이 칸 안에** 하나 더 드는 것은, 번호와의 끈이 끊기면 어느
-             번호를 인증하는 중인지 알 수 없어서다.
-             ⚠ required 다 — 코드를 적기 전에는 flow 가 연락처 차례를 찬
-               것으로 세지 않아, 인증을 건너뛰고 저장으로 갈 길이 없다 -->
-        <div class="fld__sub vfy" hidden>
-          <label class="fld__l">인증번호 <b>(필수)</b></label>
-          <div class="inp"><input class="inp__in" required type="text" placeholder="문자로 받은 6자리" aria-label="인증번호" data-demo="483912" name="injeung" autocomplete="off" inputmode="numeric" minlength="6" maxlength="6"><span class="vfy__t">03:00</span></div>
-          <p class="vfy__m" role="status">인증번호를 보냈습니다</p>
-        </div>
+        <div class="inp"><input class="inp__in" required type="text" value="010-1234-5678" aria-label="연락처" name="yeonrak" autocomplete="off" inputmode="tel"></div>
       </div>
       <div class="fld" data-flow="extra">
         <label class="fld__l">직종</label>
@@ -1443,27 +1430,11 @@
           <div class="inp"><input class="inp__in" required type="text" placeholder="주민번호를 입력해주세요" aria-label="주민번호" data-demo="790412-1234567" autofocus name="jumin" autocomplete="off" inputmode="numeric"></div>
         </div>
       </div>
-      <!-- 번호 인증 — 적어 낸 번호로 **글이 닿는지**를 문자로 본다.
-           앱이 아는 번호를 채워 두었어도 묻는다: 번호를 바꿔 적을 수 있는
-           칸이고, 현장소장이 이 번호로 연락하기 때문이다.
-           '인증' 은 칸 안이 아니라 **옆에** 선다 — 기능을 거는 버튼을 칸
-           안에 넣지 않는 것은 시스템이 정해 둔 것이다(atoms/input.md) -->
+      <!-- ⚠ 번호 인증은 여기서 받지 않는다. 앱에 가입할 때 이미 거쳤다 —
+           같은 번호를 두 번 인증시키면 가입을 한 번 더 시키는 꼴이 된다 -->
       <div class="fld" data-flow="yeonrak">
         <label class="fld__l">연락처 <b>(필수)</b></label>
-        <div class="wbtn">
-          <div class="inp"><input class="inp__in" required type="text" value="010-1234-5678" aria-label="연락처" name="yeonrak" autocomplete="off" inputmode="tel"></div>
-          <button class="wbtn__b" type="button" data-vfy>인증</button>
-        </div>
-        <!-- 보내고 나서야 생기는 칸이다. 여권번호의 생년월일과 같은 꼴로
-             **이 칸 안에** 하나 더 드는 것은, 번호와의 끈이 끊기면 어느
-             번호를 인증하는 중인지 알 수 없어서다.
-             ⚠ required 다 — 코드를 적기 전에는 flow 가 연락처 차례를 찬
-               것으로 세지 않아, 인증을 건너뛰고 저장으로 갈 길이 없다 -->
-        <div class="fld__sub vfy" hidden>
-          <label class="fld__l">인증번호 <b>(필수)</b></label>
-          <div class="inp"><input class="inp__in" required type="text" placeholder="문자로 받은 6자리" aria-label="인증번호" data-demo="483912" name="injeung" autocomplete="off" inputmode="numeric" minlength="6" maxlength="6"><span class="vfy__t">03:00</span></div>
-          <p class="vfy__m" role="status">인증번호를 보냈습니다</p>
-        </div>
+        <div class="inp"><input class="inp__in" required type="text" value="010-1234-5678" aria-label="연락처" name="yeonrak" autocomplete="off" inputmode="tel"></div>
       </div>
       <div class="fld" data-flow="extra">
         <label class="fld__l">직종</label>

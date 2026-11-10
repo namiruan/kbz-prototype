@@ -2488,31 +2488,6 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 .inp--ph{color:var(--ap-text-gray)}
 .inp--num{justify-content:flex-end}
 
-/* ── 칸 옆의 기능 버튼 — 번호 인증 ──
-   버튼을 칸 **안에** 넣지 않는다. 시스템이 그렇게 정해 두었다 — 기능을
-   거는 버튼은 칸 밖에 나란히 세운다(atoms/input.md).
-   면을 채우지 않고 테만 두르는 것은, 이 화면에서 **면째 파란 것은 '다음'
-   하나**여야 하기 때문이다. 둘이 같은 꼴이면 어느 쪽이 앞으로 가는
-   버튼인지 한 번 더 보게 된다 */
-.wbtn{display:flex;align-items:stretch;gap:var(--ap-p3)}
-.wbtn > .inp{flex:1;min-width:0}
-.wbtn__b{flex:none;padding-inline:var(--ap-p6);border-radius:var(--ap-r4);
-  background:var(--ap-g0);border:1px solid var(--ap-primary);color:var(--ap-primary);
-  font:var(--t-sub-em);letter-spacing:var(--ls-sub);white-space:nowrap;cursor:pointer}
-/* 인증이 끝나면 누를 것이 없다 — 테를 풀고 회색으로 내린다 */
-.wbtn__b:disabled{background:var(--ap-g5);border-color:transparent;
-  color:var(--ap-text-disabled);cursor:default}
-/* 남은 시간은 칸 **안** 오른쪽 끝에 붙는다 — 밖에 두면 칸이 또 한 번
-   좁아지고, 이 수는 칸에 적는 값에 걸린 조건이지 그 옆의 다른 값이 아니다.
-   자릿수가 바뀌어도 흔들리지 않게 숫자 폭을 고정한다 */
-.vfy__t{flex:none;margin-left:var(--ap-p3);font:var(--t-foot);
-  letter-spacing:var(--ls-foot);color:var(--ap-danger);
-  font-variant-numeric:tabular-nums}
-/* 말은 그 말이 가리키는 칸 바로 밑에 둔다 */
-.vfy__m{margin:0;font:var(--t-foot);letter-spacing:var(--ls-foot);
-  color:var(--ap-g60)}
-.vfy.is-ok .vfy__m{color:var(--ap-ok)}
-.vfy.is-over .vfy__m{color:var(--ap-danger)}
 
 
 /* 예 · 아니오 — 시안 Toggle(600:3777) 그대로.
