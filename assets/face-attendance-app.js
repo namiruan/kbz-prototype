@@ -2193,6 +2193,13 @@
       /* 손으로 적어 준 차례는 따라가지 않는다 — 두면 다른 화면에 갔다
          돌아올 때 지난 차례가 따라온다. 갈 자리는 data-go 의 이름이 든다 */
       u.searchParams.delete('step');
+      /* 갈 자리가 '온 데를 깔아 달라' 고 적어 두었으면 지금 화면의 이름을
+         실어 보낸다. 그런 자리가 아니면 지운다 — 두면 다른 화면에 갔다
+         돌아올 때 지난 이름이 따라온다 */
+      var dst = document.querySelector('.scr[data-screen="' + go.dataset.go + '"]') || SHELF[go.dataset.go];
+      if (dst && dst.hasAttribute('data-behind-from') && hit.dataset.screen) {
+        u.searchParams.set('from', hit.dataset.screen);
+      } else u.searchParams.delete('from');
       var url = u.toString();
 
       /* 시트가 떠 있는 화면에서 떠날 때는 **내려가는 것을 보여 주고** 간다.
@@ -2224,6 +2231,13 @@
        마크업에 적어 둔 한 장을 늘 깔면 뒤가 엉뚱한 목록이 된다.
        주소로 바로 연 자리에는 연 화면이 없으니 `data-behind` 가 받는다 */
     var name = over || hit.dataset.behind;
+    /* `data-behind-from` 이 붙은 화면은 **어느 화면에서 왔는지**를 먼저 본다
+       — 같은 알림창이 여러 화면 위에서 열릴 때(카메라의 관리자 도구가
+       그렇다) 마크업에 적어 둔 한 장을 늘 깔면 뒤가 엉뚱한 카메라가 된다.
+       주소로 바로 연 자리에는 온 데가 없으니 적어 둔 것이 받는다 */
+    if (hit.hasAttribute('data-behind-from')) {
+      name = new URL(location.href).searchParams.get('from') || name;
+    }
     /* 선반도 함께 뒤진다 — 같은 문서에서 띄울 때(soft) 뒤에 깔 화면이 이미
        덜어내진 자리일 수 있다(고른 뒤 화면에서 다시 찾는 시트를 열 때가
        그렇다). 어느 쪽이든 베껴 쓰므로 원본은 건드리지 않는다 */

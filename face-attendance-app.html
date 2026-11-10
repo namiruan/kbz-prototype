@@ -13,12 +13,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=709">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=710">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=709"></script>
+<script src="assets/face-attendance-app.js?v=710"></script>
 </head>
 
 <body>
@@ -1656,9 +1656,18 @@
           <button class="idf__t is-on" type="button" role="tab" aria-selected="true" data-go-swap data-go="m-worker-new-foreign">외국인</button>
         </div>
         <div class="idf__body">
-          <div class="pickr" role="radiogroup" aria-label="받을 번호">
-            <button class="pickr__o is-on" type="button" role="radio" aria-checked="true" data-go-swap data-go="m-worker-new-foreign"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">외국인등록번호 <b>(필수)</b></span></button>
-            <button class="pickr__o" type="button" role="radio" aria-checked="false" data-go-swap data-go="m-worker-new-passport"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">여권번호</span></button>
+          <!-- 받을 번호를 고르는 **모드 전환**이다 — 고른 값이 저장되는
+               것이 아니라 어느 칸을 쓸지가 바뀐다. 라디오였을 때는 알이
+               라벨 자리에 들어 '적어 넣을 값' 처럼 읽혔다.
+               ⚠ (필수)는 세그먼트가 아니라 **라벨**이 쥔다. 알 안에 넣으면
+                 고를 때마다 알의 폭이 바뀌어 미끄럼판이 뛴다 -->
+          <label class="fld__l">받을 번호 <b>(필수)</b></label>
+          <div class="sgmw">
+            <div class="sgm" role="radiogroup" aria-label="받을 번호" data-pick>
+              <span class="sgm__s" aria-hidden="true"></span>
+              <button class="sgm__b is-on" type="button" role="radio" aria-checked="true" data-go-swap data-go="m-worker-new-foreign">외국인등록번호</button>
+              <button class="sgm__b" type="button" role="radio" aria-checked="false" data-go-swap data-go="m-worker-new-passport">여권번호</button>
+            </div>
           </div>
           <div class="inp"><input class="inp__in" required type="text" placeholder="외국인등록번호를 입력해주세요" aria-label="외국인등록번호" data-demo="790412-5123456" name="oegugin" autocomplete="off" inputmode="numeric"></div>
         </div>
@@ -1784,9 +1793,18 @@
           <button class="idf__t is-on" type="button" role="tab" aria-selected="true" data-go-swap data-go="m-worker-new-foreign">외국인</button>
         </div>
         <div class="idf__body">
-          <div class="pickr" role="radiogroup" aria-label="받을 번호">
-            <button class="pickr__o" type="button" role="radio" aria-checked="false" data-go-swap data-go="m-worker-new-foreign"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">외국인등록번호</span></button>
-            <button class="pickr__o is-on" type="button" role="radio" aria-checked="true" data-go-swap data-go="m-worker-new-passport"><span class="rdo" aria-hidden="true"></span><span class="pickr__t">여권번호 <b>(필수)</b></span></button>
+          <!-- 받을 번호를 고르는 **모드 전환**이다 — 고른 값이 저장되는
+               것이 아니라 어느 칸을 쓸지가 바뀐다. 라디오였을 때는 알이
+               라벨 자리에 들어 '적어 넣을 값' 처럼 읽혔다.
+               ⚠ (필수)는 세그먼트가 아니라 **라벨**이 쥔다. 알 안에 넣으면
+                 고를 때마다 알의 폭이 바뀌어 미끄럼판이 뛴다 -->
+          <label class="fld__l">받을 번호 <b>(필수)</b></label>
+          <div class="sgmw">
+            <div class="sgm" role="radiogroup" aria-label="받을 번호" data-pick>
+              <span class="sgm__s" aria-hidden="true"></span>
+              <button class="sgm__b" type="button" role="radio" aria-checked="false" data-go-swap data-go="m-worker-new-foreign">외국인등록번호</button>
+              <button class="sgm__b is-on" type="button" role="radio" aria-checked="true" data-go-swap data-go="m-worker-new-passport">여권번호</button>
+            </div>
           </div>
           <div class="inp"><input class="inp__in" required type="text" placeholder="여권번호를 입력해주세요" aria-label="여권번호" data-demo="M12345678" name="yeogwon" autocomplete="off"></div>
           <div class="fld__sub">
@@ -3154,6 +3172,12 @@
     <!-- 무엇을 찍는 중인지를 틀 위에 붙인다 — 근로자 앱과 같은 자리·같은 꼴이다.
          저쪽은 '누구' 를 적고(제 얼굴 하나뿐이라), 이쪽은 '무엇' 을 적는다 -->
     <p class="cam__who">근로자 출근 등록</p>
+    <!-- 오른쪽 위의 관리자 도구 — 뒤로 가기와 마주 선다. 카메라가 열려
+         있는 동안에는 **늘 여기 있다**: 얼굴이 읽히지 않아 막힌 뒤에야
+         생기면 그때 찾아야 하는 길이 되고, 현장소장은 막히기 전에도
+         이 길을 쓴다(사진이 없는 근로자 따위).
+         평소에 쓸 일이 없는 길이라 글자를 달지 않고 표 하나로 둔다 -->
+    <button class="cam__tool" type="button" aria-label="관리자 도구" data-go="m-cam-pass" data-go-now><svg class="ic" aria-hidden="true"><use href="#icon-settings"></use></svg></button>
     <div class="cam__box"></div>
     <p class="cam__t">근로자 얼굴을<br>사각형 틀 안에 맞춰주세요</p>
     <!-- 틀 아래에 둘이 세로로 선다 — 끝내는 길이 먼저고, 지금까지 몇을
@@ -3203,6 +3227,12 @@
     <!-- 무엇을 찍는 중인지를 틀 위에 붙인다 — 근로자 앱과 같은 자리·같은 꼴이다.
          저쪽은 '누구' 를 적고(제 얼굴 하나뿐이라), 이쪽은 '무엇' 을 적는다 -->
     <p class="cam__who">근로자 출근 등록</p>
+    <!-- 오른쪽 위의 관리자 도구 — 뒤로 가기와 마주 선다. 카메라가 열려
+         있는 동안에는 **늘 여기 있다**: 얼굴이 읽히지 않아 막힌 뒤에야
+         생기면 그때 찾아야 하는 길이 되고, 현장소장은 막히기 전에도
+         이 길을 쓴다(사진이 없는 근로자 따위).
+         평소에 쓸 일이 없는 길이라 글자를 달지 않고 표 하나로 둔다 -->
+    <button class="cam__tool" type="button" aria-label="관리자 도구" data-go="m-cam-pass" data-go-now><svg class="ic" aria-hidden="true"><use href="#icon-settings"></use></svg></button>
     <div class="cam__box cam__box--ok"></div>
     <p class="cam__t cam__t--ok">홍길동님<span class="cam__sub">출근이 등록되었습니다</span></p>
     <!-- 틀 아래에 둘이 세로로 선다 — 끝내는 길이 먼저고, 지금까지 몇을
@@ -3367,7 +3397,7 @@
      얼굴을 건너뛰고 사람 눈으로 넘어가는 문이다. 카메라는 뒤에 그대로
      두고 알림창만 올린다 — 비밀번호가 틀리거나 그만두면 찍던 자리로
      돌아온다 -->
-<section class="scr has-dim" data-screen="m-cam-pass" data-behind="m-cam-fail" data-title="관리자 확인">
+<section class="scr has-dim" data-screen="m-cam-pass" data-behind="m-cam" data-behind-from data-title="관리자 확인">
   <div class="dim dim--del" data-go="m-cam-fail" data-go-self>
     <div class="alert alert--del" role="alertdialog" aria-labelledby="mPassT">
       <div class="sheet__h">
