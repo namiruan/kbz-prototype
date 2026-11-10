@@ -1026,12 +1026,17 @@
     if (!chips.length) return;
     var rows = [].slice.call(scr.querySelectorAll('.log'));
 
-    /* 한 줄이 한 사람이라 **둘 다 가진 줄**이 있다 — 'in 이냐 out 이냐'
-       가 아니라 '그것을 가졌느냐' 를 묻는다. 안 찍힌 쪽은 자리는 서 있되
-       꺼진 꼴(.log__p--off)이라, 있는 것으로 세면 안 된다 */
-    function has(row, k) {
-      var p = row.querySelector('.log__p--' + k);
+    /* 한 줄이 한 사람이라 가르는 축은 **퇴근이 찍혔는가** 하나다. 출근은
+       모든 줄에 있어(출근 없이 퇴근만 있는 줄은 없다) 걸러 봐야 전체와
+       같은 수였다.
+       안 찍힌 쪽은 자리는 서 있되 꺼진 꼴(.log__p--off)이라, 있는 것으로
+       세면 안 된다 */
+    function done(row) {
+      var p = row.querySelector('.log__p--out');
       return !!p && !p.classList.contains('log__p--off');
+    }
+    function fit(row, k) {
+      return k === 'all' ? true : (k === 'done' ? done(row) : !done(row));
     }
 
     /* 켜지는 것은 **늘 하나**다. 알약이 둘뿐이던 때에는 하나를 걸러 둔 뒤
@@ -1040,7 +1045,7 @@
     function sync() {
       var on = chips.filter(function (c) { return c.classList.contains('is-on'); })[0];
       var k = on ? on.getAttribute('data-at') : 'all';
-      rows.forEach(function (r) { r.hidden = k !== 'all' && !has(r, k); });
+      rows.forEach(function (r) { r.hidden = !fit(r, k); });
       chips.forEach(function (c) {
         c.setAttribute('aria-pressed', c === on ? 'true' : 'false');
       });
@@ -1048,8 +1053,7 @@
 
     chips.forEach(function (c) {
       var k = c.getAttribute('data-at');
-      var n = k === 'all' ? rows.length
-                          : rows.filter(function (r) { return has(r, k); }).length;
+      var n = rows.filter(function (r) { return fit(r, k); }).length;
       var box = c.querySelector('.cnt__n');
       if (box) box.textContent = n;
 
