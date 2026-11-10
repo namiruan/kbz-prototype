@@ -3346,8 +3346,11 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
 @media (hover:hover) and (pointer:fine){ .kb{display:flex} }
 /* 얼굴 차례에는 받을 칸이 없다 — 자판이 설 까닭도 없다. 자판 그림은
    '이 화면은 자판을 올린 채로 선다' 를 대신 말하는 것이라, 올라올 일이
-   없는 자리에 두면 거짓말이 된다 */
-.is-ask-face .kb{display:none}
+   없는 자리에 두면 거짓말이 된다.
+   다 채운 뒤도 같다 — 묻는 칸이 없으니 자판은 내려가 있다. 현장소장 앱은
+   그 자리를 화면으로 따로 두어 그림을 아예 빼 놨고(m-worker-new-done),
+   한 장이 두 상태를 겸하는 화면에서는 js 의 flow 가 is-flow-done 을 건다 */
+.is-ask-face .kb,.is-flow-done .kb{display:none}
 
 .kb__rows{flex:1;display:flex;flex-direction:column;gap:6px;padding:6px 3px 8px}
 .kb__r{flex:1;display:flex;gap:5px;justify-content:center;padding:0 3px}

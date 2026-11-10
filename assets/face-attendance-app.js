@@ -1718,6 +1718,10 @@
       var done = at >= ASK.length;
       var ask = done ? '' : asking();
       scr.classList.toggle('is-flow', !done);
+      /* 자판 그림은 **묻는 동안만** 선다. 다 채우고 나면 자판은 내려가 있다 —
+         현장소장 앱은 다 채운 자리를 화면으로 따로 두어 그림을 아예 빼 놨다.
+         한 장이 두 상태를 겸하는 화면(근로자 앱의 등록)에서는 여기서 건다 */
+      scr.classList.toggle('is-flow-done', done);
       /* 다 채우면 늘여 둔 발치도 걷는다 — 보통 폼에는 올릴 칸이 없다 */
       if (done) scr.style.removeProperty('--ap-flow-tail');
       /* 얼굴 차례는 받을 칸이 없다 — 그림이 바탕을 채우고, 할 일은 바닥
