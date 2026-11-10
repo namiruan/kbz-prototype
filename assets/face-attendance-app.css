@@ -2901,6 +2901,9 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    현장 줄의 '현장' 뱃지(28)·날짜의 꺾쇠(20)와 같은 띠 안에 든다 */
 .log{display:flex;width:100%;align-items:center;gap:var(--ap-p3);padding:var(--ap-gap3) var(--ap-p4);
   background:var(--ap-g0);border-radius:var(--ap-r10);box-shadow:var(--ap-shadow-card)}
+/* 꺾쇠는 '이 줄은 눌러 들어간다' 는 표다. 줄의 gap(6)만으로는 퇴근 시각에
+   붙어 그 줄의 끝자리처럼 읽혀, 12 를 더해 한 뼘 띄운다 */
+.log__go{flex:none;margin-left:var(--ap-p5)}
 /* 표는 **정방형** 면이다(40×40). 가로로 긴 알약은 글자 수를 따라 폭이
    바뀌는데, 줄마다 같은 크기의 네모가 서 있으면 눈이 그 칸만 따라
    내려가며 출근·퇴근을 훑을 수 있다.
