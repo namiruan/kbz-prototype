@@ -2912,10 +2912,17 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    색 짝은 알약이 쓰던 그대로다 — 출근은 badge/positive 면에 브랜드 색,
    퇴근은 badge/normal 면에 본문 색 */
 .log__t{font:var(--t-foot-em);letter-spacing:var(--ls-foot);flex:none;
-  width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;
-  border-radius:var(--ap-r6)}
+  height:24px;padding:0 var(--ap-p4);display:inline-flex;align-items:center;justify-content:center;
+  border-radius:var(--ap-r-pill)}
 .log__t--in{background:var(--ap-badge-positive);color:var(--ap-primary)}
 .log__t--out{background:var(--ap-badge-normal);color:var(--ap-text)}
+/* 출근과 퇴근은 **각자의 영역**이다. 뱃지가 위, 시각이 아래로 쌓인다 —
+   한 줄에 눕히면 390 에서 이름과 꺾쇠까지 넣고 나면 시각이 잘린다(실측) */
+.log__p{flex:none;display:inline-flex;flex-direction:column;align-items:center;
+  gap:var(--ap-p2);min-width:76px}
+/* 아직 안 찍힌 쪽 — 뱃지와 시각이 함께 꺼진다. 자리는 그대로 잡아 둔다 */
+.log__p--off .log__t{background:var(--ap-g5);color:var(--ap-text-disabled)}
+.log__p--off .log__tm{color:var(--ap-text-disabled)}
 .log__nm{font:var(--t-head);letter-spacing:var(--ls-head);flex:1;min-width:0;
   margin-left:var(--ap-p2);color:var(--ap-text);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

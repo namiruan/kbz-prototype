@@ -1026,7 +1026,13 @@
     if (!chips.length) return;
     var rows = [].slice.call(scr.querySelectorAll('.log'));
 
-    function at(row) { return row.querySelector('.log__t--in') ? 'in' : 'out'; }
+    /* 한 줄이 한 사람이라 **둘 다 가진 줄**이 있다 — 'in 이냐 out 이냐'
+       가 아니라 '그것을 가졌느냐' 를 묻는다. 안 찍힌 쪽은 자리는 서 있되
+       꺼진 꼴(.log__p--off)이라, 있는 것으로 세면 안 된다 */
+    function has(row, k) {
+      var p = row.querySelector('.log__p--' + k);
+      return !!p && !p.classList.contains('log__p--off');
+    }
 
     /* 켜지는 것은 **늘 하나**다. 알약이 둘뿐이던 때에는 하나를 걸러 둔 뒤
        둘 다로 돌아오려면 켜진 알약을 다시 눌러야 했는데, 눌러 보기 전에는
@@ -1034,7 +1040,7 @@
     function sync() {
       var on = chips.filter(function (c) { return c.classList.contains('is-on'); })[0];
       var k = on ? on.getAttribute('data-at') : 'all';
-      rows.forEach(function (r) { r.hidden = k !== 'all' && at(r) !== k; });
+      rows.forEach(function (r) { r.hidden = k !== 'all' && !has(r, k); });
       chips.forEach(function (c) {
         c.setAttribute('aria-pressed', c === on ? 'true' : 'false');
       });
@@ -1043,7 +1049,7 @@
     chips.forEach(function (c) {
       var k = c.getAttribute('data-at');
       var n = k === 'all' ? rows.length
-                          : rows.filter(function (r) { return at(r) === k; }).length;
+                          : rows.filter(function (r) { return has(r, k); }).length;
       var box = c.querySelector('.cnt__n');
       if (box) box.textContent = n;
 
