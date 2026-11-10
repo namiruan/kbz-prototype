@@ -1286,15 +1286,26 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
    위아래로 자리가 갈린다 — **위는 지금 이 사람의 상태**(고르는 네모와
    근무상태), **아래는 기록이 어디서 왔는지**(앱 · PC)다. 둘은 결이 다른
    값이라 한 줄에 서면 어느 쪽이 사람 이야기인지 눈이 매번 가른다 */
-.card--photo > .bd--src{position:absolute;z-index:1;
-  height:20px;padding:0 6px;color:var(--ap-g0);
+.bd--src{height:20px;padding:0 6px;color:var(--ap-g0);
   box-shadow:var(--ap-shadow-chk)}
 /* 어디서 더한 근로자인가 — 고르는 네모 옆, 사진 왼쪽 위다. 글 칸에 끼우면
    주민번호·직종과 같은 '받은 값' 으로 읽히는데, 이것은 사람의 값이 아니라
-   기록의 출처다. 앱은 브랜드, PC 는 회색이다 */
-.card--photo > .bd--src{left:34px;top:8px}
+   기록의 출처다. 앱은 브랜드, 단말기는 검정이다 — 회색이던 때는 꺼진 표로
+   읽혀 '등록이 덜 된 사람' 처럼 보였다 */
+.card--photo > .bd--src,.card--photo > .srcs{position:absolute;z-index:1;
+  left:34px;top:8px}
+/* 둘 다에 올라 있으면 뱃지가 둘이다. 한 줄에 서고 사진 안에서 끝난다
+   (실측 sm: 앱 25 + 4 + 단말기 51 = 80 이 34 에서 시작해 114 — 사진이 112 라
+   6 이 남는다). 글자가 더 긴 말이 오면 아랫줄로 내린다.
+   ⚠ 자리의 기준은 **카드**지 사진이 아니다(absolute 가 .card--photo 를 본다).
+     `100%` 로 재면 카드 폭(358)을 재므로 사진 폭을 토큰으로 못 박는다 */
+.card--photo > .srcs{display:flex;flex-wrap:wrap;gap:var(--ap-p2);
+  max-width:calc(var(--ap-face) - 40px)}
+/* ⚠ 뱃지는 줄이지 않는다. flex 는 기본으로 눌러 넣으므로, 그대로 두면
+   안쪽 여백이 깎이고 글자가 잘린다 — 모자라면 줄이지 말고 내려보낸다 */
+.srcs > .bd--src{flex:none}
 .bd--src-app{background:var(--ap-primary)}
-.bd--src-pc{background:var(--ap-text-gray)}
+.bd--src-dev{background:var(--ap-g95)}
 /* ── 근무상태 ──
    사진 **아래 변에 띠**로 깔린다. 퇴사와 차단만 적는다 — 대부분이 재직이라
    셋 다 적으면 같은 글자가 사람 수만큼 늘어나고, 띠가 '보통이 아닌 것' 을
