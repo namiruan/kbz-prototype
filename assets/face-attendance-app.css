@@ -2524,6 +2524,13 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
   padding:var(--ap-p2) var(--ap-p4);border-radius:var(--ap-r-pill);color:var(--ap-g0)}
 .tog span:last-child{min-width:var(--ap-tog-no)}
 .tog span.is-on{background:var(--ap-g0);color:var(--ap-g95)}
+/* 긴 이름을 받는 알 — 예·아니오처럼 폭을 못 박지 않고 글자만큼 선다.
+   면과 색은 위와 같다: 짙은 띠 안에서 고른 쪽만 흰 알이 된다 */
+.tog__b{font:var(--t-sub-em);letter-spacing:var(--ls-sub);
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:var(--ap-p2) var(--ap-p5);border-radius:var(--ap-r-pill);
+  color:var(--ap-g0);cursor:pointer}
+.tog__b.is-on{background:var(--ap-g0);color:var(--ap-g95)}
 
 /* ── 얼굴 촬영 자리 ──
    얼굴 한 장과 그 아래 폼은 받는 것이 다르다 — 하나는 카메라로, 나머지는
