@@ -794,14 +794,12 @@ html.is-app,html.is-app body{overflow:hidden;overscroll-behavior:none}
      한다 — 박아 둔 채로 두었더니 버튼이 화면 밖으로 밀려 보이지 않았다.
    ⚠ 흰 알약(pill--today)이 아니라 테 있는 알약이다. 시트가 흰 면이라
      흰 알약은 글자만 떠 있는 꼴이 된다 */
-.wheel:has(.wheel__bt),.wheel:has(.wheel__ok){height:auto}
+.wheel:has(.wheel__bt){height:auto}
 /* 휠 아래의 한 줄 — 왼쪽 '오늘로 이동' 과 오른쪽 '확인' 이 양 끝으로
    간다. 폭은 휠과 같은 선에서 끝난다(297) */
 .wheel__bt{flex:none;width:100%;max-width:297px;display:flex;align-items:center;
   justify-content:space-between;gap:var(--ap-p5);margin-top:var(--ap-p5)}
 .wheel__today{flex:none}
-/* 짝 없이 혼자 서는 '확인' — 띠가 align-items:center 라 가운데로 간다 */
-.wheel__ok{flex:none;align-self:center;margin-top:var(--ap-p5)}
 /* ── 날짜 고르개 — 이력 화면 ──
    현장 **아래**에 선다: 현장을 고르고 그 안에서 날을 고르는 차례다.
    한 날씩 좌우로 옮긴다. 일자별 달력(주 띠)은 걷었다 — 띠는 '이 주의
