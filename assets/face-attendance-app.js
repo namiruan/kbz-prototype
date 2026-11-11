@@ -67,11 +67,7 @@
   var STEP = {
     'm-worker-new-name': ['m-worker-new', 2],
     'm-worker-new-id':   ['m-worker-new', 3],
-    'm-worker-new-tel':  ['m-worker-new', 4],
-    /* 근로자 앱의 등록도 같은 한 장이다. 처음 열리는 자리(주민번호)는
-       여기 적지 않는다 — flow 가 찬 칸을 세어 스스로 거기에 선다. 이름과
-       연락처는 가입 때 받은 값이라 차 있고, 묻는 자리는 주민번호 하나다 */
-    'w-worker-new-done': ['w-worker-new', 5]
+    'm-worker-new-tel':  ['m-worker-new', 4]
   };
 
   function pick() {
