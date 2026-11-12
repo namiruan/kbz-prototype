@@ -84,6 +84,21 @@ body.intro-page{word-break:keep-all}
    붙인다. 사진이 나오면 이 덩이를 지우면 라이브 배경이 그대로 돌아온다 */
 .intro-page .partition-1{position:relative;background:var(--grad-radi-sky-top),var(--sub-w-gray)}
 .intro-page .partition-6{background:var(--grad-radi-sky-bottom),var(--pastel-blue)}
+/* 라이브는 이 구역을 --sub-d-blue(#114797) 한 색으로 깐다. 그 파랑이 밝고
+   채도가 높아 검은 단말기 둘(이동형 케이스·휴대형)이 배경에 먹혔다.
+   스튜디오 배경지처럼 가운데는 밝고 가장자리로 갈수록 떨어지게 바꿔
+   단말기가 빛 안에 선다. 흰 글씨와 FAQ 는 그대로 읽힌다.
+   --p5-floor 는 라이브 팔레트에 없는 값이다 — 네이비(#0E3B63)보다 한 단계
+   낮춘 바닥색으로, 여기 한 곳에서만 쓴다 */
+.intro-page .partition-5{
+  --p5-floor:#0A2138;
+  background:
+    radial-gradient(58% 84% at 50% 34%,
+      rgba(var(--color-d-blue-rgb),.62) 0%,
+      rgba(var(--color-d-blue-rgb),.14) 64%,
+      rgba(var(--color-d-blue-rgb),0) 100%),
+    var(--p5-floor)
+}
 .intro-page .partition-1::after,
 .intro-page .partition-6::after{
   content:attr(data-ph);position:absolute;right:12px;bottom:12px;z-index:1;
@@ -114,6 +129,121 @@ body.intro-page{word-break:keep-all}
 .partition-5-tel .tel-label{color:rgba(var(--color-white-rgb),.7)}
 .partition-5-tel a{color:var(--main-white);text-decoration:none}
 .partition-5-tel a:hover{text-decoration:underline}
+
+/* 짙은 구역의 단말기 — 세 종류가 앞뒤로 오가며 바뀐다.
+   3D 로 돌리면 돌아서는 순간 사진이 평면이라는 게 드러난다(종잇장처럼
+   얇아진다). 그래서 돌리지 않는다 — 기기는 늘 정면을 본 채 옆자리와
+   가운데를 오가고, 옆자리는 작고 흐리고 살짝 번져 뒤로 물러나 보인다.
+   입체감은 회전이 아니라 기기 실루엣을 따라가는 그림자가 만든다.
+   세 종류를 두 벌 넣어 한 바퀴 18초(눈에는 9초마다 한 바퀴). 한 자리에
+   2.2초 머물고 0.8초 동안 옮겨 간다.
+   사진은 quote.html 의 단말기 선택 카드와 같은 파일을 쓴다 */
+.p5-roll{position:relative;width:100%;max-width:794px;aspect-ratio:900/400;margin:0 auto;container-type:inline-size}
+.p5-stage{position:absolute;inset:0;--w:318px;--x:238px}
+/* 자리 크기는 자리 너비를 따라간다. 컨테이너는 자기 자신을 물을 수 없어
+   cqw 는 무대 쪽에 적는다 */
+@supports (container-type:inline-size){
+  .p5-stage{--w:40cqw;--x:33cqw}
+}
+
+.p5-roll .p5-dev{
+  position:absolute;top:0;bottom:0;width:var(--w);left:calc(50% - var(--w) / 2);margin:0;
+  padding:0 0 78px;box-sizing:border-box;opacity:0;
+  transform-origin:50% calc(100% - 78px);   /* 커지고 작아져도 바닥선은 그대로 */
+  animation:p5Slide 18s cubic-bezier(.62,0,.25,1) infinite
+}
+.p5-roll .p5-dev img{
+  display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;
+  position:relative;z-index:1
+}
+/* 바닥 그림자 — 두 겹으로 깐다.
+   제품컷은 소프트박스로 찍은 스튜디오 컷이라 사진 안에 방향광 그림자가
+   없다. 그런 물체 밑에 실루엣을 투영하면(기울어진 한 방향 빛을 가정하면)
+   사진의 빛과 어긋나 어색해진다. 그래서 위에서 고르게 떨어지는 빛이
+   만드는 접지 그림자로 간다 —
+     ① 밑동에 딱 붙는 좁고 짙은 심(접지면)
+     ② 그 둘레로 넓게 퍼지는 옅고 흐린 테(간접광)
+   그림자는 밑동에 붙이지 않고 한참 아래, 뱃지 자리까지 내려 둔다 —
+   바닥에 닿은 것이 아니라 그 위에 떠 있는 것으로 읽힌다. 떠 있을수록
+   그림자는 넓고 옅고 흐려지므로 심도 세게 누르지 않는다.
+   너비의 기준이 되는 밑동 너비(--base)는 사진에서 실제로 잰 값이다:
+   벽부형 .766 · 이동형 .734 · 휴대형 .446 (사진 폭 대비, 셋 다 정중앙) */
+.p5-roll .p5-dev{--base:66%}
+.p5-roll .p5-dev:nth-child(2),.p5-roll .p5-dev:nth-child(5){--base:63%}
+.p5-roll .p5-dev:nth-child(3),.p5-roll .p5-dev:nth-child(6){--base:39%}
+/* ② 넓고 옅은 테 — 떠 있는 만큼 번진다 */
+.p5-roll .p5-dev::before{
+  content:"";position:absolute;left:50%;bottom:30px;transform:translateX(-50%);
+  width:calc(var(--base) * 1.5);height:46px;border-radius:50%;
+  background:radial-gradient(closest-side,
+    rgba(var(--color-black-rgb),.38), rgba(var(--color-black-rgb),0));
+  filter:blur(10px)
+}
+/* ① 가운데를 한 번 더 누르는 심 */
+.p5-roll .p5-dev::after{
+  content:"";position:absolute;left:50%;bottom:46px;transform:translateX(-50%);
+  width:calc(var(--base) * .9);height:16px;border-radius:50%;
+  background:radial-gradient(closest-side,
+    rgba(var(--color-black-rgb),.5), rgba(var(--color-black-rgb),0));
+  filter:blur(5px)
+}
+
+/* 지연은 음수로 준다. 양수면 그 시간 동안 애니메이션이 아직 시작되지 않아
+   기기가 제 모습(투명도 1)으로 겹쳐 선다 — 처음 15초가 어그러진다 */
+.p5-roll .p5-dev:nth-child(2),.p5-roll .p5-dev:nth-child(2) figcaption{animation-delay:-15s}
+.p5-roll .p5-dev:nth-child(3),.p5-roll .p5-dev:nth-child(3) figcaption{animation-delay:-12s}
+.p5-roll .p5-dev:nth-child(4),.p5-roll .p5-dev:nth-child(4) figcaption{animation-delay:-9s}
+.p5-roll .p5-dev:nth-child(5),.p5-roll .p5-dev:nth-child(5) figcaption{animation-delay:-6s}
+.p5-roll .p5-dev:nth-child(6),.p5-roll .p5-dev:nth-child(6) figcaption{animation-delay:-3s}
+
+/* 오른쪽 → 가운데 → 왼쪽. 왼쪽에서 사라진 뒤 안 보이는 동안 오른쪽으로
+   건너뛴다(55% 와 55.1% 사이) — 투명도가 0 이라 눈에 걸리지 않는다 */
+@keyframes p5Slide{
+  0%,12.2%    {transform:translateX(0) scale(1);opacity:1;filter:blur(0px)}
+  16.6%,28.9% {transform:translateX(calc(var(--x) * -1)) scale(.72);opacity:.3;filter:blur(1.5px)}
+  33.3%,55%   {transform:translateX(calc(var(--x) * -1.12)) scale(.66);opacity:0;filter:blur(2px)}
+  55.1%,78.9% {transform:translateX(calc(var(--x) * 1.12)) scale(.66);opacity:0;filter:blur(2px)}
+  83.3%,95.5% {transform:translateX(var(--x)) scale(.72);opacity:.3;filter:blur(1.5px)}
+  100%        {transform:translateX(0) scale(1);opacity:1;filter:blur(0px)}
+}
+
+/* 이름과 쓰임은 가운데 선 기기에만 띄운다. 이름 알약은 partition-3 의
+   뱃지와 같은 말을 쓰되 짙은 바탕이라 흰 알약에 남색 글씨로 뒤집는다.
+   쓰임 한 줄은 quote.html 단말기 선택 카드의 dev-desc 와 같은 말이다 */
+.p5-roll .p5-dev figcaption{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  opacity:0;animation:p5Cap 18s cubic-bezier(.62,0,.25,1) infinite
+}
+.p5-roll .p5-dev figcaption b{
+  padding:6px 16px;border-radius:999px;white-space:nowrap;
+  background:var(--main-white);box-shadow:0 6px 16px rgba(var(--color-black-rgb),.28);
+  font-family:var(--font-body);font-size:15px;font-weight:700;line-height:1.4;
+  letter-spacing:-.025em;color:var(--main-navy)
+}
+.p5-roll .p5-dev figcaption i{
+  font-style:normal;text-align:center;
+  font-family:var(--font-body);font-size:13px;font-weight:500;line-height:1.5;
+  letter-spacing:-.02em;color:rgba(var(--color-white-rgb),.72)
+}
+@keyframes p5Cap{0%,12.2%{opacity:1}16.6%,95.5%{opacity:0}100%{opacity:1}}
+
+/* 좁은 폭에서는 자리가 작아지니 그림자와 이름표도 함께 줄인다 */
+@media (max-width:691px){
+  .p5-roll .p5-dev{padding:0 0 40px;transform-origin:50% calc(100% - 40px)}
+  .p5-roll .p5-dev::before{bottom:3px;height:32px;filter:blur(7px)}
+  .p5-roll .p5-dev::after{bottom:15px;height:11px;filter:blur(4px)}
+  .p5-roll .p5-dev figcaption b{padding:5px 12px;font-size:13px}
+  /* 폭이 좁으면 기기가 설 자리부터 모자란다. 쓰임 줄은 접는다 */
+  .p5-roll .p5-dev figcaption i{display:none}
+}
+
+/* 움직임을 줄인 기기에서는 첫 카드만 정면에 세운다 */
+@media (prefers-reduced-motion:reduce){
+  .p5-roll .p5-dev,.p5-roll .p5-dev figcaption{animation:none}
+  .p5-roll .p5-dev:first-child,
+  .p5-roll .p5-dev:first-child figcaption{opacity:1}
+}
 
 @media (max-width:691px){
   /* 라이브는 이 폭에서 틀을 풀고 사진을 134px 로 줄인다. 스켈레톤도 따라간다 */
