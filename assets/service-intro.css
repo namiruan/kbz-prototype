@@ -148,26 +148,29 @@ body.intro-page{word-break:keep-all}
    만드는 접지 그림자로 간다 —
      ① 밑동에 딱 붙는 좁고 짙은 심(접지면)
      ② 그 둘레로 넓게 퍼지는 옅고 흐린 테(간접광)
-   밑동 너비(--base)는 사진에서 실제로 잰 값이다:
+   그림자는 밑동에 붙이지 않고 한참 아래, 뱃지 자리까지 내려 둔다 —
+   바닥에 닿은 것이 아니라 그 위에 떠 있는 것으로 읽힌다. 떠 있을수록
+   그림자는 넓고 옅고 흐려지므로 심도 세게 누르지 않는다.
+   너비의 기준이 되는 밑동 너비(--base)는 사진에서 실제로 잰 값이다:
    벽부형 .766 · 이동형 .734 · 휴대형 .446 (사진 폭 대비, 셋 다 정중앙) */
 .p5-roll .p5-dev{--base:66%}
 .p5-roll .p5-dev:nth-child(2),.p5-roll .p5-dev:nth-child(5){--base:63%}
 .p5-roll .p5-dev:nth-child(3),.p5-roll .p5-dev:nth-child(6){--base:39%}
-/* ② 넓고 옅은 테 */
+/* ② 넓고 옅은 테 — 떠 있는 만큼 번진다 */
 .p5-roll .p5-dev::before{
-  content:"";position:absolute;left:50%;bottom:33px;transform:translateX(-50%);
-  width:calc(var(--base) * 1.34);height:38px;border-radius:50%;
+  content:"";position:absolute;left:50%;bottom:4px;transform:translateX(-50%);
+  width:calc(var(--base) * 1.5);height:46px;border-radius:50%;
   background:radial-gradient(closest-side,
-    rgba(var(--color-black-rgb),.44), rgba(var(--color-black-rgb),0));
-  filter:blur(7px)
+    rgba(var(--color-black-rgb),.38), rgba(var(--color-black-rgb),0));
+  filter:blur(10px)
 }
-/* ① 좁고 짙은 심 */
+/* ① 가운데를 한 번 더 누르는 심 */
 .p5-roll .p5-dev::after{
-  content:"";position:absolute;left:50%;bottom:46px;transform:translateX(-50%);
-  width:calc(var(--base) * .92);height:12px;border-radius:50%;
+  content:"";position:absolute;left:50%;bottom:20px;transform:translateX(-50%);
+  width:calc(var(--base) * .9);height:16px;border-radius:50%;
   background:radial-gradient(closest-side,
-    rgba(var(--color-black-rgb),.62), rgba(var(--color-black-rgb),0));
-  filter:blur(2px)
+    rgba(var(--color-black-rgb),.5), rgba(var(--color-black-rgb),0));
+  filter:blur(5px)
 }
 
 /* 지연은 음수로 준다. 양수면 그 시간 동안 애니메이션이 아직 시작되지 않아
@@ -204,8 +207,8 @@ body.intro-page{word-break:keep-all}
 /* 좁은 폭에서는 자리가 작아지니 그림자와 이름표도 함께 줄인다 */
 @media (max-width:691px){
   .p5-roll .p5-dev{padding:0 0 40px;transform-origin:50% calc(100% - 40px)}
-  .p5-roll .p5-dev::before{bottom:31px;height:18px;filter:blur(6px)}
-  .p5-roll .p5-dev::after{bottom:36px;height:8px;filter:blur(2px)}
+  .p5-roll .p5-dev::before{bottom:3px;height:32px;filter:blur(7px)}
+  .p5-roll .p5-dev::after{bottom:15px;height:11px;filter:blur(4px)}
   .p5-roll .p5-dev figcaption{padding:5px 12px;font-size:13px}
 }
 
