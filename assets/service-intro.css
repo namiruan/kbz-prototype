@@ -133,27 +133,41 @@ body.intro-page{word-break:keep-all}
 
 .p5-roll .p5-dev{
   position:absolute;top:0;bottom:0;width:var(--w);left:calc(50% - var(--w) / 2);margin:0;
-  padding:0 0 34px;box-sizing:border-box;opacity:0;
-  transform-origin:50% calc(100% - 34px);   /* 커지고 작아져도 바닥선은 그대로 */
+  padding:0 0 52px;box-sizing:border-box;opacity:0;
+  transform-origin:50% calc(100% - 52px);   /* 커지고 작아져도 바닥선은 그대로 */
   animation:p5Slide 18s cubic-bezier(.62,0,.25,1) infinite
 }
-/* 기기 실루엣을 따라가는 그림자 — filter:drop-shadow 는 네모가 아니라
-   모양을 따라간다. 바닥에는 눌린 타원을 깔아 「놓여 있다」로 읽히게 한다 */
 .p5-roll .p5-dev img{
   display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;
-  filter:drop-shadow(0 22px 20px rgba(var(--color-black-rgb),.45))
+  position:relative;z-index:1
 }
+/* 바닥 그림자 — 같은 사진을 한 장 더 깔고 검게 만들어(brightness(0)) 밑동을
+   축으로 뒤집어 납작하게 누른다(scaleY 음수). 네모가 아니라 기기 모양 그대로
+   바닥에 눕는다. 뒤로 드리우는 drop-shadow 와 달리 아래로 깔린다 */
+.p5-roll .p5-dev::before{
+  content:"";position:absolute;left:0;right:0;top:0;bottom:52px;
+  background-position:center bottom;background-repeat:no-repeat;background-size:contain;
+  transform:scaleY(-.17);transform-origin:50% 100%;
+  filter:brightness(0) blur(9px);opacity:.5
+}
+/* 밑동에 닿는 자리를 한 번 더 눌러 접지면을 만든다 */
 .p5-roll .p5-dev::after{
-  content:"";position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
-  width:88%;height:26px;border-radius:50%;
+  content:"";position:absolute;left:50%;bottom:48px;transform:translateX(-50%);
+  width:72%;height:12px;border-radius:50%;
   background:radial-gradient(ellipse at 50% 50%,
-    rgba(var(--color-black-rgb),.5) 0%, rgba(var(--color-black-rgb),.22) 45%,
-    rgba(var(--color-black-rgb),0) 72%);
-  filter:blur(5px)
+    rgba(var(--color-black-rgb),.55) 0%, rgba(var(--color-black-rgb),.2) 55%,
+    rgba(var(--color-black-rgb),0) 78%);
+  filter:blur(4px)
 }
-/* 휴대형은 밑동이 좁다 */
 .p5-roll .p5-dev:nth-child(3)::after,
-.p5-roll .p5-dev:nth-child(6)::after{width:52%;height:18px}
+.p5-roll .p5-dev:nth-child(6)::after{width:40%;height:9px}
+/* 그림자가 쓸 사진 — 기기마다 제 모양 */
+.p5-roll .p5-dev:nth-child(1)::before,
+.p5-roll .p5-dev:nth-child(4)::before{background-image:url("../images/card-reader/wall.png")}
+.p5-roll .p5-dev:nth-child(2)::before,
+.p5-roll .p5-dev:nth-child(5)::before{background-image:url("../images/card-reader/portable.png")}
+.p5-roll .p5-dev:nth-child(3)::before,
+.p5-roll .p5-dev:nth-child(6)::before{background-image:url("../images/card-reader/mobile.png")}
 
 /* 지연은 음수로 준다. 양수면 그 시간 동안 애니메이션이 아직 시작되지 않아
    기기가 제 모습(투명도 1)으로 겹쳐 선다 — 처음 15초가 어그러진다 */
@@ -174,23 +188,26 @@ body.intro-page{word-break:keep-all}
   100%        {transform:translateX(0) scale(1);opacity:1;filter:blur(0px)}
 }
 
-/* 이름은 가운데 선 기기에만 띄운다 */
+/* 이름은 가운데 선 기기에만 띄운다. partition-3 의 뱃지와 같은 말을 쓰되
+   짙은 바탕이라 흰 알약에 남색 글씨로 뒤집는다 */
 .p5-roll .p5-dev figcaption{
-  position:absolute;left:0;right:0;bottom:0;text-align:center;
-  font-family:var(--font-body);font-size:16px;font-weight:600;line-height:1.5;
-  letter-spacing:-.02em;color:rgba(var(--color-white-rgb),.8);
+  position:absolute;left:50%;bottom:0;transform:translateX(-50%);z-index:2;
+  padding:6px 16px;border-radius:999px;white-space:nowrap;
+  background:var(--main-white);box-shadow:0 6px 16px rgba(var(--color-black-rgb),.28);
+  font-family:var(--font-body);font-size:15px;font-weight:700;line-height:1.4;
+  letter-spacing:-.025em;color:var(--main-navy);
   opacity:0;animation:p5Cap 18s cubic-bezier(.62,0,.25,1) infinite
 }
 @keyframes p5Cap{0%,12.2%{opacity:1}16.6%,95.5%{opacity:0}100%{opacity:1}}
 
 /* 좁은 폭에서는 자리가 작아지니 그림자와 이름표도 함께 줄인다 */
 @media (max-width:691px){
-  .p5-roll .p5-dev{padding:0 0 26px;transform-origin:50% calc(100% - 26px)}
-  .p5-roll .p5-dev::after{bottom:23px;height:16px;filter:blur(4px)}
+  .p5-roll .p5-dev{padding:0 0 40px;transform-origin:50% calc(100% - 40px)}
+  .p5-roll .p5-dev::before{bottom:40px;filter:brightness(0) blur(6px)}
+  .p5-roll .p5-dev::after{bottom:37px;height:9px;filter:blur(3px)}
   .p5-roll .p5-dev:nth-child(3)::after,
-  .p5-roll .p5-dev:nth-child(6)::after{height:11px}
-  .p5-roll .p5-dev img{filter:drop-shadow(0 14px 13px rgba(var(--color-black-rgb),.45))}
-  .p5-roll .p5-dev figcaption{font-size:14px}
+  .p5-roll .p5-dev:nth-child(6)::after{height:7px}
+  .p5-roll .p5-dev figcaption{padding:5px 12px;font-size:13px}
 }
 
 /* 움직임을 줄인 기기에서는 첫 카드만 정면에 세운다 */
