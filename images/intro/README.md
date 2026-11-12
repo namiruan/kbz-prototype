@@ -28,8 +28,7 @@
 | --- | --- | --- |
 | `partition-1` 배경 | 히어로 배경 | 1600×790 이상 · 글이 위쪽 가운데에 얹히니 그 자리는 비워서 |
 | ~~`partition-2` ×3~~ | **사진을 쓰지 않는다** — 세 칸 모두 짧은 루프 데모(CSS 도형)로 바꿨다. `assets/service-intro.css` 의 `.p2d-*` 를 본다 | — |
-| `partition-3` ① | ~~지원대상 ① 아이콘~~ → `icon/target-amount.png` (건물·원화 동전) | 투명 PNG · 348×332 |
-| `partition-3` ②③ | 지원대상 ②③ 아이콘 | 투명 PNG · 348×332 |
+| ~~`partition-3` ×3~~ | **다 넣었다** — `icon/target-amount.png`(공사 중인 건물·지폐) · `icon/work-report.png`(서류·도장) · `icon/card-device.png`(단말기·카드) | 투명 PNG · 348×332 |
 | `partition-5` | 단말기 3종 한 컷 | 투명 PNG · 900×400 · 바닥 맞춰 나란히 · **짙은 남색 위에 얹힘** |
 | `partition-6` 배경 | 프리미엄 배경 | 넓은 화면 1542×614 · 532px 이하 1034×1397 |
 
