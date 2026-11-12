@@ -275,6 +275,10 @@ body.quote-page.is-done .q-done .acts{justify-content:center}
 .q-sum-total .lb{flex:1 1 0;min-width:min-content;
   font-size:13px;font-weight:600;color:var(--ink-2);line-height:1.4}
 .q-sum-total .lb small{display:block;font-size:11.5px;font-weight:500;color:var(--ink-3)}
+/* 세금 줄은 근거 줄과 달리 늘 남는다. 근거 줄은 펼친 내역과 겹치면 숨지만
+   (.no-detail · .dup-of-detail), 금액을 어떻게 읽어야 하는지는 그 줄이 있든
+   없든 같은 말이라 함께 사라지면 안 된다 */
+.q-sum-total .lb .vat{color:var(--ink-3)}
 /* 근거 줄은 낱말 사이에서 꺾인다 — 기본값으로 두면 '11,300,000원 × 24개 / 월'
    처럼 수식 한가운데가 갈려 글자 뭉치로 읽힌다 */
 .q-sum-total .basis{word-break:keep-all}
