@@ -44,12 +44,12 @@
      그동안 이 HTML 만 새로 받고 CSS 는 옛것이 남으면 화면이 반만 바뀐다 —
      고친 것이 안 보인다는 말이 거기서 나온다. **CSS·JS 를 고치면 이 수를
      함께 올린다.** -->
-<link rel="stylesheet" href="assets/face-attendance-app.css?v=537">
+<link rel="stylesheet" href="assets/face-attendance-app.css?v=714">
 <!-- ⚠ defer 가 없다. 화면 밖에 남는 띠의 색을 기기가 **첫 그림에서 한 번**
      집어 가므로, 그 색을 정하는 일이 문서가 그려지기 전에 끝나야 한다
      (assets/face-attendance-app.js 의 edge). 나머지 일은 그 안에서
      DOMContentLoaded 를 기다린다 -->
-<script src="assets/face-attendance-app.js?v=537"></script>
+<script src="assets/face-attendance-app.js?v=714"></script>
 </head>
 
 <body>
@@ -96,9 +96,7 @@
       <div class="cal__top">
         <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">20</span>
-          <span class="cal__dow">화</span>
+          <span class="cal__num">10</span>
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
@@ -128,14 +126,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -149,7 +147,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -167,49 +165,41 @@
          것만 적어서(출근 전에는 출근 기준, 퇴근 전에는 퇴근 기준) 나머지
          한쪽은 어디에도 없었다 -->
     <div class="tcards">
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+    </div>
+    <!-- ── 오늘 할 일 한 가지 ──
+         시각과 과녁이 화면 한가운데에 함께 선다. 먼저 읽히는 것은 **시각**
+         이다 — 지금 몇 시인지가 '찍어야 하나' 를 정하고, 찍는 일은 그 다음
+         이다. 그래서 수가 제일 크고 과녁이 그 아래에 선다.
+         인증 방식은 과녁 **아래**에 둔다. 위에 두었을 때는 시각과 한 줄에
+         묶여 '지금 몇 시인가' 의 곁말처럼 읽혔는데, 이것은 과녁에 걸리는
+         조건이지 시각에 딸린 말이 아니다 -->
+    <div class="go">
+      <button class="act__b act__b--on go__card" type="button" data-go="w-face">
+        <span class="cta__tx">
+          <span class="cta__nm">
+            <span class="cta__lead">
+              <span class="cta__time"><svg class="ic ic--24 clk" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.2V12l3.4 2"/></svg><b class="cta__now">07:03:12</b></span>
+              <span class="cta__t">출근하기</span>
+              <span class="act__go" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></span>
+            </span>
+            <span class="cta__need">얼굴 인증</span>
+          </span>
+        </span>
+      </button>
     </div>
   </main>
 
-  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 등록 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
        있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
        들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
-  <div class="act act--cta">
-    <!-- 과녁의 이름 아래에 설명이 붙는다 — 현장소장 앱의 인증 시작 과녁과
-         같은 짜임이다(이름 · 그 아래 설명). 본문에 따로 한 줄로 두었더니
-         '눌러 주세요' 라고 적힌 자리와 실제로 누를 자리가 떨어져 있었다 -->
-    <button class="act__b act__b--on" type="button" data-go="w-face">
-      <span class="cta__tx">
-        <span class="cta__h">
-          <span class="cta__nm">
-            <!-- 지금 시각은 이름 **위에 뱃지**로 앉는다. 이름과 한 줄에
-                 나란히 두었더니 '07:03:12 출근' 이 통째로 과녁의 이름처럼
-                 읽혔는데, 시각은 누를 것의 이름이 아니라 지금 몇 시인지를
-                 알려 주는 곁말이다 -->
-            <span class="cta__meta">
-              <span class="cta__time"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">07:03:12</b></span>
-              <!-- 이 현장이 얼굴로 찍는 곳임을 과녁 위에 적는다 — 누르면
-                   카메라가 열리는데, 누르기 전에는 그것을 알 길이 없었다.
-                   현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
-                   가른다: 시각은 채운 알약, 이것은 테만 두른 알약.
-                   '필요' 는 붙이지 않는다 — 과녁 위에 붙은 표라 이미
-                   '이 과녁에 이것이 걸린다' 로 읽힌다 -->
-              <span class="cta__need">얼굴 인식</span>
-            </span>
-            <span class="cta__t">출근 인증하기</span>
-          </span>
-          <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
-        </span>
-      </span>
-    </button>
-  </div>
 
   <nav class="tabbar" aria-label="주메뉴">
     <!-- ⚠ QR 코드 아이콘이 스프라이트에 없다. 읽는 수단이 카메라라 icon-camera 로
@@ -220,7 +210,152 @@
   </nav>
 </section>
 
-<!-- ===== ⑪-1 근로자 앱 · 인정범위 지도 (창) ===== -->
+<!-- ===== 근로자 앱 · 홈 (출근 가능 시각 전) =====
+     현장이 문을 여는 시각이 있다. 그 전에는 찍어도 받아 주지 않으므로,
+     **누를 수 있는 것처럼 두지 않는다** — 눌러 카메라까지 가서야 막히면
+     그 길을 두 번 걷는다.
+     퇴근이 잠기는 자리와 같은 꼴이다(act__b--lock): 면이 꺼지고 이름 옆의
+     화살표가 자물쇠로 바뀐다. 왜 잠겼는지는 말풍선이 말한다 -->
+<section class="scr" data-screen="w-home-early" data-day="today" data-rec="none" data-rec-yday="done" data-rec-day2="none" data-rec-day3="done" data-go-today="w-home" data-go-yday="w-home-out" data-go-day2="w-home" data-go-day3="w-home-over-out" data-go-day4="w-home-past" data-title="근로자 앱 홈 — 출근 가능 시각 전">
+  <!-- 머리줄을 두지 않는다 — 바닥 내비게이션의 '출퇴근 관리' 가 켜져
+       있어 어느 화면인지는 거기서 읽힌다. 같은 말을 위아래로 두 번 적을
+       자리에, 날짜 카드가 화면 꼭대기에 올라선다 -->
+
+  <!-- 달력은 카드가 아니다 — 흰 면도 그림자도 두지 않고 바탕 위에 그대로
+       앉는다. 날짜는 이 화면이 **무엇을 보여 주는 때인가**이지 읽고 넘길
+       한 덩어리가 아니라, 면으로 묶어 두면 아래 카드들과 같은 무게로 서서
+       머리가 아니라 첫째 카드로 읽힌다 -->
+  <div class="hd hd--bare">
+    <div class="cal">
+      <div class="cal__top">
+        <div class="cal__date" data-go="w-cal">
+          <span class="cal__num">2026</span><span class="cal__dot">.</span>
+          <span class="cal__num">10</span>
+          <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
+               줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
+               이어 읽히지 않는다 -->
+          <span class="cal__more" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-down-app"></use></svg></span>
+        </div>
+        <div class="cal__side">
+          <button class="pill pill--today" type="button" disabled>오늘</button>
+          <!-- 알림은 시스템 Icon Button md 다(아이콘 20 · 둘레 4 → 28) —
+               옆의 '오늘' 알약과 키가 같아야 한 줄로 앉는다 -->
+          <button class="cal__bell" type="button" aria-label="새 알림 3개"><svg class="ic" aria-hidden="true"><use href="#icon-bell-app"></use></svg><span class="cal__bell__n" aria-hidden="true">3</span></button>
+        </div>
+      </div>
+      <!-- 자리가 넓어지면 **지난 날이 앞으로 붙는다**. 7 은 폰에서 한 주가
+           들어가는 수일 뿐이라, 태블릿에서 그 수를 지키면 칸만 넓어지고
+           보이는 날은 그대로다. 늘어나는 쪽이 지난 날인 것은 기록이 쌓인
+           쪽이 거기이기 때문이다 — 앞날은 아직 찍힐 것이 없다.
+           오늘이 든 주(18~24)는 늘 끝에 붙어 있어, 넓어져도 '오늘' 이
+           서는 자리가 바뀌지 않는다.
+           몇 날이 보이는지는 **띠의 폭이 정한다**(컨테이너 쿼리). 한 칸이
+           폰에서 쥐는 폭(51)보다 좁아지지 않는 선까지 드러낸다 — 화면 폭이
+           아니라 띠 제 폭을 재는 까닭은, 이 화면이 끼워 보여지는 틀 안에
+           있어 바깥 폭과 안쪽 폭이 다르기 때문이다 -->
+      <!-- 칸은 js 가 그린다(assets/face-attendance-app.js 의 fill) — 달이 날마다
+           바뀌므로 마크업에 적어 둘 수 없다 -->
+      <div class="cal__week"></div>
+    </div>
+  </div>
+
+  <main class="body">
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+         현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
+         아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
+         그대로고, 아래 카드는 오늘 것만 쥔다 -->
+    <div class="card card--site">
+      <div class="card__top">
+        <span class="card__nm">서울 마곡 A동 신축공사</span>
+        <button class="pill pill--line" type="button">현장 변경</button>
+      </div>
+      <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
+           끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
+           말한다. 줄의 바탕에 깔린 모눈은 그대로다 — 넘어가면 무엇이
+           나오는지를 문이 미리 보여 준다.
+           ⚠ 창을 여는 일은 여기서 흉내 내지 않는다. 이 프로토타입의 JS 는
+           어느 화면을 보여 줄지만 정하고 화면 안의 동작은 앱(Flutter)의
+           몫이다(face-attendance-app.js 머리말). 창이 뜬 모습은 제 화면
+           (w-map)으로 따로 둔다 -->
+      <span class="row row--zone" data-go="w-map">
+        <span class="zone__s">
+          <span class="zone__t">
+            <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
+          </span>
+          <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+        </span>
+      </span>
+    </div>
+
+    <!-- 출근과 퇴근은 **따로 선 기록**이다 — 각각 제 시각과 제 경로를
+         갖는다. 한 카드에 두 줄로 쌓아 두면 한 값의 위아래처럼 보이는데,
+         좌우로 나란히 세우면 둘이 대등하고 아직 안 찍힌 쪽이 한눈에
+         보인다. 찍히지 않은 자리는 --:-- 로 둔다: 빈칸으로 두면 값이
+         없는 것인지 아직인 것인지 가릴 수 없다.
+         기준 시각은 **제 카드 안**에 든다. 화면 아래에 '출근시간 : 07:00'
+         한 줄로 두었더니 찍힌 시각과 기준이 화면 양 끝으로 갈려, 늦었는지
+         보려면 눈이 위아래를 오갔다. 게다가 그 한 줄은 그날 할 일 한쪽
+         것만 적어서(출근 전에는 출근 기준, 퇴근 전에는 퇴근 기준) 나머지
+         한쪽은 어디에도 없었다 -->
+    <div class="tcards">
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+    </div>
+    <!-- ── 오늘 할 일 한 가지 ──
+         시각과 과녁이 화면 한가운데에 함께 선다. 먼저 읽히는 것은 **시각**
+         이다 — 지금 몇 시인지가 '찍어야 하나' 를 정하고, 찍는 일은 그 다음
+         이다. 그래서 수가 제일 크고 과녁이 그 아래에 선다.
+         인증 방식은 과녁 **아래**에 둔다. 위에 두었을 때는 시각과 한 줄에
+         묶여 '지금 몇 시인가' 의 곁말처럼 읽혔는데, 이것은 과녁에 걸리는
+         조건이지 시각에 딸린 말이 아니다 -->
+    <div class="go">
+      <!-- 못 하는 까닭은 **잠긴 과녁 바로 위**에 띄운다. 여기서는 눌러야
+           하는 다른 카드가 없다 — 기다리는 것 말고 할 일이 없으므로,
+           꼬리가 가리키는 것도 잠긴 과녁 그 자체다.
+           시각은 js 가 적는다(gate) — 과녁 안의 시계가 기기의 지금을
+           보여 주므로, 여는 시각을 못 박아 두면 그 시각이 지난 뒤에 연
+           사람에게는 말과 시계가 어긋난다.
+           ⚠ 닫는 ✕ 를 두지 않는다. 다른 말풍선(작업내용을 써야 퇴근할 수
+             있다)은 닫아도 **눌러야 하는 카드가 화면에 남아** 할 일을
+             잃지 않지만, 여기서는 기다리는 것 말고 할 일이 없다 — 닫으면
+             왜 못 누르는지가 화면에서 통째로 사라진다 -->
+      <p class="tip" role="status"><span class="tip__t"><span class="tip__at">07:00</span>부터 출근이 가능해요</span></p>
+      <button class="act__b act__b--lock go__card" type="button" disabled>
+        <span class="cta__tx">
+          <span class="cta__nm">
+            <span class="cta__lead">
+              <span class="cta__time"><svg class="ic ic--24 clk" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.2V12l3.4 2"/></svg><b class="cta__now">06:41:08</b></span>
+              <span class="cta__t">출근하기</span>
+              <span class="cta__lock" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-lock"></use></svg></span>
+            </span>
+            <span class="cta__need">얼굴 인증</span>
+          </span>
+        </span>
+      </button>
+    </div>
+  </main>
+
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 등록 시작 과녁과 **같은
+       짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
+       한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
+       적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
+       꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
+       다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
+       있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
+       들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
+
+  <nav class="tabbar" aria-label="주메뉴">
+    <!-- ⚠ QR 코드 아이콘이 스프라이트에 없다. 읽는 수단이 카메라라 icon-camera 로
+         자리만 잡아 두었다 — icons/categories.json 에 추가를 요청할 것 -->
+    <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
+    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-camera"></use></svg>QR 코드</span>
+    <span class="tabbar__b"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-settings"></use></svg>마이페이지</span>
+  </nav>
+</section>
+
+<!-- ===== ⑪-1 근로자 앱 · 출퇴근 범위 지도 (창) ===== -->
 <!-- 뒤에는 이 창을 띄운 화면(홈)이 그대로 있다. 그 마크업을 여기 옮겨
      적지 않는다 — js 가 data-behind 를 보고 켜기 직전에 베껴 온다 -->
 <!-- ── 날짜 고르기 ─────────────────────────────────────────────
@@ -244,9 +379,7 @@
       <div class="cal__top">
         <div class="cal__date">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">20</span>
-          <span class="cal__dow">화</span>
+          <span class="cal__num">10</span>
           <!-- 펴 둔 동안에는 꺾쇠가 접는 손잡이다 — 거꾸로 서고, 누르면
                띠로 돌아간다 -->
           <button class="cal__more cal__more--up" type="button" aria-label="달 접기" data-go="w-home" data-keep><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-down-app"></use></svg></button>
@@ -284,23 +417,85 @@
       </div>
       <div class="wheel__c" data-wheel="월" data-pick="10" tabindex="0" role="listbox" aria-label="월">
       </div>
-      <div class="wheel__c" data-wheel="일" data-pick="20" tabindex="0" role="listbox" aria-label="일">
-      </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="scr has-dim" data-screen="w-map" data-day="today" data-rec="none" data-title="인정범위 지도"
+<!-- ===== 근로자 앱 · 출퇴근 범위 밖 =====
+     찍었는데 현장 밖일 때다. 막혔다고만 알리면 근로자는 **어디로 가야
+     하는지**를 모른 채 남는다 — 범위를 지도로 보여 주고 제 자리를 그 위에
+     찍어, 어느 쪽으로 몇 발짝인지를 눈이 재게 한다.
+     꼴은 '출퇴근 범위 확인하기' 가 여는 그 시트 그대로다 — 같은 지도를
+     두 자리에서 다른 모양으로 보여 줄 까닭이 없다 -->
+<section class="scr has-dim" data-screen="w-away" data-day="today" data-rec="none" data-title="출퇴근 범위 밖"
+  data-behind="w-home">
+  <div class="dim dim--sheet" data-go="w-home" data-go-self>
+    <div class="sheet sheet--grow" role="alertdialog" aria-labelledby="wAwayT">
+      <!-- 위로 쓸어 올리면 지도가 길어진다. 손잡이를 따로 두는 것은
+           **쓸 수 있다는 말**을 그림이 해야 하기 때문이다 — 지도를 끌어
+           보고서야 아는 기능은 아무도 모른다. 눌러도 펴진다: 끄는 몸짓
+           하나에만 매어 두면 손이 닿지 않는 길이 된다 -->
+      <button class="sheet__grip" type="button" aria-expanded="false" aria-label="지도 크게 보기"></button>
+    <!-- 머리줄은 '출퇴근 범위 확인하기' 가 여는 시트와 **글자까지 같다** —
+         같은 지도를 보는 자리라, 머리줄까지 갈라 두면 다른 화면으로 읽힌다.
+         무엇이 잘못되었는지는 지도 안의 배너가 말한다: 못 찍은 까닭은
+         범위에 매인 것이라, 범위를 그린 그림 위에 서야 한다 -->
+    <div class="sheet__h">
+      <p class="sheet__t" id="wAwayT">출퇴근 범위</p>
+      <button class="sheet__x" type="button" aria-label="닫기" data-go="w-home"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    </div>
+    <!-- 지도는 '출퇴근 범위 확인하기' 가 여는 것과 같은 자리표시자다.
+         다른 것은 **배너와 내 위치**가 더 선다는 것뿐이다 -->
+    <div class="zone__m" role="img" aria-label="현장 위치와 출퇴근 범위, 그리고 현재 내 위치">
+      <!-- 조건이 해소될 때까지 남는 인라인 상태 메시지 — 시스템의
+           배너다(molecules/banner.md). 상태 넷(info·success·caution·error)을
+           아이콘과 색으로 가르는데, 여기는 **주의(caution)** 라 세모와
+           주황을 단다. 면·테·글자·아이콘 크기를 그 문서대로 옮겼다.
+           닫는 버튼은 두지 않는다 — 배너는 조건이 풀릴 때까지 남고,
+           닫히는 것은 Toast 의 성격이다(그 문서의 제약).
+           글은 '원인 + 해결 방법' 한 문장씩이다(같은 문서) -->
+      <div class="bnr bnr--caution" role="status">
+        <svg class="ic bnr__i" aria-hidden="true"><use href="#icon-triangle-alert"></use></svg>
+        <div class="bnr__b"><span>출퇴근 범위 밖입니다. 안으로 이동 후 출퇴근을 시도해주세요.</span></div>
+      </div>
+      <!-- 두 손가락으로 벌리면 커지는 층이다 — **지도에 그려진 것**만
+           여기 든다. 배너와 '새로고침' 은 지도 위에 얹힌 손잡이라 밖에
+           남아 크기가 그대로다 -->
+      <div class="zone__v">
+        <span class="zone__r"></span>
+        <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+        <!-- 현장은 브랜드 핀이고 나는 **가운데가 찬 점**이다 — 둘이 같은
+             꼴이면 어느 것이 나인지 가려 읽어야 한다. 이름표는 나한테만
+             단다: 가려야 하는 것이 그쪽이다 -->
+        <span class="zone__me"><b class="zone__me__t">내 위치</b></span>
+      </div>
+      <!-- 자리를 다시 묻는 길 — 걸어서 범위 안으로 들어온 뒤 누른다.
+           지도 **바닥 가운데**에 뜬다: 지도가 쥔 값(내 위치)을 고치는
+           일이라 지도 위에 서야 하고, 어느 손으로 들어도 엄지가 닿는
+           자리가 가운데다.
+           ⚠ 자리를 묻는 길은 아직 없다. 눌러도 그대로다 -->
+      <button class="zone__re" type="button"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-refresh"></use></svg>새로고침</button>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="scr has-dim" data-screen="w-map" data-day="today" data-rec="none" data-title="출퇴근 범위 지도"
   data-behind="w-home">
   <!-- 알림창(.alert)이 아니라 **바닥에서 올라오는 시트**다. 알림창은 묻고
        답하는 자리라 300 으로 못 박혀 화면 가운데에 뜨는데, 여기서 할 일은
        읽는 것이 아니라 보는 것이다 — 지도는 넓을수록 쓸모가 있어 폭을
        다 쓴다 -->
   <div class="dim dim--sheet" data-go="w-home" data-go-self>
-    <div class="sheet" role="dialog" aria-labelledby="wMapT">
+    <div class="sheet sheet--grow" role="dialog" aria-labelledby="wMapT">
+      <!-- 위로 쓸어 올리면 지도가 길어진다. 손잡이를 따로 두는 것은
+           **쓸 수 있다는 말**을 그림이 해야 하기 때문이다 — 지도를 끌어
+           보고서야 아는 기능은 아무도 모른다. 눌러도 펴진다: 끄는 몸짓
+           하나에만 매어 두면 손이 닿지 않는 길이 된다 -->
+      <button class="sheet__grip" type="button" aria-expanded="false" aria-label="지도 크게 보기"></button>
     <div class="sheet__h">
-      <p class="sheet__t" id="wMapT">인정범위</p>
+      <p class="sheet__t" id="wMapT">출퇴근 범위</p>
       <!-- 닫는 자리는 오른쪽 위다 — 들어온 길(줄의 오른쪽 꺾쇠)과 같은 쪽이라
            되돌아 나가는 것으로 읽힌다 -->
       <button class="sheet__x" type="button" aria-label="닫기" data-go="w-home"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-close"></use></svg></button>
@@ -309,9 +504,12 @@
          지도가 시트 안에 든 또 하나의 카드로 보인다.
          자리표시자다. 실제 지도와 반경 값은 앱이 쥔다 — 여기서 숫자를
          지어내면 읽는 사람이 그것을 받은 값으로 본다 -->
-    <div class="zone__m" role="img" aria-label="현장 위치와 인정범위">
-      <span class="zone__r"></span>
-      <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+    <div class="zone__m" role="img" aria-label="현장 위치와 출퇴근 범위">
+      <!-- 두 손가락으로 벌리면 커지는 층이다 — 지도에 그려진 것만 여기 든다 -->
+      <div class="zone__v">
+        <span class="zone__r"></span>
+        <svg class="ic ic--24 zone__p" aria-hidden="true"><use href="#icon-pin"></use></svg>
+      </div>
     </div>
   </div>
   </div>
@@ -332,9 +530,7 @@
       <div class="cal__top">
         <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">20</span>
-          <span class="cal__dow">화</span>
+          <span class="cal__num">10</span>
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
@@ -364,14 +560,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -385,7 +581,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -403,49 +599,41 @@
          것만 적어서(출근 전에는 출근 기준, 퇴근 전에는 퇴근 기준) 나머지
          한쪽은 어디에도 없었다 -->
     <div class="tcards">
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+    </div>
+    <!-- ── 오늘 할 일 한 가지 ──
+         시각과 과녁이 화면 한가운데에 함께 선다. 먼저 읽히는 것은 **시각**
+         이다 — 지금 몇 시인지가 '찍어야 하나' 를 정하고, 찍는 일은 그 다음
+         이다. 그래서 수가 제일 크고 과녁이 그 아래에 선다.
+         인증 방식은 과녁 **아래**에 둔다. 위에 두었을 때는 시각과 한 줄에
+         묶여 '지금 몇 시인가' 의 곁말처럼 읽혔는데, 이것은 과녁에 걸리는
+         조건이지 시각에 딸린 말이 아니다 -->
+    <div class="go">
+      <button class="act__b act__b--on go__card" type="button">
+        <span class="cta__tx">
+          <span class="cta__nm">
+            <span class="cta__lead">
+              <span class="cta__time"><svg class="ic ic--24 clk" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.2V12l3.4 2"/></svg><b class="cta__now">07:03:12</b></span>
+              <span class="cta__t">출근하기</span>
+              <span class="act__go" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></span>
+            </span>
+            <span class="cta__need">얼굴 인증</span>
+          </span>
+        </span>
+      </button>
     </div>
   </main>
 
-  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 등록 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
        있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
        들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
-  <div class="act act--cta">
-    <!-- 과녁의 이름 아래에 설명이 붙는다 — 현장소장 앱의 인증 시작 과녁과
-         같은 짜임이다(이름 · 그 아래 설명). 본문에 따로 한 줄로 두었더니
-         '눌러 주세요' 라고 적힌 자리와 실제로 누를 자리가 떨어져 있었다 -->
-    <button class="act__b act__b--on" type="button">
-      <span class="cta__tx">
-        <span class="cta__h">
-          <span class="cta__nm">
-            <!-- 지금 시각은 이름 **위에 뱃지**로 앉는다. 이름과 한 줄에
-                 나란히 두었더니 '07:03:12 출근' 이 통째로 과녁의 이름처럼
-                 읽혔는데, 시각은 누를 것의 이름이 아니라 지금 몇 시인지를
-                 알려 주는 곁말이다 -->
-            <span class="cta__meta">
-              <span class="cta__time"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">07:03:12</b></span>
-              <!-- 이 현장이 얼굴로 찍는 곳임을 과녁 위에 적는다 — 누르면
-                   카메라가 열리는데, 누르기 전에는 그것을 알 길이 없었다.
-                   현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
-                   가른다: 시각은 채운 알약, 이것은 테만 두른 알약.
-                   '필요' 는 붙이지 않는다 — 과녁 위에 붙은 표라 이미
-                   '이 과녁에 이것이 걸린다' 로 읽힌다 -->
-              <span class="cta__need">얼굴 인식</span>
-            </span>
-            <span class="cta__t">출근 인증하기</span>
-          </span>
-          <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
-        </span>
-      </span>
-    </button>
-  </div>
 
   <nav class="tabbar" aria-label="주메뉴">
     <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
@@ -454,7 +642,7 @@
   </nav>
 
   <!-- 안면인식 현장인데 이 현장에 등록된 얼굴이 없을 때 출근을 누르면 뜬다 -->
-  <!-- 창은 **바닥에서 올라오는 시트**다 — 인정범위 지도와 같은 꼴이다.
+  <!-- 창은 **바닥에서 올라오는 시트**다 — 출퇴근 범위 지도와 같은 꼴이다.
        한 앱에서 덮고 올라오는 것이 한 가지 꼴로 서야, 어디서 올라온
        것인지 눈이 매번 다시 잡지 않는다 -->
   <div class="dim dim--sheet" data-go="w-home" data-go-self>
@@ -492,7 +680,7 @@
              이런 현장이다' 와 '그래서 이렇게 하면 된다' 로 따로 읽는 말이다 -->
         <p class="alert__d">
           <span>얼굴 인증으로 출퇴근하는 현장입니다.</span>
-          <span>얼굴 등록 후 출근 인증을 진행해 보세요.</span>
+          <span>얼굴을 등록하면 출근할 수 있습니다.</span>
         </p>
         <!-- 채운 버튼은 제가 버튼임을 제 꼴로 말한다 — 글만 얹어 두었더니
              그림의 이름표처럼 읽혔다.
@@ -521,9 +709,7 @@
       <div class="cal__top">
         <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">20</span>
-          <span class="cal__dow">화</span>
+          <span class="cal__num">10</span>
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
@@ -553,14 +739,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -574,7 +760,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -596,64 +782,67 @@
            같은 날에 앱·단말기·현장소장앱이 섞인다. 시각 아래에 두었더니
            한가운데에 서서 시각 다음으로 크게 읽혔는데, 이것은 '언제' 가
            아니라 '어디서' 라 시각에 딸린 꼬리표다 -->
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:03</span><span class="bd bd--positive">앱 · 얼굴</span></div>
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v">07:03</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+    </div>
+    <!-- ── 오늘 할 일 한 가지 ──
+         시각과 과녁이 화면 한가운데에 함께 선다. 먼저 읽히는 것은 **시각**
+         이다 — 지금 몇 시인지가 '찍어야 하나' 를 정하고, 찍는 일은 그 다음
+         이다. 그래서 수가 제일 크고 과녁이 그 아래에 선다.
+         인증 방식은 과녁 **아래**에 둔다. 위에 두었을 때는 시각과 한 줄에
+         묶여 '지금 몇 시인가' 의 곁말처럼 읽혔는데, 이것은 과녁에 걸리는
+         조건이지 시각에 딸린 말이 아니다 -->
+    <div class="go">
+      <!-- 못 하는 까닭은 **눌러야 하는 것** 위에 띄운다. 꼬리가 그 카드를
+           가리켜, 읽고 나서 눈이 머문 자리가 곧 누를 자리가 된다. 잠긴 과녁
+           위에 두었을 때는 말은 보여도 '그럼 어디를 누르나' 가 한 칸 더
+           떨어져 있었다.
+           꼴은 카메라의 센 수(.cam__tip)와 같은 시스템 Tooltip 패널이다 -->
+      <p class="tip" role="status"><span class="tip__t">작업내용을 작성해야 퇴근할 수 있습니다</span><button class="tip__x" type="button" aria-label="안내 닫기"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-close"></use></svg></button></p>
+      <button class="cardb" type="button" data-go="w-work">
+        <span class="cardb__t">
+          <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-edit"></use></svg></span>
+          <span class="cardb__l">작업내용 작성하기</span>
+        </span>
+        <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+      </button>
+      <!-- 잘못 찍은 출근을 되돌리는 길이다. 되돌리기 표(icon-undo)를 쓰는 것은
+           '이전 근무 퇴근하러 가기' 와 같은 까닭이다 — 이 줄을 다른 줄과
+           가르는 것은 '시간' 이 아니라 **지난 것을 무르는 일**이다.
+           ⚠ 면을 조용한 쪽(--quiet)으로 둔다. 권하는 길이 아니라 잘못
+             찍었을 때만 쓰는 길이라, 바로 위의 '작업내용 작성하기' 와 같은
+             무게로 서면 둘 가운데 무엇을 하라는 것인지가 흐려진다 -->
+      <button class="cardb cardb--quiet" type="button">
+        <span class="cardb__t">
+          <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-undo"></use></svg></span>
+          <span class="cardb__l">출근 취소하기</span>
+        </span>
+        <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+      </button>
+      <button class="act__b act__b--lock go__card" type="button" disabled>
+        <span class="cta__tx">
+          <span class="cta__nm">
+            <span class="cta__lead">
+              <span class="cta__time"><svg class="ic ic--24 clk" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.2V12l3.4 2"/></svg><b class="cta__now">17:31:40</b></span>
+              <span class="cta__t">퇴근하기</span>
+              <span class="cta__lock" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-lock"></use></svg></span>
+            </span>
+            <span class="cta__need">얼굴 인증</span>
+          </span>
+        </span>
+      </button>
     </div>
   </main>
 
-  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 등록 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
        있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
        들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
-  <div class="act act--cta act--stack">
-    <!-- 쓰러 들어가는 문은 **카드 한 장 통째**다. '작업내용' 이라는 값에
-         작은 알약 하나를 달아 두었더니, 위의 출근·퇴근 카드보다 작고
-         뒤에 선 것이 되어 오늘 남은 할 일로 읽히지 않았다. 여기서 읽을
-         값은 없다 — 아직 쓰지 않았다는 것뿐이고, 할 일은 쓰러 가는
-         것이다.
-         안쪽 짜임은 현장 카드의 '인정범위 지도보기' 와 같다: 표와 말이
-         왼쪽, 꺾쇠가 오른쪽 끝 -->
-    <button class="cardb" type="button" data-go="w-work">
-      <span class="cardb__t">
-        <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-edit"></use></svg></span>
-        <span class="cardb__l">작업내용 작성하기</span>
-      </span>
-      <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-    </button>
-    <!-- 작업내용을 쓰기 전이라 **꺼진** 과녁이다. 자리를 지워 버리지
-         않는 것은, 없으면 '퇴근은 어디서 하나' 를 묻게 되기 때문이다 -->
-    <button class="act__b act__b--lock" type="button" disabled>
-      <span class="cta__tx">
-        <span class="cta__h">
-          <span class="cta__nm">
-            <span class="cta__meta">
-              <span class="cta__time"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">17:31:40</b></span>
-              <!-- 이 현장이 얼굴로 찍는 곳임을 과녁 위에 적는다 — 누르면
-                   카메라가 열리는데, 누르기 전에는 그것을 알 길이 없었다.
-                   현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
-                   가른다: 시각은 채운 알약, 이것은 테만 두른 알약.
-                   '필요' 는 붙이지 않는다 — 과녁 위에 붙은 표라 이미
-                   '이 과녁에 이것이 걸린다' 로 읽힌다 -->
-              <span class="cta__need">얼굴 인식</span>
-            </span>
-            <span class="cta__t">퇴근 인증하기</span>
-            <!-- 이름 아래에 **못 하는 까닭**을 한 줄 붙인다. 꺼진 과녁에
-                 이름만 두면 왜 안 되는지가 어디에도 없어, 눌러 보고서야
-                 막힌 줄 안다 -->
-            <span class="cta__why">작업내용 작성 후 퇴근이 가능해요</span>
-          </span>
-          <!-- 꺾쇠 자리에 자물쇠가 선다 — 갈 데가 없는데 앞으로 미는
-               꺾쇠를 두면 거짓말이 된다 -->
-          <span class="cta__lock" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-lock"></use></svg></span>
-        </span>
-      </span>
-    </button>
-  </div>
 
   <nav class="tabbar" aria-label="주메뉴">
     <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
@@ -752,9 +941,7 @@
       <div class="cal__top">
         <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">20</span>
-          <span class="cal__dow">화</span>
+          <span class="cal__num">10</span>
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
@@ -784,14 +971,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -805,7 +992,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -827,8 +1014,8 @@
            같은 날에 앱·단말기·현장소장앱이 섞인다. 시각 아래에 두었더니
            한가운데에 서서 시각 다음으로 크게 읽혔는데, 이것은 '언제' 가
            아니라 '어디서' 라 시각에 딸린 꼬리표다 -->
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:03</span><span class="bd bd--positive">앱 · 얼굴</span></div>
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v">07:03</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
     </div>
     <!-- 쓴 것은 **출퇴근 카드 바로 아래**에 붙는다. 오늘 한 일이 오늘
          찍힌 시각 다음에 오는 순서라, 위에서 아래로 그대로 읽힌다.
@@ -849,41 +1036,38 @@
         <span class="wnote__p"></span>
       </div>
     </div>
+    <!-- ── 오늘 할 일 한 가지 ──
+         시각과 과녁이 화면 한가운데에 함께 선다. 먼저 읽히는 것은 **시각**
+         이다 — 지금 몇 시인지가 '찍어야 하나' 를 정하고, 찍는 일은 그 다음
+         이다. 그래서 수가 제일 크고 과녁이 그 아래에 선다.
+         인증 방식은 과녁 **아래**에 둔다. 위에 두었을 때는 시각과 한 줄에
+         묶여 '지금 몇 시인가' 의 곁말처럼 읽혔는데, 이것은 과녁에 걸리는
+         조건이지 시각에 딸린 말이 아니다 -->
+    <div class="go">
+      <button class="act__b act__b--on go__card" type="button" data-go="w-cam-out">
+        <span class="cta__tx">
+          <span class="cta__nm">
+            <span class="cta__lead">
+              <span class="cta__time"><svg class="ic ic--24 clk" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.2V12l3.4 2"/></svg><b class="cta__now">17:31:40</b></span>
+              <span class="cta__t">퇴근하기</span>
+              <span class="act__go" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></span>
+            </span>
+            <span class="cta__need">얼굴 인증</span>
+          </span>
+        </span>
+      </button>
+    </div>
   </main>
 
-  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 등록 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
        있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
        들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
-  <div class="act act--cta">
-    <!-- 작업내용을 썼으니 과녁이 켜진다 — 검정 면은 출근 전의 파랑과
-         짝이다(현장소장 앱의 퇴근 인증 과녁과 같다) -->
-    <button class="act__b act__b--dark" type="button" data-go="w-cam-out">
-      <span class="cta__tx">
-        <span class="cta__h">
-          <span class="cta__nm">
-            <span class="cta__meta">
-              <span class="cta__time"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">17:31:40</b></span>
-              <!-- 이 현장이 얼굴로 찍는 곳임을 과녁 위에 적는다 — 누르면
-                   카메라가 열리는데, 누르기 전에는 그것을 알 길이 없었다.
-                   현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
-                   가른다: 시각은 채운 알약, 이것은 테만 두른 알약.
-                   '필요' 는 붙이지 않는다 — 과녁 위에 붙은 표라 이미
-                   '이 과녁에 이것이 걸린다' 로 읽힌다 -->
-              <span class="cta__need">얼굴 인식</span>
-            </span>
-            <span class="cta__t">퇴근 인증하기</span>
-          </span>
-          <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
-        </span>
-      </span>
-    </button>
-  </div>
 
   <nav class="tabbar" aria-label="주메뉴">
     <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
@@ -927,7 +1111,7 @@
         <p><b>수집 항목</b> 얼굴 사진, 얼굴 특징정보</p>
         <p><b>이용 목적</b> 이 현장의 출퇴근 본인 확인</p>
         <p><b>보유 기간</b> 현장 종료 후 3년. 기간이 지나면 지웁니다</p>
-        <p><b>거부할 수 있습니다</b> 다만 동의하지 않으면 얼굴 출근을 할 수 없습니다</p>
+        <p><b>거부할 수 있습니다</b> 다만 동의하지 않으면 얼굴로 출근할 수 없습니다</p>
       </div>
       <button class="agr agr--last" type="button" aria-expanded="false" aria-controls="agrD2">
         <svg class="ic ic--24 agr__c" aria-hidden="true"><use href="#icon-circle-check"></use></svg>
@@ -941,20 +1125,128 @@
       </div>
     </div>
 
-    <!-- 문장마다 금을 긋는다 — 셋은 이어 읽는 한 문단이 아니라 '어디에
-         쓰나' · '어디까지 가나' · '안 하면 어떻게 되나' 로 따로 묻고
-         답하는 말이다 -->
+    <!-- 문장마다 금을 긋는다 — 둘은 이어 읽는 한 문단이 아니라 '어디에
+         쓰나' · '안 하면 어떻게 되나' 로 따로 묻고 답하는 말이다 -->
     <div class="bnr" role="status">
       <div class="bnr__b">
         <span>등록한 얼굴은 이 현장의 출퇴근 확인에만 씁니다.</span>
-        <span>안면인식기가 있는 현장이면 같은 사진이 안면인식기에도 등록됩니다.</span>
-        <span>동의하지 않으면 얼굴 출근을 할 수 없습니다.</span>
+        <span>동의하지 않으면 얼굴로 출근할 수 없습니다.</span>
       </div>
     </div>
   </main>
 
   <div class="act act--end">
-    <button class="act__b act__b--on" type="button" data-go="w-shot">동의하고 촬영하기</button>
+    <button class="act__b act__b--on" type="button" data-go="w-ready">동의하고 촬영하기</button>
+  </div>
+</section>
+
+<!-- ===== 근로자 앱 · 얼굴 등록 온보딩 (앱 네이티브) =====
+     동의하고 나서 카메라가 열리기까지 잠깐 서는 화면이다. **맨 처음 얼굴을
+     등록할 때만** 지난다 — 찍는 요령을 모르는 것은 그 한 번뿐이고, 그 한
+     번을 마스크를 쓴 채 찍으면 그 뒤의 출퇴근이 내내 걸린다.
+     현장소장 앱의 같은 화면(m-ready)과 **같은 그림**이다 — 찍는 일은 앱이
+     하는 것이라 누가 찍든 보는 화면이 같다 -->
+<section class="scr" data-screen="w-ready" data-title="근로자 앱 얼굴 등록 온보딩">
+  <div class="cam cam--ready">
+    <button class="cam__back" type="button" aria-label="뒤로" data-go="w-reg"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <p class="cam__who">얼굴 등록 방법</p>
+    <!-- 머리말은 **아래를 읽으라고** 이르고, 그 아래 한 줄이 **왜** 를
+         맡는다. 무엇이 안 되는지는 카드가 제 안에서 말하므로 여기서
+         되풀이하지 않는다 — 카드가 '착용 불가' 라 적는데 머리말까지
+         '할 수 없다' 고 하면 같은 말이 두 번 선다.
+         설명 한 줄은 두 카드를 **한 규칙의 보기**로 묶는다: 안 되는 것이
+         마스크와 선글라스 둘이어서가 아니라 '얼굴을 가리기' 때문이라는
+         말이다. 모자나 안전모가 목록에 없는 까닭도 여기서 읽힌다.
+         '등록' 이 아니라 '촬영' 인 것은, 이름표가 이미 '얼굴 등록 방법'
+         이고 바로 다음에 일어날 일이 촬영이기 때문이다(바닥 버튼도
+         '바로 촬영하기' 다).
+         틀을 말하지 않는다 — 이 화면에는 가리킬 틀이 없다. 얼굴을 맞추는
+         일은 틀이 선 다음 화면에서 이른다 -->
+    <div class="cam__head">
+      <p class="cam__t">촬영 전에 꼭 확인해주세요!</p>
+      <p class="cam__d">얼굴이 가려지면 등록되지 않습니다</p>
+    </div>
+    <!-- 안 되는 것은 **한 번에 늘어놓는다**. 번갈아 보이는 것은 둘을 견줄
+         수가 없다 — 앞엣것을 기억해 뒤엣것과 맞춰 봐야 하고, 이 화면은
+         4초 만에 지나가므로 늦게 본 사람은 한 가지만 보고 넘어간다.
+         금지 표지는 카드 **왼쪽 위 귀퉁이**에 붙는다. 그림을 가로지르던
+         때는 빗금이 마스크와 보안경 위를 지나 무엇을 쓴 모습인지가 그
+         금에 잘렸다 — 표는 귀퉁이에서 '이 카드가 안 되는 쪽' 만 말하고,
+         무엇이 안 되는지는 그림과 이름표가 맡는다.
+         치수와 까닭은 assets 쪽 주석에 적어 두었다 -->
+    <div class="dont">
+      <div class="dont__f">
+        <!-- ① 마스크 착용 불가 -->
+        <svg class="sign" viewBox="0 0 100 100" aria-hidden="true">
+          <g class="sign__k">
+            <circle class="sign__r" cx="50" cy="50" r="44"/>
+            <path class="sign__s" d="M18.9 18.9 81.1 81.1"/>
+          </g>
+        </svg>
+        <span class="dont__p">
+          <span class="scan scan--ready" aria-hidden="true">
+            <span class="scan__plate"></span>
+            <svg viewBox="4 12 64 48">
+            <g class="scan__face">
+              <g class="scan__eyes"><circle cx="24" cy="29" r="4"/><circle cx="48" cy="29" r="4"/></g>
+              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
+            </g>
+            <g class="scan__mask">
+              <path class="scan__mask-s" d="M14.2 38.6 9.8 35.4M57.8 38.6 62.2 35.4"/>
+              <path class="scan__mask-b" d="M14 38.5Q36 31 58 38.5L55.5 49C53.5 54.5 45.5 57.5 36 57.5 26.5 57.5 18.5 54.5 16.5 49Z"/>
+              <path class="scan__mask-n" d="M14.6 37.8Q36 30.3 57.4 37.8"/>
+            </g>
+            </svg>
+          </span>
+        </span>
+        <p class="dont__t">마스크 착용 불가</p>
+      </div>
+      <div class="dont__f">
+        <!-- ② 선글라스 착용 불가 -->
+        <svg class="sign" viewBox="0 0 100 100" aria-hidden="true">
+          <g class="sign__k">
+            <circle class="sign__r" cx="50" cy="50" r="44"/>
+            <path class="sign__s" d="M18.9 18.9 81.1 81.1"/>
+          </g>
+        </svg>
+        <span class="dont__p">
+          <span class="scan scan--ready" aria-hidden="true">
+            <span class="scan__plate"></span>
+            <svg viewBox="4 12 64 48">
+            <g class="scan__face">
+              <g class="scan__eyes"><circle cx="24" cy="29" r="4"/><circle cx="48" cy="29" r="4"/></g>
+              <path class="scan__smile" d="M24 41C28.5 48.5 43.5 48.5 48 41"/>
+            </g>
+            <g class="scan__sun">
+              <path class="scan__sun-t" d="M10.3 26.2 4.8 28M61.7 26.2 67.2 28"/>
+              <path class="scan__sun-b" id="sunLens" d="M9.8 25.2C9.8 24.1 10.6 23.4 11.9 23.4H60.1C61.4 23.4 62.2 24.1 62.2 25.2 62.2 32.4 58.6 37.4 52.6 37.4 47 37.4 41.8 36 39.5 34.2 38.7 33.6 37.6 33.2 36 33.2 34.4 33.2 33.3 33.6 32.5 34.2 30.2 36 25 37.4 19.4 37.4 13.4 37.4 9.8 32.4 9.8 25.2Z"/>
+              <!-- 알 위를 왼쪽에서 오른쪽으로 한 번 지나는 빛. 알 꼴로
+                   잘라 두어 띠가 알 밖으로 비어져 나가지 않는다 — 알을
+                   두 번 적지 않도록 잘라 낼 꼴은 알 자신을 가리킨다 -->
+              <clipPath id="sunLensClip"><use href="#sunLens"/></clipPath>
+              <g class="scan__sun-sh" clip-path="url(#sunLensClip)">
+                <rect x="0" y="18" width="7" height="26"/>
+                <rect x="11" y="18" width="3" height="26"/>
+              </g>
+              <path class="scan__sun-w" d="M10.6 24.4H61.4"/>
+            </g>
+            </svg>
+          </span>
+        </span>
+        <p class="dont__t">선글라스 착용 불가</p>
+      </div>
+    </div>
+    <!-- 기다리면 저절로 넘어간다는 말을 **글로도** 적는다. 차오르는 면만
+         두었더니 그것이 '무엇이 차는 중인지' 는 사람마다 다르게 읽혔다.
+         숫자는 js 가 1초마다 줄여 쓴다(wait) — 여기 적힌 4 는 js 가 늦게
+         닿는 찰나에만 보이는 첫 값이다. 셈의 기준은 --ap-ready-wait 하나라,
+         초를 고치려면 그 토큰만 고치면 된다 -->
+    <!-- 다시 보지 않기 — 촬영 확인의 '다시 촬영하기' 와 같은 **글자만의**
+         버튼이다. 세는 줄 위에 둔다: 아래로 내려갈수록 저지르는 쪽이라,
+         건너뛰는 길은 그 줄기에서 비켜 서야 한다 -->
+    <span class="cam__skip" data-go="w-shot"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-hide"></use></svg><b>다시 보지 않기</b></span>
+    <p class="cam__auto" role="status"><span class="cam__auto__n">4</span>초 후에 자동으로 화면이 넘어갑니다</p>
+    <span class="cam__go cam__go--wait" data-go="w-shot"><b class="cam__go__t">바로 촬영하기</b></span>
   </div>
 </section>
 
@@ -970,12 +1262,144 @@
     <p class="confirm__t">이 사진으로 등록하시겠습니까?</p>
     <div class="confirm__card">
       <div class="confirm__pic"><img src="images/worker/01.jpg" alt=""></div>
-      <!-- 이름이 두 몫을 적는다 — 이 버튼 하나로 등록이 끝나고 곧바로
-           출근 인증 카메라가 열린다. '얼굴 등록하기' 로만 두면 등록만
-           되고 출근은 다시 눌러야 하는 줄 안다 -->
-      <span class="confirm__ok" data-go="w-cam">등록하고 출근 인증하기</span>
+      <!-- ── 저지르는 일이 **둘로 갈린다** ──
+           얼굴만 남기고 말 것인가, 그길로 출근까지 찍을 것인가. 한 버튼에
+           둘을 묶어 두면 오늘 출근할 생각이 없는 사람도 카메라로 끌려가고,
+           '얼굴 등록하기' 로만 두면 등록만 되고 출근은 다시 눌러야 하는
+           줄 안다 — 이름마다 제가 하는 일을 다 적는다.
+           주된 쪽은 브랜드 면, 다른 쪽은 옅은 중립 면이다 — 최종 결정이
+           두 갈래로 나뉠 때 primary fill 의 대안을 두라고 atoms/button.md
+           가 이른다. 꺼진 버튼으로 읽히게 하는 것은 옅은 면이 아니라 바랜
+           글씨라, 면만 옅게 하고 글씨는 제 색으로 둔다 -->
+      <div class="confirm__acts">
+        <span class="confirm__ok" data-go="w-worker-new">얼굴 및 출근 등록하기</span>
+        <span class="confirm__ok confirm__ok--sub" data-go="w-worker-new-only">얼굴만 등록하기</span>
+      </div>
     </div>
     <span class="confirm__re"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg><b>다시 촬영하기</b></span>
+  </div>
+</section>
+
+
+<!-- ===== 근로자 앱 · 근로자 등록 (앱 네이티브) =====
+     찍은 얼굴이 **누구의 것인지**를 붙이는 자리다. 사진만으로는 출퇴근
+     기록이 사람에 붙지 못한다.
+     ⚠ **묻는 것이 없다.** 이름 · 주민번호 · 연락처는 앱에 가입할 때 모두
+       받았다 — 현장에 들어올 때마다 같은 값을 다시 적게 하면 가입을 한 번
+       더 시키는 꼴이 된다. 그래서 차례대로 묻는 장치(.prog · .flow__q ·
+       data-flow · 떠 있는 '다음')를 통째로 걷었다. 받아 둔 값을 보여 주고
+       고칠 수 있게만 둔다.
+     자판 그림도 두지 않는다 — 적을 것이 없으니 자판이 올라올 일이 없다.
+     단가는 묻지 않는다. 근로자가 제 손으로 정하는 값이 아니라 현장이 정하는
+     값이라, 그쪽 폼(현장소장 앱)에만 있다.
+     ⚠ 저장 버튼의 이름은 **어느 버튼으로 들어왔는지**가 정한다. 이 프로토타입은
+       ?screen= 이 가리키는 한 장을 켜는 꼴이라 한 장 안에서 둘로 갈라 둘 수
+       없어, 화면을 두 장 둔다(w-worker-new · w-worker-new-only).
+       ⚠ 둘은 **바닥 버튼 한 줄만 다르다**. 폼을 고칠 때는 두 장을 같이 고친다 -->
+<section class="scr scr--form" data-screen="w-worker-new" data-title="근로자 앱 근로자 등록 — 출근까지">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로" data-go="w-shot"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">근로자 등록</h1>
+  </header>
+
+  <main class="body">
+    <div class="shot">
+      <!-- 사진 자리 전체가 누르는 자리다. 오른쪽 아래 아이콘은 '여기를 눌러
+           고친다' 고 알리는 표지다 — 버튼 안에 버튼을 넣지 않는다.
+           연필이 아니라 카메라다: 누르면 글을 고치는 것이 아니라 다시 찍는다 -->
+      <button class="shot__box shot__box--done" type="button" aria-label="얼굴 사진 다시 촬영" data-go="w-ready">
+        <img src="images/worker/01.jpg" alt="">
+        <span class="shot__edit" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg></span>
+      </button>
+    </div>
+
+    <!-- autocomplete 는 폼과 칸에서 모두 끈다. name 은 영어 낱말을 피해
+         소리대로 적는다(ireum · jumin · yeonrak …) — 'name' 이나 'tel' 이
+         들어 있으면 끈 자동완성이 되살아난다 -->
+    <form class="form" autocomplete="off">
+      <!-- 셋 다 가입 때 받은 값이라 채워진 채로 열린다. required 는 그대로
+           둔다 — 지우면 저장이 꺼지는 것이 맞다(js 의 must) -->
+      <div class="fld">
+        <label class="fld__l">이름 <b>(필수)</b></label>
+        <div class="inp"><input class="inp__in" required type="text" value="홍길동" aria-label="이름" name="ireum" autocomplete="off"></div>
+      </div>
+      <!-- 내국인·외국인은 받는 번호가 통째로 갈리는 자리라, 칸 맨 위에 탭으로
+           먼저 가른다 -->
+      <div class="idf">
+        <div class="idf__tabs" role="tablist" aria-label="근로자 구분">
+          <button class="idf__t is-on" type="button" role="tab" aria-selected="true">내국인</button>
+          <button class="idf__t" type="button" role="tab" aria-selected="false">외국인</button>
+        </div>
+        <div class="idf__body">
+          <label class="fld__l">주민번호 <b>(필수)</b></label>
+          <div class="inp"><input class="inp__in" required type="text" value="790412-1234567" aria-label="주민번호" name="jumin" autocomplete="off" inputmode="numeric"></div>
+        </div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">연락처 <b>(필수)</b></label>
+        <div class="inp"><input class="inp__in" required type="text" value="010-1234-5678" aria-label="연락처" name="yeonrak" autocomplete="off" inputmode="tel"></div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">직종</label>
+        <button class="sel" type="button"><span class="sel__t">직종 선택</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </div>
+    </form>
+  </main>
+
+  <!-- 이름이 두 몫을 적는다 — 저장하면 등록이 끝나고 곧바로 출근 인증
+       카메라가 열린다. '등록하기' 로만 두면 출근은 다시 눌러야 하는 줄 안다.
+       바닥을 가로지르는 바다 — 아래로 더 열릴 칸이 없는 자리라, 떠 있는
+       버튼이 아니라 여기서 끝이라고 말하는 쪽이 맞다 -->
+  <div class="act act--end">
+    <button class="act__b act__b--on" type="button" data-go="w-cam">등록 및 출근하기</button>
+  </div>
+</section>
+
+<!-- ===== 근로자 앱 · 근로자 등록 (얼굴만) =====
+     위의 화면과 **바닥 버튼 한 줄만 다르다**. 저장하고 나면 홈으로 돌아가고,
+     출근은 홈의 출근 버튼에서 따로 찍는다 -->
+<section class="scr scr--form" data-screen="w-worker-new-only" data-title="근로자 앱 근로자 등록 — 등록만">
+  <header class="nav">
+    <button class="nav__ic nav__ic--l" type="button" aria-label="뒤로" data-go="w-shot"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
+    <h1 class="nav__t">근로자 등록</h1>
+  </header>
+
+  <main class="body">
+    <div class="shot">
+      <button class="shot__box shot__box--done" type="button" aria-label="얼굴 사진 다시 촬영" data-go="w-ready">
+        <img src="images/worker/01.jpg" alt="">
+        <span class="shot__edit" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#icon-camera"></use></svg></span>
+      </button>
+    </div>
+
+    <form class="form" autocomplete="off">
+      <div class="fld">
+        <label class="fld__l">이름 <b>(필수)</b></label>
+        <div class="inp"><input class="inp__in" required type="text" value="홍길동" aria-label="이름" name="ireum" autocomplete="off"></div>
+      </div>
+      <div class="idf">
+        <div class="idf__tabs" role="tablist" aria-label="근로자 구분">
+          <button class="idf__t is-on" type="button" role="tab" aria-selected="true">내국인</button>
+          <button class="idf__t" type="button" role="tab" aria-selected="false">외국인</button>
+        </div>
+        <div class="idf__body">
+          <label class="fld__l">주민번호 <b>(필수)</b></label>
+          <div class="inp"><input class="inp__in" required type="text" value="790412-1234567" aria-label="주민번호" name="jumin" autocomplete="off" inputmode="numeric"></div>
+        </div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">연락처 <b>(필수)</b></label>
+        <div class="inp"><input class="inp__in" required type="text" value="010-1234-5678" aria-label="연락처" name="yeonrak" autocomplete="off" inputmode="tel"></div>
+      </div>
+      <div class="fld">
+        <label class="fld__l">직종</label>
+        <button class="sel" type="button"><span class="sel__t">직종 선택</span><svg class="ic" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></button>
+      </div>
+    </form>
+  </main>
+
+  <div class="act act--end">
+    <button class="act__b act__b--on" type="button" data-go="w-home">등록하기</button>
   </div>
 </section>
 
@@ -991,7 +1415,9 @@
     <!-- 누구를 확인하는 중인지를 먼저 보인다 -->
     <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box"></div>
-    <span class="cam__go" data-go="w-cam-ok"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>출근 인증하기</span>
+    <!-- 찍는 버튼을 두지 않는다 — 얼굴이 틀에 맞으면 앱이 알아서 읽는다.
+         버튼을 두면 맞춰 놓고 한 번 더 눌러야 하는 것으로 읽힌다.
+         현장소장 앱의 카메라도 같다 -->
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
   </div>
 </section>
@@ -1009,7 +1435,7 @@
          일이 저절로 되더라도, 그 사이에 할 수 있는 것이 아무것도 없으면
          화면이 멈춘 것처럼 보인다 -->
     <span class="cam__go" data-go="w-home-done"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-home"></use></svg>메인으로</span>
-    <p class="cam__t cam__t--ok">출근 처리 완료!<span class="cam__sub">07:03:12</span></p>
+    <p class="cam__t cam__t--ok">출근이 등록되었습니다<span class="cam__sub">07:03:12</span></p>
   </div>
 </section>
 
@@ -1019,9 +1445,9 @@
     <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box cam__box--fail"></div>
-    <!-- 다시 찍는 길을 그 자리에 둔다 — 실패를 알리고 나서 할 일이
-         '다시 찍기' 하나뿐이라, 찍던 자리에 그대로 둔다 -->
-    <span class="cam__go" data-go="w-cam"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-refresh"></use></svg>다시 인증하기</span>
+    <!-- 다시 찍는 버튼도 두지 않는다 — 얼굴을 다시 틀에 맞추면 앱이 알아서
+         다시 읽는다. 버튼을 두면 틀에서 눈을 떼고 손을 옮겨야 하는 것으로
+         읽혀, 실제보다 한 걸음이 는다 -->
     <!-- 머리말은 한 줄에 든다 — '얼굴 인증에 실패했습니다' 로 두면 두 줄로
          접히면서 위의 이름표를 덮는다(글이 틀 위에서 위로 자란다) -->
     <p class="cam__t cam__t--fail">얼굴 인증 실패<span class="cam__sub">등록한 얼굴과 다릅니다</span></p>
@@ -1044,9 +1470,7 @@
       <div class="cal__top">
         <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">20</span>
-          <span class="cal__dow">화</span>
+          <span class="cal__num">10</span>
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
@@ -1076,14 +1500,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -1097,7 +1521,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -1119,8 +1543,8 @@
            같은 날에 앱·단말기·현장소장앱이 섞인다. 시각 아래에 두었더니
            한가운데에 서서 시각 다음으로 크게 읽혔는데, 이것은 '언제' 가
            아니라 '어디서' 라 시각에 딸린 꼬리표다 -->
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">07:03</span><span class="bd bd--positive">앱 · 얼굴</span></div>
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v">17:31</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v">07:03</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v">17:31</span><span class="bd bd--positive">앱 · 얼굴</span></div>
     </div>
     <!-- 쓴 것은 **출퇴근 카드 바로 아래**에 붙는다. 오늘 한 일이 오늘
          찍힌 시각 다음에 오는 순서라, 위에서 아래로 그대로 읽힌다.
@@ -1143,24 +1567,28 @@
     </div>
   </main>
 
-  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 등록 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
        있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
        들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
   <!-- 하루가 닫혔으니 과녁이 할 일을 잃는다. 자리를 비워 두지 않고
-       **고치는 길**을 둔다 — 찍힌 시각이 틀렸을 때 갈 데가 여기뿐이다.
+       **고쳐 달라고 하는 길**을 둔다 — 찍힌 시각이 틀렸을 때 갈 데가
+       여기뿐이다. 이름이 '변경' 이 아니라 '변경 요청' 인 것은 근로자가
+       고치는 것이 아니기 때문이다: 위치 따위를 다시 인증하고 나면
+       현장소장에게 넘어가고, 고치는 것은 거기서 한다. '변경' 이라고
+       적으면 누르는 순간 시각이 바뀌는 줄 알고 누른다.
        꼴은 과녁이 아니라 작업내용 카드와 같은 줄짜리 카드다: 오늘 해야
        할 일이 아니라 필요하면 가는 길이라, 색도 한 발 물러선다 -->
   <div class="act act--cta">
     <button class="cardb cardb--quiet" type="button">
       <span class="cardb__t">
         <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-time"></use></svg></span>
-        <span class="cardb__l">퇴근시간 변경</span>
+          <span class="cardb__l">퇴근 시간 변경 요청</span>
       </span>
       <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
     </button>
@@ -1182,7 +1610,9 @@
     <button class="cam__back" type="button" aria-label="뒤로" data-go="w-home-work"><svg class="ic" aria-hidden="true"><use href="#icon-back"></use></svg></button>
     <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box"></div>
-    <span class="cam__go" data-go="w-cam-out-ok"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-check"></use></svg>퇴근 인증하기</span>
+    <!-- 찍는 버튼을 두지 않는다 — 얼굴이 틀에 맞으면 앱이 알아서 읽는다.
+         버튼을 두면 맞춰 놓고 한 번 더 눌러야 하는 것으로 읽힌다.
+         현장소장 앱의 카메라도 같다 -->
     <p class="cam__t">얼굴을 사각형 안에 맞춰주세요.</p>
   </div>
 </section>
@@ -1194,7 +1624,7 @@
     <p class="cam__who">홍길동님 얼굴 인증</p>
     <div class="cam__box cam__box--ok"></div>
     <span class="cam__go" data-go="w-home-out"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-home"></use></svg>메인으로</span>
-    <p class="cam__t cam__t--ok">퇴근 처리 완료!<span class="cam__sub">17:31:40</span></p>
+    <p class="cam__t cam__t--ok">퇴근이 등록되었습니다<span class="cam__sub">17:31:40</span></p>
   </div>
 </section>
 
@@ -1215,9 +1645,7 @@
       <div class="cal__top">
         <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">19</span>
-          <span class="cal__dow">월</span>
+          <span class="cal__num">10</span>
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
@@ -1248,14 +1676,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -1269,7 +1697,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -1291,8 +1719,8 @@
            같은 날에 앱·단말기·현장소장앱이 섞인다. 시각 아래에 두었더니
            한가운데에 서서 시각 다음으로 크게 읽혔는데, 이것은 '언제' 가
            아니라 '어디서' 라 시각에 딸린 꼬리표다 -->
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v">06:58</span><span class="bd bd--positive">앱 · 얼굴</span></div>
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v">17:12</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v">06:58</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v">17:12</span><span class="bd bd--positive">앱 · 얼굴</span></div>
     </div>
     <!-- 쓴 것은 **출퇴근 카드 바로 아래**에 붙는다. 오늘 한 일이 오늘
          찍힌 시각 다음에 오는 순서라, 위에서 아래로 그대로 읽힌다.
@@ -1312,24 +1740,28 @@
     </div>
   </main>
 
-  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 등록 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
        있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
        들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
   <!-- 하루가 닫혔으니 과녁이 할 일을 잃는다. 자리를 비워 두지 않고
-       **고치는 길**을 둔다 — 찍힌 시각이 틀렸을 때 갈 데가 여기뿐이다.
+       **고쳐 달라고 하는 길**을 둔다 — 찍힌 시각이 틀렸을 때 갈 데가
+       여기뿐이다. 이름이 '변경' 이 아니라 '변경 요청' 인 것은 근로자가
+       고치는 것이 아니기 때문이다: 위치 따위를 다시 인증하고 나면
+       현장소장에게 넘어가고, 고치는 것은 거기서 한다. '변경' 이라고
+       적으면 누르는 순간 시각이 바뀌는 줄 알고 누른다.
        꼴은 과녁이 아니라 작업내용 카드와 같은 줄짜리 카드다: 오늘 해야
        할 일이 아니라 필요하면 가는 길이라, 색도 한 발 물러선다 -->
   <div class="act act--cta">
     <button class="cardb cardb--quiet" type="button">
       <span class="cardb__t">
         <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-time"></use></svg></span>
-        <span class="cardb__l">퇴근시간 변경</span>
+          <span class="cardb__l">퇴근 시간 변경 요청</span>
       </span>
       <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
     </button>
@@ -1362,9 +1794,7 @@
       <div class="cal__top">
         <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">20</span>
-          <span class="cal__dow">화</span>
+          <span class="cal__num">10</span>
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
@@ -1394,14 +1824,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -1415,7 +1845,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -1437,8 +1867,8 @@
            같은 날에 앱·단말기·현장소장앱이 섞인다. 시각 아래에 두었더니
            한가운데에 서서 시각 다음으로 크게 읽혔는데, 이것은 '언제' 가
            아니라 '어디서' 라 시각에 딸린 꼬리표다 -->
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>22:00</b>부터</span></span><span class="tcard__v">22:00</span><span class="bd bd--positive">앱 · 얼굴</span></div>
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">익일 퇴근</span><span class="tcard__b"><b>06:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v">22:00</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">익일 퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
     </div>
     <!-- 쓴 것은 **출퇴근 카드 바로 아래**에 붙는다. 오늘 한 일이 오늘
          찍힌 시각 다음에 오는 순서라, 위에서 아래로 그대로 읽힌다.
@@ -1456,41 +1886,38 @@
         <span class="wnote__p"></span>
       </div>
     </div>
+    <!-- ── 오늘 할 일 한 가지 ──
+         시각과 과녁이 화면 한가운데에 함께 선다. 먼저 읽히는 것은 **시각**
+         이다 — 지금 몇 시인지가 '찍어야 하나' 를 정하고, 찍는 일은 그 다음
+         이다. 그래서 수가 제일 크고 과녁이 그 아래에 선다.
+         인증 방식은 과녁 **아래**에 둔다. 위에 두었을 때는 시각과 한 줄에
+         묶여 '지금 몇 시인가' 의 곁말처럼 읽혔는데, 이것은 과녁에 걸리는
+         조건이지 시각에 딸린 말이 아니다 -->
+    <div class="go">
+      <button class="act__b act__b--on go__card" type="button" data-go="w-cam-out">
+        <span class="cta__tx">
+          <span class="cta__nm">
+            <span class="cta__lead">
+              <span class="cta__time"><svg class="ic ic--24 clk" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.2V12l3.4 2"/></svg><b class="cta__now">17:31:40</b></span>
+              <span class="cta__t">퇴근하기</span>
+              <span class="act__go" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></span>
+            </span>
+            <span class="cta__need">얼굴 인증</span>
+          </span>
+        </span>
+      </button>
+    </div>
   </main>
 
-  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 등록 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
        있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
        들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
-  <div class="act act--cta">
-    <!-- 작업내용을 썼으니 과녁이 켜진다 — 검정 면은 출근 전의 파랑과
-         짝이다(현장소장 앱의 퇴근 인증 과녁과 같다) -->
-    <button class="act__b act__b--dark" type="button" data-go="w-cam-out">
-      <span class="cta__tx">
-        <span class="cta__h">
-          <span class="cta__nm">
-            <span class="cta__meta">
-              <span class="cta__time"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">17:31:40</b></span>
-              <!-- 이 현장이 얼굴로 찍는 곳임을 과녁 위에 적는다 — 누르면
-                   카메라가 열리는데, 누르기 전에는 그것을 알 길이 없었다.
-                   현장의 것이라 시각(지금 몇 시인가)과 나란히 서되 꼴을
-                   가른다: 시각은 채운 알약, 이것은 테만 두른 알약.
-                   '필요' 는 붙이지 않는다 — 과녁 위에 붙은 표라 이미
-                   '이 과녁에 이것이 걸린다' 로 읽힌다 -->
-              <span class="cta__need">얼굴 인식</span>
-            </span>
-            <span class="cta__t">퇴근 인증하기</span>
-          </span>
-          <span class="act__go" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-chevron-right"></use></svg></span>
-        </span>
-      </span>
-    </button>
-  </div>
 
   <nav class="tabbar" aria-label="주메뉴">
     <span class="tabbar__b is-on"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-time"></use></svg>출퇴근 관리</span>
@@ -1519,9 +1946,7 @@
       <div class="cal__top">
         <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">19</span>
-          <span class="cal__dow">월</span>
+          <span class="cal__num">10</span>
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
@@ -1552,14 +1977,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -1573,7 +1998,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -1595,8 +2020,8 @@
            같은 날에 앱·단말기·현장소장앱이 섞인다. 시각 아래에 두었더니
            한가운데에 서서 시각 다음으로 크게 읽혔는데, 이것은 '언제' 가
            아니라 '어디서' 라 시각에 딸린 꼬리표다 -->
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>22:00</b>부터</span></span><span class="tcard__v">22:00</span><span class="bd bd--positive">앱 · 얼굴</span></div>
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">익일 퇴근</span><span class="tcard__b"><b>06:00</b>까지</span></span><span class="tcard__v">06:10</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v">22:00</span><span class="bd bd--positive">앱 · 얼굴</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">익일 퇴근</span></span><span class="tcard__v">06:10</span><span class="bd bd--positive">앱 · 얼굴</span></div>
     </div>
     <!-- 쓴 것은 **출퇴근 카드 바로 아래**에 붙는다. 오늘 한 일이 오늘
          찍힌 시각 다음에 오는 순서라, 위에서 아래로 그대로 읽힌다.
@@ -1616,24 +2041,28 @@
     </div>
   </main>
 
-  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 등록 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
        있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
        들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
   <!-- 하루가 닫혔으니 과녁이 할 일을 잃는다. 자리를 비워 두지 않고
-       **고치는 길**을 둔다 — 찍힌 시각이 틀렸을 때 갈 데가 여기뿐이다.
+       **고쳐 달라고 하는 길**을 둔다 — 찍힌 시각이 틀렸을 때 갈 데가
+       여기뿐이다. 이름이 '변경' 이 아니라 '변경 요청' 인 것은 근로자가
+       고치는 것이 아니기 때문이다: 위치 따위를 다시 인증하고 나면
+       현장소장에게 넘어가고, 고치는 것은 거기서 한다. '변경' 이라고
+       적으면 누르는 순간 시각이 바뀌는 줄 알고 누른다.
        꼴은 과녁이 아니라 작업내용 카드와 같은 줄짜리 카드다: 오늘 해야
        할 일이 아니라 필요하면 가는 길이라, 색도 한 발 물러선다 -->
   <div class="act act--cta">
     <button class="cardb cardb--quiet" type="button">
       <span class="cardb__t">
         <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-time"></use></svg></span>
-        <span class="cardb__l">퇴근시간 변경</span>
+          <span class="cardb__l">퇴근 시간 변경 요청</span>
       </span>
       <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
     </button>
@@ -1664,9 +2093,7 @@
       <div class="cal__top">
         <div class="cal__date" data-go="w-cal">
           <span class="cal__num">2026</span><span class="cal__dot">.</span>
-          <span class="cal__num">10</span><span class="cal__dot">.</span>
-          <span class="cal__num">20</span>
-          <span class="cal__dow">화</span>
+          <span class="cal__num">10</span>
           <!-- 달을 펴는 꺾쇠는 **날짜 바로 옆**이다 — 펴지는 것이 날짜라,
                줄의 반대쪽 끝에 떨어뜨려 두면 무엇을 펴는 것인지 날짜와
                이어 읽히지 않는다 -->
@@ -1696,14 +2123,14 @@
   </div>
 
   <main class="body">
-    <!-- 현장 카드가 인정범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
+    <!-- 현장 카드가 출퇴근 범위까지 쥔다 — 둘은 같은 것을 말한다. 어느
          현장이고, 그 현장은 어디까지를 출퇴근으로 쳐 주는가.
          아래 카드와 가르는 것은 '바뀌는가' 다: 이 카드는 날이 바뀌어도
          그대로고, 아래 카드는 오늘 것만 쥔다 -->
     <div class="card card--site">
       <div class="card__top">
         <span class="card__nm">서울 마곡 A동 신축공사</span>
-        <button class="pill pill--line" type="button">현장선택</button>
+        <button class="pill pill--line" type="button">현장 변경</button>
       </div>
       <!-- 지도는 **창으로 띄운다**. 줄은 그리로 들어가는 문이고, 오른쪽
            끝의 오른쪽 꺾쇠가 '여기서 펴지는 것이 아니라 넘어간다' 를
@@ -1717,7 +2144,7 @@
         <span class="zone__s">
           <span class="zone__t">
             <span class="zone__ib" aria-hidden="true"><svg class="ic zone__i"><use href="#icon-pin"></use></svg></span>
-            <span class="zone__l">인정범위 지도보기</span>
+            <span class="zone__l">출퇴근 범위 확인하기</span>
           </span>
           <svg class="ic ic--16 zone__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
         </span>
@@ -1735,61 +2162,61 @@
          것만 적어서(출근 전에는 출근 기준, 퇴근 전에는 퇴근 기준) 나머지
          한쪽은 어디에도 없었다 -->
     <div class="tcards">
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span><span class="tcard__b"><b>07:00</b>부터</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
-      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span><span class="tcard__b"><b>17:00</b>까지</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">출근</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+      <div class="tcard"><span class="tcard__h"><span class="tcard__k">퇴근</span></span><span class="tcard__v tcard__v--none">--:--</span></div>
+    </div>
+    <!-- ── 오늘 할 일 한 가지 ──
+         시각과 과녁이 화면 한가운데에 함께 선다. 먼저 읽히는 것은 **시각**
+         이다 — 지금 몇 시인지가 '찍어야 하나' 를 정하고, 찍는 일은 그 다음
+         이다. 그래서 수가 제일 크고 과녁이 그 아래에 선다.
+         인증 방식은 과녁 **아래**에 둔다. 위에 두었을 때는 시각과 한 줄에
+         묶여 '지금 몇 시인가' 의 곁말처럼 읽혔는데, 이것은 과녁에 걸리는
+         조건이지 시각에 딸린 말이 아니다 -->
+    <div class="go">
+      <!-- 못 하는 까닭은 **눌러야 하는 것** 위에 띄운다. 꼬리가 그 카드를
+           가리켜, 읽고 나서 눈이 머문 자리가 곧 누를 자리가 된다. 잠긴 과녁
+           위에 두었을 때는 말은 보여도 '그럼 어디를 누르나' 가 한 칸 더
+           떨어져 있었다.
+           꼴은 카메라의 센 수(.cam__tip)와 같은 시스템 Tooltip 패널이다 -->
+      <p class="tip" role="status"><span class="tip__t">이전 근무를 퇴근해야 출근할 수 있습니다</span><button class="tip__x" type="button" aria-label="안내 닫기"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-close"></use></svg></button></p>
+      <button class="cardb cardb--warn" type="button" data-go="w-home-over">
+        <span class="cardb__t">
+          <!-- 되돌리기 표다 — 시계가 아니다. 이 줄을 다른 줄과 가르는 것은
+               '시간' 이 아니라 **지난 것**이고, 왼쪽 표가 그 말을 하는 자리다.
+               시계로 두었더니 한 화면에 시계가 셋이었다(이 표 · 아래 잠긴
+               '출근하기' · 바닥 탭의 '출퇴근 관리') — 셋이 세로로 서서 표가
+               아무것도 가려 주지 않았다.
+               오른쪽 꺾쇠는 그대로 둔다. 그것은 '이 줄은 눌러 들어간다' 는
+               한 가지 표라, 한 줄만 바꾸면 그 줄에서만 다른 말을 한다 -->
+          <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-undo"></use></svg></span>
+          <span class="cardb__l"><span data-when="day3"></span> 근무 퇴근하러 가기</span>
+        </span>
+        <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+      </button>
+      <button class="act__b act__b--lock go__card" type="button" disabled>
+        <span class="cta__tx">
+          <span class="cta__nm">
+            <span class="cta__lead">
+              <span class="cta__time"><svg class="ic ic--24 clk" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.2V12l3.4 2"/></svg><b class="cta__now">07:03:12</b></span>
+              <span class="cta__t">출근하기</span>
+              <span class="cta__lock" aria-hidden="true"><svg class="ic ic--24" aria-hidden="true"><use href="#icon-lock"></use></svg></span>
+            </span>
+            <span class="cta__need">얼굴 인증</span>
+          </span>
+        </span>
+      </button>
     </div>
   </main>
 
-  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 인증 시작 과녁과 **같은
+  <!-- 근로자 앱의 출근·퇴근 과녁은 현장소장 앱의 등록 시작 과녁과 **같은
        짜임**이다 — 둘 다 '이 화면에서 할 일 하나' 다. 이름과 '시작' 표가
        한 줄에 서고, 그 아래 선을 긋고 설명이 한 줄씩 쌓인다.
-       설명 줄은 두지 않는다 — 이름('출근 인증하기')이 할 일을 그대로
+       설명 줄은 두지 않는다 — 이름('출근하기')이 할 일을 그대로
        적고 있어, 그 아래 한 줄을 더 붙이면 같은 말을 풀어 쓴 것이 된다.
        꼴은 떠 있는 카드다: 네 변에서 모두 들어와 있고 모서리도 네 귀가
        다 둥글다. 화면 가운데가 아니라 바닥에 두는 것은 아래에 탭이
        있어서다 — 그 위에 줄 서되 변까지 꽉 채우지 않고 여백 안으로
        들여, 탭을 가리지 않으면서 카드로 떠 있게 한다 -->
-  <div class="act act--cta act--stack">
-    <!-- 할 일 둘이 한 자리에 쌓인다 — '작업내용 쓰기 → 퇴근' 과 같은
-         짜임이다(.act--stack). 먼저 할 일이 위에 서고, 그것이 풀려야
-         켜지는 과녁이 아래에 선다.
-         어제 시작한 근무가 아직 안 끝났다. **이 자리**에 세우는 것은,
-         날짜가 바뀌면 앱이 오늘을 여는데 찍어야 할 퇴근은 어제 것이라
-         오늘 화면 어디에도 그 일이 없기 때문이다. 누르면 그 날로 간다.
-         꼴은 '작업내용 작성하기' 와 같은 줄짜리 카드다 — 둘 다 '아직
-         남은 일' 이고, 할 일이 한 꼴로 서야 눈이 매번 새로 읽지 않는다 -->
-    <button class="cardb cardb--warn" type="button" data-go="w-home-over">
-      <span class="cardb__t">
-        <span class="cardb__ib" aria-hidden="true"><svg class="ic cardb__i"><use href="#icon-time"></use></svg></span>
-        <span class="cardb__l">이전 근무 퇴근 인증하기</span>
-      </span>
-      <svg class="ic ic--16 cardb__c" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
-    </button>
-
-    <!-- 어제 근무가 닫히기 전이라 **꺼진** 과녁이다. 한 현장에서 끝나지
-         않은 근무를 두고 또 출근을 찍으면, 앞 근무가 언제 끝났는지 셀 수
-         없다 — 퇴근이 들어오고 나서야 오늘 몫이 선다.
-         자리를 지워 버리지 않는 것은, 없으면 '오늘 출근은 어디서 하나' 를
-         묻게 되기 때문이다(작업내용 전의 퇴근 과녁과 같은 까닭) -->
-    <button class="act__b act__b--lock" type="button" disabled>
-      <span class="cta__tx">
-        <span class="cta__h">
-          <span class="cta__nm">
-            <span class="cta__meta">
-              <span class="cta__time"><svg class="ic ic--16" aria-hidden="true"><use href="#icon-time"></use></svg><b class="cta__now">07:03:12</b></span>
-              <span class="cta__need">얼굴 인식</span>
-            </span>
-            <span class="cta__t">출근 인증하기</span>
-            <!-- 이름 아래에 **못 하는 까닭**을 한 줄 붙인다 -->
-            <span class="cta__why">이전 근무 퇴근 인증 후 출근이 가능해요</span>
-          </span>
-          <!-- 꺾쇠 자리에 자물쇠가 선다 — 갈 데가 없는데 앞으로 미는
-               꺾쇠를 두면 거짓말이 된다 -->
-          <span class="cta__lock" aria-hidden="true"><svg class="ic ic--24"><use href="#icon-lock"></use></svg></span>
-        </span>
-      </span>
-    </button>
-  </div>
 
   <nav class="tabbar" aria-label="주메뉴">
     <!-- ⚠ QR 코드 아이콘이 스프라이트에 없다. 읽는 수단이 카메라라 icon-camera 로

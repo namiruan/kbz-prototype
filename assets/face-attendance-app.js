@@ -21,10 +21,62 @@
             (window.matchMedia && window.matchMedia('(display-mode:standalone)').matches);
   if (app) document.documentElement.classList.add('is-app');
 
+  /* ── 창은 확대하지 않는다 ──
+     앱 셸이라, 핀치로 창을 키우면 틀(100svh)은 그대로인 채 보이는 자리만
+     좁아진다 — 시트가 화면 바닥에서 떨어지고 그 아래로 문서 바탕이
+     드러난다. 실제 앱에서는 일어나지 않는 일이다.
+     막는 자리가 둘인 것은 기기마다 확대가 일어나는 층이 다르기 때문이다:
+     안드로이드(크롬)는 css 의 touch-action 이 잡고, 아이폰(사파리)은
+     그것을 듣지 않아 **제스처 이벤트**를 막아야 한다.
+     ⚠ 지도 안에서도 막는다 — 지도의 확대는 창을 키우는 것이 아니라 지도가
+       제 그림을 키우는 일이라(zoom), 브라우저까지 끼어들면 둘이 겹친다.
+     ⚠ 데스크톱 브라우저의 확대(ctrl + 휠 · ctrl + +)는 그대로 둔다 —
+       글씨를 키워 읽는 길까지 막을 까닭은 없다 */
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (t) {
+    document.addEventListener(t, function (e) { e.preventDefault(); }, { passive: false });
+  });
+  document.addEventListener('touchmove', function (e) {
+    if (e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
+
+  /* ── 끈 뒤에 따라오는 눌림 한 번 ──
+     끌던 손가락은 끌던 것 **밖에서** 떨어진다. 그때 눌린 것으로 치는 자리는
+     누른 데와 뗀 데의 공통 조상 — 시트 위에서는 어두운 자리다. 그대로 두면
+     지도를 끌려다 시트가 닫힌다. 그 한 번만 삼킨다.
+     ⚠ setTimeout(0) 으로 걷으면 안 된다 — 눌림은 손을 뗀 **다음 차례**에
+       오므로 0 짜리 시계가 먼저 돌아 표가 걷힌다 */
+  function swallow() {
+    var kill = function (ev) {
+      ev.stopPropagation(); ev.preventDefault();
+      document.removeEventListener('click', kill, true);
+    };
+    document.addEventListener('click', kill, true);
+    setTimeout(function () { document.removeEventListener('click', kill, true); }, 300);
+  }
+
+  /* pick() 이 덜어 낸 화면을 이름으로 쥐고 있는 선반. 문서 밖이다 */
+  var SHELF = {};
+
+  /* ── 한 폼의 여러 자리에 **저마다 이름을 준다** ──
+     차례대로 묻는 폼은 마크업 한 장이 여러 자리를 갖는다(얼굴 · 이름 ·
+     번호 · 연락처). 그런데 프로토타입 셸은 **화면 이름 하나로 시나리오
+     하나**를 가리키고, 폭 미리보기에서는 그 이름만 ?scenario= 로 실어
+     보낸다 — 이름이 겹치면 셋 다 첫 자리로 열린다(실제로 그랬다).
+     그래서 자리마다 이름을 두고, 여기서 **어느 장의 몇 번째 자리인지**로
+     푼다. 마크업은 한 장 그대로다 */
+  var STEP = {
+    'm-worker-new-name': ['m-worker-new', 2],
+    'm-worker-new-id':   ['m-worker-new', 3],
+    'm-worker-new-tel':  ['m-worker-new', 4]
+  };
+
   function pick() {
     var want = new URL(location.href).searchParams.get('screen');
     var all = document.querySelectorAll('.scr');
     if (!all.length) return;
+
+    var at = 0;
+    if (want && STEP[want]) { at = STEP[want][1]; want = STEP[want][0]; }
 
     var hit = want && document.querySelector('.scr[data-screen="' + want + '"]');
     /* 모르는 이름이 오면 첫 화면으로 — 빈 문서를 내놓으면 주소를 잘못 적은 것인지
@@ -38,13 +90,31 @@
        앵커(`@{선택자}`)가 깨진다 — 프로토타입 셸은 `document.querySelector` 로 첫 번째
        것을 짚는데, 그 첫 번째가 숨은 다른 화면 안에 있으면 하이라이트가 보이지 않는다.
        (실측: 앵커 40개 중 11개가 엉뚱한 화면을 짚고 있었다) */
-    all.forEach(function (s) { if (s !== hit) s.remove(); });
+    all.forEach(function (s) {
+      if (s === hit) return;
+      /* 문서에서는 덜어 내되 **손에는 쥔다**(SHELF). 같은 문서에서 띄우는
+         길(soft)이 여기서 꺼내 쓴다. 문서 밖에 있는 동안은
+         document.querySelector 가 찾지 못하므로 앵커는 그대로 안전하다 */
+      if (s.dataset.screen) SHELF[s.dataset.screen] = s;
+      /* ⚠ autofocus 를 떼어 둔다. 선반에서 꺼내 다시 꽂을 때(soft) 브라우저가
+         그 표를 다시 집어 초점을 옮기고, 그 바람에 본문이 그 칸까지 되감긴다 —
+         탭을 눌렀을 뿐인데 읽던 자리가 맨 위로 날아갔다. 처음 선 화면의
+         초점은 js 가 준다(seek) */
+      s.querySelectorAll('[autofocus]').forEach(function (n) { n.removeAttribute('autofocus'); });
+      s.remove();
+    });
     hit.classList.add('is-on');
+    if (at) hit.dataset.at = at;
     stow(hit);
     link(hit);
     clock(hit);
     stamp(hit);
+    regshot(hit);
     tally(hit);
+    gate(hit);
+    grow(hit);
+    zoom(hit);
+    wait(hit);
     note(hit);
     terms(hit);
     day(hit);
@@ -52,6 +122,16 @@
     wheel(hit);
     swipe(hit);
     deck(hit);
+    flow(hit);
+    seek(hit);
+    fit(hit);
+    must(hit);
+    agree(hit);
+    pickr(hit);
+    hint(hit);
+    toasty(hit);
+    when(hit);
+    gate(hit);
     document.title = (hit.dataset.title || '안면 출퇴근') + ' · 김반장';
   }
 
@@ -69,15 +149,32 @@
        기본값(화면 바탕)이 된다.
      색은 css 가 쥔다(--ap-edge) — 여기서는 어느 쪽인지만 표로 붙인다. */
   var EDGE = [
+    /* 카메라 위로 시트가 올라온 자리 — 윗단이 카메라 그대로가 아니라
+       어두운 막이 한 겹 덮인 값이다. 'cam' 보다 **앞에** 둔다: 뒤에 두면
+       /^[wm]-cam/ 이 먼저 집어 간다 */
+    /* ⚠ 끝을 못 박지 않는다($) — 이름이 길어진 갈래가 생기면 바로 아래
+       'cam' 이 집어 가, 막이 덮인 자리에 카메라 그대로의 윗단(#3c4043)이
+       깔린다 */
+    ['camdim', /^m-cam-(new|fail)/],
     ['cam',  /^[wm]-cam/],        /* 카메라 — 사진의 윗단 */
     ['shot', /^[wm]-shot$/],      /* 촬영 확인 — 사진 위에 덮인 창 */
-    ['dim',  /^w-(map|face)$/],   /* 뜬 창 뒤의 어두운 자리 */
+    ['dim',  /^w-(map|face|away)$/], /* 뜬 창 뒤의 어두운 자리 */
+    /* 같은 막이지만 뒤가 **흰 폼**이라 한 단 밝다 — 'nav' 보다 앞에 둔다 */
+    ['dimform', /^(m-dup-|m-worker-del|m-workers-filter-sta)/],
+    /* 윗단은 'dimform' 과 같은 색이다 — 따로 둔 것은 **창 밖 아래쪽**이
+       달라서다(css 의 ⚠). 자판이 뜨면 그 자리가 드러난다 */
+    ['dimfind', /^(m-verify-find|m-workers-filter-job)/],
     ['nav',  /^(w-(work|reg|cal)|m-)/] /* 흰 머리줄 · 펴진 달 */
   ];
 
   function edge() {
     var want = new URL(location.href).searchParams.get('screen') || '';
     var root = document.documentElement;
+    /* 같은 문서에서 화면을 갈아 띄우면(soft) 두 번째로 불린다 — 앞 띠를
+       걷지 않으면 둘이 겹쳐, 먼저 적힌 쪽이 그대로 남는다 */
+    Array.prototype.slice.call(root.classList).forEach(function (c) {
+      if (c.indexOf('edge--') === 0) root.classList.remove(c);
+    });
     for (var i = 0; i < EDGE.length; i++) {
       if (EDGE[i][1].test(want)) { root.classList.add('edge--' + EDGE[i][0]); break; }
     }
@@ -297,11 +394,13 @@
     });
 
     scr.querySelectorAll('.cal__date').forEach(function (row) {
-      var nums = row.querySelectorAll('.cal__num');   /* 연 · 월 · 일 */
-      if (nums.length === 3) {
+      /* 근로자 앱의 머리줄은 연 · 월만 쥔다(날은 띠와 달이 고른다).
+         현장소장 앱의 이력 줄은 하루치 목록이라 날까지 적는다 */
+      var nums = row.querySelectorAll('.cal__num');   /* 연 · 월 [· 일] */
+      if (nums.length >= 2) {
         nums[0].textContent = String(v.y);
         nums[1].textContent = two(v.m);
-        nums[2].textContent = two(v.d);
+        if (nums[2]) nums[2].textContent = two(v.d);
       }
       var dow = row.querySelector('.cal__dow');
       if (dow) dow.textContent = WDAY[new Date(v.y, v.m - 1, v.d).getDay()];
@@ -886,35 +985,72 @@
      적는다 — 마크업에 박아 두면 줄을 고칠 때마다 따로 늙는다.
      둘 다 켜진 데서 하나를 누르면 그것만, 켜진 하나를 다시 누르면 둘 다로
      돌아온다 — 끄고 켜는 길이 하나라 '무엇만 볼까' 한 번으로 끝난다 */
+  /* ── 몇 초 뒤에 저절로 넘어가는지 ──
+     바닥 버튼이 차오르는 길이는 css 가 쥐고 있다(--ap-ready-wait). 그 값을
+     **읽어서** 세므로 글과 바가 어긋날 수 없다 — 두 곳에 적으면 한쪽만
+     고쳐져 글이 거짓말을 한다.
+     1 에서 멎는다. 실제 앱은 0 이 되는 참에 카메라를 열어 '0초 후' 를
+     보여 줄 일이 없는데, 이 화면은 넘어가지 않으므로 마지막 한 초에
+     머문다.
+     움직임을 줄여 달라고 한 기기에서는 세지 않는다 — 줄어드는 숫자도
+     움직임이고, 그 기기에서는 차오르는 면도 걷어 둔다 */
+  function wait(scr) {
+    var box = scr.querySelector('.cam__auto__n');
+    if (!box) return;
+    var slow = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var raw = getComputedStyle(scr.querySelector('.cam--ready') || scr)
+                .getPropertyValue('--ap-ready-wait').trim();
+    var sec = parseFloat(raw) || 4;
+    if (/ms$/.test(raw)) sec = sec / 1000;
+    sec = Math.max(1, Math.round(sec));
+    box.textContent = sec;
+    if (slow) return;
+
+    var left = sec;
+    var id = setInterval(function () {
+      left -= 1;
+      if (left <= 1) { left = 1; clearInterval(id); }
+      box.textContent = left;
+    }, 1000);
+  }
+
   function tally(scr) {
-    var chips = [].slice.call(scr.querySelectorAll('.cnt'));
+    /* ⚠ **무엇을 세는지 적어 둔 알약만** 집는다(data-at). 같은 알약을 쓰되
+       세지 않는 자리가 있다 — 필터 시트의 재직·퇴사·차단이 그렇다. 통째로
+       집으면 셀 줄이 없는 그 화면에서 적어 둔 수가 0 으로 덮인다(실측). */
+    var chips = [].slice.call(scr.querySelectorAll('.cnt[data-at]'));
     if (!chips.length) return;
     var rows = [].slice.call(scr.querySelectorAll('.log'));
 
-    function at(row) { return row.querySelector('.log__t--in') ? 'in' : 'out'; }
+    /* 한 줄이 한 사람이라 **둘 다 가진 줄**이 있다 — 'in 이냐 out 이냐'
+       가 아니라 '그것을 가졌느냐' 를 묻는다. 안 찍힌 쪽은 자리는 서 있되
+       꺼진 꼴(.log__p--off)이라, 있는 것으로 세면 안 된다 */
+    function fit(row, k) {
+      if (k === 'all') return true;
+      var p = row.querySelector('.log__p--' + k);
+      return !!p && !p.classList.contains('log__p--off');
+    }
 
+    /* 켜지는 것은 **늘 하나**다. 알약이 둘뿐이던 때에는 하나를 걸러 둔 뒤
+       둘 다로 돌아오려면 켜진 알약을 다시 눌러야 했는데, 눌러 보기 전에는
+       알 수 없는 규칙이라 되돌리는 길이 화면에 없었다. '전체' 가 그 길이다 */
     function sync() {
-      var on = chips.filter(function (c) { return c.classList.contains('is-on'); })
-                    .map(function (c) { return c.getAttribute('data-at'); });
-      rows.forEach(function (r) { r.hidden = on.indexOf(at(r)) < 0; });
+      var on = chips.filter(function (c) { return c.classList.contains('is-on'); })[0];
+      var k = on ? on.getAttribute('data-at') : 'all';
+      rows.forEach(function (r) { r.hidden = !fit(r, k); });
       chips.forEach(function (c) {
-        c.setAttribute('aria-pressed', c.classList.contains('is-on') ? 'true' : 'false');
+        c.setAttribute('aria-pressed', c === on ? 'true' : 'false');
       });
     }
 
     chips.forEach(function (c) {
       var k = c.getAttribute('data-at');
-      var n = rows.filter(function (r) { return at(r) === k; }).length;
+      var n = rows.filter(function (r) { return fit(r, k); }).length;
       var box = c.querySelector('.cnt__n');
       if (box) box.textContent = n;
 
       c.addEventListener('click', function () {
-        var lit = chips.filter(function (x) { return x.classList.contains('is-on'); });
-        if (lit.length === 1 && lit[0] === c) {
-          chips.forEach(function (x) { x.classList.add('is-on'); });   /* 다시 눌러 전체로 */
-        } else {
-          chips.forEach(function (x) { x.classList.toggle('is-on', x === c); });
-        }
+        chips.forEach(function (x) { x.classList.toggle('is-on', x === c); });
         sync();
       });
     });
@@ -941,6 +1077,295 @@
     });
   }
 
+  /* ── 등록된 얼굴로 덮기 ──
+     이력에서 따지는 것은 '이 얼굴이 등록된 그 사람인가' 다. 맨 처음 등록한
+     얼굴을 작은 사진으로 늘 띄워 두고, 눌러 더 크게 볼 수 있게 한다.
+     둘이 **자리를 맞바꾸지** 않는 것은 그러면 두 보기가 대등해 보이기
+     때문이다 — 이력의 주인공은 그날 찍힌 얼굴이고 등록 사진은 그것을
+     가리는 자다. 덮은 자리에 작은 사진 대신 **돌아가는 길**이 서면, 지금이
+     잠깐 들른 자리라는 것이 꼴로 드러난다.
+     출퇴근 카드를 고르면 덮은 것이 걷힌다 — 카드를 고르는 일은 '그때 찍힌
+     얼굴을 보자' 는 말인데, 덮인 채면 눌러도 그림이 그대로라 고르는 일이
+     먹히지 않은 것으로 읽힌다 */
+  function regshot(scr) {
+    var open = scr.querySelector('.photo__ref');
+    var back = scr.querySelector('.photo__back');
+    if (!open || !back) return;
+
+    function paint(on) { scr.classList.toggle('is-reg', on); }
+
+    open.addEventListener('click', function () { paint(true); });
+    back.addEventListener('click', function () { paint(false); });
+    scr.querySelectorAll('.stmp .tcard').forEach(function (c) {
+      c.addEventListener('click', function () { paint(false); });
+    });
+    paint(false);
+  }
+
+  /* ── 출근이 열리는 시각 ──
+     현장이 문을 여는 시각이 있고, 그 전에는 과녁이 잠긴다. 그 시각을
+     마크업에 못 박아 두면 **기기의 지금**을 보여 주는 과녁의 시계와
+     어긋난다 — 07:00 이라고 적어 두고 오후에 열면 '아직 전' 이라는 말
+     옆에서 시계가 15:20 을 가리킨다.
+     그래서 지금에서 한 뼘(20분) 뒤로 잡고 10분 단위로 올린다. 언제 열어도
+     '아직 멀지 않은 뒤' 가 된다 */
+  function gate(scr) {
+    var box = scr.querySelector('.tip__at');
+    if (!box) return;
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+    var d = new Date(Date.now() + 20 * 60000);
+    d.setMinutes(Math.ceil(d.getMinutes() / 10) * 10, 0, 0);
+    box.textContent = two(d.getHours()) + ':' + two(d.getMinutes());
+  }
+
+  /* ── 지도를 더 보고 싶을 때 ──
+     시트가 쥔 키는 한 자리뿐이라, 범위와 내 위치가 멀면 둘이 한 칸에
+     욱여넣어진다. 위로 쓸어 올리면 지도가 한 칸 길어진다.
+     자리는 둘이다(기본 · 펴짐) — 그 사이 아무 데나 멎게 두면 다음에 열었을
+     때 어디에 서 있을지 사람이 셈해야 한다. 끄는 동안에는 손끝을 따라오고,
+     손을 떼면 간 거리로 가른다(셋 중 하나를 넘겼는가).
+     **눌러도 펴진다.** 끄는 몸짓 하나에만 매어 두면 손이 닿지 않는 길이
+     된다 — 손잡이는 버튼이고 aria-expanded 로 지금 자리를 말한다.
+     두 자리의 키는 css 가 쥔다(.sheet--grow). js 는 그 값을 **재어** 쓴다 —
+     min()·svh 로 적힌 값이라 글자를 읽어서는 px 를 알 수 없다 */
+  function grow(scr) {
+    var sheet = scr.querySelector('.sheet--grow');
+    if (!sheet) return;
+    var map = sheet.querySelector('.zone__m');
+    var grip = sheet.querySelector('.sheet__grip');
+    if (!map || !grip) return;
+
+    /* 두 자리의 키는 css 가 쥔다. 여기서는 **재어** 쓴다 — min()·svh 로
+       적힌 값이라 글자를 읽어서는 px 를 알 수 없다 */
+    /* ⚠ 재는 동안에는 **흐름을 끈다**(is-grab). 키에 transition 이 걸려
+       있어, 표를 붙이자마자 키를 물으면 아직 떠나지 않은 **처음 값**이
+       돌아온다 — 둘이 같은 수로 나와 길이 통째로 막혔었다 */
+    sheet.classList.add('is-grab');
+    var base = map.offsetHeight;
+    sheet.classList.add('is-tall');
+    var tall = map.offsetHeight;
+    sheet.classList.remove('is-tall');
+    sheet.classList.remove('is-grab');
+    if (tall <= base) return;
+
+    var on = false, y0 = 0, h0 = 0, moved = false;
+
+    function rest(up) {
+      map.style.height = '';
+      sheet.classList.toggle('is-tall', up);
+      grip.setAttribute('aria-expanded', up ? 'true' : 'false');
+    }
+    function start(y) {
+      on = true; moved = false; y0 = y; h0 = map.offsetHeight;
+      sheet.classList.add('is-grab');
+    }
+    function pull(y) {
+      if (!on) return;
+      var dy = y0 - y;
+      if (Math.abs(dy) > 4) moved = true;
+      map.style.height = Math.max(base, Math.min(tall, h0 + dy)) + 'px';
+    }
+    function drop() {
+      if (!on) return;
+      on = false;
+      sheet.classList.remove('is-grab');
+      if (!moved) return;
+      rest(map.offsetHeight - base > (tall - base) / 3);
+      swallow();
+    }
+
+    /* ── 끄는 자리는 손잡이 하나가 아니다 ──
+       20 짜리 줄만 받으면 손가락이 자꾸 빗나간다 — 헤더까지 받아 76 으로
+       넓힌다. 눈에 보이는 손잡이는 그대로 둔다: **쓸 수 있다는 말**을
+       하는 것은 여전히 그 막대다.
+       ⚠ 닫기(✕)에서 시작한 몸짓은 받지 않는다 — 닫으려던 것이지 늘리려던
+         것이 아니다 */
+    var grab = [grip];
+    var head = sheet.querySelector('.sheet__h');
+    if (head) grab.push(head);
+    function mine(e) {
+      var t = e.target;
+      return !(t && t.closest && t.closest('.sheet__x'));
+    }
+
+    /* 끄는 길은 달 넘기기(deck)와 같은 짜임이다 — 손가락은 제 자리에서
+       받고, 쥐는 동안의 움직임과 떼는 일은 문서가 받는다. 손이 틀 밖으로
+       나가도 따라오게 하려면 그 수밖에 없다.
+       손가락 쪽은 문서까지 갈 것이 없다 — 닿은 자리를 떠나도 touchmove 는
+       **처음 닿은 요소**로 계속 온다 */
+    grab.forEach(function (g) {
+      g.addEventListener('touchstart', function (e) {
+        if (mine(e)) start(e.touches[0].clientY);
+      }, { passive: true });
+      g.addEventListener('touchmove', function (e) { pull(e.touches[0].clientY); }, { passive: true });
+      g.addEventListener('touchend', drop, { passive: true });
+      g.addEventListener('touchcancel', drop, { passive: true });
+      g.addEventListener('mousedown', function (e) {
+        if (!mine(e)) return;
+        e.preventDefault(); start(e.clientY);
+      });
+    });
+    document.addEventListener('mousemove', function (e) { pull(e.clientY); });
+    document.addEventListener('mouseup', drop);
+
+    /* 끌지 않고 누르기만 해도 펴진다 — 끄는 몸짓 하나에만 매어 두면 손이
+       닿지 않는 길이 된다 */
+    grip.addEventListener('click', function () {
+      rest(!sheet.classList.contains('is-tall'));
+    });
+  }
+
+
+  /* ── 지도 안에서만 키운다 ──
+     창의 확대는 막아 두었다(맨 위). 그러면 지도까지 같이 막히므로, 키우는
+     일은 지도가 제 손으로 한다 — 창이 아니라 **그림**을 키우는 것이라
+     배너와 '새로고침' 은 크기가 그대로 남는다.
+     값만 여기서 적고(--ap-zone-k · x · y) 모양은 css 가 그린다(.zone__v).
+
+     ⚠ 자리표시자 지도라, 키운다고 더 자세한 그림이 나오지는 않는다.
+       받은 지도와 반경은 앱이 쥔다. */
+  function zoom(scr) {
+    var map = scr.querySelector('.zone__m');
+    var view = map && map.querySelector('.zone__v');
+    if (!view) return;
+
+    var MIN = 1, MAX = 4, STEP = 2;
+    var k = MIN, x = 0, y = 0;
+    /* 손가락이 닿던 때의 값 — 움직이는 동안 **그때를 기준으로 다시 센다**.
+       한 걸음씩 더해 가면 손을 오래 둘수록 어긋난 만큼이 쌓인다 */
+    var k0 = MIN, x0 = 0, y0 = 0, d0 = 1, mx = 0, my = 0;
+    var two = false, one = false, held = false, moved = false, wt = 0;
+
+    function clamp(v) { return Math.max(MIN, Math.min(MAX, v)); }
+    function gap(a, b) {
+      return Math.sqrt(Math.pow(b.clientX - a.clientX, 2) + Math.pow(b.clientY - a.clientY, 2));
+    }
+    function live(on) { map.classList.toggle('is-live', on); }
+
+    /* 키운 그림이 칸보다 작아질 수는 없다 — 끌어도 변 밖이 비치지 않게,
+       움직일 수 있는 만큼을 칸과 배율로 잰다 */
+    function paint() {
+      var r = map.getBoundingClientRect();
+      var wx = r.width * (k - 1) / 2, wy = r.height * (k - 1) / 2;
+      x = Math.max(-wx, Math.min(wx, x));
+      y = Math.max(-wy, Math.min(wy, y));
+      view.style.setProperty('--ap-zone-k', String(k));
+      view.style.setProperty('--ap-zone-x', x + 'px');
+      view.style.setProperty('--ap-zone-y', y + 'px');
+      map.classList.toggle('is-zoom', k > MIN);
+    }
+
+    /* **집은 자리가 그대로 있게** 키운다 — 칸 가운데만 보고 키우면 보려던
+       것이 손가락 밖으로 밀려난다 */
+    function toward(px, py, nk, fk, fx, fy) {
+      var r = map.getBoundingClientRect();
+      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      var f = nk / fk;
+      x = (px - cx) - f * ((mx - cx) - fx);
+      y = (py - cy) - f * ((my - cy) - fy);
+      k = nk;
+      paint();
+    }
+
+    function rest() {
+      if (!two && !one && !held) return;
+      two = one = held = false;
+      live(false);
+      map.classList.remove('is-drag');
+    }
+
+    /* ── 두 손가락 ── */
+    map.addEventListener('touchstart', function (e) {
+      if (e.touches.length > 1) {
+        var a = e.touches[0], b = e.touches[1];
+        two = true; one = false;
+        d0 = gap(a, b) || 1;
+        mx = (a.clientX + b.clientX) / 2; my = (a.clientY + b.clientY) / 2;
+        k0 = k; x0 = x; y0 = y;
+        live(true); map.classList.add('is-drag');
+      } else if (k > MIN) {
+        one = true; two = false; moved = false;
+        mx = e.touches[0].clientX; my = e.touches[0].clientY;
+        x0 = x; y0 = y;
+        live(true); map.classList.add('is-drag');
+      }
+    }, { passive: true });
+
+    map.addEventListener('touchmove', function (e) {
+      if (two && e.touches.length > 1) {
+        var a = e.touches[0], b = e.touches[1];
+        toward((a.clientX + b.clientX) / 2, (a.clientY + b.clientY) / 2,
+               clamp(k0 * (gap(a, b) / d0)), k0, x0, y0);
+      } else if (one && e.touches.length === 1) {
+        x = x0 + (e.touches[0].clientX - mx);
+        y = y0 + (e.touches[0].clientY - my);
+        paint();
+      }
+    }, { passive: true });
+
+    /* 둘 중 하나만 떼면 **끄는 몸짓으로 넘긴다** — 남은 손가락이 멎어
+       버리면 키우다 만 자리에서 손이 묶인다 */
+    map.addEventListener('touchend', function (e) {
+      if (!e.touches.length) { rest(); return; }
+      if (e.touches.length === 1 && k > MIN) {
+        two = false; one = true;
+        mx = e.touches[0].clientX; my = e.touches[0].clientY;
+        x0 = x; y0 = y;
+      }
+    }, { passive: true });
+    map.addEventListener('touchcancel', rest, { passive: true });
+
+    /* ── 마우스로 끌기 — 키운 뒤에만 ──
+       쥐는 동안의 움직임과 떼는 일은 문서가 받는다(시트 손잡이와 같은
+       짜임). 손이 칸 밖으로 나가도 따라오게 하려면 그 수밖에 없다 */
+    map.addEventListener('mousedown', function (e) {
+      if (k <= MIN) return;
+      e.preventDefault();
+      held = true; moved = false;
+      mx = e.clientX; my = e.clientY; x0 = x; y0 = y;
+      live(true); map.classList.add('is-drag');
+    });
+    document.addEventListener('mousemove', function (e) {
+      if (!held) return;
+      if (Math.abs(e.clientX - mx) > 4 || Math.abs(e.clientY - my) > 4) moved = true;
+      x = x0 + (e.clientX - mx);
+      y = y0 + (e.clientY - my);
+      paint();
+    });
+    document.addEventListener('mouseup', function () {
+      if (!held) return;
+      rest();
+      if (moved) swallow();
+    });
+
+    /* 트랙패드로 오므렸다 벌리는 몸짓은 ctrl 을 쥔 휠로 온다. 그냥 휠은
+       건드리지 않는다 — 읽어 내리는 길이다 */
+    map.addEventListener('wheel', function (e) {
+      if (!e.ctrlKey) return;
+      e.preventDefault();
+      live(true);
+      clearTimeout(wt);
+      wt = setTimeout(function () { live(false); }, 120);
+      mx = e.clientX; my = e.clientY;
+      toward(e.clientX, e.clientY, clamp(k * Math.exp(-e.deltaY / 100)), k, x, y);
+    }, { passive: false });
+
+    /* 손가락도 트랙패드도 없는 자리를 위해 — 더블클릭은 한 단계씩이다.
+       끝까지 키운 다음 한 번 더 누르면 처음으로 돌아온다: 되돌아올 길이
+       없으면 키우고 나서 갇힌다 */
+    map.addEventListener('dblclick', function (e) {
+      mx = e.clientX; my = e.clientY;
+      toward(e.clientX, e.clientY, k >= MAX ? MIN : clamp(k * STEP), k, x, y);
+    });
+
+    /* 시트를 펴면 칸이 길어진다 — 움직일 수 있는 만큼이 달라지므로 다시 잰다 */
+    map.addEventListener('transitionend', function (e) {
+      if (e.propertyName === 'height') paint();
+    });
+
+    paint();
+  }
+
   function clock(scr) {
     var els = scr.querySelectorAll('.cta__now');
     if (!els.length) return;
@@ -953,6 +1378,774 @@
     tick();
     setInterval(tick, 1000);
   }
+
+  /* ── 근로자 선택하기 — 올라올 때부터 적을 자리에 서 있다 ──
+     이 시트는 **적어서 찾는 자리**라, 올라온 뒤 한 번 더 눌러야 적을 수
+     있으면 한 걸음이 는다. 그래서 켜지자마자 칸에 초점을 준다.
+
+     ⚠ 기기 자판을 **막지 않는다**. 작업내용 작성의 글칸(.ta)과 같이,
+       폰에서도 눌러 적는 칸이다. 자판 그림(.dim--kb .kb)은 그 자리를
+       미리 세워 둔 것이고, 기기 자판이 올라오면 같은 자리를 덮는다.
+     ⚠ 초점을 줘도 **기기 자판은 올라오지 않는다**. 브라우저가 사람이
+       누르지 않은 초점으로는 올려 주지 않기 때문이고, 주소를 갈아 켜는
+       이 프로토타입에서는 앞 화면의 누름이 여기까지 이어지지 않는다 —
+       폰에서는 칸을 한 번 눌러야 기기 자판이 선다. 그림을 세워 두는
+       까닭이 이것이다. */
+  function seek(hit) {
+    /* 폼에서 처음 채울 칸 — 시트가 아니라 화면이라 거를 목록도 막도 없다.
+       자판 그림은 화면 발치에 서 있고(.scr > .kb), 기기 자판은 칸을 한 번
+       눌러야 올라온다(위 ⚠ 와 같은 까닭) */
+    var aim = hit.querySelector('.inp__in[autofocus]');
+    if (aim) {
+      try { aim.focus({ preventScroll: true }); } catch (e) { aim.focus(); }
+      return;
+    }
+
+    var inp = hit.querySelector('.dim--kb .inp__in');
+    if (!inp) return;
+
+    oskb(hit);
+    sift(hit, inp);
+
+    /* preventScroll — 초점을 주느라 시트가 밀려 올라가면 머리줄이 잘린다 */
+    try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); }
+  }
+
+  /* ── 적는 대로 목록을 거른다 — 초성만 쳐도 걸린다 ──
+     현장소장은 이름을 끝까지 적지 않는다. 'ㅎㄱㄷ' 세 번이면 홍길동이
+     걸려야, 자판 뒤에 가린 목록을 덜 뒤진다.
+
+     한글 글자는 초성 19 · 중성 21 · 종성 28 이 곱해져 한 칸씩 줄지어
+     있다(가 = 0xAC00). 그래서 **(코드 - 가) / 588** 이 곧 초성의 자리다 —
+     표를 따로 들지 않아도 글자에서 바로 뽑아낼 수 있다.
+
+     ⚠ 자모와 글자를 **섞어** 받는다. 적는 중에는 '홍ㄱ' 처럼 아직 완성되지
+       않은 꼴이 오는데, 자모는 그 자리 글자의 초성과 맞추고 글자는 글자끼리
+       맞추면 두 경우가 한 길로 풀린다.
+     ⚠ 이름 가운데부터도 걸린다('길동' · 'van'). 앞에서만 맞추면 성을
+       모르는 이름을 못 찾는다. 로마자는 대소문자를 가리지 않는다. */
+  var CHO = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
+
+  function sift(hit, inp) {
+    var list = hit.querySelector('.find__list');
+    if (!list) return;
+
+    /* 두 시트가 같은 거르기를 쓴다 — 근로자 줄(.card--go)과 직종 줄(.optr).
+       이름이 드는 자리도 줄마다 다르다(.card__nm · .optr__t) */
+    var rows = Array.prototype.slice.call(list.querySelectorAll('.card--go,.optr'));
+    var none = list.querySelector('.find__none');
+
+    function cho(ch) {
+      var c = ch.charCodeAt(0);
+      if (c < 0xAC00 || c > 0xD7A3) return '';
+      return CHO.charAt(Math.floor((c - 0xAC00) / 588));
+    }
+
+    function match(name, q) {
+      name = name.toLowerCase();
+      q = q.toLowerCase();
+      for (var i = 0; i + q.length <= name.length; i++) {
+        var ok = true;
+        for (var j = 0; j < q.length; j++) {
+          var a = name.charAt(i + j), bq = q.charAt(j);
+          if (a === bq) continue;
+          if (CHO.indexOf(bq) >= 0 && cho(a) === bq) continue;
+          ok = false; break;
+        }
+        if (ok) return true;
+      }
+      return false;
+    }
+
+    function run() {
+      /* 띄어쓰기는 떼고 본다 — 'ㅎ ㄱㄷ' 처럼 눌려도 같은 뜻이다 */
+      var q = inp.value.replace(/\s+/g, '');
+      var left = 0;
+      rows.forEach(function (row) {
+        var nm = row.querySelector('.card__nm,.optr__t');
+        /* is-off 는 걸린 근무상태에 하나도 없는 직종이다(sync). 적은 것과
+           상관없이 내내 덜어 둔다 — 적는 동안만 돌아오면 안 된다 */
+        var on = !row.classList.contains('is-off') &&
+          (!q || (nm && match(nm.textContent.replace(/\s+/g, ''), q)));
+        row.hidden = !on;
+        if (on) left++;
+      });
+      if (none) none.hidden = left > 0;
+      list.scrollTop = 0;
+    }
+
+    inp.addEventListener('input', run);
+    /* 한글을 짜는 동안(IME)에는 기기마다 input 이 오는 때가 달라, 짜는
+       중의 알림도 함께 받는다 — 두 번 돌아도 하는 일이 같아 탈이 없다 */
+    inp.addEventListener('compositionupdate', run);
+    inp.addEventListener('compositionend', run);
+    run();
+  }
+
+  /* ── 기기 자판이 올라오면 시트를 그 위로 띄운다 ──
+     화면(.scr)은 100svh 로 못 박혀 있다 — 자판이 떠도 줄지 않는 길이다.
+     시트는 그 바닥에 붙으므로, 띄우지 않으면 자판 뒤로 숨는다.
+
+     얼마나 덮였는지는 **상자 자신에게 묻는다** — 시트가 든 자리(.dim)의
+     바닥이 '보이는 창' 의 바닥보다 얼마나 아래인가, 그것이 곧 가려진
+     만큼이다. 둘 다 레이아웃 창을 기준으로 재는 값이라 바로 뺄 수 있다.
+
+     ⚠ innerHeight 로 재지 않는다. 사파리에서 innerHeight 는 주소줄이
+       걷힌 큰 창이고, 상자는 100svh(주소줄이 선 작은 창)다 — 섞어 재면
+       주소줄 높이만큼 **더 띄워**, 시트가 자판 위에 붕 뜬 채 짜부라진다
+       (실측: 420 짜리 시트가 259 로 눌렸다).
+     ⚠ 레이아웃 창 자체가 주는 브라우저(크롬 interactive-widget=
+       resizes-content)에서는 상자도 함께 줄어 가려진 것이 0 으로 나온다 —
+       줄어든 창이 이미 시트를 올려 둔 자리라, 더 띄울 것이 없다. */
+  function oskb(hit) {
+    var dim = hit.querySelector('.dim--kb');
+    var vv = window.visualViewport;
+    if (!dim || !vv) return;
+
+    function see() {
+      /* 여백은 상자 **안쪽**에 드는 것이라 바닥은 움직이지 않는다 —
+         재고 띄우는 일이 서로를 밀지 않는다 */
+      var cover = Math.max(0, Math.round(dim.getBoundingClientRect().bottom - (vv.offsetTop + vv.height)));
+      dim.style.setProperty('--ap-oskb', cover + 'px');
+      dim.classList.toggle('is-oskb', cover > 120);
+    }
+
+    vv.addEventListener('resize', see);
+    vv.addEventListener('scroll', see);
+    see();
+  }
+
+  /* ── 지금 적는 칸을 맨 위로 ──
+     차례대로 묻는 폼은 답한 것이 위에 쌓여 간다. 적을 칸이 그 아래에
+     묻혀 있으면 굴려 찾아야 하므로, **묻는 줄 바로 아래**로 올린다 —
+     붙어 있는 그 줄이 가리지 않도록 줄의 키만큼 뺀다.
+     더 굴릴 것이 없으면 갈 수 있는 만큼만 간다(짧은 화면에서는 제자리다).
+     ⚠ 아이폰은 칸에 초점이 가면 창째로 밀어 올린다 — 0 으로 되돌린다 */
+  function atop(scr, box, slide) {
+    var bd = scr.querySelector('.body');
+    if (!bd || !box) return;
+    /* ⚠ 스르륵 가는 **중에는 끼어들지 않는다.** 자판이 서는 동안 다시 재러
+       오는 길(fit 의 near)이 그 사이에 톡 옮겨 놓아, 미끄러지다 말고
+       되돌아가는 것처럼 보였다 */
+    if (!slide && Date.now() < +(scr.dataset.slide || 0)) return;
+    if (slide) scr.dataset.slide = Date.now() + 420;
+    /* 늘이는 자리는 본문 끝의 빈 칸이다 — 여백으로 두면 본문 상자가
+       부풀어 화면 밖으로 넘친다(css 의 .flow__tail) */
+    if (!bd.querySelector('.flow__tail')) {
+      var sp = document.createElement('i');
+      sp.className = 'flow__tail';
+      sp.setAttribute('aria-hidden', 'true');
+      bd.appendChild(sp);
+    }
+    var q = scr.querySelector('.flow__q');
+    var act = scr.querySelector('.act');
+    function barTop() {
+      if (!act) return scr.getBoundingClientRect().bottom;
+      var cs = getComputedStyle(act);
+      if (cs.display === 'none' || cs.visibility === 'hidden') return scr.getBoundingClientRect().bottom;
+      return act.getBoundingClientRect().top;
+    }
+    /* ⚠ **자리가 모자라면 묻는 줄을 붙여 두지 않는다.** 자판이 올라온
+       폰에서는 묻는 줄 아래 바와 사이가 한 뼘 남짓인데, 여권 차례의 칸은
+       그보다 훨씬 크다 — 붙여 둔 줄이 자리를 쥐고 있는 한 칸의 끝은 어떻게
+       올려도 바에 걸린다. 그 자리에서는 줄도 함께 굴러 올라가게 둔다 */
+    if (q) {
+      var fits = (barTop() - 8) - scr.getBoundingClientRect().top >= 0;
+      var hi = q.getBoundingClientRect().height;
+      var open = (barTop() - 8) - (bd.getBoundingClientRect().top + hi);
+      scr.classList.toggle('is-tight', fits && open < box.getBoundingClientRect().height);
+    }
+    var pad = (q && getComputedStyle(q).position === 'sticky')
+      ? q.getBoundingClientRect().height : 0;
+
+    var y = box.getBoundingClientRect().top - bd.getBoundingClientRect().top + bd.scrollTop;
+    var need = Math.max(0, y - pad);
+
+    /* 마지막 칸은 제 아래에 굴릴 것이 없어 끝까지 올라오지 못한다 —
+       모자란 만큼 **본문 발치를 늘인다**. 늘인 자리는 그 칸 아래에 남는
+       빈 자리이고, 다음 칸이 열리면 그만큼 줄어든다.
+       ⚠ **걷었다 다시 붙이지 않는다.** 한때 0 으로 걷고 재었는데, 걷는
+         그 한 틱에 본문이 쪼그라들어 스크롤이 위로 튀었다 돌아왔다 —
+         같은 칸을 다시 잡을 때마다 눈에 보였다. 지금 붙어 있는 값을 빼서
+         **본디 굴릴 수 있는 양**을 셈으로 되돌리고, 값이 같으면 손대지
+         않는다.
+       ⚠ 내용이 화면보다 짧으면 scrollHeight 가 화면 키로 바닥을 치므로
+         (max), 늘인 만큼이 그대로 굴릴 거리가 되지 않는다 — 모자라면
+         다시 재서 보탠다 */
+    /* ⚠ 꼬리는 **늘이기만 하지 않는다 — 줄이기도 한다.** 자판이 올라오면
+       화면이 줄어 굴릴 수 있는 거리가 그만큼 늘어난다. 꼬리를 그대로 두면
+       필요한 것보다 더 굴러가, 적던 칸이 묻는 줄 위로 올라가 가려졌다.
+       **꼭 필요한 만큼**으로 매번 다시 잡으면, 끝까지 굴려도 그 칸이 묻는
+       줄 바로 아래에 선다.
+       울타리의 자는 본문이 아니라 **화면의 키**다 — 늘인 것이 본문에 들면
+       본문도 함께 커져 제 꼬리를 제가 재는 꼴이 된다 */
+    var tail = parseFloat(scr.style.getPropertyValue('--ap-flow-tail')) || 0;
+    var cap = Math.max(0, Math.round(scr.getBoundingClientRect().height));
+    var want = Math.max(0, Math.min(cap, need - ((bd.scrollHeight - tail) - bd.clientHeight)));
+    if (want !== tail) {
+      tail = want;
+      scr.style.setProperty('--ap-flow-tail', tail + 'px');
+    }
+    /* 한 번 더 재어 모자란 만큼만 보탠다(어림수가 어긋날 때) */
+    var room = bd.scrollHeight - bd.clientHeight;
+    if (room < need && tail < cap) {
+      tail = Math.min(cap, tail + (need - room));
+      scr.style.setProperty('--ap-flow-tail', tail + 'px');
+    }
+    /* ⚠ 칸의 **머리**만 맞추면 아랫도리가 남는다. 여권번호와 생년월일처럼
+       한 차례에 칸이 둘인 자리는 키가 커서, 머리를 묻는 줄에 붙이면 끝이
+       떠 있는 바 뒤로 들어간다. 적고 있는 칸이 바에 걸리면 걸린 만큼 더
+       올린다 — 묻는 줄 아래로 칸 머리가 조금 들어가도, 적는 자리가 보이는
+       쪽이 늘 낫다 */
+    var el = document.activeElement;
+    if (el && bd.contains(el)) {
+      var low = barTop() - 8;
+      /* 칸의 **끝**까지 바 위로 올린다 — 한 차례에 칸이 둘인 자리에서는
+         적고 있는 칸만 보면 나머지가 바 뒤에 남는다(여권번호를 적는 동안
+         생년월일이 가렸다).
+         다만 적고 있는 칸이 묻는 줄 위로 올라가 버리지 않는 데까지다 */
+      var tail2 = box.getBoundingClientRect().bottom - (need - bd.scrollTop);
+      var mine = el.getBoundingClientRect().bottom - (need - bd.scrollTop);
+      var qb = q ? q.getBoundingClientRect().bottom : bd.getBoundingClientRect().top;
+      var room2 = Math.max(0, (el.getBoundingClientRect().top - (need - bd.scrollTop)) - qb);
+      var up = Math.max(mine - low, Math.min(tail2 - low, room2));
+      if (up > 0) need += up;
+    }
+
+    var to = Math.min(need, bd.scrollHeight - bd.clientHeight);
+    /* 차례가 넘어갈 때는 **스르륵** 간다 — 한 칸이 닫히고 다음 칸이 열리는
+       동안 눈이 따라갈 자리가 있어야 한다. 재느라 부르는 길(자판이 서고
+       눕는 동안)은 그대로 톡 간다 */
+    var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if (slide && !calm && bd.scrollTo) bd.scrollTo({ top: to, behavior: 'smooth' });
+    else bd.scrollTop = to;
+    if (window.scrollY) window.scrollTo(0, 0);
+  }
+
+  /* ── 한 번에 하나씩 묻는다 — `data-flow` ──
+     꼭 받아야 하는 넷을 차례로 받는다(얼굴 → 이름 → 번호 → 연락처). 묻는
+     줄이 맨 위에 서고 지금 받을 칸이 그 아래, 답한 것은 다시 그 아래로
+     쌓인다 — 방금 답한 것이 위, 먼저 답한 것이 아래다.
+     넷이 다 차면 묻기를 멈추고 **보통 폼**이 된다. 직종과 단가는 그때 함께
+     열린다 — 차례를 두고 받을 값이 아니라 아무 때나 적는 값이다.
+
+     ⚠ **어디까지 왔는지는 처음 한 번만 센다.** 적힌 값으로 매번 다시 세면,
+       이름에 한 글자를 넣는 순간 다음 질문이 위로 끼어들어 적던 칸이 아래로
+       밀린다. 그 다음부터는 '다음' 이 민다.
+     ⚠ 중간 자리는 주소가 연다(?step=3). 지나온 답은 마크업의 data-demo 가
+       들고 있고, **비어 있을 때만** 채운다 — 탭을 갈아 끼울 때 따라온
+       값(carry)을 덮지 않기 위해서다 */
+  function flow(scr) {
+    var box = scr.querySelector('.flow__q');
+    if (!box) return;
+
+    var ASK = ['face', 'ireum', 'idno', 'yeonrak'];
+    var parts = Array.prototype.slice.call(scr.querySelectorAll('[data-flow]'));
+    var form = scr.querySelector('.form');
+    var act = scr.querySelector('.act');
+    var bnext = act && act.querySelector('[data-act="next"]');
+    var bsave = act && act.querySelector('[data-act="save"]');
+
+    function cur() {
+      var v = parseInt(scr.dataset.at, 10);
+      return isNaN(v) ? 0 : Math.max(0, Math.min(ASK.length, v - 1));
+    }
+    function put(i) { scr.dataset.at = Math.max(0, Math.min(ASK.length, i)) + 1; }
+
+    function kin(key) {
+      return parts.filter(function (n) { return n.dataset.flow === key; });
+    }
+    function full(key) {
+      if (key === 'face') return !!scr.querySelector('.shot__box--done');
+      return kin(key).every(function (n) {
+        var need = n.querySelectorAll('.inp__in[required]');
+        return !need.length || Array.prototype.every.call(need, function (i) {
+          return i.value.trim() !== '';
+        });
+      });
+    }
+    function fill(key) {
+      if (key === 'face') {
+        var b = scr.querySelector('.shot__box');
+        if (b) b.classList.add('shot__box--done');
+        return;
+      }
+      kin(key).forEach(function (n) {
+        n.querySelectorAll('.inp__in[data-demo]').forEach(function (i) {
+          if (!i.value) i.value = i.dataset.demo;
+        });
+      });
+    }
+
+    /* 어느 자리로 여는가 — 이름이 정한 것(pick 의 STEP) · 주소가 손으로
+       적어 준 것(?step=3) · 마크업이 적어 둔 것(data-step) 차례로 본다.
+       거기까지의 답은 채워 두고 연다 */
+    var want = parseInt(scr.dataset.at
+      || new URL(location.href).searchParams.get('step')
+      || scr.dataset.step, 10);
+    /* ⚠ 지나온 답을 **보기값으로 채우는 일은 주소로 바로 연 자리에서만**
+       한다. 탭을 갈아 끼워 온 길에서는 적어 둔 것이 carry 로 이미 건너왔다 —
+       거기서 또 채우면, 비워 둔 칸에 난데없이 값이 생긴다(지우고 다시
+       갈아 끼우면 또 생겼다) */
+    var came = scr.dataset.carry === '1';
+    delete scr.dataset.carry;
+    if (!came && want > 1) for (var k = 0; k < want - 1 && k < ASK.length; k++) fill(ASK[k]);
+
+    /* ⚠ 지금 어느 차례인가는 **요소가 들고 있는다**(data-at · 1부터).
+       함수 안의 값으로 두었더니, 갈아 끼웠다 돌아올 때마다 이 함수가 다시
+       돌아 새 값이 생기는데 **먼저 매 둔 귀(focusin · click …)는 옛 값을
+       그대로 보고 있었다** — 둘이 서로 다른 차례를 들고 싸웠다 */
+    var at = 0;
+    while (at < ASK.length && full(ASK[at])) at++;
+    /* ⚠ 적힌 값으로 센 차례가 **일러 준 자리를 앞지르지 못하게** 한다.
+       탭을 갈아 끼웠다 돌아오면 선반에 있던 값이 되살아나는데, 그것을
+       그대로 세면 묻지도 않은 다음 차례가 열린다 — 탭을 눌렀을 뿐인데
+       화면이 한 장 넘어간 꼴이 됐다 */
+    if (!isNaN(want) && want > 0) at = Math.min(at, want - 1);
+    put(at);
+
+    /* 묻는 줄은 **지금 적고 있는 칸**을 따라간다. 지나온 칸을 고치러
+       올라가면 그 칸의 물음으로 바뀐다 — 그러지 않으면 이름을 고치는데
+       '주민번호를 입력해주세요' 가 떠 있다. 아무 칸도 잡고 있지 않으면
+       지금 차례의 물음이다 */
+    function asking() {
+      var el = document.activeElement;
+      var box = el && scr.contains(el) && el.closest && el.closest('[data-flow]');
+      var k = box && box.dataset.flow;
+      var i = cur();
+      return (k && ASK.indexOf(k) >= 0) ? k : (i < ASK.length ? ASK[i] : '');
+    }
+
+    function see() {
+      var at = cur();
+      var done = at >= ASK.length;
+      var ask = done ? '' : asking();
+      scr.classList.toggle('is-flow', !done);
+      /* 자판 그림은 **묻는 동안만** 선다. 다 채우고 나면 자판은 내려가 있다 —
+         현장소장 앱은 다 채운 자리를 화면으로 따로 두어 그림을 아예 빼 놨다.
+         한 장이 두 상태를 겸하는 화면(근로자 앱의 등록)에서는 여기서 건다 */
+      scr.classList.toggle('is-flow-done', done);
+      /* 다 채우면 늘여 둔 발치도 걷는다 — 보통 폼에는 올릴 칸이 없다 */
+      if (done) scr.style.removeProperty('--ap-flow-tail');
+      /* 얼굴 차례는 받을 칸이 없다 — 그림이 바탕을 채우고, 할 일은 바닥
+         버튼 하나다(css 의 .is-ask-face) */
+      scr.classList.toggle('is-ask-face', ask === 'face');
+
+      /* 이름을 적고 나면 묻는 줄이 그 사람을 이름으로 부른다 — '근로자의
+         주민번호' 가 '서지훈님의 주민번호' 가 된다. 이름만 부르면 손윗사람을
+         불러 세우는 말투가 되므로 '님' 을 붙인다. 비면 다시 '근로자' 다.
+         이름을 묻는 줄에는 걸지 않는다 — 적는 중에 제 이름으로 부를 수 없다 */
+      var who = scr.querySelector('.inp__in[name="ireum"]');
+      who = who && who.value.trim();
+      who = who ? who + '님' : '근로자';
+      box.querySelectorAll('.flow__q__who').forEach(function (n) { n.textContent = who; });
+
+      /* 지금 묻는 칸의 이름을 남겨 둔다 — 초점이 없을 때도 그 칸을 제자리에
+         두어야 한다(fit 의 near) */
+      scr.dataset.ask = done ? '' : ASK[at];
+
+      /* 어디까지 왔는지 — 한 줄이 차오른다. 자리는 묻는 차례에 **추가
+         정보**까지 하나 더다 — 연락처를 적었다고 끝이 아니라 직종과 단가가
+         남아 있으므로, 거기서 끝까지 차지 않는다 */
+      var prog = scr.querySelector('.prog');
+      if (prog) {
+        var all = ASK.length + 1;
+        var mark = done ? all : at + 1;
+        prog.setAttribute('aria-valuenow', mark);
+        prog.style.setProperty('--ap-prog', Math.round(mark / all * 100) + '%');
+      }
+
+      box.querySelectorAll('.flow__q__t').forEach(function (t) {
+        t.classList.toggle('is-on', !done && t.dataset.q === ask);
+      });
+
+      parts.forEach(function (n) {
+        var i = ASK.indexOf(n.dataset.flow);
+        if (done) { n.hidden = false; n.style.order = ''; return; }
+        /* 차례에 없는 것(직종 · 단가)은 끝나야 열린다.
+           열고 닫는 것은 **차례**가 정한다 — 묻는 줄이 지나온 칸을
+           가리키고 있어도 아직 묻지 않은 칸은 그대로 닫혀 있다 */
+        n.hidden = i < 0 || i > at;
+      });
+
+      if (!act) return;
+      /* 얼굴 차례에는 바닥 바가 통째로 없다 — 할 일은 그림 아래 버튼
+         하나다(css 의 .is-ask-face .act).
+         지나온 칸을 고치다 비우면 다음도 닫힌다 — 여기까지는 다 차 있어야
+         한다. 묻는 줄이 어디를 가리키든 셈은 **차례**로 한다 */
+      var ok = done ? ASK.every(full) : ASK.slice(0, at + 1).every(full);
+      if (bnext) bnext.hidden = done || ask === 'face';
+      if (bsave) bsave.hidden = !done;
+      act.classList.toggle('act--void', !ok);
+      act.setAttribute('aria-hidden', ok ? 'false' : 'true');
+
+      /* 묻는 동안의 '다음' 은 떠 있는 버튼이고, 다 채운 뒤의 '저장' 은
+         **바닥 바**다. 묻는 동안에는 아래로 칸이 더 열리므로 버튼 옆으로
+         칸이 이어져 보여야 하지만, 다 채운 뒤에는 더 열릴 것이 없다 —
+         거기서 끝이라고 말하는 쪽이 맞다.
+         띄운 표(has-float-act)도 함께 내린다. 두면 바가 본문 위에 얹힌 채
+         남아, 줄 세운 바 자리만큼 본문 아래가 비어 버린다 */
+      act.classList.toggle('act--float', !done);
+      act.classList.toggle('act--dock', done);
+      scr.classList.toggle('has-float-act', !done && scr.dataset.stow === '1');
+    }
+
+    /* 새로 연 칸은 맨 아래에 붙는다 — 묻는 줄 바로 아래까지 끌어올린다 */
+    function reach(slide) {
+      var at = cur();
+      var box = at < ASK.length && kin(ASK[at])[0];
+      if (!box) return;
+      /* 스르륵 가는 길은 **한 번만** 부른다 — 먼저 톡 옮겨 놓고 다시
+         부르면 거기서부터만 미끄러져, 움직임이 거의 보이지 않는다 */
+      if (slide) { atop(scr, box, true); return; }
+      atop(scr, box);
+      requestAnimationFrame(function () { atop(scr, box); });
+    }
+
+    /* 다음 — 한 자리 나아가고, 새로 연 칸에 바로 적게 한다. 누름이 살아
+       있는 그 안에서 초점을 줘야 기기 자판이 내려갔다 다시 올라오지 않는다 */
+    function step() {
+      var at = cur();
+      if (at >= ASK.length || !full(ASK[at])) return;
+      put(++at);
+      see();
+      /* 새로 열린 칸은 **들어오는 몸짓**을 한 번 한다(css 의 .is-new) */
+      var now = at < ASK.length && kin(ASK[at])[0];
+      if (now) {
+        now.classList.remove('is-new');
+        void now.offsetWidth;                 /* 몸짓을 처음부터 다시 */
+        now.classList.add('is-new');
+      }
+      reach(true);
+      /* 넘어간 자리는 **적을 수 있는 채로** 선다 — 어느 길로 왔든(다음 ·
+         ↵ · 자판의 ✓) 다음 칸에 커서가 놓인다 */
+      var aim = at < ASK.length && kin(ASK[at])[0];
+      aim = aim && aim.querySelector('.inp__in');
+      if (aim) { try { aim.focus({ preventScroll: true }); } catch (e) { aim.focus(); } }
+    }
+
+    /* ── 화면 아무 데나 눌러도 적는 칸으로 ──
+       기기 자판은 **사람이 누르기 전에는** 올라오지 않는다 — 브라우저가
+       그렇게 막아 둔다(문서를 여는 것만으로는 초점을 줘도 올라오지 않는다).
+       초점은 열 때 미리 주어 두고, 빈 자리를 눌러도 그 칸으로 보낸다 —
+       작은 칸을 정확히 겨냥하지 않아도 한 번에 자판이 올라온다.
+       누를 것이 따로 있는 자리(버튼 · 칸 · 갈 자리)는 건드리지 않는다 */
+    function tap(e) {
+      var at = cur();
+      if (at >= ASK.length) return;
+      if (e.target.closest &&
+          e.target.closest('button,a,input,select,textarea,label,[data-go]')) return;
+      /* ⚠ **이미 잡고 있는 칸은 뺏지 않는다.** 지나온 칸을 누르면 그 자리로
+         굴러가는데, 굴러가는 사이에 손이 떨어지면 누름이 끝난 자리가
+         칸이 아니라 본문이 된다(브라우저가 누름의 주인을 그렇게 잡는다) —
+         그 누름이 여기로 와서, 막 잡은 이름에서 초점을 도로 번호로
+         끌어갔다. 잡은 데가 없을 때만 보낸다 */
+      var on = document.activeElement;
+      if (on && scr.contains(on) && on.classList.contains('inp__in')) return;
+      var aim = kin(ASK[at])[0];
+      aim = aim && aim.querySelector('.inp__in');
+      if (aim && document.activeElement !== aim) aim.focus();
+    }
+
+    if (!scr.dataset.flow) {
+      scr.dataset.flow = '1';
+      scr.addEventListener('input', see);
+      scr.addEventListener('click', tap);
+      /* ⚠ 자리를 잡는 일은 **그 자리에서 바로** 한다. 브라우저도 초점이
+         간 칸을 제 나름대로 굴려 보이는데, 우리 셈이 한 박자 뒤에 오면
+         그 사이가 눈에 보인다 — 같은 칸을 다시 잡을 때마다 위로 튀었다
+         돌아왔다. 자판이 서고 난 뒤의 몫은 fit 의 near 가 다시 맞춘다 */
+      scr.addEventListener('focusin', function (e) {
+        see();
+        /* ⚠ 끌어올리는 것은 **묻는 동안**뿐이다. 다 채우고 나면 보통 폼이라
+           고치러 누른 칸이 맨 위로 날아갈 까닭이 없다 — 직종을 눌렀더니
+           본문이 끝까지 굴러 내려갔다. 그 자리의 몫은 fit 의 near 가 맡는다
+           (이미 보이면 아무것도 하지 않는다) */
+        if (!scr.classList.contains('is-flow')) return;
+        var box = e.target.closest && e.target.closest('[data-flow]');
+        if (box) atop(scr, box, true);
+      });
+      /* 초점이 빠지는 그 순간에는 아직 다음 칸이 잡히지 않았다 — 한 박자 뒤.
+         ⚠ 기기 자판의 **✓(완료)** 는 페이지가 직접 들을 수 없다 — 브라우저
+           것이라, 그것이 남기는 자취는 '초점이 떨어졌다' 뿐이다. 어느 칸에도
+           초점이 없으면 자판을 내린 것으로 보고, 지금 묻는 칸이 다 찼으면
+           한 자리 나아간다. 다른 칸으로 옮겨 간 길에서는 그 칸에 초점이
+           있으므로 그냥 둔다 */
+      scr.addEventListener('focusout', function () {
+        setTimeout(function () {
+          /* 이미 덜어 내진 화면이면 더 할 일이 없다 — 갈아 끼울 때 떠나는
+             화면에서도 초점이 빠지는데, 그것까지 '완료' 로 치면 안 된다 */
+          if (!scr.isConnected) return;
+          see();
+          /* ⚠ 화면 안의 **무엇이든** 초점을 가져갔으면 자판을 내린 것이
+             아니다. 칸만 보고 있었더니, 탭이나 라디오를 눌러 초점이 그
+             단추로 간 것까지 '완료' 로 쳐서 다음 차례로 넘어가 버렸다 */
+          var on = document.activeElement;
+          if (on && on !== document.body && scr.contains(on)) return;
+          step();
+        }, 0);
+      });
+      /* 글자 자판의 ↵ 도 '다음' 으로 친다. 칸이 여럿인 폼에서는 브라우저가
+         폼을 보내지 않아 submit 이 오지 않으므로 누름을 직접 듣는다.
+         ⚠ 폼이 보내지는 길도 막아 둔다 — 그대로 두면 문서를 다시 읽어
+           적어 둔 것이 모두 날아간다 */
+      scr.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter') return;
+        var t = e.target;
+        if (!t || !t.classList || !t.classList.contains('inp__in')) return;
+        e.preventDefault();
+        step();
+      });
+      var form = scr.querySelector('.form');
+      if (form) form.addEventListener('submit', function (e) { e.preventDefault(); step(); });
+      if (bnext) {
+        /* ⚠ **누를 때 초점을 뺏지 않는다.** 단추를 누르면 적던 칸에서
+           초점이 떨어지고, 그 순간 기기 자판이 내려가기 시작한다 — 그
+           뒤에 다음 칸으로 초점을 옮겨 봐야 자판은 이미 내려간 뒤다.
+           누름의 기본 동작을 막으면 초점이 칸에 남아 있고, 그 자리에서
+           다음 칸으로 건너가므로 자판이 끊기지 않는다 */
+        bnext.addEventListener('mousedown', function (e) { e.preventDefault(); });
+        bnext.addEventListener('click', step);
+      }
+    }
+
+    /* 처음 서는 초점은 seek 가 준다 — 그 표를 지금 묻는 칸으로 옮겨 둔다 */
+    scr.querySelectorAll('[autofocus]').forEach(function (n) { n.removeAttribute('autofocus'); });
+    var here = cur();
+    var now = here < ASK.length && kin(ASK[here])[0];
+    now = now && now.querySelector('.inp__in');
+    if (now) now.setAttribute('autofocus', '');
+
+    see();
+    /* 중간 자리로 바로 연 화면도 지금 묻는 칸이 보여야 한다 — seek 는
+       초점만 주고 굴리지 않는다(preventScroll) */
+    if (here > 0 && here < ASK.length) reach();
+  }
+
+  /* ── 필수 칸이 다 차면 저장이 선다 ──
+     비어 있는 동안 서 있으면 '눌러 봐야 아무 일도 없는 버튼' 이 내내 엄지
+     밑에 있다. 자리는 처음부터 지키므로(.act--void 는 보이지만 않는다)
+     다 채운 순간에 바가 솟아 화면이 뛰는 일도 없다 */
+  function must(scr) {
+    /* 차례대로 묻는 폼에서는 flow 가 저장을 쥔다 — 둘이 같은 바를 두고
+       다투면 한쪽이 켠 것을 다른 쪽이 바로 끈다 */
+    if (scr.querySelector('.flow__q')) return;
+    /* 처음 선 꼴로 가리지 않는다 — 비운 채로 여는 화면도, 다 채운 채로 여는
+       화면도 같은 셈을 쓴다. 보이고 말고는 **값이 정한다** */
+    var act = scr.querySelector('.act');
+    if (!act) return;
+    var need = Array.prototype.slice.call(scr.querySelectorAll('.inp__in[required]'));
+    if (!need.length) return;
+
+    /* 얼굴도 필수다 — 칸이 아니라 사진이라 required 로 적을 데가 없다.
+       등록된 자리는 .shot__box--done 이 말한다(사진이 들어앉은 꼴) */
+    var face = scr.querySelector('.shot__box');
+
+    function see() {
+      var ok = need.every(function (i) { return i.value.trim() !== ''; })
+        && (!face || face.classList.contains('shot__box--done'));
+      act.classList.toggle('act--void', !ok);
+      act.setAttribute('aria-hidden', ok ? 'false' : 'true');
+    }
+    /* 갈아 끼운 화면은 다시 들어올 때 또 이 함수를 지난다 — 한 번만 맨다 */
+    if (!scr.dataset.must) {
+      scr.dataset.must = '1';
+      need.forEach(function (i) { i.addEventListener('input', see); });
+    }
+    see();
+  }
+
+  /* ── 기기 자판이 올라온 뒤의 화면 ──
+     창(레이아웃 뷰포트)은 자판이 떠도 줄지 않는다(meta 의 기본값) — 자판은
+     **보이는 자리만** 덮는다. 그래서 한때 덮인 만큼 본문 발치를 늘였다.
+     적을 것이 몇 줄뿐인 폼에서는 그 늘인 발치가 고스란히 빈 자리로 남아,
+     마지막 칸과 자판 사이가 한 뼘 넘게 벌어졌다. 떠 있는 저장도 화면 바닥에
+     붙은 채라 자판 뒤로 들어가 버렸다.
+
+     그래서 여백이 아니라 **화면을 줄인다**. 보이는 자리만큼만 높이를 주면
+     본문도 떠 있는 저장도 자판 바로 위에서 끝난다 — 빈 자리가 생길 데가
+     없고, 굴릴 것이 남았는지도 화면이 그대로 말한다.
+     ⚠ 인라인으로 적는다 — .scr.is-on 의 100dvh 를 이겨야 한다. 자판이
+       내려가면 지워 원래 높이로 돌아간다.
+     ⚠ 아이폰은 칸에 초점이 가면 창째로 밀어 올린다. 높이를 줄이고 나면
+       밀 자리가 없으므로 0 으로 되돌린다 — 두면 머리줄이 위로 잘린다 */
+  function fit(scr) {
+    var vv = window.visualViewport;
+    if (!vv || scr.dataset.fit) return;
+    scr.dataset.fit = '1';
+
+    function see() {
+      /* 자판 높이는 **창과 보이는 자리의 차**다 — 창은 자판이 떠도 줄지 않는다.
+         120 아래는 자판이 아니라 주소줄이 접히고 펴지는 만큼이다 */
+      var win = window.innerHeight;
+      var kb = Math.max(0, Math.round(win - (vv.height + vv.offsetTop)));
+      /* ⚠ **잰 값에 울타리를 친다.** 자판이 서고 눕는 사이에 브라우저가
+         한 틱짜리 엉뚱한 값을 내놓는 일이 있다(크롬 iOS). 그 값을 그대로
+         화면 높이로 박으면 화면이 통째로 쪼그라들어, 떠 있는 바가 위로
+         올라오고 폼이 그 아래에 깔린다. 창보다 크지도, 절반보다 작지도
+         않은 값만 받는다 — 벗어나면 줄이지 않는다 */
+      var h = Math.round(vv.height);
+      var fine = kb > 120 && h >= Math.round(win * 0.4) && h <= win;
+      var want = fine ? h + 'px' : '';
+      /* 아이폰은 칸에 초점이 가면 창째로 밀어 올린다 — 높이가 그대로여도
+         되돌린다. 두면 머리줄과 묻는 줄이 위로 잘려 나간다 */
+      if (window.scrollY) window.scrollTo(0, 0);
+      if (want === scr.style.height) return;
+      /* 높이가 바뀌면 본문의 스크롤 값도 밀린다. 그것을 손가락이 낸 것으로
+         치면 stow 가 저장을 '읽어 내려가는 중' 으로 보고 내려 보낸다 —
+         자판이 서고 눕는 동안에는 그쪽 귀를 닫는다(stow 의 deaf 와 같은 셈) */
+      scr.dataset.deaf = Date.now() + 400;
+      scr.style.height = want;
+      if (want && window.scrollY) window.scrollTo(0, 0);
+    }
+    /* 자판이 서는 데 한 박자 걸린다 — 창이 줄고 난 뒤에 재야 한다 */
+    function soon() { setTimeout(see, 60); setTimeout(near, 320); setTimeout(near, 700); }
+    /* 줄인 화면 안에서 적던 칸을 다시 가운데로 끌어온다 */
+    function near() {
+      see();
+      var el = document.activeElement;
+      if (!el || !scr.contains(el)) {
+        /* ⚠ 잡은 칸이 없어도 **지금 묻는 칸은 제자리에 둔다.** 탭을 갈아
+           끼우면 초점이 빠지는데, 그 뒤 자판이 내려가면 화면이 늘어나
+           굴림이 되밀려 답해 둔 얼굴이 도로 보였다 */
+        if (!scr.classList.contains('is-flow') || !scr.dataset.ask) return;
+        var part = scr.querySelector('[data-flow="' + scr.dataset.ask + '"]');
+        if (part) atop(scr, part);
+        return;
+      }
+      /* 차례대로 묻는 폼은 가운데가 아니라 **맨 위**다 — 위에 쌓인 것은
+         이미 답한 것이라, 적는 동안 보일 까닭이 없다 */
+      if (scr.classList.contains('is-flow')) { atop(scr, el.closest('[data-flow]')); return; }
+      /* ⚠ 가운데로 끌어오지 않는다 — 브라우저가 이미 보이게 굴려 놓은
+         자리를 한 번 더 크게 옮기면, 칸을 누를 때마다 화면이 출렁인다.
+         'nearest' 는 이미 보이면 아무것도 하지 않는다 */
+      var box = el.closest('.fld,.idf,.fld__sub') || el;
+      box.scrollIntoView({ block: 'nearest' });
+      if (window.scrollY) window.scrollTo(0, 0);
+    }
+
+    vv.addEventListener('resize', soon);
+    vv.addEventListener('scroll', see);
+    scr.addEventListener('focusin', soon);
+    /* ⚠ **누름도 듣는다.** 열자마자 초점이 가 있는 칸을 누르면 focusin 이
+       나지 않는다(이미 그 칸이다) — 자판만 올라오고 자리는 그대로다.
+       홈 화면에서 연 창(standalone)에서는 창이 줄지도 않아 resize 조차
+       오지 않으므로, 그 칸이 자판 뒤에 그대로 남았다 */
+    scr.addEventListener('click', soon);
+    see();
+  }
+
+  /* ── 같은 문서에서 띄운다 — `data-go-soft` ──
+     보통은 주소를 갈아 **다시 그린다**(link 의 설명). 그런데 그러면 새
+     문서가 되어, 누른 손짓이 거기까지 이어지지 않는다. 브라우저는 사람이
+     누르지 않은 초점으로는 기기 자판을 올려 주지 않으므로, 근로자 선택하기는
+     올라와 놓고도 자판 없이 선 꼴이 됐다.
+
+     그래서 이 한 자리만 **문서를 갈지 않고** 띄운다. 누름이 아직 살아 있는
+     그 자리에서 초점을 주면 기기 자판이 바로 선다. 그러려면 insert 부터
+     focus 까지가 모두 **그 click 처리 안에서, 기다림 없이** 끝나야 한다 —
+     setTimeout 하나만 끼어도 누름은 만료된다.
+
+     ⚠ 문서에 선 화면은 **여전히 한 장**이다. 앞 화면은 behind() 가 베껴
+       뒤에 깔고, 원래 것은 덜어 내 선반에 돌려 둔다 — pick() 의 ⚠ 가
+       말하는 규칙을 깨지 않는다.
+     ⚠ 주소도 함께 간다(pushState). 그래야 새로고침·공유가 같은 자리를
+       열고, 뒤로 가기가 앞 화면으로 돌아온다 — 돌아올 때는 문서를 다시
+       읽는다(popstate). */
+  /* ── 갈아 끼울 때 적어 둔 것은 따라간다 ──
+     탭과 라디오가 바꾸는 것은 **받는 번호 하나**다. 그런데 갈아 끼우는 것은
+     화면 한 장이라, 그냥 두면 이름도 연락처도 저쪽 장의 빈 칸으로 바뀐다 —
+     적다 말고 탭을 한 번 눌렀을 뿐인데 처음부터 다시 적게 된다.
+     짝은 name 으로 찾는다. 저쪽에 같은 name 이 없으면 넘어간다 — 주민번호
+     (jumin)와 여권번호(yeogwon)는 받는 것이 달라 이어지지 않는 것이 맞다.
+     ⚠ 칸이 아닌 값도 하나 있다 — 고른 직종은 버튼의 글이다 */
+  function carry(from, to) {
+    from.querySelectorAll('.inp__in[name]').forEach(function (a) {
+      var b = to.querySelector('.inp__in[name="' + a.name + '"]');
+      if (b) b.value = a.value;
+    });
+    var af = from.querySelector('.sel__t'), bf = to.querySelector('.sel__t');
+    if (af && bf) bf.textContent = af.textContent;
+    /* 등록한 얼굴도 따라간다 — 칸이 아니라 사진이 들어앉은 꼴이다 */
+    var fa = from.querySelector('.shot__box'), fb = to.querySelector('.shot__box');
+    if (fa && fb) fb.classList.toggle('shot__box--done', fa.classList.contains('shot__box--done'));
+  }
+
+  function soft(name, same) {
+    var next = SHELF[name];
+    var now = document.querySelector('.scr[data-screen]');
+    if (!next || !now || !now.parentNode) return false;
+    /* 이미 그 화면이다 — 갈아 끼울 것이 없다. 여기서 막지 않으면 제자리에
+       끼워 넣었다가 그대로 덜어 내, 문서에 화면이 하나도 남지 않는다 */
+    if (next === now) return true;
+
+    /* `same` 은 **같은 화면의 다른 꼴**로 갈아 끼우는 길이다(탭 · 라디오).
+       주소를 갈아 다시 그리면 본문이 맨 위로 되감겨, 아래쪽에서 탭을 누른
+       사람이 제자리를 잃는다. 뒤에 깔 화면도 없고(시트가 아니다) 읽던
+       자리만 그대로 옮긴다 */
+    var keep = 0, oldbd = now.querySelector('.body');
+    if (same && oldbd) keep = oldbd.scrollTop;
+    if (same) {
+      carry(now, next);
+      /* 차례도 함께 건너간다 — 탭은 받는 번호를 갈 뿐, 묻는 자리를
+         넘기는 손짓이 아니다 */
+      if (now.dataset.at) next.dataset.at = now.dataset.at;
+      next.dataset.carry = '1';
+    }
+
+    if (!same) {
+      /* 시트는 **지금 걸린 것을 켠 채로** 올라온다 — 고치러 올라온 자리라,
+         무엇이 걸려 있는지부터 보여야 어디를 누를지가 정해진다. 걸린 것은
+         목록 쪽이 알고 있다(data-key · data-job).
+         뒤를 깔기 전이다 — 깔고 나면 베낀 목록도 함께 뒤져 엉뚱한 칩을 켠다 */
+      sync(next, now);
+
+      /* 뒤에 깔 화면을 베끼는 일은 덜어 내기 전이다 — 지금 선 화면이 아직
+         문서에 있어야 behind() 가 그것을 찾는다 */
+      behind(next, now.dataset.screen);
+    }
+
+    SHELF[now.dataset.screen] = now;
+    now.parentNode.insertBefore(next, now);
+    now.remove();
+    next.classList.add('is-on');
+
+    var u = new URL(location.href);
+    u.searchParams.set('screen', name);
+    history.pushState({ screen: name }, '', u.toString());
+
+    edge();
+    document.title = (next.dataset.title || '안면 출퇴근') + ' · 김반장';
+
+    /* 새로 선 화면이 쓰는 것만 맨다 — 여기 오는 것은 찾는 시트뿐이고,
+       그 시트가 쓰는 것은 누르면 갈 자리(link)와 적을 자리(seek)다 */
+    link(next);
+    /* ⚠ 갈아 끼운 화면도 **맨 처음 서는 화면과 같이** 매야 한다. 여기서
+       빠뜨렸더니 탭으로 간 화면에만 has-float-act 가 없었다 — 저장이 떠
+       있지 않고 줄에 서서, 비어 있는 동안(act--void) 바닥에 84 짜리 흰 띠가
+       남고 그만큼 폼이 잘렸다 */
+    stow(next);
+    if (same) {
+      var newbd = next.querySelector('.body');
+      /* 한 번으로는 모자란다 — 갈아 끼운 바로 그 순간에는 새 본문의 높이가
+         아직 잡히지 않아, 굴릴 수 있는 끝까지만 가고 멎는다 */
+      if (newbd) {
+        newbd.scrollTop = keep;
+        requestAnimationFrame(function () { newbd.scrollTop = keep; });
+      }
+      fit(next);
+      flow(next);
+      must(next);
+    } else {
+      seek(next);
+    }
+    return true;
+  }
+
+  /* 뒤로 가기로 돌아올 때는 **문서를 다시 읽는다**. pushState 로 간 자리는
+     주소만 바뀐 것이라, 그냥 두면 주소는 앞 화면인데 그려진 것은 시트인
+     어긋난 꼴이 된다 */
+  window.addEventListener('popstate', function () { location.reload(); });
 
   /* ── 화면과 화면 사이 — `data-go` ──
      누르면 어느 화면으로 가는지를 마크업이 적어 둔다(data-go="w-work").
@@ -969,18 +2162,40 @@
      뒤의 어두운 자리(.dim)가 그렇다 — 창 안을 누른 것까지 '닫기' 로
      받으면 아무것도 못 누른다. */
   function link(hit) {
+    /* ⚠ 갈아 끼웠다 돌아온 화면에 또 매면 **한 번 누른 것이 두 번 간다**.
+       탭을 네 번째로 눌렀을 때 soft 가 두 번 돌아, 두 번째에는 갈아 끼울
+       화면과 서 있는 화면이 같아져 화면이 통째로 사라졌다 */
+    if (hit.dataset.link) return;
+    hit.dataset.link = '1';
     hit.addEventListener('click', function (e) {
       var go = e.target.closest ? e.target.closest('[data-go]') : null;
       if (!go || !hit.contains(go)) return;
       if (go.hasAttribute('data-go-self') && e.target !== go) return;
       if (go.disabled) return;
       e.preventDefault();
+
+      /* 문서를 갈지 않고 띄우는 자리 — 누름이 살아 있는 동안 끝내야 하므로
+         주소를 갈기 전에, 여기서 바로 한다 */
+      if (go.hasAttribute('data-go-soft') && soft(go.dataset.go)) return;
+      /* 같은 화면의 다른 꼴 — 읽던 자리를 그대로 두고 갈아 끼운다 */
+      if (go.hasAttribute('data-go-swap') && soft(go.dataset.go, true)) return;
+
       var u = new URL(location.href);
       u.searchParams.set('screen', go.dataset.go);
       /* 누른 것이 날을 쥐고 있으면 실어 보내고, 아니면 지운다 — 지우지
          않으면 다른 화면에 갔다 돌아올 때 지난 날이 따라온다 */
       if (go.hasAttribute('data-d')) u.searchParams.set('d', go.getAttribute('data-d'));
       else u.searchParams.delete('d');
+      /* 손으로 적어 준 차례는 따라가지 않는다 — 두면 다른 화면에 갔다
+         돌아올 때 지난 차례가 따라온다. 갈 자리는 data-go 의 이름이 든다 */
+      u.searchParams.delete('step');
+      /* 갈 자리가 '온 데를 깔아 달라' 고 적어 두었으면 지금 화면의 이름을
+         실어 보낸다. 그런 자리가 아니면 지운다 — 두면 다른 화면에 갔다
+         돌아올 때 지난 이름이 따라온다 */
+      var dst = document.querySelector('.scr[data-screen="' + go.dataset.go + '"]') || SHELF[go.dataset.go];
+      if (dst && dst.hasAttribute('data-behind-from') && hit.dataset.screen) {
+        u.searchParams.set('from', hit.dataset.screen);
+      } else u.searchParams.delete('from');
       var url = u.toString();
 
       /* 시트가 떠 있는 화면에서 떠날 때는 **내려가는 것을 보여 주고** 간다.
@@ -1006,9 +2221,23 @@
      옮겨 적지 않고 켜기 직전에 **베껴** 온다 — 같은 마크업을 두 곳에 적으면
      한쪽만 고쳐져 따로 늙는다. 어느 화면 위인지는 `data-behind` 가 말한다.
      화면 안의 동작을 흉내 내는 것이 아니라, 한 장의 화면을 짜 맞추는 일이다. */
-  function behind(hit) {
-    var name = hit.dataset.behind;
-    var src = name && document.querySelector('.scr[data-screen="' + name + '"]');
+  function behind(hit, over) {
+    /* 같은 문서에서 띄울 때는(soft) **그 시트를 연 화면**이 뒤에 깔린다 —
+       시트 하나가 여러 목록 위에서 올라오므로(재직 · 퇴사 · 차단 · 직종),
+       마크업에 적어 둔 한 장을 늘 깔면 뒤가 엉뚱한 목록이 된다.
+       주소로 바로 연 자리에는 연 화면이 없으니 `data-behind` 가 받는다 */
+    var name = over || hit.dataset.behind;
+    /* `data-behind-from` 이 붙은 화면은 **어느 화면에서 왔는지**를 먼저 본다
+       — 같은 알림창이 여러 화면 위에서 열릴 때(카메라의 관리자 도구가
+       그렇다) 마크업에 적어 둔 한 장을 늘 깔면 뒤가 엉뚱한 카메라가 된다.
+       주소로 바로 연 자리에는 온 데가 없으니 적어 둔 것이 받는다 */
+    if (hit.hasAttribute('data-behind-from')) {
+      name = new URL(location.href).searchParams.get('from') || name;
+    }
+    /* 선반도 함께 뒤진다 — 같은 문서에서 띄울 때(soft) 뒤에 깔 화면이 이미
+       덜어내진 자리일 수 있다(고른 뒤 화면에서 다시 찾는 시트를 열 때가
+       그렇다). 어느 쪽이든 베껴 쓰므로 원본은 건드리지 않는다 */
+    var src = name && (document.querySelector('.scr[data-screen="' + name + '"]') || SHELF[name]);
     if (!src) return;
 
     var back = src.cloneNode(true);
@@ -1021,7 +2250,85 @@
     back.setAttribute('inert', '');
     back.className = src.className + ' is-on behind';
     back.querySelectorAll('[id]').forEach(function (n) { n.removeAttribute('id'); });
+
+    /* 뒤에 깔 화면이 **다른 사람의 폼**일 때가 있다 — 시트가 말하는 사람과
+       뒤의 값이 어긋나면 묻는 줄이 엉뚱한 이름을 부른다('NGUYEN VAN A님'
+       이라고 알리는데 뒤에서는 '서지훈님의 연락처를' 이라 물었다).
+       깔기 전에 갈아 끼운다: `data-behind-set="이름=값;이름=값"`.
+       ⚠ 폼을 한 장 더 베껴 두지 않는 까닭은, 같은 폼이 두 곳에 있으면
+         한쪽만 고쳐져 따로 늙기 때문이다.
+       ⚠ 여기서 채운 칸은 flow 의 fill 이 건드리지 않는다 — 비어 있을 때만
+         보기값(data-demo)을 넣으므로, behind 가 pick 안에서 flow 보다
+         먼저 도는 한 이 값이 이긴다 */
+    var set = hit.dataset.behindSet;
+    if (set) set.split(';').forEach(function (kv) {
+      var at = kv.indexOf('=');
+      if (at < 0) return;
+      var f = back.querySelector('.inp__in[name="' + kv.slice(0, at).trim() + '"]');
+      if (f) f.value = kv.slice(at + 1);
+    });
+
     hit.insertBefore(back, hit.firstChild);
+  }
+
+  /* ── 걸린 필터를 시트에 옮긴다 ──
+     축마다 시트가 따로라, 한 시트에는 둘 가운데 하나만 들어 있다 — 없는
+     쪽은 그냥 비어 돈다.
+
+     두 축은 **서로 매이지 않는다**. 근무상태를 걸어도 직종은 풀리지 않고,
+     둘은 따로도 함께도 걸린다. 그래서 어느 자리로 갈지는 **두 축에서 이름을
+     지어** 정한다(dest) — 사람이 하나라도 있는 조합마다 목록 화면이 한 장씩
+     있다(m-workers-live-mok 꼴).
+
+     옆의 수는 **다른 축이 걸린 채로 센 수**다. 재직 기준 수를 퇴사 목록 위에
+     그대로 띄우면, 둘을 함께 건 적도 없는 사람 수가 적힌다. 줄마다 네 수를
+     들고 있고(근무상태 줄은 data-n-all · -mok · -chul · -bot, 직종 줄은
+     data-n-all · -live · -left · -ban), 한 명도 없는 줄은 줄째 덜어 낸다 —
+     갈 자리가 없는 조합이 눌리지 않는다. */
+  function dest(key, slug) {
+    return 'm-workers' + (key && key !== 'all' ? '-' + key : '') + (slug ? '-' + slug : '');
+  }
+  var SLUG = { '형틀목공': 'mok', '철근공': 'chul', '보통인부': 'bot' };
+
+  function sync(sheet, from) {
+    var now = from.dataset.screen || '';
+    var key = from.dataset.key || 'all';
+    var slug = SLUG[from.dataset.job || ''] || '';
+
+    /* 닫고 돌아갈 자리는 **올라온 그 목록**이다 — 마크업에 적힌 한 자리로
+       늘 돌려보내면, 퇴사 목록에서 닫았는데 재직 목록이 선다 */
+    if (now) sheet.querySelectorAll('[data-back]').forEach(function (n) { n.dataset.go = now; });
+
+    /* 근무상태 줄 — 지금 걸린 **직종 안에서** 센다 */
+    sheet.querySelectorAll('.fsta .optr').forEach(function (r) {
+      var k = r.dataset.key || 'all';
+      r.classList.toggle('is-on', k === key);
+      r.dataset.go = k === key && now ? now : dest(k, slug);
+      nset(r, r.dataset['n' + cap(slug || 'all')]);
+    });
+
+    /* 직종 줄 — 지금 걸린 **근무상태 안에서** 센다. 맨 위는 직종을 푸는
+       줄이라 slug 가 없다 */
+    sheet.querySelectorAll('.find__list .optr').forEach(function (r) {
+      var g = r.dataset.slug || '';
+      r.classList.toggle('is-on', g === slug);
+      r.dataset.go = g === slug && now ? now : dest(key, g);
+      nset(r, r.dataset['n' + cap(key)]);
+    });
+  }
+
+  function cap(k) { return k.charAt(0).toUpperCase() + k.slice(1); }
+
+  /* 줄 옆의 수를 적고, 0 이면 줄째 덜어 낸다. is-off 는 그 조합에 사람이
+     하나도 없다는 표다 — 적는 동안에도 돌아오지 않도록 sift 가 본다.
+     ⚠ 이름을 fill 로 두었더니 달력이 쓰는 fill(302줄)을 덮어, 근로자 앱의
+       달력이 통째로 비었다. 이 파일은 한 겹 안에 모두 들어 있다 */
+  function nset(r, n) {
+    if (n === undefined || n === '') return;
+    var cell = r.querySelector('.sel__n');
+    if (cell) cell.textContent = n;
+    r.classList.toggle('is-off', n === '0');
+    r.hidden = n === '0';
   }
 
   /* 위의 탭과 아래의 버튼은 아래로 읽어 내려가는 동안 비켜 있다가, 스크롤이
@@ -1038,6 +2345,11 @@
     /* 바닥 탭이 있는 화면에서는 바가 그 위에 줄 서 있어야 하므로 띄우지
        않는다 — 띄우지 않으면 내려가 봐야 빈 띠만 남으니 비키지도 않는다 */
     if (scr.querySelector('.tabbar')) return;
+
+    /* 갈아 끼웠다 돌아온 화면은 이미 매여 있다 — 재면서 또 매면 스크롤을
+       듣는 귀가 겹친다. 띄운 표시와 잰 높이는 요소에 그대로 남아 있다 */
+    if (scr.dataset.stow) return;
+    scr.dataset.stow = '1';
 
     /* 바를 목록 위로 띄우고, 목록 아래에 그 높이만큼 여백을 둔다. 여백은
        한 번 정하고 바뀌지 않으므로 굴러가는 상자의 크기도 바뀌지 않는다 */
@@ -1071,13 +2383,175 @@
       clearTimeout(idle);
       idle = setTimeout(function () { away(false); }, 220);
 
-      if (Date.now() < deaf) return;
+      if (Date.now() < deaf || Date.now() < +(scr.dataset.deaf || 0)) return;
 
       /* 4px 는 손가락이 멎은 채로 생기는 떨림을 걸러 내는 문턱이다 */
       var left = sc.scrollHeight - sc.clientHeight - now;
       if (moved > 4 && left > room) away(true);
       else if (moved < -4) away(false);
     }, { passive: true });
+  }
+
+  /* ── 그 자리에서 고른다 — `[data-pick]` ──
+     번호 칸의 라디오는 고른 쪽의 **화면으로 간다**(data-go-swap). 근무상태는
+     갈 화면이 없어 여기서 표만 옮긴다.
+     무리는 role=radiogroup 이고 고를 것은 그 안의 role=radio 다 — 알약이든
+     라디오든 **역할로 집으므로** 꼴을 갈아도 이 함수는 그대로다 */
+  function pickr(scr) {
+    scr.querySelectorAll('[data-pick]').forEach(function (g) {
+      /* 세그먼트는 고른 자리를 **흰 판이 옮겨 와 덮는다**. 그 판의 폭과
+         자리는 고른 칸을 재어 적는다 — 글자 수가 달라도 꼭 맞는다 */
+      function slide() {
+        var s = g.querySelector('.sgm__s');
+        var on = g.querySelector('[role="radio"].is-on');
+        if (!s || !on) return;
+        s.style.setProperty('--ap-sgm-w', on.offsetWidth + 'px');
+        s.style.setProperty('--ap-sgm-x', on.offsetLeft - g.clientLeft + 'px');
+      }
+      if (!g.dataset.pickOn) {
+        g.dataset.pickOn = '1';
+        g.addEventListener('click', function (e) {
+          var hit = e.target.closest && e.target.closest('[role="radio"]');
+          if (!hit || !g.contains(hit)) return;
+          g.querySelectorAll('[role="radio"]').forEach(function (o) {
+            var on = o === hit;
+            o.classList.toggle('is-on', on);
+            o.setAttribute('aria-checked', on ? 'true' : 'false');
+          });
+          slide();
+        });
+        /* 폭이 바뀌면 판도 다시 잰다 — 가로로 돌리거나 틀 폭을 갈 때다 */
+        window.addEventListener('resize', slide);
+      }
+      slide();
+    });
+  }
+
+  /* ── 적어야 열리는 버튼 — `[data-gate]` · `[data-gate-on]` ──
+     칸이 비어 있는 동안 버튼을 꺼 둔다. 비밀번호처럼 **적는 것 하나가
+     곧 조건**인 자리에 쓴다 — 폼의 must 는 바닥 바(.act)를 쥐는 함수라
+     알림창의 버튼 줄에는 닿지 않는다 */
+  function gate(scr) {
+    var inp = scr.querySelector('.inp__in[data-gate]');
+    var btn = scr.querySelectorAll('[data-gate-on]');
+    if (!inp || !btn.length) return;
+    function see() {
+      var ok = inp.value.trim() !== '';
+      btn.forEach(function (b) { b.disabled = !ok; });
+    }
+    /* 갈아 끼웠다 돌아온 화면은 이미 매여 있다 — 한 번만 맨다 */
+    if (!scr.dataset.gate) {
+      scr.dataset.gate = '1';
+      inp.addEventListener('input', see);
+    }
+    see();
+  }
+
+  /* ── 날을 적는 자리 — `[data-when]` ──
+     '11월 6일' 이라고 마크업에 박아 두면 다음 달에 거짓말이 된다. 달력이
+     쓰는 그 날들(DAYS)에서 꺼내 적는다 — 이름은 data-day 와 같은 말이다
+     (today · yday · day2 · day3 · day4) */
+  function when(scr) {
+    scr.querySelectorAll('[data-when]').forEach(function (n) {
+      var v = DAYS[SAY[n.dataset.when]];
+      if (v) n.textContent = v.m + '월 ' + v.d + '일';
+    });
+  }
+
+  /* ── 토스트가 서는 자리 — `.toasts` ──
+     본문 맨 위에 띄운다. 높이를 못 박아 두지 않는 것은 머리줄 위에 탭이
+     한 줄 더 있는 화면이 있어서다 — 박아 두면 그 탭을 덮는다.
+     뒤에 깔린 화면을 베껴 쓰는 자리에서도 그 본문을 그대로 잰다 */
+  function toasty(scr) {
+    var box = scr.querySelector('.toasts');
+    if (!box) return;
+    /* 자리를 재는 것은 **머리줄 아래에서 드는 토스트**뿐이다. 바닥에서 드는
+       것(.toasts--foot)과 본문이 없는 화면(카메라)은 css 값 그대로 선다 */
+    var bd = scr.querySelector('.body');
+    if (bd && !box.classList.contains('toasts--foot')) {
+      var see = function () {
+        var r = bd.getBoundingClientRect(), s = scr.getBoundingClientRect();
+        box.style.top = Math.round(r.top - s.top + 12) + 'px';
+      };
+      see();
+      requestAnimationFrame(see);
+    }
+
+    /* 토스트는 **스스로 사라진다** — 기본 4초(그 문서의 값이다). 올라가며
+       나가고, 다 나가면 덜어 낸다.
+       ⚠ 덜어 내는 것은 **베껴 둔 쪽**이다. 시나리오를 다시 고르면 화면이
+         다시 그려지므로 토스트도 다시 든다 — 한 번 보고 나면 못 보는
+         자리가 되지 않는다 */
+    function off(t) {
+      if (!t || t.dataset.off) return;
+      t.dataset.off = '1';
+      t.classList.add('is-off');
+      var gone = false;
+      function drop() { if (!gone) { gone = true; t.remove(); } }
+      t.addEventListener('animationend', drop);
+      /* 움직임 줄이기에서는 animationend 가 오지 않는다 — 그때도 사라져야 한다 */
+      setTimeout(drop, 400);
+    }
+    box.querySelectorAll('.toast').forEach(function (t) {
+      if (t.dataset.toast) return;
+      t.dataset.toast = '1';
+      var x = t.querySelector('.toast__x');
+      if (x) x.addEventListener('click', function () { off(t); });
+      setTimeout(function () { off(t); }, 4000);
+    });
+  }
+
+  /* ── 도움말 — `.hint` ──
+     폰에는 호버가 없다. 눌러야 뜨고 다시 누르면 닫힌다. Esc 로도 닫힌다 */
+  function hint(scr) {
+    scr.querySelectorAll('.hint').forEach(function (b) {
+      if (b.dataset.hint) return;
+      b.dataset.hint = '1';
+      var fld = b.closest('.fld--hint');
+      var box = fld && fld.querySelector('.hint__p');
+      if (!box) return;
+      function see(on) {
+        b.setAttribute('aria-expanded', on ? 'true' : 'false');
+        box.hidden = !on;
+        /* 꼬리는 도움말 한가운데를 짚는다 — 라벨 글자 폭만큼 달라지므로
+           열 때마다 다시 잰다(글자가 다른 칸에도 그대로 쓰려는 것이다) */
+        if (on) box.style.setProperty('--hint-x', (b.offsetLeft + b.offsetWidth / 2) + 'px');
+      }
+      b.addEventListener('click', function () {
+        see(b.getAttribute('aria-expanded') !== 'true');
+      });
+      b.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') see(false);
+      });
+    });
+  }
+
+  /* ── 동의해야 지운다 — `.agree` ──
+     되돌릴 수 없는 일이라 한 번 멈춰 세운다. 동의하기 전에는 지우는 버튼이
+     **꺼진 채로 자리를 지킨다** — 아예 없애면 버튼이 생겼다 사라지느라
+     시트의 키가 바뀌고, 그때마다 읽던 글이 위아래로 밀린다 */
+  function agree(scr) {
+    var row = scr.querySelector('.agree');
+    if (!row) return;
+    var box = row.querySelector('.chk');
+    var bts = Array.prototype.slice.call(scr.querySelectorAll('.alert__bt button'));
+
+    function see() {
+      var on = row.getAttribute('aria-pressed') === 'true';
+      if (box) box.classList.toggle('chk--on', on);
+      bts.forEach(function (b) { b.disabled = !on; });
+    }
+    /* 갈아 끼웠다 돌아온 화면은 이미 매여 있다 — 또 매면 한 번 눌러도
+       두 번 뒤집힌다 */
+    if (!row.dataset.agree) {
+      row.dataset.agree = '1';
+      row.addEventListener('click', function () {
+        row.setAttribute('aria-pressed',
+          row.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+        see();
+      });
+    }
+    see();
   }
 
   /* 아이콘은 스프라이트를 주입해 쓴다 (시스템 규약: 원격 절대 URL) */

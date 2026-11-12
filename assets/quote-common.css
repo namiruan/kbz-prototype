@@ -263,9 +263,31 @@ body.quote-page.is-done .q-done .acts{justify-content:center}
 /* 면제된 줄 — 지우지 않고 '무료'로 남긴다. 원래 얼마짜리를 아꼈는지 보여야
    한다. 안면인식 견적의 설치비가 먼저 쓰던 것을 김반장 견적도 같이 쓴다 */
 .q-sum-mid-body .q-sum-line .amt.free{color:var(--accent)}
-.q-sum-total{display:flex;align-items:flex-end;gap:10px}
-.q-sum-total .lb{font-size:13px;font-weight:600;color:var(--ink-2);line-height:1.4}
-.q-sum-total .lb small{display:block;font-size:11.5px;font-weight:500;color:var(--ink-3)}
+/* 금액은 왼쪽 묶음의 가운데에 선다. 묶음은 상태에 따라 두 줄도 세 줄도 되는데
+   (라벨 · VAT · 근거), 바닥에 맞추면 큰 숫자가 줄 수를 따라 오르내려 같은
+   카드가 매번 다르게 읽힌다 */
+.q-sum-total{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+/* 라벨 '이용요금(예상)' 은 한 덩이로 둔다. 띄어쓰기가 없어 그냥 두면
+   '이용요금(예 / 상)' 처럼 괄호 한가운데가 갈린다 */
+.q-sum-total .lb-t{white-space:nowrap}
+/* 라벨 묶음은 제 내용만큼이 아니라 남는 만큼 쓴다. flex-wrap 은 줄을 가를 때
+   항목의 content 너비를 보는데, 그대로 두면 아래 근거 줄이 길다는 이유로
+   금액이 한 줄에 설 수 있는데도 내려갔다. 바닥을 0 으로 두고 라벨이 안 꺾이는
+   너비까지만 지켜, 금액이 정말 못 설 때만 아래 줄로 내려간다 —
+   margin-left:auto 가 그대로 먹어 그때도 오른쪽 끝에 붙는다 */
+.q-sum-total .lb{flex:1 1 0;min-width:min-content;line-height:1.4}
+/* 묶음 안이 두 단이다. 라벨은 이 카드가 무엇을 말하는지고, 아래 두 줄은 그
+   금액을 어떻게 읽어야 하는지다. 전에는 13px/600 --ink-2 와 11.5px/500
+   --ink-3 로 갈라 두었는데 두 회색이 #5C636C 와 #6F767E 라 눈으로는 거의
+   같은 색이었다. 라벨을 본문 먹색까지 올려 세 가지(크기·굵기·색)로 벌린다 */
+.q-sum-total .lb-t{font-size:13px;font-weight:700;color:var(--ink)}
+/* 아래 두 줄은 --ink-3 를 쓰고 있었는데, 이 카드 바탕은 흰색이 아니라
+   --fill(#F7F8F9) 이라 대비가 4.32:1 로 11.5px 글자에 모자랐다. --ink-2 는
+   같은 바탕에서 5.71:1 이고, 라벨이 먹색으로 올라가 단은 그대로 갈린다 */
+.q-sum-total .lb small{display:block;font-size:11.5px;font-weight:500;color:var(--ink-2)}
+/* 근거 줄은 낱말 사이에서 꺾인다 — 기본값으로 두면 '11,300,000원 × 24개 / 월'
+   처럼 수식 한가운데가 갈려 글자 뭉치로 읽힌다 */
+.q-sum-total .basis{word-break:keep-all}
 .q-sum-total .vv{margin-left:auto;font-family:var(--font-title);font-size:31px;font-weight:800;letter-spacing:-.05em;line-height:1.05;color:var(--ink);white-space:nowrap}
 /* 할인 블록 — 기간이 1개월을 넘어 실제 할인이 붙을 때만 나온다 */
 .q-sum-disc{display:none;margin-top:0;padding-top:0;border-top:0}

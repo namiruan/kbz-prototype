@@ -10,13 +10,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUITE/fonts/variable/woff2/SUITEVariable.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <!-- 단말기 견적 두 화면과 같은 뼈대를 쓴다. 이 화면 고유의 것만 plan-quote.css 에 있다 -->
-<link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/select.css">
-<link rel="stylesheet" href="assets/quote-common.css">
-<link rel="stylesheet" href="assets/plan-quote.css">
-<link rel="stylesheet" href="assets/kbd.css">
-<script src="assets/format.js"></script>
-<script src="assets/select.js"></script>
+<link rel="stylesheet" href="assets/base.css?v=1">
+<link rel="stylesheet" href="assets/select.css?v=1">
+<link rel="stylesheet" href="assets/quote-common.css?v=1">
+<link rel="stylesheet" href="assets/plan-quote.css?v=1">
+<link rel="stylesheet" href="assets/kbd.css?v=1">
+<script src="assets/format.js?v=1"></script>
+<script src="assets/select.js?v=1"></script>
 </head>
 <body class="quote-page">
 <script>if(window.self!==window.top)document.body.classList.add('is-embedded');</script>
@@ -34,7 +34,9 @@
 
     <form id="quoteForm" novalidate>
 
-      <!-- STEP 1 : 계약 유형 — 고르는 즉시 아래 묻는 칸이 달라진다 -->
+      <!-- STEP 1 : 계약 유형 — 고르는 즉시 아래 묻는 칸이 달라진다.
+           프리미엄이 기본이다. 영업상 프리미엄 신청을 먼저 권하기로 했고,
+           유형에 따라 묻는 것이 달라지므로 첫 화면이 묻는 것도 그 기준이다 -->
       <div class="q-card">
         <div class="q-step"><h2>계약 유형</h2></div>
         <div class="pq-types" role="radiogroup" aria-label="계약 유형">
@@ -96,13 +98,18 @@
           </div>
         </div>
 
-        <!-- 쓰는지 안 쓰는지가 금액을 가르는 세 가지. 프리미엄에서만 묻는다 -->
+        <!-- 금액이 갈리는 세 가지. 프리미엄에서만 묻는다 -->
         <div class="f-grid prem-only" id="useGrid">
+          <!-- 면허는 쓰고 안 쓰고가 아니라 어느 쪽을 가졌느냐다. '종합면허 사용'
+               으로 물으면 전문면허만 가진 회사가 '미사용'에 서게 되는데, 면허가
+               없다는 말이 아니라 종류가 다르다는 말이라 답이 사실과 어긋난다.
+               미리 골라 두지 않는다 — 셋 중 무엇을 가졌는지는 넘겨짚을 수 없다 -->
           <div class="f-item third">
-            <span class="f-label" id="lbLicense">종합면허 사용</span>
+            <span class="f-label" id="lbLicense">면허 종류</span>
             <div class="f-radios" role="radiogroup" aria-labelledby="lbLicense">
-              <label><input type="radio" name="use_license" value="Y"><span class="dot" aria-hidden="true"></span><span class="tx">사용</span></label>
-              <label><input type="radio" name="use_license" value="N" checked><span class="dot" aria-hidden="true"></span><span class="tx">미사용</span></label>
+              <label><input type="radio" name="license_type" value="general"><span class="dot" aria-hidden="true"></span><span class="tx">종합</span></label>
+              <label><input type="radio" name="license_type" value="special"><span class="dot" aria-hidden="true"></span><span class="tx">전문</span></label>
+              <label><input type="radio" name="license_type" value="both"><span class="dot" aria-hidden="true"></span><span class="tx">둘 다</span></label>
             </div>
           </div>
           <div class="f-item third">
@@ -193,7 +200,7 @@
 
         <details class="q-sum-fold no-detail" id="sumMid">
           <summary class="q-sum-total">
-            <span class="lb"><span class="lb-t">총 예상 견적<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small class="basis" id="sumBasis">연 매출액을 넣으시면 보여 드립니다</small></span>
+            <span class="lb"><span class="lb-t">이용요금(예상)<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small class="vat">VAT 별도</small><small class="basis" id="sumBasis">연 매출액을 넣으시면 보여 드립니다</small></span>
             <span class="vv tnum" id="sumTotal">0원</span>
           </summary>
           <div class="q-sum-mid-body">
@@ -223,7 +230,7 @@
           <!-- 단말기 두 견적이 쓰는 첫 줄 그대로다. 글자 하나 다르면 세 화면이
                같은 말을 세 가지로 하는 꼴이 된다 — 탭만 바꾸면 나란히 보이는
                화면들이라 더 그렇다 -->
-          <li>안내된 금액은 참고용 예상 견적이며, 최종 금액은 담당자와 상담 후 결정됩니다. (VAT 별도)</li>
+          <li>안내된 금액은 참고용 예상 견적이며, 최종 금액은 컨설턴트와 상담 후 결정됩니다.</li>
         </ul>
       </div>
     </aside>
@@ -253,7 +260,7 @@
   </div>
 </dialog>
 
-<script src="assets/kbd.js"></script>
-<script src="assets/plan-quote.js"></script>
+<script src="assets/kbd.js?v=1"></script>
+<script src="assets/plan-quote.js?v=2"></script>
 </body>
 </html>

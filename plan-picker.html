@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>어떤 서비스가 맞을까 · 김반장</title>
+<meta name="description" content="김반장 3.0과 김반장 프리미엄 가운데 사업장에 맞는 쪽을 고르게 하는 체크리스트.">
+<!-- 라이브(kbz.co.kr) 폰트: 본문/CTA=Wanted Sans, 타이틀=SUITE -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUITE/fonts/variable/woff2/SUITEVariable.css">
+<link rel="stylesheet" href="assets/base.css?v=1">
+<!-- estimate.css 를 함께 부른다. 이 묶음이 쓰는 .inner · .title-container ·
+     .eyebrow · .title-md · --frame-tint 가 거기 앞쪽(1~2절)에 있다. 여기 베껴
+     두면 두 곳이 따로 늙는다. 홍보 페이지로 옮길 때는 그 쪽 것을 쓰면 된다 -->
+<link rel="stylesheet" href="assets/estimate.css?v=2">
+<link rel="stylesheet" href="assets/plan-picker.css?v=1">
+</head>
+<!-- estimate-page : --frame-tint 같은 토큰이 이 클래스에 달려 있다 -->
+<body class="estimate-page plan-picker-page">
+
+<!-- ===== 어느 쪽이 맞을까 — 고르면 답이 나오는 체크리스트 ===== -->
+<section class="es-plans center" id="plans">
+  <div class="inner">
+    <div class="title-container">
+      <!-- 눈썹은 메인(partition-8)이 쓰는 물음 그대로다. 제목은 가져오지 않았다.
+           저쪽 제목('근태·퇴직금 관리는 3.0, 신고 대행은 프리미엄')은 비교표를
+           요약하는 말이라 저 자리에서는 맞지만, 여기서는 눈썹이 물은 것을 제목이
+           바로 답해 버려 고를 까닭이 사라진다. '퇴직금 관리'는 아래 열 줄에
+           있지도 않다.
+           제목은 받은 문구 그대로다 — 눈썹이 묻고, 제목이 체크하면 답이
+           나온다고 약속하고, 열 줄이 체크할 것을 편다 -->
+      <div class="eyebrow">내 상황엔 어떤 서비스가 맞을까?</div>
+      <h2 class="title-md">필요한 항목을 체크하면 딱 맞는 서비스를 추천해 드립니다!</h2>
+      <!-- 열 줄은 접은 채로 둔다. 체크리스트와 아래 비교표를 모두 펴 두면 이
+           페이지에서 정작 해야 할 일(위 견적 폼)보다 읽을거리가 먼저 길어진다.
+           제목이 이미 '체크하면 추천해 드립니다'라고 약속했으니, 그 약속을
+           받을 사람만 열면 된다 -->
+    </div>
+
+    <!-- 열 줄은 노션 「서비스별 기능 상세」의 기능을 '지금 겪는 일, 그래서 무엇이
+         필요한지' 한 문장으로 옮긴 것이다. 쉼표 앞이 제 사정, 뒤가 그래서 아쉬운
+         것이다. 기능 이름만 적으면 장바구니가 되고, 겪는 일만 적으면 고를 까닭이
+         서지 않는다.
+
+         뒤쪽은 '…이 필요합니다'로 끝낸다. '전담팀에 맡기고 싶습니다'처럼 해법을
+         이름으로 적으면 고르기도 전에 답을 일러 주는 꼴이고, 아직 그 이름을 모르는
+         사람에게는 남의 말이 된다. 무엇이 그 아쉬움을 메우는지는 답 자리가 말한다.
+         data-feat 이 그 원래 기능 이름이고, 답 줄이 그 이름을 불러 준다.
+
+         앞의 넷은 3.0 이 하는 일(data-tier="c30"), 뒤의 여섯은 🟡 프리미엄 전용
+         (data-tier="prem")이다. 전부 프리미엄 전용으로만 채웠을 때는 무엇을 골라도
+         답이 하나뿐이라 — 사실상 '대행 쓰실래요?' 한 문항을 여섯 번 물은 셈이었다.
+         3.0 이 하는 일을 섞어야 고르는 일이 답을 가른다.
+
+         그래도 가름은 점수가 아니다. 프리미엄 줄이 하나라도 끼면 프리미엄인데,
+         고른 그 일을 3.0 은 아예 하지 않기 때문이다 -->
+    <!-- 손잡이와 열 줄을 한 상자에 담는다. 접힌 동안 손잡이가 흐린 줄 위에
+         겹쳐 서야 하는데, 겹치려면 자리를 잡아 줄 부모가 하나 있어야 한다.
+         ⚠ 손잡이를 .es-pick 안에 넣을 수는 없다. 그 안은 접힌 동안 통째로
+            흐려지고 inert 가 걸려, 저를 열 손잡이까지 못 누르게 된다 -->
+    <div class="es-pick-wrap">
+      <button type="button" class="es-pick-toggle" id="esPickToggle"
+              aria-expanded="false" aria-controls="esPick">항목 체크하기<span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></button>
+      <div class="es-pick" id="esPick" data-rec="none" inert>
+      <ul class="es-pick-list">
+        <li><label class="es-pick-item">
+          <input type="checkbox" data-tier="c30" data-feat="원클릭 급여관리">
+          <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span>
+          <span class="tx">며칠씩 걸리던 <b>급여 계산</b>, 자동화가 필요합니다</span>
+        </label></li>
+        <li><label class="es-pick-item">
+          <input type="checkbox" data-tier="c30" data-feat="근로계약서 작성·관리">
+          <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span>
+          <span class="tx">현장마다 종이로 받던 <b>근로계약서</b>, 전자 체결이 필요합니다</span>
+        </label></li>
+        <li><label class="es-pick-item">
+          <input type="checkbox" data-tier="c30" data-feat="임금명세서">
+          <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span>
+          <span class="tx">한 장씩 만들어 돌리던 <b>임금명세서</b>, 자동 발급이 필요합니다</span>
+        </label></li>
+        <li><label class="es-pick-item">
+          <input type="checkbox" data-tier="c30" data-feat="데이터 일괄·첨부서류 관리">
+          <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span>
+          <span class="tx">서랍에 쌓이는 <b>신분증·통장·계약서</b>, 모아 둘 곳이 필요합니다</span>
+        </label></li>
+        <li><label class="es-pick-item">
+          <input type="checkbox" data-tier="prem" data-feat="근로자 신고 대행">
+          <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span>
+          <span class="tx">매달 조마조마한 <b>4대보험·퇴직공제 신고</b>, 전문적인 도움이 필요합니다</span>
+        </label></li>
+        <li><label class="es-pick-item">
+          <input type="checkbox" data-tier="prem" data-feat="건설공사 신고 대행 · 하도급사 통보 대행">
+          <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span>
+          <span class="tx">공사마다 <b>성립·변경·준공 신고</b>와 <b>하수급인 통지</b>, 대행이 필요합니다</span>
+        </label></li>
+        <li><label class="es-pick-item">
+          <input type="checkbox" data-tier="prem" data-feat="증명원 365·24 자동 발급">
+          <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span>
+          <span class="tx"><b>가입·완납증명원</b>, 업무시간과 상관없이 뗄 방법이 필요합니다</span>
+        </label></li>
+        <li><label class="es-pick-item">
+          <input type="checkbox" data-tier="prem" data-feat="고지서 검증">
+          <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span>
+          <span class="tx">날아온 <b>보험료·퇴직공제부금 고지서</b>, 맞는지 검증이 필요합니다</span>
+        </label></li>
+        <li><label class="es-pick-item">
+          <input type="checkbox" data-tier="prem" data-feat="전담팀 배정">
+          <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span>
+          <span class="tx"><b>확정정산·지도점검</b> 통지, 바로 물어볼 곳이 필요합니다</span>
+        </label></li>
+        <li><label class="es-pick-item">
+          <input type="checkbox" data-tier="prem" data-feat="김반장 업무보드">
+          <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg></span>
+          <span class="tx">맡긴 일이 <b>어디까지 됐는지</b>, 바로 확인할 방법이 필요합니다</span>
+        </label></li>
+      </ul>
+
+      <!-- 답은 고른 즉시 바뀐다. 보조기술에도 그 변화가 닿아야 하므로 aria-live 를 둔다.
+           두 장 카드가 들고 있던 '견적 신청하기'를 여기로 옮겼다. 체크리스트가
+           위가 아니라 아래로 내려오면서, 답이 선 뒤에 폼으로 돌아갈 길이 있어야
+           한다. data-plan 이 그 폼의 계약 유형까지 맞춰 준다 — 고른 것을 또
+           고르게 두지 않는다 -->
+      <!-- 답을 담아 두는 자리. 좁은 폭에서 답 바가 화면 아래에 붙어 떠 있는
+           동안, 이 상자가 그 높이만큼 자리를 지켜 목록이 출렁이지 않게 한다 -->
+      <div class="es-pick-dock" id="esPickDock">
+      <div class="es-pick-out" role="status" aria-live="polite">
+        <!-- 답이 섰을 때만 뜬다. 메인의 '추천!' 도장 그대로다 -->
+        <span class="rec-sticker" id="esPickSeal" aria-hidden="true" hidden><span class="rec-seal"><span class="rec-holo"></span><span class="rec-shine"></span></span><span class="rec-txt">추천!</span></span>
+        <!-- 제목과 내용은 위아래로 가른다 — 한 줄에 나란히 두면 어디까지가
+             답이고 어디부터가 까닭인지 경계가 서지 않는다 -->
+        <div class="txt">
+          <p class="rec" id="esPickRec">해당하는 것을 골라 보세요</p>
+          <!-- ⚠ 이 줄은 '하나도 해당하지 않으면 김반장 3.0으로 충분합니다'였다.
+               묻기도 전에 없는 경우부터 답하고, 그 답까지 미리 알려 주니 열 줄을
+               볼 까닭이 사라졌다. 고를 마음을 내는 자리에 둘 말은 '안 골라도
+               된다'가 아니라 '한 줄이면 된다'이다.
+               ⚠ 위 제목이 이미 '골라 보세요'라고 시킨다. 여기서 또 시키지 않고
+                  고르면 무엇이 오는지만 적는다 — '하는지 / 맡는지'는 이 페이지가
+                  내내 쓰는 두 제품의 가름 그대로다.
+               ⚠ '체크 한 줄이면 답이 섭니다'로 적었다가 고쳤다. '답이 선다'는
+                  설계를 적을 때 쓰는 말이지 화면에서 읽히는 말이 아니다. 줄표로
+                  끊지 않고 한 문장으로 흐르게 두는 편이 읽기에도 낫다 -->
+          <p class="why" id="esPickWhy">한 줄만 체크하면 그 일을 3.0이 하는지, 프리미엄이 맡는지 바로 알려 드립니다.</p>
+        </div>
+        <!-- 글자를 걷고 화살표만 남겼다. 어디로 가는지는 바로 왼쪽 두 줄이 이미
+             말하고 있어, 그 말을 알약에 한 번 더 적으면 같은 문장이 둘이 된다.
+             ⚠ 글자가 사라졌으니 이름은 aria-label 이 든다 — 화살표 하나만 읽히면
+                어디로 가는 길인지 들을 수 없다. 그 이름은 paint() 가 고쳐 단다 -->
+        <a class="go" id="esPickGo" href="estimate.html#apply" data-plan="c30" hidden aria-label="김반장 3.0으로 견적 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h12.5M11.5 5.5L18 12l-6.5 6.5"/></svg></a>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script src="assets/plan-picker.js?v=1"></script>
+</body>
+</html>

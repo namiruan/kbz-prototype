@@ -11,13 +11,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <!-- 스타일은 전부 assets/ 에 있다. 이름 규칙: HTML 과 같은 이름 = 이 화면 전용,
      다른 이름 = 여러 화면이 나눠 쓰는 것. 위에서 아래로 놓인 순서가 겹칠 때의 승패다 -->
-<link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/select.css">
-<link rel="stylesheet" href="assets/quote-common.css">
-<link rel="stylesheet" href="assets/quote.css">
-<link rel="stylesheet" href="assets/kbd.css">
-<script src="assets/format.js"></script>
-<script src="assets/select.js"></script>
+<link rel="stylesheet" href="assets/base.css?v=1">
+<link rel="stylesheet" href="assets/select.css?v=1">
+<link rel="stylesheet" href="assets/quote-common.css?v=1">
+<link rel="stylesheet" href="assets/quote.css?v=1">
+<link rel="stylesheet" href="assets/kbd.css?v=1">
+<script src="assets/format.js?v=1"></script>
+<script src="assets/select.js?v=1"></script>
 </head>
 <body class="quote-page">
 <script>if(window.self!==window.top)document.body.classList.add('is-embedded');</script>
@@ -175,7 +175,7 @@
 
         <details class="q-sum-fold" id="sumMid">
           <summary class="q-sum-total">
-            <span class="lb"><span class="lb-t">총 예상 견적<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small class="basis"><span id="sumMonthly">0원</span> × <span id="sumMonthsX">12</span>개월</small></span>
+            <span class="lb"><span class="lb-t">이용요금(예상)<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small class="vat">VAT 별도</small><small class="basis"><span id="sumMonthly">0원</span> × <span id="sumMonthsX">12</span>개월</small></span>
             <span class="vv tnum" id="sumTotal">0원</span>
           </summary>
           <div class="q-sum-mid-body">
@@ -204,7 +204,7 @@
       <div class="q-notes">
         <h3>안내</h3>
         <ul>
-          <li>안내된 금액은 참고용 예상 견적이며, 최종 금액은 담당자와 상담 후 결정됩니다. (VAT 별도)</li>
+          <li>안내된 금액은 참고용 예상 견적이며, 최종 금액은 컨설턴트와 상담 후 결정됩니다.</li>
           <li>벽부형의 경우 최초 1회 설치비가 지원됩니다. (설치 지역에 따라 추가금 청구될 수 있음)</li>
         </ul>
       </div>
@@ -779,6 +779,6 @@ if (/(^|[?&])(done|hold)=1(&|$)/.test(location.search)) (function(){
 <div class="kbd" id="kbd" hidden>
   <div class="kbd-keys" id="kbdKeys"></div>
 </div>
-<script src="assets/kbd.js"></script>
+<script src="assets/kbd.js?v=1"></script>
 </body>
 </html>
