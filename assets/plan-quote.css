@@ -266,7 +266,9 @@
 /* 넣은 수를 사람이 말하는 단위로 되읽는 줄. 칸이 만 원 단위라, 원 단위로 치던
    사람이 자릿수를 잘못 넣어도 폼은 받아 준다 — 받아 주고 틀린 구간을 내놓는
    것보다 넣는 동안 '70억 원' 이라고 되읽어 주는 편이 낫다 */
-.f-echo{margin:6px 0 0;font-size:12.5px;font-weight:600;color:var(--accent);
+/* 여백은 .f-item 의 flex 간격(5px)에 맡긴다. 제 margin 을 더 두면 라벨↔폼
+   5px 과 폼↔되읽기 11px 이 되어, 한 칸 안에서 위아래 간격이 서로 다르다 */
+.f-echo{margin:0;font-size:12.5px;font-weight:600;color:var(--accent);
   letter-spacing:-.01em}
 
 /* ── 요약 ────────────────────────────────────────────────────────
@@ -290,4 +292,4 @@
 
 
 /* 좁은 폭에서는 폼 전체가 한 치수 작아진다 — 되읽어 주는 줄도 함께 */
-@media(max-width:640px){.f-echo{margin-top:5px;font-size:12px}}
+@media(max-width:640px){.f-echo{font-size:12px}}
