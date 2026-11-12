@@ -24,23 +24,28 @@
        그 직렬 왕복이 흰 화면의 길이였다. 1겹에서 미리 받아 두면 3·4겹은 캐시에서 꺼낸다.
        prefetch 라 지금 화면의 렌더를 막지 않는다. -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="prefetch" href="assets/base.css" as="style">
-  <link rel="prefetch" href="assets/estimate.css" as="style">
-  <link rel="prefetch" href="assets/estimate.js" as="script">
-  <link rel="prefetch" href="assets/select.css" as="style">
-  <link rel="prefetch" href="assets/quote-common.css" as="style">
-  <link rel="prefetch" href="assets/plan-quote.css" as="style">
-  <link rel="prefetch" href="assets/kbd.css" as="style">
-  <link rel="prefetch" href="assets/format.js" as="script">
-  <link rel="prefetch" href="assets/select.js" as="script">
-  <link rel="prefetch" href="assets/kbd.js" as="script">
-  <link rel="prefetch" href="assets/plan-quote.js" as="script">
-  <link rel="prefetch" href="assets/quote.css" as="style">
-  <link rel="prefetch" href="assets/face-quote.css" as="style">
+  <!-- ⚠ 주소는 화면이 실제로 부르는 것과 글자까지 같아야 한다. ?v= 를 빼고
+       적어 두면 받아는 두되 아무도 그 주소를 찾지 않아 통째로 헛걸음이다 -->
+  <link rel="prefetch" href="assets/base.css?v=1" as="style">
+  <link rel="prefetch" href="assets/estimate.css?v=2" as="style">
+  <link rel="prefetch" href="assets/select.css?v=1" as="style">
+  <link rel="prefetch" href="assets/quote-common.css?v=1" as="style">
+  <link rel="prefetch" href="assets/plan-quote.css?v=1" as="style">
+  <link rel="prefetch" href="assets/kbd.css?v=1" as="style">
+  <link rel="prefetch" href="assets/quote.css?v=1" as="style">
+  <link rel="prefetch" href="assets/face-quote.css?v=1" as="style">
+  <link rel="prefetch" href="assets/plan-picker.css?v=1" as="style">
+  <link rel="prefetch" href="assets/estimate.js?v=2" as="script">
+  <link rel="prefetch" href="assets/format.js?v=1" as="script">
+  <link rel="prefetch" href="assets/select.js?v=1" as="script">
+  <link rel="prefetch" href="assets/kbd.js?v=1" as="script">
+  <link rel="prefetch" href="assets/plan-quote.js?v=2" as="script">
+  <link rel="prefetch" href="assets/plan-picker.js?v=1" as="script">
   <link rel="prefetch" href="estimate.html" as="document">
   <link rel="prefetch" href="plan-quote.html" as="document">
   <link rel="prefetch" href="quote.html" as="document">
   <link rel="prefetch" href="face-quote.html" as="document">
+  <link rel="prefetch" href="plan-picker.html" as="document">
 </head>
 <body>
 
@@ -91,7 +96,7 @@
           |iframe이 내용에 맞게 줄어듭니다
           |@{.es-faq} 탭 바와 궁금한 점 사이에 빈 자리가 남지 않습니다">완료 화면이 되면</button>
 
-      <span class="proto-nav-group-label">프로그램 · 내 상황엔 어떤 서비스가 맞을까?</span>
+      <span class="proto-nav-group-label">견적 밖 · 내 상황엔 어떤 서비스가 맞을까?</span>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="pl-고르기전"
         data-why="김반장 3.0과 프리미엄 가운데 사업장에 맞는 쪽을 고르게 하는 체크리스트입니다. 항목은 두 상품이 하는 일을 사업장이 겪는 일로 바꿔 적은 것으로, 앞쪽은 3.0 이 하는 일, 뒤쪽은 프리미엄에만 있는 일입니다."
         data-steps="'항목 체크하기'로 목록을 편 뒤 아무것도 고르지 않은 상태"
@@ -107,8 +112,8 @@
           |@{#esPickRec} 제목이 '김반장 프리미엄 추천'으로 바뀝니다
           |@{#esPickWhy} 고른 항목은 답 줄에서 그 일을 맡는 기능 이름으로 바뀝니다 — '근로자 신고 대행은 이제 김반장 프리미엄에 맡기세요'
           |@{.es-pick-out} 클릭 영역은 바 전체입니다. 오른쪽 끝 화살표만이 아닙니다
-          |@sm @md @{.es-pick-out} 답 바가 화면 아래에 붙어 따라다니고, 목록 끝까지 내려가면 제자리에 내려앉습니다
-          |클릭하면 위 폼으로 올라가면서 계약 유형까지 프리미엄으로 맞춰집니다">프리미엄이 나오는 자리</button>
+          |@sm @{.es-pick-out} 답 바가 화면 아래에 붙어 따라다니고, 목록 끝까지 내려가면 제자리에 내려앉습니다"
+        data-note="클릭하면 견적받기 화면의 신청 폼으로 이동합니다">프리미엄이 나오는 자리</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="pl-30"
         data-why="고른 것이 전부 3.0 이 하는 일이면 답은 3.0 입니다. 추천일 뿐이라 위 폼의 계약 유형은 손으로 바꿀 수 있습니다."
         data-steps="3.0 항목을 모두 고른 상태"
@@ -218,6 +223,8 @@
   'use strict';
   var $=function(s,r){return (r||document).querySelector(s);};
   var ES='estimate.html';
+  /* 체크리스트는 홍보 페이지로 옮기기로 해서 견적에서 갈라 나왔다 */
+  var PICK='plan-picker.html';
 
   /* 시나리오 이름이 가리키는 자리를 열자마자 보여 준다. 내려가는 길을 적어 두고
      직접 밟게 하면, 그 자리를 보러 온 사람이 매번 같은 스크롤을 되풀이하게 된다.
@@ -284,19 +291,17 @@
       await wait(300); jump(d,PANEL); }},
     /* 프로그램 탭 — 고르면 답이 나오는 항목 체크. 금액은 적지 않고 견적신청으로 넘긴다 */
     /* 열 줄은 접은 채로 서므로, 고르는 자리를 보여 주려면 먼저 펴야 한다 */
-    'pl-고르기전':{url:ES, act:function(d){ hit($('#esPickToggle',d)); jump(d,'#plans'); }},
-    'pl-프리미엄':{url:ES, act:async function(d){
+    'pl-고르기전':{url:PICK, act:function(d){ hit($('#esPickToggle',d)); }},
+    'pl-프리미엄':{url:PICK, act:async function(d){
       hit($('#esPickToggle',d)); await wait(250);
       var box=d.querySelectorAll('.es-pick-item input');
       /* 3.0 줄(0) 을 먼저 고르고 프리미엄 줄(4) 을 더한다 — 답이 뒤집히는 자리다 */
-      hit(box[0]); await wait(400); hit(box[4]); await wait(250);
-      jump(d,'#plans'); }},
-    'pl-30'    :{url:ES, act:async function(d){
+      hit(box[0]); await wait(400); hit(box[4]); }},
+    'pl-30'    :{url:PICK, act:async function(d){
       hit($('#esPickToggle',d)); await wait(250);
       /* 3.0 줄 넷만 고른다 — 이제 3.0 은 미응답이 아니라 골라서 나오는 답이다 */
       var box=d.querySelectorAll('.es-pick-item input');
-      hit(box[0]); hit(box[1]); hit(box[2]); hit(box[3]); await wait(250);
-      jump(d,'#plans'); }},
+      hit(box[0]); hit(box[1]); hit(box[2]); hit(box[3]); }},
 
     /* 프로그램 탭 — 상세 기능 */
     'ft-전체'  :{url:ES,                          act:function(d){ jump(d,'#features'); }},
