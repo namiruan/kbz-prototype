@@ -38,9 +38,20 @@
 
 ## 커밋 전 확인
 
-**`assets/` 를 고쳤으면 화면 파일의 `?v=` 를 올린다.** 안 올리면 폰에서
-옛 CSS·JS 가 그대로 나온다 — 「고쳤는데 안 보인다」가 거기서 나온다.
-(`face-attendance-app.html` · `face-attendance-worker.html` 의 link·script)
+**`assets/` 를 고쳤으면 그 파일을 부르는 화면 전부의 `?v=` 를 올린다.**
+안 올리면 폰에서 옛 CSS·JS 가 그대로 나온다 — 「고쳤는데 안 보인다」가
+거기서 나온다. **한 화면만 고치고 넘어가기 쉬운 것이 여기다** —
+`quote-common.css` 처럼 여럿이 나눠 쓰는 파일은 부르는 화면이 셋이다.
+
+누가 무엇을 부르는지는 그때그때 찾는다. 여기에 목록을 적어 두면
+화면이 늘 때마다 따로 늙는다.
+
+```
+grep -l "고친파일.css" *.html
+```
+
+값은 화면 파일마다 따로 센다(`?v=714` · `?v=2` 처럼). 한 벌로 맞추지
+않는다 — 안 고친 화면까지 캐시가 깨진다.
 
 ```
 python3 /path/to/kbz_3.0_ui_stytem/validate-prototype.py estimate-prototype.html
