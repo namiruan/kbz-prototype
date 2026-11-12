@@ -148,8 +148,8 @@ body.intro-page{word-break:keep-all}
 
 .p5-roll .p5-dev{
   position:absolute;top:0;bottom:0;width:var(--w);left:calc(50% - var(--w) / 2);margin:0;
-  padding:0 0 52px;box-sizing:border-box;opacity:0;
-  transform-origin:50% calc(100% - 52px);   /* 커지고 작아져도 바닥선은 그대로 */
+  padding:0 0 78px;box-sizing:border-box;opacity:0;
+  transform-origin:50% calc(100% - 78px);   /* 커지고 작아져도 바닥선은 그대로 */
   animation:p5Slide 18s cubic-bezier(.62,0,.25,1) infinite
 }
 .p5-roll .p5-dev img{
@@ -173,7 +173,7 @@ body.intro-page{word-break:keep-all}
 .p5-roll .p5-dev:nth-child(3),.p5-roll .p5-dev:nth-child(6){--base:39%}
 /* ② 넓고 옅은 테 — 떠 있는 만큼 번진다 */
 .p5-roll .p5-dev::before{
-  content:"";position:absolute;left:50%;bottom:4px;transform:translateX(-50%);
+  content:"";position:absolute;left:50%;bottom:30px;transform:translateX(-50%);
   width:calc(var(--base) * 1.5);height:46px;border-radius:50%;
   background:radial-gradient(closest-side,
     rgba(var(--color-black-rgb),.38), rgba(var(--color-black-rgb),0));
@@ -181,7 +181,7 @@ body.intro-page{word-break:keep-all}
 }
 /* ① 가운데를 한 번 더 누르는 심 */
 .p5-roll .p5-dev::after{
-  content:"";position:absolute;left:50%;bottom:20px;transform:translateX(-50%);
+  content:"";position:absolute;left:50%;bottom:46px;transform:translateX(-50%);
   width:calc(var(--base) * .9);height:16px;border-radius:50%;
   background:radial-gradient(closest-side,
     rgba(var(--color-black-rgb),.5), rgba(var(--color-black-rgb),0));
@@ -207,15 +207,24 @@ body.intro-page{word-break:keep-all}
   100%        {transform:translateX(0) scale(1);opacity:1;filter:blur(0px)}
 }
 
-/* 이름은 가운데 선 기기에만 띄운다. partition-3 의 뱃지와 같은 말을 쓰되
-   짙은 바탕이라 흰 알약에 남색 글씨로 뒤집는다 */
+/* 이름과 쓰임은 가운데 선 기기에만 띄운다. 이름 알약은 partition-3 의
+   뱃지와 같은 말을 쓰되 짙은 바탕이라 흰 알약에 남색 글씨로 뒤집는다.
+   쓰임 한 줄은 quote.html 단말기 선택 카드의 dev-desc 와 같은 말이다 */
 .p5-roll .p5-dev figcaption{
-  position:absolute;left:50%;bottom:0;transform:translateX(-50%);z-index:2;
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  opacity:0;animation:p5Cap 18s cubic-bezier(.62,0,.25,1) infinite
+}
+.p5-roll .p5-dev figcaption b{
   padding:6px 16px;border-radius:999px;white-space:nowrap;
   background:var(--main-white);box-shadow:0 6px 16px rgba(var(--color-black-rgb),.28);
   font-family:var(--font-body);font-size:15px;font-weight:700;line-height:1.4;
-  letter-spacing:-.025em;color:var(--main-navy);
-  opacity:0;animation:p5Cap 18s cubic-bezier(.62,0,.25,1) infinite
+  letter-spacing:-.025em;color:var(--main-navy)
+}
+.p5-roll .p5-dev figcaption i{
+  font-style:normal;text-align:center;
+  font-family:var(--font-body);font-size:13px;font-weight:500;line-height:1.5;
+  letter-spacing:-.02em;color:rgba(var(--color-white-rgb),.72)
 }
 @keyframes p5Cap{0%,12.2%{opacity:1}16.6%,95.5%{opacity:0}100%{opacity:1}}
 
@@ -224,7 +233,9 @@ body.intro-page{word-break:keep-all}
   .p5-roll .p5-dev{padding:0 0 40px;transform-origin:50% calc(100% - 40px)}
   .p5-roll .p5-dev::before{bottom:3px;height:32px;filter:blur(7px)}
   .p5-roll .p5-dev::after{bottom:15px;height:11px;filter:blur(4px)}
-  .p5-roll .p5-dev figcaption{padding:5px 12px;font-size:13px}
+  .p5-roll .p5-dev figcaption b{padding:5px 12px;font-size:13px}
+  /* 폭이 좁으면 기기가 설 자리부터 모자란다. 쓰임 줄은 접는다 */
+  .p5-roll .p5-dev figcaption i{display:none}
 }
 
 /* 움직임을 줄인 기기에서는 첫 카드만 정면에 세운다 */
