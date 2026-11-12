@@ -118,7 +118,7 @@
 
         <details class="q-sum-fold" id="sumMid">
           <summary class="q-sum-total">
-            <span class="lb"><span class="lb-t">총 예상 견적<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small class="basis" id="sumBasis"></small></span>
+            <span class="lb"><span class="lb-t">이용요금(예상)<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span><small class="basis" id="sumBasis"></small></span>
             <span class="vv tnum" id="sumTotal">0원</span>
           </summary>
           <div class="q-sum-mid-body">
@@ -430,7 +430,7 @@ function readQuote(){
 function render(){
   var q = readQuote();
 
-  /* 계산 내역 — 이 줄들의 합이 곧 총 예상 견적이다 */
+  /* 계산 내역 — 이 줄들의 합이 곧 이용요금(예상)이다 */
   function line(nm, how, amt, free){
     return '<div class="q-sum-line"><span class="nm">' + nm + '</span>'
          + '<span class="qty">' + how + '</span>'
