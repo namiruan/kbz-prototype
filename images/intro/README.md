@@ -29,7 +29,7 @@
 | `partition-1` 배경 | 히어로 배경 | 1600×790 이상 · 글이 위쪽 가운데에 얹히니 그 자리는 비워서 |
 | ~~`partition-2` ×3~~ | **사진을 쓰지 않는다** — 세 칸 모두 짧은 루프 데모(CSS 도형)로 바꿨다. `assets/service-intro.css` 의 `.p2d-*` 를 본다 | — |
 | ~~`partition-3` ×3~~ | **다 넣었다** — `icon/target-amount.png`(공사 중인 건물·지폐) · `icon/work-report.png`(서류·도장) · `icon/card-device.png`(단말기·카드) | 투명 PNG · 348×332 |
-| ~~`partition-5`~~ | **한 컷을 쓰지 않는다** — `images/card-reader/` 의 세 장(벽부형·이동형·휴대형)을 카드에 담아 두 벌 세운 육각기둥이 돈다 — 정면 양옆 한 칸이 흐리게 미리 보인다. 한 바퀴 18초(눈에는 세 종류가 9초마다 한 바퀴). `assets/service-intro.css` 의 `.p5-roll` · `.p5-stage` 를 본다 | — |
+| ~~`partition-5`~~ | **한 컷을 쓰지 않는다** — `images/card-reader/` 의 세 장(벽부형·이동형·휴대형)이 앞뒤로 오가며 바뀐다 — 가운데는 크고 또렷하게, 옆자리는 작고 흐리게 미리 보인다. 돌리지 않는다(평면 사진이라 돌아서면 종잇장처럼 얇아진다). 한 바퀴 18초(눈에는 세 종류가 9초마다 한 바퀴). `assets/service-intro.css` 의 `.p5-roll` · `.p5-stage` 를 본다 | — |
 | `partition-6` 배경 | 프리미엄 배경 | 넓은 화면 1542×614 · 532px 이하 1034×1397 |
 
 ### 안면인식 — `face-attendance.html`
