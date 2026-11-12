@@ -478,7 +478,7 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
 .es-cmp-head{position:sticky;top:var(--stick-top);transition:top .22s ease;z-index:5;display:grid;grid-template-columns:var(--cols);
   background:var(--main-white);border-bottom:1.5px solid var(--main-navy)}
 .es-cmp-head .c{padding:16px 16px 13px;font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--main-navy)}
-/* '기능'은 한 줄, 옆 두 칸은 이름 아래 작은 줄까지 두 줄이다. 칸은 모두 같은
+/* '제공 서비스'는 한 줄, 옆 두 칸은 이름 아래 작은 줄까지 두 줄이다. 칸은 모두 같은
    높이로 늘어나는데 글은 윗여백에 붙어 서 있어서, 혼자 9px 위에 떠 있었다.
    메인(index.html 의 .cmp-c.task)은 같은 칸을 이미 가운데로 세운다.
    ⚠ 위아래 여백은 0 이다. 16/13 을 남기면 그만큼 가운데가 1.5px 어긋난다 —
@@ -486,7 +486,7 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
 .es-cmp-head .c.task{display:flex;align-items:center;padding-top:0;padding-bottom:0}
 /* 지금 보는 묶음 이름. 제자리에 있을 때는 바로 아래에 묶음 제목이 보이므로
    띄우지 않는다 — 붙어서 그 제목이 화면 밖으로 나간 뒤에만 선다.
-   ⚠ '기능'보다 작고 흐리다. 이 칸의 이름은 '기능'이고 묶음 이름은 지금
+   ⚠ '제공 서비스'보다 작고 흐리다. 이 칸의 이름이 '제공 서비스'이고 묶음 이름은 지금
       어디쯤인지 알려 주는 곁말이라, 둘이 같은 무게로 서면 열 이름이 둘이 된다 */
 .es-cmp-head .c.task .now{display:none}
 .es-cmp-head.is-stuck .c.task .now:not(:empty){display:inline-block;
@@ -649,7 +649,7 @@ body.tabs-away .es-tabs{transform:translateY(-100%)}
   .es-cmp-head .c{padding:11px 4px 10px;font-size:13px;white-space:nowrap}
   .es-cmp-head .c.task{padding-left:16px;font-size:14px}
   /* 좁은 폭에서는 이 칸이 274px 뿐이라 둘이 나란히 설 자리가 없다. 열 이름을
-     접고 묶음 이름만 세운다 — 세 열 가운데 어느 것이 '기능' 열인지는 옆 두
+     접고 묶음 이름만 세운다 — 세 열 가운데 어느 것이 '제공 서비스' 열인지는 옆 두
      칸이 '3.0'·'프리미엄'이라 저절로 갈린다 */
   .es-cmp-head.is-stuck .c.task:has(.now:not(:empty)){font-size:0}
   .es-cmp-head.is-stuck .c.task .now:not(:empty){margin-left:0;padding-left:0;
