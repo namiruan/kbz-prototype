@@ -84,6 +84,21 @@ body.intro-page{word-break:keep-all}
    붙인다. 사진이 나오면 이 덩이를 지우면 라이브 배경이 그대로 돌아온다 */
 .intro-page .partition-1{position:relative;background:var(--grad-radi-sky-top),var(--sub-w-gray)}
 .intro-page .partition-6{background:var(--grad-radi-sky-bottom),var(--pastel-blue)}
+/* 라이브는 이 구역을 --sub-d-blue(#114797) 한 색으로 깐다. 그 파랑이 밝고
+   채도가 높아 검은 단말기 둘(이동형 케이스·휴대형)이 배경에 먹혔다.
+   스튜디오 배경지처럼 가운데는 밝고 가장자리로 갈수록 떨어지게 바꿔
+   단말기가 빛 안에 선다. 흰 글씨와 FAQ 는 그대로 읽힌다.
+   --p5-floor 는 라이브 팔레트에 없는 값이다 — 네이비(#0E3B63)보다 한 단계
+   낮춘 바닥색으로, 여기 한 곳에서만 쓴다 */
+.intro-page .partition-5{
+  --p5-floor:#0A2138;
+  background:
+    radial-gradient(58% 84% at 50% 34%,
+      rgba(var(--color-d-blue-rgb),.62) 0%,
+      rgba(var(--color-d-blue-rgb),.14) 64%,
+      rgba(var(--color-d-blue-rgb),0) 100%),
+    var(--p5-floor)
+}
 .intro-page .partition-1::after,
 .intro-page .partition-6::after{
   content:attr(data-ph);position:absolute;right:12px;bottom:12px;z-index:1;
