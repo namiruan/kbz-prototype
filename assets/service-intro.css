@@ -162,9 +162,9 @@ body.intro-page{word-break:keep-all}
 .p5-roll .p5-dev:nth-child(5),.p5-roll .p5-dev:nth-child(5) figcaption{animation-delay:-6s}
 .p5-roll .p5-dev:nth-child(6){transform:rotateY(300deg) translateZ(var(--r))}
 .p5-roll .p5-dev:nth-child(6),.p5-roll .p5-dev:nth-child(6) figcaption{animation-delay:-3s}
-/* 사진은 가로로 넓고 기기는 가운데에 작게 들어 있다. 높이를 카드에 맞춰
-   키우고 빈 좌우는 카드가 자른다 — 기기가 카드를 꽉 채운다 */
-.p5-roll .p5-dev img{display:block;flex:1;min-height:0;width:100%;object-fit:cover;object-position:center bottom}
+/* 사진은 정사각에 기기가 꽉 차 있다. 자르지 않고 그대로 담되 아래를
+   맞춰 카드 바닥에 선다 */
+.p5-roll .p5-dev img{display:block;flex:1;min-height:0;width:100%;object-fit:contain;object-position:center bottom}
 
 /* 이름은 정면 카드에만 띄운다 — 옆 카드의 이름표는 눕혀져 읽히지 않는다 */
 .p5-roll .p5-dev figcaption{
