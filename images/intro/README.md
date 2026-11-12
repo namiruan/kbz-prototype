@@ -29,7 +29,7 @@
 | `partition-1` 배경 | 히어로 배경 | 1600×790 이상 · 글이 위쪽 가운데에 얹히니 그 자리는 비워서 |
 | ~~`partition-2` ×3~~ | **사진을 쓰지 않는다** — 세 칸 모두 짧은 루프 데모(CSS 도형)로 바꿨다. `assets/service-intro.css` 의 `.p2d-*` 를 본다 | — |
 | ~~`partition-3` ×3~~ | **다 넣었다** — `icon/target-amount.png`(공사 중인 건물·지폐) · `icon/work-report.png`(서류·도장) · `icon/card-device.png`(단말기·카드) | 투명 PNG · 348×332 |
-| ~~`partition-5`~~ | **한 컷을 쓰지 않는다** — `images/card-reader/` 의 세 장(벽부형·이동형·휴대형)이 9초에 한 바퀴 돌아가며 선다. `assets/service-intro.css` 의 `.p5-roll` 을 본다 | — |
+| ~~`partition-5`~~ | **한 컷을 쓰지 않는다** — `images/card-reader/` 의 세 장(벽부형·이동형·휴대형)이 9초에 한 바퀴 돌아가며 선다. 삼각기둥이 도는 3D 회전이다. `assets/service-intro.css` 의 `.p5-roll` · `.p5-stage` 를 본다 | — |
 | `partition-6` 배경 | 프리미엄 배경 | 넓은 화면 1542×614 · 532px 이하 1034×1397 |
 
 ### 안면인식 — `face-attendance.html`
