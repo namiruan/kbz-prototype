@@ -96,13 +96,18 @@
           </div>
         </div>
 
-        <!-- 쓰는지 안 쓰는지가 금액을 가르는 세 가지. 프리미엄에서만 묻는다 -->
+        <!-- 금액이 갈리는 세 가지. 프리미엄에서만 묻는다 -->
         <div class="f-grid prem-only" id="useGrid">
+          <!-- 면허는 쓰고 안 쓰고가 아니라 어느 쪽을 가졌느냐다. '종합면허 사용'
+               으로 물으면 전문면허만 가진 회사가 '미사용'에 서게 되는데, 면허가
+               없다는 말이 아니라 종류가 다르다는 말이라 답이 사실과 어긋난다.
+               미리 골라 두지 않는다 — 셋 중 무엇을 가졌는지는 넘겨짚을 수 없다 -->
           <div class="f-item third">
-            <span class="f-label" id="lbLicense">종합면허 사용</span>
+            <span class="f-label" id="lbLicense">면허 종류</span>
             <div class="f-radios" role="radiogroup" aria-labelledby="lbLicense">
-              <label><input type="radio" name="use_license" value="Y"><span class="dot" aria-hidden="true"></span><span class="tx">사용</span></label>
-              <label><input type="radio" name="use_license" value="N" checked><span class="dot" aria-hidden="true"></span><span class="tx">미사용</span></label>
+              <label><input type="radio" name="license_type" value="general"><span class="dot" aria-hidden="true"></span><span class="tx">종합</span></label>
+              <label><input type="radio" name="license_type" value="special"><span class="dot" aria-hidden="true"></span><span class="tx">전문</span></label>
+              <label><input type="radio" name="license_type" value="both"><span class="dot" aria-hidden="true"></span><span class="tx">둘 다</span></label>
             </div>
           </div>
           <div class="f-item third">
