@@ -25,7 +25,9 @@
        prefetch 라 지금 화면의 렌더를 막지 않는다. -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <!-- ⚠ 주소는 화면이 실제로 부르는 것과 글자까지 같아야 한다. ?v= 를 빼고
-       적어 두면 받아는 두되 아무도 그 주소를 찾지 않아 통째로 헛걸음이다 -->
+       적어 두면 받아는 두되 아무도 그 주소를 찾지 않아 통째로 헛걸음이다.
+       화면(.html)은 여기서 받아 두지 않는다 — 틀에 끼울 때 _t 가 붙어
+       주소가 달라지므로 무엇을 적어도 맞지 않는다 -->
   <link rel="prefetch" href="assets/base.css?v=1" as="style">
   <link rel="prefetch" href="assets/estimate.css?v=2" as="style">
   <link rel="prefetch" href="assets/select.css?v=1" as="style">
@@ -39,10 +41,6 @@
   <link rel="prefetch" href="assets/select.js?v=1" as="script">
   <link rel="prefetch" href="assets/kbd.js?v=1" as="script">
   <link rel="prefetch" href="assets/plan-quote.js?v=4" as="script">
-  <link rel="prefetch" href="estimate.html" as="document">
-  <link rel="prefetch" href="plan-quote.html" as="document">
-  <link rel="prefetch" href="quote.html" as="document">
-  <link rel="prefetch" href="face-quote.html" as="document">
 </head>
 <body>
 
@@ -110,6 +108,24 @@
           |연 매출액을 뺀 나머지는 프리미엄에서만 묻고 금액에는 들어가지 않습니다
           |사업장 규모에서 (필수)는 '연 매출액'과 '연 현장 수'에만 붙습니다
           |@{.q-sum-total} 요약은 '이용요금(예상)'이고, 매출액을 넣기 전에는 '0원'입니다">프리미엄으로 열린 폼</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="sc-담기전"
+        data-why="대행업무의 범위를 기본 업무에 담아 더하는 섹션입니다."
+        data-steps="프리미엄 폼의 업무범위까지 내려온 상태"
+        data-look="
+          |@{.pq-scope-base} 기본 업무에는 담기 버튼이 없고 '항상 포함'이 붙습니다
+          |@{.pq-scope-more} '포함 업무 보기'를 클릭하면 그 줄의 상세 목록이 펴집니다
+          |@{.pq-scope-add} 선택 업무는 모두 '+ 담기' 인 채로 열립니다
+          |@{#scopeChips} 담은 업무에는 '기본 업무' 칩 하나만 있습니다
+          |@{#scopeTodo} 이용사가 할 일은 '매월 10일 18시까지 월출역에 근로내용 입력 후 전송' 한 줄입니다">업무범위 — 담기 전</button>
+      <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="sc-담은뒤"
+        data-why="선택 업무를 담은 업무범위 화면입니다."
+        data-steps="업무범위에서 '일용근로자 건강·연금'과 '퇴직공제 근로내역'을 담은 상태"
+        data-look="
+          |@{.pq-scope-item.is-on} 담은 줄은 테두리와 이름이 브랜드 컬러로 바뀝니다
+          |@{.pq-scope-add[aria-pressed='true']} 버튼이 '✓ 담음'으로 바뀌고 브랜드 컬러로 채워집니다
+          |@{#scopeChips} 담은 업무에 '+ 일용근로자 건강·연금'과 '+ 퇴직공제 근로내역' 칩이 붙습니다
+          |@{#scopeTodo li:first-child} 첫 줄이 '근로내용 전송 — 익월 반영 매월 4일 12시 / 익익월 반영 10일 18시'로 바뀝니다
+          |@{#scopeTodo} '건강·연금 고지서 확인 후 10일까지 납부'와 '퇴직공제 고지서도 업무톡으로 확인'이 늘어납니다">업무범위 — 담은 뒤</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-3.0으로"
         data-why="계약 유형이 '김반장 3.0'으로 바뀐 견적신청 폼 화면입니다."
         data-steps="비교표 머리줄의 '김반장 3.0' 쪽 '견적 신청하기'를 클릭한 상태"
@@ -242,6 +258,20 @@
   var PANEL = '.es-panel:not([hidden])';
   var FRAME = PANEL + ' .es-frame';
 
+  /* 끼운 견적 화면 안의 요소로 내려간다. jump 은 바깥 문서만 재는데, 폼은
+     한 겹 더 안에 있다. 틀이 내용 높이만큼 늘어나 있어 안쪽에는 구를 창이
+     없으므로, 두 좌표를 더해 바깥을 굴리면 그 자리가 화면에 선다 */
+  function jumpInner(d,sel,off){
+    var fr=d.querySelector(FRAME); if(!fr) return;
+    var q=fr.contentDocument, e=q && q.querySelector(sel); if(!e) return;
+    var w=d.defaultView; if(!w) return;
+    var root=d.documentElement, prev=root.style.scrollBehavior;
+    root.style.scrollBehavior='auto';
+    w.scrollTo(0, fr.getBoundingClientRect().top + w.scrollY
+                + e.getBoundingClientRect().top - (off||0));
+    root.style.scrollBehavior=prev;
+  }
+
   function jump(d,sel,off){
     var e=d.querySelector(sel); if(!e) return;
     var w=d.defaultView; if(!w) return;   /* 그새 틀이 갈려 나갔으면 잴 것이 없다 */
@@ -286,6 +316,14 @@
     /* 프로그램 탭 — 끼워 둔 견적신청 폼. 비교표 머리줄의 신청 버튼이 그 토글을 돌린다 */
     'ap-기본'   :{url:ES, act:async function(d){
       await inner(d,FRAME); jump(d,'#apply',8); }},
+    /* 업무범위 — 폼 한 겹 안이라 jumpInner 로 내려간다 */
+    'sc-담기전' :{url:ES, act:async function(d){
+      await inner(d,FRAME); await wait(250); jumpInner(d,'#scopeCard',16); }},
+    'sc-담은뒤' :{url:ES, act:async function(d){
+      var q=await inner(d,FRAME); if(!q) return;
+      ['daily_hp','retire'].forEach(function(id){
+        hit(q.querySelector('[data-pick="'+id+'"] .pq-scope-add')); });
+      await wait(350); jumpInner(d,'#scopeCard',16); }},
     'ap-3.0으로' :{url:ES, act:async function(d){
       await inner(d,FRAME);
       /* 머리줄의 3.0 쪽 신청 버튼이 폼의 계약 유형까지 내린다(esSetPlan) */
@@ -338,13 +376,24 @@
         남의 DOM 을 읽어 판정하지 않는다. 우리가 센 번호가 아직 최신인지만 본다 */
   var seq = 0;
 
+  /* 틀 안 화면은 HTML 이라 ?v= 를 달 수 없다. GitHub Pages 가 HTML 에
+     max-age=600 을 주므로, 바깥을 새로고침해도 틀 안은 최대 10분 동안
+     옛 화면이 그대로 나온다 — 글자는 바뀌었는데 새 섹션이 통째로 없는,
+     콘솔에 한 줄도 안 남는 꼴이 된다.
+     페이지를 열 때 토큰을 한 번만 만들어 주소에 붙인다. 시나리오를 오가는
+     동안은 같은 주소라 받아 둔 것을 그대로 쓰고, 새로고침하면 새 토큰이라
+     반드시 새로 받는다. estimate.js 의 fresh() 가 이 _t 를 받아 그 안에
+     끼우는 견적 화면까지 이어 준다 */
+  var BOOT = Date.now();
+  function fresh(u){ return u + (u.indexOf('?') < 0 ? '?' : '&') + '_t=' + BOOT; }
+
   function open(name){
     var s=S[name]; if(!s) return;
     var f=$('#screen iframe'); if(!f) return;
     var mine = ++seq, phase = 0;   /* phase 0 = 비우는 중 · 1 = 화면 */
     f.onload=function(){
       if(mine !== seq) return;      /* 그새 다른 시나리오를 열었다 */
-      if(phase === 0){ phase = 1; f.src = s.url; return; }
+      if(phase === 0){ phase = 1; f.src = fresh(s.url); return; }
       if(!s.act) return;
       /* ⚠ 삼키지 않는다. 시나리오가 못 찾는 것이 생기면 조용히 아무 일도
             일어나지 않아, 고장인지 원래 그런지조차 가릴 수 없었다 */
@@ -356,7 +405,7 @@
        자산을 통째로 다시 받았다. about:blank 를 거치면 문서는 똑같이 새로 서면서
        받아 둔 것은 그대로 쓴다. 빈 문서에서도 load 가 한 번 오므로 단계를 나눠 둔다 — */
     if(f.src && f.src.indexOf('about:blank') < 0) f.src = 'about:blank';
-    else { phase = 1; f.src = s.url; }
+    else { phase = 1; f.src = fresh(s.url); }
   }
 
   /* 크롬이 틀 안에서 ?scenario= 를 읽어 해당 버튼을 눌러 준다 — 그 누름을 여기서 받는다.

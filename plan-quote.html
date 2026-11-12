@@ -96,16 +96,11 @@
             <label class="f-label" for="q-head">현장당 인원 수</label>
             <div class="field"><input id="q-head" type="number" name="headcount" min="0" max="9999" step="1" inputmode="numeric" placeholder="0"><span class="f-unit">명</span></div>
           </div>
-        </div>
-
-        <!-- 프리미엄에서만 묻는다. 키스콘과 상용근로자 관리는 아래 업무범위가
-             받는다 — 쓰고 안 쓰고가 아니라 맡길지 말지를 고르는 일이다 -->
-        <div class="f-grid prem-only" id="useGrid">
           <!-- 면허는 쓰고 안 쓰고가 아니라 어느 쪽을 가졌느냐다. '종합면허 사용'
                으로 물으면 전문면허만 가진 회사가 '미사용'에 서게 되는데, 면허가
                없다는 말이 아니라 종류가 다르다는 말이라 답이 사실과 어긋난다.
                미리 골라 두지 않는다 — 셋 중 무엇을 가졌는지는 넘겨짚을 수 없다 -->
-          <div class="f-item third">
+          <div class="f-item third prem-only pq-license">
             <span class="f-label" id="lbLicense">면허 종류</span>
             <div class="f-radios" role="radiogroup" aria-labelledby="lbLicense">
               <label><input type="radio" name="license_type" value="general"><span class="dot" aria-hidden="true"></span><span class="tx">종합</span></label>
@@ -114,6 +109,7 @@
             </div>
           </div>
         </div>
+
       </div>
 
       <!-- STEP 2.5 : 업무범위 — 기본 업무에 선택 업무를 담아 더한다.
