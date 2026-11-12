@@ -211,8 +211,6 @@
   color:var(--ink-2);line-height:1.6;word-break:keep-all}
 .pq-scope-todo li::before{content:"";position:absolute;left:1px;top:8px;
   width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
-.pq-scope-note{margin:12px 0 0;font-size:12px;font-weight:500;color:var(--ink-3);
-  line-height:1.6;word-break:keep-all}
 
 /* 좁은 폭 — 설명이 버튼 아래로 꺾여도 버튼 폭은 그대로다(flex:none).
    이름과 버튼이 한 줄에 서고 설명은 그 아래로 내려간다 */
