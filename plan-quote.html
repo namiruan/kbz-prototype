@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/base.css?v=1">
 <link rel="stylesheet" href="assets/select.css?v=1">
 <link rel="stylesheet" href="assets/quote-common.css?v=1">
-<link rel="stylesheet" href="assets/plan-quote.css?v=1">
+<link rel="stylesheet" href="assets/plan-quote.css?v=2">
 <link rel="stylesheet" href="assets/kbd.css?v=1">
 <script src="assets/format.js?v=1"></script>
 <script src="assets/select.js?v=1"></script>
@@ -98,7 +98,8 @@
           </div>
         </div>
 
-        <!-- 금액이 갈리는 세 가지. 프리미엄에서만 묻는다 -->
+        <!-- 프리미엄에서만 묻는다. 키스콘과 상용근로자 관리는 아래 업무범위가
+             받는다 — 쓰고 안 쓰고가 아니라 맡길지 말지를 고르는 일이다 -->
         <div class="f-grid prem-only" id="useGrid">
           <!-- 면허는 쓰고 안 쓰고가 아니라 어느 쪽을 가졌느냐다. '종합면허 사용'
                으로 물으면 전문면허만 가진 회사가 '미사용'에 서게 되는데, 면허가
@@ -112,21 +113,55 @@
               <label><input type="radio" name="license_type" value="both"><span class="dot" aria-hidden="true"></span><span class="tx">둘 다</span></label>
             </div>
           </div>
-          <div class="f-item third">
-            <span class="f-label" id="lbKiscon">키스콘 사용</span>
-            <div class="f-radios" role="radiogroup" aria-labelledby="lbKiscon">
-              <label><input type="radio" name="use_kiscon" value="Y"><span class="dot" aria-hidden="true"></span><span class="tx">사용</span></label>
-              <label><input type="radio" name="use_kiscon" value="N" checked><span class="dot" aria-hidden="true"></span><span class="tx">미사용</span></label>
-            </div>
-          </div>
-          <div class="f-item third">
-            <span class="f-label" id="lbRegular">상용근로자 관리</span>
-            <div class="f-radios" role="radiogroup" aria-labelledby="lbRegular">
-              <label><input type="radio" name="use_regular" value="Y"><span class="dot" aria-hidden="true"></span><span class="tx">사용</span></label>
-              <label><input type="radio" name="use_regular" value="N" checked><span class="dot" aria-hidden="true"></span><span class="tx">미사용</span></label>
-            </div>
-          </div>
         </div>
+      </div>
+
+      <!-- STEP 2.5 : 업무범위 — 기본 업무에 선택 업무를 담아 더한다.
+           선택 업무 줄은 스크립트가 PICKS 로 그린다. 문구와 항목이 늘고 주는
+           자리라, 마크업에 손으로 적어 두면 늘 때마다 빠뜨릴 자리가 생긴다 -->
+      <div class="q-card prem-only" id="scopeCard">
+        <div class="q-step"><h2>업무범위</h2></div>
+        <p class="pq-scope-sub">기본 업무에 필요한 업무를 담아 더하세요.</p>
+
+        <!-- 기본 업무 — 고를 수 없다. 자물쇠와 '항상 포함'이 그 말을 한다 -->
+        <div class="pq-scope-base">
+          <div class="pq-scope-row">
+            <span class="nm">
+              <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
+              기본 업무
+            </span>
+            <span class="pq-scope-always">항상 포함</span>
+          </div>
+          <p class="ds">사업장 신고 · 일용 고용·산재 · 본사 상용직 · 증명서</p>
+          <details class="pq-scope-more">
+            <summary>포함 업무 보기</summary>
+            <ul>
+              <li>4대보험 성립·변경·탈퇴 신고</li>
+              <li>고용·산재 하수급 사업주 승인·명세 신고</li>
+              <li>퇴직공제 성립·변경·준공 신고</li>
+              <li>일용근로자 고용·산재 근로내용 오류 확인 및 신고</li>
+              <li>본사 상용직 취득·상실·보수변경, 이직확인서, 휴직·복직</li>
+              <li>건강·연금 EDI, 근로복지공단 토탈서비스 증명서</li>
+            </ul>
+          </details>
+        </div>
+
+        <!-- 선택 업무 — 줄마다 따로 담는다(장바구니) -->
+        <div class="pq-scope-list" id="scopeList"></div>
+
+        <!-- 담은 업무 — 담고 빼는 즉시 다시 그린다 -->
+        <div class="pq-scope-sum">
+          <span class="lb">담은 업무</span>
+          <div class="chips" id="scopeChips"></div>
+        </div>
+
+        <!-- 이용사가 할 일 — 담은 것에 따라 줄이 늘고 바뀐다 -->
+        <div class="pq-scope-todo">
+          <span class="lb">이용사가 할 일</span>
+          <ul id="scopeTodo"></ul>
+        </div>
+
+        <p class="pq-scope-note">원가분석, 4대보험 소급신고는 별도 유료 서비스예요.</p>
       </div>
 
       <!-- STEP 3 : 신청자 정보 — 단말기 견적 두 화면과 글자까지 같다 -->
@@ -261,6 +296,6 @@
 </dialog>
 
 <script src="assets/kbd.js?v=1"></script>
-<script src="assets/plan-quote.js?v=2"></script>
+<script src="assets/plan-quote.js?v=3"></script>
 </body>
 </html>

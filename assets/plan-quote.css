@@ -101,7 +101,7 @@
    display 로만 숨기면 보조기술에는 남아, 묻지도 않는 칸을 읽어 준다 */
 #useGrid{margin-top:22px}
 /* 보기를 라벨 아래로 세운다. 까닭이 둘이다. 하나는 격자 — 위 입력 칸이
-   「라벨 → 그 아래 필드」 꼴이라, 보기가 라벨 옆에 누우면 세 묶음만 다른 꼴로
+   「라벨 → 그 아래 필드」 꼴이라, 보기가 라벨 옆에 누우면 그 줄만 다른 꼴로
    앉아 같은 1/3 칸을 쓰고도 위와 따로 논다. 하나는 폭 — 면허 종류는 보기가
    셋이라 한 줄로 171px 을 쓰는데, 1280 에서 한 칸은 191px 이고 보기 사이를
    22px 로 띄우면 214px 이 된다. 세워 두면 둘 다 풀린다.
@@ -110,6 +110,109 @@
 @media(min-width:641px){
   #useGrid .f-radios{flex-direction:column;align-items:flex-start;gap:10px;
     min-height:0;margin-top:3px}
+}
+
+/* ── 업무범위 — 기본 업무에 선택 업무를 담는다 ──────────────────
+   틀은 계약 유형 두 장(.pq-type)과 같은 말을 쓴다 — 모서리 8px, 테두리
+   1px, 담으면 테두리가 강조색으로 바뀌고 바탕이 옅게 찬다. 같은 폼 안에서
+   고르는 자리가 둘인데 꼴이 다르면 다른 화면의 부품처럼 보인다 */
+.pq-scope-sub{margin:-14px 0 16px;font-size:13.5px;color:var(--ink-2);line-height:1.6;
+  word-break:keep-all}
+
+/* 기본 업무 — 고를 수 없으므로 흰 바탕을 쓰지 않는다. 바탕이 회색이라는
+   것이 '여기는 손댈 자리가 아니다' 를 먼저 말한다 */
+.pq-scope-base{padding:14px 16px;border-radius:8px;background:var(--fill);
+  border:1px solid var(--line)}
+.pq-scope-row{display:flex;align-items:center;gap:10px}
+.pq-scope-base .nm{display:inline-flex;align-items:center;gap:6px;
+  font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
+.pq-scope-base .lock{width:15px;height:15px;flex:none;color:var(--ink-3)}
+.pq-scope-always{margin-left:auto;flex:none;padding:3px 9px;border-radius:1000px;
+  background:var(--main-white);border:1px solid var(--line);
+  font-size:11.5px;font-weight:700;letter-spacing:-.02em;color:var(--ink-2)}
+.pq-scope-base .ds{margin:7px 0 0;font-size:13px;font-weight:500;color:var(--ink-2);
+  line-height:1.6;word-break:keep-all}
+
+/* 포함 업무 보기 — 기본 업무와 선택 업무가 같이 쓴다 */
+.pq-scope-more{margin-top:9px}
+.pq-scope-more > summary{display:inline-flex;align-items:center;gap:4px;
+  list-style:none;cursor:pointer;width:fit-content;
+  font-size:12.5px;font-weight:700;letter-spacing:-.02em;color:var(--ink-3)}
+.pq-scope-more > summary::-webkit-details-marker{display:none}
+.pq-scope-more > summary::after{content:"";width:5px;height:5px;margin:-3px 0 0 1px;
+  border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;
+  transform:rotate(45deg);transition:transform .15s}
+.pq-scope-more[open] > summary::after{transform:rotate(-135deg);margin-top:1px}
+.pq-scope-more > summary:hover{color:var(--ink)}
+.pq-scope-more > summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.pq-scope-more ul{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:4px}
+.pq-scope-more li{position:relative;padding-left:11px;font-size:12.5px;font-weight:500;
+  color:var(--ink-2);line-height:1.6;word-break:keep-all}
+.pq-scope-more li::before{content:"";position:absolute;left:1px;top:8px;
+  width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
+
+/* 선택 업무 */
+.pq-scope-list{display:grid;gap:10px;margin-top:10px}
+.pq-scope-item{padding:14px 16px;border-radius:8px;background:var(--main-white);
+  border:1px solid var(--line);transition:border-color .15s,background .15s}
+.pq-scope-item:hover{border-color:#C6CBD1}
+.pq-scope-item.is-on{border-color:var(--accent);background:var(--accent-tint)}
+.pq-scope-item .nm{font-size:15px;font-weight:800;letter-spacing:-.035em;
+  color:var(--ink);line-height:1.35}
+.pq-scope-item.is-on .nm{color:var(--accent)}
+.pq-scope-item .ds{margin:6px 0 0;font-size:13px;font-weight:500;color:var(--ink-2);
+  line-height:1.6;word-break:keep-all}
+/* 이름·설명이 왼쪽, 담기 버튼이 오른쪽. 버튼은 줄지 않는다 — 설명이 길어
+   좁아지면 글자가 먼저 꺾이고, 버튼은 제 너비를 지킨다 */
+.pq-scope-item .pq-scope-row{align-items:flex-start;gap:12px}
+.pq-scope-item .txt{flex:1;min-width:0}
+.pq-scope-add{flex:none;display:inline-flex;align-items:center;gap:5px;
+  appearance:none;font:inherit;cursor:pointer;white-space:nowrap;
+  padding:8px 14px;border-radius:1000px;
+  background:var(--main-white);border:1px solid var(--field-line);
+  font-size:13px;font-weight:700;letter-spacing:-.02em;color:var(--ink);
+  transition:background .15s,border-color .15s,color .15s}
+.pq-scope-add:hover{border-color:var(--ink);background:var(--fill)}
+.pq-scope-add:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pq-scope-add[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--main-white)}
+.pq-scope-add[aria-pressed="true"]:hover{background:var(--accent);border-color:var(--accent)}
+.pq-scope-add[disabled]{cursor:not-allowed;color:var(--ink-4);border-color:var(--line);background:var(--fill)}
+/* 값이 있을 때만 선다 — 지금은 모두 null 이라 그려지지 않는다 */
+.pq-scope-price{flex:none;margin-left:auto;align-self:center;
+  font-size:13px;font-weight:700;letter-spacing:-.02em;color:var(--ink-2)}
+.pq-scope-item.is-on .pq-scope-price{color:var(--accent)}
+/* 선행 항목을 담지 않아 막혔을 때의 사유 */
+.pq-scope-why{margin:6px 0 0;font-size:12px;font-weight:600;color:var(--ink-3);line-height:1.5}
+
+/* 담은 업무 */
+.pq-scope-sum{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 10px;
+  margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.pq-scope-sum .lb,.pq-scope-todo .lb{flex:none;font-size:13px;font-weight:800;
+  letter-spacing:-.03em;color:var(--ink)}
+.pq-scope-sum .chips{display:flex;flex-wrap:wrap;gap:6px}
+.pq-chip{display:inline-flex;align-items:center;padding:4px 10px;border-radius:1000px;
+  font-size:12.5px;font-weight:700;letter-spacing:-.02em;white-space:nowrap}
+.pq-chip.base{background:var(--fill);border:1px solid var(--line);color:var(--ink-2)}
+.pq-chip.on{background:var(--accent);color:var(--main-white)}
+
+/* 이용사가 할 일 */
+.pq-scope-todo{margin-top:12px;padding:13px 15px;border-radius:8px;background:var(--fill)}
+.pq-scope-todo ul{list-style:none;margin:7px 0 0;padding:0;display:grid;gap:5px}
+.pq-scope-todo li{position:relative;padding-left:11px;font-size:12.5px;font-weight:500;
+  color:var(--ink-2);line-height:1.6;word-break:keep-all}
+.pq-scope-todo li::before{content:"";position:absolute;left:1px;top:8px;
+  width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
+.pq-scope-note{margin:12px 0 0;font-size:12px;font-weight:500;color:var(--ink-3);
+  line-height:1.6;word-break:keep-all}
+
+/* 좁은 폭 — 설명이 버튼 아래로 꺾여도 버튼 폭은 그대로다(flex:none).
+   이름과 버튼이 한 줄에 서고 설명은 그 아래로 내려간다 */
+@media(max-width:640px){
+  .pq-scope-sub{margin:-10px 0 14px;font-size:13px}
+  .pq-scope-base,.pq-scope-item{padding:13px 14px}
+  .pq-scope-item .pq-scope-row{align-items:center}
+  .pq-scope-item .ds{margin-top:8px}
+  .pq-scope-add{padding:7px 12px;font-size:12.5px}
 }
 
 /* ── 납부 주기 ───────────────────────────────────────────────────

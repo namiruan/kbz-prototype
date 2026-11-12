@@ -178,8 +178,8 @@ body.quote-page.is-done .q-done .acts{justify-content:center}
 
 /* ── 라디오 줄 ─────────────────────────────────────────────────
    face-quote.css 에 있던 것을 옮겨 왔다. 안면인식 견적의 「김반장 이용
-   중이신가요?」만 쓰던 부품인데, 프로그램 견적(plan-quote.html)의 종합면허·
-   키스콘·상용근로자 세 줄도 같은 것을 쓴다 — 두 화면이 나눠 쓰면 이 파일이다 */
+   중이신가요?」만 쓰던 부품인데, 프로그램 견적(plan-quote.html)의 면허 종류도
+   같은 것을 쓴다 — 두 화면이 나눠 쓰면 이 파일이다 */
 .f-radios label{font-family:var(--font-pretendard)}
 .f-radios{align-self:flex-start;display:flex;align-items:center;gap:22px;min-height:30px}
 .f-radios label{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:var(--field-ink);letter-spacing:-.01em;white-space:nowrap;cursor:pointer}

@@ -52,6 +52,51 @@
   ];
   var YEAR_OFF = 0.05;                      /* 연납 할인 */
 
+  /* ── 업무범위 ───────────────────────────────────────────────────
+     기본 업무는 늘 들어가고, 아래 넷은 줄마다 따로 담는다(장바구니).
+
+     문구와 항목이 늘고 주는 자리라 마크업이 아니라 이 표 하나에 둔다 —
+     손으로 적어 두면 늘 때마다 빠뜨릴 자리가 생긴다.
+
+     price : 지금은 모두 null 이라 아무것도 그려지지 않는다. 값이 서면
+             버튼 왼쪽에 '+월 ○원' 이 붙는다. 금액 규칙은 받은 것이 없어
+             지어내지 않는다.
+     requires : 선행 항목의 id 들. 비어 있으면 늘 담을 수 있다. 값이 서면
+             선행을 담기 전까지 버튼이 비활성화되고 사유가 줄 아래에 뜬다. */
+  var PICKS = [
+    { id:'daily_hp', nm:'일용근로자 건강·연금',
+      ds:'일용직 건강·연금 가입 대상을 대신 찾아 신고하고, 매달 고지서까지 보내드려요.',
+      items:['건강·연금 대상자 확인 및 신고', '건강·연금 일용 고지서 전송'],
+      price:null, requires:[] },
+    { id:'regular_site', nm:'상용근로자 현장별 관리',
+      ds:'현장에 배치된 상용직을 본사와 분리해 현장별로 신고하고 고지서도 현장별로 받아요.',
+      items:['건강·연금 상용근로자 분리적용 신고', '현장별 상용근로자 고지서 발급', '전입·전근·전보 신고'],
+      price:null, requires:[] },
+    { id:'retire', nm:'퇴직공제 근로내역',
+      ds:'퇴직공제 대상 현장의 근로내역 신고와 하도급 승인까지 맡아드려요.',
+      items:['퇴직공제 근로내용 신고 및 고지서 전송', '퇴직공제 하도급 승인신고', '퇴직공제 EDI 증명서'],
+      price:null, requires:[] },
+    { id:'kiscon', nm:'키스콘 공사대장 신고',
+      ds:'건설공사대장 작성·통보와 변경신고를 대신해드려요.',
+      items:['건설공사대장 작성·통보', '변경신고'],
+      price:null, requires:[] }
+  ];
+
+  /* 담은 상태. 신청 데이터가 그대로 들고 가고, 요금 계산도 여기를 본다 */
+  var scope = {};
+  PICKS.forEach(function(p){ scope[p.id] = false; });
+
+  /* 이용사가 할 일 — 담은 것에 따라 줄이 바뀌고 늘어난다.
+     daily_hp 는 줄을 더하는 것이 아니라 기본 줄을 갈아 끼운다. 전송 기한이
+     달라지는 것이라, 둘을 같이 세우면 어느 날짜가 내 날짜인지 흐려진다 */
+  var TODO_BASE = '매월 10일 18시까지 월출역에 근로내용 입력 후 전송';
+  var TODO = {
+    daily_hp     : { replace:'근로내용 전송 — 익월 반영 매월 4일 12시 / 익익월 반영 10일 18시',
+                     add:'건강·연금 고지서 확인 후 10일까지 납부' },
+    regular_site : { add:'상용직 신고는 뉴비즈씨로 접수' },
+    retire       : { add:'퇴직공제 고지서도 업무톡으로 확인' }
+  };
+
   function tierFor(sales){
     if(!(sales > 0)) return null;
     var eok = sales / EOK;
@@ -107,6 +152,103 @@
     render();
   }
 
+  /* ── 업무범위 그리기 ───────────────────────────────────────────
+     줄은 한 번만 세우고(buildScope), 담고 빼는 동안에는 상태만 칠한다
+     (paintScope). 매번 다시 만들면 펴 둔 '포함 업무 보기' 가 닫히고,
+     방금 누른 버튼에서 초점이 떨어져 키보드로 오는 사람이 자리를 잃는다 */
+  function won(n){ return n.toLocaleString('ko-KR') + '원'; }
+
+  function blockedBy(p){
+    /* 선행 항목 가운데 아직 담지 않은 것들 */
+    return (p.requires || []).filter(function(id){ return !scope[id]; });
+  }
+
+  function buildScope(){
+    var box = $('#scopeList'); if(!box) return;
+    box.innerHTML = PICKS.map(function(p){
+      return '<div class="pq-scope-item" data-pick="' + p.id + '">'
+        +   '<div class="pq-scope-row">'
+        +     '<div class="txt"><span class="nm">' + p.nm + '</span></div>'
+        +     (p.price != null ? '<span class="pq-scope-price">+월 ' + won(p.price) + '</span>' : '')
+        +     '<button type="button" class="pq-scope-add" aria-pressed="false">+ 담기</button>'
+        +   '</div>'
+        +   '<p class="ds">' + p.ds + '</p>'
+        +   '<p class="pq-scope-why" hidden></p>'
+        +   '<details class="pq-scope-more"><summary>포함 업무 보기</summary><ul>'
+        +     p.items.map(function(it){ return '<li>' + it + '</li>'; }).join('')
+        +   '</ul></details>'
+        + '</div>';
+    }).join('');
+
+    /* 손잡이는 줄마다 달지 않고 상자 하나가 받는다 */
+    box.addEventListener('click', function(e){
+      var btn = e.target.closest('.pq-scope-add'); if(!btn || btn.disabled) return;
+      var id = btn.closest('[data-pick]').dataset.pick;
+      scope[id] = !scope[id];
+      paintScope();
+      render();                    /* 담은 것이 금액에 닿을 자리 */
+    });
+  }
+
+  function paintScope(){
+    var box = $('#scopeList'); if(!box) return;
+
+    PICKS.forEach(function(p){
+      var row = box.querySelector('[data-pick="' + p.id + '"]'); if(!row) return;
+      var btn = row.querySelector('.pq-scope-add');
+      var why = row.querySelector('.pq-scope-why');
+      var miss = blockedBy(p);
+      var on = !!scope[p.id] && !miss.length;
+
+      scope[p.id] = on;            /* 선행이 빠지면 담긴 것도 같이 풀린다 */
+      row.classList.toggle('is-on', on);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.textContent = on ? '✓ 담음' : '+ 담기';
+      btn.disabled = !!miss.length;
+      /* 버튼 글자가 '담기/담음' 뿐이라 어느 업무인지 들리지 않는다 */
+      btn.setAttribute('aria-label', p.nm + (on ? ' 담음' : ' 담기'));
+      if(miss.length){
+        why.hidden = false;
+        why.textContent = miss.map(function(id){
+          var r = PICKS.filter(function(x){ return x.id === id; })[0];
+          return r ? r.nm : id;
+        }).join(' · ') + '을(를) 먼저 담아 주세요';
+      } else {
+        why.hidden = true;
+        why.textContent = '';
+      }
+    });
+
+    /* 담은 업무 — 데이터 차례를 따른다 */
+    var chips = $('#scopeChips');
+    if(chips){
+      chips.innerHTML = '<span class="pq-chip base">기본 업무</span>'
+        + PICKS.filter(function(p){ return scope[p.id]; })
+               .map(function(p){ return '<span class="pq-chip on">+ ' + p.nm + '</span>'; })
+               .join('');
+    }
+
+    /* 이용사가 할 일 */
+    var todo = $('#scopeTodo');
+    if(todo){
+      var first = TODO_BASE, rest = [];
+      PICKS.forEach(function(p){
+        var t = TODO[p.id]; if(!t || !scope[p.id]) return;
+        if(t.replace) first = t.replace;
+        if(t.add) rest.push(t.add);
+      });
+      todo.innerHTML = [first].concat(rest)
+        .map(function(x){ return '<li>' + x + '</li>'; }).join('');
+    }
+  }
+
+  function resetScope(){
+    PICKS.forEach(function(p){ scope[p.id] = false; });
+    var box = $('#scopeList');
+    if(box) box.querySelectorAll('.pq-scope-more[open]').forEach(function(d){ d.open = false; });
+    paintScope();
+  }
+
   /* ── 요약 ──────────────────────────────────────────────────────
      퇴직공제 전자카드 견적과 같은 짜임이다 — 할인 블록 → 접히는 총액 →
      펼치면 계산 내역. 다른 것은 총액 자리에 서는 숫자뿐: 저쪽은 확정 금액이고
@@ -135,6 +277,10 @@
 
   function render(){
     var prem  = plan() === 'prem';
+    /* TODO 담은 업무가 금액을 바꾼다면 여기서 scope 를 읽는다. 지금은
+       PICKS 의 price 가 모두 null 이고 받은 요금 규칙도 없어, 상태만
+       들고 있고 총액에는 더하지 않는다 — 금액은 지어내지 않는다.
+       예: PICKS.filter(function(p){ return scope[p.id] && p.price; }) */
     /* 칸은 만 원으로 받고, 구간은 원으로 가른다 — 요금표가 억 단위라 바꿔 둔다 */
     var sales = Number(String($('#q-sales').value||'').replace(/[^0-9]/g,'')) * MAN;
     var t     = tierFor(sales);
@@ -346,6 +492,9 @@
     var fd = new FormData(form);
     var payload = { receipt_no:receiptNo(), requested_at:new Date().toISOString(), plan:plan() };
     fd.forEach(function(v,k){ payload[k] = v; });
+    /* 업무범위는 폼 칸이 아니라 버튼이라 FormData 에 잡히지 않는다.
+       프리미엄에서만 묻는 자리이므로 3.0 이면 싣지 않는다 */
+    if(plan() === 'prem') payload.scope = JSON.parse(JSON.stringify(scope));
 
     sending = true;
     btnSubmit.disabled = true;
@@ -369,6 +518,7 @@
     $('#heroLine').textContent = '맞춤 견적을 받아보세요';
     $('#heroLine').classList.remove('sent');
     form.reset();
+    resetScope();          /* 담기 버튼은 폼 칸이 아니라 reset 이 못 되돌린다 */
     moneySyncs.forEach(function(f){ f(); });
     clearErrs();
     syncPlan();
@@ -428,6 +578,8 @@
     var r = $('input[name=plan][value="'+want+'"]');
     if(r) r.checked = true;
   }
+  buildScope();
+  paintScope();
   syncPlan();
 
   /* ── 물음표 말풍선 ──────────────────────────────────────────
