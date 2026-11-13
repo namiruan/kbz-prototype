@@ -228,23 +228,26 @@
       function rung(id){
         var p = PICKS.filter(function(x){ return x.id === id; })[0];
         if(!p) return '';
-        return '<label class="pq-rung" data-pick="' + p.id + '">'
-          +   '<input type="checkbox">'
-          +   '<span class="bx" aria-hidden="true"></span>'
+        return '<div class="pq-rung" data-pick="' + p.id + '">'
           +   '<span class="tx">' + p.nm
           +     (p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
           +   '</span>'
-          + '</label>';
+          +   '<button type="button" class="pq-add" aria-pressed="false"'
+          +     ' aria-describedby="why-' + p.id + '">+ 추가</button>'
+          /* 막힌 까닭은 화면에서 걷되 아주 없애지는 않는다 — 눌리지 않는
+             버튼에 아무 말도 없으면 보조기기로 오는 사람은 막다른 길이다 */
+          +   '<span class="sr-only" id="why-' + p.id + '"></span>'
+          + '</div>';
       }
       box.innerHTML = '<div class="pq-ladder">' + LADDER.map(rung).join('') + '</div>'
-        + '<div class="pq-scope-whys" id="scopeWhy"></div>'
         /* 키스콘은 사다리에 걸리지 않는다 — 차례도 선행도 없다. 꼴은 같이
            쓰되 한 칸 띄워 따로 세운다 */
         + '<div class="pq-ladder pq-ladder-extra">' + EXTRA.map(rung).join('') + '</div>';
 
-      box.addEventListener('change', function(e){
-        var row = e.target.closest('[data-pick]'); if(!row) return;
-        scope[row.dataset.pick] = e.target.checked;
+      box.addEventListener('click', function(e){
+        var btn = e.target.closest('.pq-add'); if(!btn || btn.disabled) return;
+        var id = btn.closest('[data-pick]').dataset.pick;
+        scope[id] = !scope[id];
         paintScope();
         render();                  /* 포함한 것이 금액에 닿을 자리 */
       });
@@ -265,7 +268,6 @@
   function paintScope(){
     var box = $('#scopeList'); if(!box) return;
 
-    var whys = [];
     PICKS.forEach(function(p){
       var row = box.querySelector('[data-pick="' + p.id + '"]');
       var miss = blockedBy(p);
@@ -273,11 +275,24 @@
 
       scope[p.id] = on;            /* 선행이 빠지면 들어 있던 것도 같이 풀린다 */
       if(row){
-        var inp = row.querySelector('input');
-        inp.checked = on;
-        inp.disabled = !!miss.length;
+        var btn = row.querySelector('.pq-add');
+        btn.textContent = on ? '✓ 추가됨' : '+ 추가';
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.disabled = !!miss.length;
+        /* 버튼 글자가 '추가' 뿐이라 어느 업무인지 들리지 않는다 */
+        btn.setAttribute('aria-label', p.nm + (on ? ' 추가됨' : ' 추가'));
         row.classList.toggle('is-on', on);
         row.classList.toggle('is-off', !!miss.length);
+        var why = row.querySelector('#why-' + p.id);
+        if(why) why.textContent = miss.length
+          ? (function(){
+              var need = miss.map(function(id){
+                var r = PICKS.filter(function(x){ return x.id === id; })[0];
+                return r ? r.nm : id;
+              }).join(' · ');
+              return need + eulReul(need) + ' 먼저 포함해야 합니다';
+            })()
+          : '';
       }
 
       /* 그 고르기로 들어오는 업무를 표에서 함께 칠한다 — 갈래가 여럿이어도
@@ -292,17 +307,7 @@
         if(sr) sr.textContent = on ? '추가 ' : '미포함 ';
       });
 
-      if(miss.length){
-        var need = miss.map(function(id){
-          var r = PICKS.filter(function(x){ return x.id === id; })[0];
-          return r ? r.nm : id;
-        }).join(' · ');
-        whys.push(p.nm + ' — ' + need + eulReul(need) + ' 먼저 포함해 주세요');
-      }
     });
-
-    var why = $('#scopeWhy');
-    if(why) why.innerHTML = whys.map(function(t){ return '<p>' + t + '</p>'; }).join('');
   }
 
   function resetScope(){
