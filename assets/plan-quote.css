@@ -161,14 +161,22 @@
   border-bottom:1px solid var(--line)}
 .pq-scope-tbl tbody th{font-size:12.5px;font-weight:800;
   letter-spacing:-.02em;color:var(--ink)}
-.pq-scope-tbl .ws{display:block;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+/* 늘 들어가는 업무 — 이미 받고 있는 것이라 또렷하게 적는다 */
+.pq-scope-tbl .ws{display:block;font-size:12.5px;font-weight:600;color:var(--ink)}
 /* 업무 사이는 그어 둔 실선 하나가 가른다. 글자로 가르면 섞인다 — 이름 안에
    이미 가운뎃점이 있다(성립·변경·탈퇴) */
 .pq-scope-tbl .w + .w::before{content:"";display:inline-block;
   width:1px;height:11px;margin:0 9px -1px;background:var(--line)}
 .pq-scope-tbl tr.opt:not(.is-on) .w + .w::before{background:#DDE0E4}
 
-/* 고르는 줄 — 체크박스가 갈래 칸에 선다 */
+/* 고르는 줄 — 체크박스가 갈래 칸에 선다.
+   .cat 은 늘 들어가는 업무가 없는 갈래에만 선다. 줄을 따로 세우지 않고
+   체크박스와 같은 줄에 붙인다 */
+/* ⚠ <th> 자체에 display:flex 를 주지 않는다. 표 칸을 flex 로 바꾸면 보조
+      기기가 그 칸을 표의 머리줄로 읽지 않는 브라우저가 있다 — 안쪽에 한 겹
+      둔다 */
+.pq-scope-tbl .hdrow{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.pq-scope-tbl .cat{flex:none}
 /* ⚠ 위아래 패딩 3px 과 음수 마진 3px 이 짝이다 — 손가락이 닿는 넓이는
       25px 로 키우고(WCAG 2.5.8), 줄의 겉보기 높이는 그대로 둔다 */
 .pq-scope-tbl .hd{display:flex;align-items:flex-start;gap:8px;
@@ -200,7 +208,12 @@
       '아직 이 자리에 없다' 를 먼저 보이고, 글자는 읽히게 둔다 */
 .pq-scope-tbl tr.opt:not(.is-on) th,
 .pq-scope-tbl tr.opt:not(.is-on) td{background:var(--fill)}
-.pq-scope-tbl tr.opt:not(.is-on) .ws{color:var(--ink-2)}
+/* 아직 안 고른 업무 — 바탕에 더해 글자도 한 단 눌러 둔다. 늘 들어가는
+   것과 나란히 서므로 둘이 같은 무게면 무엇이 이미 들어와 있는지 안 보인다.
+   ⚠ 더는 못 누른다. ink-3 은 이 회색 바탕 위에서 4.32:1 로 AA 미달이다 */
+.pq-scope-tbl tr.opt:not(.is-on) .ws{font-weight:400;color:var(--ink-2)}
+.pq-scope-tbl tr.opt:not(.is-on) .nm,
+.pq-scope-tbl tr.opt:not(.is-on) .ad{font-weight:600}
 .pq-scope-tbl tr.opt.is-on .nm,
 .pq-scope-tbl tr.opt.is-on .ad{color:var(--accent)}
 .pq-scope-tbl tr.opt.is-on .ws{color:var(--accent);font-weight:600}

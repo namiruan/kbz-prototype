@@ -79,7 +79,10 @@
     { id:'kiscon',       nm:'키스콘 공사대장 신고',   price:null, requires:[] }
   ];
 
-  var CATS = ['사업장', '일용근로자', '상용근로자', '퇴직공제', '공사대장', '증명서'];
+  /* 늘 들어가기만 하는 갈래(사업장·증명서)를 위에 모으고, 고를 것이 있는
+     갈래를 아래에 둔다 — 읽는 사람이 '이미 받는 것' 을 먼저 보고 '더할 것'
+     으로 내려간다 */
+  var CATS = ['사업장', '증명서', '일용근로자', '상용근로자', '퇴직공제', '공사대장'];
 
   var WORK = [
     { cat:'사업장',    by:null,           nm:'4대보험 성립·변경·탈퇴 신고' },
@@ -215,24 +218,25 @@
         + '</tr>';
 
       /* 고르는 줄 — 체크박스가 갈래 칸에 선다. 늘 들어가는 업무가 없는
-         갈래(공사대장)는 갈래 이름 줄 자체가 없다. 고르기 이름이 그 자리를
-         대신하므로 — '키스콘 신고' — 이름만 적힌 빈 줄을 따로 세우지 않는다.
-         눈에 안 보이는 갈래는 아래 sr-only 가 읽어 준다 */
+         갈래(공사대장)는 이름 줄을 따로 세우지 않고 같은 줄에 붙인다.
+         아주 빼면 그 줄이 바로 위 갈래에 딸린 것처럼 읽힌다 */
       if(pick) body += '<tr class="opt end" data-pick="' + pick.id + '">'
         + '<th scope="row">'
+        +   (base.length ? '' : '<div class="hdrow"><span class="cat">' + cat + '</span>')
         +   '<label class="hd">'
         +     '<input type="checkbox" aria-describedby="ws-' + pick.id + '">'
         +     '<span class="bx" aria-hidden="true"></span>'
         +     '<span class="tx">'
         /* 갈래는 눈에는 바로 위에 보이지만 귀에는 안 들린다 — sr-only 가
            읽어 준다. 보이는 글자를 그대로 품으므로 WCAG 2.5.3 도 지킨다 */
-        +       '<span class="sr-only">' + cat + ' </span>'
+        +       (base.length ? '<span class="sr-only">' + cat + ' </span>' : '')
         +       '<span class="nm">' + shortNm(pick.nm, cat) + '</span>'
         +       ' <span class="ad">추가</span>'
         /* 값이 서면 이름 뒤에 붙는다. 지금은 모두 null 이라 안 그려진다 */
         +       (pick.price != null ? ' <span class="pr">월 ' + won(pick.price) + '</span>' : '')
         +     '</span>'
         +   '</label>'
+        +   (base.length ? '' : '</div>')
         + '</th>'
         + '<td id="ws-' + pick.id + '"><span class="ws">' + add.map(wsp).join('') + '</span>'
         +   '<p class="why" hidden></p></td>'
