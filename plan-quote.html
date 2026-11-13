@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/base.css?v=1">
 <link rel="stylesheet" href="assets/select.css?v=1">
 <link rel="stylesheet" href="assets/quote-common.css?v=2">
-<link rel="stylesheet" href="assets/plan-quote.css?v=17">
+<link rel="stylesheet" href="assets/plan-quote.css?v=18">
 <link rel="stylesheet" href="assets/kbd.css?v=1">
 <script src="assets/format.js?v=1"></script>
 <script src="assets/select.js?v=1"></script>
@@ -115,17 +115,16 @@
       </div>
 
       <!-- STEP 2.5 : 업무범위 — 기본 업무에 선택 업무를 더한다.
-           기본 업무 줄 · 선택 업무 줄 · '포함된 업무' 를 모두 스크립트가
+           고르는 칩 줄과 '포함된 업무' 를 모두 스크립트가
            BASE 와 PICKS 하나로 그린다. 항목이 늘고 주는 자리라, 마크업에
            손으로 적어 두면 늘 때마다 빠뜨릴 자리가 생긴다 -->
       <div class="q-card prem-only" id="scopeCard">
         <div class="q-step"><h2>업무범위</h2></div>
 
-        <!-- 기본 업무 — 고를 수 없다. '✓ 포함됨' 이 그 말을 한다 -->
-        <div class="pq-scope-base" id="scopeBase"></div>
-
-        <!-- 선택 업무 — 줄마다 따로 넣고 뺀다 -->
-        <div class="pq-scope-list" id="scopeList"></div>
+        <!-- 고르는 줄 — 기본 업무 칩이 맨 앞에 서고(고를 수 없다),
+             그 뒤로 선택 업무 칩이 따른다 -->
+        <div class="pq-scope-picks" id="scopeList" role="group" aria-label="업무범위"></div>
+        <div class="pq-scope-whys" id="scopeWhy"></div>
 
         <!-- 포함된 업무 — 무엇을 해 주는지가 여기 한곳에 쌓인다. 고르는 줄은
              제목만 세우고, 실제 업무 칩은 여기서만 보여 준다 -->
@@ -273,6 +272,6 @@
 </dialog>
 
 <script src="assets/kbd.js?v=1"></script>
-<script src="assets/plan-quote.js?v=9"></script>
+<script src="assets/plan-quote.js?v=10"></script>
 </body>
 </html>

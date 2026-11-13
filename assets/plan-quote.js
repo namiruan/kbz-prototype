@@ -179,29 +179,25 @@
   }
 
   function buildScope(){
-    /* 기본 업무 줄 — 고를 수 없으므로 버튼이 아니라 표시 하나만 선다 */
-    var base = $('#scopeBase');
-    if(base) base.innerHTML = '<div class="pq-scope-row">'
-      +   '<span class="nm">' + BASE.nm + '</span>'
-      +   '<span class="pq-scope-always">✓ 포함됨</span>'
-      + '</div>';
-
     var box = $('#scopeList'); if(!box) return;
-    box.innerHTML = PICKS.map(function(p){
-      return '<div class="pq-scope-item" data-pick="' + p.id + '">'
-        +   '<div class="pq-scope-row">'
-        +     '<span class="nm">' + p.nm + '</span>'
-        +     (p.price != null ? '<span class="pq-scope-price">+월 ' + won(p.price) + '</span>' : '')
-        +     '<button type="button" class="pq-scope-add" aria-pressed="false">+ 포함</button>'
-        +   '</div>'
-        +   '<p class="pq-scope-why" hidden></p>'
-        + '</div>';
-    }).join('');
 
-    /* 손잡이는 줄마다 달지 않고 상자 하나가 받는다 */
+    /* 기본 업무 칩이 맨 앞에 선다 — 고를 수 없으므로 button 이 아니다.
+       '✓' 는 꼴이 말하는 것을 되풀이할 뿐이라, 읽어 주는 몫은 sr-only 가 */
+    box.innerHTML = '<span class="pq-pick is-base">✓ ' + BASE.nm
+      +   '<span class="sr-only"> 늘 포함됨</span></span>'
+      + PICKS.map(function(p){
+          return '<button type="button" class="pq-pick" data-pick="' + p.id + '"'
+            +     ' aria-pressed="false">'
+            +   '<span class="mk" aria-hidden="true">+</span>' + p.nm
+            /* 칩 앞에 이미 '+' 가 서므로 금액에는 붙이지 않는다 */
+            +   (p.price != null ? '<span class="pr">월 ' + won(p.price) + '</span>' : '')
+            + '</button>';
+        }).join('');
+
+    /* 손잡이는 칩마다 달지 않고 줄 하나가 받는다 */
     box.addEventListener('click', function(e){
-      var btn = e.target.closest('.pq-scope-add'); if(!btn || btn.disabled) return;
-      var id = btn.closest('[data-pick]').dataset.pick;
+      var btn = e.target.closest('.pq-pick[data-pick]'); if(!btn || btn.disabled) return;
+      var id = btn.dataset.pick;
       scope[id] = !scope[id];
       paintScope();
       render();                    /* 포함한 것이 금액에 닿을 자리 */
@@ -211,31 +207,28 @@
   function paintScope(){
     var box = $('#scopeList'); if(!box) return;
 
+    var whys = [];
     PICKS.forEach(function(p){
-      var row = box.querySelector('[data-pick="' + p.id + '"]'); if(!row) return;
-      var btn = row.querySelector('.pq-scope-add');
-      var why = row.querySelector('.pq-scope-why');
+      var btn = box.querySelector('[data-pick="' + p.id + '"]'); if(!btn) return;
+      var mk = btn.querySelector('.mk');
       var miss = blockedBy(p);
       var on = !!scope[p.id] && !miss.length;
 
       scope[p.id] = on;            /* 선행이 빠지면 들어 있던 것도 같이 풀린다 */
-      row.classList.toggle('is-on', on);
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      btn.textContent = on ? '✓ 포함됨' : '+ 포함';
+      if(mk) mk.textContent = on ? '✓' : '+';
       btn.disabled = !!miss.length;
-      /* 버튼 글자가 '포함/포함됨' 뿐이라 어느 업무인지 들리지 않는다 */
+      /* 칩 글자는 이름뿐이라 고른 상태가 들리지 않는다 */
       btn.setAttribute('aria-label', p.nm + (on ? ' 포함됨' : ' 포함'));
-      if(miss.length){
-        why.hidden = false;
-        why.textContent = miss.map(function(id){
-          var r = PICKS.filter(function(x){ return x.id === id; })[0];
-          return r ? r.nm : id;
-        }).join(' · ') + '을(를) 먼저 포함해 주세요';
-      } else {
-        why.hidden = true;
-        why.textContent = '';
-      }
+      if(miss.length) whys.push(p.nm + ' — ' + miss.map(function(id){
+        var r = PICKS.filter(function(x){ return x.id === id; })[0];
+        return r ? r.nm : id;
+      }).join(' · ') + '을(를) 먼저 포함해 주세요');
     });
+
+    /* 막힌 칩의 사유 — 칩 줄 아래에 모아 적는다 */
+    var why = $('#scopeWhy');
+    if(why) why.innerHTML = whys.map(function(t){ return '<p>' + t + '</p>'; }).join('');
 
     /* 포함된 업무 — 기본이 늘 맨 위에 서고, 고른 것이 데이터 차례로 붙는다.
        이름만 되읊지 않고 실제 업무를 쌓는다. 고르는 줄은 제목만 세우므로
