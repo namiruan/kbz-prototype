@@ -154,51 +154,36 @@
       말하는 꼴이라, 더해지는 것에 쓰면 뜻이 어긋난다. 여럿을 켜는 자리는
       체크박스다. 쌓이는 것은 레일이 말한다 */
 .pq-ladder{display:grid}
+/* 별도 서비스 — 사다리에 걸리지 않는다(차례도 선행도 없다). 꼴은 같이
+   쓰고 한 칸 띄워 따로 세운다. 고르는 자리인 것은 같으므로 꼴까지 달리
+   할 까닭이 없다 */
+.pq-ladder-extra{margin-top:14px}
 .pq-rung{display:flex;align-items:center;gap:9px;
   padding:11px 13px;border-left:3px solid var(--line);
   font-size:13.5px;font-weight:700;letter-spacing:-.025em;color:var(--ink);
-  transition:border-color .15s,background .15s,color .15s}
-label.pq-rung{cursor:pointer}
-label.pq-rung:hover{background:var(--fill)}
+  cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+.pq-rung:hover{background:var(--fill)}
 /* 들어온 칸 — 레일이 여기까지 차 있다 */
-.pq-rung.is-base,.pq-rung.is-on{border-left-color:var(--accent);
-  background:var(--accent-tint)}
-label.pq-rung.is-on:hover{background:var(--accent-tint)}
+.pq-rung.is-on{border-left-color:var(--accent);background:var(--accent-tint)}
+.pq-rung.is-on:hover{background:var(--accent-tint)}
 .pq-rung.is-off{cursor:not-allowed;color:var(--ink-3)}
 .pq-rung .tx{flex:1;min-width:0}
 .pq-rung .pr{font-weight:600;color:var(--ink-2)}
-/* 기본은 고를 수 없다 — '늘 포함' 이 그 말을 한다 */
-.pq-rung .fix{flex:none;padding:2px 7px;border-radius:1000px;
-  background:var(--main-white);border:1px solid rgba(var(--color-blue-rgb),.3);
-  font-size:11px;font-weight:700;letter-spacing:-.02em;color:var(--accent)}
-
-/* 별도 서비스 — 사다리 밖이라 레일에 걸지 않는다 */
-.pq-pick{margin-top:12px;display:flex;align-items:center;gap:9px;max-width:100%;
-  padding:11px 13px;border-radius:8px;
-  background:var(--main-white);border:1px solid var(--line);
-  font-size:13.5px;font-weight:700;letter-spacing:-.025em;color:var(--ink);
-  cursor:pointer;transition:border-color .15s,background .15s}
-.pq-pick:hover{border-color:#C6CBD1}
-.pq-pick.is-on{border-color:var(--accent);background:var(--accent-tint)}
-.pq-pick.is-on:hover{border-color:var(--accent)}
-.pq-pick.is-off{cursor:not-allowed;color:var(--ink-3);background:var(--fill)}
-.pq-pick .tx{flex:1;min-width:0}
-.pq-pick .pr{font-weight:600;color:var(--ink-2)}
 
 /* 입력은 숨기되 지우지 않는다 — 클릭·키보드·접근성은 그대로 브라우저가 한다 */
-.pq-pick input,.pq-rung input{position:absolute;width:1px;height:1px;opacity:0;margin:0}
-.pq-pick .bx,.pq-rung .bx{flex:none;width:18px;height:18px;border-radius:5px;
+.pq-rung input{position:absolute;width:1px;height:1px;opacity:0;margin:0}
+.pq-rung .bx{flex:none;width:18px;height:18px;border-radius:5px;
   display:inline-flex;align-items:center;justify-content:center;
   background:var(--main-white);border:1.5px solid var(--field-line);
   transition:background .15s,border-color .15s}
-.pq-pick .bx::after,.pq-rung .bx::after{content:"";width:9px;height:5px;margin-top:-3px;
+.pq-rung .bx::after{content:"";width:9px;height:5px;margin-top:-3px;
   border-left:2px solid var(--main-white);border-bottom:2px solid var(--main-white);
   transform:rotate(-45deg) scale(.4);opacity:0;transition:transform .15s,opacity .15s}
-.pq-pick input:checked ~ .bx,.pq-rung input:checked ~ .bx,.pq-rung.is-base .bx{background:var(--accent);border-color:var(--accent)}
-.pq-pick input:checked ~ .bx::after,.pq-rung input:checked ~ .bx::after,.pq-rung.is-base .bx::after{transform:rotate(-45deg) scale(1);opacity:1}
-.pq-pick input:focus-visible ~ .bx,.pq-rung input:focus-visible ~ .bx{outline:2px solid var(--accent);outline-offset:2px}
-.pq-pick.is-off .bx,.pq-rung.is-off .bx{border-color:var(--line);background:var(--fill)}
-@media(prefers-reduced-motion:reduce){.pq-pick .bx::after,.pq-rung .bx::after{transition:none}}
+.pq-rung input:checked ~ .bx{background:var(--accent);border-color:var(--accent)}
+.pq-rung input:checked ~ .bx::after{transform:rotate(-45deg) scale(1);opacity:1}
+.pq-rung input:focus-visible ~ .bx{outline:2px solid var(--accent);outline-offset:2px}
+.pq-rung.is-off .bx{border-color:var(--line);background:var(--fill)}
+@media(prefers-reduced-motion:reduce){.pq-rung .bx::after{transition:none}}
 
 /* 선행 항목을 포함하지 않아 막혔을 때의 사유 */
 .pq-scope-whys{display:grid;gap:4px;margin-top:9px}
@@ -237,8 +222,7 @@ label.pq-rung.is-on:hover{background:var(--accent-tint)}
   width:1px;height:11px;margin:0 9px -1px;background:var(--line)}
 
 @media(max-width:640px){
-  .pq-rung{padding:11px}
-  .pq-pick{padding:11px 12px;font-size:13px}
+  .pq-rung{padding:11px;font-size:13px}
   .pq-scope-tbl .c-cat{width:33%}
   .pq-scope-tbl th,.pq-scope-tbl td{padding-right:8px}
   .pq-scope-tbl td{padding-left:8px}

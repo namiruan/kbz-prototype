@@ -222,35 +222,25 @@
   function buildScope(){
     var box = $('#scopeList');
     if(box){
-      box.innerHTML = '<div class="pq-ladder">'
-        + '<div class="pq-rung is-base">'
-        +   '<span class="bx" aria-hidden="true"></span>'
-        +   '<span class="tx">기본</span>'
-        +   '<span class="fix">늘 포함</span>'
-        + '</div>'
-        + LADDER.map(function(id){
-            var p = PICKS.filter(function(x){ return x.id === id; })[0];
-            return '<label class="pq-rung" data-pick="' + p.id + '">'
-              +   '<input type="checkbox">'
-              +   '<span class="bx" aria-hidden="true"></span>'
-              +   '<span class="tx">' + p.nm
-              +     (p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
-              +   '</span>'
-              + '</label>';
-          }).join('')
-        + '</div>'
+      /* 고르는 자리에는 고를 수 있는 것만 둔다. '기본' 칸을 세워 두었더니
+         다른 칸과 똑같이 생겼는데 눌리지 않아, '늘 포함' 꼬리표로 그 말을
+         덮어야 했다. 늘 들어가는 업무는 아래 표가 검은 글자로 말한다 */
+      function rung(id){
+        var p = PICKS.filter(function(x){ return x.id === id; })[0];
+        if(!p) return '';
+        return '<label class="pq-rung" data-pick="' + p.id + '">'
+          +   '<input type="checkbox">'
+          +   '<span class="bx" aria-hidden="true"></span>'
+          +   '<span class="tx">' + p.nm
+          +     (p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
+          +   '</span>'
+          + '</label>';
+      }
+      box.innerHTML = '<div class="pq-ladder">' + LADDER.map(rung).join('') + '</div>'
         + '<div class="pq-scope-whys" id="scopeWhy"></div>'
-        + EXTRA.map(function(id){
-            var p = PICKS.filter(function(x){ return x.id === id; })[0];
-            if(!p) return '';
-            return '<label class="pq-pick" data-pick="' + p.id + '">'
-              +   '<input type="checkbox">'
-              +   '<span class="bx" aria-hidden="true"></span>'
-              +   '<span class="tx">' + p.nm
-              +     (p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
-              +   '</span>'
-              + '</label>';
-          }).join('');
+        /* 키스콘은 사다리에 걸리지 않는다 — 차례도 선행도 없다. 꼴은 같이
+           쓰되 한 칸 띄워 따로 세운다 */
+        + '<div class="pq-ladder pq-ladder-extra">' + EXTRA.map(rung).join('') + '</div>';
 
       box.addEventListener('change', function(e){
         var row = e.target.closest('[data-pick]'); if(!row) return;

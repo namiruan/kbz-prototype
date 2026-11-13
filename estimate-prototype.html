@@ -32,7 +32,7 @@
   <link rel="prefetch" href="assets/estimate.css?v=2" as="style">
   <link rel="prefetch" href="assets/select.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote-common.css?v=2" as="style">
-  <link rel="prefetch" href="assets/plan-quote.css?v=34" as="style">
+  <link rel="prefetch" href="assets/plan-quote.css?v=35" as="style">
   <link rel="prefetch" href="assets/kbd.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote.css?v=1" as="style">
   <link rel="prefetch" href="assets/face-quote.css?v=1" as="style">
@@ -40,7 +40,7 @@
   <link rel="prefetch" href="assets/format.js?v=1" as="script">
   <link rel="prefetch" href="assets/select.js?v=1" as="script">
   <link rel="prefetch" href="assets/kbd.js?v=1" as="script">
-  <link rel="prefetch" href="assets/plan-quote.js?v=25" as="script">
+  <link rel="prefetch" href="assets/plan-quote.js?v=26" as="script">
 </head>
 <body>
 
@@ -113,11 +113,10 @@
         data-steps="프리미엄 폼의 업무범위까지 내려온 상태"
         data-look="
           |@{.pq-ladder} 관리업무는 위에서 아래로 쌓이는 사다리입니다
-          |@{.pq-rung.is-base} 맨 위 '기본'은 체크된 채 잠겨 있고 '늘 포함'이 붙습니다
-          |@{.pq-rung.is-base} 들어온 칸은 왼쪽 레일이 브랜드 컬러로 찹니다
+          |@{.pq-ladder .pq-rung} 사다리 칸은 셋이고 모두 체크가 풀린 채로 열립니다
           |@{.pq-rung.is-off} 앞 칸을 체크하기 전에는 뒤 칸이 눌리지 않습니다
           |@{#scopeWhy} 눌리지 않는 칸은 무엇을 먼저 포함해야 하는지 아래에 적힙니다
-          |@{.pq-pick} 키스콘 공사대장 신고는 계약과 별도라 사다리 밖에 섭니다
+          |@{.pq-ladder-extra .pq-rung} 키스콘 공사대장 신고는 차례가 없어 한 칸 띄워 따로 섭니다
           |@{.pq-scope-tbl tbody th} 갈래는 '4대보험·퇴직공제 신고'·'일용근로자 신고'·'상용근로자 신고'·'증명서 발급'·'별도 서비스' 다섯입니다
           |@{.pq-scope-tbl tbody tr} 갈래마다 한 줄이고, 사다리를 올려도 줄 수는 그대로입니다
           |@{.pq-scope-tbl .w:not(.pick)} 늘 들어가는 업무는 검은 글자이고 괄호도 표시도 붙지 않습니다
@@ -127,7 +126,7 @@
         data-why="사다리를 끝까지 올린 업무범위 화면입니다."
         data-steps="관리업무 셋을 차례로 체크한 상태"
         data-look="
-          |@{.pq-rung.is-on} 체크한 칸은 바탕이 옅게 차고 왼쪽 레일이 브랜드 컬러가 됩니다
+          |@{.pq-rung.is-on} 체크한 칸은 바탕이 옅게 차고 왼쪽 레일이 브랜드 컬러로 찹니다
           |@{.pq-ladder} 레일이 맨 아래까지 이어집니다
           |@{.pq-scope-tbl .w.pick.is-on} 표에서 그 업무들이 회색에서 강조색으로 바뀝니다
           |@{.pq-scope-tbl .w.pick.is-on .mk} 괄호가 걷히고 '✓'가 붙습니다
