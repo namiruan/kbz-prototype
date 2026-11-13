@@ -40,7 +40,7 @@
   <link rel="prefetch" href="assets/format.js?v=1" as="script">
   <link rel="prefetch" href="assets/select.js?v=1" as="script">
   <link rel="prefetch" href="assets/kbd.js?v=1" as="script">
-  <link rel="prefetch" href="assets/plan-quote.js?v=31" as="script">
+  <link rel="prefetch" href="assets/plan-quote.js?v=32" as="script">
 </head>
 <body>
 
@@ -104,7 +104,7 @@
           |@sm @md @lg @{.pq-help} 유형 카드에는 이름만 적히고, 설명은 디바이스 사이즈마다 모바일은 물음표를 클릭해 카드 안에서, 태블릿·데스크톱은 호버 툴팁으로 노출됩니다
           |사업장 규모는 연 매출액·연 노무비·연 현장 수·월평균 현장 수·현장당 인원 수 입력폼과 면허 종류 세그먼트로 이뤄집니다
           |@{#scopeCard} 업무범위는 아무것도 체크되지 않은 채 열립니다
-          |@{.pq-ladder} 업무범위는 쌓이는 관리업무 사다리와 그 아래 표로 이뤄집니다
+          |@{.pq-ladder} 업무범위는 위에서 아래로 쌓이는 사다리 하나입니다
           |연 매출액을 뺀 나머지는 프리미엄에서만 묻고 금액에는 들어가지 않습니다
           |사업장 규모에서 (필수)는 '연 매출액'과 '연 현장 수'에만 붙습니다
           |@{.q-sum-total} 요약은 '이용요금(예상)'이고, 매출액을 넣기 전에는 '0원'입니다">프리미엄으로 열린 폼</button>
@@ -112,7 +112,7 @@
         data-why="늘 하는 일만 들어 있는 업무범위 화면입니다."
         data-steps="프리미엄 폼의 업무범위까지 내려온 상태"
         data-look="
-          |@{.pq-ladder} 관리업무는 위에서 아래로 쌓이는 사다리입니다
+          |@{.pq-ladder} 더하는 업무는 위에서 아래로 쌓이는 사다리입니다
           |@{.pq-rung.is-base} 맨 위 '기본'에는 버튼이 없습니다
           |@{.pq-rung .w} 칸마다 무엇을 대신해 주는지 점 찍힌 줄로 적혀 있습니다
           |@{.pq-rung.is-base .w} 기본 칸에는 네 줄이 섭니다
@@ -122,7 +122,7 @@
           |@{.pq-ladder-extra .pq-rung} 키스콘 공사대장 신고는 차례가 없어 한 칸 띄워 따로 서고 처음부터 누를 수 있습니다">업무범위 — 기본</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="sc-포함뒤"
         data-why="사다리를 끝까지 올린 업무범위 화면입니다."
-        data-steps="관리업무 셋을 차례로 추가한 상태"
+        data-steps="더하는 업무 셋을 차례로 추가한 상태"
         data-look="
           |@{.pq-rung.is-on} 추가한 칸은 바탕이 옅게 차고 왼쪽 레일이 브랜드 컬러로 찹니다
           |@{.pq-ladder} 레일이 맨 아래까지 이어집니다
