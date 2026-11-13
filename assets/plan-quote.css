@@ -168,7 +168,6 @@
   width:1px;height:11px;margin:0 9px -1px;background:var(--line)}
 
 /* 고르는 줄 — 체크박스가 갈래 칸에 선다 */
-.pq-scope-tbl .cat{display:block;margin-bottom:5px}
 /* ⚠ 위아래 패딩 3px 과 음수 마진 3px 이 짝이다 — 손가락이 닿는 넓이는
       25px 로 키우고(WCAG 2.5.8), 줄의 겉보기 높이는 그대로 둔다 */
 .pq-scope-tbl .hd{display:flex;align-items:flex-start;gap:8px;

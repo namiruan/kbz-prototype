@@ -215,10 +215,11 @@
         + '</tr>';
 
       /* 고르는 줄 — 체크박스가 갈래 칸에 선다. 늘 들어가는 업무가 없는
-         갈래(공사대장)는 이 줄이 갈래 이름도 같이 든다 */
+         갈래(공사대장)는 갈래 이름 줄 자체가 없다. 고르기 이름이 그 자리를
+         대신하므로 — '키스콘 신고' — 이름만 적힌 빈 줄을 따로 세우지 않는다.
+         눈에 안 보이는 갈래는 아래 sr-only 가 읽어 준다 */
       if(pick) body += '<tr class="opt end" data-pick="' + pick.id + '">'
         + '<th scope="row">'
-        +   (base.length ? '' : '<span class="cat">' + cat + '</span>')
         +   '<label class="hd">'
         +     '<input type="checkbox" aria-describedby="ws-' + pick.id + '">'
         +     '<span class="bx" aria-hidden="true"></span>'
