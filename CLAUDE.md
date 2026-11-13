@@ -53,6 +53,23 @@ grep -l "고친파일.css" *.html
 값은 화면 파일마다 따로 센다(`?v=714` · `?v=2` 처럼). 한 벌로 맞추지
 않는다 — 안 고친 화면까지 캐시가 깨진다.
 
+**CSS 를 손으로 갈아 끼웠으면 중괄호가 맞는지 본다.** 하나가 더 닫히면
+브라우저는 거기서 블록을 끝내고 그다음 규칙을 통째로 삼킨다 — 오류도
+경고도 없이, 멀쩡히 적어 둔 바탕과 테두리만 사라진다.
+
+```
+python3 - <<'EOF'
+import re,sys
+s=open(sys.argv[1] if len(sys.argv)>1 else 'assets/고친파일.css',encoding='utf-8').read()
+t=re.sub(r'/\*.*?\*/', lambda m:'\n'*m.group(0).count('\n'), s, flags=re.S)
+d=0
+for i,l in enumerate(t.split('\n'),1):
+    d+=l.count('{')-l.count('}')
+    if d<0: print('%d행에서 음수'%i); break
+print('최종 깊이', d)
+EOF
+```
+
 ```
 python3 /path/to/kbz_3.0_ui_stytem/validate-prototype.py estimate-prototype.html
 ```
