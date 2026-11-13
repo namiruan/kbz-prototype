@@ -197,23 +197,22 @@
 .pq-scope-tbl tbody th,.pq-scope-tbl tbody td{border-bottom:1px solid var(--line)}
 .pq-scope-tbl tbody th{font-size:12.5px;font-weight:800;
   letter-spacing:-.02em;color:var(--ink)}
-.pq-scope-tbl .ws{display:block;font-size:12.5px}
+.pq-scope-tbl .ws{font-size:12.5px}
 
-/* 업무 하나 — 세 상태가 색과 표시로 함께 갈린다.
-   늘 들어감  검정 600 · 표시 없음
-   미포함     회색 400 · '+'
-   추가됨     강조색 600 · '✓'
-   ⚠ 색만으로 가르지 않는다(WCAG 1.4.1). 표시가 없으면 색을 못 보는
-      사람에게 셋이 다 같아 보인다 */
-.pq-scope-tbl .w{font-weight:600;color:var(--ink)}
+/* 한 줄씩 적는다. 신고 이름을 늘어놓지 않으므로 가로로 흘릴 것이 없다 */
+.pq-scope-tbl .w{margin:0;font-weight:600;color:var(--ink);line-height:1.6}
+.pq-scope-tbl .w + .w{margin-top:5px}
+/* 아직 안 들어온 줄 · 들어온 줄 — 앞의 말과 색이 함께 갈린다.
+   ⚠ 색만으로 가르지 않는다(WCAG 1.4.1) */
 .pq-scope-tbl .w.pick{font-weight:400;color:var(--ink-3)}
 .pq-scope-tbl .w.pick.is-on{font-weight:600;color:var(--accent)}
-/* 괄호는 글자와 한 몸으로 읽히게 두고, '✓' 만 띄워 세운다 */
-.pq-scope-tbl .w.pick.is-on .mk{margin-right:3px;font-weight:800}
-/* 업무 사이는 그어 둔 실선 하나가 가른다. 글자로 가르면 섞인다 — 이름 안에
-   이미 가운뎃점이 있다(성립·변경·탈퇴) */
-.pq-scope-tbl .w + .w::before{content:"";display:inline-block;
-  width:1px;height:11px;margin:0 9px -1px;background:var(--line)}
+.pq-scope-tbl .tag{display:inline-block;margin-right:7px;
+  padding:1px 6px;border-radius:4px;
+  background:var(--fill);border:1px solid var(--line);
+  font-size:11px;font-weight:700;letter-spacing:-.02em;color:var(--ink-2);
+  vertical-align:1px}
+.pq-scope-tbl .w.pick.is-on .tag{background:var(--main-white);
+  border-color:rgba(var(--color-blue-rgb),.3);color:var(--accent)}
 
 @media(max-width:640px){
   .pq-rung{padding:11px;font-size:13px}
@@ -221,7 +220,6 @@
   .pq-scope-tbl th,.pq-scope-tbl td{padding-right:8px}
   .pq-scope-tbl td{padding-left:8px}
   .pq-scope-tbl .ws{font-size:12px}
-  .pq-scope-tbl .w + .w::before{margin:0 7px -1px}
 }
 
 /* ── 납부 주기 ───────────────────────────────────────────────────

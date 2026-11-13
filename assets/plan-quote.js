@@ -65,8 +65,11 @@
            받은 것이 없어 지어내지 않는다.
      requires : 선행 항목의 id 들.
 
-     WORK — 실제로 해 주는 일.
+     WORK — 해 주는 일을 한 줄로. 신고 이름을 늘어놓지 않는다 — 받는
+           사람이 알고 싶은 것은 '무엇을 대신해 주는가' 이지 신고서 이름이
+           아니다. 다만 원본 안내문에 없는 것을 지어내지는 않는다.
      by  : null 이면 늘 들어간다. PICKS 의 id 면 그것을 골라야 들어간다.
+           cat 과 by 의 짝마다 한 줄이다.
      ⚠ 'retire'(일용근로자 퇴직공제 관리업무) 하나가 세 갈래에 걸쳐 있다 —
         하도급 승인신고는 '4대보험·퇴직공제 신고' 에, 근로내용 신고는
         '일용근로자 신고' 에, EDI 증명서는 '증명서 발급' 에. 그래서 고르기
@@ -93,28 +96,30 @@
   ];
 
   var WORK = [
-    { cat:'4대보험·퇴직공제 신고', by:null,     nm:'4대보험 성립·변경·탈퇴 신고' },
-    { cat:'4대보험·퇴직공제 신고', by:null,     nm:'고용·산재 하수급 사업주 승인신고' },
-    { cat:'4대보험·퇴직공제 신고', by:null,     nm:'하수급 명세신고' },
-    { cat:'4대보험·퇴직공제 신고', by:null,     nm:'퇴직공제 성립·변경·준공 신고' },
-    { cat:'4대보험·퇴직공제 신고', by:'retire', nm:'퇴직공제 하도급 승인신고' },
+    { cat:'4대보험·퇴직공제 신고', by:null,
+      say:'현장을 열고 바꾸고 닫을 때, 하도급을 맺을 때 공단에 내야 하는 신고를 대신합니다' },
+    { cat:'4대보험·퇴직공제 신고', by:'retire',
+      say:'퇴직공제 하도급 승인신고까지 함께 맡습니다' },
 
-    { cat:'일용근로자 신고', by:null,       nm:'고용·산재보험 근로내용 오류 확인·신고' },
-    { cat:'일용근로자 신고', by:'daily_hp', nm:'건강·연금 대상자 확인·신고' },
-    { cat:'일용근로자 신고', by:'daily_hp', nm:'건강·연금 일용 고지서 전송' },
-    { cat:'일용근로자 신고', by:'retire',   nm:'퇴직공제 근로내용 신고·고지서 전송' },
+    { cat:'일용근로자 신고', by:null,
+      say:'매달 보내 주신 근로내용에서 공단 오류를 잡아 신고까지 끝냅니다' },
+    { cat:'일용근로자 신고', by:'daily_hp',
+      say:'건강·연금 가입 대상을 대신 찾아 신고하고, 매달 고지서를 보내 드립니다' },
+    { cat:'일용근로자 신고', by:'retire',
+      say:'퇴직공제 근로내역 신고와 고지서 전송을 더합니다' },
 
-    { cat:'상용근로자 신고', by:null,           nm:'취득·상실·보수변경 신고' },
-    { cat:'상용근로자 신고', by:null,           nm:'이직확인서 신고' },
-    { cat:'상용근로자 신고', by:null,           nm:'휴직·복직 신고' },
-    { cat:'상용근로자 신고', by:'regular_site', nm:'전입·전근·전보 신고' },
+    { cat:'상용근로자 신고', by:null,
+      say:'본사 상용직의 입·퇴사부터 이직확인서·휴직·복직까지 신고합니다' },
+    { cat:'상용근로자 신고', by:'regular_site',
+      say:'현장 사이를 오가는 인사이동까지 신고합니다' },
 
-    { cat:'증명서 발급', by:null,     nm:'건강·연금 EDI 증명서' },
-    { cat:'증명서 발급', by:null,     nm:'근로복지공단 토탈서비스 증명서' },
-    { cat:'증명서 발급', by:'retire', nm:'퇴직공제 EDI 증명서' },
+    { cat:'증명서 발급', by:null,
+      say:'필요한 증명서를 업무톡으로 요청하면 대신 발급해 드립니다' },
+    { cat:'증명서 발급', by:'retire',
+      say:'퇴직공제 증명서도 같은 자리에서 받습니다' },
 
-    { cat:'별도 서비스', by:'kiscon', nm:'건설공사대장 작성·통보' },
-    { cat:'별도 서비스', by:'kiscon', nm:'변경신고' }
+    { cat:'별도 서비스', by:'kiscon',
+      say:'건설공사대장 작성·통보와 변경신고를 대신합니다' }
   ];
 
   /* 키스콘은 계약과 별도라 사다리 밖이다 */
@@ -200,19 +205,16 @@
 
   function wsp(w){ return '<span class="w">' + w.nm + '</span>'; }
 
-  /* 업무 하나. 고르기로 들어오는 것에는 표시를 단다 — 색만으로 가르면
-     색을 못 보는 사람에게는 세 상태가 다 같아 보인다(WCAG 1.4.1).
-     ⚠ 아직 안 고른 것에 '+' 를 썼더니 누를 수 있는 자리로 읽혔다. 여기는
-        누르는 자리가 아니다(누르는 곳은 표 위의 고르는 칸이다). 괄호는
-        '해당 시' 를 뜻할 뿐 행동을 가리키지 않는다 */
+  /* 한 줄. 더해지는 줄에는 '추가 시'·'추가됨' 을 앞에 단다 — 색만으로
+     가르면 색을 못 보는 사람에게는 둘이 같아 보인다(WCAG 1.4.1).
+     ⚠ '+' 와 괄호를 차례로 썼다가 되돌렸다. '+' 는 누를 수 있어 보였고
+        (누르는 곳은 위의 '추가' 버튼이다), 괄호는 한 문장을 감싸기엔
+        어색했다. 말로 적으면 둘 다 생기지 않는다 */
   function wsp(w){
-    if(!w.by) return '<span class="w">' + w.nm + '</span>';
-    return '<span class="w pick" data-by="' + w.by + '">'
-      +    '<span class="mk" aria-hidden="true">(</span>'
-      +    '<span class="sr-only">미포함 </span>'
-      +    w.nm
-      +    '<span class="mk-r" aria-hidden="true">)</span>'
-      + '</span>';
+    if(!w.by) return '<p class="w">' + w.say + '</p>';
+    return '<p class="w pick" data-by="' + w.by + '">'
+      +    '<span class="tag">추가 시</span>' + w.say
+      + '</p>';
   }
 
   /* 고르는 자리는 표 밖이다. 사다리 한 덩이와 별도 서비스 한 줄.
@@ -256,12 +258,12 @@
     var tbl = $('#scopeTbl'); if(!tbl) return;
     tbl.innerHTML = '<table class="pq-scope-tbl">'
       + '<colgroup><col class="c-cat"><col></colgroup>'
-      + '<thead><tr><th scope="col">갈래</th><th scope="col">업무</th></tr></thead>'
+      + '<thead><tr><th scope="col">갈래</th><th scope="col">하는 일</th></tr></thead>'
       + '<tbody>' + CATS.map(function(cat){
           return '<tr><th scope="row">' + cat + '</th>'
-            + '<td><span class="ws">'
+            + '<td class="ws">'
             +   WORK.filter(function(w){ return w.cat === cat; }).map(wsp).join('')
-            + '</span></td></tr>';
+            + '</td></tr>';
         }).join('') + '</tbody></table>';
   }
 
@@ -300,11 +302,8 @@
       var tbl = $('#scopeTbl');
       if(tbl) tbl.querySelectorAll('.w.pick[data-by="' + p.id + '"]').forEach(function(w){
         w.classList.toggle('is-on', on);
-        var mk = w.querySelector('.mk'), mr = w.querySelector('.mk-r');
-        var sr = w.querySelector('.sr-only');
-        if(mk) mk.textContent = on ? '✓' : '(';
-        if(mr) mr.textContent = on ? ''  : ')';
-        if(sr) sr.textContent = on ? '추가 ' : '미포함 ';
+        var tag = w.querySelector('.tag');
+        if(tag) tag.textContent = on ? '추가됨' : '추가 시';
       });
 
     });

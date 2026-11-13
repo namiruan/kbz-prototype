@@ -32,7 +32,7 @@
   <link rel="prefetch" href="assets/estimate.css?v=2" as="style">
   <link rel="prefetch" href="assets/select.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote-common.css?v=2" as="style">
-  <link rel="prefetch" href="assets/plan-quote.css?v=36" as="style">
+  <link rel="prefetch" href="assets/plan-quote.css?v=37" as="style">
   <link rel="prefetch" href="assets/kbd.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote.css?v=1" as="style">
   <link rel="prefetch" href="assets/face-quote.css?v=1" as="style">
@@ -40,7 +40,7 @@
   <link rel="prefetch" href="assets/format.js?v=1" as="script">
   <link rel="prefetch" href="assets/select.js?v=1" as="script">
   <link rel="prefetch" href="assets/kbd.js?v=1" as="script">
-  <link rel="prefetch" href="assets/plan-quote.js?v=27" as="script">
+  <link rel="prefetch" href="assets/plan-quote.js?v=28" as="script">
 </head>
 <body>
 
@@ -117,20 +117,20 @@
           |@{.pq-rung.is-off .pq-add} 앞 칸을 추가하기 전에는 뒤 칸의 버튼이 눌리지 않습니다
           |@{.pq-ladder-extra .pq-rung} 키스콘 공사대장 신고는 차례가 없어 한 칸 띄워 따로 서고 처음부터 누를 수 있습니다
           |@{.pq-scope-tbl tbody th} 갈래는 '4대보험·퇴직공제 신고'·'일용근로자 신고'·'상용근로자 신고'·'증명서 발급'·'별도 서비스' 다섯입니다
-          |@{.pq-scope-tbl tbody tr} 갈래마다 한 줄이고, 사다리를 올려도 줄 수는 그대로입니다
-          |@{.pq-scope-tbl .w:not(.pick)} 늘 들어가는 업무는 검은 글자이고 괄호도 표시도 붙지 않습니다
-          |@{.pq-scope-tbl .w.pick} 아직 안 들어온 업무는 회색 글자로 괄호 안에 적힙니다
-          |@{.pq-scope-tbl .w} 한 줄 안의 업무는 가로로 이어지고 사이를 실선 하나가 가릅니다">업무범위 — 기본</button>
+          |@{.pq-scope-tbl tbody tr} 갈래마다 한 줄이고, '갈래'와 '하는 일' 두 칸입니다
+          |@{.pq-scope-tbl .w} 신고 이름을 늘어놓지 않고 무엇을 대신해 주는지 한 줄로 적습니다
+          |@{.pq-scope-tbl .w:not(.pick)} 늘 하는 일은 검은 글자이고 앞에 아무 말도 붙지 않습니다
+          |@{.pq-scope-tbl .w.pick .tag} 아직 안 들어온 줄은 앞에 '추가 시'가 붙고 회색 글자입니다">업무범위 — 기본</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="sc-포함뒤"
         data-why="사다리를 끝까지 올린 업무범위 화면입니다."
         data-steps="관리업무 셋을 차례로 추가한 상태"
         data-look="
           |@{.pq-rung.is-on} 추가한 칸은 바탕이 옅게 차고 왼쪽 레일이 브랜드 컬러로 찹니다
           |@{.pq-ladder} 레일이 맨 아래까지 이어집니다
-          |@{.pq-scope-tbl .w.pick.is-on} 표에서 그 업무들이 회색에서 강조색으로 바뀝니다
-          |@{.pq-scope-tbl .w.pick.is-on .mk} 괄호가 걷히고 '✓'가 붙습니다
+          |@{.pq-scope-tbl .w.pick.is-on} 표에서 그 줄이 회색에서 강조색으로 바뀝니다
+          |@{.pq-scope-tbl .w.pick.is-on .tag} 그 줄 앞의 '추가 시'가 '추가됨'으로 바뀝니다
           |@{.pq-scope-tbl tbody tr} 퇴직공제 하나가 '4대보험·퇴직공제 신고'·'일용근로자 신고'·'증명서 발급' 세 갈래를 한꺼번에 켭니다
-          |@{.pq-scope-tbl .w.pick:not(.is-on)} 사다리 밖인 별도 서비스 업무만 괄호인 채로 남습니다">업무범위 — 끝까지</button>
+          |@{.pq-scope-tbl .w.pick:not(.is-on)} 사다리 밖인 별도 서비스 줄만 '추가 시'인 채로 남습니다">업무범위 — 끝까지</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-3.0으로"
         data-why="계약 유형이 '김반장 3.0'으로 바뀐 견적신청 폼 화면입니다."
         data-steps="비교표 머리줄의 '김반장 3.0' 쪽 '견적 신청하기'를 클릭한 상태"
