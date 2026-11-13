@@ -107,20 +107,38 @@
    풀린다.
    640 아래는 라벨과 보기가 한 줄에 좌우로 서는 꼴이라(quote-common.css)
    건드리지 않는다 — 좁은 폭에서는 그쪽이 높이를 덜 쓴다 */
-/* 보기 셋을 가로로 세우려면 216px 이 필요한데, 1/3 칸은 1280 에서 191px 이고
-   641~767 에서도 186~205px 라 모자란다. 보기 사이를 10px 까지 줄이면 숫자로는
-   들어가지만, 그 간격이 보기 안쪽(점↔글자 8px)과 구별되지 않아 셋이 한 덩이로
-   읽힌다. 게다가 Pretendard 는 웹폰트가 아니라 기기에 있는 것을 쓰므로 글자
-   너비가 기기마다 다르다 — 딱 맞춘 값은 어딘가에서 넘친다.
-   그래서 간격을 깎는 대신 칸에 한 줄을 통째로 준다. 폭이 가장 좁은 641 에서도
-   줄 하나는 582px 이라 216px 이 넉넉히 들어간다.
-   640 아래는 라벨과 보기가 한 줄에 좌우로 서는 꼴이라(quote-common.css)
-   건드리지 않는다 — 거기도 가로다 */
-@media(min-width:641px){
-  /* .f-item.third 가 클래스 둘이라 한 겹 더 얹어야 이긴다 */
-  .f-item.pq-license{flex-basis:100%;max-width:100%}
-  .pq-license .f-radios{flex-direction:row;align-items:center;gap:22px;
-    min-height:30px;margin-top:0}
+/* ── 면허 종류 ─────────────────────────────────────────────────
+   현장당 인원 수 옆, 1/3 칸에 선다. 점과 글자로 눕히면 216px 이 드는데 그
+   칸은 1280 에서 191px 이라 들어가지 않았다. 간격을 깎아 맞추지 않는다 —
+   10px 까지 줄이면 보기 사이가 보기 안쪽(점↔글자 8px)과 구별되지 않아 셋이
+   한 덩이로 읽히고, Pretendard 는 웹폰트가 아니라 기기에 있는 것을 쓰므로
+   (base.css 의 --font-pretendard) 딱 맞춘 값은 어딘가에서 넘친다.
+   점을 걷고 납부 주기(.pq-cycle)와 같은 세그먼트로 세운다. 셋이 칸을 나눠
+   가지므로 폭이 얼마든 들어간다.
+   ⚠ 마크업은 라디오 그대로다. 생긴 것만 바꾸고 role·input 은 두어, 좌우
+      화살표로 옮겨 다니는 네이티브 조작을 잃지 않는다 */
+.pq-license .f-radios{display:flex;align-items:stretch;gap:2px;padding:3px;
+  border-radius:1000px;background:#E7EAEE;min-height:0;margin-top:3px;
+  align-self:stretch;width:100%}
+.pq-license .f-radios label{flex:1;display:flex;align-items:center;justify-content:center;
+  gap:0;padding:8px 6px;border-radius:1000px;cursor:pointer;white-space:nowrap;
+  font-size:13px;font-weight:700;color:var(--ink-2);transition:.16s}
+.pq-license .f-radios label:hover{color:var(--ink)}
+/* 점은 세그먼트에서 할 일이 없다 — 고른 표시는 알약이 든다 */
+.pq-license .f-radios .dot{display:none}
+.pq-license .f-radios .tx,
+.pq-license .f-radios input:checked ~ .tx{font-weight:inherit;color:inherit}
+/* 고른 쪽은 흰 알약으로 트랙 위에 떠오른다 — 납부 주기와 같은 표시다 */
+.pq-license .f-radios label:has(input:checked){background:var(--main-white);
+  color:var(--accent);box-shadow:0 0 0 1px rgba(14,59,99,.09), 0 1px 3px rgba(14,59,99,.18)}
+.pq-license .f-radios label:has(input:focus-visible){outline:2px solid var(--accent);
+  outline-offset:2px}
+/* 640 아래는 라벨과 보기가 한 줄에 좌우로 선다(quote-common.css). 세그먼트가
+   남는 폭을 다 가져가면 라벨만 왼쪽에 외따로 서므로, 제 너비만 쓰게 둔다 */
+@media(max-width:640px){
+  .pq-license .f-radios{width:auto;margin-top:0}
+  .pq-license .f-radios label{padding:7px 12px}
+}
 }
 }
 
