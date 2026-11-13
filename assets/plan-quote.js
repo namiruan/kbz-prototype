@@ -62,7 +62,7 @@
              버튼 왼쪽에 '+월 ○원' 이 붙는다. 금액 규칙은 받은 것이 없어
              지어내지 않는다.
      requires : 선행 항목의 id 들. 비어 있으면 늘 담을 수 있다. 값이 서면
-             선행을 담기 전까지 버튼이 비활성화되고 사유가 줄 아래에 뜬다. */
+             선행을 포함하기 전까지 버튼이 비활성화되고 사유가 줄 아래에 뜬다. */
   var PICKS = [
     { id:'daily_hp', nm:'일용근로자 건강·연금',
       ds:'일용직 건강·연금 가입 대상을 대신 찾아 신고하고, 매달 고지서까지 보내드려요.',
@@ -82,11 +82,11 @@
       price:null, requires:[] }
   ];
 
-  /* 담은 상태. 신청 데이터가 그대로 들고 가고, 요금 계산도 여기를 본다 */
+  /* 포함된 상태. 신청 데이터가 그대로 들고 가고, 요금 계산도 여기를 본다 */
   var scope = {};
   PICKS.forEach(function(p){ scope[p.id] = false; });
 
-  /* 이용사가 할 일 — 담은 것에 따라 줄이 바뀌고 늘어난다.
+  /* 이용사가 할 일 — 포함한 것에 따라 줄이 바뀌고 늘어난다.
      daily_hp 는 줄을 더하는 것이 아니라 기본 줄을 갈아 끼운다. 전송 기한이
      달라지는 것이라, 둘을 같이 세우면 어느 날짜가 내 날짜인지 흐려진다 */
   var TODO_BASE = '매월 10일 18시까지 월출역에 근로내용 입력 후 전송';
@@ -153,18 +153,18 @@
   }
 
   /* ── 업무범위 그리기 ───────────────────────────────────────────
-     줄은 한 번만 세우고(buildScope), 담고 빼는 동안에는 상태만 칠한다
+     줄은 한 번만 세우고(buildScope), 넣고 빼는 동안에는 상태만 칠한다
      (paintScope). 매번 다시 만들면 펴 둔 '포함 업무 보기' 가 닫히고,
      방금 누른 버튼에서 초점이 떨어져 키보드로 오는 사람이 자리를 잃는다 */
   function won(n){ return n.toLocaleString('ko-KR') + '원'; }
 
   function blockedBy(p){
-    /* 선행 항목 가운데 아직 담지 않은 것들 */
+    /* 선행 항목 가운데 아직 포함하지 않은 것들 */
     return (p.requires || []).filter(function(id){ return !scope[id]; });
   }
 
   /* 포함 업무 여닫이 — 이름 줄이 곧 손잡이다. <details> 를 쓰지 않는 까닭은
-     한 줄에 '담기' 버튼이 같이 서기 때문이다. <summary> 안에 버튼을 넣으면
+     한 줄에 '포함' 버튼이 같이 서기 때문이다. <summary> 안에 버튼을 넣으면
      어느 쪽을 눌렀는지 브라우저마다 다르게 읽는다 */
   function toggleInc(btn){
     var on = btn.getAttribute('aria-expanded') === 'true';
@@ -194,7 +194,7 @@
         +       '</button>'
         +     '</div>'
         +     (p.price != null ? '<span class="pq-scope-price">+월 ' + won(p.price) + '</span>' : '')
-        +     '<button type="button" class="pq-scope-add" aria-pressed="false">+ 담기</button>'
+        +     '<button type="button" class="pq-scope-add" aria-pressed="false">+ 포함</button>'
         +   '</div>'
         +   '<p class="ds">' + p.ds + '</p>'
         +   '<p class="pq-scope-why" hidden></p>'
@@ -210,7 +210,7 @@
       var id = btn.closest('[data-pick]').dataset.pick;
       scope[id] = !scope[id];
       paintScope();
-      render();                    /* 담은 것이 금액에 닿을 자리 */
+      render();                    /* 포함한 것이 금액에 닿을 자리 */
     });
   }
 
@@ -224,26 +224,26 @@
       var miss = blockedBy(p);
       var on = !!scope[p.id] && !miss.length;
 
-      scope[p.id] = on;            /* 선행이 빠지면 담긴 것도 같이 풀린다 */
+      scope[p.id] = on;            /* 선행이 빠지면 들어 있던 것도 같이 풀린다 */
       row.classList.toggle('is-on', on);
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      btn.textContent = on ? '✓ 담음' : '+ 담기';
+      btn.textContent = on ? '✓ 포함됨' : '+ 포함';
       btn.disabled = !!miss.length;
-      /* 버튼 글자가 '담기/담음' 뿐이라 어느 업무인지 들리지 않는다 */
-      btn.setAttribute('aria-label', p.nm + (on ? ' 담음' : ' 담기'));
+      /* 버튼 글자가 '포함/포함됨' 뿐이라 어느 업무인지 들리지 않는다 */
+      btn.setAttribute('aria-label', p.nm + (on ? ' 포함됨' : ' 포함'));
       if(miss.length){
         why.hidden = false;
         why.textContent = miss.map(function(id){
           var r = PICKS.filter(function(x){ return x.id === id; })[0];
           return r ? r.nm : id;
-        }).join(' · ') + '을(를) 먼저 담아 주세요';
+        }).join(' · ') + '을(를) 먼저 포함해 주세요';
       } else {
         why.hidden = true;
         why.textContent = '';
       }
     });
 
-    /* 담은 업무 — 데이터 차례를 따른다 */
+    /* 포함된 업무 — 데이터 차례를 따른다 */
     var chips = $('#scopeChips');
     if(chips){
       chips.innerHTML = '<span class="pq-chip base">기본 업무</span>'
@@ -303,7 +303,7 @@
 
   function render(){
     var prem  = plan() === 'prem';
-    /* TODO 담은 업무가 금액을 바꾼다면 여기서 scope 를 읽는다. 지금은
+    /* TODO 포함된 업무가 금액을 바꾼다면 여기서 scope 를 읽는다. 지금은
        PICKS 의 price 가 모두 null 이고 받은 요금 규칙도 없어, 상태만
        들고 있고 총액에는 더하지 않는다 — 금액은 지어내지 않는다.
        예: PICKS.filter(function(p){ return scope[p.id] && p.price; }) */
@@ -538,7 +538,7 @@
     $('#heroLine').textContent = '맞춤 견적을 받아보세요';
     $('#heroLine').classList.remove('sent');
     form.reset();
-    resetScope();          /* 담기 버튼은 폼 칸이 아니라 reset 이 못 되돌린다 */
+    resetScope();          /* 포함 버튼은 폼 칸이 아니라 reset 이 못 되돌린다 */
     moneySyncs.forEach(function(f){ f(); });
     clearErrs();
     syncPlan();

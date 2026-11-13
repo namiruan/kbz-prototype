@@ -154,16 +154,9 @@
 .pq-scope-row{display:flex;align-items:center;gap:10px}
 .pq-scope-base .nm{display:inline-flex;align-items:center;gap:6px;
   font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
-/* '✓ 담음' 버튼과 같은 꼴을 쓴다 — 같은 자리에 서는 같은 뜻('들어 있다')이
-   라 모양이 다르면 둘을 견주어 읽지 못한다. 다만 채우지는 않는다. 채운 파랑은
-   '눌러서 담은 것' 의 표시이고 이쪽은 누를 수 없는 자리라, 옅은 바탕에 파란
-   글자로 둔다.
-   ⚠ 테두리를 투명으로 한 겹 둔다. 지우면 버튼보다 2px 작아져 한 줄에서
-      둘의 키가 어긋난다 */
-.pq-scope-always{margin-left:auto;flex:none;
-  padding:8px 14px;border-radius:1000px;
-  background:var(--accent-tint);border:1px solid transparent;
-  font-size:13px;font-weight:700;letter-spacing:-.02em;color:var(--accent)}
+/* 꼴은 .pq-scope-add 와 한 규칙으로 묶여 아래에 있다 — 같은 '✓ 포함됨'
+   이 두 자리에 서므로 한곳에서 함께 바뀌어야 어긋나지 않는다 */
+.pq-scope-always{margin-left:auto}
 .pq-scope-base .ds{margin:7px 0 0;font-size:13px;font-weight:500;color:var(--ink-2);
   line-height:1.6;word-break:keep-all}
 
@@ -204,29 +197,35 @@
 .pq-scope-item.is-on .nm{color:var(--accent)}
 .pq-scope-item .ds{margin:6px 0 0;font-size:13px;font-weight:500;color:var(--ink-2);
   line-height:1.6;word-break:keep-all}
-/* 이름·설명이 왼쪽, 담기 버튼이 오른쪽. 버튼은 줄지 않는다 — 설명이 길어
+/* 이름·설명이 왼쪽, 포함 버튼이 오른쪽. 버튼은 줄지 않는다 — 설명이 길어
    좁아지면 글자가 먼저 꺾이고, 버튼은 제 너비를 지킨다 */
 .pq-scope-item .pq-scope-row{align-items:flex-start;gap:12px}
 .pq-scope-item .txt{flex:1;min-width:0}
-.pq-scope-add{flex:none;display:inline-flex;align-items:center;gap:5px;
-  appearance:none;font:inherit;cursor:pointer;white-space:nowrap;
+/* 선택 업무의 버튼과 기본 업무의 배지가 한 꼴을 쓴다. 같은 자리에 서는
+   같은 말('✓ 포함됨')이라 모양이 다르면 둘을 견주어 읽지 못한다 */
+.pq-scope-add,
+.pq-scope-always{flex:none;display:inline-flex;align-items:center;
+  appearance:none;font:inherit;white-space:nowrap;
   padding:8px 14px;border-radius:1000px;
   background:var(--main-white);border:1px solid var(--field-line);
   font-size:13px;font-weight:700;letter-spacing:-.02em;color:var(--ink);
   transition:background .15s,border-color .15s,color .15s}
+.pq-scope-add{cursor:pointer}
 .pq-scope-add:hover{border-color:var(--ink);background:var(--fill)}
 .pq-scope-add:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.pq-scope-add[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--main-white)}
+/* 들어 있는 상태 — 기본 업무는 늘 여기다 */
+.pq-scope-add[aria-pressed="true"],
+.pq-scope-always{background:var(--accent);border-color:var(--accent);color:var(--main-white)}
 .pq-scope-add[aria-pressed="true"]:hover{background:var(--accent);border-color:var(--accent)}
 .pq-scope-add[disabled]{cursor:not-allowed;color:var(--ink-4);border-color:var(--line);background:var(--fill)}
 /* 값이 있을 때만 선다 — 지금은 모두 null 이라 그려지지 않는다 */
 .pq-scope-price{flex:none;margin-left:auto;align-self:center;
   font-size:13px;font-weight:700;letter-spacing:-.02em;color:var(--ink-2)}
 .pq-scope-item.is-on .pq-scope-price{color:var(--accent)}
-/* 선행 항목을 담지 않아 막혔을 때의 사유 */
+/* 선행 항목을 포함하지 않아 막혔을 때의 사유 */
 .pq-scope-why{margin:6px 0 0;font-size:12px;font-weight:600;color:var(--ink-3);line-height:1.5}
 
-/* 담은 업무 */
+/* 포함된 업무 */
 .pq-scope-sum{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 10px;
   margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
 .pq-scope-sum .lb,.pq-scope-todo .lb{flex:none;font-size:13px;font-weight:800;
@@ -249,11 +248,9 @@
    이름과 버튼이 한 줄에 서고 설명은 그 아래로 내려간다 */
 @media(max-width:640px){
   .pq-scope-base,.pq-scope-item{padding:13px 14px}
-  /* 배지는 '✓ 담음' 버튼과 키를 맞춘다 — 좁은 폭에서 버튼만 줄면 어긋난다 */
-  .pq-scope-always{padding:7px 12px;font-size:12.5px}
   .pq-scope-item .pq-scope-row{align-items:center}
   .pq-scope-item .ds{margin-top:8px}
-  .pq-scope-add{padding:7px 12px;font-size:12.5px}
+  .pq-scope-add,.pq-scope-always{padding:7px 12px;font-size:12.5px}
 }
 
 /* ── 납부 주기 ───────────────────────────────────────────────────

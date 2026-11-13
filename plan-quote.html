@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/base.css?v=1">
 <link rel="stylesheet" href="assets/select.css?v=1">
 <link rel="stylesheet" href="assets/quote-common.css?v=2">
-<link rel="stylesheet" href="assets/plan-quote.css?v=12">
+<link rel="stylesheet" href="assets/plan-quote.css?v=13">
 <link rel="stylesheet" href="assets/kbd.css?v=1">
 <script src="assets/format.js?v=1"></script>
 <script src="assets/select.js?v=1"></script>
@@ -114,7 +114,7 @@
 
       </div>
 
-      <!-- STEP 2.5 : 업무범위 — 기본 업무에 선택 업무를 담아 더한다.
+      <!-- STEP 2.5 : 업무범위 — 기본 업무에 선택 업무를 더한다.
            선택 업무 줄은 스크립트가 PICKS 로 그린다. 문구와 항목이 늘고 주는
            자리라, 마크업에 손으로 적어 두면 늘 때마다 빠뜨릴 자리가 생긴다 -->
       <div class="q-card prem-only" id="scopeCard">
@@ -141,16 +141,16 @@
           </ul>
         </div>
 
-        <!-- 선택 업무 — 줄마다 따로 담는다(장바구니) -->
+        <!-- 선택 업무 — 줄마다 따로 넣고 뺀다 -->
         <div class="pq-scope-list" id="scopeList"></div>
 
-        <!-- 담은 업무 — 담고 빼는 즉시 다시 그린다 -->
+        <!-- 포함된 업무 — 넣고 빼는 즉시 다시 그린다 -->
         <div class="pq-scope-sum">
-          <span class="lb">담은 업무</span>
+          <span class="lb">포함된 업무</span>
           <div class="chips" id="scopeChips"></div>
         </div>
 
-        <!-- 이용사가 할 일 — 담은 것에 따라 줄이 늘고 바뀐다 -->
+        <!-- 이용사가 할 일 — 포함한 것에 따라 줄이 늘고 바뀐다 -->
         <div class="pq-scope-todo">
           <span class="lb">이용사가 할 일</span>
           <ul id="scopeTodo"></ul>
@@ -289,6 +289,6 @@
 </dialog>
 
 <script src="assets/kbd.js?v=1"></script>
-<script src="assets/plan-quote.js?v=5"></script>
+<script src="assets/plan-quote.js?v=6"></script>
 </body>
 </html>
