@@ -154,10 +154,16 @@
 .pq-scope-row{display:flex;align-items:center;gap:10px}
 .pq-scope-base .nm{display:inline-flex;align-items:center;gap:6px;
   font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink);line-height:1.35}
-.pq-scope-base .lock{width:15px;height:15px;flex:none;color:var(--ink-3)}
-.pq-scope-always{margin-left:auto;flex:none;padding:3px 9px;border-radius:1000px;
-  background:var(--main-white);border:1px solid var(--line);
-  font-size:11.5px;font-weight:700;letter-spacing:-.02em;color:var(--ink-2)}
+/* '✓ 담음' 버튼과 같은 꼴을 쓴다 — 같은 자리에 서는 같은 뜻('들어 있다')이
+   라 모양이 다르면 둘을 견주어 읽지 못한다. 다만 채우지는 않는다. 채운 파랑은
+   '눌러서 담은 것' 의 표시이고 이쪽은 누를 수 없는 자리라, 옅은 바탕에 파란
+   글자로 둔다.
+   ⚠ 테두리를 투명으로 한 겹 둔다. 지우면 버튼보다 2px 작아져 한 줄에서
+      둘의 키가 어긋난다 */
+.pq-scope-always{margin-left:auto;flex:none;
+  padding:8px 14px;border-radius:1000px;
+  background:var(--accent-tint);border:1px solid transparent;
+  font-size:13px;font-weight:700;letter-spacing:-.02em;color:var(--accent)}
 .pq-scope-base .ds{margin:7px 0 0;font-size:13px;font-weight:500;color:var(--ink-2);
   line-height:1.6;word-break:keep-all}
 
@@ -235,6 +241,8 @@
    이름과 버튼이 한 줄에 서고 설명은 그 아래로 내려간다 */
 @media(max-width:640px){
   .pq-scope-base,.pq-scope-item{padding:13px 14px}
+  /* 배지는 '✓ 담음' 버튼과 키를 맞춘다 — 좁은 폭에서 버튼만 줄면 어긋난다 */
+  .pq-scope-always{padding:7px 12px;font-size:12.5px}
   .pq-scope-item .pq-scope-row{align-items:center}
   .pq-scope-item .ds{margin-top:8px}
   .pq-scope-add{padding:7px 12px;font-size:12.5px}
