@@ -142,94 +142,83 @@
   .pq-license .f-radios label{padding:0 12px}
 }
 
-/* ── 업무범위 — 기본 업무에 선택 업무를 더한다 ─────────────────
-   고르는 자리는 체크박스 목록이다. 알약이었을 때는 아래 '포함된 업무' 와
-   같은 모양이 크기만 달리 두 벌 서서, 눈이 둘을 같은 것으로 읽다가 계속
-   어긋났다. 여기는 폼이니 폼의 말을 쓴다.
-   ⚠ 위아래 패딩 10px 은 손가락 자리다. 줄이면 칸 키가 40px 아래로 내려간다 */
-.pq-scope-picks{display:grid;gap:8px;margin-top:2px}
-@media(min-width:641px){ .pq-scope-picks{grid-template-columns:1fr 1fr} }
-
-.pq-pick{display:flex;align-items:center;gap:9px;
-  padding:10px 13px;border-radius:8px;
-  background:var(--main-white);border:1px solid var(--line);
-  font-size:14px;font-weight:700;letter-spacing:-.025em;color:var(--ink);
-  cursor:pointer;transition:border-color .15s,background .15s}
-.pq-pick:hover{border-color:#C6CBD1}
-/* 입력은 숨기되 지우지 않는다 — 클릭·키보드·접근성은 그대로 브라우저가 한다 */
-.pq-pick input{position:absolute;width:1px;height:1px;opacity:0;margin:0}
-.pq-pick .bx{flex:none;width:18px;height:18px;border-radius:5px;
-  display:inline-flex;align-items:center;justify-content:center;
-  background:var(--main-white);border:1.5px solid var(--field-line);
-  transition:background .15s,border-color .15s}
-.pq-pick .bx::after{content:"";width:9px;height:5px;margin-top:-3px;
-  border-left:2px solid var(--main-white);border-bottom:2px solid var(--main-white);
-  transform:rotate(-45deg) scale(.4);opacity:0;transition:transform .15s,opacity .15s}
-.pq-pick input:checked ~ .bx{background:var(--accent);border-color:var(--accent)}
-.pq-pick input:checked ~ .bx::after{transform:rotate(-45deg) scale(1);opacity:1}
-.pq-pick input:focus-visible ~ .bx{outline:2px solid var(--accent);outline-offset:2px}
-.pq-pick .tx{flex:1;min-width:0}
-.pq-pick .pr{flex:none;font-weight:600;color:var(--ink-2)}
-@media(prefers-reduced-motion:reduce){.pq-pick .bx::after{transition:none}}
-
-/* 고른 칸 — 테두리와 옅은 바탕으로만 말한다. 꽉 채우면 다섯이 파란 덩어리가
-   된다(알약이 부산스러웠던 까닭이다) */
-.pq-pick.is-on,.pq-pick.is-base{border-color:var(--accent);background:var(--accent-tint)}
-.pq-pick.is-on:hover{border-color:var(--accent)}
-
-/* 기본 업무 — 잠긴 칸. 잠겼다는 것을 흐림이 아니라 글자로 말한다. 흐리게
-   두면 '빠진 것' 으로 읽히는데, 이쪽은 되레 늘 들어가는 것이다 */
-.pq-pick.is-base{cursor:default}
-.pq-pick.is-base .fix{flex:none;padding:2px 7px;border-radius:1000px;
-  background:var(--main-white);border:1px solid rgba(var(--color-blue-rgb),.3);
-  font-size:11px;font-weight:700;letter-spacing:-.02em;color:var(--accent)}
-
-/* 선행 항목을 포함하지 않아 막힌 칸 */
-.pq-pick.is-off{cursor:not-allowed;color:var(--ink-4);
-  border-color:var(--line);background:var(--fill)}
-.pq-pick.is-off .bx{border-color:var(--line);background:var(--fill)}
-.pq-scope-whys{display:grid;gap:4px;margin-top:9px}
-.pq-scope-whys:empty{display:none}
-.pq-scope-whys p{margin:0;font-size:12px;font-weight:600;
-  color:var(--ink-3);line-height:1.5;word-break:keep-all}
-
-/* 포함된 업무 — 갈래로 묶은 표. 갈래 칸은 rowspan 으로 한 칸이 되어
-   읽는 눈이 갈래마다 한 번만 멈춘다 */
-.pq-scope-sum{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
-.pq-scope-sum .lb{display:block;font-size:13px;font-weight:800;
-  letter-spacing:-.03em;color:var(--ink)}
-.pq-scope-tbl{width:100%;margin-top:10px;border-collapse:collapse;table-layout:fixed}
+/* ── 업무범위 — 고르는 자리와 보는 자리가 한 표다 ────────────────
+   전에는 체크박스 목록과 '포함된 업무' 표가 따로 섰다. 고르면 눈이 아래로
+   내려가 무엇이 늘었는지 찾아야 했다. 고르는 것 넷이 갈래 넷과 1:1 이라
+   체크박스를 그 갈래의 '추가' 줄로 옮길 수 있었고, 이제 고른 자리에서
+   바로 켜진다. 안 고른 '추가' 줄도 흐린 채 서 있어, 고르기 전에 무엇을
+   받게 되는지 먼저 읽힌다 */
+.pq-scope-tbl{width:100%;margin-top:4px;border-collapse:collapse;table-layout:fixed}
 .pq-scope-tbl .c-cat{width:23%}
-.pq-scope-tbl .c-src{width:46px}
-/* 업무는 한 칸 안에서 가로로 흐르고, 사이는 그어 둔 실선 하나가 가른다 —
-   이름 안에도 가운뎃점이 있어(성립·변경·탈퇴) 글자로 가르면 섞인다 */
-.pq-scope-tbl .w + .w::before{content:"";display:inline-block;
-  width:1px;height:11px;margin:0 9px -1px;background:var(--line)}
-.pq-scope-tbl th,.pq-scope-tbl td{padding:7px 10px;text-align:left;
+.pq-scope-tbl th,.pq-scope-tbl td{padding:10px;text-align:left;
   vertical-align:top;line-height:1.5;word-break:keep-all}
 .pq-scope-tbl thead th{padding-top:0;padding-bottom:6px;
   font-size:11px;font-weight:800;letter-spacing:-.02em;color:var(--ink-3);
   border-bottom:1px solid var(--ink-4)}
-/* 줄 사이는 연하게, 갈래가 끝나는 줄만 또렷하게 — 갈래가 덩이로 읽힌다 */
-.pq-scope-tbl tbody td{font-size:12.5px;font-weight:500;color:var(--ink-2);
-  border-bottom:1px solid rgba(var(--color-blue-rgb),.07)}
-.pq-scope-tbl tbody tr.end td,
-.pq-scope-tbl tbody th{border-bottom:1px solid var(--line)}
+.pq-scope-tbl tbody th,.pq-scope-tbl tbody td{border-bottom:1px solid var(--line)}
 .pq-scope-tbl tbody th{padding-left:0;font-size:12.5px;font-weight:800;
   letter-spacing:-.02em;color:var(--ink)}
-.pq-scope-tbl tbody tr.add td{color:var(--accent);font-weight:600}
-.pq-scope-tbl tbody tr.add .w + .w::before{background:rgba(var(--color-blue-rgb),.3)}
-.pq-scope-tbl .src{padding-left:0;font-size:11.5px;font-weight:700}
-.pq-scope-tbl tbody tr:not(.add) .src{color:var(--ink-3)}  /* ⚠ ink-4 는 흰 바탕 2.26:1 로 AA 미달이다 */
 
-/* 좁은 폭 — 한 열로 서고, 표의 갈래 칸을 넓혀 두 글자에서 꺾이지 않게 */
+/* 한 칸 안에 '기본' 줄과 '추가' 덩이가 선다 */
+.pq-scope-tbl .ln{display:flex;align-items:baseline;gap:8px}
+.pq-scope-tbl .ln + .ln,.pq-scope-tbl .ln + .opt{margin-top:8px}
+.pq-scope-tbl .k{flex:none;width:28px;font-size:11px;font-weight:800;
+  letter-spacing:-.02em;color:var(--ink-3)}
+.pq-scope-tbl .ws{flex:1;min-width:0;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+/* 업무 사이는 그어 둔 실선 하나가 가른다. 글자로 가르면 섞인다 — 이름 안에
+   이미 가운뎃점이 있다(성립·변경·탈퇴) */
+.pq-scope-tbl .w + .w::before{content:"";display:inline-block;
+  width:1px;height:11px;margin:0 9px -1px;background:var(--line)}
+
+/* 추가 덩이 — 체크박스가 곧 고르기다 */
+.pq-scope-tbl .opt{margin-top:8px}
+/* ⚠ 위아래 패딩 3px 과 음수 마진 3px 이 짝이다 — 손가락이 닿는 넓이는
+      25px 로 키우고(WCAG 2.5.8), 줄의 겉보기 높이는 그대로 둔다 */
+.pq-scope-tbl .hd{display:flex;align-items:center;gap:8px;
+  padding:3px 0;margin:-3px 0;
+  cursor:pointer;width:fit-content;max-width:100%}
+/* 입력은 숨기되 지우지 않는다 — 클릭·키보드·접근성은 그대로 브라우저가 한다 */
+.pq-scope-tbl .hd input{position:absolute;width:1px;height:1px;opacity:0;margin:0}
+.pq-scope-tbl .bx{flex:none;width:17px;height:17px;border-radius:5px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--main-white);border:1.5px solid var(--field-line);
+  transition:background .15s,border-color .15s}
+.pq-scope-tbl .bx::after{content:"";width:8px;height:4px;margin-top:-3px;
+  border-left:2px solid var(--main-white);border-bottom:2px solid var(--main-white);
+  transform:rotate(-45deg) scale(.4);opacity:0;transition:transform .15s,opacity .15s}
+.pq-scope-tbl .hd input:checked ~ .bx{background:var(--accent);border-color:var(--accent)}
+.pq-scope-tbl .hd input:checked ~ .bx::after{transform:rotate(-45deg) scale(1);opacity:1}
+.pq-scope-tbl .hd input:focus-visible ~ .bx{outline:2px solid var(--accent);outline-offset:2px}
+.pq-scope-tbl .hd .k{width:auto}
+.pq-scope-tbl .nm{font-size:12.5px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.pq-scope-tbl .pr{flex:none;font-size:12px;font-weight:600;color:var(--ink-2)}
+@media(prefers-reduced-motion:reduce){.pq-scope-tbl .bx::after{transition:none}}
+
+/* 안 고른 '추가' 업무는 한 단 눌러 둔다. 지우지 않는 까닭은 고르기 전에
+   무엇을 받게 되는지 보여야 해서다 — ⚠ --ink-4 는 흰 바탕 2.26:1 로 AA
+   미달이라 쓰지 않는다 */
+/* 체크박스 너비(17)+사이(8)만큼 들여써, 딸린 업무가 그 체크박스 아래에
+   매달려 보인다 */
+.pq-scope-tbl .opt .sub{margin-top:6px;padding-left:25px}
+.pq-scope-tbl .opt .sub .ws{color:var(--ink-3)}
+.pq-scope-tbl .opt.is-on .k,
+.pq-scope-tbl .opt.is-on .nm{color:var(--accent)}
+.pq-scope-tbl .opt.is-on .sub .ws{color:var(--accent);font-weight:600}
+.pq-scope-tbl .opt.is-on .w + .w::before{background:rgba(var(--color-blue-rgb),.3)}
+
+/* 선행 항목을 포함하지 않아 막힌 것 */
+.pq-scope-tbl .opt.is-off .hd{cursor:not-allowed}
+.pq-scope-tbl .opt.is-off .bx{border-color:var(--line);background:var(--fill)}
+.pq-scope-tbl .opt.is-off .nm{color:var(--ink-3)}
+.pq-scope-tbl .why{margin:6px 0 0;font-size:12px;font-weight:600;
+  color:var(--ink-3);line-height:1.5;word-break:keep-all}
+
+/* 좁은 폭 — 갈래 칸을 넓혀 두 글자에서 꺾이지 않게 */
 @media(max-width:640px){
-  .pq-scope-picks{gap:7px}
-  .pq-pick{padding:10px 12px;font-size:13.5px}
   .pq-scope-tbl .c-cat{width:27%}
+  .pq-scope-tbl th,.pq-scope-tbl td{padding:10px 8px}
+  .pq-scope-tbl .ws{font-size:12px}
   .pq-scope-tbl .w + .w::before{margin:0 7px -1px}
-  .pq-scope-tbl th,.pq-scope-tbl td{padding:7px 8px}
-  .pq-scope-tbl tbody td{font-size:12px}
 }
 
 /* ── 납부 주기 ───────────────────────────────────────────────────

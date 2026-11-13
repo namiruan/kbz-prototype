@@ -32,7 +32,7 @@
   <link rel="prefetch" href="assets/estimate.css?v=2" as="style">
   <link rel="prefetch" href="assets/select.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote-common.css?v=2" as="style">
-  <link rel="prefetch" href="assets/plan-quote.css?v=21" as="style">
+  <link rel="prefetch" href="assets/plan-quote.css?v=22" as="style">
   <link rel="prefetch" href="assets/kbd.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote.css?v=1" as="style">
   <link rel="prefetch" href="assets/face-quote.css?v=1" as="style">
@@ -40,7 +40,7 @@
   <link rel="prefetch" href="assets/format.js?v=1" as="script">
   <link rel="prefetch" href="assets/select.js?v=1" as="script">
   <link rel="prefetch" href="assets/kbd.js?v=1" as="script">
-  <link rel="prefetch" href="assets/plan-quote.js?v=13" as="script">
+  <link rel="prefetch" href="assets/plan-quote.js?v=14" as="script">
 </head>
 <body>
 
@@ -103,8 +103,8 @@
           |@{.pq-types} 계약 유형은 '김반장 프리미엄'이 기본입니다
           |@sm @md @lg @{.pq-help} 유형 카드에는 이름만 적히고, 설명은 디바이스 사이즈마다 모바일은 물음표를 클릭해 카드 안에서, 태블릿·데스크톱은 호버 툴팁으로 노출됩니다
           |사업장 규모는 연 매출액·연 노무비·연 현장 수·월평균 현장 수·현장당 인원 수 입력폼과 면허 종류 세그먼트로 이뤄집니다
-          |@{#scopeCard} 업무범위는 기본 업무가 늘 들어간 채로 열리고, 선택 업무는 아무것도 포함되지 않은 상태입니다
-          |@{.pq-pick[data-pick]} 체크하면 '포함된 업무' 표의 그 갈래에 줄이 더해집니다
+          |@{#scopeCard} 업무범위는 고르는 자리와 보는 자리가 한 표이고, 아무것도 체크되지 않은 채 열립니다
+          |@{.pq-scope-tbl .opt .hd} 체크는 그 업무가 들어갈 갈래 줄 안에 있습니다
           |연 매출액을 뺀 나머지는 프리미엄에서만 묻고 금액에는 들어가지 않습니다
           |사업장 규모에서 (필수)는 '연 매출액'과 '연 현장 수'에만 붙습니다
           |@{.q-sum-total} 요약은 '이용요금(예상)'이고, 매출액을 넣기 전에는 '0원'입니다">프리미엄으로 열린 폼</button>
@@ -112,24 +112,21 @@
         data-why="대행업무의 범위를 기본 업무에 더하는 섹션입니다."
         data-steps="프리미엄 폼의 업무범위까지 내려온 상태"
         data-look="
-          |@sm @{.pq-scope-picks} 고르는 자리는 체크박스 칸이고 한 열로 섭니다
-          |@md @lg @{.pq-scope-picks} 고르는 자리는 체크박스 칸이고 두 열로 섭니다
-          |@{.pq-pick.is-base} 맨 앞 '기본 업무' 칸은 체크된 채 잠겨 있습니다
-          |@{.pq-pick.is-base .fix} 그 칸 오른쪽에 '늘 포함'이 붙습니다
-          |@{.pq-pick[data-pick]} 선택 업무 칸은 모두 체크가 풀린 채로 열립니다
-          |@{.pq-scope-tbl} 포함된 업무는 '갈래'·'구분'·'업무' 세 칸짜리 표입니다
-          |@{.pq-scope-tbl tbody th} 아무것도 고르기 전에는 '사업장'·'일용근로자'·'상용근로자'·'퇴직공제'·'증명서' 다섯 갈래가 섭니다
-          |@{.pq-scope-tbl .src} 늘 들어가는 줄의 구분은 '기본'입니다
+          |@{.pq-scope-tbl} 업무범위는 '갈래'와 '업무' 두 칸짜리 표 하나입니다
+          |@{.pq-scope-tbl tbody th} 갈래는 '사업장'·'일용근로자'·'상용근로자'·'퇴직공제'·'공사대장'·'증명서' 여섯입니다
+          |@{.pq-scope-tbl .ln .k} 늘 들어가는 업무 앞에는 '기본'이 붙습니다
+          |@{.pq-scope-tbl .opt .hd} 고를 수 있는 업무 앞에는 체크박스와 '추가'가 붙습니다
+          |@{.pq-scope-tbl .opt .hd .nm} 체크박스 옆에 '일용근로자 건강·연금' 같은 선택 업무 이름이 섭니다
+          |@{.pq-scope-tbl .opt .sub} 체크하기 전에도 그 체크로 들어올 업무가 흐린 글자로 보입니다
           |@{.pq-scope-tbl .w} 한 줄 안의 업무는 가로로 이어지고 사이를 실선 하나가 가릅니다">업무범위 — 포함 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="sc-포함뒤"
         data-why="선택 업무를 포함한 업무범위 화면입니다."
         data-steps="업무범위에서 '일용근로자 건강·연금'과 '퇴직공제 근로내역'을 포함한 상태"
         data-look="
-          |@{.pq-pick.is-on} 고른 칸은 체크가 차고 테두리가 브랜드 컬러로 바뀝니다
-          |@{.pq-scope-tbl tr.add} 더해진 줄은 글자가 강조색으로 바뀝니다
-          |@{.pq-scope-tbl tr.add .src} 더해진 줄의 구분은 '추가'입니다
-          |@{.pq-scope-tbl tbody th} 갈래는 그대로 다섯이고 새로 늘지 않습니다
-          |@{.pq-scope-tbl tr.add} '일용근로자' 갈래에는 '기본' 줄 아래에 '추가' 줄이 하나 더 섭니다">업무범위 — 포함한 뒤</button>
+          |@{.pq-scope-tbl .opt.is-on .bx} 고른 체크박스는 브랜드 컬러로 채워집니다
+          |@{.pq-scope-tbl .opt.is-on .sub} 고른 체크에 딸린 업무가 흐린 글자에서 강조색으로 바뀝니다
+          |@{.pq-scope-tbl .opt.is-on .nm} 그 선택 업무 이름도 강조색으로 바뀝니다
+          |@{.pq-scope-tbl tbody tr} 표의 줄 수는 고르기 전과 같습니다">업무범위 — 포함한 뒤</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-3.0으로"
         data-why="계약 유형이 '김반장 3.0'으로 바뀐 견적신청 폼 화면입니다."
         data-steps="비교표 머리줄의 '김반장 3.0' 쪽 '견적 신청하기'를 클릭한 상태"
@@ -326,7 +323,7 @@
     'sc-포함뒤' :{url:ES, act:async function(d){
       var q=await inner(d,FRAME); if(!q) return;
       ['daily_hp','retire'].forEach(function(id){
-        hit(q.querySelector('[data-pick="'+id+'"]')); });
+        hit(q.querySelector('[data-pick="'+id+'"] .hd')); });
       await wait(350); jumpInner(d,'#scopeCard',16); }},
     'ap-3.0으로' :{url:ES, act:async function(d){
       await inner(d,FRAME);

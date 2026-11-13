@@ -178,96 +178,85 @@
     return (p.requires || []).filter(function(id){ return !scope[id]; });
   }
 
+  function wsp(w){ return '<span class="w">' + w.nm + '</span>'; }
+
+  /* 갈래 하나에 딸린 고르기. 넷이 갈래 넷과 1:1 이라 한 갈래에 하나뿐이다 */
+  function pickOf(cat){
+    return PICKS.filter(function(p){
+      return WORK.some(function(w){ return w.cat === cat && w.by === p.id; });
+    })[0];
+  }
+
+  /* 표는 한 번만 세운다. 고르고 무르는 동안 줄이 생기거나 사라지지 않으므로
+     — 안 고른 '추가' 줄도 흐린 채 서 있다 — 다시 그릴 까닭이 없다. 다시
+     그리면 방금 누른 체크박스에서 초점이 떨어져 키보드로 오는 사람이 자리를
+     잃는다 */
   function buildScope(){
-    var box = $('#scopeList'); if(!box) return;
+    var box = $('#scopeTbl'); if(!box) return;
 
-    /* 기본 업무는 체크된 채 잠긴다. '늘 포함' 을 글자로 적는 까닭은, 잠긴
-       체크박스를 꼴만으로는 '고를 수 있는데 안 고른 것' 과 가려내기 어려워서다 */
-    box.innerHTML = '<label class="pq-pick is-base">'
-      +   '<input type="checkbox" checked disabled>'
-      +   '<span class="bx" aria-hidden="true"></span>'
-      +   '<span class="tx">기본 업무</span>'
-      +   '<span class="fix">늘 포함</span>'
-      + '</label>'
-      + PICKS.map(function(p){
-          return '<label class="pq-pick" data-pick="' + p.id + '">'
-            +   '<input type="checkbox">'
-            +   '<span class="bx" aria-hidden="true"></span>'
-            +   '<span class="tx">' + p.nm + '</span>'
-            /* 값이 서면 이름 뒤에 붙는다. 지금은 모두 null 이라 안 그려진다 */
-            +   (p.price != null ? '<span class="pr">월 ' + won(p.price) + '</span>' : '')
-            + '</label>';
-        }).join('');
+    var body = CATS.map(function(cat){
+      var base = WORK.filter(function(w){ return w.cat === cat && !w.by; });
+      var pick = pickOf(cat);
+      var add  = pick ? WORK.filter(function(w){ return w.cat === cat && w.by === pick.id; }) : [];
+      var cell = '';
+      if(base.length) cell += '<div class="ln"><span class="k">기본</span>'
+        + '<span class="ws">' + base.map(wsp).join('') + '</span></div>';
+      if(pick) cell += '<div class="opt" data-pick="' + pick.id + '">'
+        + '<label class="hd">'
+        +   '<input type="checkbox" aria-describedby="ws-' + pick.id + '">'
+        +   '<span class="bx" aria-hidden="true"></span>'
+        +   '<span class="k">추가</span>'
+        +   '<span class="nm">' + pick.nm + '</span>'
+        /* 값이 서면 이름 뒤에 붙는다. 지금은 모두 null 이라 안 그려진다 */
+        +   (pick.price != null ? '<span class="pr">월 ' + won(pick.price) + '</span>' : '')
+        + '</label>'
+        + '<div class="ln sub" id="ws-' + pick.id + '">'
+        +   '<span class="ws">' + add.map(wsp).join('') + '</span></div>'
+        + '<p class="why" hidden></p>'
+        + '</div>';
+      return '<tr><th scope="row">' + cat + '</th><td>' + cell + '</td></tr>';
+    }).join('');
 
-    /* 손잡이는 칸마다 달지 않고 줄 하나가 받는다. label 이 입력을 품고 있어
-       클릭도 키보드도 브라우저가 알아서 한다 — change 만 받으면 된다 */
+    box.innerHTML = '<table class="pq-scope-tbl">'
+      + '<colgroup><col class="c-cat"><col></colgroup>'
+      + '<thead><tr><th scope="col">갈래</th><th scope="col">업무</th></tr></thead>'
+      + '<tbody>' + body + '</tbody></table>';
+
+    /* 손잡이는 줄마다 달지 않고 표 하나가 받는다 */
     box.addEventListener('change', function(e){
-      var row = e.target.closest('.pq-pick[data-pick]'); if(!row) return;
-      scope[row.dataset.pick] = e.target.checked;
+      var opt = e.target.closest('.opt[data-pick]'); if(!opt) return;
+      scope[opt.dataset.pick] = e.target.checked;
       paintScope();
       render();                    /* 포함한 것이 금액에 닿을 자리 */
     });
   }
 
   function paintScope(){
-    var box = $('#scopeList'); if(!box) return;
+    var box = $('#scopeTbl'); if(!box) return;
 
-    var whys = [];
     PICKS.forEach(function(p){
-      var row = box.querySelector('[data-pick="' + p.id + '"]'); if(!row) return;
-      var inp = row.querySelector('input');
+      var opt = box.querySelector('.opt[data-pick="' + p.id + '"]'); if(!opt) return;
+      var inp = opt.querySelector('input');
+      var why = opt.querySelector('.why');
       var miss = blockedBy(p);
       var on = !!scope[p.id] && !miss.length;
 
       scope[p.id] = on;            /* 선행이 빠지면 들어 있던 것도 같이 풀린다 */
       inp.checked = on;
       inp.disabled = !!miss.length;
-      row.classList.toggle('is-on', on);
-      row.classList.toggle('is-off', !!miss.length);
-      if(miss.length) whys.push(p.nm + ' — ' + miss.map(function(id){
-        var r = PICKS.filter(function(x){ return x.id === id; })[0];
-        return r ? r.nm : id;
-      }).join(' · ') + '을(를) 먼저 포함해 주세요');
+      opt.classList.toggle('is-on', on);
+      opt.classList.toggle('is-off', !!miss.length);
+      if(miss.length){
+        why.hidden = false;
+        why.textContent = miss.map(function(id){
+          var r = PICKS.filter(function(x){ return x.id === id; })[0];
+          return r ? r.nm : id;
+        }).join(' · ') + '을(를) 먼저 포함해 주세요';
+      } else {
+        why.hidden = true;
+        why.textContent = '';
+      }
     });
-
-    /* 막힌 칩의 사유 — 칩 줄 아래에 모아 적는다 */
-    var why = $('#scopeWhy');
-    if(why) why.innerHTML = whys.map(function(t){ return '<p>' + t + '</p>'; }).join('');
-
-    /* 포함된 업무 — 갈래마다 '기본' 한 줄, '추가' 한 줄. 업무는 그 안에서
-       가로로 흐른다. 업무마다 줄을 주면 열아홉 줄이 되는데, 그 줄바꿈이
-       나누는 것은 아무것도 없다 — 같은 갈래의 같은 구분이기 때문이다.
-       아무것도 들어오지 않은 갈래는 줄을 세우지 않는다 */
-    var tbl = $('#scopeChips');
-    if(tbl){
-      var body = '';
-      CATS.forEach(function(cat){
-        var inc = WORK.filter(function(w){
-          return w.cat === cat && (!w.by || scope[w.by]);
-        });
-        if(!inc.length) return;
-        var lines = [];
-        var base = inc.filter(function(w){ return !w.by; });
-        var add  = inc.filter(function(w){ return !!w.by; });
-        if(base.length) lines.push({ k:'기본', ws:base });
-        if(add.length)  lines.push({ k:'추가', ws:add });
-        lines.forEach(function(ln, i){
-          body += '<tr class="' + (ln.k === '추가' ? 'add' : '')
-            +      (i === lines.length - 1 ? ' end' : '') + '">'
-            + (i === 0 ? '<th scope="row" rowspan="' + lines.length + '">' + cat + '</th>' : '')
-            + '<td class="src">' + ln.k + '</td>'
-            + '<td>' + ln.ws.map(function(w){
-                return '<span class="w">' + w.nm + '</span>';
-              }).join('') + '</td>'
-            + '</tr>';
-        });
-      });
-      tbl.innerHTML = '<table class="pq-scope-tbl">'
-        + '<colgroup><col class="c-cat"><col class="c-src"><col></colgroup>'
-        + '<thead><tr><th scope="col">갈래</th><th scope="col">구분</th>'
-        +   '<th scope="col">업무</th></tr></thead>'
-        + '<tbody>' + body + '</tbody></table>';
-    }
   }
 
   function resetScope(){

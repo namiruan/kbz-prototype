@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/base.css?v=1">
 <link rel="stylesheet" href="assets/select.css?v=1">
 <link rel="stylesheet" href="assets/quote-common.css?v=2">
-<link rel="stylesheet" href="assets/plan-quote.css?v=21">
+<link rel="stylesheet" href="assets/plan-quote.css?v=22">
 <link rel="stylesheet" href="assets/kbd.css?v=1">
 <script src="assets/format.js?v=1"></script>
 <script src="assets/select.js?v=1"></script>
@@ -114,25 +114,15 @@
 
       </div>
 
-      <!-- STEP 2.5 : 업무범위 — 기본 업무에 선택 업무를 더한다.
-           고르는 칩 줄과 '포함된 업무' 를 모두 스크립트가
-           BASE 와 PICKS 하나로 그린다. 항목이 늘고 주는 자리라, 마크업에
-           손으로 적어 두면 늘 때마다 빠뜨릴 자리가 생긴다 -->
+      <!-- STEP 2.5 : 업무범위 — 고르는 자리와 보는 자리가 한 표다.
+           고르는 것 넷이 갈래 넷과 1:1 이라(일용근로자 건강·연금→일용근로자 …)
+           체크박스를 그 갈래의 '추가' 줄로 옮길 수 있었다. 고르면 그 줄에서
+           바로 켜지므로, 무엇이 더해지는지 눈이 자리를 옮기지 않는다.
+           표는 스크립트가 CATS·WORK·PICKS 로 한 번만 세우고, 고를 때는
+           상태만 칠한다 — 다시 그리면 방금 누른 칸에서 초점이 떨어진다 -->
       <div class="q-card prem-only" id="scopeCard">
         <div class="q-step"><h2>업무범위</h2></div>
-
-        <!-- 고르는 줄 — 기본 업무 칩이 맨 앞에 서고(고를 수 없다),
-             그 뒤로 선택 업무 칩이 따른다 -->
-        <div class="pq-scope-picks" id="scopeList" role="group" aria-label="업무범위"></div>
-        <div class="pq-scope-whys" id="scopeWhy"></div>
-
-        <!-- 포함된 업무 — 무엇을 해 주는지가 여기 한곳에 쌓인다. 고르는
-             줄은 이름만 세우고, 실제 업무 칩은 일의 갈래로 묶여 여기서만
-             보인다. 더해진 것은 '+' 와 강조색으로 가려낸다 -->
-        <div class="pq-scope-sum">
-          <span class="lb">포함된 업무</span>
-          <div class="pq-scope-grps" id="scopeChips"></div>
-        </div>
+        <div id="scopeTbl"></div>
       </div>
 
       <!-- STEP 3 : 신청자 정보 — 단말기 견적 두 화면과 글자까지 같다 -->
@@ -267,6 +257,6 @@
 </dialog>
 
 <script src="assets/kbd.js?v=1"></script>
-<script src="assets/plan-quote.js?v=13"></script>
+<script src="assets/plan-quote.js?v=14"></script>
 </body>
 </html>
