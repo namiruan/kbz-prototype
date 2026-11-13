@@ -32,7 +32,7 @@
   <link rel="prefetch" href="assets/estimate.css?v=2" as="style">
   <link rel="prefetch" href="assets/select.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote-common.css?v=2" as="style">
-  <link rel="prefetch" href="assets/plan-quote.css?v=20" as="style">
+  <link rel="prefetch" href="assets/plan-quote.css?v=21" as="style">
   <link rel="prefetch" href="assets/kbd.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote.css?v=1" as="style">
   <link rel="prefetch" href="assets/face-quote.css?v=1" as="style">
@@ -40,7 +40,7 @@
   <link rel="prefetch" href="assets/format.js?v=1" as="script">
   <link rel="prefetch" href="assets/select.js?v=1" as="script">
   <link rel="prefetch" href="assets/kbd.js?v=1" as="script">
-  <link rel="prefetch" href="assets/plan-quote.js?v=12" as="script">
+  <link rel="prefetch" href="assets/plan-quote.js?v=13" as="script">
 </head>
 <body>
 
@@ -117,9 +117,10 @@
           |@{.pq-pick.is-base} 맨 앞 '기본 업무' 칸은 체크된 채 잠겨 있습니다
           |@{.pq-pick.is-base .fix} 그 칸 오른쪽에 '늘 포함'이 붙습니다
           |@{.pq-pick[data-pick]} 선택 업무 칸은 모두 체크가 풀린 채로 열립니다
-          |@{.pq-scope-tbl} 포함된 업무는 '갈래'·'업무'·'구분' 세 칸짜리 표입니다
+          |@{.pq-scope-tbl} 포함된 업무는 '갈래'·'구분'·'업무' 세 칸짜리 표입니다
           |@{.pq-scope-tbl tbody th} 아무것도 고르기 전에는 '사업장'·'일용근로자'·'상용근로자'·'퇴직공제'·'증명서' 다섯 갈래가 섭니다
-          |@{.pq-scope-tbl .src} 늘 들어가는 줄의 구분은 '기본'입니다">업무범위 — 포함 전</button>
+          |@{.pq-scope-tbl .src} 늘 들어가는 줄의 구분은 '기본'입니다
+          |@{.pq-scope-tbl .w} 한 줄 안의 업무는 가로로 이어지고 사이를 실선 하나가 가릅니다">업무범위 — 포함 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="sc-포함뒤"
         data-why="선택 업무를 포함한 업무범위 화면입니다."
         data-steps="업무범위에서 '일용근로자 건강·연금'과 '퇴직공제 근로내역'을 포함한 상태"
@@ -128,7 +129,7 @@
           |@{.pq-scope-tbl tr.add} 더해진 줄은 글자가 강조색으로 바뀝니다
           |@{.pq-scope-tbl tr.add .src} 더해진 줄의 구분은 '추가'입니다
           |@{.pq-scope-tbl tbody th} 갈래는 그대로 다섯이고 새로 늘지 않습니다
-          |@{.pq-scope-tbl tr.add} '일용근로자' 갈래에 '건강·연금 대상자 확인·신고'가 늘 들어가는 업무 아래에 붙습니다">업무범위 — 포함한 뒤</button>
+          |@{.pq-scope-tbl tr.add} '일용근로자' 갈래에는 '기본' 줄 아래에 '추가' 줄이 하나 더 섭니다">업무범위 — 포함한 뒤</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-3.0으로"
         data-why="계약 유형이 '김반장 3.0'으로 바뀐 견적신청 폼 화면입니다."
         data-steps="비교표 머리줄의 '김반장 3.0' 쪽 '견적 신청하기'를 클릭한 상태"

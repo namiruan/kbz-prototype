@@ -200,7 +200,11 @@
   letter-spacing:-.03em;color:var(--ink)}
 .pq-scope-tbl{width:100%;margin-top:10px;border-collapse:collapse;table-layout:fixed}
 .pq-scope-tbl .c-cat{width:23%}
-.pq-scope-tbl .c-src{width:52px}
+.pq-scope-tbl .c-src{width:46px}
+/* 업무는 한 칸 안에서 가로로 흐르고, 사이는 그어 둔 실선 하나가 가른다 —
+   이름 안에도 가운뎃점이 있어(성립·변경·탈퇴) 글자로 가르면 섞인다 */
+.pq-scope-tbl .w + .w::before{content:"";display:inline-block;
+  width:1px;height:11px;margin:0 9px -1px;background:var(--line)}
 .pq-scope-tbl th,.pq-scope-tbl td{padding:7px 10px;text-align:left;
   vertical-align:top;line-height:1.5;word-break:keep-all}
 .pq-scope-tbl thead th{padding-top:0;padding-bottom:6px;
@@ -214,14 +218,16 @@
 .pq-scope-tbl tbody th{padding-left:0;font-size:12.5px;font-weight:800;
   letter-spacing:-.02em;color:var(--ink)}
 .pq-scope-tbl tbody tr.add td{color:var(--accent);font-weight:600}
-.pq-scope-tbl .src{padding-right:0;text-align:right;font-size:11.5px;font-weight:700}
+.pq-scope-tbl tbody tr.add .w + .w::before{background:rgba(var(--color-blue-rgb),.3)}
+.pq-scope-tbl .src{padding-left:0;font-size:11.5px;font-weight:700}
 .pq-scope-tbl tbody tr:not(.add) .src{color:var(--ink-3)}  /* ⚠ ink-4 는 흰 바탕 2.26:1 로 AA 미달이다 */
 
 /* 좁은 폭 — 한 열로 서고, 표의 갈래 칸을 넓혀 두 글자에서 꺾이지 않게 */
 @media(max-width:640px){
   .pq-scope-picks{gap:7px}
   .pq-pick{padding:10px 12px;font-size:13.5px}
-  .pq-scope-tbl .c-cat{width:30%}
+  .pq-scope-tbl .c-cat{width:27%}
+  .pq-scope-tbl .w + .w::before{margin:0 7px -1px}
   .pq-scope-tbl th,.pq-scope-tbl td{padding:7px 8px}
   .pq-scope-tbl tbody td{font-size:12px}
 }

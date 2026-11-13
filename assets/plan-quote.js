@@ -234,8 +234,9 @@
     var why = $('#scopeWhy');
     if(why) why.innerHTML = whys.map(function(t){ return '<p>' + t + '</p>'; }).join('');
 
-    /* 포함된 업무 — 일의 갈래로 묶은 표. 갈래 칸은 그 갈래의 줄 수만큼
-       rowspan 으로 한 칸이 되어, 읽는 눈이 갈래마다 한 번만 멈춘다.
+    /* 포함된 업무 — 갈래마다 '기본' 한 줄, '추가' 한 줄. 업무는 그 안에서
+       가로로 흐른다. 업무마다 줄을 주면 열아홉 줄이 되는데, 그 줄바꿈이
+       나누는 것은 아무것도 없다 — 같은 갈래의 같은 구분이기 때문이다.
        아무것도 들어오지 않은 갈래는 줄을 세우지 않는다 */
     var tbl = $('#scopeChips');
     if(tbl){
@@ -244,22 +245,29 @@
         var inc = WORK.filter(function(w){
           return w.cat === cat && (!w.by || scope[w.by]);
         });
-        inc.forEach(function(w, i){
-          body += '<tr class="' + (w.by ? 'add' : '')
-            +      (i === inc.length - 1 ? ' end' : '') + '">'
-            + (i === 0 ? '<th scope="row" rowspan="' + inc.length + '">' + cat + '</th>' : '')
-            + '<td>' + w.nm + '</td>'
-            + '<td class="src">' + (w.by ? '추가' : '기본') + '</td>'
+        if(!inc.length) return;
+        var lines = [];
+        var base = inc.filter(function(w){ return !w.by; });
+        var add  = inc.filter(function(w){ return !!w.by; });
+        if(base.length) lines.push({ k:'기본', ws:base });
+        if(add.length)  lines.push({ k:'추가', ws:add });
+        lines.forEach(function(ln, i){
+          body += '<tr class="' + (ln.k === '추가' ? 'add' : '')
+            +      (i === lines.length - 1 ? ' end' : '') + '">'
+            + (i === 0 ? '<th scope="row" rowspan="' + lines.length + '">' + cat + '</th>' : '')
+            + '<td class="src">' + ln.k + '</td>'
+            + '<td>' + ln.ws.map(function(w){
+                return '<span class="w">' + w.nm + '</span>';
+              }).join('') + '</td>'
             + '</tr>';
         });
       });
       tbl.innerHTML = '<table class="pq-scope-tbl">'
-        + '<colgroup><col class="c-cat"><col><col class="c-src"></colgroup>'
-        + '<thead><tr><th scope="col">갈래</th><th scope="col">업무</th>'
-        +   '<th scope="col">구분</th></tr></thead>'
+        + '<colgroup><col class="c-cat"><col class="c-src"><col></colgroup>'
+        + '<thead><tr><th scope="col">갈래</th><th scope="col">구분</th>'
+        +   '<th scope="col">업무</th></tr></thead>'
         + '<tbody>' + body + '</tbody></table>';
     }
-
   }
 
   function resetScope(){
