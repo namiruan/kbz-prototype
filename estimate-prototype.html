@@ -32,7 +32,7 @@
   <link rel="prefetch" href="assets/estimate.css?v=2" as="style">
   <link rel="prefetch" href="assets/select.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote-common.css?v=2" as="style">
-  <link rel="prefetch" href="assets/plan-quote.css?v=25" as="style">
+  <link rel="prefetch" href="assets/plan-quote.css?v=26" as="style">
   <link rel="prefetch" href="assets/kbd.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote.css?v=1" as="style">
   <link rel="prefetch" href="assets/face-quote.css?v=1" as="style">
@@ -117,14 +117,16 @@
           |@{.pq-scope-tbl tr.opt[data-pick='kiscon'] th} 늘 들어가는 업무가 없는 갈래는 이름 줄 없이 체크 줄만 섭니다
           |@{.pq-scope-tbl tbody th} 갈래 칸에는 갈래 이름이 서고, 고를 수 있는 줄에만 체크박스가 더 섭니다
           |@{.pq-scope-tbl tr.opt .tx} 체크박스 옆에는 갈래 이름을 뺀 '건강·연금 추가' 가 섭니다
-          |@{.pq-scope-tbl tr.opt .ws} 체크하기 전에도 그 체크로 들어올 업무가 흐린 글자로 보입니다
+          |@{.pq-scope-tbl tr.opt:not(.is-on) td} 아직 체크하지 않은 줄은 바탕이 회색입니다
+          |@{.pq-scope-tbl tr.opt .ws} 체크하기 전에도 그 체크로 들어올 업무가 적혀 있습니다
           |@{.pq-scope-tbl .w} 한 줄 안의 업무는 가로로 이어지고 사이를 실선 하나가 가릅니다">업무범위 — 포함 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="sc-포함뒤"
         data-why="선택 업무를 포함한 업무범위 화면입니다."
         data-steps="업무범위에서 '건강·연금 추가'와 '근로내역 추가'를 체크한 상태"
         data-look="
           |@{.pq-scope-tbl tr.opt.is-on .bx} 고른 체크박스는 브랜드 컬러로 채워집니다
-          |@{.pq-scope-tbl tr.opt.is-on .ws} 같은 줄의 업무가 흐린 글자에서 강조색으로 바뀝니다
+          |@{.pq-scope-tbl tr.opt.is-on td} 체크한 줄은 회색 바탕이 걷히고 흰 바탕이 됩니다
+          |@{.pq-scope-tbl tr.opt.is-on .ws} 같은 줄의 업무가 강조색으로 바뀝니다
           |@{.pq-scope-tbl tr.opt.is-on .nm} 그 선택 업무 이름도 강조색으로 바뀝니다
           |@{.pq-scope-tbl tbody tr} 표의 줄 수는 고르기 전과 같습니다">업무범위 — 포함한 뒤</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-3.0으로"
