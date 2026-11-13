@@ -237,8 +237,6 @@ label.pq-rung.is-on:hover{background:var(--accent-tint)}
   width:1px;height:11px;margin:0 9px -1px;background:var(--line)}
 
 @media(max-width:640px){
-  /* 네 칸이 320px 에서도 꺾이지 않게 옆여백과 글자를 한 단 줄인다 */
-  .pq-step{padding:0 5px;font-size:12px;min-height:40px}
   .pq-rung{padding:11px}
   .pq-pick{padding:11px 12px;font-size:13px}
   .pq-scope-tbl .c-cat{width:33%}
