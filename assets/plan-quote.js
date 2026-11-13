@@ -108,9 +108,29 @@
     { cat:'별도 서비스', by:'kiscon', nm:'변경신고' }
   ];
 
-  /* 포함된 상태. 신청 데이터가 그대로 들고 가고, 요금 계산도 여기를 본다 */
+  /* 사다리 — 받은 안내문 네 벌이 그대로 네 단계다. 여덟 조합이 가능한데
+     넷이 모두 겹겹이 쌓인 모양이었다(기본 / +일용 / +일용·상용 /
+     +일용·상용·퇴직공제). 그래서 따로 고르는 것이 아니라 단계로 둔다.
+     ⚠ 네 벌이 그랬다는 것이지 다른 조합이 없다고 받은 것은 아니다.
+        상용 없이 퇴직공제만 드는 계약이 있다면 이 사다리로는 못 적는다. */
+  var LADDER = [
+    { id:null,           nm:'기본' },
+    { id:'daily_hp',     nm:'일용근로자' },
+    { id:'regular_site', nm:'상용근로자' },
+    { id:'retire',       nm:'퇴직공제' }
+  ];
+  var level = 0;                            /* 0 = 기본 */
+
+  /* 키스콘은 계약과 별도라 사다리 밖이다 */
+  var EXTRA = ['kiscon'];
+
+  /* 포함된 상태. 신청 데이터가 그대로 들고 가고, 요금 계산도 여기를 본다.
+     사다리 쪽은 level 에서 끌어내므로 두 곳에 적어 두지 않는다 */
   var scope = {};
   PICKS.forEach(function(p){ scope[p.id] = false; });
+  function syncLadder(){
+    LADDER.forEach(function(l, i){ if(l.id) scope[l.id] = i <= level; });
+  }
 
   function tierFor(sales){
     if(!(sales > 0)) return null;
@@ -181,35 +201,70 @@
   function wsp(w){ return '<span class="w">' + w.nm + '</span>'; }
 
   /* 업무 하나. 고르기로 들어오는 것에는 표시를 단다 — 색만으로 가르면
-     색을 못 보는 사람에게는 세 상태가 다 같아 보인다(WCAG 1.4.1) */
+     색을 못 보는 사람에게는 세 상태가 다 같아 보인다(WCAG 1.4.1).
+     ⚠ 아직 안 고른 것에 '+' 를 썼더니 누를 수 있는 자리로 읽혔다. 여기는
+        누르는 자리가 아니다(누르는 곳은 표 위의 고르는 칸이다). 괄호는
+        '해당 시' 를 뜻할 뿐 행동을 가리키지 않는다 */
   function wsp(w){
     if(!w.by) return '<span class="w">' + w.nm + '</span>';
     return '<span class="w pick" data-by="' + w.by + '">'
-      +    '<span class="mk" aria-hidden="true">+</span>'
+      +    '<span class="mk" aria-hidden="true">(</span>'
       +    '<span class="sr-only">미포함 </span>'
-      +    w.nm + '</span>';
+      +    w.nm
+      +    '<span class="mk-r" aria-hidden="true">)</span>'
+      + '</span>';
   }
 
-  /* 고르는 자리는 표 밖이다. 표는 갈래마다 한 줄이고, 그 안에서 업무가
-     하나씩 켜지고 꺼진다 — 고르기 하나가 여러 갈래에 걸쳐도 자리가 흔들리지
-     않는다. 표도 고르기 줄도 한 번만 세우고 상태만 칠한다(paintScope) */
+  /* 고르는 자리는 표 밖이다. 사다리 한 줄과 별도 서비스 한 줄.
+     표는 갈래마다 한 줄이고, 그 안에서 업무가 하나씩 켜지고 꺼진다 —
+     단계를 올려도 표의 자리가 흔들리지 않는다. 표도 고르는 줄도 한 번만
+     세우고 상태만 칠한다(paintScope) */
   function buildScope(){
     var box = $('#scopeList');
     if(box){
-      box.innerHTML = PICKS.map(function(p){
-        return '<label class="pq-pick" data-pick="' + p.id + '">'
-          +   '<input type="checkbox">'
-          +   '<span class="bx" aria-hidden="true"></span>'
-          +   '<span class="tx">' + p.nm
-          +     (p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
-          +   '</span>'
-          + '</label>';
-      }).join('');
+      box.innerHTML = '<div class="pq-steps" role="radiogroup" aria-label="업무범위 단계">'
+        + LADDER.map(function(l, i){
+            return '<button type="button" class="pq-step" role="radio"'
+              +     ' aria-checked="' + (i === 0 ? 'true' : 'false') + '"'
+              +     ' data-level="' + i + '">'
+              +   (i ? '<span class="mk" aria-hidden="true">+</span>' : '')
+              +   '<span class="tx">' + l.nm + '</span>'
+              + '</button>';
+          }).join('')
+        + '</div>'
+        + '<p class="pq-steps-say" id="stepSay"></p>'
+        + EXTRA.map(function(id){
+            var p = PICKS.filter(function(x){ return x.id === id; })[0];
+            if(!p) return '';
+            return '<label class="pq-pick" data-pick="' + p.id + '">'
+              +   '<input type="checkbox">'
+              +   '<span class="bx" aria-hidden="true"></span>'
+              +   '<span class="tx">' + p.nm
+              +     (p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
+              +   '</span>'
+              + '</label>';
+          }).join('');
+
+      box.addEventListener('click', function(e){
+        var btn = e.target.closest('.pq-step'); if(!btn) return;
+        level = Number(btn.dataset.level) || 0;
+        syncLadder(); paintScope(); render();
+      });
+      /* 세그먼트는 좌우 화살표로도 옮긴다 — 라디오 묶음의 기본 동작이다 */
+      box.addEventListener('keydown', function(e){
+        var btn = e.target.closest('.pq-step'); if(!btn) return;
+        var d = ({ArrowLeft:-1, ArrowUp:-1, ArrowRight:1, ArrowDown:1})[e.key];
+        if(!d) return;
+        e.preventDefault();
+        level = Math.max(0, Math.min(LADDER.length - 1, level + d));
+        syncLadder(); paintScope(); render();
+        var next = box.querySelector('.pq-step[data-level="' + level + '"]');
+        if(next) next.focus();
+      });
       box.addEventListener('change', function(e){
         var row = e.target.closest('.pq-pick[data-pick]'); if(!row) return;
         scope[row.dataset.pick] = e.target.checked;
-        paintScope();
-        render();                  /* 포함한 것이 금액에 닿을 자리 */
+        paintScope(); render();
       });
     }
 
@@ -228,26 +283,44 @@
   function paintScope(){
     var box = $('#scopeList'); if(!box) return;
 
+    /* 사다리 — 고른 칸까지가 모두 들어온다 */
+    box.querySelectorAll('.pq-step').forEach(function(b){
+      var i = Number(b.dataset.level) || 0;
+      b.setAttribute('aria-checked', i === level ? 'true' : 'false');
+      b.tabIndex = i === level ? 0 : -1;
+      b.classList.toggle('is-on', i === level);
+      b.classList.toggle('is-in', i < level);   /* 고른 칸 아래 — 이미 들어옴 */
+    });
+    var say = $('#stepSay');
+    if(say) say.textContent = level
+      ? LADDER.slice(1, level + 1).map(function(l){ return l.nm; }).join(' · ')
+        + ' 관리업무까지 들어갑니다'
+      : '늘 들어가는 업무만 들어갑니다';
+
     var whys = [];
     PICKS.forEach(function(p){
-      var row = box.querySelector('.pq-pick[data-pick="' + p.id + '"]'); if(!row) return;
-      var inp = row.querySelector('input');
+      var row = box.querySelector('.pq-pick[data-pick="' + p.id + '"]');
       var miss = blockedBy(p);
       var on = !!scope[p.id] && !miss.length;
 
       scope[p.id] = on;            /* 선행이 빠지면 들어 있던 것도 같이 풀린다 */
-      inp.checked = on;
-      inp.disabled = !!miss.length;
-      row.classList.toggle('is-on', on);
-      row.classList.toggle('is-off', !!miss.length);
+      if(row){
+        var inp = row.querySelector('input');
+        inp.checked = on;
+        inp.disabled = !!miss.length;
+        row.classList.toggle('is-on', on);
+        row.classList.toggle('is-off', !!miss.length);
+      }
 
       /* 그 고르기로 들어오는 업무를 표에서 함께 칠한다 — 갈래가 여럿이어도
          data-by 로 한 번에 집힌다 */
       var tbl = $('#scopeTbl');
       if(tbl) tbl.querySelectorAll('.w.pick[data-by="' + p.id + '"]').forEach(function(w){
         w.classList.toggle('is-on', on);
-        var mk = w.querySelector('.mk'), sr = w.querySelector('.sr-only');
-        if(mk) mk.textContent = on ? '✓' : '+';
+        var mk = w.querySelector('.mk'), mr = w.querySelector('.mk-r');
+        var sr = w.querySelector('.sr-only');
+        if(mk) mk.textContent = on ? '✓' : '(';
+        if(mr) mr.textContent = on ? ''  : ')';
         if(sr) sr.textContent = on ? '추가 ' : '미포함 ';
       });
 
@@ -262,6 +335,7 @@
   }
 
   function resetScope(){
+    level = 0;
     PICKS.forEach(function(p){ scope[p.id] = false; });
     paintScope();
   }

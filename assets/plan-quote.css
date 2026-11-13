@@ -147,9 +147,32 @@
    '일용근로자 퇴직공제 관리업무' 하나가 세 갈래에 걸쳐 체크박스를 어느
    갈래에 세워도 틀렸다. 지금은 표가 갈래마다 한 줄이고, 그 안에서 업무가
    하나씩 켜지고 꺼진다 */
-.pq-scope-picks{display:grid;gap:8px;margin-top:2px}
-@media(min-width:641px){ .pq-scope-picks{grid-template-columns:1fr 1fr} }
-.pq-pick{display:flex;align-items:center;gap:9px;
+.pq-scope-picks{margin-top:2px}
+
+/* 사다리 — 고른 칸까지가 모두 들어온다. 트랙을 카드보다 한 단 눌러 앉히고,
+   고른 칸만 흰 바탕으로 떠오른다(면허 종류·납부 주기 세그먼트와 같은 말) */
+.pq-steps{display:flex;align-items:stretch;gap:2px;padding:3px;
+  border-radius:1000px;background:#E7EAEE}
+.pq-step{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:2px;
+  appearance:none;border:0;background:none;font:inherit;cursor:pointer;
+  min-height:42px;padding:0 8px;border-radius:1000px;white-space:nowrap;
+  font-size:13px;font-weight:700;letter-spacing:-.025em;color:var(--ink-2);
+  transition:background .16s,color .16s,box-shadow .16s}
+.pq-step .mk{font-weight:800}
+/* 고른 칸 아래 — 이미 들어온 단계. 뜨지는 않고 글자만 강조색으로 */
+.pq-step.is-in{color:var(--accent)}
+.pq-step.is-on{background:var(--main-white);color:var(--accent);
+  box-shadow:0 0 0 1px rgba(14,59,99,.09), 0 1px 3px rgba(14,59,99,.18)}
+.pq-step:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.pq-step{transition:none}}
+
+/* 고른 단계가 무엇까지 데려오는지 한 줄로 */
+.pq-steps-say{margin:9px 0 0;font-size:12px;font-weight:600;
+  color:var(--ink-2);line-height:1.5;word-break:keep-all}
+
+/* 별도 서비스 — 사다리 밖이라 체크박스 하나로 둔다 */
+.pq-pick{margin-top:10px}
+.pq-pick{display:flex;align-items:center;gap:9px;max-width:100%;
   padding:10px 13px;border-radius:8px;
   background:var(--main-white);border:1px solid var(--line);
   font-size:13.5px;font-weight:700;letter-spacing:-.025em;color:var(--ink);
@@ -205,14 +228,16 @@
 .pq-scope-tbl .w{font-weight:600;color:var(--ink)}
 .pq-scope-tbl .w.pick{font-weight:400;color:var(--ink-3)}
 .pq-scope-tbl .w.pick.is-on{font-weight:600;color:var(--accent)}
-.pq-scope-tbl .mk{margin-right:2px;font-weight:800}
+/* 괄호는 글자와 한 몸으로 읽히게 두고, '✓' 만 띄워 세운다 */
+.pq-scope-tbl .w.pick.is-on .mk{margin-right:3px;font-weight:800}
 /* 업무 사이는 그어 둔 실선 하나가 가른다. 글자로 가르면 섞인다 — 이름 안에
    이미 가운뎃점이 있다(성립·변경·탈퇴) */
 .pq-scope-tbl .w + .w::before{content:"";display:inline-block;
   width:1px;height:11px;margin:0 9px -1px;background:var(--line)}
 
 @media(max-width:640px){
-  .pq-scope-picks{gap:7px}
+  /* 네 칸이 320px 에서도 꺾이지 않게 옆여백과 글자를 한 단 줄인다 */
+  .pq-step{padding:0 5px;font-size:12px;min-height:40px}
   .pq-pick{padding:10px 12px;font-size:13px}
   .pq-scope-tbl .c-cat{width:33%}
   .pq-scope-tbl th,.pq-scope-tbl td{padding-right:8px}
