@@ -116,10 +116,10 @@
        '일용근로자 퇴직공제' 칸에서 '퇴직공제 하도급 승인신고' 는
        '하도급 승인신고' 로 족하다 */
     { cat:'일용근로자 신고', by:'daily_hp',
-      say:'대상자 확인·신고, 매달 일용 고지서 전송' },
+      say:'대상자 확인·신고, 매달 고지서 전송' },
 
     { cat:'상용근로자 신고', by:'regular_site',
-      say:'현장 사이를 옮길 때도 신고' },
+      say:'전입·전근·전보 신고' },
 
     { cat:'4대보험·퇴직공제 신고', by:'retire',
       say:'하도급 승인신고 대행' },
@@ -129,7 +129,7 @@
       say:'EDI 증명서 발급' },
 
     { cat:'공사대장', by:'kiscon',
-      say:'건설공사대장 작성·통보, 변경신고 대행' }
+      say:'작성·통보, 변경신고 대행' }
   ];
 
   /* 키스콘은 계약과 별도라 사다리 밖이다 */
@@ -216,12 +216,9 @@
   function wsp(w){ return '<span class="w">' + w.nm + '</span>'; }
 
   /* 한 칸이 드는 설명들 — 갈래 차례를 따른다 */
-  function says(by){
+  function saysOf(by){
     return WORK.filter(function(w){ return w.by === by; })
-      .sort(function(x, y){ return CATS.indexOf(x.cat) - CATS.indexOf(y.cat); })
-      .map(function(w){
-        return '<p class="w">' + w.say + '</p>';
-      }).join('');
+      .sort(function(x, y){ return CATS.indexOf(x.cat) - CATS.indexOf(y.cat); });
   }
 
   /* 고르는 자리와 설명이 한 덩이다. 표를 따로 두었더니 고른 자리와 그
@@ -234,16 +231,23 @@
     function rung(id){
       var p = id && PICKS.filter(function(x){ return x.id === id; })[0];
       if(id && !p) return '';
+      var list = saysOf(id || null);
+      /* 설명이 하나뿐이면 제목 옆에 바로 붙인다 — 한 줄짜리를 아래로
+         내리면 점 하나 찍힌 외톨이 줄이 되어 자리만 먹는다 */
+      var one = list.length === 1;
       return '<div class="pq-rung' + (id ? '' : ' is-base') + '"'
         +     (id ? ' data-pick="' + id + '"' : '') + '>'
         +   '<div class="hd">'
         +     '<span class="tx">' + (id ? p.nm : '기본')
         +       (id && p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
+        +       (one ? '<span class="one">' + list[0].say + '</span>' : '')
         +     '</span>'
         +     (id ? '<button type="button" class="pq-add" aria-pressed="false"'
                     + ' aria-describedby="why-' + id + '">+ 추가</button>' : '')
         +   '</div>'
-        +   says(id || null)
+        +   (one ? '' : list.map(function(w){
+              return '<p class="w">' + w.say + '</p>';
+            }).join(''))
         /* 막힌 까닭은 화면에서 걷되 아주 없애지는 않는다 — 눌리지 않는
            버튼에 아무 말도 없으면 보조기기로 오는 사람은 막다른 길이다 */
         +   (id ? '<span class="sr-only" id="why-' + id + '"></span>' : '')

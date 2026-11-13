@@ -166,8 +166,15 @@
 
 /* 이름 줄 — 이름이 왼쪽, 상태를 바꾸는 버튼이 오른쪽 */
 .pq-rung .hd{display:flex;align-items:center;gap:10px;min-height:38px}
-.pq-rung .tx{flex:1;min-width:0;
+.pq-rung .hd .tx{align-self:center}
+/* ⚠ keep-all 이 없으면 좁은 폭에서 '변경신 / 고' 처럼 낱말 가운데가 갈린다 */
+.pq-rung .tx{flex:1;min-width:0;word-break:keep-all;
   font-size:13.5px;font-weight:700;letter-spacing:-.025em;color:var(--ink)}
+/* 설명이 하나뿐인 칸 — 제목 옆에 바로 붙는다. 굵기와 색이 제목과 달라
+   한 줄에 서도 둘이 섞이지 않는다 */
+.pq-rung .one{margin-left:9px;font-size:12.5px;font-weight:500;
+  color:var(--ink-2);letter-spacing:-.01em}
+.pq-rung:not(.is-on):not(.is-base) .one{color:var(--ink-3)}
 .pq-rung.is-off .tx{color:var(--ink-3)}
 .pq-rung .pr{font-weight:600;color:var(--ink-2)}
 

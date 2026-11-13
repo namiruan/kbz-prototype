@@ -32,7 +32,7 @@
   <link rel="prefetch" href="assets/estimate.css?v=2" as="style">
   <link rel="prefetch" href="assets/select.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote-common.css?v=2" as="style">
-  <link rel="prefetch" href="assets/plan-quote.css?v=39" as="style">
+  <link rel="prefetch" href="assets/plan-quote.css?v=41" as="style">
   <link rel="prefetch" href="assets/kbd.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote.css?v=1" as="style">
   <link rel="prefetch" href="assets/face-quote.css?v=1" as="style">
@@ -40,7 +40,7 @@
   <link rel="prefetch" href="assets/format.js?v=1" as="script">
   <link rel="prefetch" href="assets/select.js?v=1" as="script">
   <link rel="prefetch" href="assets/kbd.js?v=1" as="script">
-  <link rel="prefetch" href="assets/plan-quote.js?v=34" as="script">
+  <link rel="prefetch" href="assets/plan-quote.js?v=35" as="script">
 </head>
 <body>
 
@@ -114,10 +114,11 @@
         data-look="
           |@{.pq-ladder} 더하는 업무는 위에서 아래로 쌓이는 사다리입니다
           |@{.pq-rung.is-base} 맨 위 '기본'에는 버튼이 없습니다
-          |@{.pq-rung .w} 칸마다 무엇을 대신해 주는지 점 찍힌 줄로 적혀 있습니다
+          |@{.pq-rung .one} 설명이 하나뿐인 칸은 이름 옆에 바로 붙습니다
+          |@{.pq-rung .w} 설명이 여럿인 칸만 점 찍힌 줄로 아래에 섭니다
           |@{.pq-rung.is-base .w} 기본 칸에는 네 줄이 섭니다
           |@{.pq-ladder .pq-add} 고르는 칸은 셋이고 모두 '+ 추가' 인 채로 열립니다
-          |@{.pq-rung:not(.is-on):not(.is-base) .w} 아직 안 들어온 칸의 설명은 회색 글자입니다
+          |@{.pq-rung:not(.is-on):not(.is-base) .one} 아직 안 들어온 칸의 설명은 회색 글자입니다
           |@{.pq-rung.is-off .pq-add} 앞 칸을 추가하기 전에는 뒤 칸의 버튼이 눌리지 않습니다
           |@{.pq-ladder-extra .pq-rung} 키스콘 공사대장 신고는 차례가 없어 한 칸 띄워 따로 서고 처음부터 누를 수 있습니다">업무범위 — 기본</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="sc-포함뒤"
@@ -127,8 +128,8 @@
           |@{.pq-rung.is-on} 추가한 칸은 바탕이 옅게 차고 왼쪽 레일이 브랜드 컬러로 찹니다
           |@{.pq-ladder} 레일이 맨 아래까지 이어집니다
           |@{.pq-rung.is-on .pq-add} 버튼이 '✓ 추가됨'으로 바뀌고 브랜드 컬러로 채워집니다
-          |@{.pq-rung.is-on .w} 그 칸의 설명이 회색에서 본문 색으로 돌아옵니다
-          |@{.pq-rung[data-pick='retire'] .w} 퇴직공제 칸 하나가 세 줄을 들고 있습니다
+          |@{.pq-rung.is-on .one} 그 칸의 설명이 회색에서 본문 색으로 돌아옵니다
+          |@{.pq-rung[data-pick='retire'] .w} 퇴직공제 칸만 세 줄을 들고 있습니다
           |@{.pq-ladder-extra .pq-add} 사다리 밖인 키스콘만 '+ 추가' 인 채로 남습니다">업무범위 — 끝까지</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-3.0으로"
         data-why="계약 유형이 '김반장 3.0'으로 바뀐 견적신청 폼 화면입니다."
