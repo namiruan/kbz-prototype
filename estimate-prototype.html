@@ -32,7 +32,7 @@
   <link rel="prefetch" href="assets/estimate.css?v=2" as="style">
   <link rel="prefetch" href="assets/select.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote-common.css?v=2" as="style">
-  <link rel="prefetch" href="assets/plan-quote.css?v=23" as="style">
+  <link rel="prefetch" href="assets/plan-quote.css?v=24" as="style">
   <link rel="prefetch" href="assets/kbd.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote.css?v=1" as="style">
   <link rel="prefetch" href="assets/face-quote.css?v=1" as="style">
@@ -40,7 +40,7 @@
   <link rel="prefetch" href="assets/format.js?v=1" as="script">
   <link rel="prefetch" href="assets/select.js?v=1" as="script">
   <link rel="prefetch" href="assets/kbd.js?v=1" as="script">
-  <link rel="prefetch" href="assets/plan-quote.js?v=15" as="script">
+  <link rel="prefetch" href="assets/plan-quote.js?v=16" as="script">
 </head>
 <body>
 
@@ -115,12 +115,12 @@
           |@{.pq-scope-tbl} 업무범위는 '갈래'와 '업무' 두 칸짜리 표 하나입니다
           |@{.pq-scope-tbl tbody th} 갈래는 '사업장'·'일용근로자'·'상용근로자'·'퇴직공제'·'공사대장'·'증명서' 여섯입니다
           |@{.pq-scope-tbl tbody th} 갈래 칸에는 갈래 이름이 서고, 고를 수 있는 줄에만 체크박스가 더 섭니다
-          |@{.pq-scope-tbl tr.opt .nm} 체크박스 옆에 '일용근로자 건강·연금' 같은 선택 업무 이름이 섭니다
+          |@{.pq-scope-tbl tr.opt .tx} 체크박스 옆에는 갈래 이름을 뺀 '건강·연금 추가' 가 섭니다
           |@{.pq-scope-tbl tr.opt .ws} 체크하기 전에도 그 체크로 들어올 업무가 흐린 글자로 보입니다
           |@{.pq-scope-tbl .w} 한 줄 안의 업무는 가로로 이어지고 사이를 실선 하나가 가릅니다">업무범위 — 포함 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="sc-포함뒤"
         data-why="선택 업무를 포함한 업무범위 화면입니다."
-        data-steps="업무범위에서 '일용근로자 건강·연금'과 '퇴직공제 근로내역'을 포함한 상태"
+        data-steps="업무범위에서 '건강·연금 추가'와 '근로내역 추가'를 체크한 상태"
         data-look="
           |@{.pq-scope-tbl tr.opt.is-on .bx} 고른 체크박스는 브랜드 컬러로 채워집니다
           |@{.pq-scope-tbl tr.opt.is-on .ws} 같은 줄의 업무가 흐린 글자에서 강조색으로 바뀝니다

@@ -180,6 +180,14 @@
 
   function wsp(w){ return '<span class="w">' + w.nm + '</span>'; }
 
+  /* 갈래 이름이 바로 위에 서므로 고르기 이름에서 그 말을 뺀다 —
+     '일용근로자 건강·연금' 은 '일용근로자' 갈래 안에서 '건강·연금' 으로
+     족하다. 표를 따로 들지 않고 PICKS 의 이름에서 깎는다. 두 곳에 적어
+     두면 따로 늙는다 */
+  function shortNm(nm, cat){
+    return nm.split(cat).join(' ').replace(/\s+/g, ' ').trim() || nm;
+  }
+
   /* 갈래 하나에 딸린 고르기. 넷이 갈래 넷과 1:1 이라 한 갈래에 하나뿐이다 */
   function pickOf(cat){
     return PICKS.filter(function(p){
@@ -214,9 +222,15 @@
         +   '<label class="hd">'
         +     '<input type="checkbox" aria-describedby="ws-' + pick.id + '">'
         +     '<span class="bx" aria-hidden="true"></span>'
-        +     '<span class="nm">' + pick.nm + '</span>'
+        +     '<span class="tx">'
+        /* 갈래는 눈에는 바로 위에 보이지만 귀에는 안 들린다 — sr-only 가
+           읽어 준다. 보이는 글자를 그대로 품으므로 WCAG 2.5.3 도 지킨다 */
+        +       '<span class="sr-only">' + cat + ' </span>'
+        +       '<span class="nm">' + shortNm(pick.nm, cat) + '</span>'
+        +       ' <span class="ad">추가</span>'
         /* 값이 서면 이름 뒤에 붙는다. 지금은 모두 null 이라 안 그려진다 */
-        +     (pick.price != null ? '<span class="pr">월 ' + won(pick.price) + '</span>' : '')
+        +       (pick.price != null ? ' <span class="pr">월 ' + won(pick.price) + '</span>' : '')
+        +     '</span>'
         +   '</label>'
         + '</th>'
         + '<td id="ws-' + pick.id + '"><span class="ws">' + add.map(wsp).join('') + '</span>'

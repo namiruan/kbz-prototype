@@ -186,15 +186,19 @@
 .pq-scope-tbl .hd input:checked ~ .bx{background:var(--accent);border-color:var(--accent)}
 .pq-scope-tbl .hd input:checked ~ .bx::after{transform:rotate(-45deg) scale(1);opacity:1}
 .pq-scope-tbl .hd input:focus-visible ~ .bx{outline:2px solid var(--accent);outline-offset:2px}
-.pq-scope-tbl .nm{font-size:12.5px;font-weight:700;letter-spacing:-.02em;color:var(--ink-3)}
-.pq-scope-tbl .pr{flex:none;font-size:12px;font-weight:600;color:var(--ink-2)}
+.pq-scope-tbl .tx{font-size:12.5px;letter-spacing:-.02em}
+.pq-scope-tbl .nm{font-weight:700;color:var(--ink-3)}
+/* '추가' 는 이름이 아니라 그 이름을 어떻게 하는지라, 한 단 눌러 둔다 */
+.pq-scope-tbl .ad{font-size:11.5px;font-weight:700;color:var(--ink-3)}
+.pq-scope-tbl .pr{font-size:12px;font-weight:600;color:var(--ink-2)}
 @media(prefers-reduced-motion:reduce){.pq-scope-tbl .bx::after{transition:none}}
 
 /* 안 고른 업무는 한 단 눌러 둔다. 지우지 않는 까닭은 고르기 전에 무엇을
    받게 되는지 보여야 해서다 — ⚠ --ink-4 는 흰 바탕 2.26:1 로 AA 미달이라
    쓰지 않는다 */
 .pq-scope-tbl tr.opt .ws{color:var(--ink-3)}
-.pq-scope-tbl tr.opt.is-on .nm{color:var(--accent)}
+.pq-scope-tbl tr.opt.is-on .nm,
+.pq-scope-tbl tr.opt.is-on .ad{color:var(--accent)}
 .pq-scope-tbl tr.opt.is-on .ws{color:var(--accent);font-weight:600}
 .pq-scope-tbl tr.opt.is-on .w + .w::before{background:rgba(var(--color-blue-rgb),.3)}
 
