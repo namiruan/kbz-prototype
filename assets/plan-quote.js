@@ -58,15 +58,24 @@
      문구와 항목이 늘고 주는 자리라 마크업이 아니라 이 표 하나에 둔다 —
      손으로 적어 두면 늘 때마다 빠뜨릴 자리가 생긴다.
 
-     items : 줄이 가진 설명의 전부다. 설명 한 줄은 따로 두지 않는다 —
-             칩이 같은 말을 더 정확히 해, 둘을 같이 두면 겹쳐 읽힌다.
-             줄 제목이 이미 말하는 머리말은 빼고 적는다 — '퇴직공제 근로내역'
-             줄에서 '퇴직공제 하도급 승인신고' 는 '하도급 승인신고' 로 족하다.
+     items : 고르는 줄에는 그리지 않는다. 아래 '포함된 업무' 에만 쌓여,
+             고른 결과가 한곳에서 읽힌다. 묶음 이름이 바로 위에 서므로
+             그 이름이 되풀이하는 머리말은 빼고 적는다 — '퇴직공제 근로내역'
+             묶음에서 '퇴직공제 하도급 승인신고' 는 '하도급 승인신고' 로 족하다.
      price : 지금은 모두 null 이라 아무것도 그려지지 않는다. 값이 서면
              버튼 왼쪽에 '+월 ○원' 이 붙는다. 금액 규칙은 받은 것이 없어
              지어내지 않는다.
      requires : 선행 항목의 id 들. 비어 있으면 늘 담을 수 있다. 값이 서면
              선행을 포함하기 전까지 버튼이 비활성화되고 사유가 줄 아래에 뜬다. */
+  var BASE = { nm:'기본 업무', items:[
+    '4대보험 성립·변경·탈퇴 신고',
+    '고용·산재 하수급 사업주 승인·명세 신고',
+    '퇴직공제 성립·변경·준공 신고',
+    '일용 고용·산재 근로내용 오류 확인·신고',
+    '본사 상용직 취득·상실·보수변경, 이직확인서, 휴직·복직',
+    '건강·연금 EDI, 근로복지공단 토탈서비스 증명서'
+  ] };
+
   var PICKS = [
     { id:'daily_hp', nm:'일용근로자 건강·연금',
       items:['대상자 확인·신고', '일용 고지서 전송'],
@@ -154,8 +163,8 @@
 
   /* ── 업무범위 그리기 ───────────────────────────────────────────
      줄은 한 번만 세우고(buildScope), 넣고 빼는 동안에는 상태만 칠한다
-     (paintScope). 매번 다시 만들면 펴 둔 '포함 업무 보기' 가 닫히고,
-     방금 누른 버튼에서 초점이 떨어져 키보드로 오는 사람이 자리를 잃는다 */
+     (paintScope). 매번 다시 만들면 방금 누른 버튼에서 초점이 떨어져
+     키보드로 오는 사람이 자리를 잃는다 */
   function won(n){ return n.toLocaleString('ko-KR') + '원'; }
 
   function blockedBy(p){
@@ -163,43 +172,29 @@
     return (p.requires || []).filter(function(id){ return !scope[id]; });
   }
 
-  /* 포함 업무 여닫이 — 이름 줄이 곧 손잡이다. <details> 를 쓰지 않는 까닭은
-     한 줄에 '포함' 버튼이 같이 서기 때문이다. <summary> 안에 버튼을 넣으면
-     어느 쪽을 눌렀는지 브라우저마다 다르게 읽는다 */
-  function toggleInc(btn){
-    var on = btn.getAttribute('aria-expanded') === 'true';
-    btn.setAttribute('aria-expanded', on ? 'false' : 'true');
-    var lst = document.getElementById(btn.getAttribute('aria-controls'));
-    if(lst) lst.hidden = on;
-  }
-
-  /* 기본 업무와 선택 업무가 한 손잡이를 나눠 쓴다 — 선택 업무 줄은 나중에
-     그려지므로 상자(#scopeCard)가 받는다 */
-  function wireScopeToggles(){
-    var card = $('#scopeCard'); if(!card) return;
-    card.addEventListener('click', function(e){
-      var btn = e.target.closest('.pq-scope-ttl');
-      if(btn && card.contains(btn)) toggleInc(btn);
-    });
+  function chips(items){
+    return '<ul class="pq-scope-inc">'
+      + items.map(function(it){ return '<li>' + it + '</li>'; }).join('')
+      + '</ul>';
   }
 
   function buildScope(){
+    /* 기본 업무 줄 — 고를 수 없으므로 버튼이 아니라 표시 하나만 선다 */
+    var base = $('#scopeBase');
+    if(base) base.innerHTML = '<div class="pq-scope-row">'
+      +   '<span class="nm">' + BASE.nm + '</span>'
+      +   '<span class="pq-scope-always">✓ 포함됨</span>'
+      + '</div>';
+
     var box = $('#scopeList'); if(!box) return;
     box.innerHTML = PICKS.map(function(p){
       return '<div class="pq-scope-item" data-pick="' + p.id + '">'
         +   '<div class="pq-scope-row">'
-        +     '<div class="txt">'
-        +       '<button type="button" class="pq-scope-ttl" aria-expanded="false" aria-controls="inc-' + p.id + '">'
-        +         '<span class="nm">' + p.nm + '</span><span class="sr-only"> 포함 업무 보기</span>'
-        +       '</button>'
-        +     '</div>'
+        +     '<span class="nm">' + p.nm + '</span>'
         +     (p.price != null ? '<span class="pq-scope-price">+월 ' + won(p.price) + '</span>' : '')
         +     '<button type="button" class="pq-scope-add" aria-pressed="false">+ 포함</button>'
         +   '</div>'
         +   '<p class="pq-scope-why" hidden></p>'
-        +   '<ul class="pq-scope-inc" id="inc-' + p.id + '" hidden>'
-        +     p.items.map(function(it){ return '<li>' + it + '</li>'; }).join('')
-        +   '</ul>'
         + '</div>';
     }).join('');
 
@@ -242,13 +237,19 @@
       }
     });
 
-    /* 포함된 업무 — 데이터 차례를 따른다 */
-    var chips = $('#scopeChips');
-    if(chips){
-      chips.innerHTML = '<span class="pq-chip base">기본 업무</span>'
-        + PICKS.filter(function(p){ return scope[p.id]; })
-               .map(function(p){ return '<span class="pq-chip on">+ ' + p.nm + '</span>'; })
-               .join('');
+    /* 포함된 업무 — 기본이 늘 맨 위에 서고, 고른 것이 데이터 차례로 붙는다.
+       이름만 되읊지 않고 실제 업무를 쌓는다. 고르는 줄은 제목만 세우므로
+       '무엇을 해 주는가' 가 화면에 남는 곳은 여기뿐이다 */
+    var grps = $('#scopeChips');
+    if(grps){
+      grps.innerHTML = [BASE]
+        .concat(PICKS.filter(function(p){ return scope[p.id]; }))
+        .map(function(g){
+          return '<div class="pq-scope-grp">'
+            +   '<span class="gn">' + g.nm + '</span>'
+            +   chips(g.items)
+            + '</div>';
+        }).join('');
     }
 
     /* 이용사가 할 일 */
@@ -267,10 +268,6 @@
 
   function resetScope(){
     PICKS.forEach(function(p){ scope[p.id] = false; });
-    var box = $('#scopeList');
-    var card = $('#scopeCard');
-    if(card) card.querySelectorAll('.pq-scope-ttl[aria-expanded="true"]')
-                 .forEach(function(b){ toggleInc(b); });
     paintScope();
   }
 
@@ -597,7 +594,6 @@
     var r = $('input[name=plan][value="'+want+'"]');
     if(r) r.checked = true;
   }
-  wireScopeToggles();
   buildScope();
   paintScope();
   syncPlan();
