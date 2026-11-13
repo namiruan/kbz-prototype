@@ -167,22 +167,30 @@
 .pq-scope-base .ds{margin:7px 0 0;font-size:13px;font-weight:500;color:var(--ink-2);
   line-height:1.6;word-break:keep-all}
 
-/* 포함 업무 보기 — 기본 업무와 선택 업무가 같이 쓴다 */
-.pq-scope-more{margin-top:9px}
-.pq-scope-more > summary{display:inline-flex;align-items:center;gap:4px;
-  list-style:none;cursor:pointer;width:fit-content;
-  font-size:12.5px;font-weight:700;letter-spacing:-.02em;color:var(--ink-3)}
-.pq-scope-more > summary::-webkit-details-marker{display:none}
-.pq-scope-more > summary::after{content:"";width:5px;height:5px;margin:-3px 0 0 1px;
-  border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;
-  transform:rotate(45deg);transition:transform .15s}
-.pq-scope-more[open] > summary::after{transform:rotate(-135deg);margin-top:1px}
-.pq-scope-more > summary:hover{color:var(--ink)}
-.pq-scope-more > summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
-.pq-scope-more ul{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:4px}
-.pq-scope-more li{position:relative;padding-left:11px;font-size:12.5px;font-weight:500;
+/* 포함 업무 — 이름 줄 자체가 여닫이다. '포함 업무 보기' 를 글자 한 줄로
+   따로 두면 덩이마다 26px 을 더 먹어, 다섯 덩이에 130px 이 된다. 비교표
+   섹션 제목(.es-cat-t)이 이미 쓰는 방식이라 새로 배울 것도 없다 */
+/* ⚠ 위아래 패딩 2px 과 음수 마진 2px 이 짝이다 — 손가락이 닿는 넓이는
+      24px 로 키우고(WCAG 2.5.8), 줄의 겉보기 높이는 20px 그대로 둔다 */
+.pq-scope-ttl{display:inline-flex;align-items:center;gap:5px;max-width:100%;
+  appearance:none;padding:2px 0;margin:-2px 0;border:0;background:none;
+  font:inherit;color:inherit;text-align:left;cursor:pointer}
+.pq-scope-ttl::after{content:"";flex:none;width:5px;height:5px;margin:-3px 0 0;
+  border-right:1.6px solid var(--ink-4);border-bottom:1.6px solid var(--ink-4);
+  transform:rotate(45deg);transition:transform .15s,border-color .15s}
+.pq-scope-ttl[aria-expanded="true"]::after{transform:rotate(-135deg);margin-top:1px}
+.pq-scope-ttl:hover::after{border-color:var(--ink-2)}
+.pq-scope-item.is-on .pq-scope-ttl::after{border-color:var(--accent)}
+.pq-scope-ttl:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+@media(prefers-reduced-motion:reduce){.pq-scope-ttl::after{transition:none}}
+
+/* ⚠ display:grid 가 [hidden] 의 display:none 을 이긴다 — 한 줄 더 적어
+      닫힌 목록을 정말 감춘다 */
+.pq-scope-inc{list-style:none;margin:9px 0 0;padding:0;display:grid;gap:4px}
+.pq-scope-inc[hidden]{display:none}
+.pq-scope-inc li{position:relative;padding-left:11px;font-size:12.5px;font-weight:500;
   color:var(--ink-2);line-height:1.6;word-break:keep-all}
-.pq-scope-more li::before{content:"";position:absolute;left:1px;top:8px;
+.pq-scope-inc li::before{content:"";position:absolute;left:1px;top:8px;
   width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
 
 /* 선택 업무 */

@@ -163,20 +163,44 @@
     return (p.requires || []).filter(function(id){ return !scope[id]; });
   }
 
+  /* 포함 업무 여닫이 — 이름 줄이 곧 손잡이다. <details> 를 쓰지 않는 까닭은
+     한 줄에 '담기' 버튼이 같이 서기 때문이다. <summary> 안에 버튼을 넣으면
+     어느 쪽을 눌렀는지 브라우저마다 다르게 읽는다 */
+  function toggleInc(btn){
+    var on = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', on ? 'false' : 'true');
+    var lst = document.getElementById(btn.getAttribute('aria-controls'));
+    if(lst) lst.hidden = on;
+  }
+
+  /* 기본 업무와 선택 업무가 한 손잡이를 나눠 쓴다 — 선택 업무 줄은 나중에
+     그려지므로 상자(#scopeCard)가 받는다 */
+  function wireScopeToggles(){
+    var card = $('#scopeCard'); if(!card) return;
+    card.addEventListener('click', function(e){
+      var btn = e.target.closest('.pq-scope-ttl');
+      if(btn && card.contains(btn)) toggleInc(btn);
+    });
+  }
+
   function buildScope(){
     var box = $('#scopeList'); if(!box) return;
     box.innerHTML = PICKS.map(function(p){
       return '<div class="pq-scope-item" data-pick="' + p.id + '">'
         +   '<div class="pq-scope-row">'
-        +     '<div class="txt"><span class="nm">' + p.nm + '</span></div>'
+        +     '<div class="txt">'
+        +       '<button type="button" class="pq-scope-ttl" aria-expanded="false" aria-controls="inc-' + p.id + '">'
+        +         '<span class="nm">' + p.nm + '</span><span class="sr-only"> 포함 업무 보기</span>'
+        +       '</button>'
+        +     '</div>'
         +     (p.price != null ? '<span class="pq-scope-price">+월 ' + won(p.price) + '</span>' : '')
         +     '<button type="button" class="pq-scope-add" aria-pressed="false">+ 담기</button>'
         +   '</div>'
         +   '<p class="ds">' + p.ds + '</p>'
         +   '<p class="pq-scope-why" hidden></p>'
-        +   '<details class="pq-scope-more"><summary>포함 업무 보기</summary><ul>'
+        +   '<ul class="pq-scope-inc" id="inc-' + p.id + '" hidden>'
         +     p.items.map(function(it){ return '<li>' + it + '</li>'; }).join('')
-        +   '</ul></details>'
+        +   '</ul>'
         + '</div>';
     }).join('');
 
@@ -245,7 +269,9 @@
   function resetScope(){
     PICKS.forEach(function(p){ scope[p.id] = false; });
     var box = $('#scopeList');
-    if(box) box.querySelectorAll('.pq-scope-more[open]').forEach(function(d){ d.open = false; });
+    var card = $('#scopeCard');
+    if(card) card.querySelectorAll('.pq-scope-ttl[aria-expanded="true"]')
+                 .forEach(function(b){ toggleInc(b); });
     paintScope();
   }
 
@@ -572,6 +598,7 @@
     var r = $('input[name=plan][value="'+want+'"]');
     if(r) r.checked = true;
   }
+  wireScopeToggles();
   buildScope();
   paintScope();
   syncPlan();

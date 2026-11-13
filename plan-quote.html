@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/base.css?v=1">
 <link rel="stylesheet" href="assets/select.css?v=1">
 <link rel="stylesheet" href="assets/quote-common.css?v=2">
-<link rel="stylesheet" href="assets/plan-quote.css?v=11">
+<link rel="stylesheet" href="assets/plan-quote.css?v=12">
 <link rel="stylesheet" href="assets/kbd.css?v=1">
 <script src="assets/format.js?v=1"></script>
 <script src="assets/select.js?v=1"></script>
@@ -123,21 +123,22 @@
         <!-- 기본 업무 — 고를 수 없다. '✓ 포함됨' 이 그 말을 한다 -->
         <div class="pq-scope-base">
           <div class="pq-scope-row">
-            <span class="nm">기본 업무</span>
+            <!-- 이름 줄이 곧 여닫이다. 'sr-only' 가 꺾쇠만으로는 읽히지 않는
+                 '무엇이 펴지는가' 를 읽어 준다 -->
+            <button type="button" class="pq-scope-ttl" aria-expanded="false" aria-controls="incBase">
+              <span class="nm">기본 업무</span><span class="sr-only"> 포함 업무 보기</span>
+            </button>
             <span class="pq-scope-always">✓ 포함됨</span>
           </div>
           <p class="ds">사업장 신고 · 일용 고용·산재 · 본사 상용직 · 증명서</p>
-          <details class="pq-scope-more">
-            <summary>포함 업무 보기</summary>
-            <ul>
-              <li>4대보험 성립·변경·탈퇴 신고</li>
-              <li>고용·산재 하수급 사업주 승인·명세 신고</li>
-              <li>퇴직공제 성립·변경·준공 신고</li>
-              <li>일용근로자 고용·산재 근로내용 오류 확인 및 신고</li>
-              <li>본사 상용직 취득·상실·보수변경, 이직확인서, 휴직·복직</li>
-              <li>건강·연금 EDI, 근로복지공단 토탈서비스 증명서</li>
-            </ul>
-          </details>
+          <ul class="pq-scope-inc" id="incBase" hidden>
+            <li>4대보험 성립·변경·탈퇴 신고</li>
+            <li>고용·산재 하수급 사업주 승인·명세 신고</li>
+            <li>퇴직공제 성립·변경·준공 신고</li>
+            <li>일용근로자 고용·산재 근로내용 오류 확인 및 신고</li>
+            <li>본사 상용직 취득·상실·보수변경, 이직확인서, 휴직·복직</li>
+            <li>건강·연금 EDI, 근로복지공단 토탈서비스 증명서</li>
+          </ul>
         </div>
 
         <!-- 선택 업무 — 줄마다 따로 담는다(장바구니) -->
@@ -288,6 +289,6 @@
 </dialog>
 
 <script src="assets/kbd.js?v=1"></script>
-<script src="assets/plan-quote.js?v=4"></script>
+<script src="assets/plan-quote.js?v=5"></script>
 </body>
 </html>
