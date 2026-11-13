@@ -194,28 +194,35 @@
   function buildScope(){
     var box = $('#scopeTbl'); if(!box) return;
 
-    var body = CATS.map(function(cat){
+    var body = '';
+    CATS.forEach(function(cat){
       var base = WORK.filter(function(w){ return w.cat === cat && !w.by; });
       var pick = pickOf(cat);
       var add  = pick ? WORK.filter(function(w){ return w.cat === cat && w.by === pick.id; }) : [];
-      var cell = '';
-      if(base.length) cell += '<div class="ln"><span class="k">기본</span>'
-        + '<span class="ws">' + base.map(wsp).join('') + '</span></div>';
-      if(pick) cell += '<div class="opt" data-pick="' + pick.id + '">'
-        + '<label class="hd">'
-        +   '<input type="checkbox" aria-describedby="ws-' + pick.id + '">'
-        +   '<span class="bx" aria-hidden="true"></span>'
-        +   '<span class="k">추가</span>'
-        +   '<span class="nm">' + pick.nm + '</span>'
+
+      /* 갈래 이름 줄 — 늘 들어가는 업무가 선다 */
+      if(base.length) body += '<tr' + (pick ? '' : ' class="end"') + '>'
+        + '<th scope="row">' + cat + '</th>'
+        + '<td><span class="ws">' + base.map(wsp).join('') + '</span></td>'
+        + '</tr>';
+
+      /* 고르는 줄 — 체크박스가 갈래 칸에 선다. 늘 들어가는 업무가 없는
+         갈래(공사대장)는 이 줄이 갈래 이름도 같이 든다 */
+      if(pick) body += '<tr class="opt end" data-pick="' + pick.id + '">'
+        + '<th scope="row">'
+        +   (base.length ? '' : '<span class="cat">' + cat + '</span>')
+        +   '<label class="hd">'
+        +     '<input type="checkbox" aria-describedby="ws-' + pick.id + '">'
+        +     '<span class="bx" aria-hidden="true"></span>'
+        +     '<span class="nm">' + pick.nm + '</span>'
         /* 값이 서면 이름 뒤에 붙는다. 지금은 모두 null 이라 안 그려진다 */
-        +   (pick.price != null ? '<span class="pr">월 ' + won(pick.price) + '</span>' : '')
-        + '</label>'
-        + '<div class="ln sub" id="ws-' + pick.id + '">'
-        +   '<span class="ws">' + add.map(wsp).join('') + '</span></div>'
-        + '<p class="why" hidden></p>'
-        + '</div>';
-      return '<tr><th scope="row">' + cat + '</th><td>' + cell + '</td></tr>';
-    }).join('');
+        +     (pick.price != null ? '<span class="pr">월 ' + won(pick.price) + '</span>' : '')
+        +   '</label>'
+        + '</th>'
+        + '<td id="ws-' + pick.id + '"><span class="ws">' + add.map(wsp).join('') + '</span>'
+        +   '<p class="why" hidden></p></td>'
+        + '</tr>';
+    });
 
     box.innerHTML = '<table class="pq-scope-tbl">'
       + '<colgroup><col class="c-cat"><col></colgroup>'
@@ -224,8 +231,8 @@
 
     /* 손잡이는 줄마다 달지 않고 표 하나가 받는다 */
     box.addEventListener('change', function(e){
-      var opt = e.target.closest('.opt[data-pick]'); if(!opt) return;
-      scope[opt.dataset.pick] = e.target.checked;
+      var row = e.target.closest('tr.opt[data-pick]'); if(!row) return;
+      scope[row.dataset.pick] = e.target.checked;
       paintScope();
       render();                    /* 포함한 것이 금액에 닿을 자리 */
     });
@@ -235,7 +242,7 @@
     var box = $('#scopeTbl'); if(!box) return;
 
     PICKS.forEach(function(p){
-      var opt = box.querySelector('.opt[data-pick="' + p.id + '"]'); if(!opt) return;
+      var opt = box.querySelector('tr.opt[data-pick="' + p.id + '"]'); if(!opt) return;
       var inp = opt.querySelector('input');
       var why = opt.querySelector('.why');
       var miss = blockedBy(p);
