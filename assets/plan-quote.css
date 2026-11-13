@@ -159,7 +159,7 @@
   border-bottom:1px solid rgba(var(--color-blue-rgb),.07)}
 .pq-scope-tbl tbody tr.end th,.pq-scope-tbl tbody tr.end td{
   border-bottom:1px solid var(--line)}
-.pq-scope-tbl tbody th{font-size:12.5px;font-weight:800;
+.pq-scope-tbl tbody th{font-size:12.5px;font-weight:400;
   letter-spacing:-.02em;color:var(--ink)}
 /* 늘 들어가는 업무 — 이미 받고 있는 것이라 또렷하게 적는다 */
 .pq-scope-tbl .ws{display:block;font-size:12.5px;font-weight:600;color:var(--ink)}
@@ -176,7 +176,11 @@
       기기가 그 칸을 표의 머리줄로 읽지 않는 브라우저가 있다 — 안쪽에 한 겹
       둔다 */
 .pq-scope-tbl .hdrow{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
-.pq-scope-tbl .cat{flex:none}
+.pq-scope-tbl .cat{flex:none;font-size:12.5px;font-weight:800;
+  letter-spacing:-.02em;color:var(--ink)}
+/* 체크박스가 다른 갈래에 선 업무 — 여기서는 따라 들어올 뿐이라, 체크 자리를
+   비워 두는 대신 글자만 한 단 들여 세운다 */
+.pq-scope-tbl tr.via .tx{padding-left:25px}
 /* ⚠ 위아래 패딩 3px 과 음수 마진 3px 이 짝이다 — 손가락이 닿는 넓이는
       25px 로 키우고(WCAG 2.5.8), 줄의 겉보기 높이는 그대로 둔다 */
 .pq-scope-tbl .hd{display:flex;align-items:flex-start;gap:8px;

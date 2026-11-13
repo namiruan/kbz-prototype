@@ -53,62 +53,64 @@
   var YEAR_OFF = 0.05;                      /* 연납 할인 */
 
   /* ── 업무범위 ───────────────────────────────────────────────────
-     고르는 것(PICKS)과 해 주는 일(WORK)을 따로 둔다. 전에는 업무가 고르는
-     줄에 매달려 있어, 같은 일이 두 자리로 갈렸다 — 일용 근로내용 오류
-     신고는 '기본 업무' 밑에, 일용 건강·연금 신고는 '일용근로자 건강·연금'
-     밑에 섰다. 읽는 사람에게 둘은 같은 일용 업무다.
-     그래서 업무는 일의 갈래(cat)로 묶고, 어디서 왔는지는 by 가 들고 있다.
+     갈래와 항목은 '김반장 프리미엄 서비스 업무 안내문' 네 벌(계약 조합별)
+     에서 그대로 옮겼다. 전에는 항목 글자만 보고 내가 갈래를 지었는데,
+     원본의 '■ 제공 서비스' 가 이미 갈래를 들고 있었다.
+     ⚠ 원본의 '근로자 관리' 는 일용/상용 두 하위를 덮는데, 이 표는 한 단
+        이라 둘로 폈다. 그 머리말만 잃고 항목은 그대로다.
 
-     PICKS — 고르는 칩.
-     price : 지금은 모두 null 이라 아무것도 그려지지 않는다. 값이 서면
-             칩 안 이름 뒤에 '월 ○원' 이 붙는다. 금액 규칙은 받은 것이
-             없어 지어내지 않는다.
-     requires : 선행 항목의 id 들. 비어 있으면 늘 고를 수 있다. 값이 서면
-             선행을 포함하기 전까지 칩이 비활성화되고 사유가 줄 아래에 뜬다.
+     PICKS — 고르는 것. 원본 '계약사항' 의 3·4·5 번이다.
+     cat : 체크박스가 서는 갈래. 전에는 WORK 에서 끌어냈는데, 퇴직공제가
+           세 갈래에 걸쳐 있어 더는 끌어낼 수 없다(아래 ⚠).
+     price : 지금은 모두 null 이라 아무것도 그려지지 않는다. 금액 규칙은
+           받은 것이 없어 지어내지 않는다.
+     requires : 선행 항목의 id 들.
 
-     WORK — 실제로 해 주는 일. '포함된 업무' 가 이 표만 본다.
-     cat : 일의 갈래. CATS 의 차례대로 선다.
+     WORK — 실제로 해 주는 일.
      by  : null 이면 늘 들어간다. PICKS 의 id 면 그것을 골라야 들어간다.
-     nm  : 갈래 이름이 바로 위에 서므로, 그 이름이 되풀이하는 머리말은
-           빼고 적는다 — '퇴직공제' 갈래에서 '퇴직공제 하도급 승인신고'
-           는 '하도급 승인신고' 로 족하다. */
+     ⚠ 'retire'(일용근로자 퇴직공제 관리업무) 하나가 세 갈래에 걸쳐 있다 —
+        하도급 승인신고는 '4대보험·퇴직공제 신고' 에, 근로내용 신고는
+        '일용근로자 신고' 에, EDI 증명서는 '증명서 발급' 에. 그래서 고르기
+        하나가 갈래 하나와 짝이 되지 않는다. 체크박스는 cat 이 가리키는
+        갈래에만 서고, 나머지 갈래에는 '…포함 시' 줄로 따라 들어온다. */
+  var CATS = ['4대보험·퇴직공제 신고', '일용근로자 신고', '상용근로자 신고',
+              '증명서 발급', '별도 서비스'];
+
   var PICKS = [
-    { id:'daily_hp',     nm:'일용근로자 건강·연금',   price:null, requires:[] },
-    { id:'regular_site', nm:'상용근로자 현장별 관리', price:null, requires:[] },
-    { id:'retire',       nm:'퇴직공제 근로내역',      price:null, requires:[] },
-    { id:'kiscon',       nm:'키스콘 공사대장 신고',   price:null, requires:[] }
+    { id:'daily_hp',     cat:'일용근로자 신고', nm:'건강·연금 관리업무',
+      price:null, requires:[] },
+    { id:'retire',       cat:'일용근로자 신고', nm:'퇴직공제 관리업무',
+      price:null, requires:[] },
+    { id:'regular_site', cat:'상용근로자 신고', nm:'현장별 건강·연금 관리업무',
+      price:null, requires:[] },
+    /* 안내문 네 벌 어디에도 없다 — 계약과 별도인 서비스다 */
+    { id:'kiscon',       cat:'별도 서비스',    nm:'키스콘 공사대장 신고',
+      price:null, requires:[] }
   ];
 
-  /* 늘 들어가기만 하는 갈래(사업장·증명서)를 위에 모으고, 고를 것이 있는
-     갈래를 아래에 둔다 — 읽는 사람이 '이미 받는 것' 을 먼저 보고 '더할 것'
-     으로 내려간다 */
-  var CATS = ['사업장', '증명서', '일용근로자', '상용근로자', '퇴직공제', '공사대장'];
-
   var WORK = [
-    { cat:'사업장',    by:null,           nm:'4대보험 성립·변경·탈퇴 신고' },
-    { cat:'사업장',    by:null,           nm:'고용·산재 하수급 사업주 승인·명세 신고' },
+    { cat:'4대보험·퇴직공제 신고', by:null,     nm:'4대보험 성립·변경·탈퇴 신고' },
+    { cat:'4대보험·퇴직공제 신고', by:null,     nm:'고용·산재 하수급 사업주 승인신고' },
+    { cat:'4대보험·퇴직공제 신고', by:null,     nm:'하수급 명세신고' },
+    { cat:'4대보험·퇴직공제 신고', by:null,     nm:'퇴직공제 성립·변경·준공 신고' },
+    { cat:'4대보험·퇴직공제 신고', by:'retire', nm:'퇴직공제 하도급 승인신고' },
 
-    { cat:'일용근로자', by:null,           nm:'고용·산재 근로내용 오류 확인·신고' },
-    { cat:'일용근로자', by:'daily_hp',     nm:'건강·연금 대상자 확인·신고' },
-    { cat:'일용근로자', by:'daily_hp',     nm:'건강·연금 고지서 전송' },
+    { cat:'일용근로자 신고', by:null,       nm:'고용·산재보험 근로내용 오류 확인·신고' },
+    { cat:'일용근로자 신고', by:'daily_hp', nm:'건강·연금 대상자 확인·신고' },
+    { cat:'일용근로자 신고', by:'daily_hp', nm:'건강·연금 일용 고지서 전송' },
+    { cat:'일용근로자 신고', by:'retire',   nm:'퇴직공제 근로내용 신고·고지서 전송' },
 
-    { cat:'상용근로자', by:null,           nm:'본사 취득·상실·보수변경' },
-    { cat:'상용근로자', by:null,           nm:'이직확인서' },
-    { cat:'상용근로자', by:null,           nm:'휴직·복직' },
-    { cat:'상용근로자', by:'regular_site', nm:'건강·연금 현장별 분리적용 신고' },
-    { cat:'상용근로자', by:'regular_site', nm:'현장별 고지서 발급' },
-    { cat:'상용근로자', by:'regular_site', nm:'전입·전근·전보 신고' },
+    { cat:'상용근로자 신고', by:null,           nm:'취득·상실·보수변경 신고' },
+    { cat:'상용근로자 신고', by:null,           nm:'이직확인서 신고' },
+    { cat:'상용근로자 신고', by:null,           nm:'휴직·복직 신고' },
+    { cat:'상용근로자 신고', by:'regular_site', nm:'전입·전근·전보 신고' },
 
-    { cat:'퇴직공제',  by:null,           nm:'성립·변경·준공 신고' },
-    { cat:'퇴직공제',  by:'retire',       nm:'근로내용 신고·고지서 전송' },
-    { cat:'퇴직공제',  by:'retire',       nm:'하도급 승인신고' },
-    { cat:'퇴직공제',  by:'retire',       nm:'EDI 증명서' },
+    { cat:'증명서 발급', by:null,     nm:'건강·연금 EDI 증명서' },
+    { cat:'증명서 발급', by:null,     nm:'근로복지공단 토탈서비스 증명서' },
+    { cat:'증명서 발급', by:'retire', nm:'퇴직공제 EDI 증명서' },
 
-    { cat:'공사대장',  by:'kiscon',       nm:'건설공사대장 작성·통보' },
-    { cat:'공사대장',  by:'kiscon',       nm:'변경신고' },
-
-    { cat:'증명서',    by:null,           nm:'건강·연금 EDI' },
-    { cat:'증명서',    by:null,           nm:'근로복지공단 토탈서비스' }
+    { cat:'별도 서비스', by:'kiscon', nm:'건설공사대장 작성·통보' },
+    { cat:'별도 서비스', by:'kiscon', nm:'변경신고' }
   ];
 
   /* 포함된 상태. 신청 데이터가 그대로 들고 가고, 요금 계산도 여기를 본다 */
@@ -183,64 +185,72 @@
 
   function wsp(w){ return '<span class="w">' + w.nm + '</span>'; }
 
-  /* 갈래 이름이 바로 위에 서므로 고르기 이름에서 그 말을 뺀다 —
-     '일용근로자 건강·연금' 은 '일용근로자' 갈래 안에서 '건강·연금' 으로
-     족하다. 표를 따로 들지 않고 PICKS 의 이름에서 깎는다. 두 곳에 적어
-     두면 따로 늙는다 */
+  /* 갈래가 바로 위에 서므로 고르기 이름에서 그 말을 뺀다. PICKS 의 이름을
+     이미 갈래 없이 적어 두었으니 지금은 깎을 것이 없지만, 이름이 길어질 때를
+     위해 남겨 둔다 */
   function shortNm(nm, cat){
     return nm.split(cat).join(' ').replace(/\s+/g, ' ').trim() || nm;
   }
 
-  /* 갈래 하나에 딸린 고르기. 넷이 갈래 넷과 1:1 이라 한 갈래에 하나뿐이다 */
-  function pickOf(cat){
+  /* 이 갈래에 업무를 들여보내는 고르기들. 체크박스는 p.cat 이 가리키는
+     갈래에만 서고, 다른 갈래에는 '…포함 시' 줄로 따라 들어온다 */
+  function picksIn(cat){
     return PICKS.filter(function(p){
       return WORK.some(function(w){ return w.cat === cat && w.by === p.id; });
-    })[0];
+    });
   }
 
   /* 표는 한 번만 세운다. 고르고 무르는 동안 줄이 생기거나 사라지지 않으므로
-     — 안 고른 '추가' 줄도 흐린 채 서 있다 — 다시 그릴 까닭이 없다. 다시
-     그리면 방금 누른 체크박스에서 초점이 떨어져 키보드로 오는 사람이 자리를
-     잃는다 */
+     — 안 고른 줄도 흐린 채 서 있다 — 다시 그릴 까닭이 없다. 다시 그리면
+     방금 누른 체크박스에서 초점이 떨어져 키보드로 오는 사람이 자리를 잃는다 */
   function buildScope(){
     var box = $('#scopeTbl'); if(!box) return;
 
     var body = '';
     CATS.forEach(function(cat){
-      var base = WORK.filter(function(w){ return w.cat === cat && !w.by; });
-      var pick = pickOf(cat);
-      var add  = pick ? WORK.filter(function(w){ return w.cat === cat && w.by === pick.id; }) : [];
+      var base  = WORK.filter(function(w){ return w.cat === cat && !w.by; });
+      var picks = picksIn(cat);
+      var rows  = [];
 
-      /* 갈래 이름 줄 — 늘 들어가는 업무가 선다 */
-      if(base.length) body += '<tr' + (pick ? '' : ' class="end"') + '>'
-        + '<th scope="row">' + cat + '</th>'
-        + '<td><span class="ws">' + base.map(wsp).join('') + '</span></td>'
-        + '</tr>';
+      if(base.length) rows.push({ pick:null, ws:base });
+      picks.forEach(function(p){
+        rows.push({ pick:p, own:p.cat === cat,
+          ws:WORK.filter(function(w){ return w.cat === cat && w.by === p.id; }) });
+      });
 
-      /* 고르는 줄 — 체크박스가 갈래 칸에 선다. 늘 들어가는 업무가 없는
-         갈래(공사대장)는 이름 줄을 따로 세우지 않고 같은 줄에 붙인다.
-         아주 빼면 그 줄이 바로 위 갈래에 딸린 것처럼 읽힌다 */
-      if(pick) body += '<tr class="opt end" data-pick="' + pick.id + '">'
-        + '<th scope="row">'
-        +   (base.length ? '' : '<div class="hdrow"><span class="cat">' + cat + '</span>')
-        +   '<label class="hd">'
-        +     '<input type="checkbox" aria-describedby="ws-' + pick.id + '">'
-        +     '<span class="bx" aria-hidden="true"></span>'
-        +     '<span class="tx">'
-        /* 갈래는 눈에는 바로 위에 보이지만 귀에는 안 들린다 — sr-only 가
-           읽어 준다. 보이는 글자를 그대로 품으므로 WCAG 2.5.3 도 지킨다 */
-        +       (base.length ? '<span class="sr-only">' + cat + ' </span>' : '')
-        +       '<span class="nm">' + shortNm(pick.nm, cat) + '</span>'
-        +       ' <span class="ad">추가</span>'
-        /* 값이 서면 이름 뒤에 붙는다. 지금은 모두 null 이라 안 그려진다 */
-        +       (pick.price != null ? ' <span class="pr">월 ' + won(pick.price) + '</span>' : '')
-        +     '</span>'
-        +   '</label>'
-        +   (base.length ? '' : '</div>')
-        + '</th>'
-        + '<td id="ws-' + pick.id + '"><span class="ws">' + add.map(wsp).join('') + '</span>'
-        +   '<p class="why" hidden></p></td>'
-        + '</tr>';
+      rows.forEach(function(r, i){
+        var end = (i === rows.length - 1) ? ' end' : '';
+        /* 갈래 이름은 첫 줄이 든다. 첫 줄이 고르는 줄이면 이름과 체크가
+           같은 줄에 선다 — 이름만 적힌 빈 줄을 따로 세우지 않는다 */
+        var head = (i === 0) ? '<span class="cat">' + cat + '</span>' : '';
+        if(!r.pick){
+          body += '<tr class="' + end.trim() + '"><th scope="row">' + head + '</th>'
+            + '<td><span class="ws">' + r.ws.map(wsp).join('') + '</span></td></tr>';
+          return;
+        }
+        var p = r.pick;
+        body += '<tr class="opt' + (r.own ? '' : ' via') + end + '" data-pick="' + p.id + '">'
+          + '<th scope="row"><div class="hdrow">' + head
+          +   (r.own
+                ? '<label class="hd">'
+                  +   '<input type="checkbox" aria-describedby="ws-' + p.id + '-' + cat + '">'
+                  +   '<span class="bx" aria-hidden="true"></span>'
+                  +   '<span class="tx">'
+                  +     '<span class="sr-only">' + cat + ' </span>'
+                  +     '<span class="nm">' + shortNm(p.nm, cat) + '</span>'
+                  +     ' <span class="ad">추가</span>'
+                  +     (p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
+                  +   '</span>'
+                  + '</label>'
+                /* 체크박스가 다른 갈래에 있는 업무 — 여기서는 따라 들어온다 */
+                : '<span class="tx"><span class="nm">' + p.nm + '</span>'
+                  + ' <span class="ad">포함 시</span></span>')
+          + '</div></th>'
+          + '<td id="ws-' + p.id + '-' + cat + '"><span class="ws">'
+          +   r.ws.map(wsp).join('') + '</span>'
+          +   (r.own ? '<p class="why" hidden></p>' : '')
+          + '</td></tr>';
+      });
     });
 
     box.innerHTML = '<table class="pq-scope-tbl">'
@@ -261,17 +271,22 @@
     var box = $('#scopeTbl'); if(!box) return;
 
     PICKS.forEach(function(p){
-      var opt = box.querySelector('tr.opt[data-pick="' + p.id + '"]'); if(!opt) return;
-      var inp = opt.querySelector('input');
-      var why = opt.querySelector('.why');
+      /* 고르기 하나가 여러 갈래에 줄을 가진다 — 체크박스가 선 줄 하나와
+         '…포함 시' 줄 여럿. 모두 같이 칠한다 */
+      var rows = box.querySelectorAll('tr.opt[data-pick="' + p.id + '"]');
+      if(!rows.length) return;
+      var inp  = box.querySelector('tr.opt[data-pick="' + p.id + '"] input');
+      var why  = box.querySelector('tr.opt[data-pick="' + p.id + '"] .why');
       var miss = blockedBy(p);
       var on = !!scope[p.id] && !miss.length;
 
       scope[p.id] = on;            /* 선행이 빠지면 들어 있던 것도 같이 풀린다 */
-      inp.checked = on;
-      inp.disabled = !!miss.length;
-      opt.classList.toggle('is-on', on);
-      opt.classList.toggle('is-off', !!miss.length);
+      if(inp){ inp.checked = on; inp.disabled = !!miss.length; }
+      rows.forEach(function(r){
+        r.classList.toggle('is-on', on);
+        r.classList.toggle('is-off', !!miss.length);
+      });
+      if(!why) return;
       if(miss.length){
         why.hidden = false;
         why.textContent = miss.map(function(id){
