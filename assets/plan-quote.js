@@ -58,7 +58,9 @@
      문구와 항목이 늘고 주는 자리라 마크업이 아니라 이 표 하나에 둔다 —
      손으로 적어 두면 늘 때마다 빠뜨릴 자리가 생긴다.
 
-     items : 줄 제목이 이미 말하는 머리말은 빼고 적는다 — '퇴직공제 근로내역'
+     items : 줄이 가진 설명의 전부다. 설명 한 줄은 따로 두지 않는다 —
+             칩이 같은 말을 더 정확히 해, 둘을 같이 두면 겹쳐 읽힌다.
+             줄 제목이 이미 말하는 머리말은 빼고 적는다 — '퇴직공제 근로내역'
              줄에서 '퇴직공제 하도급 승인신고' 는 '하도급 승인신고' 로 족하다.
      price : 지금은 모두 null 이라 아무것도 그려지지 않는다. 값이 서면
              버튼 왼쪽에 '+월 ○원' 이 붙는다. 금액 규칙은 받은 것이 없어
@@ -67,19 +69,15 @@
              선행을 포함하기 전까지 버튼이 비활성화되고 사유가 줄 아래에 뜬다. */
   var PICKS = [
     { id:'daily_hp', nm:'일용근로자 건강·연금',
-      ds:'일용직 건강·연금 가입 대상을 대신 찾아 신고하고, 매달 고지서까지 보내드려요.',
       items:['대상자 확인·신고', '일용 고지서 전송'],
       price:null, requires:[] },
     { id:'regular_site', nm:'상용근로자 현장별 관리',
-      ds:'현장에 배치된 상용직을 본사와 분리해 현장별로 신고하고 고지서도 현장별로 받아요.',
       items:['건강·연금 분리적용 신고', '현장별 고지서 발급', '전입·전근·전보 신고'],
       price:null, requires:[] },
     { id:'retire', nm:'퇴직공제 근로내역',
-      ds:'퇴직공제 대상 현장의 근로내역 신고와 하도급 승인까지 맡아드려요.',
       items:['근로내용 신고·고지서 전송', '하도급 승인신고', 'EDI 증명서'],
       price:null, requires:[] },
     { id:'kiscon', nm:'키스콘 공사대장 신고',
-      ds:'건설공사대장 작성·통보와 변경신고를 대신해드려요.',
       items:['작성·통보', '변경신고'],
       price:null, requires:[] }
   ];
@@ -198,7 +196,6 @@
         +     (p.price != null ? '<span class="pq-scope-price">+월 ' + won(p.price) + '</span>' : '')
         +     '<button type="button" class="pq-scope-add" aria-pressed="false">+ 포함</button>'
         +   '</div>'
-        +   '<p class="ds">' + p.ds + '</p>'
         +   '<p class="pq-scope-why" hidden></p>'
         +   '<ul class="pq-scope-inc" id="inc-' + p.id + '" hidden>'
         +     p.items.map(function(it){ return '<li>' + it + '</li>'; }).join('')
