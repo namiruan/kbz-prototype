@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/base.css?v=1">
 <link rel="stylesheet" href="assets/select.css?v=1">
 <link rel="stylesheet" href="assets/quote-common.css?v=2">
-<link rel="stylesheet" href="assets/plan-quote.css?v=18">
+<link rel="stylesheet" href="assets/plan-quote.css?v=19">
 <link rel="stylesheet" href="assets/kbd.css?v=1">
 <script src="assets/format.js?v=1"></script>
 <script src="assets/select.js?v=1"></script>
@@ -126,17 +126,12 @@
         <div class="pq-scope-picks" id="scopeList" role="group" aria-label="업무범위"></div>
         <div class="pq-scope-whys" id="scopeWhy"></div>
 
-        <!-- 포함된 업무 — 무엇을 해 주는지가 여기 한곳에 쌓인다. 고르는 줄은
-             제목만 세우고, 실제 업무 칩은 여기서만 보여 준다 -->
+        <!-- 포함된 업무 — 무엇을 해 주는지가 여기 한곳에 쌓인다. 고르는
+             줄은 이름만 세우고, 실제 업무 칩은 일의 갈래로 묶여 여기서만
+             보인다. 더해진 것은 '+' 와 강조색으로 가려낸다 -->
         <div class="pq-scope-sum">
           <span class="lb">포함된 업무</span>
           <div class="pq-scope-grps" id="scopeChips"></div>
-        </div>
-
-        <!-- 이용사가 할 일 — 포함한 것에 따라 줄이 늘고 바뀐다 -->
-        <div class="pq-scope-todo">
-          <span class="lb">이용사가 할 일</span>
-          <ul id="scopeTodo"></ul>
         </div>
       </div>
 
@@ -272,6 +267,6 @@
 </dialog>
 
 <script src="assets/kbd.js?v=1"></script>
-<script src="assets/plan-quote.js?v=10"></script>
+<script src="assets/plan-quote.js?v=11"></script>
 </body>
 </html>

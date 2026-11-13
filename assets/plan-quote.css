@@ -181,7 +181,7 @@ button.pq-pick[aria-pressed="true"]:hover{background:var(--accent);
    화면에 남는 곳은 여기뿐이다. 묶음 이름을 머리에 달아 어느 줄에서 온
    칩인지 보이게 한다 */
 .pq-scope-sum{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
-.pq-scope-sum .lb,.pq-scope-todo .lb{flex:none;font-size:13px;font-weight:800;
+.pq-scope-sum .lb{display:block;font-size:13px;font-weight:800;
   letter-spacing:-.03em;color:var(--ink)}
 .pq-scope-grps{display:grid;gap:11px;margin-top:10px}
 .pq-scope-grp .gn{display:block;font-size:12px;font-weight:800;
@@ -192,18 +192,16 @@ button.pq-pick[aria-pressed="true"]:hover{background:var(--accent);
    (성립·변경·탈퇴)과 항목 사이가 섞이지 않는다 */
 .pq-scope-inc{list-style:none;margin:0;padding:0;
   display:flex;flex-wrap:wrap;gap:4px}
-.pq-scope-inc li{padding:2px 7px;border-radius:5px;
+.pq-scope-inc li{display:inline-flex;align-items:center;gap:3px;
+  padding:2px 7px;border-radius:5px;
   background:var(--main-white);border:1px solid var(--line);
   font-size:11.5px;font-weight:600;letter-spacing:-.02em;
   color:var(--ink-2);line-height:1.5;word-break:keep-all}
-
-/* 이용사가 할 일 */
-.pq-scope-todo{margin-top:12px;padding:13px 15px;border-radius:8px;background:var(--fill)}
-.pq-scope-todo ul{list-style:none;margin:7px 0 0;padding:0;display:grid;gap:5px}
-.pq-scope-todo li{position:relative;padding-left:11px;font-size:12.5px;font-weight:500;
-  color:var(--ink-2);line-height:1.6;word-break:keep-all}
-.pq-scope-todo li::before{content:"";position:absolute;left:1px;top:8px;
-  width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
+/* 고른 것으로 들어온 업무 — 늘 들어가는 것과 한 줄에 섞여 서므로 가려
+   놓는다. 갈래로 묶으면 둘이 나란히 서는 것이 요점이라 더 그렇다 */
+.pq-scope-inc li.add{background:var(--accent-tint);
+  border-color:rgba(var(--color-blue-rgb),.3);color:var(--accent)}
+.pq-scope-inc li.add .mk{font-weight:800}
 
 /* 좁은 폭 — 칩 하나가 거의 한 줄을 먹는다. 옆여백을 줄여 가장 긴 이름이
    320px 에서도 꺾이지 않게 한다 */

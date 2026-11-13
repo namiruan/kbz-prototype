@@ -53,58 +53,64 @@
   var YEAR_OFF = 0.05;                      /* 연납 할인 */
 
   /* ── 업무범위 ───────────────────────────────────────────────────
-     기본 업무는 늘 들어가고, 아래 넷은 줄마다 따로 담는다(장바구니).
+     고르는 것(PICKS)과 해 주는 일(WORK)을 따로 둔다. 전에는 업무가 고르는
+     줄에 매달려 있어, 같은 일이 두 자리로 갈렸다 — 일용 근로내용 오류
+     신고는 '기본 업무' 밑에, 일용 건강·연금 신고는 '일용근로자 건강·연금'
+     밑에 섰다. 읽는 사람에게 둘은 같은 일용 업무다.
+     그래서 업무는 일의 갈래(cat)로 묶고, 어디서 왔는지는 by 가 들고 있다.
 
-     문구와 항목이 늘고 주는 자리라 마크업이 아니라 이 표 하나에 둔다 —
-     손으로 적어 두면 늘 때마다 빠뜨릴 자리가 생긴다.
-
-     items : 고르는 줄에는 그리지 않는다. 아래 '포함된 업무' 에만 쌓여,
-             고른 결과가 한곳에서 읽힌다. 묶음 이름이 바로 위에 서므로
-             그 이름이 되풀이하는 머리말은 빼고 적는다 — '퇴직공제 근로내역'
-             묶음에서 '퇴직공제 하도급 승인신고' 는 '하도급 승인신고' 로 족하다.
+     PICKS — 고르는 칩.
      price : 지금은 모두 null 이라 아무것도 그려지지 않는다. 값이 서면
-             버튼 왼쪽에 '+월 ○원' 이 붙는다. 금액 규칙은 받은 것이 없어
-             지어내지 않는다.
-     requires : 선행 항목의 id 들. 비어 있으면 늘 담을 수 있다. 값이 서면
-             선행을 포함하기 전까지 버튼이 비활성화되고 사유가 줄 아래에 뜬다. */
-  var BASE = { nm:'기본 업무', items:[
-    '4대보험 성립·변경·탈퇴 신고',
-    '고용·산재 하수급 사업주 승인·명세 신고',
-    '퇴직공제 성립·변경·준공 신고',
-    '일용 고용·산재 근로내용 오류 확인·신고',
-    '본사 상용직 취득·상실·보수변경, 이직확인서, 휴직·복직',
-    '건강·연금 EDI, 근로복지공단 토탈서비스 증명서'
-  ] };
+             칩 안 이름 뒤에 '월 ○원' 이 붙는다. 금액 규칙은 받은 것이
+             없어 지어내지 않는다.
+     requires : 선행 항목의 id 들. 비어 있으면 늘 고를 수 있다. 값이 서면
+             선행을 포함하기 전까지 칩이 비활성화되고 사유가 줄 아래에 뜬다.
 
+     WORK — 실제로 해 주는 일. '포함된 업무' 가 이 표만 본다.
+     cat : 일의 갈래. CATS 의 차례대로 선다.
+     by  : null 이면 늘 들어간다. PICKS 의 id 면 그것을 골라야 들어간다.
+     nm  : 갈래 이름이 바로 위에 서므로, 그 이름이 되풀이하는 머리말은
+           빼고 적는다 — '퇴직공제' 갈래에서 '퇴직공제 하도급 승인신고'
+           는 '하도급 승인신고' 로 족하다. */
   var PICKS = [
-    { id:'daily_hp', nm:'일용근로자 건강·연금',
-      items:['대상자 확인·신고', '일용 고지서 전송'],
-      price:null, requires:[] },
-    { id:'regular_site', nm:'상용근로자 현장별 관리',
-      items:['건강·연금 분리적용 신고', '현장별 고지서 발급', '전입·전근·전보 신고'],
-      price:null, requires:[] },
-    { id:'retire', nm:'퇴직공제 근로내역',
-      items:['근로내용 신고·고지서 전송', '하도급 승인신고', 'EDI 증명서'],
-      price:null, requires:[] },
-    { id:'kiscon', nm:'키스콘 공사대장 신고',
-      items:['작성·통보', '변경신고'],
-      price:null, requires:[] }
+    { id:'daily_hp',     nm:'일용근로자 건강·연금',   price:null, requires:[] },
+    { id:'regular_site', nm:'상용근로자 현장별 관리', price:null, requires:[] },
+    { id:'retire',       nm:'퇴직공제 근로내역',      price:null, requires:[] },
+    { id:'kiscon',       nm:'키스콘 공사대장 신고',   price:null, requires:[] }
+  ];
+
+  var CATS = ['사업장', '일용근로자', '상용근로자', '퇴직공제', '공사대장', '증명서'];
+
+  var WORK = [
+    { cat:'사업장',    by:null,           nm:'4대보험 성립·변경·탈퇴 신고' },
+    { cat:'사업장',    by:null,           nm:'고용·산재 하수급 사업주 승인·명세 신고' },
+
+    { cat:'일용근로자', by:null,           nm:'고용·산재 근로내용 오류 확인·신고' },
+    { cat:'일용근로자', by:'daily_hp',     nm:'건강·연금 대상자 확인·신고' },
+    { cat:'일용근로자', by:'daily_hp',     nm:'건강·연금 고지서 전송' },
+
+    { cat:'상용근로자', by:null,           nm:'본사 취득·상실·보수변경' },
+    { cat:'상용근로자', by:null,           nm:'이직확인서' },
+    { cat:'상용근로자', by:null,           nm:'휴직·복직' },
+    { cat:'상용근로자', by:'regular_site', nm:'건강·연금 현장별 분리적용 신고' },
+    { cat:'상용근로자', by:'regular_site', nm:'현장별 고지서 발급' },
+    { cat:'상용근로자', by:'regular_site', nm:'전입·전근·전보 신고' },
+
+    { cat:'퇴직공제',  by:null,           nm:'성립·변경·준공 신고' },
+    { cat:'퇴직공제',  by:'retire',       nm:'근로내용 신고·고지서 전송' },
+    { cat:'퇴직공제',  by:'retire',       nm:'하도급 승인신고' },
+    { cat:'퇴직공제',  by:'retire',       nm:'EDI 증명서' },
+
+    { cat:'공사대장',  by:'kiscon',       nm:'건설공사대장 작성·통보' },
+    { cat:'공사대장',  by:'kiscon',       nm:'변경신고' },
+
+    { cat:'증명서',    by:null,           nm:'건강·연금 EDI' },
+    { cat:'증명서',    by:null,           nm:'근로복지공단 토탈서비스' }
   ];
 
   /* 포함된 상태. 신청 데이터가 그대로 들고 가고, 요금 계산도 여기를 본다 */
   var scope = {};
   PICKS.forEach(function(p){ scope[p.id] = false; });
-
-  /* 이용사가 할 일 — 포함한 것에 따라 줄이 바뀌고 늘어난다.
-     daily_hp 는 줄을 더하는 것이 아니라 기본 줄을 갈아 끼운다. 전송 기한이
-     달라지는 것이라, 둘을 같이 세우면 어느 날짜가 내 날짜인지 흐려진다 */
-  var TODO_BASE = '매월 10일 18시까지 월출역에 근로내용 입력 후 전송';
-  var TODO = {
-    daily_hp     : { replace:'근로내용 전송 — 익월 반영 매월 4일 12시 / 익익월 반영 10일 18시',
-                     add:'건강·연금 고지서 확인 후 10일까지 납부' },
-    regular_site : { add:'상용직 신고는 뉴비즈씨로 접수' },
-    retire       : { add:'퇴직공제 고지서도 업무톡으로 확인' }
-  };
 
   function tierFor(sales){
     if(!(sales > 0)) return null;
@@ -172,9 +178,17 @@
     return (p.requires || []).filter(function(id){ return !scope[id]; });
   }
 
-  function chips(items){
+  /* 고른 것으로 들어온 업무에는 '+' 와 강조색을 둔다 — 늘 들어가는 것과
+     내가 더한 것이 한 줄에 섞여 서므로, 둘이 같아 보이면 무엇이 늘었는지
+     읽히지 않는다. '+' 는 눈이 보는 것이고 'sr-only' 가 읽어 준다 */
+  function chips(works){
     return '<ul class="pq-scope-inc">'
-      + items.map(function(it){ return '<li>' + it + '</li>'; }).join('')
+      + works.map(function(w){
+          return w.by
+            ? '<li class="add"><span class="mk" aria-hidden="true">+</span>'
+              + '<span class="sr-only">추가 </span>' + w.nm + '</li>'
+            : '<li>' + w.nm + '</li>';
+        }).join('')
       + '</ul>';
   }
 
@@ -183,7 +197,7 @@
 
     /* 기본 업무 칩이 맨 앞에 선다 — 고를 수 없으므로 button 이 아니다.
        '✓' 는 꼴이 말하는 것을 되풀이할 뿐이라, 읽어 주는 몫은 sr-only 가 */
-    box.innerHTML = '<span class="pq-pick is-base">✓ ' + BASE.nm
+    box.innerHTML = '<span class="pq-pick is-base">✓ 기본 업무'
       +   '<span class="sr-only"> 늘 포함됨</span></span>'
       + PICKS.map(function(p){
           return '<button type="button" class="pq-pick" data-pick="' + p.id + '"'
@@ -230,33 +244,23 @@
     var why = $('#scopeWhy');
     if(why) why.innerHTML = whys.map(function(t){ return '<p>' + t + '</p>'; }).join('');
 
-    /* 포함된 업무 — 기본이 늘 맨 위에 서고, 고른 것이 데이터 차례로 붙는다.
-       이름만 되읊지 않고 실제 업무를 쌓는다. 고르는 줄은 제목만 세우므로
-       '무엇을 해 주는가' 가 화면에 남는 곳은 여기뿐이다 */
+    /* 포함된 업무 — 일의 갈래로 묶는다. 어디서 왔는지로 묶으면 같은 일용
+       업무가 '기본 업무' 와 '일용근로자 건강·연금' 두 자리로 갈린다.
+       아무것도 들어오지 않은 갈래는 줄을 세우지 않는다 */
     var grps = $('#scopeChips');
     if(grps){
-      grps.innerHTML = [BASE]
-        .concat(PICKS.filter(function(p){ return scope[p.id]; }))
-        .map(function(g){
-          return '<div class="pq-scope-grp">'
-            +   '<span class="gn">' + g.nm + '</span>'
-            +   chips(g.items)
-            + '</div>';
-        }).join('');
+      grps.innerHTML = CATS.map(function(cat){
+        var inc = WORK.filter(function(w){
+          return w.cat === cat && (!w.by || scope[w.by]);
+        });
+        if(!inc.length) return '';
+        return '<div class="pq-scope-grp">'
+          +   '<span class="gn">' + cat + '</span>'
+          +   chips(inc)
+          + '</div>';
+      }).join('');
     }
 
-    /* 이용사가 할 일 */
-    var todo = $('#scopeTodo');
-    if(todo){
-      var first = TODO_BASE, rest = [];
-      PICKS.forEach(function(p){
-        var t = TODO[p.id]; if(!t || !scope[p.id]) return;
-        if(t.replace) first = t.replace;
-        if(t.add) rest.push(t.add);
-      });
-      todo.innerHTML = [first].concat(rest)
-        .map(function(x){ return '<li>' + x + '</li>'; }).join('');
-    }
   }
 
   function resetScope(){
