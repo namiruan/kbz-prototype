@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/base.css?v=1">
 <link rel="stylesheet" href="assets/select.css?v=1">
 <link rel="stylesheet" href="assets/quote-common.css?v=2">
-<link rel="stylesheet" href="assets/plan-quote.css?v=7">
+<link rel="stylesheet" href="assets/plan-quote.css?v=8">
 <link rel="stylesheet" href="assets/kbd.css?v=1">
 <script src="assets/format.js?v=1"></script>
 <script src="assets/select.js?v=1"></script>
@@ -99,11 +99,13 @@
           <!-- 면허는 쓰고 안 쓰고가 아니라 어느 쪽을 가졌느냐다. '종합면허 사용'
                으로 물으면 전문면허만 가진 회사가 '미사용'에 서게 되는데, 면허가
                없다는 말이 아니라 종류가 다르다는 말이라 답이 사실과 어긋난다.
-               미리 골라 두지 않는다 — 셋 중 무엇을 가졌는지는 넘겨짚을 수 없다 -->
+               ⚠ 첫 보기를 눌러 둔다. 세그먼트는 한 칸이 눌려 있지 않으면 빈
+                  트랙으로 보여 고를 자리인지조차 읽히지 않는다. 어느 쪽이 가장
+                  많은지는 받은 것이 없어, 세그먼트의 관례대로 첫 보기를 둔다 -->
           <div class="f-item third prem-only pq-license">
             <span class="f-label" id="lbLicense">면허 종류</span>
             <div class="f-radios" role="radiogroup" aria-labelledby="lbLicense">
-              <label><input type="radio" name="license_type" value="general"><span class="dot" aria-hidden="true"></span><span class="tx">종합</span></label>
+              <label><input type="radio" name="license_type" value="general" checked><span class="dot" aria-hidden="true"></span><span class="tx">종합</span></label>
               <label><input type="radio" name="license_type" value="special"><span class="dot" aria-hidden="true"></span><span class="tx">전문</span></label>
               <label><input type="radio" name="license_type" value="both"><span class="dot" aria-hidden="true"></span><span class="tx">둘 다</span></label>
             </div>

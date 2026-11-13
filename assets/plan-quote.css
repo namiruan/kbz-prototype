@@ -117,11 +117,13 @@
    가지므로 폭이 얼마든 들어간다.
    ⚠ 마크업은 라디오 그대로다. 생긴 것만 바꾸고 role·input 은 두어, 좌우
       화살표로 옮겨 다니는 네이티브 조작을 잃지 않는다 */
+/* 높이와 윗변을 옆 입력폼에 맞춘다 — .field 가 54px(640 아래 48px)이고,
+   margin-top 을 두면 그만큼 윗변이 내려가 한 줄에서 두 칸이 어긋난다 */
 .pq-license .f-radios{display:flex;align-items:stretch;gap:2px;padding:3px;
-  border-radius:1000px;background:#E7EAEE;min-height:0;margin-top:3px;
+  border-radius:1000px;background:#E7EAEE;height:54px;min-height:0;margin-top:0;
   align-self:stretch;width:100%}
 .pq-license .f-radios label{flex:1;display:flex;align-items:center;justify-content:center;
-  gap:0;padding:8px 6px;border-radius:1000px;cursor:pointer;white-space:nowrap;
+  gap:0;padding:0 6px;border-radius:1000px;cursor:pointer;white-space:nowrap;
   font-size:13px;font-weight:700;color:var(--ink-2);transition:.16s}
 .pq-license .f-radios label:hover{color:var(--ink)}
 /* 점은 세그먼트에서 할 일이 없다 — 고른 표시는 알약이 든다 */
@@ -136,8 +138,8 @@
 /* 640 아래는 라벨과 보기가 한 줄에 좌우로 선다(quote-common.css). 세그먼트가
    남는 폭을 다 가져가면 라벨만 왼쪽에 외따로 서므로, 제 너비만 쓰게 둔다 */
 @media(max-width:640px){
-  .pq-license .f-radios{width:auto;margin-top:0}
-  .pq-license .f-radios label{padding:7px 12px}
+  .pq-license .f-radios{width:auto;height:48px}
+  .pq-license .f-radios label{padding:0 12px}
 }
 }
 }
