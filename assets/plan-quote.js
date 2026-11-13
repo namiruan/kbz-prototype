@@ -76,7 +76,7 @@
         하나가 갈래 하나와 짝이 되지 않는다. 고르는 자리를 표 안에 둘 수
         없는 까닭이고, 그래서 표 밖으로 뺐다. */
   var CATS = ['4대보험·퇴직공제 신고', '일용근로자 신고', '상용근로자 신고',
-              '증명서 발급', '별도 서비스'];
+              '증명서 발급', '공사대장'];
 
   /* 차례가 곧 사다리다. 받은 안내문 네 벌이 겹겹이 쌓인 모양이었다 —
      기본 / +일용 / +일용·상용 / +일용·상용·퇴직공제. requires 가 그 차례를
@@ -118,7 +118,7 @@
     { cat:'증명서 발급', by:'retire',
       say:'퇴직공제 증명서도 같은 자리에서 받습니다' },
 
-    { cat:'별도 서비스', by:'kiscon',
+    { cat:'공사대장', by:'kiscon',
       say:'건설공사대장 작성·통보와 변경신고를 대신합니다' }
   ];
 
@@ -205,66 +205,55 @@
 
   function wsp(w){ return '<span class="w">' + w.nm + '</span>'; }
 
-  /* 한 줄. 더해지는 줄에는 '추가 시'·'추가됨' 을 앞에 단다 — 색만으로
-     가르면 색을 못 보는 사람에게는 둘이 같아 보인다(WCAG 1.4.1).
-     ⚠ '+' 와 괄호를 차례로 썼다가 되돌렸다. '+' 는 누를 수 있어 보였고
-        (누르는 곳은 위의 '추가' 버튼이다), 괄호는 한 문장을 감싸기엔
-        어색했다. 말로 적으면 둘 다 생기지 않는다 */
-  function wsp(w){
-    if(!w.by) return '<p class="w">' + w.say + '</p>';
-    return '<p class="w pick" data-by="' + w.by + '">'
-      +    '<span class="tag">추가 시</span>' + w.say
-      + '</p>';
+  /* 한 칸이 드는 설명들 — 갈래 차례를 따른다 */
+  function says(by){
+    return WORK.filter(function(w){ return w.by === by; })
+      .sort(function(x, y){ return CATS.indexOf(x.cat) - CATS.indexOf(y.cat); })
+      .map(function(w){
+        return '<p class="w"><span class="cat">' + w.cat + '</span>' + w.say + '</p>';
+      }).join('');
   }
 
-  /* 고르는 자리는 표 밖이다. 사다리 한 덩이와 별도 서비스 한 줄.
-     ⚠ 세그먼트로 만들어 봤는데 틀렸다. 세그먼트는 '여럿 가운데 하나' 라고
-        말하는 꼴이라, 더해지는 것에 쓰면 뜻이 어긋난다. 여럿을 켜는 자리는
-        체크박스다. 쌓이는 것은 왼쪽 레일이 아래로 차오르는 것으로 보인다 */
+  /* 고르는 자리와 설명이 한 덩이다. 표를 따로 두었더니 고른 자리와 그
+     결과가 떨어져 있어 눈이 오르내려야 했다. 이제 칸마다 제가 하는 일을
+     들고 있다. '기본' 도 한 칸이되 버튼이 없다 — 버튼이 없다는 것이
+     '고르는 것이 아니다' 를 말한다 */
   function buildScope(){
-    var box = $('#scopeList');
-    if(box){
-      /* 고르는 자리에는 고를 수 있는 것만 둔다. '기본' 칸을 세워 두었더니
-         다른 칸과 똑같이 생겼는데 눌리지 않아, '늘 포함' 꼬리표로 그 말을
-         덮어야 했다. 늘 들어가는 업무는 아래 표가 검은 글자로 말한다 */
-      function rung(id){
-        var p = PICKS.filter(function(x){ return x.id === id; })[0];
-        if(!p) return '';
-        return '<div class="pq-rung" data-pick="' + p.id + '">'
-          +   '<span class="tx">' + p.nm
-          +     (p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
-          +   '</span>'
-          +   '<button type="button" class="pq-add" aria-pressed="false"'
-          +     ' aria-describedby="why-' + p.id + '">+ 추가</button>'
-          /* 막힌 까닭은 화면에서 걷되 아주 없애지는 않는다 — 눌리지 않는
-             버튼에 아무 말도 없으면 보조기기로 오는 사람은 막다른 길이다 */
-          +   '<span class="sr-only" id="why-' + p.id + '"></span>'
-          + '</div>';
-      }
-      box.innerHTML = '<div class="pq-ladder">' + LADDER.map(rung).join('') + '</div>'
-        /* 키스콘은 사다리에 걸리지 않는다 — 차례도 선행도 없다. 꼴은 같이
-           쓰되 한 칸 띄워 따로 세운다 */
-        + '<div class="pq-ladder pq-ladder-extra">' + EXTRA.map(rung).join('') + '</div>';
+    var box = $('#scopeList'); if(!box) return;
 
-      box.addEventListener('click', function(e){
-        var btn = e.target.closest('.pq-add'); if(!btn || btn.disabled) return;
-        var id = btn.closest('[data-pick]').dataset.pick;
-        scope[id] = !scope[id];
-        paintScope();
-        render();                  /* 포함한 것이 금액에 닿을 자리 */
-      });
+    function rung(id){
+      var p = id && PICKS.filter(function(x){ return x.id === id; })[0];
+      if(id && !p) return '';
+      return '<div class="pq-rung' + (id ? '' : ' is-base') + '"'
+        +     (id ? ' data-pick="' + id + '"' : '') + '>'
+        +   '<div class="hd">'
+        +     '<span class="tx">' + (id ? p.nm : '기본')
+        +       (id && p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
+        +     '</span>'
+        +     (id ? '<button type="button" class="pq-add" aria-pressed="false"'
+                    + ' aria-describedby="why-' + id + '">+ 추가</button>' : '')
+        +   '</div>'
+        +   says(id || null)
+        /* 막힌 까닭은 화면에서 걷되 아주 없애지는 않는다 — 눌리지 않는
+           버튼에 아무 말도 없으면 보조기기로 오는 사람은 막다른 길이다 */
+        +   (id ? '<span class="sr-only" id="why-' + id + '"></span>' : '')
+        + '</div>';
     }
 
-    var tbl = $('#scopeTbl'); if(!tbl) return;
-    tbl.innerHTML = '<table class="pq-scope-tbl">'
-      + '<colgroup><col class="c-cat"><col></colgroup>'
-      + '<thead><tr><th scope="col">갈래</th><th scope="col">하는 일</th></tr></thead>'
-      + '<tbody>' + CATS.map(function(cat){
-          return '<tr><th scope="row">' + cat + '</th>'
-            + '<td class="ws">'
-            +   WORK.filter(function(w){ return w.cat === cat; }).map(wsp).join('')
-            + '</td></tr>';
-        }).join('') + '</tbody></table>';
+    box.innerHTML = '<div class="pq-ladder">'
+      +   rung(null) + LADDER.map(rung).join('')
+      + '</div>'
+      /* 키스콘은 사다리에 걸리지 않는다 — 차례도 선행도 없다. 꼴은 같이
+         쓰되 한 칸 띄워 따로 세운다 */
+      + '<div class="pq-ladder pq-ladder-extra">' + EXTRA.map(rung).join('') + '</div>';
+
+    box.addEventListener('click', function(e){
+      var btn = e.target.closest('.pq-add'); if(!btn || btn.disabled) return;
+      var id = btn.closest('[data-pick]').dataset.pick;
+      scope[id] = !scope[id];
+      paintScope();
+      render();                    /* 포함한 것이 금액에 닿을 자리 */
+    });
   }
 
   function paintScope(){
@@ -285,7 +274,7 @@
         btn.setAttribute('aria-label', p.nm + (on ? ' 추가됨' : ' 추가'));
         row.classList.toggle('is-on', on);
         row.classList.toggle('is-off', !!miss.length);
-        var why = row.querySelector('#why-' + p.id);
+        var why = row.querySelector('[id="why-' + p.id + '"]');
         if(why) why.textContent = miss.length
           ? (function(){
               var need = miss.map(function(id){
@@ -296,15 +285,6 @@
             })()
           : '';
       }
-
-      /* 그 고르기로 들어오는 업무를 표에서 함께 칠한다 — 갈래가 여럿이어도
-         data-by 로 한 번에 집힌다 */
-      var tbl = $('#scopeTbl');
-      if(tbl) tbl.querySelectorAll('.w.pick[data-by="' + p.id + '"]').forEach(function(w){
-        w.classList.toggle('is-on', on);
-        var tag = w.querySelector('.tag');
-        if(tag) tag.textContent = on ? '추가됨' : '추가 시';
-      });
 
     });
   }

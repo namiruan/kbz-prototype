@@ -158,15 +158,31 @@
    쓰고 한 칸 띄워 따로 세운다. 고르는 자리인 것은 같으므로 꼴까지 달리
    할 까닭이 없다 */
 .pq-ladder-extra{margin-top:14px}
-.pq-rung{display:flex;align-items:center;gap:10px;
-  padding:9px 10px 9px 13px;border-left:3px solid var(--line);
-  font-size:13.5px;font-weight:700;letter-spacing:-.025em;color:var(--ink);
-  transition:border-color .15s,background .15s,color .15s}
+.pq-rung{padding:12px 10px 13px 13px;border-left:3px solid var(--line);
+  transition:border-color .15s,background .15s}
 /* 들어온 칸 — 레일이 여기까지 차 있다 */
-.pq-rung.is-on{border-left-color:var(--accent);background:var(--accent-tint)}
-.pq-rung.is-off{color:var(--ink-3)}
-.pq-rung .tx{flex:1;min-width:0}
+.pq-rung.is-on,.pq-rung.is-base{border-left-color:var(--accent);
+  background:var(--accent-tint)}
+
+/* 이름 줄 — 이름이 왼쪽, 상태를 바꾸는 버튼이 오른쪽 */
+.pq-rung .hd{display:flex;align-items:center;gap:10px;min-height:38px}
+.pq-rung .tx{flex:1;min-width:0;
+  font-size:13.5px;font-weight:700;letter-spacing:-.025em;color:var(--ink)}
+.pq-rung.is-off .tx{color:var(--ink-3)}
 .pq-rung .pr{font-weight:600;color:var(--ink-2)}
+
+/* 그 칸이 하는 일 — 신고 이름을 늘어놓지 않고 한 줄로 적는다.
+   앞의 꼬리표가 어느 갈래 일인지 말한다 */
+.pq-rung .w{margin:7px 0 0;font-size:12.5px;font-weight:500;
+  color:var(--ink-2);line-height:1.6;word-break:keep-all}
+/* 아직 안 들어온 칸의 설명은 한 단 눌러 둔다 — 받게 될 것을 미리 보는 글이다.
+   ⚠ 색만으로 가르지 않는다(WCAG 1.4.1). 버튼이 '+ 추가' 인 것이 함께 말한다 */
+.pq-rung:not(.is-on):not(.is-base) .w{color:var(--ink-3)}
+.pq-rung .cat{display:inline-block;margin-right:7px;
+  padding:1px 6px;border-radius:4px;
+  background:var(--main-white);border:1px solid var(--line);
+  font-size:11px;font-weight:700;letter-spacing:-.02em;color:var(--ink-2);
+  vertical-align:1px}
 
 /* 상태를 바꾸는 자리는 버튼 하나다. 줄 전체를 누르게 두지 않는다 — 어디를
    눌러야 하는지가 버튼 모양 하나로 끝난다.
@@ -185,41 +201,9 @@
 .pq-add[disabled]{cursor:not-allowed;color:var(--ink-3);
   border-color:var(--line);background:var(--fill)}
 
-/* 표 — 갈래마다 한 줄 */
-.pq-scope-tbl{width:100%;margin-top:16px;border-collapse:collapse;table-layout:fixed}
-.pq-scope-tbl .c-cat{width:27%}
-.pq-scope-tbl th,.pq-scope-tbl td{padding:9px 10px 9px 0;text-align:left;
-  vertical-align:top;line-height:1.6;word-break:keep-all}
-.pq-scope-tbl td{padding-left:10px;padding-right:0}
-.pq-scope-tbl thead th{padding-top:0;padding-bottom:6px;
-  font-size:11px;font-weight:800;letter-spacing:-.02em;color:var(--ink-3);
-  border-bottom:1px solid var(--ink-4)}
-.pq-scope-tbl tbody th,.pq-scope-tbl tbody td{border-bottom:1px solid var(--line)}
-.pq-scope-tbl tbody th{font-size:12.5px;font-weight:800;
-  letter-spacing:-.02em;color:var(--ink)}
-.pq-scope-tbl .ws{font-size:12.5px}
-
-/* 한 줄씩 적는다. 신고 이름을 늘어놓지 않으므로 가로로 흘릴 것이 없다 */
-.pq-scope-tbl .w{margin:0;font-weight:600;color:var(--ink);line-height:1.6}
-.pq-scope-tbl .w + .w{margin-top:5px}
-/* 아직 안 들어온 줄 · 들어온 줄 — 앞의 말과 색이 함께 갈린다.
-   ⚠ 색만으로 가르지 않는다(WCAG 1.4.1) */
-.pq-scope-tbl .w.pick{font-weight:400;color:var(--ink-3)}
-.pq-scope-tbl .w.pick.is-on{font-weight:600;color:var(--accent)}
-.pq-scope-tbl .tag{display:inline-block;margin-right:7px;
-  padding:1px 6px;border-radius:4px;
-  background:var(--fill);border:1px solid var(--line);
-  font-size:11px;font-weight:700;letter-spacing:-.02em;color:var(--ink-2);
-  vertical-align:1px}
-.pq-scope-tbl .w.pick.is-on .tag{background:var(--main-white);
-  border-color:rgba(var(--color-blue-rgb),.3);color:var(--accent)}
-
 @media(max-width:640px){
-  .pq-rung{padding:11px;font-size:13px}
-  .pq-scope-tbl .c-cat{width:33%}
-  .pq-scope-tbl th,.pq-scope-tbl td{padding-right:8px}
-  .pq-scope-tbl td{padding-left:8px}
-  .pq-scope-tbl .ws{font-size:12px}
+  .pq-rung{padding:12px 8px 13px 11px}
+  .pq-rung .w{font-size:12px}
 }
 
 /* ── 납부 주기 ───────────────────────────────────────────────────
