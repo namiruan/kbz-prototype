@@ -32,7 +32,7 @@
   <link rel="prefetch" href="assets/estimate.css?v=2" as="style">
   <link rel="prefetch" href="assets/select.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote-common.css?v=2" as="style">
-  <link rel="prefetch" href="assets/plan-quote.css?v=29" as="style">
+  <link rel="prefetch" href="assets/plan-quote.css?v=30" as="style">
   <link rel="prefetch" href="assets/kbd.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote.css?v=1" as="style">
   <link rel="prefetch" href="assets/face-quote.css?v=1" as="style">
@@ -40,7 +40,7 @@
   <link rel="prefetch" href="assets/format.js?v=1" as="script">
   <link rel="prefetch" href="assets/select.js?v=1" as="script">
   <link rel="prefetch" href="assets/kbd.js?v=1" as="script">
-  <link rel="prefetch" href="assets/plan-quote.js?v=20" as="script">
+  <link rel="prefetch" href="assets/plan-quote.js?v=21" as="script">
 </head>
 <body>
 
@@ -103,35 +103,35 @@
           |@{.pq-types} 계약 유형은 '김반장 프리미엄'이 기본입니다
           |@sm @md @lg @{.pq-help} 유형 카드에는 이름만 적히고, 설명은 디바이스 사이즈마다 모바일은 물음표를 클릭해 카드 안에서, 태블릿·데스크톱은 호버 툴팁으로 노출됩니다
           |사업장 규모는 연 매출액·연 노무비·연 현장 수·월평균 현장 수·현장당 인원 수 입력폼과 면허 종류 세그먼트로 이뤄집니다
-          |@{#scopeCard} 업무범위는 고르는 자리와 보는 자리가 한 표이고, 아무것도 체크되지 않은 채 열립니다
-          |@{.pq-scope-tbl tr.opt .hd} 체크는 갈래 칸 안에, 그 업무가 들어갈 줄에 있습니다
+          |@{#scopeCard} 업무범위는 아무것도 체크되지 않은 채 열립니다
+          |@{.pq-scope-picks} 업무범위는 고르는 칸 넷과 그 아래 표로 이뤄집니다
           |연 매출액을 뺀 나머지는 프리미엄에서만 묻고 금액에는 들어가지 않습니다
           |사업장 규모에서 (필수)는 '연 매출액'과 '연 현장 수'에만 붙습니다
           |@{.q-sum-total} 요약은 '이용요금(예상)'이고, 매출액을 넣기 전에는 '0원'입니다">프리미엄으로 열린 폼</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="sc-포함전"
-        data-why="대행업무의 범위를 기본 업무에 더하는 섹션입니다."
+        data-why="늘 들어가는 업무에 관리업무를 더하는 섹션입니다."
         data-steps="프리미엄 폼의 업무범위까지 내려온 상태"
         data-look="
-          |@{.pq-scope-tbl} 업무범위는 '갈래'와 '업무' 두 칸짜리 표 하나입니다
+          |@{.pq-scope-picks} 고르는 자리는 표 위에 따로 섭니다
+          |@sm @{.pq-scope-picks} 고르는 칸은 한 열로 섭니다
+          |@md @lg @{.pq-scope-picks} 고르는 칸은 두 열로 섭니다
+          |@{.pq-pick} 고르는 칸은 넷이고 모두 체크가 풀린 채로 열립니다
+          |@{.pq-scope-tbl} 업무범위 표는 '갈래'와 '업무' 두 칸입니다
           |@{.pq-scope-tbl tbody th} 갈래는 '4대보험·퇴직공제 신고'·'일용근로자 신고'·'상용근로자 신고'·'증명서 발급'·'별도 서비스' 다섯입니다
-          |@{.pq-scope-tbl tr.opt[data-pick='kiscon'] .cat} 늘 들어가는 업무가 없는 갈래는 이름이 체크와 같은 줄에 섭니다
-          |@{.pq-scope-tbl tr.via .tx} 체크가 다른 갈래에 있는 줄에는 '퇴직공제 관리업무 포함 시'가 섭니다
-          |@{.pq-scope-tbl tr.opt .hd} 고를 수 있는 줄에만 갈래 칸에 체크박스가 섭니다
-          |@{.pq-scope-tbl tr.opt .tx} 체크박스 옆에는 갈래 이름을 뺀 '건강·연금 관리업무 추가' 가 섭니다
-          |@{.pq-scope-tbl tbody tr:not(.opt) .ws} 늘 들어가는 업무는 검은 글자입니다
-          |@{.pq-scope-tbl tr.opt:not(.is-on) td} 아직 체크하지 않은 줄은 바탕이 회색이고 글자도 한 단 눌려 있습니다
-          |@{.pq-scope-tbl tr.opt .ws} 체크하기 전에도 그 체크로 들어올 업무가 적혀 있습니다
+          |@{.pq-scope-tbl tbody tr} 갈래마다 한 줄이고, 고르든 말든 줄 수는 그대로입니다
+          |@{.pq-scope-tbl .w:not(.pick)} 늘 들어가는 업무는 검은 글자이고 표시가 붙지 않습니다
+          |@{.pq-scope-tbl .w.pick .mk} 고르기로 들어오는 업무에는 체크 전까지 '+'가 붙습니다
+          |@{.pq-scope-tbl .w.pick} 그 업무는 체크 전에도 회색 글자로 적혀 있습니다
           |@{.pq-scope-tbl .w} 한 줄 안의 업무는 가로로 이어지고 사이를 실선 하나가 가릅니다">업무범위 — 포함 전</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="sc-포함뒤"
-        data-why="선택 업무를 포함한 업무범위 화면입니다."
-        data-steps="업무범위에서 '건강·연금 관리업무 추가'와 '퇴직공제 관리업무 추가'를 체크한 상태"
+        data-why="관리업무를 더한 업무범위 화면입니다."
+        data-steps="'일용근로자 건강·연금 관리업무'와 '일용근로자 퇴직공제 관리업무'를 체크한 상태"
         data-look="
-          |@{.pq-scope-tbl tr.opt.is-on .bx} 고른 체크박스는 브랜드 컬러로 채워집니다
-          |@{.pq-scope-tbl tr.opt.is-on td} 체크한 줄은 회색 바탕이 걷히고 흰 바탕이 됩니다
-          |@{.pq-scope-tbl tr.opt.is-on .ws} 같은 줄의 업무가 강조색으로 바뀝니다
-          |@{.pq-scope-tbl tr.opt.is-on .nm} 그 선택 업무 이름도 강조색으로 바뀝니다
-          |@{.pq-scope-tbl tr.via.is-on .ws} '퇴직공제 관리업무'를 체크하면 '4대보험·퇴직공제 신고'와 '증명서 발급' 갈래의 따라오는 줄도 함께 강조색이 됩니다
-          |@{.pq-scope-tbl tbody tr} 표의 줄 수는 고르기 전과 같습니다">업무범위 — 포함한 뒤</button>
+          |@{.pq-pick.is-on .bx} 고른 칸은 체크가 차고 테두리와 바탕이 브랜드 컬러로 바뀝니다
+          |@{.pq-scope-tbl .w.pick.is-on} 표에서 그 업무가 회색에서 강조색으로 바뀝니다
+          |@{.pq-scope-tbl .w.pick.is-on .mk} 그 업무의 '+'가 '✓'로 바뀝니다
+          |@{.pq-scope-tbl tbody tr} '일용근로자 퇴직공제 관리업무' 하나가 '4대보험·퇴직공제 신고'·'일용근로자 신고'·'증명서 발급' 세 갈래를 한꺼번에 켭니다
+          |@{.pq-scope-tbl tbody th} 갈래 이름과 줄 수는 고르기 전과 같습니다">업무범위 — 포함한 뒤</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-3.0으로"
         data-why="계약 유형이 '김반장 3.0'으로 바뀐 견적신청 폼 화면입니다."
         data-steps="비교표 머리줄의 '김반장 3.0' 쪽 '견적 신청하기'를 클릭한 상태"
@@ -328,7 +328,7 @@
     'sc-포함뒤' :{url:ES, act:async function(d){
       var q=await inner(d,FRAME); if(!q) return;
       ['daily_hp','retire'].forEach(function(id){
-        hit(q.querySelector('tr.opt[data-pick="'+id+'"] .hd')); });
+        hit(q.querySelector('.pq-pick[data-pick="'+id+'"]')); });
       await wait(350); jumpInner(d,'#scopeCard',16); }},
     'ap-3.0으로' :{url:ES, act:async function(d){
       await inner(d,FRAME);

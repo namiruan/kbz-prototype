@@ -59,9 +59,8 @@
      ⚠ 원본의 '근로자 관리' 는 일용/상용 두 하위를 덮는데, 이 표는 한 단
         이라 둘로 폈다. 그 머리말만 잃고 항목은 그대로다.
 
-     PICKS — 고르는 것. 원본 '계약사항' 의 3·4·5 번이다.
-     cat : 체크박스가 서는 갈래. 전에는 WORK 에서 끌어냈는데, 퇴직공제가
-           세 갈래에 걸쳐 있어 더는 끌어낼 수 없다(아래 ⚠).
+     PICKS — 고르는 것. 원본 '계약사항' 의 3·4·5 번이다. 표 밖에 서므로
+           갈래가 받쳐 주지 않는다 — 이름을 줄이지 않고 그대로 적는다.
      price : 지금은 모두 null 이라 아무것도 그려지지 않는다. 금액 규칙은
            받은 것이 없어 지어내지 않는다.
      requires : 선행 항목의 id 들.
@@ -71,21 +70,17 @@
      ⚠ 'retire'(일용근로자 퇴직공제 관리업무) 하나가 세 갈래에 걸쳐 있다 —
         하도급 승인신고는 '4대보험·퇴직공제 신고' 에, 근로내용 신고는
         '일용근로자 신고' 에, EDI 증명서는 '증명서 발급' 에. 그래서 고르기
-        하나가 갈래 하나와 짝이 되지 않는다. 체크박스는 cat 이 가리키는
-        갈래에만 서고, 나머지 갈래에는 '…포함 시' 줄로 따라 들어온다. */
+        하나가 갈래 하나와 짝이 되지 않는다. 고르는 자리를 표 안에 둘 수
+        없는 까닭이고, 그래서 표 밖으로 뺐다. */
   var CATS = ['4대보험·퇴직공제 신고', '일용근로자 신고', '상용근로자 신고',
               '증명서 발급', '별도 서비스'];
 
   var PICKS = [
-    { id:'daily_hp',     cat:'일용근로자 신고', nm:'건강·연금 관리업무',
-      price:null, requires:[] },
-    { id:'retire',       cat:'일용근로자 신고', nm:'퇴직공제 관리업무',
-      price:null, requires:[] },
-    { id:'regular_site', cat:'상용근로자 신고', nm:'현장별 건강·연금 관리업무',
-      price:null, requires:[] },
+    { id:'daily_hp',     nm:'일용근로자 건강·연금 관리업무',      price:null, requires:[] },
+    { id:'retire',       nm:'일용근로자 퇴직공제 관리업무',       price:null, requires:[] },
+    { id:'regular_site', nm:'상용근로자 현장별 건강·연금 관리업무', price:null, requires:[] },
     /* 안내문 네 벌 어디에도 없다 — 계약과 별도인 서비스다 */
-    { id:'kiscon',       cat:'별도 서비스',    nm:'키스콘 공사대장 신고',
-      price:null, requires:[] }
+    { id:'kiscon',       nm:'키스콘 공사대장 신고',              price:null, requires:[] }
   ];
 
   var WORK = [
@@ -185,119 +180,85 @@
 
   function wsp(w){ return '<span class="w">' + w.nm + '</span>'; }
 
-  /* 갈래가 바로 위에 서므로 고르기 이름에서 그 말을 뺀다. PICKS 의 이름을
-     이미 갈래 없이 적어 두었으니 지금은 깎을 것이 없지만, 이름이 길어질 때를
-     위해 남겨 둔다 */
-  function shortNm(nm, cat){
-    return nm.split(cat).join(' ').replace(/\s+/g, ' ').trim() || nm;
+  /* 업무 하나. 고르기로 들어오는 것에는 표시를 단다 — 색만으로 가르면
+     색을 못 보는 사람에게는 세 상태가 다 같아 보인다(WCAG 1.4.1) */
+  function wsp(w){
+    if(!w.by) return '<span class="w">' + w.nm + '</span>';
+    return '<span class="w pick" data-by="' + w.by + '">'
+      +    '<span class="mk" aria-hidden="true">+</span>'
+      +    '<span class="sr-only">미포함 </span>'
+      +    w.nm + '</span>';
   }
 
-  /* 이 갈래에 업무를 들여보내는 고르기들. 체크박스는 p.cat 이 가리키는
-     갈래에만 서고, 다른 갈래에는 '…포함 시' 줄로 따라 들어온다 */
-  function picksIn(cat){
-    return PICKS.filter(function(p){
-      return WORK.some(function(w){ return w.cat === cat && w.by === p.id; });
-    });
-  }
-
-  /* 표는 한 번만 세운다. 고르고 무르는 동안 줄이 생기거나 사라지지 않으므로
-     — 안 고른 줄도 흐린 채 서 있다 — 다시 그릴 까닭이 없다. 다시 그리면
-     방금 누른 체크박스에서 초점이 떨어져 키보드로 오는 사람이 자리를 잃는다 */
+  /* 고르는 자리는 표 밖이다. 표는 갈래마다 한 줄이고, 그 안에서 업무가
+     하나씩 켜지고 꺼진다 — 고르기 하나가 여러 갈래에 걸쳐도 자리가 흔들리지
+     않는다. 표도 고르기 줄도 한 번만 세우고 상태만 칠한다(paintScope) */
   function buildScope(){
-    var box = $('#scopeTbl'); if(!box) return;
-
-    var body = '';
-    CATS.forEach(function(cat){
-      var base  = WORK.filter(function(w){ return w.cat === cat && !w.by; });
-      var picks = picksIn(cat);
-      var rows  = [];
-
-      if(base.length) rows.push({ pick:null, ws:base });
-      picks.forEach(function(p){
-        rows.push({ pick:p, own:p.cat === cat,
-          ws:WORK.filter(function(w){ return w.cat === cat && w.by === p.id; }) });
+    var box = $('#scopeList');
+    if(box){
+      box.innerHTML = PICKS.map(function(p){
+        return '<label class="pq-pick" data-pick="' + p.id + '">'
+          +   '<input type="checkbox">'
+          +   '<span class="bx" aria-hidden="true"></span>'
+          +   '<span class="tx">' + p.nm
+          +     (p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
+          +   '</span>'
+          + '</label>';
+      }).join('');
+      box.addEventListener('change', function(e){
+        var row = e.target.closest('.pq-pick[data-pick]'); if(!row) return;
+        scope[row.dataset.pick] = e.target.checked;
+        paintScope();
+        render();                  /* 포함한 것이 금액에 닿을 자리 */
       });
+    }
 
-      rows.forEach(function(r, i){
-        var end = (i === rows.length - 1) ? ' end' : '';
-        /* 갈래 이름은 첫 줄이 든다. 첫 줄이 고르는 줄이면 이름과 체크가
-           같은 줄에 선다 — 이름만 적힌 빈 줄을 따로 세우지 않는다 */
-        var head = (i === 0) ? '<span class="cat">' + cat + '</span>' : '';
-        if(!r.pick){
-          body += '<tr class="' + end.trim() + '"><th scope="row">' + head + '</th>'
-            + '<td><span class="ws">' + r.ws.map(wsp).join('') + '</span></td></tr>';
-          return;
-        }
-        var p = r.pick;
-        body += '<tr class="opt' + (r.own ? '' : ' via') + end + '" data-pick="' + p.id + '">'
-          + '<th scope="row"><div class="hdrow">' + head
-          +   (r.own
-                ? '<label class="hd">'
-                  +   '<input type="checkbox" aria-describedby="ws-' + p.id + '-' + cat + '">'
-                  +   '<span class="bx" aria-hidden="true"></span>'
-                  +   '<span class="tx">'
-                  +     '<span class="sr-only">' + cat + ' </span>'
-                  +     '<span class="nm">' + shortNm(p.nm, cat) + '</span>'
-                  +     ' <span class="ad">추가</span>'
-                  +     (p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
-                  +   '</span>'
-                  + '</label>'
-                /* 체크박스가 다른 갈래에 있는 업무 — 여기서는 따라 들어온다 */
-                : '<span class="tx"><span class="nm">' + p.nm + '</span>'
-                  + ' <span class="ad">포함 시</span></span>')
-          + '</div></th>'
-          + '<td id="ws-' + p.id + '-' + cat + '"><span class="ws">'
-          +   r.ws.map(wsp).join('') + '</span>'
-          +   (r.own ? '<p class="why" hidden></p>' : '')
-          + '</td></tr>';
-      });
-    });
-
-    box.innerHTML = '<table class="pq-scope-tbl">'
+    var tbl = $('#scopeTbl'); if(!tbl) return;
+    tbl.innerHTML = '<table class="pq-scope-tbl">'
       + '<colgroup><col class="c-cat"><col></colgroup>'
       + '<thead><tr><th scope="col">갈래</th><th scope="col">업무</th></tr></thead>'
-      + '<tbody>' + body + '</tbody></table>';
-
-    /* 손잡이는 줄마다 달지 않고 표 하나가 받는다 */
-    box.addEventListener('change', function(e){
-      var row = e.target.closest('tr.opt[data-pick]'); if(!row) return;
-      scope[row.dataset.pick] = e.target.checked;
-      paintScope();
-      render();                    /* 포함한 것이 금액에 닿을 자리 */
-    });
+      + '<tbody>' + CATS.map(function(cat){
+          return '<tr><th scope="row">' + cat + '</th>'
+            + '<td><span class="ws">'
+            +   WORK.filter(function(w){ return w.cat === cat; }).map(wsp).join('')
+            + '</span></td></tr>';
+        }).join('') + '</tbody></table>';
   }
 
   function paintScope(){
-    var box = $('#scopeTbl'); if(!box) return;
+    var box = $('#scopeList'); if(!box) return;
 
+    var whys = [];
     PICKS.forEach(function(p){
-      /* 고르기 하나가 여러 갈래에 줄을 가진다 — 체크박스가 선 줄 하나와
-         '…포함 시' 줄 여럿. 모두 같이 칠한다 */
-      var rows = box.querySelectorAll('tr.opt[data-pick="' + p.id + '"]');
-      if(!rows.length) return;
-      var inp  = box.querySelector('tr.opt[data-pick="' + p.id + '"] input');
-      var why  = box.querySelector('tr.opt[data-pick="' + p.id + '"] .why');
+      var row = box.querySelector('.pq-pick[data-pick="' + p.id + '"]'); if(!row) return;
+      var inp = row.querySelector('input');
       var miss = blockedBy(p);
       var on = !!scope[p.id] && !miss.length;
 
       scope[p.id] = on;            /* 선행이 빠지면 들어 있던 것도 같이 풀린다 */
-      if(inp){ inp.checked = on; inp.disabled = !!miss.length; }
-      rows.forEach(function(r){
-        r.classList.toggle('is-on', on);
-        r.classList.toggle('is-off', !!miss.length);
+      inp.checked = on;
+      inp.disabled = !!miss.length;
+      row.classList.toggle('is-on', on);
+      row.classList.toggle('is-off', !!miss.length);
+
+      /* 그 고르기로 들어오는 업무를 표에서 함께 칠한다 — 갈래가 여럿이어도
+         data-by 로 한 번에 집힌다 */
+      var tbl = $('#scopeTbl');
+      if(tbl) tbl.querySelectorAll('.w.pick[data-by="' + p.id + '"]').forEach(function(w){
+        w.classList.toggle('is-on', on);
+        var mk = w.querySelector('.mk'), sr = w.querySelector('.sr-only');
+        if(mk) mk.textContent = on ? '✓' : '+';
+        if(sr) sr.textContent = on ? '추가 ' : '미포함 ';
       });
-      if(!why) return;
-      if(miss.length){
-        why.hidden = false;
-        why.textContent = miss.map(function(id){
-          var r = PICKS.filter(function(x){ return x.id === id; })[0];
-          return r ? r.nm : id;
-        }).join(' · ') + '을(를) 먼저 포함해 주세요';
-      } else {
-        why.hidden = true;
-        why.textContent = '';
-      }
+
+      if(miss.length) whys.push(p.nm + ' — ' + miss.map(function(id){
+        var r = PICKS.filter(function(x){ return x.id === id; })[0];
+        return r ? r.nm : id;
+      }).join(' · ') + '을(를) 먼저 포함해 주세요');
     });
+
+    var why = $('#scopeWhy');
+    if(why) why.innerHTML = whys.map(function(t){ return '<p>' + t + '</p>'; }).join('');
   }
 
   function resetScope(){
