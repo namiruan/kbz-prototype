@@ -208,7 +208,13 @@
     return ((c - 0xAC00) % 28) ? '을' : '를';
   }
 
-  function blockedBy(p){
+  /* 가운뎃점으로 이은 말은 통째로 묶는다. keep-all 은 낱말만 지키고
+   가운뎃점에서는 갈라서, 좁은 폭에서 '취득·상실 / ·보수변경'처럼
+   다음 줄이 점으로 시작한다 */
+function glue(t){
+  return t.replace(/\S*·\S*/g, function(m){ return '<span class="nb">' + m + '</span>'; });
+}
+function blockedBy(p){
     /* 선행 항목 가운데 아직 포함하지 않은 것들 */
     return (p.requires || []).filter(function(id){ return !scope[id]; });
   }
@@ -232,22 +238,21 @@
       var p = id && PICKS.filter(function(x){ return x.id === id; })[0];
       if(id && !p) return '';
       var list = saysOf(id || null);
-      /* 설명이 하나뿐이면 제목 옆에 바로 붙인다 — 한 줄짜리를 아래로
-         내리면 점 하나 찍힌 외톨이 줄이 되어 자리만 먹는다 */
-      var one = list.length === 1;
+      /* 설명은 모두 이름 옆에 붙인다. 아래로 내리면 칸마다 줄이 늘어 같은
+         말을 하는 데 자리를 더 쓴다. 여럿일 때는 그어 둔 실선 하나가
+         가른다 — 글자로 가르면 섞인다(취득·상실·보수변경) */
       return '<div class="pq-rung' + (id ? '' : ' is-base') + '"'
         +     (id ? ' data-pick="' + id + '"' : '') + '>'
         +   '<div class="hd">'
-        +     '<span class="tx">' + (id ? p.nm : '기본')
+        +     '<span class="tx">' + (id ? glue(p.nm) : '기본')
         +       (id && p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
-        +       (one ? '<span class="one">' + list[0].say + '</span>' : '')
+        +       '<span class="ones">' + list.map(function(w){
+                  return '<span class="one">' + glue(w.say) + '</span>';
+                }).join('') + '</span>'
         +     '</span>'
         +     (id ? '<button type="button" class="pq-add" aria-pressed="false"'
                     + ' aria-describedby="why-' + id + '">+ 추가</button>' : '')
         +   '</div>'
-        +   (one ? '' : list.map(function(w){
-              return '<p class="w">' + w.say + '</p>';
-            }).join(''))
         /* 막힌 까닭은 화면에서 걷되 아주 없애지는 않는다 — 눌리지 않는
            버튼에 아무 말도 없으면 보조기기로 오는 사람은 막다른 길이다 */
         +   (id ? '<span class="sr-only" id="why-' + id + '"></span>' : '')

@@ -170,26 +170,20 @@
 /* ⚠ keep-all 이 없으면 좁은 폭에서 '변경신 / 고' 처럼 낱말 가운데가 갈린다 */
 .pq-rung .tx{flex:1;min-width:0;word-break:keep-all;
   font-size:13.5px;font-weight:700;letter-spacing:-.025em;color:var(--ink)}
-/* 설명이 하나뿐인 칸 — 제목 옆에 바로 붙는다. 굵기와 색이 제목과 달라
-   한 줄에 서도 둘이 섞이지 않는다 */
-.pq-rung .one{margin-left:9px;font-size:12.5px;font-weight:500;
+/* 설명은 제목 옆에 붙는다. 굵기와 색이 제목과 달라 한 줄에 서도 둘이
+   섞이지 않는다 */
+.pq-rung .ones{margin-left:9px;font-size:12.5px;font-weight:500;
   color:var(--ink-2);letter-spacing:-.01em}
-.pq-rung:not(.is-on):not(.is-base) .one{color:var(--ink-3)}
+.pq-rung:not(.is-on):not(.is-base) .ones{color:var(--ink-3)}
+/* 가운뎃점으로 이은 말 한 덩어리 — 줄 끝에서 갈라지지 않는다 */
+.pq-rung .nb{white-space:nowrap}
+/* 설명이 여럿일 때 — 그어 둔 실선 하나가 가른다. 글자로 가르면 섞인다
+   (취득·상실·보수변경 안에도 가운뎃점이 있다) */
+.pq-rung .one + .one::before{content:"";display:inline-block;
+  width:1px;height:10px;margin:0 8px -1px;background:var(--line)}
+.pq-rung.is-on .one + .one::before{background:rgba(var(--color-blue-rgb),.25)}
 .pq-rung.is-off .tx{color:var(--ink-3)}
 .pq-rung .pr{font-weight:600;color:var(--ink-2)}
-
-/* 그 칸이 하는 일 — 신고 이름을 늘어놓지 않고 한 줄로 적는다.
-   앞의 꼬리표가 어느 갈래 일인지 말한다 */
-.pq-rung .w{position:relative;margin:6px 0 0;padding-left:11px;
-  font-size:12.5px;font-weight:500;
-  color:var(--ink-2);line-height:1.6;word-break:keep-all}
-/* 점 하나로 '하는 일이 여럿' 임을 말한다 — 퇴직공제 칸은 세 줄, 기본 칸은
-   네 줄이라 줄바꿈만으로는 한 문장이 꺾인 것과 가려지지 않는다 */
-.pq-rung .w::before{content:"";position:absolute;left:1px;top:9px;
-  width:3px;height:3px;border-radius:50%;background:var(--ink-4)}
-/* 아직 안 들어온 칸의 설명은 한 단 눌러 둔다 — 받게 될 것을 미리 보는 글이다.
-   ⚠ 색만으로 가르지 않는다(WCAG 1.4.1). 버튼이 '+ 추가' 인 것이 함께 말한다 */
-.pq-rung:not(.is-on):not(.is-base) .w{color:var(--ink-3)}
 
 /* 상태를 바꾸는 자리는 버튼 하나다. 줄 전체를 누르게 두지 않는다 — 어디를
    눌러야 하는지가 버튼 모양 하나로 끝난다.
@@ -210,7 +204,6 @@
 
 @media(max-width:640px){
   .pq-rung{padding:12px 8px 13px 11px}
-  .pq-rung .w{font-size:12px}
 }
 
 /* ── 납부 주기 ───────────────────────────────────────────────────
