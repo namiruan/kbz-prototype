@@ -178,41 +178,32 @@
     return (p.requires || []).filter(function(id){ return !scope[id]; });
   }
 
-  /* 고른 것으로 들어온 업무에는 '+' 와 강조색을 둔다 — 늘 들어가는 것과
-     내가 더한 것이 한 줄에 섞여 서므로, 둘이 같아 보이면 무엇이 늘었는지
-     읽히지 않는다. '+' 는 눈이 보는 것이고 'sr-only' 가 읽어 준다 */
-  function chips(works){
-    return '<ul class="pq-scope-inc">'
-      + works.map(function(w){
-          return w.by
-            ? '<li class="add"><span class="mk" aria-hidden="true">+</span>'
-              + '<span class="sr-only">추가 </span>' + w.nm + '</li>'
-            : '<li>' + w.nm + '</li>';
-        }).join('')
-      + '</ul>';
-  }
-
   function buildScope(){
     var box = $('#scopeList'); if(!box) return;
 
-    /* 기본 업무 칩이 맨 앞에 선다 — 고를 수 없으므로 button 이 아니다.
-       '✓' 는 꼴이 말하는 것을 되풀이할 뿐이라, 읽어 주는 몫은 sr-only 가 */
-    box.innerHTML = '<span class="pq-pick is-base">✓ 기본 업무'
-      +   '<span class="sr-only"> 늘 포함됨</span></span>'
+    /* 기본 업무는 체크된 채 잠긴다. '늘 포함' 을 글자로 적는 까닭은, 잠긴
+       체크박스를 꼴만으로는 '고를 수 있는데 안 고른 것' 과 가려내기 어려워서다 */
+    box.innerHTML = '<label class="pq-pick is-base">'
+      +   '<input type="checkbox" checked disabled>'
+      +   '<span class="bx" aria-hidden="true"></span>'
+      +   '<span class="tx">기본 업무</span>'
+      +   '<span class="fix">늘 포함</span>'
+      + '</label>'
       + PICKS.map(function(p){
-          return '<button type="button" class="pq-pick" data-pick="' + p.id + '"'
-            +     ' aria-pressed="false">'
-            +   '<span class="mk" aria-hidden="true">+</span>' + p.nm
-            /* 칩 앞에 이미 '+' 가 서므로 금액에는 붙이지 않는다 */
+          return '<label class="pq-pick" data-pick="' + p.id + '">'
+            +   '<input type="checkbox">'
+            +   '<span class="bx" aria-hidden="true"></span>'
+            +   '<span class="tx">' + p.nm + '</span>'
+            /* 값이 서면 이름 뒤에 붙는다. 지금은 모두 null 이라 안 그려진다 */
             +   (p.price != null ? '<span class="pr">월 ' + won(p.price) + '</span>' : '')
-            + '</button>';
+            + '</label>';
         }).join('');
 
-    /* 손잡이는 칩마다 달지 않고 줄 하나가 받는다 */
-    box.addEventListener('click', function(e){
-      var btn = e.target.closest('.pq-pick[data-pick]'); if(!btn || btn.disabled) return;
-      var id = btn.dataset.pick;
-      scope[id] = !scope[id];
+    /* 손잡이는 칸마다 달지 않고 줄 하나가 받는다. label 이 입력을 품고 있어
+       클릭도 키보드도 브라우저가 알아서 한다 — change 만 받으면 된다 */
+    box.addEventListener('change', function(e){
+      var row = e.target.closest('.pq-pick[data-pick]'); if(!row) return;
+      scope[row.dataset.pick] = e.target.checked;
       paintScope();
       render();                    /* 포함한 것이 금액에 닿을 자리 */
     });
@@ -223,17 +214,16 @@
 
     var whys = [];
     PICKS.forEach(function(p){
-      var btn = box.querySelector('[data-pick="' + p.id + '"]'); if(!btn) return;
-      var mk = btn.querySelector('.mk');
+      var row = box.querySelector('[data-pick="' + p.id + '"]'); if(!row) return;
+      var inp = row.querySelector('input');
       var miss = blockedBy(p);
       var on = !!scope[p.id] && !miss.length;
 
       scope[p.id] = on;            /* 선행이 빠지면 들어 있던 것도 같이 풀린다 */
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      if(mk) mk.textContent = on ? '✓' : '+';
-      btn.disabled = !!miss.length;
-      /* 칩 글자는 이름뿐이라 고른 상태가 들리지 않는다 */
-      btn.setAttribute('aria-label', p.nm + (on ? ' 포함됨' : ' 포함'));
+      inp.checked = on;
+      inp.disabled = !!miss.length;
+      row.classList.toggle('is-on', on);
+      row.classList.toggle('is-off', !!miss.length);
       if(miss.length) whys.push(p.nm + ' — ' + miss.map(function(id){
         var r = PICKS.filter(function(x){ return x.id === id; })[0];
         return r ? r.nm : id;
@@ -244,21 +234,30 @@
     var why = $('#scopeWhy');
     if(why) why.innerHTML = whys.map(function(t){ return '<p>' + t + '</p>'; }).join('');
 
-    /* 포함된 업무 — 일의 갈래로 묶는다. 어디서 왔는지로 묶으면 같은 일용
-       업무가 '기본 업무' 와 '일용근로자 건강·연금' 두 자리로 갈린다.
+    /* 포함된 업무 — 일의 갈래로 묶은 표. 갈래 칸은 그 갈래의 줄 수만큼
+       rowspan 으로 한 칸이 되어, 읽는 눈이 갈래마다 한 번만 멈춘다.
        아무것도 들어오지 않은 갈래는 줄을 세우지 않는다 */
-    var grps = $('#scopeChips');
-    if(grps){
-      grps.innerHTML = CATS.map(function(cat){
+    var tbl = $('#scopeChips');
+    if(tbl){
+      var body = '';
+      CATS.forEach(function(cat){
         var inc = WORK.filter(function(w){
           return w.cat === cat && (!w.by || scope[w.by]);
         });
-        if(!inc.length) return '';
-        return '<div class="pq-scope-grp">'
-          +   '<span class="gn">' + cat + '</span>'
-          +   chips(inc)
-          + '</div>';
-      }).join('');
+        inc.forEach(function(w, i){
+          body += '<tr class="' + (w.by ? 'add' : '')
+            +      (i === inc.length - 1 ? ' end' : '') + '">'
+            + (i === 0 ? '<th scope="row" rowspan="' + inc.length + '">' + cat + '</th>' : '')
+            + '<td>' + w.nm + '</td>'
+            + '<td class="src">' + (w.by ? '추가' : '기본') + '</td>'
+            + '</tr>';
+        });
+      });
+      tbl.innerHTML = '<table class="pq-scope-tbl">'
+        + '<colgroup><col class="c-cat"><col><col class="c-src"></colgroup>'
+        + '<thead><tr><th scope="col">갈래</th><th scope="col">업무</th>'
+        +   '<th scope="col">구분</th></tr></thead>'
+        + '<tbody>' + body + '</tbody></table>';
     }
 
   }

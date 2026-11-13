@@ -143,71 +143,87 @@
 }
 
 /* ── 업무범위 — 기본 업무에 선택 업무를 더한다 ─────────────────
-   고르는 자리는 칩 줄 하나다. 카드였을 때는 줄마다 제목과 버튼만 들고
-   69px 을 썼다 — 내용은 아래 '포함된 업무' 로 옮겼으니, 남은 것은 이름과
-   고른 상태뿐이고 그것은 칩 하나에 다 들어간다.
-   ⚠ 위아래 패딩 10px 은 손가락 자리다. 줄이면 칩 키가 40px 아래로
-      내려간다 */
-.pq-scope-picks{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
-.pq-pick{display:inline-flex;align-items:center;gap:6px;
-  appearance:none;font:inherit;white-space:nowrap;
-  padding:10px 16px;border-radius:1000px;
-  background:var(--main-white);border:1px solid var(--field-line);
-  font-size:14px;font-weight:700;letter-spacing:-.025em;color:var(--ink);
-  transition:background .15s,border-color .15s,color .15s}
-button.pq-pick{cursor:pointer}
-button.pq-pick:hover{border-color:var(--ink);background:var(--fill)}
-button.pq-pick:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-/* 들어 있는 상태 — 기본 업무는 늘 여기다. 고를 수 없는 것과 고른 것이
-   같은 꼴로 서야 '둘 다 들어 있다' 가 한눈에 읽힌다 */
-.pq-pick[aria-pressed="true"],
-.pq-pick.is-base{background:var(--accent);border-color:var(--accent);
-  color:var(--main-white)}
-button.pq-pick[aria-pressed="true"]:hover{background:var(--accent);
-  border-color:var(--accent)}
-.pq-pick[disabled]{cursor:not-allowed;color:var(--ink-4);
-  border-color:var(--line);background:var(--fill)}
-/* 값이 있을 때만 선다 — 지금은 모두 null 이라 그려지지 않는다 */
-.pq-pick .pr{font-weight:600;opacity:.75}
+   고르는 자리는 체크박스 목록이다. 알약이었을 때는 아래 '포함된 업무' 와
+   같은 모양이 크기만 달리 두 벌 서서, 눈이 둘을 같은 것으로 읽다가 계속
+   어긋났다. 여기는 폼이니 폼의 말을 쓴다.
+   ⚠ 위아래 패딩 10px 은 손가락 자리다. 줄이면 칸 키가 40px 아래로 내려간다 */
+.pq-scope-picks{display:grid;gap:8px;margin-top:2px}
+@media(min-width:641px){ .pq-scope-picks{grid-template-columns:1fr 1fr} }
 
-/* 선행 항목을 포함하지 않아 막혔을 때의 사유. 칩은 줄 아래에 글을 달 수
-   없어, 막힌 것들을 모아 칩 줄 밑에 적는다 */
+.pq-pick{display:flex;align-items:center;gap:9px;
+  padding:10px 13px;border-radius:8px;
+  background:var(--main-white);border:1px solid var(--line);
+  font-size:14px;font-weight:700;letter-spacing:-.025em;color:var(--ink);
+  cursor:pointer;transition:border-color .15s,background .15s}
+.pq-pick:hover{border-color:#C6CBD1}
+/* 입력은 숨기되 지우지 않는다 — 클릭·키보드·접근성은 그대로 브라우저가 한다 */
+.pq-pick input{position:absolute;width:1px;height:1px;opacity:0;margin:0}
+.pq-pick .bx{flex:none;width:18px;height:18px;border-radius:5px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--main-white);border:1.5px solid var(--field-line);
+  transition:background .15s,border-color .15s}
+.pq-pick .bx::after{content:"";width:9px;height:5px;margin-top:-3px;
+  border-left:2px solid var(--main-white);border-bottom:2px solid var(--main-white);
+  transform:rotate(-45deg) scale(.4);opacity:0;transition:transform .15s,opacity .15s}
+.pq-pick input:checked ~ .bx{background:var(--accent);border-color:var(--accent)}
+.pq-pick input:checked ~ .bx::after{transform:rotate(-45deg) scale(1);opacity:1}
+.pq-pick input:focus-visible ~ .bx{outline:2px solid var(--accent);outline-offset:2px}
+.pq-pick .tx{flex:1;min-width:0}
+.pq-pick .pr{flex:none;font-weight:600;color:var(--ink-2)}
+@media(prefers-reduced-motion:reduce){.pq-pick .bx::after{transition:none}}
+
+/* 고른 칸 — 테두리와 옅은 바탕으로만 말한다. 꽉 채우면 다섯이 파란 덩어리가
+   된다(알약이 부산스러웠던 까닭이다) */
+.pq-pick.is-on,.pq-pick.is-base{border-color:var(--accent);background:var(--accent-tint)}
+.pq-pick.is-on:hover{border-color:var(--accent)}
+
+/* 기본 업무 — 잠긴 칸. 잠겼다는 것을 흐림이 아니라 글자로 말한다. 흐리게
+   두면 '빠진 것' 으로 읽히는데, 이쪽은 되레 늘 들어가는 것이다 */
+.pq-pick.is-base{cursor:default}
+.pq-pick.is-base .fix{flex:none;padding:2px 7px;border-radius:1000px;
+  background:var(--main-white);border:1px solid rgba(var(--color-blue-rgb),.3);
+  font-size:11px;font-weight:700;letter-spacing:-.02em;color:var(--accent)}
+
+/* 선행 항목을 포함하지 않아 막힌 칸 */
+.pq-pick.is-off{cursor:not-allowed;color:var(--ink-4);
+  border-color:var(--line);background:var(--fill)}
+.pq-pick.is-off .bx{border-color:var(--line);background:var(--fill)}
 .pq-scope-whys{display:grid;gap:4px;margin-top:9px}
 .pq-scope-whys:empty{display:none}
 .pq-scope-whys p{margin:0;font-size:12px;font-weight:600;
   color:var(--ink-3);line-height:1.5;word-break:keep-all}
 
-/* 포함된 업무 — 고르는 줄은 제목만 세우므로, 실제로 무엇을 해 주는지가
-   화면에 남는 곳은 여기뿐이다. 묶음 이름을 머리에 달아 어느 줄에서 온
-   칩인지 보이게 한다 */
+/* 포함된 업무 — 갈래로 묶은 표. 갈래 칸은 rowspan 으로 한 칸이 되어
+   읽는 눈이 갈래마다 한 번만 멈춘다 */
 .pq-scope-sum{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
 .pq-scope-sum .lb{display:block;font-size:13px;font-weight:800;
   letter-spacing:-.03em;color:var(--ink)}
-.pq-scope-grps{display:grid;gap:11px;margin-top:10px}
-.pq-scope-grp .gn{display:block;font-size:12px;font-weight:800;
-  letter-spacing:-.02em;color:var(--ink-3)}
-.pq-scope-grp .pq-scope-inc{margin-top:5px}
-/* 한 줄에 하나씩 세우지 않고 흘려 담는다 — 항목이 짧아 줄 끝이 늘 비었고,
-   기본 업무만 여섯 줄이 섰다. 칩 하나하나가 경계를 그어, 항목 안의 가운뎃점
-   (성립·변경·탈퇴)과 항목 사이가 섞이지 않는다 */
-.pq-scope-inc{list-style:none;margin:0;padding:0;
-  display:flex;flex-wrap:wrap;gap:4px}
-.pq-scope-inc li{display:inline-flex;align-items:center;gap:3px;
-  padding:2px 7px;border-radius:5px;
-  background:var(--main-white);border:1px solid var(--line);
-  font-size:11.5px;font-weight:600;letter-spacing:-.02em;
-  color:var(--ink-2);line-height:1.5;word-break:keep-all}
-/* 고른 것으로 들어온 업무 — 늘 들어가는 것과 한 줄에 섞여 서므로 가려
-   놓는다. 갈래로 묶으면 둘이 나란히 서는 것이 요점이라 더 그렇다 */
-.pq-scope-inc li.add{background:var(--accent-tint);
-  border-color:rgba(var(--color-blue-rgb),.3);color:var(--accent)}
-.pq-scope-inc li.add .mk{font-weight:800}
+.pq-scope-tbl{width:100%;margin-top:10px;border-collapse:collapse;table-layout:fixed}
+.pq-scope-tbl .c-cat{width:23%}
+.pq-scope-tbl .c-src{width:52px}
+.pq-scope-tbl th,.pq-scope-tbl td{padding:7px 10px;text-align:left;
+  vertical-align:top;line-height:1.5;word-break:keep-all}
+.pq-scope-tbl thead th{padding-top:0;padding-bottom:6px;
+  font-size:11px;font-weight:800;letter-spacing:-.02em;color:var(--ink-3);
+  border-bottom:1px solid var(--ink-4)}
+/* 줄 사이는 연하게, 갈래가 끝나는 줄만 또렷하게 — 갈래가 덩이로 읽힌다 */
+.pq-scope-tbl tbody td{font-size:12.5px;font-weight:500;color:var(--ink-2);
+  border-bottom:1px solid rgba(var(--color-blue-rgb),.07)}
+.pq-scope-tbl tbody tr.end td,
+.pq-scope-tbl tbody th{border-bottom:1px solid var(--line)}
+.pq-scope-tbl tbody th{padding-left:0;font-size:12.5px;font-weight:800;
+  letter-spacing:-.02em;color:var(--ink)}
+.pq-scope-tbl tbody tr.add td{color:var(--accent);font-weight:600}
+.pq-scope-tbl .src{padding-right:0;text-align:right;font-size:11.5px;font-weight:700}
+.pq-scope-tbl tbody tr:not(.add) .src{color:var(--ink-3)}  /* ⚠ ink-4 는 흰 바탕 2.26:1 로 AA 미달이다 */
 
-/* 좁은 폭 — 칩 하나가 거의 한 줄을 먹는다. 옆여백을 줄여 가장 긴 이름이
-   320px 에서도 꺾이지 않게 한다 */
+/* 좁은 폭 — 한 열로 서고, 표의 갈래 칸을 넓혀 두 글자에서 꺾이지 않게 */
 @media(max-width:640px){
   .pq-scope-picks{gap:7px}
-  .pq-pick{padding:10px 14px;font-size:13.5px}
+  .pq-pick{padding:10px 12px;font-size:13.5px}
+  .pq-scope-tbl .c-cat{width:30%}
+  .pq-scope-tbl th,.pq-scope-tbl td{padding:7px 8px}
+  .pq-scope-tbl tbody td{font-size:12px}
 }
 
 /* ── 납부 주기 ───────────────────────────────────────────────────
