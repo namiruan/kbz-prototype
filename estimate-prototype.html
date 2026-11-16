@@ -32,7 +32,7 @@
   <link rel="prefetch" href="assets/estimate.css?v=2" as="style">
   <link rel="prefetch" href="assets/select.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote-common.css?v=2" as="style">
-  <link rel="prefetch" href="assets/plan-quote.css?v=43" as="style">
+  <link rel="prefetch" href="assets/plan-quote.css?v=44" as="style">
   <link rel="prefetch" href="assets/kbd.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote.css?v=1" as="style">
   <link rel="prefetch" href="assets/face-quote.css?v=1" as="style">
@@ -114,8 +114,9 @@
         data-look="
           |@{.pq-ladder} 더하는 업무는 위에서 아래로 쌓이는 사다리입니다
           |@{.pq-rung.is-base} 맨 위 '기본'에는 버튼이 없습니다
-          |@{.pq-rung .one} 설명은 칸 이름 오른쪽에 붙습니다
-          |@{.pq-rung.is-base .one + .one} 설명이 여럿인 칸은 세로 실선으로 갈라집니다
+          |@{.pq-rung[data-pick] .one} 설명은 칸 이름 오른쪽에 붙습니다
+          |@{.pq-rung[data-pick='retire'] .one + .one} 설명이 여럿인 칸은 세로 실선으로 갈라집니다
+          |@{.pq-rung.is-base .ones} 기본은 하는 일이 넷이라 줄을 바꿔 하나씩 섭니다
           |@{.pq-ladder .pq-add} 고르는 칸은 셋이고 모두 '+ 추가' 인 채로 열립니다
           |@{.pq-rung:not(.is-on):not(.is-base) .one} 아직 안 들어온 칸의 설명은 회색 글자입니다
           |@{.pq-rung.is-off .pq-add} 앞 칸을 추가하기 전에는 뒤 칸의 버튼이 눌리지 않습니다
