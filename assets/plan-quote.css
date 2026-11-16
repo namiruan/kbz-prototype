@@ -177,19 +177,6 @@
 .pq-rung:not(.is-on):not(.is-base) .ones{color:var(--ink-3)}
 /* 가운뎃점으로 이은 말 한 덩어리 — 줄 끝에서 갈라지지 않는다 */
 .pq-rung .nb{white-space:nowrap}
-/* 설명이 여럿일 때 — 그어 둔 실선 하나가 가른다. 글자로 가르면 섞인다
-   (취득·상실·보수변경 안에도 가운뎃점이 있다) */
-.pq-rung .one + .one::before{content:"";display:inline-block;
-  width:1px;height:10px;margin:0 8px -1px;background:var(--line)}
-.pq-rung.is-on .one + .one::before{background:rgba(var(--color-blue-rgb),.25)}
-/* 기본만 하는 일이 넷이다 — 한 줄로 이으면 어디서 하나가 끝나는지
-   실선 하나로는 못 버틴다. 줄을 바꿔 하나씩 세운다 */
-.pq-rung.is-base .ones{display:block;margin:6px 0 0}
-/* ⚠ 넘친 줄을 들여쓰지 않으면 좁은 폭에서 이어진 줄과 다음 일이
-   똑같이 왼쪽에 붙어, 넷인지 여섯인지 세어지지 않는다 */
-.pq-rung.is-base .one{display:block;margin-top:5px;
-  padding-left:11px;text-indent:-11px}
-.pq-rung.is-base .one + .one::before{content:none}
 .pq-rung.is-off .tx{color:var(--ink-3)}
 .pq-rung .pr{font-weight:600;color:var(--ink-2)}
 
@@ -212,12 +199,6 @@
 
 @media(max-width:640px){
   .pq-rung{padding:12px 8px 13px 11px}
-  /* ⚠ 좁은 폭에서는 실선이 줄머리에 선다 — inline-block 앞뒤가 줄이
-     갈라지는 자리라서. 설명이 여럿인 칸은 기본처럼 줄을 바꿔 세운다 */
-  .pq-rung.is-many .ones{display:block;margin:6px 0 0}
-  .pq-rung.is-many .one{display:block;margin-top:5px;
-    padding-left:11px;text-indent:-11px}
-  .pq-rung.is-many .one + .one::before{content:none}
 }
 
 /* ── 납부 주기 ───────────────────────────────────────────────────
