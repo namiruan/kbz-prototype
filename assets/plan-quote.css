@@ -99,17 +99,119 @@
 /* ── 유형에 따라 나타났다 사라지는 칸 ───────────────────────────
    숨길 때 hidden 속성을 쓴다(base.css 가 [hidden] 에 못을 박아 두었다).
    display 로만 숨기면 보조기술에는 남아, 묻지도 않는 칸을 읽어 준다 */
-#useGrid{margin-top:22px}
-/* 보기를 라벨 아래로 세운다. 까닭이 둘이다. 하나는 격자 — 위 입력 칸이
-   「라벨 → 그 아래 필드」 꼴이라, 보기가 라벨 옆에 누우면 세 묶음만 다른 꼴로
-   앉아 같은 1/3 칸을 쓰고도 위와 따로 논다. 하나는 폭 — 면허 종류는 보기가
-   셋이라 한 줄로 171px 을 쓰는데, 1280 에서 한 칸은 191px 이고 보기 사이를
-   22px 로 띄우면 214px 이 된다. 세워 두면 둘 다 풀린다.
+/* 면허 종류는 위 입력 칸들과 같은 격자에 선다 — 현장당 인원 수 옆자리다.
+   보기는 라벨 아래로 세운다. 까닭이 둘이다. 하나는 격자 — 옆 칸들이
+   「라벨 → 그 아래 필드」 꼴이라, 보기가 라벨 옆에 누우면 그 칸만 다른 꼴로
+   앉는다. 하나는 폭 — 보기가 셋이라 한 줄로 171px 을 쓰는데, 1280 에서 한
+   칸은 191px 이고 보기 사이를 22px 로 띄우면 214px 이 된다. 세워 두면 둘 다
+   풀린다.
    640 아래는 라벨과 보기가 한 줄에 좌우로 서는 꼴이라(quote-common.css)
    건드리지 않는다 — 좁은 폭에서는 그쪽이 높이를 덜 쓴다 */
-@media(min-width:641px){
-  #useGrid .f-radios{flex-direction:column;align-items:flex-start;gap:10px;
-    min-height:0;margin-top:3px}
+/* ── 면허 종류 ─────────────────────────────────────────────────
+   현장당 인원 수 옆, 1/3 칸에 선다. 점과 글자로 눕히면 216px 이 드는데 그
+   칸은 1280 에서 191px 이라 들어가지 않았다. 간격을 깎아 맞추지 않는다 —
+   10px 까지 줄이면 보기 사이가 보기 안쪽(점↔글자 8px)과 구별되지 않아 셋이
+   한 덩이로 읽히고, Pretendard 는 웹폰트가 아니라 기기에 있는 것을 쓰므로
+   (base.css 의 --font-pretendard) 딱 맞춘 값은 어딘가에서 넘친다.
+   점을 걷고 납부 주기(.pq-cycle)와 같은 세그먼트로 세운다. 셋이 칸을 나눠
+   가지므로 폭이 얼마든 들어간다.
+   ⚠ 마크업은 라디오 그대로다. 생긴 것만 바꾸고 role·input 은 두어, 좌우
+      화살표로 옮겨 다니는 네이티브 조작을 잃지 않는다 */
+/* 높이와 윗변을 옆 입력폼에 맞춘다 — .field 가 54px(640 아래 48px)이고,
+   margin-top 을 두면 그만큼 윗변이 내려가 한 줄에서 두 칸이 어긋난다 */
+.pq-license .f-radios{display:flex;align-items:stretch;gap:2px;padding:3px;
+  border-radius:1000px;background:#E7EAEE;height:54px;min-height:0;margin-top:0;
+  align-self:stretch;width:100%}
+.pq-license .f-radios label{flex:1;display:flex;align-items:center;justify-content:center;
+  gap:0;padding:0 6px;border-radius:1000px;cursor:pointer;white-space:nowrap;
+  font-size:13px;font-weight:700;color:var(--ink-2);transition:.16s}
+.pq-license .f-radios label:hover{color:var(--ink)}
+/* 점은 세그먼트에서 할 일이 없다 — 고른 표시는 알약이 든다 */
+.pq-license .f-radios .dot{display:none}
+.pq-license .f-radios .tx,
+.pq-license .f-radios input:checked ~ .tx{font-weight:inherit;color:inherit}
+/* 고른 쪽은 흰 알약으로 트랙 위에 떠오른다 — 납부 주기와 같은 표시다 */
+.pq-license .f-radios label:has(input:checked){background:var(--main-white);
+  color:var(--accent);box-shadow:0 0 0 1px rgba(14,59,99,.09), 0 1px 3px rgba(14,59,99,.18)}
+.pq-license .f-radios label:has(input:focus-visible){outline:2px solid var(--accent);
+  outline-offset:2px}
+/* 640 아래는 라벨과 보기가 한 줄에 좌우로 선다(quote-common.css). 세그먼트가
+   남는 폭을 다 가져가면 라벨만 왼쪽에 외따로 서므로, 제 너비만 쓰게 둔다 */
+@media(max-width:640px){
+  .pq-license .f-radios{width:auto;height:48px}
+  .pq-license .f-radios label{padding:0 12px}
+}
+
+/* ── 업무범위 ───────────────────────────────────────────────────
+   고르는 자리를 표 밖에 둔다. 한때 표 안의 갈래 칸에 넣어 보았는데,
+   '일용근로자 퇴직공제 관리업무' 하나가 세 갈래에 걸쳐 체크박스를 어느
+   갈래에 세워도 틀렸다. 지금은 표가 갈래마다 한 줄이고, 그 안에서 업무가
+   하나씩 켜지고 꺼진다 */
+.pq-scope-picks{margin-top:2px}
+
+/* 사다리 — 왼쪽 레일이 고를수록 아래로 차오른다.
+   ⚠ 세그먼트로 만들었다가 되돌렸다. 세그먼트는 '여럿 가운데 하나' 라고
+      말하는 꼴이라, 더해지는 것에 쓰면 뜻이 어긋난다. 여럿을 켜는 자리는
+      체크박스다. 쌓이는 것은 레일이 말한다 */
+.pq-ladder{display:grid}
+/* 별도 서비스 — 사다리에 걸리지 않는다(차례도 선행도 없다). 꼴은 같이
+   쓰고 한 칸 띄워 따로 세운다. 고르는 자리인 것은 같으므로 꼴까지 달리
+   할 까닭이 없다 */
+.pq-ladder-extra{margin-top:14px}
+.pq-rung{padding:12px 10px 13px 13px;border-left:3px solid var(--line);
+  transition:border-color .15s,background .15s}
+/* 들어온 칸 — 레일이 여기까지 차 있다 */
+.pq-rung.is-on,.pq-rung.is-base{border-left-color:var(--accent);
+  background:var(--accent-tint)}
+
+/* 이름 줄 — 이름이 왼쪽, 상태를 바꾸는 버튼이 오른쪽 */
+.pq-rung .hd{display:flex;align-items:center;gap:10px;min-height:38px}
+.pq-rung .hd .tx{align-self:center}
+/* ⚠ keep-all 이 없으면 좁은 폭에서 '변경신 / 고' 처럼 낱말 가운데가 갈린다 */
+.pq-rung .tx{flex:1;min-width:0;word-break:keep-all;
+  font-size:13.5px;font-weight:700;letter-spacing:-.025em;color:var(--ink)}
+/* 설명은 제목 옆에 붙는다. 굵기와 색이 제목과 달라 한 줄에 서도 둘이
+   섞이지 않는다 */
+.pq-rung .ones{margin-left:9px;font-size:12.5px;font-weight:500;
+  color:var(--ink-2);letter-spacing:-.01em}
+.pq-rung:not(.is-on):not(.is-base) .ones{color:var(--ink-3)}
+/* 가운뎃점으로 이은 말 한 덩어리 — 줄 끝에서 갈라지지 않는다 */
+.pq-rung .nb{white-space:nowrap}
+/* 설명이 여럿일 때 — 그어 둔 실선 하나가 가른다. 글자로 가르면 섞인다
+   (취득·상실·보수변경 안에도 가운뎃점이 있다) */
+.pq-rung .one + .one::before{content:"";display:inline-block;
+  width:1px;height:10px;margin:0 8px -1px;background:var(--line)}
+.pq-rung.is-on .one + .one::before{background:rgba(var(--color-blue-rgb),.25)}
+/* 기본만 하는 일이 넷이다 — 한 줄로 이으면 어디서 하나가 끝나는지
+   실선 하나로는 못 버틴다. 줄을 바꿔 하나씩 세운다 */
+.pq-rung.is-base .ones{display:block;margin:6px 0 0}
+/* ⚠ 넘친 줄을 들여쓰지 않으면 좁은 폭에서 이어진 줄과 다음 일이
+   똑같이 왼쪽에 붙어, 넷인지 여섯인지 세어지지 않는다 */
+.pq-rung.is-base .one{display:block;margin-top:5px;
+  padding-left:11px;text-indent:-11px}
+.pq-rung.is-base .one + .one::before{content:none}
+.pq-rung.is-off .tx{color:var(--ink-3)}
+.pq-rung .pr{font-weight:600;color:var(--ink-2)}
+
+/* 상태를 바꾸는 자리는 버튼 하나다. 줄 전체를 누르게 두지 않는다 — 어디를
+   눌러야 하는지가 버튼 모양 하나로 끝난다.
+   ⚠ 위아래 패딩 8px 이 손가락 자리다. 줄이면 버튼 키가 32px 아래로 */
+.pq-add{flex:none;display:inline-flex;align-items:center;
+  appearance:none;font:inherit;cursor:pointer;white-space:nowrap;
+  padding:8px 14px;border-radius:1000px;
+  background:var(--main-white);border:1px solid var(--field-line);
+  font-size:12.5px;font-weight:700;letter-spacing:-.02em;color:var(--ink);
+  transition:background .15s,border-color .15s,color .15s}
+.pq-add:hover{border-color:var(--ink);background:var(--fill)}
+.pq-add:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pq-add[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);
+  color:var(--main-white)}
+.pq-add[aria-pressed="true"]:hover{background:var(--accent);border-color:var(--accent)}
+.pq-add[disabled]{cursor:not-allowed;color:var(--ink-3);
+  border-color:var(--line);background:var(--fill)}
+
+@media(max-width:640px){
+  .pq-rung{padding:12px 8px 13px 11px}
 }
 
 /* ── 납부 주기 ───────────────────────────────────────────────────
@@ -163,7 +265,9 @@
 /* 넣은 수를 사람이 말하는 단위로 되읽는 줄. 칸이 만 원 단위라, 원 단위로 치던
    사람이 자릿수를 잘못 넣어도 폼은 받아 준다 — 받아 주고 틀린 구간을 내놓는
    것보다 넣는 동안 '70억 원' 이라고 되읽어 주는 편이 낫다 */
-.f-echo{margin:6px 0 0;font-size:12.5px;font-weight:600;color:var(--accent);
+/* 여백은 .f-item 의 flex 간격(5px)에 맡긴다. 제 margin 을 더 두면 라벨↔폼
+   5px 과 폼↔되읽기 11px 이 되어, 한 칸 안에서 위아래 간격이 서로 다르다 */
+.f-echo{margin:0;font-size:12.5px;font-weight:600;color:var(--accent);
   letter-spacing:-.01em}
 
 /* ── 요약 ────────────────────────────────────────────────────────
@@ -187,4 +291,4 @@
 
 
 /* 좁은 폭에서는 폼 전체가 한 치수 작아진다 — 되읽어 주는 줄도 함께 */
-@media(max-width:640px){.f-echo{margin-top:5px;font-size:12px}}
+@media(max-width:640px){.f-echo{font-size:12px}}

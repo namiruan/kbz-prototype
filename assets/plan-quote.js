@@ -52,6 +52,93 @@
   ];
   var YEAR_OFF = 0.05;                      /* 연납 할인 */
 
+  /* ── 업무범위 ───────────────────────────────────────────────────
+     갈래와 항목은 '김반장 프리미엄 서비스 업무 안내문' 네 벌(계약 조합별)
+     에서 그대로 옮겼다. 전에는 항목 글자만 보고 내가 갈래를 지었는데,
+     원본의 '■ 제공 서비스' 가 이미 갈래를 들고 있었다.
+     ⚠ 원본의 '근로자 관리' 는 일용/상용 두 하위를 덮는데, 이 표는 한 단
+        이라 둘로 폈다. 그 머리말만 잃고 항목은 그대로다.
+
+     PICKS — 고르는 것. 원본 '계약사항' 의 3·4·5 번이다. 표 밖에 서므로
+           갈래가 받쳐 주지 않는다 — 이름을 줄이지 않고 그대로 적는다.
+     price : 지금은 모두 null 이라 아무것도 그려지지 않는다. 금액 규칙은
+           받은 것이 없어 지어내지 않는다.
+     requires : 선행 항목의 id 들.
+
+     ⚠ 말은 안내문 원본에 맞춘다. '공단' 은 건강·연금공단·근로복지공단에만
+        쓰고 퇴직공제에는 쓰지 않는다(건설근로자공제회 소관이다).
+     WORK — 해 주는 일을 한 줄로. 맺음말('…합니다')을 떼고 명사로 끝낸다
+           — 줄이 짧아 눈이 한 번에 받는다. 신고 이름을 늘어놓지 않는다 — 받는
+           사람이 알고 싶은 것은 '무엇을 대신해 주는가' 이지 신고서 이름이
+           아니다. 다만 원본 안내문에 없는 것을 지어내지는 않는다.
+           cat 은 줄 차례를 세우는 데만 쓴다 — 화면에는 적지 않는다.
+           꼬리표로 달아 봤는데, 문장이 혼자 설 수 있으면 더 적을 까닭이
+           없었다.
+     by  : null 이면 늘 들어간다. PICKS 의 id 면 그것을 골라야 들어간다.
+           cat 과 by 의 짝마다 한 줄이다.
+     ⚠ 'retire'(일용근로자 퇴직공제) 하나가 세 갈래에 걸쳐 있다 —
+        하도급 승인신고는 '4대보험·퇴직공제 신고' 에, 근로내용 신고는
+        '일용근로자 신고' 에, EDI 증명서는 '증명서 발급' 에. 그래서 고르기
+        하나가 갈래 하나와 짝이 되지 않는다. 고르는 자리를 표 안에 둘 수
+        없는 까닭이고, 그래서 표 밖으로 뺐다. */
+  var CATS = ['4대보험·퇴직공제 신고', '일용근로자 신고', '상용근로자 신고',
+              '증명서 발급', '공사대장'];
+
+  /* 차례가 곧 사다리다. 받은 안내문 네 벌이 겹겹이 쌓인 모양이었다 —
+     기본 / +일용 / +일용·상용 / +일용·상용·퇴직공제. requires 가 그 차례를
+     지킨다: 앞엣것을 빼면 뒤엣것도 같이 풀린다.
+     ⚠ 네 벌이 그랬다는 것이지 다른 조합이 없다고 받은 것은 아니다. */
+  var LADDER = ['daily_hp', 'regular_site', 'retire'];
+  var PICKS = [
+    { id:'daily_hp',     nm:'일용근로자 건강·연금',
+      price:null, requires:[] },
+    { id:'regular_site', nm:'상용근로자 현장별 건강·연금',
+      price:null, requires:['daily_hp'] },
+    { id:'retire',       nm:'일용근로자 퇴직공제',
+      price:null, requires:['regular_site'] },
+    /* 안내문 네 벌 어디에도 없다 — 계약과 별도인 서비스다. 사다리 밖이다 */
+    { id:'kiscon',       nm:'키스콘 공사대장 신고',
+      price:null, requires:[] }
+  ];
+
+  var WORK = [
+    /* 기본 — 위에 기댈 이름이 '기본' 뿐이라 네 줄이 저마다 혼자 서야 한다 */
+    { cat:'4대보험·퇴직공제 신고', by:null,
+      say:'현장 4대보험·퇴직공제 성립·변경·탈퇴·준공, 하수급 승인·명세 신고' },
+    { cat:'일용근로자 신고', by:null,
+      say:'매달 보내 주신 일용 고용·산재 근로내용 오류 확인·신고' },
+    { cat:'상용근로자 신고', by:null,
+      say:'본사 상용직 취득·상실·보수변경, 이직확인서, 휴직·복직 신고' },
+    { cat:'증명서 발급', by:null,
+      say:'필요한 증명서 대신 발급 — 업무톡으로 요청' },
+
+    /* 아래는 칸 제목이 바로 위에 선다 — 그 제목이 말하는 말은 빼고 적는다.
+       '일용근로자 퇴직공제' 칸에서 '퇴직공제 하도급 승인신고' 는
+       '하도급 승인신고' 로 족하다 */
+    { cat:'일용근로자 신고', by:'daily_hp',
+      say:'대상자 확인·신고, 매달 고지서 전송' },
+
+    { cat:'상용근로자 신고', by:'regular_site',
+      say:'전입·전근·전보 신고' },
+
+    { cat:'4대보험·퇴직공제 신고', by:'retire',
+      say:'하도급 승인신고 대행' },
+    { cat:'일용근로자 신고', by:'retire',
+      say:'근로내역 신고, 고지서 전송' },
+    { cat:'증명서 발급', by:'retire',
+      say:'EDI 증명서 발급' },
+
+    { cat:'공사대장', by:'kiscon',
+      say:'작성·통보, 변경신고 대행' }
+  ];
+
+  /* 키스콘은 계약과 별도라 사다리 밖이다 */
+  var EXTRA = ['kiscon'];
+
+  /* 포함된 상태. 신청 데이터가 그대로 들고 가고, 요금 계산도 여기를 본다 */
+  var scope = {};
+  PICKS.forEach(function(p){ scope[p.id] = false; });
+
   function tierFor(sales){
     if(!(sales > 0)) return null;
     var eok = sales / EOK;
@@ -107,6 +194,125 @@
     render();
   }
 
+  /* ── 업무범위 그리기 ───────────────────────────────────────────
+     줄은 한 번만 세우고(buildScope), 넣고 빼는 동안에는 상태만 칠한다
+     (paintScope). 매번 다시 만들면 방금 누른 버튼에서 초점이 떨어져
+     키보드로 오는 사람이 자리를 잃는다 */
+  function won(n){ return n.toLocaleString('ko-KR') + '원'; }
+
+  /* 받침을 보고 조사를 고른다 — '을(를)' 을 그대로 내보내면 읽는 사람이
+     괄호를 지우며 읽어야 한다 */
+  function eulReul(w){
+    var c = w.charCodeAt(w.length - 1);
+    if(c < 0xAC00 || c > 0xD7A3) return '을(를)';   /* 한글이 아니면 그대로 */
+    return ((c - 0xAC00) % 28) ? '을' : '를';
+  }
+
+  /* 가운뎃점으로 이은 말은 통째로 묶는다. keep-all 은 낱말만 지키고
+   가운뎃점에서는 갈라서, 좁은 폭에서 '취득·상실 / ·보수변경'처럼
+   다음 줄이 점으로 시작한다 */
+function glue(t){
+  return t.replace(/\S*·\S*/g, function(m){ return '<span class="nb">' + m + '</span>'; });
+}
+function blockedBy(p){
+    /* 선행 항목 가운데 아직 포함하지 않은 것들 */
+    return (p.requires || []).filter(function(id){ return !scope[id]; });
+  }
+
+  function wsp(w){ return '<span class="w">' + w.nm + '</span>'; }
+
+  /* 한 칸이 드는 설명들 — 갈래 차례를 따른다 */
+  function saysOf(by){
+    return WORK.filter(function(w){ return w.by === by; })
+      .sort(function(x, y){ return CATS.indexOf(x.cat) - CATS.indexOf(y.cat); });
+  }
+
+  /* 고르는 자리와 설명이 한 덩이다. 표를 따로 두었더니 고른 자리와 그
+     결과가 떨어져 있어 눈이 오르내려야 했다. 이제 칸마다 제가 하는 일을
+     들고 있다. '기본' 도 한 칸이되 버튼이 없다 — 버튼이 없다는 것이
+     '고르는 것이 아니다' 를 말한다 */
+  function buildScope(){
+    var box = $('#scopeList'); if(!box) return;
+
+    function rung(id){
+      var p = id && PICKS.filter(function(x){ return x.id === id; })[0];
+      if(id && !p) return '';
+      var list = saysOf(id || null);
+      /* 설명은 모두 이름 옆에 붙인다. 아래로 내리면 칸마다 줄이 늘어 같은
+         말을 하는 데 자리를 더 쓴다. 여럿일 때는 그어 둔 실선 하나가
+         가른다 — 글자로 가르면 섞인다(취득·상실·보수변경) */
+      return '<div class="pq-rung' + (id ? '' : ' is-base') + '"'
+        +     (id ? ' data-pick="' + id + '"' : '') + '>'
+        +   '<div class="hd">'
+        +     '<span class="tx">' + (id ? glue(p.nm) : '기본')
+        +       (id && p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
+        +       '<span class="ones">' + list.map(function(w){
+                  return '<span class="one">' + glue(w.say) + '</span>';
+                }).join('') + '</span>'
+        +     '</span>'
+        +     (id ? '<button type="button" class="pq-add" aria-pressed="false"'
+                    + ' aria-describedby="why-' + id + '">+ 추가</button>' : '')
+        +   '</div>'
+        /* 막힌 까닭은 화면에서 걷되 아주 없애지는 않는다 — 눌리지 않는
+           버튼에 아무 말도 없으면 보조기기로 오는 사람은 막다른 길이다 */
+        +   (id ? '<span class="sr-only" id="why-' + id + '"></span>' : '')
+        + '</div>';
+    }
+
+    box.innerHTML = '<div class="pq-ladder">'
+      +   rung(null) + LADDER.map(rung).join('')
+      + '</div>'
+      /* 키스콘은 사다리에 걸리지 않는다 — 차례도 선행도 없다. 꼴은 같이
+         쓰되 한 칸 띄워 따로 세운다 */
+      + '<div class="pq-ladder pq-ladder-extra">' + EXTRA.map(rung).join('') + '</div>';
+
+    box.addEventListener('click', function(e){
+      var btn = e.target.closest('.pq-add'); if(!btn || btn.disabled) return;
+      var id = btn.closest('[data-pick]').dataset.pick;
+      scope[id] = !scope[id];
+      paintScope();
+      render();                    /* 포함한 것이 금액에 닿을 자리 */
+    });
+  }
+
+  function paintScope(){
+    var box = $('#scopeList'); if(!box) return;
+
+    PICKS.forEach(function(p){
+      var row = box.querySelector('[data-pick="' + p.id + '"]');
+      var miss = blockedBy(p);
+      var on = !!scope[p.id] && !miss.length;
+
+      scope[p.id] = on;            /* 선행이 빠지면 들어 있던 것도 같이 풀린다 */
+      if(row){
+        var btn = row.querySelector('.pq-add');
+        btn.textContent = on ? '✓ 추가됨' : '+ 추가';
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.disabled = !!miss.length;
+        /* 버튼 글자가 '추가' 뿐이라 어느 업무인지 들리지 않는다 */
+        btn.setAttribute('aria-label', p.nm + (on ? ' 추가됨' : ' 추가'));
+        row.classList.toggle('is-on', on);
+        row.classList.toggle('is-off', !!miss.length);
+        var why = row.querySelector('[id="why-' + p.id + '"]');
+        if(why) why.textContent = miss.length
+          ? (function(){
+              var need = miss.map(function(id){
+                var r = PICKS.filter(function(x){ return x.id === id; })[0];
+                return r ? r.nm : id;
+              }).join(' · ');
+              return need + eulReul(need) + ' 먼저 포함해야 합니다';
+            })()
+          : '';
+      }
+
+    });
+  }
+
+  function resetScope(){
+    PICKS.forEach(function(p){ scope[p.id] = false; });
+    paintScope();
+  }
+
   /* ── 요약 ──────────────────────────────────────────────────────
      퇴직공제 전자카드 견적과 같은 짜임이다 — 할인 블록 → 접히는 총액 →
      펼치면 계산 내역. 다른 것은 총액 자리에 서는 숫자뿐: 저쪽은 확정 금액이고
@@ -135,6 +341,10 @@
 
   function render(){
     var prem  = plan() === 'prem';
+    /* TODO 포함된 업무가 금액을 바꾼다면 여기서 scope 를 읽는다. 지금은
+       PICKS 의 price 가 모두 null 이고 받은 요금 규칙도 없어, 상태만
+       들고 있고 총액에는 더하지 않는다 — 금액은 지어내지 않는다.
+       예: PICKS.filter(function(p){ return scope[p.id] && p.price; }) */
     /* 칸은 만 원으로 받고, 구간은 원으로 가른다 — 요금표가 억 단위라 바꿔 둔다 */
     var sales = Number(String($('#q-sales').value||'').replace(/[^0-9]/g,'')) * MAN;
     var t     = tierFor(sales);
@@ -152,26 +362,20 @@
          있어, 같은 자리에서 둘이 같은 말을 할 까닭이 없다 */
       total.textContent = '0원';
       basis.textContent = '연 매출액을 넣으시면 보여 드립니다';
-      basis.classList.remove('dup-of-detail');
     }else if(t === 'over'){
       total.textContent = '담당자 산정';
       total.classList.add('none');
       basis.textContent = '4000억 이상은 요금표에 없습니다';
-      basis.classList.remove('dup-of-detail');
     }else{
       /* 끝의 물결은 '여기서부터 올라간다'는 표시다. 말로 적으면 금액 뒤에 설명이
          한 덩이 더 붙은 꼴이라, 기호 하나로 줄여 숫자에 붙인다 */
       total.innerHTML = (year ? '연 ' + money(yearly(t.month)) : '월 ' + money(t.month))
                       + '<small>~</small>';
-      /* 몇 구간인지는 적지 않는다. 구간 번호도 매출 범위도 안에서 쓰는 가름이지,
-         고르는 사람이 알아야 할 것은 '얼마부터'다. 프리미엄만 한 줄이 남는데,
-         바로 위에 '3.0 할인 100%'가 서 있어 '3.0 요금 기준'이라고 적으면
-         깎인다던 것이 기준이 되는 꼴이다. 그래서 기준 대신 포함을 적는다 */
-      /* 펼친 내역의 '김반장 3.0 이용료 … 무료' 행이 같은 말을 금액까지 들고
-         하므로, 펼쳤을 때는 이 줄을 거둔다. 그 표를 여기서 단다 — 다른 두
-         문구는 되풀이가 아니라 거두면 안 된다 */
-      basis.textContent = prem ? '김반장 3.0 이용료 포함' : '';
-      basis.classList.toggle('dup-of-detail', prem);
+      /* 근거 줄은 비워 둔다. 프리미엄에 '김반장 3.0 이용료 포함'을 적어
+         두었는데, 펼친 내역의 '김반장 3.0 이용료 … 무료' 행이 같은 말을
+         금액까지 들고 한다. 접혀 있을 때만 세우는 길도 있었지만, 펼치면
+         사라지는 줄은 자리만 흔들 뿐 따로 알려 주는 것이 없다 */
+      basis.textContent = '';
     }
 
     /* ② 할인 블록 — 연납을 골랐을 때만. 월납인데 '할인 전'을 띄우면 깎이지도
@@ -346,6 +550,9 @@
     var fd = new FormData(form);
     var payload = { receipt_no:receiptNo(), requested_at:new Date().toISOString(), plan:plan() };
     fd.forEach(function(v,k){ payload[k] = v; });
+    /* 업무범위는 폼 칸이 아니라 버튼이라 FormData 에 잡히지 않는다.
+       프리미엄에서만 묻는 자리이므로 3.0 이면 싣지 않는다 */
+    if(plan() === 'prem') payload.scope = JSON.parse(JSON.stringify(scope));
 
     sending = true;
     btnSubmit.disabled = true;
@@ -369,6 +576,7 @@
     $('#heroLine').textContent = '맞춤 견적을 받아보세요';
     $('#heroLine').classList.remove('sent');
     form.reset();
+    resetScope();          /* 포함 버튼은 폼 칸이 아니라 reset 이 못 되돌린다 */
     moneySyncs.forEach(function(f){ f(); });
     clearErrs();
     syncPlan();
@@ -428,6 +636,8 @@
     var r = $('input[name=plan][value="'+want+'"]');
     if(r) r.checked = true;
   }
+  buildScope();
+  paintScope();
   syncPlan();
 
   /* ── 물음표 말풍선 ──────────────────────────────────────────
