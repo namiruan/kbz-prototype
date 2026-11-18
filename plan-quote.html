@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/base.css?v=1">
 <link rel="stylesheet" href="assets/select.css?v=1">
 <link rel="stylesheet" href="assets/quote-common.css?v=2">
-<link rel="stylesheet" href="assets/plan-quote.css?v=48">
+<link rel="stylesheet" href="assets/plan-quote.css?v=49">
 <link rel="stylesheet" href="assets/kbd.css?v=1">
 <script src="assets/format.js?v=1"></script>
 <script src="assets/select.js?v=1"></script>
@@ -123,12 +123,17 @@
       <div class="q-card prem-only" id="scopeCard">
         <div class="q-step"><h2>업무범위</h2></div>
         <!-- 신고 시점은 더하는 것이 아니라 둘 중 하나를 고르는 자리다.
-             '+ 추가' 버튼으로 두면 둘 다 안 고른 상태가 생겨 버린다 -->
-        <div class="pq-when">
-          <span class="f-label" id="lbWhen">신고 시점</span>
-          <div class="pq-cycle pq-when-seg" role="radiogroup" aria-labelledby="lbWhen">
-            <label><input type="radio" name="report_when" value="next" checked><span class="tx">익월신고</span></label>
-            <label><input type="radio" name="report_when" value="next2"><span class="tx">익익월신고</span></label>
+             '+ 추가' 버튼으로 두면 둘 다 안 고른 상태가 생겨 버린다.
+             꼴은 아래 칸들과 같이 두고, 버튼 자리에 세그먼트가 선다 -->
+        <div class="pq-ladder pq-ladder-when">
+          <div class="pq-rung">
+            <div class="hd">
+              <span class="tx" id="lbWhen">신고 시점</span>
+              <div class="pq-cycle pq-when-seg" role="radiogroup" aria-labelledby="lbWhen">
+                <label><input type="radio" name="report_when" value="next" checked><span class="tx">익월신고</span></label>
+                <label><input type="radio" name="report_when" value="next2"><span class="tx">익익월신고</span></label>
+              </div>
+            </div>
           </div>
         </div>
         <!-- 고르는 자리 — 표 밖이다. 고르기 하나가 갈래 여럿에 걸쳐
