@@ -60,6 +60,8 @@
      always : 계약하면 늘 들어온다. 버튼이 없다는 것이 '고르는 것이
             아니다' 를 말한다. 노무제공자·퇴직공제 업무대행은 지금 이용료
             에 닿지 않지만 계약하면 체크된다고 받았다 — 그래서 여기다.
+     sub  : 기본에 딸린 소목차. 기본이 머리줄이고 이 둘이 그 아래다 —
+            셋을 나란히 세우면 서로 다른 세 가지를 고르는 것처럼 읽힌다.
      requires : 선행 항목의 id 들.
      ⚠ 금액은 적지 않는다. 이 화면은 예상견적서라 '이런 것들이 필요하다'
         를 체크하는 자리이고, 얼마가 되는지는 담당자 상담에서 정해진다.
@@ -76,9 +78,9 @@
   var ROWS = [
     { id:'base',     nm:'기본', always:true,
       say:'현장 4대보험·퇴직공제, 일용 고용·산재, 본사 상용직 신고와 증명서 발급' },
-    { id:'worker',   nm:'노무제공자 관리업무', always:true,
+    { id:'worker',   nm:'노무제공자 관리업무', always:true, sub:true,
       say:'고용·산재 신고' },
-    { id:'retire',   nm:'퇴직공제 업무대행', always:true,
+    { id:'retire',   nm:'퇴직공제 업무대행', always:true, sub:true,
       say:'하도급 승인신고, 근로내역 신고와 고지서 전송, EDI 증명서 발급' },
 
     { id:'reg',      nm:'상용근로자 현장별 건강·연금', requires:[],
@@ -184,7 +186,8 @@ function blockedBy(p){
     var box = $('#scopeList'); if(!box) return;
 
     function rung(r){
-      return '<div class="pq-rung' + (r.always ? ' is-base' : '') + '"'
+      return '<div class="pq-rung' + (r.always ? ' is-base' : '')
+        +     (r.sub ? ' is-sub' : '') + '"'
         +     (r.always ? '' : ' data-pick="' + r.id + '"') + '>'
         +   '<div class="hd">'
         +     '<span class="tx">' + glue(r.nm)
