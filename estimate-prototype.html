@@ -32,7 +32,7 @@
   <link rel="prefetch" href="assets/estimate.css?v=2" as="style">
   <link rel="prefetch" href="assets/select.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote-common.css?v=2" as="style">
-  <link rel="prefetch" href="assets/plan-quote.css?v=50" as="style">
+  <link rel="prefetch" href="assets/plan-quote.css?v=51" as="style">
   <link rel="prefetch" href="assets/kbd.css?v=1" as="style">
   <link rel="prefetch" href="assets/quote.css?v=1" as="style">
   <link rel="prefetch" href="assets/face-quote.css?v=1" as="style">
@@ -40,7 +40,7 @@
   <link rel="prefetch" href="assets/format.js?v=1" as="script">
   <link rel="prefetch" href="assets/select.js?v=1" as="script">
   <link rel="prefetch" href="assets/kbd.js?v=1" as="script">
-  <link rel="prefetch" href="assets/plan-quote.js?v=44" as="script">
+  <link rel="prefetch" href="assets/plan-quote.js?v=45" as="script">
 </head>
 <body>
 
@@ -112,19 +112,18 @@
         data-why="늘 들어오는 일만 들어 있는 업무범위 화면입니다."
         data-steps="프리미엄 폼의 업무범위까지 내려온 상태"
         data-look="
-          |@{.pq-when-seg} 신고 시점은 둘 중 하나만 켜지는 세그먼트입니다
           |@{.pq-rung.is-base} 늘 들어오는 칸 셋에는 버튼이 없습니다
           |@{.pq-rung.is-sub} 노무제공자 관리업무와 퇴직공제 업무대행은 기본 아래 소목차로 들여써 섭니다
           |@{.pq-ladder-pick} 고르는 업무는 한 칸 띄워 아래에 섭니다
           |@{.pq-rung .ones} 설명은 칸 이름 오른쪽에 붙습니다
-          |@{.pq-ladder-pick .pq-add} 고르는 칸은 셋이고 '+ 추가' 인 채로 열립니다
+          |@{.pq-ladder-pick .pq-add} 고르는 칸은 다섯이고 '+ 추가' 인 채로 열립니다
           |@{.pq-rung:not(.is-on):not(.is-base) .ones} 아직 안 들어온 칸의 설명은 회색 글자입니다">업무범위 — 기본</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="sc-포함뒤"
         data-why="고르는 업무를 모두 더한 업무범위 화면입니다."
-        data-steps="고르는 업무 셋을 차례로 추가한 상태"
+        data-steps="고르는 업무 다섯을 차례로 추가한 상태"
         data-look="
           |@{.pq-rung.is-on} 추가한 칸은 바탕이 옅게 차고 왼쪽 레일이 브랜드 컬러로 찹니다
-          |@{.pq-ladder-pick} 고르는 칸 셋이 모두 찼습니다
+          |@{.pq-ladder-pick} 고르는 칸 다섯이 모두 찼습니다
           |@{.pq-rung.is-on .pq-add} 버튼이 '✓ 추가됨'으로 바뀌고 브랜드 컬러로 채워집니다
           |@{.pq-rung.is-on .ones} 그 칸의 설명이 회색에서 본문 색으로 돌아옵니다">업무범위 — 끝까지</button>
       <button class="proto-nav-btn proto-nav-sub" type="button" data-scenario="ap-3.0으로"
@@ -322,7 +321,7 @@
       await inner(d,FRAME); await wait(250); jumpInner(d,'#scopeCard',16); }},
     'sc-포함뒤' :{url:ES, act:async function(d){
       var q=await inner(d,FRAME); if(!q) return;
-      for(var i=0;i<3;i++){
+      for(var i=0;i<5;i++){
         hit(q.querySelector('.pq-rung:not(.is-on) .pq-add'));
         await wait(120); }
       await wait(350); jumpInner(d,'#scopeCard',16); }},

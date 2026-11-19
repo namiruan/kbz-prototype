@@ -159,23 +159,6 @@
    할 까닭이 없다 */
 /* 늘 들어오는 것과 고르는 것 사이 */
 .pq-ladder-pick{margin-top:14px}
-/* 신고 시점 — 업무가 아니라 그 업무를 언제 하느냐라 맨 위에 따로 선다.
-   꼴은 아래 칸들과 같고, '+ 추가' 가 서는 자리에 세그먼트가 선다 */
-.pq-ladder-when{margin-bottom:14px}
-/* ⚠ 이름이 먼저 줄어든다(flex:1 · min-width:0) — 320px 에서 '신고 / 시점'
-   으로 갈라졌다. 이름을 묶어 세그먼트가 대신 줄게 한다 */
-.pq-ladder-when .pq-rung .hd > .tx{flex:none;white-space:nowrap}
-/* 이름이 늘지 않으므로 세그먼트를 오른쪽으로 민다 — 아래 칸들의
-   '+ 추가' 와 오른쪽 끝이 맞는다 */
-.pq-cycle.pq-when-seg{margin-left:auto}
-/* ⚠ 늘리지 않는다 — flex:1 로 두었더니 lg 에서 두 쪽이 폭의 절반씩을
-   차지해, 고를 것이 둘뿐인 자리가 화면에서 가장 큰 덩어리가 됐다 */
-/* 납부 주기 세그먼트를 칸 안에 들일 만큼 줄인다 — 그대로 들이면 트랙이
-   43px 이라 다른 칸의 '+ 추가'(38px)보다 칸을 키운다 */
-.pq-cycle.pq-when-seg{flex:0 1 210px;min-width:0;margin-bottom:0}
-/* ⚠ .pq-cycle label 과 특정도가 같아 뒤에 선 쪽이 이긴다 — 클래스를
-   둘 겹쳐 올린다 */
-.pq-cycle.pq-when-seg label{padding:6px 10px}
 .pq-rung{padding:12px 10px 13px 13px;border-left:3px solid var(--line);
   transition:border-color .15s,background .15s}
 /* 들어온 칸 — 레일이 여기까지 차 있다 */
@@ -187,18 +170,16 @@
    없고, 38px 을 그대로 두면 소목차가 머리줄만큼 커진다 */
 .pq-rung.is-sub{padding:0 10px 7px 27px}
 .pq-rung.is-sub .hd{min-height:0}
-.pq-rung.is-sub .hd > .tx{font-size:13px;font-weight:600}
+.pq-rung.is-sub .tx{font-size:13px;font-weight:600}
 .pq-rung.is-sub:last-child{padding-bottom:13px}
 /* 머리줄은 소목차를 끌어안게 아래를 좁힌다 */
 .pq-rung.is-base:not(.is-sub):has(+ .is-sub){padding-bottom:7px}
 
 /* 이름 줄 — 이름이 왼쪽, 상태를 바꾸는 버튼이 오른쪽 */
 .pq-rung .hd{display:flex;align-items:center;gap:10px;min-height:38px}
-.pq-rung .hd > .tx{align-self:center}
-/* ⚠ keep-all 이 없으면 좁은 폭에서 '변경신 / 고' 처럼 낱말 가운데가 갈린다
-   ⚠ 자식 선택자다 — 신고 시점 칸의 세그먼트 안에도 .tx 가 있어서,
-   후손으로 두면 '익월신고' 가 칸 이름 굵기로 커진다 */
-.pq-rung .hd > .tx{flex:1;min-width:0;word-break:keep-all;
+.pq-rung .hd .tx{align-self:center}
+/* ⚠ keep-all 이 없으면 좁은 폭에서 '변경신 / 고' 처럼 낱말 가운데가 갈린다 */
+.pq-rung .tx{flex:1;min-width:0;word-break:keep-all;
   font-size:13.5px;font-weight:700;letter-spacing:-.025em;color:var(--ink)}
 /* 설명은 제목 옆에 붙는다. 굵기와 색이 제목과 달라 한 줄에 서도 둘이
    섞이지 않는다 */
