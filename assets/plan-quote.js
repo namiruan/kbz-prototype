@@ -62,15 +62,15 @@
             에 닿지 않지만 계약하면 체크된다고 받았다 — 그래서 여기다.
      sub  : 기본에 딸린 소목차. 기본이 머리줄이고 이 둘이 그 아래다 —
             셋을 나란히 세우면 서로 다른 세 가지를 고르는 것처럼 읽힌다.
-     requires : 선행 항목의 id 들.
      ⚠ 금액은 적지 않는다. 이 화면은 예상견적서라 '이런 것들이 필요하다'
         를 체크하는 자리이고, 얼마가 되는지는 담당자 상담에서 정해진다.
         여기에 '+10%' 를 적어 두면 더해 보는 사람이 생기고, 그 합은
         상담에서 받는 금액과 어긋난다.
 
      ⚠ 상용근로자는 '신고만 10%' 와 '신고+고지서 20%' 두 층으로 받았다.
-        층을 두 칸으로 쪼개면 10 + 10 으로 더해져, 고르는 꼴이 다른 칸과
-        같아진다 — 세 갈래 세그먼트를 따로 들이지 않아도 된다.
+        층을 칸 둘로 쪼개 보았으나 한 업무가 둘로 보여 다시 한 칸으로
+        합쳤다. 어느 층인지는 담당자 상담에서 가른다 — 여기는 '상용근로자
+        신고가 필요한가' 만 묻는다.
      ⚠ 말은 안내문 원본에 맞춘다. '공단' 은 건강·연금공단·근로복지공단에만
         쓰고 퇴직공제에는 쓰지 않는다(건설근로자공제회 소관이다).
      ⚠ 노무제공자는 안내문의 '제공 서비스' 표에 낱낱 업무가 없다 —
@@ -83,14 +83,12 @@
     { id:'retire',   nm:'퇴직공제 업무대행', always:true, sub:true,
       say:'하도급 승인신고, 근로내역 신고와 고지서 전송, EDI 증명서 발급' },
 
-    { id:'reg',      nm:'상용근로자 현장별 건강·연금', requires:[],
-      say:'전입·전근·전보 신고' },
-    { id:'reg_bill', nm:'상용근로자 고지서 전송',       requires:['reg'],
-      say:'매달 고지서 전송' },
-    { id:'attend',   nm:'출역 입력 대행', requires:[],
+    { id:'reg',      nm:'상용근로자 현장별 건강·연금',
+      say:'전입·전근·전보 신고, 매달 고지서 전송' },
+    { id:'attend',   nm:'출역 입력 대행',
       say:'최대 15개 현장' },
     /* 안내문 네 벌 어디에도 없다 — 계약과 별도인 서비스다 */
-    { id:'kiscon',   nm:'키스콘 공사대장 신고', requires:[],
+    { id:'kiscon',   nm:'키스콘 공사대장 신고',
       say:'작성·통보, 변경신고' }
   ];
   var PICKS = ROWS.filter(function(r){ return !r.always; });
@@ -160,25 +158,12 @@
      키보드로 오는 사람이 자리를 잃는다 */
   function won(n){ return n.toLocaleString('ko-KR') + '원'; }
 
-  /* 받침을 보고 조사를 고른다 — '을(를)' 을 그대로 내보내면 읽는 사람이
-     괄호를 지우며 읽어야 한다 */
-  function eulReul(w){
-    var c = w.charCodeAt(w.length - 1);
-    if(c < 0xAC00 || c > 0xD7A3) return '을(를)';   /* 한글이 아니면 그대로 */
-    return ((c - 0xAC00) % 28) ? '을' : '를';
-  }
-
   /* 가운뎃점으로 이은 말은 통째로 묶는다. keep-all 은 낱말만 지키고
    가운뎃점에서는 갈라서, 좁은 폭에서 '취득·상실 / ·보수변경'처럼
    다음 줄이 점으로 시작한다 */
 function glue(t){
   return t.replace(/\S*·\S*/g, function(m){ return '<span class="nb">' + m + '</span>'; });
 }
-function blockedBy(p){
-    /* 선행 항목 가운데 아직 포함하지 않은 것들 */
-    return (p.requires || []).filter(function(id){ return !scope[id]; });
-  }
-
   /* 고르는 자리와 설명이 한 덩이다. 표를 따로 두었더니 고른 자리와 그
      결과가 떨어져 있어 눈이 오르내려야 했다. 이제 칸마다 제가 하는 일을
      들고 있다. 늘 들어오는 칸도 같은 꼴이되 버튼이 없다 */
@@ -194,12 +179,9 @@ function blockedBy(p){
         +       '<span class="ones">' + glue(r.say) + '</span>'
         +     '</span>'
         +     (r.always ? ''
-              : '<button type="button" class="pq-add" aria-pressed="false"'
-                + ' aria-describedby="why-' + r.id + '">+ 추가</button>')
+              : '<button type="button" class="pq-add" aria-pressed="false">'
+                + '+ 추가</button>')
         +   '</div>'
-        /* 막힌 까닭은 화면에서 걷되 아주 없애지는 않는다 — 눌리지 않는
-           버튼에 아무 말도 없으면 보조기기로 오는 사람은 막다른 길이다 */
-        +   (r.always ? '' : '<span class="sr-only" id="why-' + r.id + '"></span>')
         + '</div>';
     }
 
@@ -212,7 +194,7 @@ function blockedBy(p){
       + '<div class="pq-ladder pq-ladder-pick">' + PICKS.map(rung).join('') + '</div>';
 
     box.addEventListener('click', function(e){
-      var btn = e.target.closest('.pq-add'); if(!btn || btn.disabled) return;
+      var btn = e.target.closest('.pq-add'); if(!btn) return;
       var id = btn.closest('[data-pick]').dataset.pick;
       scope[id] = !scope[id];
       paintScope();
@@ -225,31 +207,15 @@ function blockedBy(p){
 
     PICKS.forEach(function(p){
       var row = box.querySelector('[data-pick="' + p.id + '"]');
-      var miss = blockedBy(p);
-      var on = !!scope[p.id] && !miss.length;
-
-      scope[p.id] = on;            /* 선행이 빠지면 들어 있던 것도 같이 풀린다 */
       if(!row) return;
+      var on = !!scope[p.id];
 
       var btn = row.querySelector('.pq-add');
       btn.textContent = on ? '✓ 추가됨' : '+ 추가';
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      btn.disabled = !!miss.length;
       /* 버튼 글자가 '추가' 뿐이라 어느 업무인지 들리지 않는다 */
       btn.setAttribute('aria-label', p.nm + (on ? ' 추가됨' : ' 추가'));
       row.classList.toggle('is-on', on);
-      row.classList.toggle('is-off', !!miss.length);
-
-      var why = row.querySelector('[id="why-' + p.id + '"]');
-      if(why) why.textContent = miss.length
-        ? (function(){
-            var need = miss.map(function(id){
-              var r = PICKS.filter(function(x){ return x.id === id; })[0];
-              return r ? r.nm : id;
-            }).join(' · ');
-            return need + eulReul(need) + ' 먼저 포함해야 합니다';
-          })()
-        : '';
     });
   }
 

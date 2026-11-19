@@ -207,7 +207,6 @@
 .pq-rung:not(.is-on):not(.is-base) .ones{color:var(--ink-3)}
 /* 가운뎃점으로 이은 말 한 덩어리 — 줄 끝에서 갈라지지 않는다 */
 .pq-rung .nb{white-space:nowrap}
-.pq-rung.is-off .hd > .tx{color:var(--ink-3)}
 
 /* 상태를 바꾸는 자리는 버튼 하나다. 줄 전체를 누르게 두지 않는다 — 어디를
    눌러야 하는지가 버튼 모양 하나로 끝난다.
@@ -223,8 +222,6 @@
 .pq-add[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);
   color:var(--main-white)}
 .pq-add[aria-pressed="true"]:hover{background:var(--accent);border-color:var(--accent)}
-.pq-add[disabled]{cursor:not-allowed;color:var(--ink-3);
-  border-color:var(--line);background:var(--fill)}
 
 @media(max-width:640px){
   .pq-rung{padding:12px 8px 13px 11px}
