@@ -164,16 +164,6 @@
 /* 들어온 칸 — 레일이 여기까지 차 있다 */
 .pq-rung.is-on,.pq-rung.is-base{border-left-color:var(--accent);
   background:var(--accent-tint)}
-/* 기본에 딸린 소목차 — 들여쓰고 이름을 한 단계 낮춘다. 셋을 나란히
-   세우면 서로 다른 셋을 고르는 것처럼 읽힌다.
-   ⚠ min-height 는 푼다 — 누를 것이 없는 줄이라 24px 과녁을 지킬 까닭이
-   없고, 38px 을 그대로 두면 소목차가 머리줄만큼 커진다 */
-.pq-rung.is-sub{padding:0 10px 7px 27px}
-.pq-rung.is-sub .hd{min-height:0}
-.pq-rung.is-sub .tx{font-size:13px;font-weight:600}
-.pq-rung.is-sub:last-child{padding-bottom:13px}
-/* 머리줄은 소목차를 끌어안게 아래를 좁힌다 */
-.pq-rung.is-base:not(.is-sub):has(+ .is-sub){padding-bottom:7px}
 
 /* 이름 줄 — 이름이 왼쪽, 상태를 바꾸는 버튼이 오른쪽 */
 .pq-rung .hd{display:flex;align-items:center;gap:10px;min-height:38px}

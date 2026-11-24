@@ -60,8 +60,6 @@
      always : 계약하면 늘 들어온다. 버튼이 없다는 것이 '고르는 것이
             아니다' 를 말한다. 노무제공자·퇴직공제 업무대행은 지금 이용료
             에 닿지 않지만 계약하면 체크된다고 받았다 — 그래서 여기다.
-     sub  : 기본에 딸린 소목차. 기본이 머리줄이고 이 둘이 그 아래다 —
-            셋을 나란히 세우면 서로 다른 세 가지를 고르는 것처럼 읽힌다.
      say  : 고르는 칸은 '~할 때' 로 맺는다 — 명사로 끊으면 하는 일을
             읊는 것이 되고, 읽는 사람은 '내가 이걸 골라야 하나' 를 스스로
             옮겨 생각해야 한다. ('…합니다' 로 늘이지는 않는다)
@@ -81,9 +79,12 @@
   var ROWS = [
     { id:'base',     nm:'기본', always:true,
       say:'현장 4대보험·퇴직공제, 일용 고용·산재, 본사 상용직 신고와 증명서 발급' },
-    { id:'worker',   nm:'노무제공자 관리업무', always:true, sub:true,
+    /* ⚠ 기본 아래 소목차로 들여써 봤으나 되돌렸다 — 둘 다 기본의 일부가
+       아니라 계약사항에서 기본과 나란한 항목이다. 들여쓰면 기본에 딸려
+       오는 것처럼 읽힌다 */
+    { id:'worker',   nm:'노무제공자 관리업무', always:true,
       say:'고용·산재 신고' },
-    { id:'retire',   nm:'퇴직공제 업무대행', always:true, sub:true,
+    { id:'retire',   nm:'퇴직공제 업무대행', always:true,
       say:'하도급 승인신고, 근로내역 신고와 고지서 전송, EDI 증명서 발급' },
 
     /* 어느 쪽인지는 여기서 가리지 않는다 — 담당자 상담에서 가려 예산을
@@ -185,8 +186,7 @@ function glue(t){
     var box = $('#scopeList'); if(!box) return;
 
     function rung(r){
-      return '<div class="pq-rung' + (r.always ? ' is-base' : '')
-        +     (r.sub ? ' is-sub' : '') + '"'
+      return '<div class="pq-rung' + (r.always ? ' is-base' : '') + '"'
         +     (r.always ? '' : ' data-pick="' + r.id + '"') + '>'
         +   '<div class="hd">'
         +     '<span class="tx">' + glue(r.nm)
