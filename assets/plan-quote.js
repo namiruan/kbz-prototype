@@ -194,9 +194,12 @@ function glue(t){
         +     (r.always ? '' : ' data-pick="' + r.id + '"') + '>'
         +   '<div class="hd">'
         +     '<span class="tx">' + glue(r.nm)
-        +       '<button type="button" class="pq-help" aria-expanded="false"'
-        +         ' aria-controls="say-' + r.id + '"'
-        +         ' aria-label="' + r.nm + ' 설명 보기">' + HELP_SVG + '</button>'
+        /* 물음표는 고르는 칸에만 단다 — 늘 들어오는 것을 물음표 뒤에 두면
+           '기본인데 왜 눌러야 보이나' 가 된다. 좁은 폭에서도 그대로 편다 */
+        +       (r.always ? ''
+              : '<button type="button" class="pq-help" aria-expanded="false"'
+                + ' aria-controls="say-' + r.id + '"'
+                + ' aria-label="' + r.nm + ' 설명 보기">' + HELP_SVG + '</button>')
         +       '<span class="ones" id="say-' + r.id + '">' + glue(r.say) + '</span>'
         +     '</span>'
         +     (r.always ? ''

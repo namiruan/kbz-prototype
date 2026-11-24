@@ -207,8 +207,10 @@
 @media(max-width:640px){
   .pq-rung{padding:12px 8px 13px 11px}
   /* 좁은 폭에서는 설명이 이름 옆에 설 자리가 없어 줄을 넘긴다 — 칸마다 두
-     줄이 되어 네 칸이 화면을 다 먹는다. 계약 유형 카드와 같이 물음표
-     뒤로 접는다 */
+     줄이 되어 일곱 칸이 화면을 다 먹는다. 계약 유형 카드와 같이 물음표
+     뒤로 접는다.
+     ⚠ 고르는 칸만이다. 늘 들어오는 셋은 좁은 폭에서도 그대로 편다 —
+     기본을 물음표 뒤에 두면 '기본인데 왜 눌러야 보이나' 가 된다 */
   /* ⚠ inline-grid 다 — .pq-help 가 기본으로 쓰는 grid 는 블록이라, 칸
      이름 옆이 아니라 제 줄로 떨어진다(.tx 는 플렉스 아이템이라 블록화된다).
      과녁은 글자 줄을 밀지 않도록 padding 으로 키우고 같은 값만큼 당긴다 */
@@ -216,11 +218,11 @@
     box-sizing:content-box;padding:5px;margin:-5px 0 -5px 3px}
   /* ⚠ 접을 때 치우지 않는다. display 나 visibility 로 접으면 눈으로 못
      읽는 사람에게는 설명이 통째로 사라진다 — 높이와 투명도로만 접는다 */
-  .pq-rung .ones{display:block;margin-left:0;margin-top:0;
+  .pq-ladder-pick .ones{display:block;margin-left:0;margin-top:0;
     max-height:0;overflow:hidden;opacity:0;
     transition:max-height .2s ease,margin-top .2s ease,opacity .16s}
-  .pq-rung.is-tip .ones{max-height:240px;margin-top:5px;opacity:1}
-  @media(prefers-reduced-motion:reduce){.pq-rung .ones{transition:none}}
+  .pq-ladder-pick .is-tip .ones{max-height:240px;margin-top:5px;opacity:1}
+  @media(prefers-reduced-motion:reduce){.pq-ladder-pick .ones{transition:none}}
 }
 
 /* ── 납부 주기 ───────────────────────────────────────────────────
