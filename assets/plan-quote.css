@@ -164,6 +164,13 @@
 /* 들어온 칸 — 레일이 여기까지 차 있다 */
 .pq-rung.is-on,.pq-rung.is-base{border-left-color:var(--accent);
   background:var(--accent-tint)}
+/* 늘 들어오는 셋은 한 덩이다 — 저마다 버튼 과녁만큼(38px) 키를 가지면
+   같은 덩이 안에서 서로 너무 벌어진다. 누를 것이 없는 줄이라 과녁을
+   지킬 까닭도 없다. 덩이의 위아래만 제 여백을 지킨다 */
+.pq-rung.is-base{padding-top:5px;padding-bottom:5px}
+.pq-rung.is-base .hd{min-height:0}
+.pq-ladder .pq-rung.is-base:first-child{padding-top:12px}
+.pq-ladder .pq-rung.is-base:last-child{padding-bottom:13px}
 
 /* 이름 줄 — 이름이 왼쪽, 상태를 바꾸는 버튼이 오른쪽 */
 .pq-rung .hd{display:flex;align-items:center;gap:10px;min-height:38px}
