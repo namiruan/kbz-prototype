@@ -179,6 +179,10 @@
 function glue(t){
   return t.replace(/\S*·\S*/g, function(m){ return '<span class="nb">' + m + '</span>'; });
 }
+  /* 좁은 폭에서 설명을 여닫는 물음표 — 계약 유형 카드의 것과 같은 그림이다.
+     넓은 폭에서는 CSS 가 치운다(display:none 이라 탭 차례에서도 빠진다) */
+  var HELP_SVG = '<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="currentColor" opacity=".2"/><path transform="translate(4.792 4.804) scale(.5997)" fill="currentColor" d="M13 18.0C13.6 18.0 14 18.4 14 19.0V21.0C14 21.6 13.6 22.0 13 22.0H11C10.4 22.0 10 21.6 10 21.0V19.0C10 18.4 10.4 18.0 11 18.0H13ZM11.7 2.0C14.3 1.9 17.3 2.9 18.4 6.0C18.9 7.5 18.8 8.8 18.2 10.0C17.6 11.0 16.7 11.8 15.9 12.3C15 12.8 14.2 13.1 13.6 13.4C13.5 13.4 13.5 13.4 13.5 13.4V16.5H10.5V12.5C10.5 12.1 10.7 11.7 10.8 11.6C10.9 11.4 11.1 11.3 11.2 11.2C11.3 11.1 11.5 11.0 11.6 10.9C11.9 10.8 12.2 10.7 12.4 10.6C13 10.3 13.7 10.1 14.3 9.7C14.9 9.3 15.3 8.9 15.6 8.5C15.7 8.2 15.8 7.7 15.6 7.0C15.1 5.6 13.7 4.9 11.8 5.0C10.9 5.0 10.1 5.2 9.4 5.5C8.8 5.9 8.5 6.2 8.4 6.5C8.3 6.9 8.3 7.2 8.4 7.4C8.4 7.7 8.6 7.9 8.8 8.2L6.2 9.8C6.1 9.6 5.7 9.0 5.5 8.3C5.3 7.5 5.2 6.6 5.6 5.5C6.0 4.3 7.0 3.4 8.1 2.9C9.2 2.3 10.5 2.0 11.7 2.0Z"/></svg>';
+
   /* 고르는 자리와 설명이 한 덩이다. 표를 따로 두었더니 고른 자리와 그
      결과가 떨어져 있어 눈이 오르내려야 했다. 이제 칸마다 제가 하는 일을
      들고 있다. 늘 들어오는 칸도 같은 꼴이되 버튼이 없다 */
@@ -190,7 +194,10 @@ function glue(t){
         +     (r.always ? '' : ' data-pick="' + r.id + '"') + '>'
         +   '<div class="hd">'
         +     '<span class="tx">' + glue(r.nm)
-        +       '<span class="ones">' + glue(r.say) + '</span>'
+        +       '<button type="button" class="pq-help" aria-expanded="false"'
+        +         ' aria-controls="say-' + r.id + '"'
+        +         ' aria-label="' + r.nm + ' 설명 보기">' + HELP_SVG + '</button>'
+        +       '<span class="ones" id="say-' + r.id + '">' + glue(r.say) + '</span>'
         +     '</span>'
         +     (r.always ? ''
               : '<button type="button" class="pq-add" aria-pressed="false">'
@@ -208,6 +215,15 @@ function glue(t){
       + '<div class="pq-ladder pq-ladder-pick">' + PICKS.map(rung).join('') + '</div>';
 
     box.addEventListener('click', function(e){
+      /* 물음표가 먼저다 — '+ 추가' 와 같은 칸 안에 있어 아래 분기로 새면
+         설명을 펴려다 업무가 담긴다 */
+      var help = e.target.closest('.pq-help');
+      if(help){
+        var row = help.closest('.pq-rung');
+        var open = row.classList.toggle('is-tip');
+        help.setAttribute('aria-expanded', String(open));
+        return;
+      }
       var btn = e.target.closest('.pq-add'); if(!btn) return;
       var id = btn.closest('[data-pick]').dataset.pick;
       scope[id] = !scope[id];
@@ -568,7 +584,10 @@ function glue(t){
   /* ── 물음표 말풍선 ──────────────────────────────────────────
      데스크톱은 hover 로 뜨지만 손가락에는 hover 가 없다. 물음표를 눌러 여닫되,
      label 안에 있는 단추라 그대로 두면 누르는 순간 그 유형이 골라진다 — 막는다 */
-  var helps = Array.prototype.slice.call(document.querySelectorAll('.pq-help'));
+  /* ⚠ '.pq-help' 로 긁으면 업무범위 칸의 물음표까지 들어온다 — 그쪽은 유형
+     카드가 없어 closest('.pq-type') 가 null 이고, 누르는 순간 터진다.
+     업무범위 쪽은 buildScope 의 델리게이트가 맡는다 */
+  var helps = Array.prototype.slice.call(document.querySelectorAll('.pq-type .pq-help'));
   function closeTips(except){
     document.querySelectorAll('.pq-type.is-tip').forEach(function(t){
       if(t === except) return;
