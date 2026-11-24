@@ -53,91 +53,76 @@
   var YEAR_OFF = 0.05;                      /* 연납 할인 */
 
   /* ── 업무범위 ───────────────────────────────────────────────────
-     갈래와 항목은 '김반장 프리미엄 서비스 업무 안내문' 네 벌(계약 조합별)
-     에서 그대로 옮겼다. 전에는 항목 글자만 보고 내가 갈래를 지었는데,
-     원본의 '■ 제공 서비스' 가 이미 갈래를 들고 있었다.
-     ⚠ 원본의 '근로자 관리' 는 일용/상용 두 하위를 덮는데, 이 표는 한 단
-        이라 둘로 폈다. 그 머리말만 잃고 항목은 그대로다.
+     받은 것은 '견적 계산에 영향을 미치는 요소' 다섯 가지다. 전에는 안내문
+     네 벌(계약 조합별)의 계약사항을 그대로 옮겼는데, 그쪽은 '무엇을 계약
+     하는가' 의 차례였고 이쪽은 '무엇이 값을 움직이는가' 의 차례다.
 
-     PICKS — 고르는 것. 원본 '계약사항' 의 3·4·5 번이다. 표 밖에 서므로
-           갈래가 받쳐 주지 않는다 — 이름을 줄이지 않고 그대로 적는다.
-     price : 지금은 모두 null 이라 아무것도 그려지지 않는다. 금액 규칙은
-           받은 것이 없어 지어내지 않는다.
-     requires : 선행 항목의 id 들.
+     always : 계약하면 늘 들어온다. 버튼이 없다는 것이 '고르는 것이
+            아니다' 를 말한다. 노무제공자·퇴직공제 업무대행은 지금 이용료
+            에 닿지 않지만 계약하면 체크된다고 받았다 — 그래서 여기다.
+     say  : 고르는 칸은 '~할 때' 로 맺는다 — 명사로 끊으면 하는 일을
+            읊는 것이 되고, 읽는 사람은 '내가 이걸 골라야 하나' 를 스스로
+            옮겨 생각해야 한다. ('…합니다' 로 늘이지는 않는다)
+     ⚠ 금액은 적지 않는다. 이 화면은 예상견적서라 '이런 것들이 필요하다'
+        를 체크하는 자리이고, 얼마가 되는지는 담당자 상담에서 정해진다.
+        여기에 '+10%' 를 적어 두면 더해 보는 사람이 생기고, 그 합은
+        상담에서 받는 금액과 어긋난다.
 
+     ⚠ 상용근로자는 '신고만 10%' 와 '신고+고지서 20%' 두 층으로 받았다.
+        층을 칸 둘로 쪼개 보았으나 한 업무가 둘로 보여 다시 한 칸으로
+        합쳤다. 어느 층인지는 담당자 상담에서 가른다 — 여기는 '상용근로자
+        신고가 필요한가' 만 묻는다.
      ⚠ 말은 안내문 원본에 맞춘다. '공단' 은 건강·연금공단·근로복지공단에만
         쓰고 퇴직공제에는 쓰지 않는다(건설근로자공제회 소관이다).
-     WORK — 해 주는 일을 한 줄로. 맺음말('…합니다')을 떼고 명사로 끝낸다
-           — 줄이 짧아 눈이 한 번에 받는다. 신고 이름을 늘어놓지 않는다 — 받는
-           사람이 알고 싶은 것은 '무엇을 대신해 주는가' 이지 신고서 이름이
-           아니다. 다만 원본 안내문에 없는 것을 지어내지는 않는다.
-           cat 은 줄 차례를 세우는 데만 쓴다 — 화면에는 적지 않는다.
-           꼬리표로 달아 봤는데, 문장이 혼자 설 수 있으면 더 적을 까닭이
-           없었다.
-     by  : null 이면 늘 들어간다. PICKS 의 id 면 그것을 골라야 들어간다.
-           cat 과 by 의 짝마다 한 줄이다.
-     ⚠ 'retire'(일용근로자 퇴직공제) 하나가 세 갈래에 걸쳐 있다 —
-        하도급 승인신고는 '4대보험·퇴직공제 신고' 에, 근로내용 신고는
-        '일용근로자 신고' 에, EDI 증명서는 '증명서 발급' 에. 그래서 고르기
-        하나가 갈래 하나와 짝이 되지 않는다. 고르는 자리를 표 안에 둘 수
-        없는 까닭이고, 그래서 표 밖으로 뺐다. */
-  var CATS = ['4대보험·퇴직공제 신고', '일용근로자 신고', '상용근로자 신고',
-              '증명서 발급', '공사대장'];
+     ⚠ 노무제공자는 안내문의 '제공 서비스' 표에 낱낱 업무가 없다 —
+        계약사항에 이름만 있다. 이름이 말하는 만큼만 적는다.
+     ⚠ 늘 들어오는 셋의 설명은 한 줄에 드는 길이로 줄인다 — 여기는
+        '무엇이 기본으로 들어오나' 를 한눈에 보는 자리이지 낱낱을 세는
+        자리가 아니다. 낱낱은 상담에서 듣는다. 대신 '근로자 신고' 는
+        남긴다: 빼면 기본이 현장 신고만 하는 것처럼 읽힌다. */
+  var ROWS = [
+    { id:'base',     nm:'기본', always:true,
+      say:'4대보험·퇴직공제, 근로자 신고와 증명서 발급' },
+    /* ⚠ 기본 아래 소목차로 들여써 봤으나 되돌렸다 — 둘 다 기본의 일부가
+       아니라 계약사항에서 기본과 나란한 항목이다. 들여쓰면 기본에 딸려
+       오는 것처럼 읽힌다 */
+    { id:'worker',   nm:'노무제공자 관리업무', always:true,
+      say:'고용·산재 신고' },
+    { id:'retire',   nm:'퇴직공제 업무대행', always:true,
+      say:'승인·근로내역 신고, 증명서 발급' },
 
-  /* 차례가 곧 사다리다. 받은 안내문 네 벌이 겹겹이 쌓인 모양이었다 —
-     기본 / +일용 / +일용·상용 / +일용·상용·퇴직공제. requires 가 그 차례를
-     지킨다: 앞엣것을 빼면 뒤엣것도 같이 풀린다.
-     ⚠ 네 벌이 그랬다는 것이지 다른 조합이 없다고 받은 것은 아니다. */
-  var LADDER = ['daily_hp', 'regular_site', 'retire'];
-  var PICKS = [
-    { id:'daily_hp',     nm:'일용근로자 건강·연금',
-      price:null, requires:[] },
-    { id:'regular_site', nm:'상용근로자 현장별 건강·연금',
-      price:null, requires:['daily_hp'] },
-    { id:'retire',       nm:'일용근로자 퇴직공제',
-      price:null, requires:['regular_site'] },
-    /* 안내문 네 벌 어디에도 없다 — 계약과 별도인 서비스다. 사다리 밖이다 */
-    { id:'kiscon',       nm:'키스콘 공사대장 신고',
-      price:null, requires:[] }
+    /* 어느 쪽인지는 여기서 가리지 않는다 — 담당자 상담에서 가려 예산을
+       다시 짠다. 그래서 칸을 둘로 세우지도, 세그먼트로 묶지도 않는다.
+       한 칸으로 '이 신고가 필요한가' 만 묻는다 */
+    { id:'month',    nm:'익월·익익월 신고',
+      say:'일한 달의 다음 달이나 두 달 뒤에 신고해야 할 때' },
+
+    /* ⚠ '상용직을 현장에 배치하고' 로 적었다가 되돌렸다 — 안내문이 말하는
+       것은 '전입·전근·전보 신고'(272ad401 28행 · c1684946 29행)뿐이다.
+       '배치' 는 발령 쪽 말이라 신고와 어긋나고, 전보는 현장→본사·현장→
+       현장도 되므로 '현장에 배치' 로 좁히면 거짓이 된다.
+       '고지서 전송까지' 는 안내문이 아니라 받은 견적 요소 목록의 말
+       그대로다('상용직 신고업무 및 고지서 전송까지'). 출처가 다를 뿐
+       지어낸 말이 아니다 — '배치' 를 고치면서 이것까지 같이 걷었다가
+       되돌렸다 */
+    { id:'reg',      nm:'상용근로자 현장별 건강·연금',
+      say:'전입·전근·전보 신고와 고지서 전송까지 필요할 때' },
+    /* 기본에서는 이용사가 직접 하는 일이다 — 안내문의 신고 흐름에
+       '김반장 로그인 → 월출역 메뉴에서 근로내용 입력 후, 근로내용전송
+       메뉴에서 접수' 로 적혀 있다. 그 입력을 대신한다는 말이다.
+       ⚠ '최대 15개 현장' 은 적지 않는다 — 그건 이 업무가 무엇인지가
+       아니라 신청 제한이다. 제한은 상담에서 가린다 */
+    { id:'attend',   nm:'출역 입력 대행',
+      say:'월출역 근로내용 입력까지 맡기고 싶을 때' },
+    /* 안내문 네 벌 어디에도 없다 — 계약과 별도인 서비스다 */
+    { id:'kiscon',   nm:'키스콘 공사대장 신고',
+      say:'도급·하도급 계약과 변경 내용을 통보해야 할 때' }
   ];
-
-  var WORK = [
-    /* 기본 — 위에 기댈 이름이 '기본' 뿐이라 네 줄이 저마다 혼자 서야 한다 */
-    { cat:'4대보험·퇴직공제 신고', by:null,
-      say:'현장 4대보험·퇴직공제 성립·변경·탈퇴·준공, 하수급 승인·명세 신고' },
-    { cat:'일용근로자 신고', by:null,
-      say:'매달 보내 주신 일용 고용·산재 근로내용 오류 확인·신고' },
-    { cat:'상용근로자 신고', by:null,
-      say:'본사 상용직 취득·상실·보수변경, 이직확인서, 휴직·복직 신고' },
-    { cat:'증명서 발급', by:null,
-      say:'필요한 증명서 대신 발급 — 업무톡으로 요청' },
-
-    /* 아래는 칸 제목이 바로 위에 선다 — 그 제목이 말하는 말은 빼고 적는다.
-       '일용근로자 퇴직공제' 칸에서 '퇴직공제 하도급 승인신고' 는
-       '하도급 승인신고' 로 족하다 */
-    { cat:'일용근로자 신고', by:'daily_hp',
-      say:'대상자 확인·신고, 매달 고지서 전송' },
-
-    { cat:'상용근로자 신고', by:'regular_site',
-      say:'전입·전근·전보 신고' },
-
-    { cat:'4대보험·퇴직공제 신고', by:'retire',
-      say:'하도급 승인신고 대행' },
-    { cat:'일용근로자 신고', by:'retire',
-      say:'근로내역 신고, 고지서 전송' },
-    { cat:'증명서 발급', by:'retire',
-      say:'EDI 증명서 발급' },
-
-    { cat:'공사대장', by:'kiscon',
-      say:'작성·통보, 변경신고 대행' }
-  ];
-
-  /* 키스콘은 계약과 별도라 사다리 밖이다 */
-  var EXTRA = ['kiscon'];
+  var PICKS = ROWS.filter(function(r){ return !r.always; });
 
   /* 포함된 상태. 신청 데이터가 그대로 들고 가고, 요금 계산도 여기를 본다 */
   var scope = {};
-  PICKS.forEach(function(p){ scope[p.id] = false; });
+  ROWS.forEach(function(r){ scope[r.id] = !!r.always; });
 
   function tierFor(sales){
     if(!(sales > 0)) return null;
@@ -200,74 +185,61 @@
      키보드로 오는 사람이 자리를 잃는다 */
   function won(n){ return n.toLocaleString('ko-KR') + '원'; }
 
-  /* 받침을 보고 조사를 고른다 — '을(를)' 을 그대로 내보내면 읽는 사람이
-     괄호를 지우며 읽어야 한다 */
-  function eulReul(w){
-    var c = w.charCodeAt(w.length - 1);
-    if(c < 0xAC00 || c > 0xD7A3) return '을(를)';   /* 한글이 아니면 그대로 */
-    return ((c - 0xAC00) % 28) ? '을' : '를';
-  }
-
   /* 가운뎃점으로 이은 말은 통째로 묶는다. keep-all 은 낱말만 지키고
    가운뎃점에서는 갈라서, 좁은 폭에서 '취득·상실 / ·보수변경'처럼
    다음 줄이 점으로 시작한다 */
 function glue(t){
   return t.replace(/\S*·\S*/g, function(m){ return '<span class="nb">' + m + '</span>'; });
 }
-function blockedBy(p){
-    /* 선행 항목 가운데 아직 포함하지 않은 것들 */
-    return (p.requires || []).filter(function(id){ return !scope[id]; });
-  }
-
-  function wsp(w){ return '<span class="w">' + w.nm + '</span>'; }
-
-  /* 한 칸이 드는 설명들 — 갈래 차례를 따른다 */
-  function saysOf(by){
-    return WORK.filter(function(w){ return w.by === by; })
-      .sort(function(x, y){ return CATS.indexOf(x.cat) - CATS.indexOf(y.cat); });
-  }
+  /* 좁은 폭에서 설명을 여닫는 물음표 — 계약 유형 카드의 것과 같은 그림이다.
+     넓은 폭에서는 CSS 가 치운다(display:none 이라 탭 차례에서도 빠진다) */
+  var HELP_SVG = '<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="currentColor" opacity=".2"/><path transform="translate(4.792 4.804) scale(.5997)" fill="currentColor" d="M13 18.0C13.6 18.0 14 18.4 14 19.0V21.0C14 21.6 13.6 22.0 13 22.0H11C10.4 22.0 10 21.6 10 21.0V19.0C10 18.4 10.4 18.0 11 18.0H13ZM11.7 2.0C14.3 1.9 17.3 2.9 18.4 6.0C18.9 7.5 18.8 8.8 18.2 10.0C17.6 11.0 16.7 11.8 15.9 12.3C15 12.8 14.2 13.1 13.6 13.4C13.5 13.4 13.5 13.4 13.5 13.4V16.5H10.5V12.5C10.5 12.1 10.7 11.7 10.8 11.6C10.9 11.4 11.1 11.3 11.2 11.2C11.3 11.1 11.5 11.0 11.6 10.9C11.9 10.8 12.2 10.7 12.4 10.6C13 10.3 13.7 10.1 14.3 9.7C14.9 9.3 15.3 8.9 15.6 8.5C15.7 8.2 15.8 7.7 15.6 7.0C15.1 5.6 13.7 4.9 11.8 5.0C10.9 5.0 10.1 5.2 9.4 5.5C8.8 5.9 8.5 6.2 8.4 6.5C8.3 6.9 8.3 7.2 8.4 7.4C8.4 7.7 8.6 7.9 8.8 8.2L6.2 9.8C6.1 9.6 5.7 9.0 5.5 8.3C5.3 7.5 5.2 6.6 5.6 5.5C6.0 4.3 7.0 3.4 8.1 2.9C9.2 2.3 10.5 2.0 11.7 2.0Z"/></svg>';
 
   /* 고르는 자리와 설명이 한 덩이다. 표를 따로 두었더니 고른 자리와 그
      결과가 떨어져 있어 눈이 오르내려야 했다. 이제 칸마다 제가 하는 일을
-     들고 있다. '기본' 도 한 칸이되 버튼이 없다 — 버튼이 없다는 것이
-     '고르는 것이 아니다' 를 말한다 */
+     들고 있다. 늘 들어오는 칸도 같은 꼴이되 버튼이 없다 */
   function buildScope(){
     var box = $('#scopeList'); if(!box) return;
 
-    function rung(id){
-      var p = id && PICKS.filter(function(x){ return x.id === id; })[0];
-      if(id && !p) return '';
-      var list = saysOf(id || null);
-      /* 설명은 모두 이름 옆에 붙인다. 아래로 내리면 칸마다 줄이 늘어 같은
-         말을 하는 데 자리를 더 쓴다. 여럿일 때는 그어 둔 실선 하나가
-         가른다 — 글자로 가르면 섞인다(취득·상실·보수변경) */
-      return '<div class="pq-rung' + (id ? '' : ' is-base') + '"'
-        +     (id ? ' data-pick="' + id + '"' : '') + '>'
+    function rung(r){
+      return '<div class="pq-rung' + (r.always ? ' is-base' : '') + '"'
+        +     (r.always ? '' : ' data-pick="' + r.id + '"') + '>'
         +   '<div class="hd">'
-        +     '<span class="tx">' + (id ? glue(p.nm) : '기본')
-        +       (id && p.price != null ? ' <span class="pr">월 ' + won(p.price) + '</span>' : '')
-        +       '<span class="ones">' + list.map(function(w){
-                  return '<span class="one">' + glue(w.say) + '</span>';
-                }).join('') + '</span>'
+        +     '<span class="tx">' + glue(r.nm)
+        /* 물음표는 고르는 칸에만 단다 — 늘 들어오는 것을 물음표 뒤에 두면
+           '기본인데 왜 눌러야 보이나' 가 된다. 좁은 폭에서도 그대로 편다 */
+        +       (r.always ? ''
+              : '<button type="button" class="pq-help" aria-expanded="false"'
+                + ' aria-controls="say-' + r.id + '"'
+                + ' aria-label="' + r.nm + ' 설명 보기">' + HELP_SVG + '</button>')
+        +       '<span class="ones" id="say-' + r.id + '">' + glue(r.say) + '</span>'
         +     '</span>'
-        +     (id ? '<button type="button" class="pq-add" aria-pressed="false"'
-                    + ' aria-describedby="why-' + id + '">+ 추가</button>' : '')
+        +     (r.always ? ''
+              : '<button type="button" class="pq-add" aria-pressed="false">'
+                + '+ 추가</button>')
         +   '</div>'
-        /* 막힌 까닭은 화면에서 걷되 아주 없애지는 않는다 — 눌리지 않는
-           버튼에 아무 말도 없으면 보조기기로 오는 사람은 막다른 길이다 */
-        +   (id ? '<span class="sr-only" id="why-' + id + '"></span>' : '')
         + '</div>';
     }
 
-    box.innerHTML = '<div class="pq-ladder">'
-      +   rung(null) + LADDER.map(rung).join('')
+    box.innerHTML =
+        '<div class="pq-ladder">'
+      +   ROWS.filter(function(r){ return r.always; }).map(rung).join('')
       + '</div>'
-      /* 키스콘은 사다리에 걸리지 않는다 — 차례도 선행도 없다. 꼴은 같이
-         쓰되 한 칸 띄워 따로 세운다 */
-      + '<div class="pq-ladder pq-ladder-extra">' + EXTRA.map(rung).join('') + '</div>';
+      /* 늘 들어오는 것과 고르는 것 사이를 한 칸 띄운다 — 버튼이 있고 없고
+         만으로는 좁은 폭에서 경계가 보이지 않았다 */
+      + '<div class="pq-ladder pq-ladder-pick">' + PICKS.map(rung).join('') + '</div>';
 
     box.addEventListener('click', function(e){
-      var btn = e.target.closest('.pq-add'); if(!btn || btn.disabled) return;
+      /* 물음표가 먼저다 — '+ 추가' 와 같은 칸 안에 있어 아래 분기로 새면
+         설명을 펴려다 업무가 담긴다 */
+      var help = e.target.closest('.pq-help');
+      if(help){
+        var row = help.closest('.pq-rung');
+        var open = row.classList.toggle('is-tip');
+        help.setAttribute('aria-expanded', String(open));
+        return;
+      }
+      var btn = e.target.closest('.pq-add'); if(!btn) return;
       var id = btn.closest('[data-pick]').dataset.pick;
       scope[id] = !scope[id];
       paintScope();
@@ -280,31 +252,15 @@ function blockedBy(p){
 
     PICKS.forEach(function(p){
       var row = box.querySelector('[data-pick="' + p.id + '"]');
-      var miss = blockedBy(p);
-      var on = !!scope[p.id] && !miss.length;
+      if(!row) return;
+      var on = !!scope[p.id];
 
-      scope[p.id] = on;            /* 선행이 빠지면 들어 있던 것도 같이 풀린다 */
-      if(row){
-        var btn = row.querySelector('.pq-add');
-        btn.textContent = on ? '✓ 추가됨' : '+ 추가';
-        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-        btn.disabled = !!miss.length;
-        /* 버튼 글자가 '추가' 뿐이라 어느 업무인지 들리지 않는다 */
-        btn.setAttribute('aria-label', p.nm + (on ? ' 추가됨' : ' 추가'));
-        row.classList.toggle('is-on', on);
-        row.classList.toggle('is-off', !!miss.length);
-        var why = row.querySelector('[id="why-' + p.id + '"]');
-        if(why) why.textContent = miss.length
-          ? (function(){
-              var need = miss.map(function(id){
-                var r = PICKS.filter(function(x){ return x.id === id; })[0];
-                return r ? r.nm : id;
-              }).join(' · ');
-              return need + eulReul(need) + ' 먼저 포함해야 합니다';
-            })()
-          : '';
-      }
-
+      var btn = row.querySelector('.pq-add');
+      btn.textContent = on ? '✓ 추가됨' : '+ 추가';
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      /* 버튼 글자가 '추가' 뿐이라 어느 업무인지 들리지 않는다 */
+      btn.setAttribute('aria-label', p.nm + (on ? ' 추가됨' : ' 추가'));
+      row.classList.toggle('is-on', on);
     });
   }
 
@@ -643,7 +599,10 @@ function blockedBy(p){
   /* ── 물음표 말풍선 ──────────────────────────────────────────
      데스크톱은 hover 로 뜨지만 손가락에는 hover 가 없다. 물음표를 눌러 여닫되,
      label 안에 있는 단추라 그대로 두면 누르는 순간 그 유형이 골라진다 — 막는다 */
-  var helps = Array.prototype.slice.call(document.querySelectorAll('.pq-help'));
+  /* ⚠ '.pq-help' 로 긁으면 업무범위 칸의 물음표까지 들어온다 — 그쪽은 유형
+     카드가 없어 closest('.pq-type') 가 null 이고, 누르는 순간 터진다.
+     업무범위 쪽은 buildScope 의 델리게이트가 맡는다 */
+  var helps = Array.prototype.slice.call(document.querySelectorAll('.pq-type .pq-help'));
   function closeTips(except){
     document.querySelectorAll('.pq-type.is-tip').forEach(function(t){
       if(t === except) return;

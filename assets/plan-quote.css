@@ -157,12 +157,20 @@
 /* 별도 서비스 — 사다리에 걸리지 않는다(차례도 선행도 없다). 꼴은 같이
    쓰고 한 칸 띄워 따로 세운다. 고르는 자리인 것은 같으므로 꼴까지 달리
    할 까닭이 없다 */
-.pq-ladder-extra{margin-top:14px}
+/* 늘 들어오는 것과 고르는 것 사이 */
+.pq-ladder-pick{margin-top:14px}
 .pq-rung{padding:12px 10px 13px 13px;border-left:3px solid var(--line);
   transition:border-color .15s,background .15s}
 /* 들어온 칸 — 레일이 여기까지 차 있다 */
 .pq-rung.is-on,.pq-rung.is-base{border-left-color:var(--accent);
   background:var(--accent-tint)}
+/* 늘 들어오는 셋은 한 덩이다 — 저마다 버튼 과녁만큼(38px) 키를 가지면
+   같은 덩이 안에서 서로 너무 벌어진다. 누를 것이 없는 줄이라 과녁을
+   지킬 까닭도 없다. 덩이의 위아래만 제 여백을 지킨다 */
+.pq-rung.is-base{padding-top:5px;padding-bottom:5px}
+.pq-rung.is-base .hd{min-height:0}
+.pq-ladder .pq-rung.is-base:first-child{padding-top:12px}
+.pq-ladder .pq-rung.is-base:last-child{padding-bottom:13px}
 
 /* 이름 줄 — 이름이 왼쪽, 상태를 바꾸는 버튼이 오른쪽 */
 .pq-rung .hd{display:flex;align-items:center;gap:10px;min-height:38px}
@@ -170,6 +178,9 @@
 /* ⚠ keep-all 이 없으면 좁은 폭에서 '변경신 / 고' 처럼 낱말 가운데가 갈린다 */
 .pq-rung .tx{flex:1;min-width:0;word-break:keep-all;
   font-size:13.5px;font-weight:700;letter-spacing:-.025em;color:var(--ink)}
+/* 넓은 폭에서는 설명이 그대로 보이므로 물음표가 할 일이 없다.
+   display:none 이라 탭 차례에서도 빠진다 */
+.pq-rung .pq-help{display:none}
 /* 설명은 제목 옆에 붙는다. 굵기와 색이 제목과 달라 한 줄에 서도 둘이
    섞이지 않는다 */
 .pq-rung .ones{margin-left:9px;font-size:12.5px;font-weight:500;
@@ -177,21 +188,6 @@
 .pq-rung:not(.is-on):not(.is-base) .ones{color:var(--ink-3)}
 /* 가운뎃점으로 이은 말 한 덩어리 — 줄 끝에서 갈라지지 않는다 */
 .pq-rung .nb{white-space:nowrap}
-/* 설명이 여럿일 때 — 그어 둔 실선 하나가 가른다. 글자로 가르면 섞인다
-   (취득·상실·보수변경 안에도 가운뎃점이 있다) */
-.pq-rung .one + .one::before{content:"";display:inline-block;
-  width:1px;height:10px;margin:0 8px -1px;background:var(--line)}
-.pq-rung.is-on .one + .one::before{background:rgba(var(--color-blue-rgb),.25)}
-/* 기본만 하는 일이 넷이다 — 한 줄로 이으면 어디서 하나가 끝나는지
-   실선 하나로는 못 버틴다. 줄을 바꿔 하나씩 세운다 */
-.pq-rung.is-base .ones{display:block;margin:6px 0 0}
-/* ⚠ 넘친 줄을 들여쓰지 않으면 좁은 폭에서 이어진 줄과 다음 일이
-   똑같이 왼쪽에 붙어, 넷인지 여섯인지 세어지지 않는다 */
-.pq-rung.is-base .one{display:block;margin-top:5px;
-  padding-left:11px;text-indent:-11px}
-.pq-rung.is-base .one + .one::before{content:none}
-.pq-rung.is-off .tx{color:var(--ink-3)}
-.pq-rung .pr{font-weight:600;color:var(--ink-2)}
 
 /* 상태를 바꾸는 자리는 버튼 하나다. 줄 전체를 누르게 두지 않는다 — 어디를
    눌러야 하는지가 버튼 모양 하나로 끝난다.
@@ -207,11 +203,26 @@
 .pq-add[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);
   color:var(--main-white)}
 .pq-add[aria-pressed="true"]:hover{background:var(--accent);border-color:var(--accent)}
-.pq-add[disabled]{cursor:not-allowed;color:var(--ink-3);
-  border-color:var(--line);background:var(--fill)}
 
 @media(max-width:640px){
   .pq-rung{padding:12px 8px 13px 11px}
+  /* 좁은 폭에서는 설명이 이름 옆에 설 자리가 없어 줄을 넘긴다 — 칸마다 두
+     줄이 되어 일곱 칸이 화면을 다 먹는다. 계약 유형 카드와 같이 물음표
+     뒤로 접는다.
+     ⚠ 고르는 칸만이다. 늘 들어오는 셋은 좁은 폭에서도 그대로 편다 —
+     기본을 물음표 뒤에 두면 '기본인데 왜 눌러야 보이나' 가 된다 */
+  /* ⚠ inline-grid 다 — .pq-help 가 기본으로 쓰는 grid 는 블록이라, 칸
+     이름 옆이 아니라 제 줄로 떨어진다(.tx 는 플렉스 아이템이라 블록화된다).
+     과녁은 글자 줄을 밀지 않도록 padding 으로 키우고 같은 값만큼 당긴다 */
+  .pq-rung .pq-help{display:inline-grid;vertical-align:-6px;
+    box-sizing:content-box;padding:5px;margin:-5px 0 -5px 3px}
+  /* ⚠ 접을 때 치우지 않는다. display 나 visibility 로 접으면 눈으로 못
+     읽는 사람에게는 설명이 통째로 사라진다 — 높이와 투명도로만 접는다 */
+  .pq-ladder-pick .ones{display:block;margin-left:0;margin-top:0;
+    max-height:0;overflow:hidden;opacity:0;
+    transition:max-height .2s ease,margin-top .2s ease,opacity .16s}
+  .pq-ladder-pick .is-tip .ones{max-height:240px;margin-top:5px;opacity:1}
+  @media(prefers-reduced-motion:reduce){.pq-ladder-pick .ones{transition:none}}
 }
 
 /* ── 납부 주기 ───────────────────────────────────────────────────
